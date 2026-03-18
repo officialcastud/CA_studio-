@@ -305,9 +305,8 @@ export default function CompanyAiPage() {
     setIsSending(true);
 
     try {
-      const model =
-        (import.meta.env.VITE_GEMINI_MODEL as string | undefined) ||
-        'gemini-3.1-flash-lite-preview';
+      // Hardcode model to avoid exposing VITE_* env values in the browser bundle.
+      const model = 'gemini-3.1-flash-preview';
 
       const raw = await callGeminiPlan({
         model,
