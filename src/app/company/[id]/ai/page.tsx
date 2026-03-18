@@ -323,8 +323,10 @@ export default function CompanyAiPage() {
     setIsSending(true);
 
     try {
-      // Hardcode model to avoid exposing VITE_* env values in the browser bundle.
-      const model = 'gemini-3.1-flash-preview';
+      // Hardcode model name (non-secret) so Netlify does not block build.
+      // Your local .env uses this model and it is available; the plain "gemini-3.1-flash-preview"
+      // returned 404 NOT_FOUND.
+      const model = 'gemini-3.1-flash-lite-preview';
 
       // Process transactions sequentially (one by one) to avoid errors and keep careful handling.
       for (let txIndex = 0; txIndex < transactions.length; txIndex += 1) {
