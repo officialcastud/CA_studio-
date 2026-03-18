@@ -1,9 +1,13 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-export default defineConfig({
-  plugins: [
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const localApiKeyFromEnv = env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY;
+
+  return {
+    plugins: [
     react(),
     // Dev-only: provide Netlify Functions endpoint locally.
     // This prevents `/.netlify/functions/gemini-plan` 404 when testing AI on localhost.
@@ -14,7 +18,7 @@ export default defineConfig({
         if (!isDev) return;
 
         const endpointPath = '/.netlify/functions/gemini-plan';
-        const localApiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        const localApiKey = localApiKeyFromEnv;
 
         devServer.middlewares.use(endpointPath, async (req, res) => {
           if (req.method !== 'POST') {
@@ -90,16 +94,17 @@ export default defineConfig({
         });
       },
     },
-  ],
-  server: {
-    port: 1066,
-    strictPort: true,
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      'lucide-react': path.resolve(__dirname, './src/shims/lucide-react'),
-      'radix-ui': path.resolve(__dirname, './src/shims/radix-ui'),
+    ],
+    server: {
+      port: 1066,
+      strictPort: true,
     },
-  },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        'lucide-react': path.resolve(__dirname, './src/shims/lucide-react'),
+        'radix-ui': path.resolve(__dirname, './src/shims/radix-ui'),
+      },
+    },
+  };
 });
