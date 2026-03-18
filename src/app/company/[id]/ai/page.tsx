@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { useCompany } from '@/hooks/useCompany';
-import { createJournalEntry } from '@/lib/offlineDb';
+import { createJournalEntry, listJournalEntries } from '@/lib/offlineDb';
 import { invalidateEntriesCache } from '@/lib/accounting/computeEngine';
 import { expandManualJournalLines } from '@/lib/accounting/inventoryJournal';
-import { generateUniqueEntryCode } from '@/lib/utils/entryCodeGenerator';
+import { findExistingAccountName, normalizeAccountName } from '@/lib/chartOfAccounts';
+import { generateUniqueShortEntryCode } from '@/lib/utils/entryCodeGenerator';
 import type { InventorySubLine, JournalLine, VoucherType } from '@/types/journal';
 
 type ChatRole = 'user' | 'assistant';
@@ -122,8 +123,9 @@ async function callGeminiPlan(params: {
   model: string;
   systemPrompt: string;
   history: ChatMessage[];
+  apiKey?: string;
 }): Promise<string> {
-  const { model, systemPrompt, history } = params;
+  const { model, systemPrompt, history, apiKey } = params;
 
   const response = await fetch('/.netlify/functions/gemini-plan', {
     method: 'POST',
@@ -132,6 +134,7 @@ async function callGeminiPlan(params: {
       model,
       systemPrompt,
       history,
+      ...(apiKey ? { apiKey } : {}),
     }),
   });
 
@@ -151,6 +154,7 @@ Goal:
 - Enter journal entries when the user request is clear enough.
 - If anything is unclear or missing, ask short clarifying questions and set requires_confirmation=true (do NOT create entries yet).
 - Ensure journal entry drafts balance (total debit equals total credit).
+- You will receive EXACTLY ONE transaction text as input (no '@' separators). Output journalEntries for ONLY that transaction.
 - You MAY choose new account names freely. The app will auto-classify unknown names into account_group and nature using its internal COA logic and safe fallbacks.
 - If the user asks to "create COA" or "new accounts", interpret it as creating journal entries using new account names (no separate master COA editing is required).
 
@@ -225,6 +229,7 @@ export default function CompanyAiPage() {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [customGeminiApiKey, setCustomGeminiApiKey] = useState<string>('');
   const hydratedRef = useRef(false);
 
   const chatStorageKey = companyId ? `vaarta_ai_chat_${companyId}` : null;
@@ -292,6 +297,19 @@ export default function CompanyAiPage() {
     if (!trimmed || isSending) return;
     if (!companyId || !company) return;
 
+    // Batch format:
+    // - Use '@' as a delimiter: each transaction must be followed by '@'.
+    // - We will process each transaction sequentially to keep JSON + Gemini size small.
+    const MAX_TRANSACTIONS_PER_PROMPT = 100;
+    const parsedTxs = trimmed
+      .split('@')
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    const transactions = parsedTxs.length > 0 ? parsedTxs : [trimmed];
+    const truncated = transactions.length > MAX_TRANSACTIONS_PER_PROMPT;
+    const txsToProcess = truncated ? transactions.slice(0, MAX_TRANSACTIONS_PER_PROMPT) : transactions;
+
     setError(null);
     const userMessage: ChatMessage = {
       id: Date.now(),
@@ -299,101 +317,182 @@ export default function CompanyAiPage() {
       text: trimmed,
     };
 
-    const history = [...messages, userMessage];
-    setMessages(history);
+    const baseMessages = messages;
+    setMessages([...messages, userMessage]);
     setInput('');
     setIsSending(true);
 
     try {
       // Hardcode model to avoid exposing VITE_* env values in the browser bundle.
       const model = 'gemini-3.1-flash-preview';
+      const effectiveApiKey = customGeminiApiKey.trim() || undefined;
 
-      const raw = await callGeminiPlan({
-        model,
-        systemPrompt: AI_SYSTEM_PROMPT,
-        history,
-      });
+      // Precompute existing entry codes once for speed + avoid duplicates.
+      const existingCodes = new Set(listJournalEntries(companyId).map(e => e.entry_code));
 
-      const plan = parseAiPlan(raw);
-      let assistantText = plan?.assistantText || raw;
-      if (plan?.requires_confirmation && plan.questions.length > 0) {
-        assistantText = `${assistantText}\n\nPlease answer these to proceed:\n${plan.questions
-          .map(q => `- ${q}`)
-          .join('\n')}`;
-      }
+      const nextEntryCode = () => {
+        const code = generateUniqueShortEntryCode(existingCodes);
+        existingCodes.add(code);
+        return code;
+      };
 
-      setMessages(prev => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: 'assistant',
-          text: assistantText,
-        },
-      ]);
+      const overallCreatedCodes: string[] = [];
+      const overallErrors: string[] = [];
 
-      if (plan?.requires_confirmation) return;
-
-      const entriesToCreate = plan?.journalEntries ?? [];
-      if (entriesToCreate.length === 0) return;
-
-      const createdCodes: string[] = [];
-      const creationErrors: string[] = [];
-
-      for (const draft of entriesToCreate) {
-        const entry_date = draft.entry_date?.trim() || safeTodayIso();
-        const voucher_type = normalizeVoucherType(draft.voucher_type);
-        const narration = draft.narration?.trim() || `AI journal entry (${voucher_type})`;
-        const entry_code = generateUniqueEntryCode(companyId);
-        const book_period = bookPeriodFromDate(entry_date);
-
-        const manualDraftLines = (draft.lines ?? []).map(line => ({
-          account_name: line.account_name.trim(),
-          debit: String(line.debit ?? 0),
-          credit: String(line.credit ?? 0),
-          inventory_sub_lines: line.inventory_sub_lines,
-          ...(line.tds_section ? { tds_section: line.tds_section } : {}),
-          ...(line.tds_rate != null ? { tds_rate: String(line.tds_rate) } : {}),
-          ...(line.tcs_section ? { tcs_section: line.tcs_section } : {}),
-          ...(line.tcs_rate != null ? { tcs_rate: String(line.tcs_rate) } : {}),
-        }));
-
-        const expanded: JournalLine[] = expandManualJournalLines(manualDraftLines as any, {
-          voucherType: voucher_type,
-          companyId,
-        });
-
-        try {
-          const created = createJournalEntry({
-            company_id: companyId,
-            entry_code,
-            entry_date,
-            voucher_type,
-            voucher_number: null,
-            lines: expanded,
-            narration,
-            book_period,
-          } as any);
-          createdCodes.push(created.entry_code);
-        } catch (e: any) {
-          creationErrors.push(e?.message || 'Failed to create entry');
-        }
-      }
-
-      invalidateEntriesCache(companyId);
-
-      if (createdCodes.length > 0) {
+      if (truncated) {
         setMessages(prev => [
           ...prev,
           {
-            id: Date.now() + 10,
+            id: Date.now() + 2,
             role: 'assistant',
-            text: `Created journal entries: ${createdCodes.join(', ')}`,
+            text: `You sent ${transactions.length} transactions. I will process only the first ${MAX_TRANSACTIONS_PER_PROMPT} to stay stable. Remaining will be ignored.`,
           },
         ]);
       }
 
-      if (creationErrors.length > 0) {
-        setError(`Some entries failed to create. ${creationErrors.slice(0, 2).join(' | ')}`);
+      for (let idx = 0; idx < txsToProcess.length; idx += 1) {
+        const txText = txsToProcess[idx];
+
+        setMessages(prev => [
+          ...prev,
+          {
+            id: Date.now() + 1000 + idx,
+            role: 'assistant',
+            text: `Processing transaction ${idx + 1}/${txsToProcess.length}...`,
+          },
+        ]);
+
+        // Send ONLY this transaction to Gemini, but keep the previous chat context.
+        const modelHistory: ChatMessage[] = [
+          ...baseMessages,
+          {
+            id: Date.now() + 2000 + idx,
+            role: 'user',
+            text: txText,
+          },
+        ];
+
+        try {
+          const raw = await callGeminiPlan({
+            model,
+            systemPrompt: AI_SYSTEM_PROMPT,
+            history: modelHistory,
+            apiKey: effectiveApiKey,
+          });
+
+          const plan = parseAiPlan(raw);
+
+          let assistantText = plan?.assistantText || raw;
+          if (plan?.requires_confirmation && plan.questions.length > 0) {
+            assistantText = `${assistantText}\n\nPlease answer these to proceed:\n${plan.questions
+              .map(q => `- ${q}`)
+              .join('\n')}`;
+          }
+
+          setMessages(prev => [
+            ...prev,
+            {
+              id: Date.now() + 3000 + idx,
+              role: 'assistant',
+              text: assistantText,
+            },
+          ]);
+
+          if (plan?.requires_confirmation) {
+            // Stop further processing until user answers questions.
+            return;
+          }
+
+          const entriesToCreate = plan?.journalEntries ?? [];
+          if (entriesToCreate.length === 0) continue;
+
+          const createdCodesForTx: string[] = [];
+          const errorsForTx: string[] = [];
+
+          for (const draft of entriesToCreate) {
+            const entry_date = draft.entry_date?.trim() || safeTodayIso();
+            const voucher_type = normalizeVoucherType(draft.voucher_type);
+            const narration = draft.narration?.trim() || `AI journal entry (${voucher_type})`;
+            const entry_code = nextEntryCode();
+            const book_period = bookPeriodFromDate(entry_date);
+
+            // Canonicalize account names to avoid “COA duplicates” due to spelling/case differences.
+            const manualDraftLines = (draft.lines ?? []).map(line => {
+              const rawName = line.account_name.trim();
+              const normalized = normalizeAccountName(rawName);
+              const canonical = findExistingAccountName(companyId, normalized) ?? normalized;
+              return {
+                account_name: canonical,
+                debit: String(line.debit ?? 0),
+                credit: String(line.credit ?? 0),
+                inventory_sub_lines: line.inventory_sub_lines,
+                ...(line.tds_section ? { tds_section: line.tds_section } : {}),
+                ...(line.tds_rate != null ? { tds_rate: String(line.tds_rate) } : {}),
+                ...(line.tcs_section ? { tcs_section: line.tcs_section } : {}),
+                ...(line.tcs_rate != null ? { tcs_rate: String(line.tcs_rate) } : {}),
+              };
+            });
+
+            const expanded: JournalLine[] = expandManualJournalLines(manualDraftLines as any, {
+              voucherType: voucher_type,
+              companyId,
+            });
+
+            try {
+              const created = createJournalEntry({
+                company_id: companyId,
+                entry_code,
+                entry_date,
+                voucher_type,
+                voucher_number: null,
+                lines: expanded,
+                narration,
+                book_period,
+              } as any);
+              createdCodesForTx.push(created.entry_code);
+            } catch (e: any) {
+              errorsForTx.push(e?.message || 'Failed to create entry');
+            }
+          }
+
+          invalidateEntriesCache(companyId);
+
+          if (createdCodesForTx.length > 0) {
+            overallCreatedCodes.push(...createdCodesForTx);
+            setMessages(prev => [
+              ...prev,
+              {
+                id: Date.now() + 4000 + idx,
+                role: 'assistant',
+                text: `Created journal entries for transaction ${idx + 1}: ${createdCodesForTx.join(', ')}`,
+              },
+            ]);
+          }
+
+          if (errorsForTx.length > 0) {
+            overallErrors.push(...errorsForTx.slice(0, 3));
+            setError(
+              `Some entries failed while processing transaction ${idx + 1}. ` +
+                `First error: ${errorsForTx[0] || 'Unknown error'}`
+            );
+          }
+        } catch (e: any) {
+          overallErrors.push(e?.message || 'Gemini failed for this transaction');
+          setError(`Failed processing transaction ${idx + 1}. ${e?.message || ''}`);
+        }
+      }
+
+      if (overallCreatedCodes.length > 0) {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: Date.now() + 9000,
+            role: 'assistant',
+            text: `Done. Created ${overallCreatedCodes.length} journal entries: ${overallCreatedCodes.slice(0, 20).join(', ')}${
+              overallCreatedCodes.length > 20 ? '...' : ''
+            }`,
+          },
+        ]);
       }
     } catch (e: any) {
       setError(e?.message || 'Something went wrong while talking to Gemini.');
@@ -423,6 +522,28 @@ export default function CompanyAiPage() {
           Chatting for <span className="font-medium text-gray-600">{company.name}</span>
         </span>
       </div>
+
+        {/* Optional custom Gemini key (sent to server at runtime only) */}
+        <div className="mb-3 flex flex-col sm:flex-row sm:items-center gap-2">
+          <div className="text-xs sm:text-sm text-gray-500 font-semibold">Gemini API Key (optional)</div>
+          <div className="flex-1 flex items-center gap-2">
+            <input
+              type="password"
+              value={customGeminiApiKey}
+              onChange={(e) => setCustomGeminiApiKey(e.target.value)}
+              placeholder="Paste Gemini API key (optional)"
+              className="w-full h-9 px-3 text-sm border border-gray-300 rounded-xl bg-gray-50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setCustomGeminiApiKey('')}
+              disabled={!customGeminiApiKey}
+              className="h-9 px-3 rounded-xl text-xs font-semibold border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
 
       <div className="flex-1 min-h-0 rounded-2xl bg-white border border-gray-200 shadow-sm flex flex-col">
         <div
@@ -466,7 +587,7 @@ export default function CompanyAiPage() {
                 }
               }}
               className="block w-full resize-none rounded-xl bg-gray-50 text-gray-900 text-sm sm:text-[15px] leading-relaxed border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 px-3.5 py-2.5 sm:px-4 sm:py-2.5 placeholder:text-gray-400 outline-none"
-              placeholder="Describe a transaction in normal language. I will draft and create balanced journal entries."
+              placeholder="Describe 1+ transactions in normal language. Separate each transaction with '@' (example: 'Purchase ... @ Sales ... @'). I will process them one by one."
             />
           </div>
           <button

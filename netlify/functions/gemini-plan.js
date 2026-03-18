@@ -17,14 +17,18 @@ export default async function handler(request) {
     return jsonError('Invalid JSON body', 400);
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return jsonError('GEMINI_API_KEY is not configured on the server', 500);
-  }
-
-  const { model, systemPrompt, history } = body ?? {};
+  const { model, systemPrompt, history, apiKey: clientApiKey } = body ?? {};
   if (typeof model !== 'string' || typeof systemPrompt !== 'string' || !Array.isArray(history)) {
     return jsonError('Missing model/systemPrompt/history', 400);
+  }
+
+  const finalApiKey =
+    typeof clientApiKey === 'string' && clientApiKey.trim()
+      ? clientApiKey.trim()
+      : process.env.GEMINI_API_KEY;
+
+  if (!finalApiKey) {
+    return jsonError('GEMINI_API_KEY is not configured on the server (and no apiKey was provided)', 500);
   }
 
   const contents = history.map((m) => ({
@@ -39,7 +43,7 @@ export default async function handler(request) {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-goog-api-key': apiKey,
+          'x-goog-api-key': finalApiKey,
         },
         body: JSON.stringify({
           systemInstruction: { role: 'user', parts: [{ text: systemPrompt }] },
