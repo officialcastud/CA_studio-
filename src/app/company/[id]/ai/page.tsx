@@ -123,9 +123,8 @@ async function callGeminiPlan(params: {
   model: string;
   systemPrompt: string;
   history: ChatMessage[];
-  apiKey?: string;
 }): Promise<string> {
-  const { model, systemPrompt, history, apiKey } = params;
+  const { model, systemPrompt, history } = params;
 
   const response = await fetch('/.netlify/functions/gemini-plan', {
     method: 'POST',
@@ -134,7 +133,6 @@ async function callGeminiPlan(params: {
       model,
       systemPrompt,
       history,
-      ...(apiKey ? { apiKey } : {}),
     }),
   });
 
@@ -229,7 +227,6 @@ export default function CompanyAiPage() {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [customGeminiApiKey, setCustomGeminiApiKey] = useState<string>('');
   const hydratedRef = useRef(false);
 
   const chatStorageKey = companyId ? `vaarta_ai_chat_${companyId}` : null;
@@ -325,7 +322,6 @@ export default function CompanyAiPage() {
     try {
       // Hardcode model to avoid exposing VITE_* env values in the browser bundle.
       const model = 'gemini-3.1-flash-preview';
-      const effectiveApiKey = customGeminiApiKey.trim() || undefined;
 
       // Precompute existing entry codes once for speed + avoid duplicates.
       const existingCodes = new Set(listJournalEntries(companyId).map(e => e.entry_code));
@@ -377,7 +373,6 @@ export default function CompanyAiPage() {
             model,
             systemPrompt: AI_SYSTEM_PROMPT,
             history: modelHistory,
-            apiKey: effectiveApiKey,
           });
 
           const plan = parseAiPlan(raw);
@@ -522,28 +517,6 @@ export default function CompanyAiPage() {
           Chatting for <span className="font-medium text-gray-600">{company.name}</span>
         </span>
       </div>
-
-        {/* Optional custom Gemini key (sent to server at runtime only) */}
-        <div className="mb-3 flex flex-col sm:flex-row sm:items-center gap-2">
-          <div className="text-xs sm:text-sm text-gray-500 font-semibold">Gemini API Key (optional)</div>
-          <div className="flex-1 flex items-center gap-2">
-            <input
-              type="password"
-              value={customGeminiApiKey}
-              onChange={(e) => setCustomGeminiApiKey(e.target.value)}
-              placeholder="Paste Gemini API key (optional)"
-              className="w-full h-9 px-3 text-sm border border-gray-300 rounded-xl bg-gray-50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
-            />
-            <button
-              type="button"
-              onClick={() => setCustomGeminiApiKey('')}
-              disabled={!customGeminiApiKey}
-              className="h-9 px-3 rounded-xl text-xs font-semibold border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
 
       <div className="flex-1 min-h-0 rounded-2xl bg-white border border-gray-200 shadow-sm flex flex-col">
         <div
