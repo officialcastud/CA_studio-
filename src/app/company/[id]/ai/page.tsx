@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { useCompany } from '@/hooks/useCompany';
-import { createJournalEntry, listJournalEntries } from '@/lib/offlineDb';
+import { createJournalEntry } from '@/lib/offlineDb';
 import { invalidateEntriesCache } from '@/lib/accounting/computeEngine';
 import { expandManualJournalLines } from '@/lib/accounting/inventoryJournal';
+import { generateUniqueEntryCode } from '@/lib/utils/entryCodeGenerator';
 import { findExistingAccountName, normalizeAccountName } from '@/lib/chartOfAccounts';
-import { generateUniqueShortEntryCode } from '@/lib/utils/entryCodeGenerator';
 import type { InventorySubLine, JournalLine, VoucherType } from '@/types/journal';
 
 type ChatRole = 'user' | 'assistant';
@@ -152,7 +152,6 @@ Goal:
 - Enter journal entries when the user request is clear enough.
 - If anything is unclear or missing, ask short clarifying questions and set requires_confirmation=true (do NOT create entries yet).
 - Ensure journal entry drafts balance (total debit equals total credit).
-- You will receive EXACTLY ONE transaction text as input (no '@' separators). Output journalEntries for ONLY that transaction.
 - You MAY choose new account names freely. The app will auto-classify unknown names into account_group and nature using its internal COA logic and safe fallbacks.
 - If the user asks to "create COA" or "new accounts", interpret it as creating journal entries using new account names (no separate master COA editing is required).
 
@@ -294,28 +293,32 @@ export default function CompanyAiPage() {
     if (!trimmed || isSending) return;
     if (!companyId || !company) return;
 
-    // Batch format:
-    // - Use '@' as a delimiter: each transaction must be followed by '@'.
-    // - We will process each transaction sequentially to keep JSON + Gemini size small.
-    const MAX_TRANSACTIONS_PER_PROMPT = 100;
-    const parsedTxs = trimmed
+    setError(null);
+
+    // Transactions rule:
+    // - If user includes multiple transactions, they must be separated by '@' and end with '@'.
+    // - Example: "tx1 @ tx2 @ tx3 @" (each tx chunk is what Gemini gets).
+    const split = trimmed
       .split('@')
-      .map(t => t.trim())
+      .map(s => s.trim())
       .filter(Boolean);
 
-    const transactions = parsedTxs.length > 0 ? parsedTxs : [trimmed];
-    const truncated = transactions.length > MAX_TRANSACTIONS_PER_PROMPT;
-    const txsToProcess = truncated ? transactions.slice(0, MAX_TRANSACTIONS_PER_PROMPT) : transactions;
+    if (split.length > 1 && !trimmed.endsWith('@')) {
+      setError('For multiple transactions, end each transaction with "@". Example: tx1 @ tx2 @');
+      return;
+    }
 
-    setError(null);
-    const userMessage: ChatMessage = {
-      id: Date.now(),
-      role: 'user',
-      text: trimmed,
-    };
+    if (split.length > 100) {
+      setError('Limit is 100 transactions per message.');
+      return;
+    }
 
+    const transactions = split.length > 0 ? split : [trimmed];
+
+    const userMessage: ChatMessage = { id: Date.now(), role: 'user', text: trimmed };
     const baseMessages = messages;
-    setMessages([...messages, userMessage]);
+    const fullHistory = [...baseMessages, userMessage];
+    setMessages(fullHistory);
     setInput('');
     setIsSending(true);
 
@@ -323,171 +326,109 @@ export default function CompanyAiPage() {
       // Hardcode model to avoid exposing VITE_* env values in the browser bundle.
       const model = 'gemini-3.1-flash-preview';
 
-      // Precompute existing entry codes once for speed + avoid duplicates.
-      const existingCodes = new Set(listJournalEntries(companyId).map(e => e.entry_code));
+      // Process transactions sequentially (one by one) to avoid errors and keep careful handling.
+      for (let txIndex = 0; txIndex < transactions.length; txIndex += 1) {
+        const txText = transactions[txIndex];
+        const txUserMessage: ChatMessage = { id: Date.now() + txIndex + 1, role: 'user', text: txText };
+        const txHistory = [...baseMessages, txUserMessage];
 
-      const nextEntryCode = () => {
-        const code = generateUniqueShortEntryCode(existingCodes);
-        existingCodes.add(code);
-        return code;
-      };
+        const raw = await callGeminiPlan({
+          model,
+          systemPrompt: AI_SYSTEM_PROMPT,
+          history: txHistory,
+        });
 
-      const overallCreatedCodes: string[] = [];
-      const overallErrors: string[] = [];
-
-      if (truncated) {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: Date.now() + 2,
-            role: 'assistant',
-            text: `You sent ${transactions.length} transactions. I will process only the first ${MAX_TRANSACTIONS_PER_PROMPT} to stay stable. Remaining will be ignored.`,
-          },
-        ]);
-      }
-
-      for (let idx = 0; idx < txsToProcess.length; idx += 1) {
-        const txText = txsToProcess[idx];
+        const plan = parseAiPlan(raw);
+        let assistantText = plan?.assistantText || raw;
+        if (plan?.requires_confirmation && plan.questions.length > 0) {
+          assistantText = `${assistantText}\n\nPlease answer these to proceed:\n${plan.questions
+            .map(q => `- ${q}`)
+            .join('\n')}`;
+        }
 
         setMessages(prev => [
           ...prev,
           {
-            id: Date.now() + 1000 + idx,
+            id: Date.now() + 1000 + txIndex * 3,
             role: 'assistant',
-            text: `Processing transaction ${idx + 1}/${txsToProcess.length}...`,
+            text: assistantText,
           },
         ]);
 
-        // Send ONLY this transaction to Gemini, but keep the previous chat context.
-        const modelHistory: ChatMessage[] = [
-          ...baseMessages,
-          {
-            id: Date.now() + 2000 + idx,
-            role: 'user',
-            text: txText,
-          },
-        ];
+        if (plan?.requires_confirmation) return;
 
-        try {
-          const raw = await callGeminiPlan({
-            model,
-            systemPrompt: AI_SYSTEM_PROMPT,
-            history: modelHistory,
+        const entriesToCreate = plan?.journalEntries ?? [];
+        if (entriesToCreate.length === 0) continue;
+
+        const createdCodes: string[] = [];
+        const creationErrors: string[] = [];
+
+        // Create entries sequentially for this transaction.
+        for (let jeIndex = 0; jeIndex < entriesToCreate.length; jeIndex += 1) {
+          const draft = entriesToCreate[jeIndex];
+          const entry_date = draft.entry_date?.trim() || safeTodayIso();
+          const voucher_type = normalizeVoucherType(draft.voucher_type);
+          const narration = draft.narration?.trim() || `AI journal entry (${voucher_type})`;
+          const entry_code = generateUniqueEntryCode(companyId);
+          const book_period = bookPeriodFromDate(entry_date);
+
+          const manualDraftLines = (draft.lines ?? []).map(line => {
+            const rawName = line.account_name.trim();
+            const normalized = normalizeAccountName(rawName);
+            // Prevent duplicates / name variants when an equivalent account already exists.
+            const canonical = findExistingAccountName(companyId, normalized) ?? normalized;
+
+            return {
+              account_name: canonical,
+              debit: String(line.debit ?? 0),
+              credit: String(line.credit ?? 0),
+              inventory_sub_lines: line.inventory_sub_lines,
+              ...(line.tds_section ? { tds_section: line.tds_section } : {}),
+              ...(line.tds_rate != null ? { tds_rate: String(line.tds_rate) } : {}),
+              ...(line.tcs_section ? { tcs_section: line.tcs_section } : {}),
+              ...(line.tcs_rate != null ? { tcs_rate: String(line.tcs_rate) } : {}),
+            };
           });
 
-          const plan = parseAiPlan(raw);
+          const expanded: JournalLine[] = expandManualJournalLines(manualDraftLines as any, {
+            voucherType: voucher_type,
+            companyId,
+          });
 
-          let assistantText = plan?.assistantText || raw;
-          if (plan?.requires_confirmation && plan.questions.length > 0) {
-            assistantText = `${assistantText}\n\nPlease answer these to proceed:\n${plan.questions
-              .map(q => `- ${q}`)
-              .join('\n')}`;
+          try {
+            const created = createJournalEntry({
+              company_id: companyId,
+              entry_code,
+              entry_date,
+              voucher_type,
+              voucher_number: null,
+              lines: expanded,
+              narration,
+              book_period,
+            } as any);
+            createdCodes.push(created.entry_code);
+          } catch (e: any) {
+            creationErrors.push(e?.message || 'Failed to create entry');
           }
+        }
 
+        invalidateEntriesCache(companyId);
+
+        if (createdCodes.length > 0) {
           setMessages(prev => [
             ...prev,
             {
-              id: Date.now() + 3000 + idx,
+              id: Date.now() + 2000 + txIndex * 3,
               role: 'assistant',
-              text: assistantText,
+              text: `Transaction ${txIndex + 1}: created journal entries: ${createdCodes.join(', ')}`,
             },
           ]);
-
-          if (plan?.requires_confirmation) {
-            // Stop further processing until user answers questions.
-            return;
-          }
-
-          const entriesToCreate = plan?.journalEntries ?? [];
-          if (entriesToCreate.length === 0) continue;
-
-          const createdCodesForTx: string[] = [];
-          const errorsForTx: string[] = [];
-
-          for (const draft of entriesToCreate) {
-            const entry_date = draft.entry_date?.trim() || safeTodayIso();
-            const voucher_type = normalizeVoucherType(draft.voucher_type);
-            const narration = draft.narration?.trim() || `AI journal entry (${voucher_type})`;
-            const entry_code = nextEntryCode();
-            const book_period = bookPeriodFromDate(entry_date);
-
-            // Canonicalize account names to avoid “COA duplicates” due to spelling/case differences.
-            const manualDraftLines = (draft.lines ?? []).map(line => {
-              const rawName = line.account_name.trim();
-              const normalized = normalizeAccountName(rawName);
-              const canonical = findExistingAccountName(companyId, normalized) ?? normalized;
-              return {
-                account_name: canonical,
-                debit: String(line.debit ?? 0),
-                credit: String(line.credit ?? 0),
-                inventory_sub_lines: line.inventory_sub_lines,
-                ...(line.tds_section ? { tds_section: line.tds_section } : {}),
-                ...(line.tds_rate != null ? { tds_rate: String(line.tds_rate) } : {}),
-                ...(line.tcs_section ? { tcs_section: line.tcs_section } : {}),
-                ...(line.tcs_rate != null ? { tcs_rate: String(line.tcs_rate) } : {}),
-              };
-            });
-
-            const expanded: JournalLine[] = expandManualJournalLines(manualDraftLines as any, {
-              voucherType: voucher_type,
-              companyId,
-            });
-
-            try {
-              const created = createJournalEntry({
-                company_id: companyId,
-                entry_code,
-                entry_date,
-                voucher_type,
-                voucher_number: null,
-                lines: expanded,
-                narration,
-                book_period,
-              } as any);
-              createdCodesForTx.push(created.entry_code);
-            } catch (e: any) {
-              errorsForTx.push(e?.message || 'Failed to create entry');
-            }
-          }
-
-          invalidateEntriesCache(companyId);
-
-          if (createdCodesForTx.length > 0) {
-            overallCreatedCodes.push(...createdCodesForTx);
-            setMessages(prev => [
-              ...prev,
-              {
-                id: Date.now() + 4000 + idx,
-                role: 'assistant',
-                text: `Created journal entries for transaction ${idx + 1}: ${createdCodesForTx.join(', ')}`,
-              },
-            ]);
-          }
-
-          if (errorsForTx.length > 0) {
-            overallErrors.push(...errorsForTx.slice(0, 3));
-            setError(
-              `Some entries failed while processing transaction ${idx + 1}. ` +
-                `First error: ${errorsForTx[0] || 'Unknown error'}`
-            );
-          }
-        } catch (e: any) {
-          overallErrors.push(e?.message || 'Gemini failed for this transaction');
-          setError(`Failed processing transaction ${idx + 1}. ${e?.message || ''}`);
         }
-      }
 
-      if (overallCreatedCodes.length > 0) {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: Date.now() + 9000,
-            role: 'assistant',
-            text: `Done. Created ${overallCreatedCodes.length} journal entries: ${overallCreatedCodes.slice(0, 20).join(', ')}${
-              overallCreatedCodes.length > 20 ? '...' : ''
-            }`,
-          },
-        ]);
+        if (creationErrors.length > 0) {
+          setError(`Transaction ${txIndex + 1}: some entries failed. ${creationErrors.slice(0, 2).join(' | ')}`);
+          return;
+        }
       }
     } catch (e: any) {
       setError(e?.message || 'Something went wrong while talking to Gemini.');
@@ -560,7 +501,7 @@ export default function CompanyAiPage() {
                 }
               }}
               className="block w-full resize-none rounded-xl bg-gray-50 text-gray-900 text-sm sm:text-[15px] leading-relaxed border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 px-3.5 py-2.5 sm:px-4 sm:py-2.5 placeholder:text-gray-400 outline-none"
-              placeholder="Describe 1+ transactions in normal language. Separate each transaction with '@' (example: 'Purchase ... @ Sales ... @'). I will process them one by one."
+              placeholder="Describe a transaction in normal language. I will draft and create balanced journal entries."
             />
           </div>
           <button
