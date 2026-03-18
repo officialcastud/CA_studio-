@@ -119,45 +119,29 @@ function parseAiPlan(rawText: string): AiPlan | null {
 }
 
 async function callGeminiPlan(params: {
-  apiKey: string;
   model: string;
   systemPrompt: string;
   history: ChatMessage[];
 }): Promise<string> {
-  const { apiKey, model, systemPrompt, history } = params;
+  const { model, systemPrompt, history } = params;
 
-  const contents = history.map(m => ({
-    role: m.role === 'user' ? 'user' : 'model',
-    parts: [{ text: m.text }],
-  }));
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey,
-      },
-      body: JSON.stringify({
-        systemInstruction: { role: 'user', parts: [{ text: systemPrompt }] },
-        contents,
-        generationConfig: { temperature: 0.2 },
-      }),
-    },
-  );
+  const response = await fetch('/.netlify/functions/gemini-plan', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      systemPrompt,
+      history,
+    }),
+  });
 
   if (!response.ok) {
     const t = await response.text().catch(() => '');
-    throw new Error(`Gemini error: ${response.status}${t ? ` - ${t}` : ''}`);
+    throw new Error(`Gemini proxy error: ${response.status}${t ? ` - ${t}` : ''}`);
   }
 
-  const data = await response.json();
-  const parts = data?.candidates?.[0]?.content?.parts;
-  const text = Array.isArray(parts)
-    ? parts.map((p: { text?: string }) => p.text ?? '').join('').trim()
-    : '';
-  return text || 'No response from Gemini.';
+  const data = await response.json() as { text?: string };
+  return (data.text ?? '').trim() || 'No response from Gemini.';
 }
 
 const AI_SYSTEM_PROMPT = `You are a helpful accounting assistant inside a bookkeeping product.
@@ -308,12 +292,6 @@ export default function CompanyAiPage() {
     if (!trimmed || isSending) return;
     if (!companyId || !company) return;
 
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
-    if (!apiKey) {
-      setError('Gemini API key is not configured. Set VITE_GEMINI_API_KEY in your environment.');
-      return;
-    }
-
     setError(null);
     const userMessage: ChatMessage = {
       id: Date.now(),
@@ -332,7 +310,6 @@ export default function CompanyAiPage() {
         'gemini-3.1-flash-lite-preview';
 
       const raw = await callGeminiPlan({
-        apiKey,
         model,
         systemPrompt: AI_SYSTEM_PROMPT,
         history,
