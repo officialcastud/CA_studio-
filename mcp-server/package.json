@@ -1,0 +1,20 @@
+{
+  "name": "ca-accounting-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "ts-node-esm src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.0"
+  }
+}
+
