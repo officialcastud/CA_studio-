@@ -10,7 +10,7 @@ export const trustConfig: EntityConfig = {
     purchaseRegister: 'conditional', salesRegister: 'conditional',
     purchaseReturns: 'conditional', salesReturns: 'conditional',
     billsReceivable: true, billsPayable: true,
-    ledger: true, debtors: true, creditors: true, fixedAssets: false,
+    ledger: true, debtors: false, creditors: false, fixedAssets: false,
     investments: 'conditional', loans: 'conditional',
     trialBalance: true, tradingAccount: 'never',
     profitLoss: false, profitLossFormat: 'traditional',

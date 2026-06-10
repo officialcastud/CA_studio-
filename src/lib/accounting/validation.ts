@@ -81,7 +81,8 @@ export function validateJournalEntry(entry: JournalEntry): JournalValidationResu
   });
 
   const diff = Math.abs(totalDebit - totalCredit);
-  const TOLERANCE = 0.005;
+  /** Allow small rounding drift from split lines / display (manual entry UI uses the same band). */
+  const TOLERANCE = 0.05;
   if (diff > TOLERANCE) {
     errors.push({
       code: 'unbalanced_entry',

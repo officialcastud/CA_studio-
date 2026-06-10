@@ -183,7 +183,12 @@ export function CashBookFormat({
           )}
           {rows.map((row, i) => (
             <tr key={i} className="border-b border-gray-100">
-              <td className={`${dateWidth} ${type === 'triple' ? 'px-1 py-1 text-[10px]' : 'px-2 py-1.5 text-xs'} text-gray-500 whitespace-nowrap`}>{row.date}</td>
+              <td
+                className={`${dateWidth} ${type === 'triple' ? 'px-1 py-1 text-[10px]' : 'px-2 py-1.5 text-xs'} text-gray-500 whitespace-nowrap align-top`}
+              >
+                <div>{row.date}</div>
+                <div className="mt-1 text-[10px] font-mono font-semibold text-blue-600">{row.entry_code}</div>
+              </td>
               <td
                 className={`${particularsWidth} ${type === 'triple' ? 'px-1 py-1' : 'px-2 py-1.5'} align-top break-words`}
                 title={row.particulars}

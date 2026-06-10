@@ -27,8 +27,6 @@ const FundsFlowPage = lazy(() => import('@/app/company/[id]/funds-flow/page').th
 const IncomeExpenditurePage = lazy(() => import('@/app/company/[id]/income-expenditure/page').then(m => ({ default: m.default })));
 const ReceiptsPaymentsPage = lazy(() => import('@/app/company/[id]/receipts-payments/page').then(m => ({ default: m.default })));
 const LedgerPage = lazy(() => import('@/app/company/[id]/ledger/page').then(m => ({ default: m.default })));
-const DebtorsPage = lazy(() => import('@/app/company/[id]/debtors/page').then(m => ({ default: m.default })));
-const CreditorsPage = lazy(() => import('@/app/company/[id]/creditors/page').then(m => ({ default: m.default })));
 const PurchaseRegisterPage = lazy(() => import('@/app/company/[id]/purchase-register/page').then(m => ({ default: m.default })));
 const SalesRegisterPage = lazy(() => import('@/app/company/[id]/sales-register/page').then(m => ({ default: m.default })));
 const PurchaseReturnsPage = lazy(() => import('@/app/company/[id]/purchase-returns/page').then(m => ({ default: m.default })));
@@ -82,8 +80,9 @@ const BinCardPage = lazy(() => import('@/app/company/[id]/inventory/bin-card/pag
 const StoresLedgerPage = lazy(() => import('@/app/company/[id]/inventory/stores-ledger/page').then(m => ({ default: m.default })));
 const CostSheetPage = lazy(() => import('@/app/company/[id]/inventory/cost-sheet/page').then(m => ({ default: m.default })));
 const PayrollPage = lazy(() => import('@/app/company/[id]/payroll/page').then(m => ({ default: m.default })));
+const FoldersPage = lazy(() => import('@/app/company/[id]/folders/page').then(m => ({ default: m.default })));
+const BulkWorkspacePage = lazy(() => import('@/app/company/[id]/bulk-workspace/page').then(m => ({ default: m.default })));
 const SettingsPage = lazy(() => import('@/app/company/[id]/settings/page').then(m => ({ default: m.default })));
-const CompanyAiPage = lazy(() => import('@/app/company/[id]/ai/page').then(m => ({ default: m.default })));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center py-20">
@@ -119,8 +118,6 @@ export const router = createBrowserRouter([
       { path: 'income-expenditure', element: <Suspense fallback={<PageLoader />}><IncomeExpenditurePage /></Suspense> },
       { path: 'receipts-payments', element: <Suspense fallback={<PageLoader />}><ReceiptsPaymentsPage /></Suspense> },
       { path: 'ledger', element: <Suspense fallback={<PageLoader />}><LedgerPage /></Suspense> },
-      { path: 'debtors', element: <Suspense fallback={<PageLoader />}><DebtorsPage /></Suspense> },
-      { path: 'creditors', element: <Suspense fallback={<PageLoader />}><CreditorsPage /></Suspense> },
       { path: 'purchase-register', element: <Suspense fallback={<PageLoader />}><PurchaseRegisterPage /></Suspense> },
       { path: 'sales-register', element: <Suspense fallback={<PageLoader />}><SalesRegisterPage /></Suspense> },
       { path: 'purchase-returns', element: <Suspense fallback={<PageLoader />}><PurchaseReturnsPage /></Suspense> },
@@ -171,8 +168,10 @@ export const router = createBrowserRouter([
       { path: 'inventory/stores-ledger', element: <Suspense fallback={<PageLoader />}><StoresLedgerPage /></Suspense> },
       { path: 'inventory/cost-sheet', element: <Suspense fallback={<PageLoader />}><CostSheetPage /></Suspense> },
       { path: 'payroll', element: <Suspense fallback={<PageLoader />}><PayrollPage /></Suspense> },
+      { path: 'folders', element: <Suspense fallback={<PageLoader />}><FoldersPage /></Suspense> },
+      { path: 'bulk-workspace', element: <Suspense fallback={<PageLoader />}><BulkWorkspacePage /></Suspense> },
       { path: 'settings', element: <Suspense fallback={<PageLoader />}><SettingsPage /></Suspense> },
-      { path: 'ai', element: <Suspense fallback={<PageLoader />}><CompanyAiPage /></Suspense> },
+      { path: 'ai', element: <Navigate to=".." replace /> },
     ],
   },
   { path: '*', element: <Suspense fallback={<PageLoader />}><NotFoundPage /></Suspense> },

@@ -1,0 +1,667 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { DocumentMode, SalesTotals, PurchaseTotals } from './types';
+import { WIZARD_CONFIG } from './config';
+import {
+  amountToWords,
+  autoCategorize,
+  calcLineItem,
+  createEmptyInvoiceV2Draft,
+  createEmptyLineItem,
+  createInvoiceV2,
+  createPurchaseInvoice,
+  determineGSTR1Table,
+  determineSupplyType,
+  getStateCodeFromGSTIN,
+  getStateFromGSTIN,
+  gstinIsValid,
+  listInvoicesV2,
+  listPurchaseInvoices,
+  updateInvoiceV2,
+  updatePurchaseInvoice,
+  type CdnReason,
+  type DocType,
+  type InvoiceV2,
+  type InvoiceV2Draft,
+  type LineItem,
+  type PurchaseBucket,
+  type PurchaseInvoice,
+  type PurchaseInvoiceDraft,
+  type SupplyNature,
+  type SupplyType,
+  STATE_CODES,
+  GST_RATES,
+  isCessApplicable,
+  getCessInfo,
+  validateSalesWizardStep3,
+} from '@/lib/accounting/gstInvoices';
+import { INDIAN_STATES_BY_NAME } from '@/lib/constants/indianStates';
+
+interface UseSalesDocumentState {
+  kind: 'sales';
+  invoice: InvoiceV2Draft;
+  updateInvoice: (updates: Partial<InvoiceV2Draft>) => void;
+  updateItem: (index: number, updates: Partial<LineItem>) => void;
+  addItem: () => void;
+  removeItem: (index: number) => void;
+  handleGstinChange: (value: string) => void;
+  gstinError: string | null;
+  totals: SalesTotals;
+  error: string | null;
+  save: () => void;
+  existingInvoices: InvoiceV2[];
+  selectOriginalInvoice: (inv: InvoiceV2) => void;
+}
+
+interface UsePurchaseDocumentState {
+  kind: 'purchase';
+  fields: PurchaseFields;
+  updateField: <K extends keyof PurchaseFields>(key: K, value: PurchaseFields[K]) => void;
+  totals: PurchaseTotals;
+  error: string | null;
+  save: () => void;
+  existingPurchases: PurchaseInvoice[];
+  selectOriginalPurchase: (inv: PurchaseInvoice) => void;
+}
+
+export interface PurchaseFields {
+  invoiceDate: string;
+  bucket: PurchaseBucket;
+  vendorName: string;
+  vendorGstin: string;
+  itemDescription: string;
+  itemHsn: string;
+  itemQty: string;
+  itemRate: string;
+  posState: string;
+  supplyType: SupplyType;
+  taxable: string;
+  gstRate: string;
+  rcmApplicable: boolean;
+  capitalGoods: boolean;
+  itcEligible: boolean;
+  itcStatus: string;
+  itcBlockReason: string;
+  purchaseSubType: string;
+  billOfEntryNo: string;
+  billOfEntryDate: string;
+  portCode: string;
+  assessmentValue: string;
+  bcdAmount: string;
+  isdType: 'NORMAL' | 'REVERSAL';
+  vendorInvoiceNo: string;
+  narration: string;
+  origInvNo: string;
+  origInvDate: string;
+  returnReason: string;
+  showAdvanced: boolean;
+  paymentMode: 'CASH' | 'ONLINE' | 'CREDIT' | 'PARTIAL';
+  paidMedium: 'UPI' | 'CARD' | 'CASH' | 'BANK_TRANSFER';
+  amountPaid: string;
+  amountPending: string;
+  dueDate: string;
+}
+
+export type DocumentState = UseSalesDocumentState | UsePurchaseDocumentState;
+
+function initPurchaseFields(
+  mode: 'purchase_invoice' | 'purchase_return',
+  initial: PurchaseInvoice | null | undefined,
+  companyStateName: string,
+): PurchaseFields {
+  const today = new Date().toISOString().slice(0, 10);
+  if (initial) {
+    return {
+      invoiceDate: initial.invoice_date,
+      bucket: mode === 'purchase_return' ? 'CDNR' : initial.bucket,
+      vendorName: initial.vendor_name,
+      vendorGstin: initial.vendor_gstin || '',
+      itemDescription: initial.item_description || '',
+      itemHsn: initial.item_hsn || '',
+      itemQty: String(initial.item_qty ?? 1),
+      itemRate: String(initial.item_rate ?? 0),
+      posState: initial.place_of_supply_state || companyStateName,
+      supplyType: initial.supply_type,
+      taxable: String(initial.taxable_value || 0),
+      gstRate: String(initial.gst_rate || 0),
+      rcmApplicable: Boolean(initial.rcm_applicable),
+      capitalGoods: Boolean(initial.capital_goods),
+      itcEligible: Boolean(initial.itc_eligible),
+      itcStatus: initial.itc_status || 'ELIGIBLE_FULL',
+      itcBlockReason: initial.itc_block_reason || '17(5)(a)',
+      purchaseSubType: initial.purchase_sub_type || '',
+      billOfEntryNo: initial.bill_of_entry_no || '',
+      billOfEntryDate: initial.bill_of_entry_date || '',
+      portCode: initial.port_code || '',
+      assessmentValue: String(initial.assessment_value || 0),
+      bcdAmount: String(initial.bcd_amount || 0),
+      isdType: initial.isd_type || 'NORMAL',
+      vendorInvoiceNo: initial.vendor_invoice_no || '',
+      narration: initial.narration || '',
+      origInvNo: initial.original_invoice_no || '',
+      origInvDate: initial.original_invoice_date || '',
+      returnReason: 'DEFECTIVE',
+      showAdvanced: !!initial.purchase_sub_type || !!initial.bill_of_entry_no || !!initial.capital_goods || initial.bucket === 'ISD' || initial.bucket === 'IMPG' || initial.bucket === 'IMPG_SEZ',
+      paymentMode: initial.payment_mode || 'CREDIT',
+      paidMedium: initial.paid_medium || 'BANK_TRANSFER',
+      amountPaid: String(initial.amount_paid || 0),
+      amountPending: String(initial.amount_pending || initial.total || 0),
+      dueDate: initial.due_date || '',
+    };
+  }
+  return {
+    invoiceDate: today,
+    bucket: mode === 'purchase_return' ? 'CDNR' : 'B2B',
+    vendorName: '',
+    vendorGstin: '',
+    itemDescription: '',
+    itemHsn: '',
+    itemQty: '1',
+    itemRate: '0',
+    posState: companyStateName,
+    supplyType: 'intra',
+    taxable: '0',
+    gstRate: '18',
+    rcmApplicable: false,
+    capitalGoods: false,
+    itcEligible: true,
+    itcStatus: 'ELIGIBLE_FULL',
+    itcBlockReason: '17(5)(a)',
+    purchaseSubType: '',
+    billOfEntryNo: '',
+    billOfEntryDate: '',
+    portCode: '',
+    assessmentValue: '0',
+    bcdAmount: '0',
+    isdType: 'NORMAL',
+    vendorInvoiceNo: '',
+    narration: '',
+    origInvNo: '',
+    origInvDate: '',
+    returnReason: 'DEFECTIVE',
+    showAdvanced: false,
+    paymentMode: 'CREDIT',
+    paidMedium: 'BANK_TRANSFER',
+    amountPaid: '0',
+    amountPending: '0',
+    dueDate: '',
+  };
+}
+
+export function useDocumentState(
+  mode: DocumentMode,
+  companyId: string,
+  sellerStateCode: string | undefined,
+  companyStateName: string,
+  initialInvoice?: InvoiceV2 | null,
+  initialPurchase?: PurchaseInvoice | null,
+): DocumentState {
+  const config = WIZARD_CONFIG[mode];
+
+  // ─── SALES MODE ───
+  if (config.isSalesMode) {
+    return useSalesState(mode as 'sales_invoice' | 'sales_return', companyId, sellerStateCode, initialInvoice);
+  }
+
+  // ─── PURCHASE MODE ───
+  return usePurchaseState(mode as 'purchase_invoice' | 'purchase_return', companyId, sellerStateCode, companyStateName, initialPurchase);
+}
+
+function useSalesState(
+  mode: 'sales_invoice' | 'sales_return',
+  companyId: string,
+  sellerStateCode: string | undefined,
+  initialInvoice?: InvoiceV2 | null,
+): UseSalesDocumentState {
+  const docType: DocType = mode === 'sales_return' ? 'CREDIT_NOTE' : 'TAX_INVOICE';
+
+  const [invoice, setInvoice] = useState<InvoiceV2Draft>(() => {
+    if (initialInvoice) {
+      const { id: _id, company_id: _cid, created_at: _ca, updated_at: _ua, ...rest } = initialInvoice;
+      return { ...rest, items: rest.items?.length ? rest.items.map((item) => ({ ...item })) : [createEmptyLineItem(1)] };
+    }
+    const draft = createEmptyInvoiceV2Draft(docType);
+    if (mode === 'sales_return') {
+      draft.note_type = 'C';
+      draft.cdn_reason = 'SALES_RETURN';
+    }
+    return draft;
+  });
+
+  const [error, setError] = useState<string | null>(null);
+  const [gstinError, setGstinError] = useState<string | null>(null);
+
+  const updateInvoice = useCallback((updates: Partial<InvoiceV2Draft>) => {
+    setInvoice((prev) => ({ ...prev, ...updates }));
+  }, []);
+
+  const updateItem = useCallback((index: number, updates: Partial<LineItem>) => {
+    setInvoice((prev) => {
+      const items = [...prev.items];
+      items[index] = { ...items[index], ...updates };
+      return { ...prev, items };
+    });
+  }, []);
+
+  const addItem = useCallback(() => {
+    setInvoice((prev) => ({
+      ...prev,
+      items: [...prev.items, createEmptyLineItem(prev.items.length + 1)],
+    }));
+  }, []);
+
+  const removeItem = useCallback((index: number) => {
+    setInvoice((prev) => {
+      if (prev.items.length <= 1) return prev;
+      const items = prev.items.filter((_, i) => i !== index).map((it, i) => ({ ...it, sl_no: i + 1 }));
+      return { ...prev, items };
+    });
+  }, []);
+
+  // Bill of Supply effect
+  useEffect(() => {
+    if (invoice.doc_type !== 'BILL_OF_SUPPLY') return;
+    const mappedNature: SupplyNature =
+      invoice.bos_reason === 'EXEMPT' ? 'EXEMPT'
+        : invoice.bos_reason === 'NIL_RATED' ? 'NIL_RATED'
+        : invoice.bos_reason === 'NON_GST' ? 'NON_GST'
+        : invoice.bos_reason === 'MRP_INCLUSIVE' ? 'MRP_INCLUSIVE'
+        : invoice.bos_reason === 'EXPORT_LUT' ? 'ZERO_RATED'
+        : 'TAXABLE';
+    setInvoice((prev) => ({
+      ...prev,
+      gstr1_table: 'NIL',
+      reverse_charge: false,
+      items: prev.items.map((item) => ({
+        ...item,
+        supply_nature: mappedNature,
+        gst_rate: 0,
+        cess_rate: 0,
+        cess_specific_rate: 0,
+      })),
+    }));
+  }, [invoice.doc_type, invoice.bos_reason]);
+
+  // Auto-categorize
+  useEffect(() => {
+    const catUpdates = autoCategorize(invoice, sellerStateCode);
+    const keys = Object.keys(catUpdates) as Array<keyof InvoiceV2Draft>;
+    const catAny = catUpdates as unknown as Record<string, unknown>;
+    const invAny = invoice as unknown as Record<string, unknown>;
+    const needsUpdate = keys.some((k) => catAny[k] !== invAny[k]);
+    if (needsUpdate) {
+      setInvoice((prev) => ({ ...prev, ...catUpdates }));
+    }
+  }, [
+    invoice.buyer_gstin,
+    invoice.doc_type,
+    invoice.buyer_type,
+    invoice.export_type,
+    invoice.place_of_supply,
+    invoice.total_amount,
+    invoice.is_amendment,
+    sellerStateCode,
+  ]);
+
+  // Recalculate totals
+  useEffect(() => {
+    const pos = invoice.place_of_supply || invoice.buyer_state_code;
+    const autoSupplyType = determineSupplyType(sellerStateCode, invoice.buyer_state_code, pos);
+    const forcedType: SupplyType | null = invoice.buyer_type === 'CBW' || invoice.buyer_type === 'OVERSEAS' ? 'inter' : null;
+    const supplyType = forcedType || autoSupplyType;
+    const isIntra = supplyType === 'intra';
+
+    let totalTaxable = 0;
+    let totalDiscount = 0;
+    let totalCgst = 0;
+    let totalSgst = 0;
+    let totalIgst = 0;
+    let totalCess = 0;
+
+    const updatedItems = invoice.items.map((item) => {
+      const calc = calcLineItem(item, isIntra, invoice.doc_type);
+      totalTaxable += calc.taxableValue;
+      totalDiscount += item.discount || 0;
+      totalCgst += calc.cgst;
+      totalSgst += calc.sgst;
+      totalIgst += calc.igst;
+      totalCess += calc.cess;
+      return {
+        ...item,
+        taxable_value: calc.taxableValue,
+        cgst: calc.cgst,
+        sgst: calc.sgst,
+        igst: calc.igst,
+        cess: calc.cess,
+        line_total: calc.lineTotal,
+      };
+    });
+
+    const subtotal = totalTaxable + totalCgst + totalSgst + totalIgst + totalCess;
+    const roundOff = Math.round(subtotal) - subtotal;
+    const totalAmount = Math.round(subtotal);
+
+    let amtPending = 0;
+    let amtReceived = invoice.amount_received || 0;
+    if (invoice.payment_mode === 'CASH' || invoice.payment_mode === 'ONLINE') {
+      amtPending = 0;
+      amtReceived = totalAmount;
+    } else if (invoice.payment_mode === 'CREDIT') {
+      amtPending = totalAmount;
+      amtReceived = 0;
+    } else if (invoice.payment_mode === 'PARTIAL') {
+      amtPending = Math.max(0, totalAmount - amtReceived);
+    }
+
+    setInvoice((prev) => ({
+      ...prev,
+      items: updatedItems,
+      supply_type: supplyType,
+      is_intra_state: isIntra,
+      total_taxable: totalTaxable,
+      total_discount: totalDiscount,
+      total_cgst: totalCgst,
+      total_sgst: totalSgst,
+      total_igst: totalIgst,
+      total_cess: totalCess,
+      round_off: roundOff,
+      total_amount: totalAmount,
+      amount_in_words: amountToWords(totalAmount),
+      gstr1_table: determineGSTR1Table(prev),
+      amount_pending: amtPending,
+      amount_received: amtReceived,
+    }));
+  }, [
+    invoice.items.map((i) => `${i.qty}-${i.rate}-${i.discount}-${i.gst_rate}-${i.cess_rate}-${i.cess_specific_rate}-${i.supply_nature}`).join(','),
+    invoice.buyer_state_code,
+    invoice.place_of_supply,
+    invoice.doc_type,
+    invoice.buyer_type,
+    invoice.export_type,
+    invoice.invoice_type,
+    invoice.b2c_type,
+    invoice.is_amendment,
+    invoice.supply_type,
+    invoice.payment_mode,
+    invoice.amount_received,
+    sellerStateCode,
+  ]);
+
+  const handleGstinChange = useCallback((value: string) => {
+    const gstin = value.trim().toUpperCase();
+    updateInvoice({ buyer_gstin: gstin });
+    if (!gstin) { setGstinError(null); return; }
+    if (gstin.length === 15) {
+      if (!gstinIsValid(gstin)) { setGstinError('Invalid GSTIN format'); return; }
+      setGstinError(null);
+      const stateCode = getStateCodeFromGSTIN(gstin);
+      const stateName = getStateFromGSTIN(gstin);
+      if (stateCode && stateName) {
+        updateInvoice({
+          buyer_gstin: gstin,
+          buyer_state_code: stateCode,
+          buyer_state: stateName,
+          place_of_supply: stateCode,
+        });
+      }
+    } else {
+      setGstinError(null);
+    }
+  }, [updateInvoice]);
+
+  const totals = useMemo<SalesTotals>(() => ({
+    taxable: invoice.total_taxable,
+    cgst: invoice.total_cgst,
+    sgst: invoice.total_sgst,
+    igst: invoice.total_igst,
+    cess: invoice.total_cess,
+    roundOff: invoice.round_off,
+    total: invoice.total_amount,
+    amountInWords: invoice.amount_in_words,
+    gstr1Table: invoice.gstr1_table,
+    supplyType: invoice.supply_type,
+    isIntra: invoice.is_intra_state,
+  }), [invoice.total_taxable, invoice.total_cgst, invoice.total_sgst, invoice.total_igst, invoice.total_cess, invoice.round_off, invoice.total_amount, invoice.amount_in_words, invoice.gstr1_table, invoice.supply_type, invoice.is_intra_state]);
+
+  const existingInvoices = useMemo(() => {
+    if (mode !== 'sales_return') return [];
+    return listInvoicesV2(companyId).filter((inv) => inv.doc_type === 'TAX_INVOICE');
+  }, [companyId, mode]);
+
+  const selectOriginalInvoice = useCallback((inv: InvoiceV2) => {
+    updateInvoice({
+      original_invoice_no: inv.invoice_no,
+      original_invoice_date: inv.invoice_date,
+      buyer_name: inv.buyer_name,
+      buyer_gstin: inv.buyer_gstin,
+      buyer_state_code: inv.buyer_state_code,
+      buyer_state: inv.buyer_state,
+      place_of_supply: inv.place_of_supply,
+    });
+    if (inv.buyer_gstin) {
+      handleGstinChange(inv.buyer_gstin);
+    }
+  }, [updateInvoice, handleGstinChange]);
+
+  const save = useCallback(() => {
+    if (!invoice.invoice_date?.trim()) { setError('Invoice date is required'); return; }
+    if (invoice.buyer_type !== 'CONSUMER' && !invoice.buyer_name.trim()) {
+      if (!(invoice.b2c_type === 'B2CS')) { setError('Party name is required'); return; }
+    }
+    if (mode === 'sales_return') {
+      if (!invoice.original_invoice_no?.trim()) { setError('Original invoice number is required'); return; }
+      if (!invoice.original_invoice_date) { setError('Original invoice date is required'); return; }
+      // Strict verification: original invoice must exist in the register
+      const allInvoices = listInvoicesV2(companyId);
+      const origInv = allInvoices.find((inv) => inv.invoice_no === invoice.original_invoice_no?.trim() && inv.doc_type !== 'CREDIT_NOTE');
+      if (!origInv) {
+        setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+        return;
+      }
+    }
+    const itemValidation = validateSalesWizardStep3(invoice);
+    if (!itemValidation.ok) { setError(itemValidation.error); return; }
+
+    setError(null);
+    try {
+      if (initialInvoice?.id) {
+        updateInvoiceV2(initialInvoice.id, invoice);
+      } else {
+        createInvoiceV2(companyId, invoice);
+      }
+    } catch {
+      setError('Failed to save invoice');
+    }
+  }, [invoice, companyId, initialInvoice, mode]);
+
+  return {
+    kind: 'sales',
+    invoice,
+    updateInvoice,
+    updateItem,
+    addItem,
+    removeItem,
+    handleGstinChange,
+    gstinError,
+    totals,
+    error,
+    save,
+    existingInvoices,
+    selectOriginalInvoice,
+  };
+}
+
+function usePurchaseState(
+  mode: 'purchase_invoice' | 'purchase_return',
+  companyId: string,
+  sellerStateCode: string | undefined,
+  companyStateName: string,
+  initialPurchase?: PurchaseInvoice | null,
+): UsePurchaseDocumentState {
+  const [fields, setFields] = useState<PurchaseFields>(() =>
+    initPurchaseFields(mode, initialPurchase, companyStateName)
+  );
+  const [error, setError] = useState<string | null>(null);
+
+  const updateField = useCallback(<K extends keyof PurchaseFields>(key: K, value: PurchaseFields[K]) => {
+    setFields((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
+  // Auto-calc taxable from qty * rate
+  useEffect(() => {
+    const qty = Number(fields.itemQty || 0);
+    const rate = Number(fields.itemRate || 0);
+    if (qty > 0 && rate >= 0) {
+      setFields((prev) => ({ ...prev, taxable: (qty * rate).toString() }));
+    }
+  }, [fields.itemQty, fields.itemRate]);
+
+  // Auto-calc amount pending
+  useEffect(() => {
+    const taxable = Number(fields.taxable || 0);
+    const gstRate = Number(fields.gstRate || 0);
+    const totalGst = taxable * gstRate / 100;
+    const totalAmount = Math.round(taxable + totalGst);
+    
+    let pending = 0;
+    let paid = Number(fields.amountPaid || 0);
+    
+    if (fields.paymentMode === 'CASH' || fields.paymentMode === 'ONLINE') {
+      pending = 0;
+      paid = totalAmount;
+    } else if (fields.paymentMode === 'CREDIT') {
+      pending = totalAmount;
+      paid = 0;
+    } else if (fields.paymentMode === 'PARTIAL') {
+      pending = Math.max(0, totalAmount - paid);
+    }
+    
+    setFields((prev) => ({
+      ...prev,
+      amountPending: String(pending),
+      amountPaid: String(paid),
+    }));
+  }, [fields.taxable, fields.gstRate, fields.paymentMode, fields.amountPaid]);
+
+  const totals = useMemo<PurchaseTotals>(() => {
+    const taxable = Number(fields.taxable || 0);
+    const gstRate = Number(fields.gstRate || 0);
+    const posCode = INDIAN_STATES_BY_NAME[fields.posState.trim().toLowerCase()]?.gstCode || null;
+    const inferredSupply: SupplyType =
+      sellerStateCode && posCode && sellerStateCode === posCode ? 'intra' : fields.supplyType;
+    const isIntra = inferredSupply === 'intra';
+    const totalGst = taxable * gstRate / 100;
+    return {
+      taxable,
+      cgst: isIntra ? totalGst / 2 : 0,
+      sgst: isIntra ? totalGst / 2 : 0,
+      igst: isIntra ? 0 : totalGst,
+      total: taxable + totalGst,
+      supplyType: inferredSupply,
+      isIntra,
+    };
+  }, [fields.taxable, fields.gstRate, fields.posState, fields.supplyType, sellerStateCode]);
+
+  const existingPurchases = useMemo(() => {
+    if (mode !== 'purchase_return') return [];
+    return listPurchaseInvoices(companyId).filter((inv) => inv.bucket !== 'CDNR');
+  }, [companyId, mode]);
+
+  const selectOriginalPurchase = useCallback((inv: PurchaseInvoice) => {
+    setFields((prev) => ({
+      ...prev,
+      origInvNo: inv.invoice_no,
+      origInvDate: inv.invoice_date,
+      vendorName: inv.vendor_name,
+      vendorGstin: inv.vendor_gstin || '',
+      posState: inv.place_of_supply_state || prev.posState,
+    }));
+  }, []);
+
+  const save = useCallback(() => {
+    setError(null);
+    const taxableVal = Number(fields.taxable || 0);
+    const gstVal = Number(fields.gstRate || 0);
+
+    if (!fields.invoiceDate) return setError('Date is required.');
+    if (!fields.vendorInvoiceNo.trim()) return setError('Vendor Invoice Number is strictly required.');
+    if (!fields.vendorName.trim()) return setError('Vendor name is required.');
+    if (!fields.posState.trim()) return setError('Place of supply is required.');
+    if (mode === 'purchase_return') {
+      if (!gstinIsValid(fields.vendorGstin)) return setError('Valid GSTIN required for debit notes.');
+      if (!fields.origInvNo.trim()) return setError('Original invoice number is required.');
+      if (!fields.origInvDate) return setError('Original invoice date is required.');
+      // Strict verification: original invoice must exist in the register
+      const allPurchases = listPurchaseInvoices(companyId);
+      const origPurchase = allPurchases.find((inv) => inv.invoice_no === fields.origInvNo.trim() && inv.bucket !== 'CDNR');
+      if (!origPurchase) {
+        return setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+      }
+    }
+    if (mode === 'purchase_invoice' && fields.bucket === 'B2B' && !gstinIsValid(fields.vendorGstin)) {
+      return setError('Valid GSTIN required for B2B.');
+    }
+    if (taxableVal <= 0) return setError('Taxable value must be > 0.');
+    if (gstVal < 0) return setError('GST rate cannot be negative.');
+
+    const posCode = INDIAN_STATES_BY_NAME[fields.posState.trim().toLowerCase()]?.gstCode || null;
+    const inferredSupply: SupplyType =
+      sellerStateCode && posCode && sellerStateCode === posCode ? 'intra' : fields.supplyType;
+
+    const payload: PurchaseInvoiceDraft = {
+      invoice_date: fields.invoiceDate,
+      vendor_invoice_no: fields.vendorInvoiceNo.trim(),
+      bucket: mode === 'purchase_return' ? 'CDNR' : fields.bucket,
+      purchase_sub_type: mode === 'purchase_return' ? `DN-${fields.returnReason}` : (fields.purchaseSubType.trim() || undefined),
+      vendor_name: fields.vendorName.trim(),
+      vendor_gstin: fields.vendorGstin.trim().toUpperCase() || undefined,
+      item_description: fields.itemDescription.trim() || undefined,
+      item_hsn: fields.itemHsn.trim() || undefined,
+      item_qty: Number(fields.itemQty || 0) || undefined,
+      item_rate: Number(fields.itemRate || 0) || undefined,
+      place_of_supply_state: fields.posState.trim(),
+      supply_type: inferredSupply,
+      rcm_applicable: fields.rcmApplicable,
+      taxable_value: taxableVal,
+      gst_rate: gstVal,
+      itc_eligible: fields.itcEligible,
+      itc_status: fields.itcStatus as PurchaseInvoiceDraft['itc_status'],
+      itc_block_reason: fields.itcStatus === 'BLOCKED_17_5' ? fields.itcBlockReason as PurchaseInvoiceDraft['itc_block_reason'] : undefined,
+      bill_of_entry_no: ['IMPG', 'IMPG_SEZ'].includes(fields.bucket) ? fields.billOfEntryNo.trim() || undefined : undefined,
+      bill_of_entry_date: ['IMPG', 'IMPG_SEZ'].includes(fields.bucket) ? fields.billOfEntryDate || undefined : undefined,
+      port_code: ['IMPG', 'IMPG_SEZ'].includes(fields.bucket) ? fields.portCode.trim() || undefined : undefined,
+      assessment_value: ['IMPG', 'IMPG_SEZ'].includes(fields.bucket) ? Number(fields.assessmentValue || 0) : undefined,
+      bcd_amount: ['IMPG', 'IMPG_SEZ'].includes(fields.bucket) ? Number(fields.bcdAmount || 0) : undefined,
+      isd_type: fields.bucket === 'ISD' ? fields.isdType : undefined,
+      capital_goods: fields.capitalGoods,
+      original_invoice_no: mode === 'purchase_return' ? fields.origInvNo.trim() : undefined,
+      original_invoice_date: mode === 'purchase_return' ? fields.origInvDate : undefined,
+      narration: fields.narration.trim() || (mode === 'purchase_return' ? `Purchase return: ${fields.returnReason}` : undefined),
+      payment_mode: fields.paymentMode,
+      paid_medium: fields.paidMedium,
+      amount_paid: Number(fields.amountPaid || 0),
+      amount_pending: Number(fields.amountPending || 0),
+      due_date: fields.dueDate || undefined,
+    };
+
+    try {
+      if (initialPurchase?.id) {
+        updatePurchaseInvoice(initialPurchase.id, payload);
+      } else {
+        createPurchaseInvoice(companyId, payload);
+      }
+    } catch {
+      setError('Failed to save');
+    }
+  }, [fields, companyId, initialPurchase, mode, sellerStateCode]);
+
+  return {
+    kind: 'purchase',
+    fields,
+    updateField,
+    totals,
+    error,
+    save,
+    existingPurchases,
+    selectOriginalPurchase,
+  };
+}

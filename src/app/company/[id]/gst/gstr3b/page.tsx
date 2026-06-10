@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useCompany } from '@/hooks/useCompany';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
@@ -10,28 +10,54 @@ import { getCurrentFY } from '@/lib/utils/dateUtils';
 import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
 import { computeGSTR3B } from '@/lib/accounting/gstCompute';
+import { emptyGstr3bForm, prefillGstr3bFormFromBooks, calendarMonthRangeIso } from '@/lib/accounting/gstr3bJson';
 import type { EntityType } from '@/types/company';
+import { Gstr3bUtilityPanel } from '@/components/gst/Gstr3bUtilityPanel';
 
 export default function GSTR3BPage() {
   const { company, companyId, loading: companyLoading } = useCompany();
   const fy = getCurrentFY();
+  const [tab, setTab] = useState<'utility' | 'books'>('utility');
   const [fromDate, setFromDate] = useState(fy.start);
   const [toDate, setToDate] = useState(fy.end);
+
+  const now = new Date();
+  const [retMonth, setRetMonth] = useState(now.getMonth() + 1);
+  const [retYear, setRetYear] = useState(now.getFullYear());
+  const [form, setForm] = useState(emptyGstr3bForm);
+  const [caConfirmed, setCaConfirmed] = useState(false);
+
+  const { from: monthFrom, to: monthTo } = useMemo(
+    () => calendarMonthRangeIso(retYear, retMonth),
+    [retYear, retMonth]
+  );
+
+  const { entries: utilityEntries, loading: utilityLoading } = useJournalEntries({
+    companyId: companyId || '',
+    fromDate: monthFrom,
+    toDate: monthTo,
+    enabled: !!companyId && tab === 'utility',
+  });
 
   const { entries, loading } = useJournalEntries({
     companyId: companyId || '',
     fromDate,
     toDate,
-    enabled: !!companyId,
+    enabled: !!companyId && tab === 'books',
   });
 
   const gstr3b = useMemo(() => computeGSTR3B(entries), [entries]);
+
+  useEffect(() => {
+    setCaConfirmed(false);
+  }, [retMonth, retYear]);
 
   if (companyLoading || !company) {
     return <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
   }
 
   const entityLabel = ENTITY_TYPES[company.entity_type as EntityType]?.label || company.entity_type;
+  const gstin = company.gst_details?.gstin?.trim() ?? '';
 
   const totalOutput = gstr3b.outwardSupplies.cgst + gstr3b.outwardSupplies.sgst + gstr3b.outwardSupplies.igst;
   const totalITC = gstr3b.itcAvailed.cgst + gstr3b.itcAvailed.sgst + gstr3b.itcAvailed.igst;
@@ -81,22 +107,71 @@ export default function GSTR3BPage() {
     },
   ];
 
+  const loadFromBooks = () => {
+    const summary = computeGSTR3B(utilityEntries);
+    setForm(prefillGstr3bFormFromBooks(summary));
+    setCaConfirmed(false);
+  };
+
   return (
     <div>
-      <PageHeader title="GSTR-3B Working" description="Monthly return working — output tax vs input tax credit">
-        <div className="flex flex-col gap-2 items-end">
-          <DateRangeFilter fromDate={fromDate} toDate={toDate} onDateChange={(f, t) => { setFromDate(f); setToDate(t); }} />
-          <ExportButtons title="GSTR-3B Working" companyName={company.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={exportColumns} data={exportData} />
-        </div>
+      <PageHeader
+        title="GSTR-3B"
+        description="Prepare return in the portal grid, confirm, and download JSON — or reconcile against books"
+      >
+        {tab === 'books' ? (
+          <div className="flex flex-col gap-2 items-end">
+            <DateRangeFilter fromDate={fromDate} toDate={toDate} onDateChange={(f, t) => { setFromDate(f); setToDate(t); }} />
+            <ExportButtons title="GSTR-3B Working" companyName={company.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={exportColumns} data={exportData} />
+          </div>
+        ) : null}
       </PageHeader>
 
-      {loading ? (
+      <div className="flex gap-1 p-1 mb-4 bg-gray-100 rounded-lg w-fit">
+        <button
+          type="button"
+          onClick={() => setTab('utility')}
+          className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${tab === 'utility' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
+        >
+          Return utility
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('books')}
+          className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${tab === 'books' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
+        >
+          From books
+        </button>
+      </div>
+
+      {tab === 'utility' ? (
+        <Gstr3bUtilityPanel
+          companyName={company.name}
+          gstin={gstin}
+          month={retMonth}
+          year={retYear}
+          onMonthYearChange={(m, y) => {
+            setRetMonth(m);
+            setRetYear(y);
+          }}
+          form={form}
+          setForm={setForm}
+          loadingBooks={utilityLoading}
+          onLoadFromBooks={loadFromBooks}
+          caConfirmed={caConfirmed}
+          onCaConfirmedChange={setCaConfirmed}
+        />
+      ) : null}
+
+      {tab === 'books' && loading ? (
         <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
-      ) : (
+      ) : null}
+
+      {tab === 'books' && !loading ? (
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="text-center py-3 border-b border-gray-200 bg-gray-50/50">
-              <p className="text-[11px] text-gray-500 font-semibold uppercase tracking-wider">{company.name} | GSTIN: {company.gst_details?.gstin || '—'}</p>
+              <p className="text-[11px] text-gray-500 font-semibold uppercase tracking-wider">{company.name} | GSTIN: {gstin || '—'}</p>
               <h3 className="text-sm font-bold text-gray-900">GSTR-3B Working Sheet</h3>
               <p className="text-xs text-gray-400 mt-0.5">{fromDate} to {toDate}</p>
             </div>
@@ -130,7 +205,6 @@ export default function GSTR3BPage() {
             </div>
           </div>
 
-          {/* Summary cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {sections.map(sec => (
               <div key={sec.title} className={`${sec.bg} border ${sec.border} rounded-xl px-4 py-3`}>
@@ -141,11 +215,11 @@ export default function GSTR3BPage() {
           </div>
 
           <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-blue-700">
-            <p className="font-medium">Filing Note:</p>
-            <p className="text-xs mt-1">This is a working paper. Actual GSTR-3B is filed on the GST portal. Export this data as PDF/Excel for reference.</p>
+            <p className="font-medium">Reconciliation</p>
+            <p className="text-xs mt-1">Use the Return utility tab to type or load the same month from books, adjust for filing, confirm as CA, and download JSON.</p>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

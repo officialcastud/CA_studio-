@@ -11,6 +11,7 @@ export const ENTITY_TYPES = {
   section8: { label: 'Section 8 Company', shortLabel: 'Sec 8', itrForm: 'ITR-6', icon: 'HeartHandshake', color: 'rose' },
   aop_boi: { label: 'AOP / BOI', shortLabel: 'AOP/BOI', itrForm: 'ITR-5', icon: 'Network', color: 'cyan' },
   cooperative: { label: 'Cooperative Society', shortLabel: 'Cooperative', itrForm: 'ITR-5', icon: 'Handshake', color: 'lime' },
+  bulk_pvt_ltd: { label: 'Bulk Private Limited', shortLabel: 'Bulk Pvt Ltd', itrForm: 'ITR-6', icon: 'LayoutGrid', color: 'violet' },
 } as const;
 
 export type EntityType = keyof typeof ENTITY_TYPES;

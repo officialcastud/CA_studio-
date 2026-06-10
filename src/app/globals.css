@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -49,8 +49,8 @@
 }
 
 :root {
-  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
   --radius: 0.5rem;
   /* LIGHT THEME ONLY */
   --background: #FAFBFC;
@@ -93,6 +93,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -117,16 +118,16 @@ table { border-collapse: collapse; width: 100%; }
 .acc-table thead th.c { text-align: center; }
 .acc-table tbody tr { @apply border-b border-gray-100 hover:bg-blue-50/30 transition-colors; }
 .acc-table tbody td { @apply px-3 py-2.5 text-gray-700; }
-.acc-table tbody td.r { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.acc-table tbody td.r { text-align: right; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
 .acc-table tbody td.c { text-align: center; }
 .acc-table tfoot tr { @apply border-t-2 border-gray-300 bg-gray-50; }
-.acc-table tfoot td { @apply px-3 py-2.5 font-semibold text-gray-900; font-family: var(--font-mono); }
+.acc-table tfoot td { @apply px-3 py-2.5 font-semibold text-gray-900; font-family: var(--font-sans); }
 .acc-table tfoot td.r { text-align: right; }
 
 /* ── Amount formatting ── */
 .amount {
   text-align: right;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }

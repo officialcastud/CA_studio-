@@ -17,6 +17,8 @@ export const Dialog = {
   Close: primitive('button'),
   Overlay: primitive('div'),
   Content: primitive('div'),
+  Title: primitive('h2'),
+  Description: primitive('p'),
 };
 
 export const ScrollArea = {

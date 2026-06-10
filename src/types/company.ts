@@ -10,7 +10,8 @@ export type EntityType =
   | 'society'
   | 'section8'
   | 'aop_boi'
-  | 'cooperative';
+  | 'cooperative'
+  | 'bulk_pvt_ltd';
 
 export type GSTStatus = 'unregistered' | 'regular' | 'composition';
 export type AccountingMethod = 'mercantile' | 'cash';

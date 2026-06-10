@@ -32,12 +32,12 @@ export function JournalPreview({
           <div key={i} className="flex justify-between items-baseline">
             {line.debit > 0 ? (
               <>
-                <span className="text-gray-900">{line.account} A/c <span className="text-gray-400 text-xs">Dr.</span></span>
+                <span className="text-gray-900">{/a\/c\.?$/i.test(line.account.trim()) ? line.account : `${line.account} A/c`} <span className="text-gray-400 text-xs">Dr.</span></span>
                 <span className="font-semibold text-dr tabular-nums">{formatIndianCurrency(line.debit)}</span>
               </>
             ) : (
               <>
-                <span className="text-gray-600 pl-5">To {line.account} A/c</span>
+                <span className="text-gray-600 pl-5">To {/a\/c\.?$/i.test(line.account.trim()) ? line.account : `${line.account} A/c`}</span>
                 <span className="font-semibold text-cr tabular-nums">{formatIndianCurrency(line.credit)}</span>
               </>
             )}

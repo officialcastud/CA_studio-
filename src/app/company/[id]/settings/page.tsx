@@ -5,9 +5,10 @@ import { useCompany } from '@/hooks/useCompany';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
 import { getEntityConfig } from '@/lib/entityConfig';
+import { getEntityData, upsertEntityData } from '@/lib/offlineDb';
 import type { EntityType, EntityDetails } from '@/types/company';
 
-type Tab = 'general' | 'financial-year' | 'chart-of-accounts' | 'book-closing' | 'export';
+type Tab = 'general' | 'financial-year' | 'chart-of-accounts' | 'book-closing' | 'export' | 'ai-rules';
 
 export default function SettingsPage() {
   const { company, companyId, loading: companyLoading, updateCompany } = useCompany();
@@ -34,6 +35,10 @@ export default function SettingsPage() {
 
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [exportSaveStatus, setExportSaveStatus] = useState<'idle' | 'saved'>('idle');
+
+  // AI Rules
+  const [aiRules, setAiRules] = useState('');
+  const [aiRulesSaveStatus, setAiRulesSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
   // Initialize form from company once when company loads
   useEffect(() => {
@@ -85,6 +90,31 @@ export default function SettingsPage() {
     }
   }, [companyId]);
 
+  // Load AI Rules
+  useEffect(() => {
+    if (!companyId) return;
+    try {
+      const record = getEntityData(companyId, 'settings', 'ai_rules');
+      if (record) {
+        const data = record.data as { rules?: string };
+        setAiRules(data?.rules || '');
+      }
+    } catch { /* ignore */ }
+  }, [companyId]);
+
+  const handleSaveAiRules = useCallback(() => {
+    if (!companyId) return;
+    setAiRulesSaveStatus('saving');
+    try {
+      upsertEntityData(companyId, 'settings', 'ai_rules', { rules: aiRules });
+      setAiRulesSaveStatus('saved');
+      setTimeout(() => setAiRulesSaveStatus('idle'), 2000);
+    } catch {
+      setAiRulesSaveStatus('error');
+      setTimeout(() => setAiRulesSaveStatus('idle'), 3000);
+    }
+  }, [companyId, aiRules]);
+
   const handleSaveExportPrefs = useCallback(() => {
     if (!companyId || typeof window === 'undefined') return;
     try {
@@ -110,6 +140,7 @@ export default function SettingsPage() {
     { key: 'chart-of-accounts', label: 'Chart of Accounts' },
     { key: 'book-closing', label: 'Book Closing' },
     { key: 'export', label: 'Export & Print' },
+    { key: 'ai-rules', label: 'AI Rules' },
   ];
 
   return (
@@ -276,6 +307,56 @@ export default function SettingsPage() {
                 Save Preferences
               </button>
               {exportSaveStatus === 'saved' && <span className="text-sm text-green-600">Saved.</span>}
+            </div>
+          </div>
+        )}
+
+        {/* Tab: AI Rules */}
+        {activeTab === 'ai-rules' && (
+          <div className="p-6 space-y-4">
+            <h3 className="text-sm font-bold text-gray-900 mb-3">AI Rules for CARP Agent</h3>
+            <p className="text-sm text-gray-500">Write custom rules that the CARP AI agent will follow when working on this company. These rules override default behaviour.</p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-blue-700">
+              <p className="font-medium">Examples:</p>
+              <ul className="text-xs mt-1 space-y-0.5 list-disc list-inside">
+                <li>TDS on professional fees is 194J at 10%</li>
+                <li>Use WDV method for all fixed assets</li>
+                <li>GST rate for services is 18%</li>
+                <li>Always use "Reserves & Surplus" not "Retained Earnings"</li>
+                <li>Financial year is April 2025 to March 2026</li>
+                <li>Partner salary: A ₹15,000/month, B ₹12,000/month</li>
+              </ul>
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Custom AI Rules</label>
+              <textarea
+                value={aiRules}
+                onChange={e => setAiRules(e.target.value)}
+                rows={8}
+                placeholder="Type your rules here... One rule per line."
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y font-mono"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleSaveAiRules}
+                disabled={aiRulesSaveStatus === 'saving'}
+                className="px-6 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+              >
+                {aiRulesSaveStatus === 'saving' ? 'Saving…' : 'Save Rules'}
+              </button>
+              {aiRulesSaveStatus === 'saved' && <span className="text-sm text-green-600">Saved.</span>}
+              {aiRulesSaveStatus === 'error' && <span className="text-sm text-red-600">Save failed.</span>}
+              {aiRules && (
+                <button
+                  type="button"
+                  onClick={() => { setAiRules(''); }}
+                  className="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm hover:bg-gray-50 transition-colors"
+                >
+                  Clear Rules
+                </button>
+              )}
             </div>
           </div>
         )}

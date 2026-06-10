@@ -87,6 +87,9 @@ export const Pencil = makeIcon('Pencil');
 export const Circle = makeIcon('Circle');
 export const ChevronUp = makeIcon('ChevronUp');
 export const Sparkles = makeIcon('Sparkles');
+export const Download = makeIcon('Download');
+export const ExternalLink = makeIcon('ExternalLink');
+export const Shield = makeIcon('Shield');
 
 // lucide-react also exports many components with an `Icon` suffix in shadcn templates.
 export const XIcon = X;

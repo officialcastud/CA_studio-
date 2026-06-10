@@ -10,6 +10,10 @@ export interface JournalLine {
   inventory_sub_lines?: InventorySubLine[];
   /** HSN code for GST reporting (e.g. 998314). */
   hsn_code?: string;
+  tds_section?: string;
+  tds_rate?: number;
+  tcs_section?: string;
+  tcs_rate?: number;
 }
 
 export interface JournalEntry {
@@ -42,26 +46,8 @@ export interface AccountBalance {
   balance_type: 'Dr' | 'Cr';
 }
 
-// --- In-memory fetch cache ---
-// Pages switching under the same company/date range get instant data (no network call).
-// Cache auto-expires after 30s and is cleared on create/update/delete.
-const fetchCache = new Map<string, { data: JournalEntry[]; ts: number }>();
-const CACHE_TTL = 30_000; // 30 seconds
-
-function getCacheKey(companyId: string, options?: Record<string, any>): string {
-  return JSON.stringify({ companyId, ...options });
-}
-
-/** Clear cache for a company (call after create/update/delete) */
-export function invalidateEntriesCache(companyId?: string) {
-  if (!companyId) {
-    fetchCache.clear();
-    return;
-  }
-  for (const key of fetchCache.keys()) {
-    if (key.includes(companyId)) fetchCache.delete(key);
-  }
-}
+/** Kept for callers after mutations; journal reads no longer use an in-memory cache (always fresh from local storage). */
+export function invalidateEntriesCache(_companyId?: string) {}
 
 export async function fetchJournalEntries(
   companyId: string,
@@ -74,12 +60,6 @@ export async function fetchJournalEntries(
     limit?: number;
   }
 ): Promise<JournalEntry[]> {
-  const key = getCacheKey(companyId, options);
-  const cached = fetchCache.get(key);
-  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    return cached.data;
-  }
-
   const filters: JournalEntryFilters | undefined = options
     ? {
         fromDate: options.fromDate,
@@ -91,11 +71,17 @@ export async function fetchJournalEntries(
 
   let entries = listJournalEntries(companyId, filters);
 
+  const accountQ = options?.accountName?.trim().toLowerCase();
+  if (accountQ) {
+    entries = entries.filter((e) =>
+      e.lines.some((l) => (l.account_name || '').toLowerCase().includes(accountQ)),
+    );
+  }
+
   if (options?.limit && entries.length > options.limit) {
     entries = entries.slice(-options.limit);
   }
 
-  fetchCache.set(key, { data: entries, ts: Date.now() });
   return entries;
 }
 

@@ -1,132 +1,147 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ChevronDown, Plus, X } from 'lucide-react';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { ChevronDown, Plus, X, Search } from 'lucide-react';
 import { searchAccounts, getMasterAccount, findExistingAccountName, normalizeAccountName } from '@/lib/chartOfAccounts';
-import { MASTER_COA } from '@/lib/masterCOA';
-import type { PrimaryGroup, JournalNature } from '@/lib/masterCOA';
-
-// ─── Sub-groups per primary group ────────────────────────────────────────────
-const PG_SUBGROUPS: Record<PrimaryGroup, string[]> = {
-  'Capital & Liabilities': [
-    'Share Capital', 'Reserves & Surplus', 'Long-term Borrowings',
-    'Deferred Tax Liability', 'Other Long-term Liabilities', 'Long-term Provisions',
-    'Short-term Borrowings', 'Trade Payables', 'Other Current Liabilities',
-    'Statutory Liabilities', 'Short-term Provisions', 'GST — Output Tax',
-    'GST — RCM', 'GST — Advances', 'Money received against share warrants',
-  ],
-  'Assets': [
-    'Deferred Tax Asset', 'Tangible Fixed Assets', 'Accumulated Depreciation',
-    'Capital Work in Progress', 'Intangible Assets', 'Accumulated Amortisation',
-    'Non-current Investments', 'Long-term Loans & Advances', 'Other Non-current Assets',
-    'Current Investments', 'Inventories', 'Trade Receivables',
-    'Cash & Cash Equivalents', 'Bank Balances', 'Cash Equivalents',
-    'Short-term Loans & Advances', 'Other Current Assets',
-    'GST — Input Tax Credit', 'GST — RCM', 'GST — Refund',
-    'GST — Reconciliation', 'GST — Legacy', 'Suspense & Clearing',
-  ],
-  'Income': ['Revenue from Operations', 'Other Income'],
-  'Expenses': [
-    'Cost of Materials Consumed', 'Changes in Inventories',
-    'Purchases of Stock-in-Trade', 'Direct Expenses', 'Employee Benefits Expense',
-    'Finance Costs', 'Depreciation & Amortisation',
-    'Other Expenses — Administration', 'Other Expenses — Selling',
-    'Other Expenses — Write-offs', 'Tax Expense', 'Exceptional Items',
-    'Other Expenses', 'GST — ITC',
-  ],
-};
-
-const PG_NATURE: Record<PrimaryGroup, JournalNature> = {
-  'Capital & Liabilities': 'liability',
-  'Assets': 'asset',
-  'Income': 'revenue',
-  'Expenses': 'expense',
-};
+import { LEDGER_GROUPS, getGroupByScheduleIII } from '@/lib/coa';
+import type { PrimaryGroup, JournalNature } from '@/lib/coa';
 
 // ─── New Account Dialog ───────────────────────────────────────────────────────
+// Single "Under" selector — 26 Tally-style groups instead of 4+50 confusing sub-groups
+
 interface NewAccountDialogProps {
   name: string;
   onConfirm: (name: string, primaryGroup: PrimaryGroup, subGroup: string) => void;
   onCancel: () => void;
 }
 
+const GROUP_SECTION_LABELS: Partial<Record<PrimaryGroup, string>> = {
+  'Capital & Liabilities': 'CAPITAL & LIABILITIES',
+  'Assets': 'ASSETS',
+  'Income': 'INCOME',
+  'Expenses': 'EXPENSES',
+};
+
 function NewAccountDialog({ name, onConfirm, onCancel }: NewAccountDialogProps) {
-  const [pg, setPg] = useState<PrimaryGroup>('Expenses');
-  const [sg, setSg] = useState('Other Expenses — Administration');
+  const [selectedId, setSelectedId] = useState('indirect_expenses');
+  const [groupSearch, setGroupSearch] = useState('');
 
-  const subGroups = PG_SUBGROUPS[pg] ?? [];
-  const nature = PG_NATURE[pg];
+  const selected = LEDGER_GROUPS.find((g) => g.id === selectedId) ?? LEDGER_GROUPS[0];
 
-  useEffect(() => {
-    setSg(PG_SUBGROUPS[pg]?.[0] ?? '');
-  }, [pg]);
+  const filteredGroups = useMemo(() => {
+    const q = groupSearch.toLowerCase();
+    if (!q) return LEDGER_GROUPS;
+    return LEDGER_GROUPS.filter(
+      (g) => g.label.toLowerCase().includes(q) || g.description.toLowerCase().includes(q),
+    );
+  }, [groupSearch]);
+
+  // Group by primaryGroup for section headers
+  const sections: { pg: PrimaryGroup; groups: typeof LEDGER_GROUPS }[] = [];
+  const seenPg = new Set<PrimaryGroup>();
+  for (const g of filteredGroups) {
+    if (!seenPg.has(g.primaryGroup)) {
+      seenPg.add(g.primaryGroup);
+      sections.push({ pg: g.primaryGroup, groups: [] });
+    }
+    sections[sections.length - 1].groups.push(g);
+  }
 
   return (
     <div className="fixed inset-0 bg-black/40 z-[60] flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
         {/* Header */}
         <div className="flex items-start justify-between px-5 py-4 border-b border-gray-200">
           <div>
-            <h3 className="text-sm font-bold text-gray-900">New Account</h3>
-            <p className="text-xs text-gray-400 mt-0.5">Classify this account before using it</p>
+            <h3 className="text-sm font-bold text-gray-900">Create New Account</h3>
+            <p className="text-xs text-gray-400 mt-0.5">Select which group this account falls under</p>
           </div>
-          <button onClick={onCancel} className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+          <button onClick={onCancel} className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100">
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="px-5 py-4 space-y-4">
-          {/* Account name (read-only) */}
-          <div>
-            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Account Name</label>
-            <div className="h-9 px-3 flex items-center text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg">
+        <div className="px-5 pt-4 pb-2">
+          {/* Account name */}
+          <div className="mb-4">
+            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Account Name</p>
+            <div className="h-9 px-3 flex items-center text-sm font-semibold text-gray-900 bg-blue-50 border border-blue-200 rounded-lg">
               {name}
             </div>
           </div>
 
-          {/* Primary Group */}
-          <div>
-            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Primary Group</label>
-            <div className="grid grid-cols-2 gap-2">
-              {(['Capital & Liabilities', 'Assets', 'Income', 'Expenses'] as PrimaryGroup[]).map(p => (
-                <label key={p} className={`flex items-center gap-2 p-2.5 rounded-xl border-2 cursor-pointer transition-all text-xs font-medium ${
-                  pg === p ? 'border-blue-500 bg-blue-50 text-blue-800' : 'border-gray-200 text-gray-700 hover:border-gray-300'
-                }`}>
-                  <input type="radio" className="sr-only" checked={pg === p} onChange={() => setPg(p)} />
-                  <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center shrink-0 ${pg === p ? 'border-blue-500' : 'border-gray-300'}`}>
-                    {pg === p && <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
-                  </div>
-                  {p}
-                </label>
-              ))}
-            </div>
-            <p className="text-[11px] text-gray-400 mt-1.5">
-              Nature: <span className="font-semibold text-gray-600">{nature}</span>
-            </p>
+          {/* Under — single selector with search */}
+          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Under (Account Group)</p>
+
+          {/* Search */}
+          <div className="relative mb-2">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+            <input
+              value={groupSearch}
+              onChange={(e) => setGroupSearch(e.target.value)}
+              placeholder="Search groups…"
+              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
-          {/* Sub-group */}
-          <div>
-            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Sub-group</label>
-            <select
-              value={sg}
-              onChange={e => setSg(e.target.value)}
-              className="w-full h-9 px-3 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {subGroups.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
+          {/* Group list */}
+          <div className="max-h-52 overflow-y-auto border border-gray-200 rounded-lg">
+            {sections.map(({ pg, groups }) => (
+              <div key={pg}>
+                <div className="px-2.5 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 sticky top-0 border-b border-gray-100">
+                  {GROUP_SECTION_LABELS[pg]}
+                </div>
+                {groups.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => setSelectedId(g.id)}
+                    className={`w-full text-left px-3 py-2 flex items-start gap-2 transition-colors border-b border-gray-50 last:border-0 ${
+                      selectedId === g.id ? 'bg-blue-50' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className={`w-3 h-3 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
+                      selectedId === g.id ? 'border-blue-500' : 'border-gray-300'
+                    }`}>
+                      {selectedId === g.id && <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
+                    </div>
+                    <div className="min-w-0">
+                      <p className={`text-sm font-medium ${selectedId === g.id ? 'text-blue-700' : 'text-gray-800'}`}>
+                        {g.label}
+                      </p>
+                      <p className="text-[11px] text-gray-400 truncate">{g.description}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ))}
+            {sections.length === 0 && (
+              <p className="text-sm text-gray-400 text-center py-4">No groups match your search</p>
+            )}
           </div>
+
+          {/* Preview of selected */}
+          {selected && (
+            <div className="mt-3 flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="text-[11px] text-gray-500">
+                <span className="font-semibold text-gray-700">{selected.label}</span>
+                {' → '}
+                <span className="font-mono">{selected.scheduleIII}</span>
+                {' · '}
+                <span className="capitalize">{selected.nature}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-200">
-          <button onClick={onCancel} className="h-9 px-4 text-sm font-medium border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-200 mt-2">
+          <button onClick={onCancel} className="h-9 px-4 text-sm font-medium border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50">
             Cancel
           </button>
           <button
-            onClick={() => onConfirm(name, pg, sg)}
-            disabled={!sg}
-            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            onClick={() => selected && onConfirm(name, selected.primaryGroup, selected.scheduleIII)}
+            disabled={!selected}
+            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
           >
             <Plus className="h-3.5 w-3.5" />
             Add Account
@@ -203,7 +218,8 @@ export function AccountComboBox({
       setPendingNew(null);
       return;
     }
-    const nature = PG_NATURE[pg];
+    const group = getGroupByScheduleIII(sg);
+    const nature: JournalNature = group?.nature ?? 'expense';
     onChange(normalized, { primaryGroup: pg, subGroup: sg, nature });
     setSearch(normalized);
     setPendingNew(null);
@@ -320,11 +336,11 @@ export function AccountComboBox({
               </>
             )}
 
-            {/* Extended accounts from full 520 */}
+            {/* Extended accounts — COA defaults */}
             {extended.length > 0 && (
               <>
                 <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 border-y border-gray-100 sticky top-0">
-                  All Accounts
+                  {basic.length > 0 ? 'Standard Accounts' : 'Suggested Accounts'}
                 </div>
                 {extended.map((name, i) => {
                   const idx = (hasNewRow ? 1 : 0) + basic.length + i;

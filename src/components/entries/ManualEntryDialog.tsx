@@ -15,6 +15,7 @@ import {
   getResolvedClassification,
   isInventorySensitiveAccount,
   summarizeInventorySubLines,
+  type ManualDraftLine,
 } from '@/lib/accounting/inventoryJournal';
 
 /** Same codes as journal filter (PUR, SLS, etc.) so entries show in Purchase/Sales views. */
@@ -99,18 +100,23 @@ export function ManualEntryDialog({
     });
   };
 
-  const handleAccountNameChange = (idx: number, name: string, meta?: { primaryGroup: string; subGroup: string; nature: string }) => {
+  const handleAccountNameChange = (
+    idx: number,
+    name: string,
+    meta?: { primaryGroup: string; subGroup: string; nature: Nature }
+  ) => {
     setLines((prev) => {
       const updated = [...prev];
       const current = updated[idx];
-      // Use metadata from AccountComboBox (master lookup or user-classified) to set group/nature
       const resolved = meta
-        ? { account_group: meta.subGroup, nature: meta.nature }
+        ? { subGroup: meta.subGroup, nature: meta.nature as JournalLine['nature'] }
         : getResolvedClassification(name, { voucherType, companyId });
       updated[idx] = {
         ...current,
         account_name: name,
-        ...(resolved ? { account_group: resolved.primaryGroup ?? resolved.account_group, nature: resolved.nature } : {}),
+        ...(resolved
+          ? { account_group: resolved.subGroup, nature: resolved.nature }
+          : {}),
         inventory_sub_lines: isInventorySensitiveAccount(name) ? current.inventory_sub_lines : undefined,
       };
       return updated;
@@ -177,10 +183,15 @@ export function ManualEntryDialog({
     setLines(prev => prev.filter((_, i) => i !== idx));
   };
 
-  const expandedTotals = getExpandedTotals(lines);
+  const expandedTotals = getExpandedTotals(lines as ManualDraftLine[], { voucherType, companyId });
   const totalDebit = expandedTotals.debit;
   const totalCredit = expandedTotals.credit;
-  const isBalanced = totalDebit > 0 && Math.abs(totalDebit - totalCredit) < 0.01;
+  const round2 = (n: number) => Math.round(n * 100) / 100;
+  const rd = round2(totalDebit);
+  const rc = round2(totalCredit);
+  const BALANCE_TOLERANCE = 0.05;
+  const hasMovement = Math.max(rd, rc) > 0.0001;
+  const isBalanced = hasMovement && Math.abs(rd - rc) <= BALANCE_TOLERANCE;
 
   const resetForm = () => {
     setDate(today);
@@ -196,14 +207,15 @@ export function ManualEntryDialog({
   };
 
   const handleSave = async () => {
-    // Validate
     const validLines = expandManualJournalLines(lines as import('@/lib/accounting/inventoryJournal').ManualDraftLine[], { voucherType, companyId });
     if (validLines.length < 2) {
       setError('At least 2 lines with amounts required');
       return;
     }
     if (!isBalanced) {
-      setError(`Debit (${formatIndianCurrency(totalDebit)}) ≠ Credit (${formatIndianCurrency(totalCredit)})`);
+      setError(
+        `Dr (${formatIndianCurrency(rd)}) ≠ Cr (${formatIndianCurrency(rc)}). Difference: ${formatIndianCurrency(Math.abs(rd - rc))}`,
+      );
       return;
     }
     if (!date) {
@@ -215,12 +227,9 @@ export function ManualEntryDialog({
     setError('');
 
     try {
-      // Short 4-char J.F. code (case-sensitive alphanumeric)
       const entryCode = generateUniqueEntryCode(companyId);
-
-      // Determine book period from date
       const d = new Date(date);
-      const month = d.getMonth(); // 0-indexed
+      const month = d.getMonth();
       const year = d.getFullYear();
       const fyStartYear = month < 3 ? year - 1 : year;
       const bookPeriod = `${fyStartYear}-${fyStartYear + 1}`;
@@ -248,291 +257,297 @@ export function ManualEntryDialog({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
       onClick={handleClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col"
+        className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 shrink-0">
-          <div>
-            <h2 className="text-base font-bold text-gray-900">New Journal Entry</h2>
-            <p className="text-xs text-gray-400 mt-0.5">Debits must equal credits. Entry must balance.</p>
-          </div>
+
+        {/* ── TITLE BAR ── */}
+        <div className="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-200 rounded-t-xl shrink-0">
+          <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Entry Voucher</span>
           <button
             onClick={handleClose}
             disabled={saving}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-40"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors disabled:opacity-40"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-5">
 
-        <div className="space-y-4">
-          {/* Header row */}
-          <div className="grid grid-cols-3 gap-3">
-            <div>
-              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Date</label>
-              <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full h-8 px-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-300" />
-            </div>
-            <div>
-              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Voucher Type</label>
-              <select
-                value={voucherType}
-                onChange={e => setVoucherType(e.target.value)}
-                className="w-full h-8 px-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                {VOUCHER_TYPES.map(v => <option key={v.value} value={v.value}>{v.label}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Narration</label>
-              <input value={narration} onChange={e => setNarration(e.target.value)} placeholder="Description..." className="w-full h-8 px-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-300" />
-            </div>
+        {/* ── SCROLLABLE BODY ── */}
+        <div className="flex-1 overflow-y-auto">
+
+          {/* Date row */}
+          <div className="flex items-center justify-between px-5 py-2.5 border-b border-gray-100">
+            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Date</span>
+            <input
+              type="date"
+              value={date}
+              onChange={e => setDate(e.target.value)}
+              className="h-8 w-44 px-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
           </div>
 
-          {/* Lines header */}
-          <div className="grid grid-cols-[1fr_100px_100px_32px] gap-2 text-xs font-medium text-gray-500 px-1">
-            <span>Account (Particulars)</span>
-            <span className="text-right">Debit (₹)</span>
-            <span className="text-right">Credit (₹)</span>
-            <span />
-          </div>
+          {/* Entries table */}
+          <div className="px-5 pt-4 pb-2">
 
-          {/* Lines */}
-          {lines.map((line, idx) => {
-            const clarification = line.account_name.trim()
-              ? getResolvedClassification(line.account_name, { voucherType, companyId })
-              : null;
-            const inventoryCapable = isInventorySensitiveAccount(line.account_name);
-            const inventoryEnabled = (line.inventory_sub_lines?.length ?? 0) > 0;
-            return (
-            <div key={idx} className="space-y-2">
-              <div className="grid grid-cols-[1fr_100px_100px_32px] gap-2 items-center">
-                <AccountComboBox
-                  companyId={companyId}
-                  value={line.account_name}
-                  onChange={(name: string, meta?: any) => handleAccountNameChange(idx, name, meta)}
-                  placeholder="Account name..."
-                  className="h-8 text-sm"
-                />
-                <input
-                  type="number"
-                  value={
-                    inventoryEnabled
-                      ? getPreviewAmountForLine(line).debit.toFixed(2)
-                      : line.debit
-                  }
-                  onChange={e => {
-                    if (inventoryEnabled) return;
-                    updateLine(idx, 'debit', e.target.value);
-                    if (e.target.value) updateLine(idx, 'credit', '');
-                  }}
-                  placeholder="0.00"
-                  className="w-full h-8 px-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-right font-mono"
-                  min="0"
-                  step="0.01"
-                  readOnly={inventoryEnabled}
-                />
-                <input
-                  type="number"
-                  value={
-                    inventoryEnabled
-                      ? getPreviewAmountForLine(line).credit.toFixed(2)
-                      : line.credit
-                  }
-                  onChange={e => {
-                    if (inventoryEnabled) return;
-                    updateLine(idx, 'credit', e.target.value);
-                    if (e.target.value) updateLine(idx, 'debit', '');
-                  }}
-                  placeholder="0.00"
-                  className="w-full h-8 px-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-right font-mono"
-                  min="0"
-                  step="0.01"
-                  readOnly={inventoryEnabled}
-                />
-                <button
-                  onClick={() => removeLine(idx)}
-                  disabled={lines.length <= 2}
-                  className="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-red-500 disabled:opacity-30"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </div>
+            {/* Column headers */}
+            <div className="grid grid-cols-[1fr_100px_100px_28px] gap-2 mb-2 pb-1.5 border-b border-gray-300">
+              <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Particulars</span>
+              <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider text-right">Dr (₹)</span>
+              <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider text-right">Cr (₹)</span>
+              <span />
+            </div>
 
-              {clarification && (
-                <div className="ml-1 px-2 py-1.5 rounded bg-gray-50 border border-gray-100 text-xs text-gray-600 space-y-0.5">
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5">
-                    <span><strong>Group:</strong> {clarification.primaryGroup}</span>
-                    <span><strong>Sub-group:</strong> {clarification.subGroup}</span>
-                    <span><strong>Nature:</strong> {clarification.nature}</span>
-                  </div>
-                  <p className="text-gray-500 mt-0.5"><strong>What nature means:</strong> {clarification.natureMeaning}</p>
-                </div>
-              )}
-
-              {/* Inventory (optional) */}
-              {inventoryCapable && !inventoryEnabled && (
-                <div className="ml-4 flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLines((prev) => prev.map((l, i) => i === idx ? { ...l, inventory_sub_lines: [emptyInventorySubLine()] } : l));
-                    }}
-                    className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                  >
-                    <Plus className="h-3.5 w-3.5" /> Add item-wise details (optional)
-                  </button>
-                  <span className="text-xs text-gray-400">
-                    If you don’t add items, you can enter the amount directly.
-                  </span>
-                </div>
-              )}
-
-              {inventoryEnabled && (
-                <div className="ml-4 rounded-xl border border-dashed border-blue-200 bg-blue-50/40 p-3 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-                      Inventory details (amount auto-calculated)
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLines((prev) => prev.map((l, i) => i === idx ? { ...l, inventory_sub_lines: undefined } : l));
+            {/* Lines */}
+            {lines.map((line, idx) => {
+              const clarification = line.account_name.trim()
+                ? getResolvedClassification(line.account_name, { voucherType, companyId })
+                : null;
+              const inventoryCapable = isInventorySensitiveAccount(line.account_name);
+              const inventoryEnabled = (line.inventory_sub_lines?.length ?? 0) > 0;
+              return (
+                <div key={idx} className="space-y-1.5 mb-2.5">
+                  <div className="grid grid-cols-[1fr_100px_100px_28px] gap-2 items-center">
+                    <AccountComboBox
+                      companyId={companyId}
+                      value={line.account_name}
+                      onChange={(name: string, meta?: any) => handleAccountNameChange(idx, name, meta)}
+                      placeholder="Account name..."
+                      className="h-8 text-sm"
+                    />
+                    <input
+                      type="number"
+                      value={inventoryEnabled ? getPreviewAmountForLine(line).debit.toFixed(2) : line.debit}
+                      onChange={e => {
+                        if (inventoryEnabled) return;
+                        updateLine(idx, 'debit', e.target.value);
+                        if (e.target.value) updateLine(idx, 'credit', '');
                       }}
-                      className="text-xs font-medium text-gray-500 hover:text-gray-800 hover:underline"
+                      placeholder="0.00"
+                      className="w-full h-8 px-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-right font-mono"
+                      min="0"
+                      step="0.01"
+                      readOnly={inventoryEnabled}
+                    />
+                    <input
+                      type="number"
+                      value={inventoryEnabled ? getPreviewAmountForLine(line).credit.toFixed(2) : line.credit}
+                      onChange={e => {
+                        if (inventoryEnabled) return;
+                        updateLine(idx, 'credit', e.target.value);
+                        if (e.target.value) updateLine(idx, 'debit', '');
+                      }}
+                      placeholder="0.00"
+                      className="w-full h-8 px-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-right font-mono"
+                      min="0"
+                      step="0.01"
+                      readOnly={inventoryEnabled}
+                    />
+                    <button
+                      onClick={() => removeLine(idx)}
+                      disabled={lines.length <= 2}
+                      className="h-8 w-7 flex items-center justify-center text-gray-300 hover:text-red-500 disabled:opacity-30 transition-colors"
                     >
-                      Remove item details (enter amount manually)
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
-                  {/* Column headers */}
-                  <div className="grid grid-cols-[1.6fr_72px_72px_70px_80px_72px_72px_72px_72px_88px_88px_32px] gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider px-0.5">
-                    <span>Item / Description</span>
-                    <span>HSN / SAC</span>
-                    <span>Unit</span>
-                    <span className="text-right">Qty</span>
-                    <span className="text-right">Rate (₹)</span>
-                    <span className="text-right">Disc %</span>
-                    <span className="text-right">CGST %</span>
-                    <span className="text-right">SGST %</span>
-                    <span className="text-right">IGST %</span>
-                    <span className="text-right">Amount (₹)</span>
-                    <span className="text-right">Taxable (₹)</span>
-                    <span />
-                  </div>
 
-                  {(line.inventory_sub_lines ?? []).map((sub, subIdx) => {
-                    const computed = summarizeInventorySubLines([sub]).subLines[0];
-                    const inp = "w-full h-7 px-1.5 text-xs border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-300";
-                    const inpR = `${inp} text-right font-mono`;
-                    return (
-                      <div key={subIdx} className="grid grid-cols-[1.6fr_72px_72px_70px_80px_72px_72px_72px_72px_88px_88px_32px] gap-1.5 items-center">
-                        <input value={sub.inventory_name} onChange={e => updateInventorySubLine(idx, subIdx, 'inventory_name', e.target.value)} placeholder="Item name" className={inp} />
-                        <input value={sub.hsn_sac ?? ''} onChange={e => updateInventorySubLine(idx, subIdx, 'hsn_sac', e.target.value)} placeholder="HSN/SAC" className={`${inp} font-mono uppercase`} maxLength={8} />
-                        <input value={sub.unit} onChange={e => updateInventorySubLine(idx, subIdx, 'unit', e.target.value)} placeholder="Nos/Kg…" className={inp} />
-                        <input type="number" value={sub.qty} onChange={e => updateInventorySubLine(idx, subIdx, 'qty', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <input type="number" value={sub.rate} onChange={e => updateInventorySubLine(idx, subIdx, 'rate', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <input type="number" value={sub.discount_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'discount_percent', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <input type="number" value={sub.cgst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'cgst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <input type="number" value={sub.sgst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'sgst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <input type="number" value={sub.igst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'igst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
-                        <div className="text-right font-mono text-xs text-gray-600">{formatIndianCurrency(computed?.amount ?? 0)}</div>
-                        <div className="text-right font-mono text-xs font-semibold text-gray-900">{formatIndianCurrency(computed?.taxable_amount ?? 0)}</div>
+                  {clarification && (
+                    <div className="ml-1 px-2 py-1 rounded bg-gray-50 border border-gray-100 text-[11px] text-gray-500">
+                      <span className="font-semibold text-gray-700">{clarification.subGroup}</span>
+                      <span className="mx-1.5 text-gray-300">·</span>
+                      <span className="capitalize">{clarification.nature}</span>
+                      <span className="mx-1.5 text-gray-300">·</span>
+                      <span>{clarification.primaryGroup}</span>
+                    </div>
+                  )}
+
+                  {inventoryCapable && !inventoryEnabled && (
+                    <div className="ml-4 flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLines((prev) => prev.map((l, i) => i === idx ? { ...l, inventory_sub_lines: [emptyInventorySubLine()] } : l));
+                        }}
+                        className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      >
+                        <Plus className="h-3.5 w-3.5" /> Add item-wise details (optional)
+                      </button>
+                      <span className="text-xs text-gray-400">
+                        If you don't add items, you can enter the amount directly.
+                      </span>
+                    </div>
+                  )}
+
+                  {inventoryEnabled && (
+                    <div className="ml-4 rounded-xl border border-dashed border-blue-200 bg-blue-50/40 p-3 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                          Inventory details (amount auto-calculated)
+                        </p>
                         <button
-                          onClick={() => removeInventorySubLine(idx, subIdx)}
-                          disabled={(line.inventory_sub_lines ?? []).length <= 1}
-                          className="h-7 w-7 flex items-center justify-center text-gray-400 hover:text-red-500 disabled:opacity-30 transition-colors"
+                          type="button"
+                          onClick={() => {
+                            setLines((prev) => prev.map((l, i) => i === idx ? { ...l, inventory_sub_lines: undefined } : l));
+                          }}
+                          className="text-xs font-medium text-gray-500 hover:text-gray-800 hover:underline"
                         >
-                          <Trash2 className="h-3 w-3" />
+                          Remove item details (enter amount manually)
                         </button>
                       </div>
-                    );
-                  })}
+                      <div className="grid grid-cols-[1.6fr_72px_72px_70px_80px_72px_72px_72px_72px_88px_88px_32px] gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider px-0.5">
+                        <span>Item / Description</span>
+                        <span>HSN / SAC</span>
+                        <span>Unit</span>
+                        <span className="text-right">Qty</span>
+                        <span className="text-right">Rate (₹)</span>
+                        <span className="text-right">Disc %</span>
+                        <span className="text-right">CGST %</span>
+                        <span className="text-right">SGST %</span>
+                        <span className="text-right">IGST %</span>
+                        <span className="text-right">Amount (₹)</span>
+                        <span className="text-right">Taxable (₹)</span>
+                        <span />
+                      </div>
 
-                  <div className="flex items-center justify-between pt-1">
-                    <button onClick={() => addInventorySubLine(idx)} className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                      <Plus className="h-3.5 w-3.5" /> Add Item
-                    </button>
-                    <div className="text-xs text-right space-y-0.5 text-gray-600">
-                      {(() => {
-                        const summary = summarizeInventorySubLines(line.inventory_sub_lines ?? []);
+                      {(line.inventory_sub_lines ?? []).map((sub, subIdx) => {
+                        const computed = summarizeInventorySubLines([sub]).subLines[0];
+                        const inp = "w-full h-7 px-1.5 text-xs border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-300";
+                        const inpR = `${inp} text-right font-mono`;
                         return (
-                          <>
-                            <div>Taxable: <span className="font-mono font-semibold text-gray-900">{formatIndianCurrency(summary.taxableTotal)}</span></div>
-                            <div className="text-gray-400">
-                              CGST <span className="font-mono">{formatIndianCurrency(summary.cgstTotal)}</span>
-                              {' · '}SGST <span className="font-mono">{formatIndianCurrency(summary.sgstTotal)}</span>
-                              {' · '}IGST <span className="font-mono">{formatIndianCurrency(summary.igstTotal)}</span>
-                            </div>
-                            <div>Final Total: <span className="font-mono font-bold text-gray-900">{formatIndianCurrency(summary.finalTotal)}</span></div>
-                          </>
+                          <div key={subIdx} className="grid grid-cols-[1.6fr_72px_72px_70px_80px_72px_72px_72px_72px_88px_88px_32px] gap-1.5 items-center">
+                            <input value={sub.inventory_name} onChange={e => updateInventorySubLine(idx, subIdx, 'inventory_name', e.target.value)} placeholder="Item name" className={inp} />
+                            <input value={sub.hsn_sac ?? ''} onChange={e => updateInventorySubLine(idx, subIdx, 'hsn_sac', e.target.value)} placeholder="HSN/SAC" className={`${inp} font-mono uppercase`} maxLength={8} />
+                            <input value={sub.unit} onChange={e => updateInventorySubLine(idx, subIdx, 'unit', e.target.value)} placeholder="Nos/Kg…" className={inp} />
+                            <input type="number" value={sub.qty} onChange={e => updateInventorySubLine(idx, subIdx, 'qty', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <input type="number" value={sub.rate} onChange={e => updateInventorySubLine(idx, subIdx, 'rate', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <input type="number" value={sub.discount_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'discount_percent', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <input type="number" value={sub.cgst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'cgst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <input type="number" value={sub.sgst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'sgst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <input type="number" value={sub.igst_percent} onChange={e => updateInventorySubLine(idx, subIdx, 'igst_percent', e.target.value)} className={inpR} min="0" step="0.01" />
+                            <div className="text-right font-mono text-xs text-gray-600">{formatIndianCurrency(computed?.amount ?? 0)}</div>
+                            <div className="text-right font-mono text-xs font-semibold text-gray-900">{formatIndianCurrency(computed?.taxable_amount ?? 0)}</div>
+                            <button
+                              onClick={() => removeInventorySubLine(idx, subIdx)}
+                              disabled={(line.inventory_sub_lines ?? []).length <= 1}
+                              className="h-7 w-7 flex items-center justify-center text-gray-400 hover:text-red-500 disabled:opacity-30 transition-colors"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </button>
+                          </div>
                         );
-                      })()}
-                    </div>
-                  </div>
+                      })}
 
-                  {getAutoGstPreviewLines(line).length > 0 && (
-                    <div className="space-y-1 border-t border-blue-100 pt-2">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Auto GST Lines</p>
-                      {getAutoGstPreviewLines(line).map((gstLine) => (
-                        <div key={gstLine.account_name} className="grid grid-cols-[1fr_100px_100px] gap-2 text-xs items-center">
-                          <span className="text-gray-700">{gstLine.account_name}</span>
-                          <span className="text-right font-mono text-dr">{gstLine.debit ? formatIndianCurrency(gstLine.debit) : ''}</span>
-                          <span className="text-right font-mono text-cr">{gstLine.credit ? formatIndianCurrency(gstLine.credit) : ''}</span>
+                      <div className="flex items-center justify-between pt-1">
+                        <button onClick={() => addInventorySubLine(idx)} className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                          <Plus className="h-3.5 w-3.5" /> Add Item
+                        </button>
+                        <div className="text-xs text-right space-y-0.5 text-gray-600">
+                          {(() => {
+                            const summary = summarizeInventorySubLines(line.inventory_sub_lines ?? []);
+                            return (
+                              <>
+                                <div>Taxable: <span className="font-mono font-semibold text-gray-900">{formatIndianCurrency(summary.taxableTotal)}</span></div>
+                                <div className="text-gray-400">
+                                  CGST <span className="font-mono">{formatIndianCurrency(summary.cgstTotal)}</span>
+                                  {' · '}SGST <span className="font-mono">{formatIndianCurrency(summary.sgstTotal)}</span>
+                                  {' · '}IGST <span className="font-mono">{formatIndianCurrency(summary.igstTotal)}</span>
+                                </div>
+                                <div>Final Total: <span className="font-mono font-bold text-gray-900">{formatIndianCurrency(summary.finalTotal)}</span></div>
+                              </>
+                            );
+                          })()}
                         </div>
-                      ))}
-                    </div>
+                      </div>
 
+                      {getAutoGstPreviewLines(line).length > 0 && (
+                        <div className="space-y-1 border-t border-blue-100 pt-2">
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Auto GST Lines</p>
+                          {getAutoGstPreviewLines(line).map((gstLine) => (
+                            <div key={gstLine.account_name} className="grid grid-cols-[1fr_100px_100px] gap-2 text-xs items-center">
+                              <span className="text-gray-700">{gstLine.account_name}</span>
+                              <span className="text-right font-mono text-dr">{gstLine.debit ? formatIndianCurrency(gstLine.debit) : ''}</span>
+                              <span className="text-right font-mono text-cr">{gstLine.credit ? formatIndianCurrency(gstLine.credit) : ''}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
+              );
+            })}
+
+            {/* Add line */}
+            <button onClick={addLine} className="mt-1 inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <Plus className="h-3.5 w-3.5" /> Add Line
+            </button>
+
+            {/* Totals — double underline, traditional Indian style */}
+            <div className="grid grid-cols-[1fr_100px_100px_28px] gap-2 items-center border-t-2 border-double border-gray-400 pt-2 mt-3">
+              <span className="text-sm font-bold text-gray-800">Total</span>
+              <span className={`text-sm text-right font-mono font-bold ${isBalanced ? 'text-green-700' : 'text-red-600'}`}>
+                {formatIndianCurrency(rd)}
+              </span>
+              <span className={`text-sm text-right font-mono font-bold ${isBalanced ? 'text-green-700' : 'text-red-600'}`}>
+                {formatIndianCurrency(rc)}
+              </span>
+              <span />
             </div>
-          );
-          })}
-
-          {/* Add line button */}
-          <button onClick={addLine} className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-            <Plus className="h-3.5 w-3.5" /> Add Line
-          </button>
-
-          {/* Totals */}
-          <div className="grid grid-cols-[1fr_150px_100px_100px_32px] gap-2 items-center border-t-2 border-gray-300 pt-3 mt-1">
-            <span className="text-sm font-bold text-gray-700">Total</span>
-            <span />
-            <span className={`text-sm text-right font-mono font-bold ${isBalanced ? 'text-green-700' : 'text-red-600'}`}>
-              {formatIndianCurrency(totalDebit)}
-            </span>
-            <span className={`text-sm text-right font-mono font-bold ${isBalanced ? 'text-green-700' : 'text-red-600'}`}>
-              {formatIndianCurrency(totalCredit)}
-            </span>
-            <span />
           </div>
 
-          {!isBalanced && totalDebit > 0 && (
-            <p className="text-xs text-red-500">
-              Difference: {formatIndianCurrency(Math.abs(totalDebit - totalCredit))} ({totalDebit > totalCredit ? 'Debit excess' : 'Credit excess'})
-            </p>
-          )}
-
-          {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+          {/* Narration — at bottom, traditional Indian accounting style */}
+          <div className="px-5 pt-3 pb-5 border-t border-gray-100">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">
+              Narration
+            </label>
+            <textarea
+              value={narration}
+              onChange={e => setNarration(e.target.value)}
+              placeholder="Being — describe this entry (e.g., Being salary paid for March 2024)"
+              rows={2}
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none placeholder:text-gray-300"
+            />
+          </div>
         </div>
 
+        {/* ── FOOTER ── */}
+        <div className="flex items-center justify-between px-5 py-3 border-t border-gray-200 bg-gray-50 rounded-b-xl shrink-0">
+          <div>
+            {error && <p className="text-xs text-red-600">{error}</p>}
+            {!error && isBalanced && (
+              <p className="text-xs text-green-600 font-medium">✓ Entry balanced</p>
+            )}
+            {!error && !isBalanced && hasMovement && (
+              <p className="text-xs text-amber-600">
+                Difference: {formatIndianCurrency(Math.abs(rd - rc))} ({rd > rc ? 'Dr excess' : 'Cr excess'})
+              </p>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleClose}
+              disabled={saving}
+              className="h-9 px-4 text-sm font-medium border border-gray-200 rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={saving || !isBalanced}
+              className="inline-flex items-center gap-1.5 h-9 px-5 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            >
+              {saving
+                ? <><div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving…</>
+                : 'Post Entry'}
+            </button>
+          </div>
         </div>
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-200 shrink-0">
-          <button onClick={handleClose} disabled={saving}
-            className="inline-flex items-center h-9 px-4 text-sm font-medium border border-gray-200 rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 transition-colors">
-            Cancel
-          </button>
-          <button onClick={handleSave} disabled={saving || !isBalanced}
-            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors">
-            {saving
-              ? <><div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Saving…</>
-              : 'Save Entry'}
-          </button>
-        </div>
+
       </div>
     </div>
   );

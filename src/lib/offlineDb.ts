@@ -1,42 +1,61 @@
 import type { Company, BookPeriod } from '@/types/company';
 import type { JournalEntry, VoucherType } from '@/types/journal';
 import { validateJournalEntry } from '@/lib/accounting/validation';
+import { emitJournalDataChanged } from '@/lib/journalSync';
+
+/** Per-company entity-specific data (classification, IFC, registers, filings, etc.) */
+export interface EntityDataRecord {
+  id: string;
+  company_id: string;
+  /** Entity module key, e.g. 'pvt_ltd' */
+  module: string;
+  /** Data section within the module */
+  section: string;
+  /** The actual data payload */
+  data: unknown;
+  created_at: string;
+  updated_at: string;
+}
 
 type DbSchema = {
   companies: Company[];
   journal_entries: JournalEntry[];
   book_periods: BookPeriod[];
+  entity_data: EntityDataRecord[];
 };
 
 // v2: bump key so all previous local data is ignored (fresh DB)
-const STORAGE_KEY = 'ca_offline_db_v2';
+export const OFFLINE_DB_STORAGE_KEY = 'ca_offline_db_v2';
+const STORAGE_KEY = OFFLINE_DB_STORAGE_KEY;
 
 function isBrowser() {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
+function emptyDb(): DbSchema {
+  return { companies: [], journal_entries: [], book_periods: [], entity_data: [] };
+}
+
 function loadDb(): DbSchema {
-  if (!isBrowser()) {
-    return { companies: [], journal_entries: [], book_periods: [] };
-  }
+  if (!isBrowser()) return emptyDb();
 
   const raw = window.localStorage.getItem(STORAGE_KEY);
   if (!raw) {
-    const empty: DbSchema = { companies: [], journal_entries: [], book_periods: [] };
+    const empty = emptyDb();
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(empty));
     return empty;
   }
 
   try {
     const parsed = JSON.parse(raw) as DbSchema;
-    // Basic shape guards
     return {
       companies: parsed.companies ?? [],
       journal_entries: parsed.journal_entries ?? [],
       book_periods: parsed.book_periods ?? [],
+      entity_data: parsed.entity_data ?? [],
     };
   } catch {
-    const empty: DbSchema = { companies: [], journal_entries: [], book_periods: [] };
+    const empty = emptyDb();
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(empty));
     return empty;
   }
@@ -76,6 +95,7 @@ export function deleteCompany(id: string): void {
   db.companies = db.companies.filter((c) => c.id !== id);
   db.journal_entries = db.journal_entries.filter((e) => e.company_id !== id);
   db.book_periods = db.book_periods.filter((p) => p.company_id !== id);
+  db.entity_data = db.entity_data.filter((d) => d.company_id !== id);
   saveDb(db);
 }
 
@@ -151,6 +171,13 @@ export function createInitialBookPeriod(companyId: string): BookPeriod {
   db.book_periods.push(period);
   saveDb(db);
   return period;
+}
+
+export function listBookPeriods(companyId: string): BookPeriod[] {
+  const db = loadDb();
+  return db.book_periods
+    .filter((p) => p.company_id === companyId)
+    .sort((a, b) => a.period_start.localeCompare(b.period_start));
 }
 
 // ---- Journal entries ----
@@ -238,6 +265,7 @@ export function createJournalEntry(input: NewJournalEntryInput): JournalEntry {
 
   db.journal_entries.push(entry);
   saveDb(db);
+  emitJournalDataChanged(input.company_id);
   return entry;
 }
 
@@ -265,13 +293,82 @@ export function updateJournalEntry(id: string, updates: Partial<JournalEntry>): 
 
   db.journal_entries[idx] = next;
   saveDb(db);
+  emitJournalDataChanged(existing.company_id);
   return next;
 }
 
 export function deleteJournalEntry(id: string): void {
   const db = loadDb();
+  const victim = db.journal_entries.find((e) => e.id === id);
+  if (!victim) return;
   db.journal_entries = db.journal_entries.filter((e) => e.id !== id);
   saveDb(db);
+  emitJournalDataChanged(victim.company_id);
 }
 
-// AI chat history has been removed along with AI features.
+export function deleteAllJournalEntries(companyId: string): number {
+  const db = loadDb();
+  const before = db.journal_entries.length;
+  db.journal_entries = db.journal_entries.filter((e) => e.company_id !== companyId);
+  saveDb(db);
+  emitJournalDataChanged(companyId);
+  return before - db.journal_entries.length;
+}
+
+// ---- Entity Data (per-company entity-specific modules) ----
+
+export function getEntityData(companyId: string, module: string, section: string): EntityDataRecord | null {
+  const db = loadDb();
+  return db.entity_data.find(
+    (d) => d.company_id === companyId && d.module === module && d.section === section,
+  ) ?? null;
+}
+
+export function listEntityData(companyId: string, module: string): EntityDataRecord[] {
+  const db = loadDb();
+  return db.entity_data.filter(
+    (d) => d.company_id === companyId && d.module === module,
+  );
+}
+
+export function upsertEntityData(
+  companyId: string,
+  module: string,
+  section: string,
+  data: unknown,
+): EntityDataRecord {
+  const db = loadDb();
+  const now = new Date().toISOString();
+  const idx = db.entity_data.findIndex(
+    (d) => d.company_id === companyId && d.module === module && d.section === section,
+  );
+
+  if (idx >= 0) {
+    db.entity_data[idx] = { ...db.entity_data[idx], data, updated_at: now };
+    saveDb(db);
+    return db.entity_data[idx];
+  }
+
+  const record: EntityDataRecord = {
+    id: generateId(),
+    company_id: companyId,
+    module,
+    section,
+    data,
+    created_at: now,
+    updated_at: now,
+  };
+  db.entity_data.push(record);
+  saveDb(db);
+  return record;
+}
+
+export function deleteEntityData(companyId: string, module: string, section?: string): void {
+  const db = loadDb();
+  db.entity_data = db.entity_data.filter((d) => {
+    if (d.company_id !== companyId || d.module !== module) return true;
+    if (section && d.section !== section) return true;
+    return false;
+  });
+  saveDb(db);
+}

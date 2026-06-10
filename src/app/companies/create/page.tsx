@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createCompany as createCompanyLocal, createInitialBookPeriod } from '@/lib/offlineDb';
+import { initEntityData } from '@/entities/initEntity';
 import { WizardSteps } from '@/components/company/WizardSteps';
 import { ENTITY_TYPES, type EntityType } from '@/lib/constants/entityTypes';
 import { INDIAN_STATES } from '@/lib/constants/indianStates';
@@ -93,6 +94,7 @@ export default function CreateCompanyPage() {
         accounting_method: data.accounting_method, financial_year_start: data.financial_year_start,
       });
       createInitialBookPeriod(company.id);
+      initEntityData(company);
       toast.success('Company created successfully!');
       navigate(`/company/${company.id}`);
     } catch (err: unknown) {

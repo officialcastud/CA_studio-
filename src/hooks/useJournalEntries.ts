@@ -5,10 +5,13 @@ import {
   createJournalEntry,
   updateJournalEntry,
   deleteJournalEntry as deleteJournalEntryLocal,
+  OFFLINE_DB_STORAGE_KEY,
   type NewJournalEntryInput,
 } from '@/lib/offlineDb';
 import { runEntryCodeMigrationIfNeeded } from '@/lib/migrateEntryCodes';
 import { fetchJournalEntries, invalidateEntriesCache, type JournalEntry } from '@/lib/accounting/computeEngine';
+import type { JournalEntry as DbJournalEntry } from '@/types/journal';
+import { JOURNAL_DATA_CHANGED_EVENT } from '@/lib/journalSync';
 
 interface UseJournalEntriesOptions {
   companyId: string;
@@ -28,7 +31,10 @@ export function useJournalEntries(options: UseJournalEntriesOptions) {
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    if (!companyId || !enabled) return;
+    if (!companyId || !enabled) {
+      setLoading(false);
+      return;
+    }
     runEntryCodeMigrationIfNeeded(companyId);
     setLoading(true);
     setError(null);
@@ -52,6 +58,31 @@ export function useJournalEntries(options: UseJournalEntriesOptions) {
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  // Keep all screens (Journal, Balance Sheet, etc.) in sync when entries change elsewhere (AI agent, other tabs).
+  useEffect(() => {
+    if (!companyId) return;
+
+    const onJournalChanged = (e: Event) => {
+      const ce = e as CustomEvent<{ companyId?: string }>;
+      if (ce.detail?.companyId !== companyId) return;
+      invalidateEntriesCache(companyId);
+      void refresh();
+    };
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== OFFLINE_DB_STORAGE_KEY) return;
+      invalidateEntriesCache(companyId);
+      void refresh();
+    };
+
+    window.addEventListener(JOURNAL_DATA_CHANGED_EVENT, onJournalChanged);
+    window.addEventListener('storage', onStorage);
+    return () => {
+      window.removeEventListener(JOURNAL_DATA_CHANGED_EVENT, onJournalChanged);
+      window.removeEventListener('storage', onStorage);
+    };
+  }, [companyId, refresh]);
 
   const createEntry = async (entry: {
     company_id: string;
@@ -78,7 +109,7 @@ export function useJournalEntries(options: UseJournalEntriesOptions) {
     return created;
   };
 
-  const updateEntry = async (id: string, updates: Partial<JournalEntry>) => {
+  const updateEntry = async (id: string, updates: Partial<DbJournalEntry>) => {
     const updated = updateJournalEntry(id, updates);
     if (!updated) {
       throw new Error('Entry not found');

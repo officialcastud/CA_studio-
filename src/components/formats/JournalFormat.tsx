@@ -30,47 +30,8 @@ interface JournalFormatProps {
   entries: JournalEntryDisplay[];
   highlightEntryCode?: string;
   emptyMessage?: string;
-}
-
-function VoucherPopup({
-  entry,
-  companyName,
-  onClose,
-}: {
-  entry: JournalEntryDisplay;
-  companyName: string;
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 bg-black/40 z-[80] flex items-center justify-center p-4" onClick={onClose}>
-      <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-200 bg-gray-50">
-          <div className="flex items-center gap-2">
-            <FileText className="h-4 w-4 text-blue-600" />
-            <div className="text-sm font-bold text-gray-900">Journal Voucher</div>
-            <div className="text-xs font-mono font-semibold text-blue-600">{entry.entryCode}</div>
-          </div>
-          <button onClick={onClose} className="p-1 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-        <div className="flex-1 overflow-auto p-5">
-          <JournalVoucherPreview entry={entry} companyName={companyName} />
-        </div>
-        <div className="px-5 py-3 border-t border-gray-200 bg-gray-50 flex justify-end">
-          <button
-            onClick={onClose}
-            className="h-8 px-3 text-xs font-semibold border border-gray-200 rounded-lg hover:bg-white transition-colors"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  selectedCodes?: Set<string>;
+  onSelectionChange?: (codes: Set<string>) => void;
 }
 
 const VTYPE_CLASS: Record<string, string> = {
@@ -90,23 +51,23 @@ function InventoryPopup({ subLines, onClose }: { subLines: InventorySubLine[]; o
   const summary = summarizeInventorySubLines(subLines);
   return (
     <div className="fixed inset-0 bg-black/40 z-[70] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <Package className="h-4 w-4 text-blue-600" />
-            <h3 className="text-sm font-bold text-gray-900">Inventory Items</h3>
-            <span className="text-xs text-gray-400">{subLines.length} item{subLines.length !== 1 ? 's' : ''}</span>
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200">
+          <div className="flex items-center gap-1.5">
+            <Package className="h-3.5 w-3.5 text-blue-600" />
+            <h3 className="text-xs md:text-sm font-bold text-gray-900">Inventory Items</h3>
+            <span className="text-[10px] md:text-xs text-gray-400">{subLines.length} item{subLines.length !== 1 ? 's' : ''}</span>
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
-            <X className="h-4 w-4" />
+          <button onClick={onClose} className="p-0.5 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+            <X className="h-3.5 w-3.5" />
           </button>
         </div>
         <div className="flex-1 overflow-auto">
-          <table className="w-full text-xs">
+          <table className="w-full text-[10px] md:text-xs">
             <thead className="sticky top-0 bg-gray-50 border-b border-gray-200">
               <tr>
                 {['Item / Description', 'HSN / SAC', 'Unit', 'Qty', 'Rate (₹)', 'Disc %', 'CGST %', 'SGST %', 'IGST %', 'Amount (₹)', 'Tax (₹)', 'Total (₹)'].map(h => (
-                  <th key={h} className={`px-2.5 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap ${h.endsWith('(₹)') || h === 'Qty' || h.endsWith('%') ? 'text-right' : 'text-left'}`}>{h}</th>
+                  <th key={h} className={`px-1.5 py-1 text-[8px] md:text-[10px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap ${h.endsWith('(₹)') || h === 'Qty' || h.endsWith('%') ? 'text-right' : 'text-left'}`}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -116,30 +77,30 @@ function InventoryPopup({ subLines, onClose }: { subLines: InventorySubLine[]; o
                 const taxTotal = c.cgst_amount + c.sgst_amount + c.igst_amount;
                 return (
                   <tr key={i} className={`border-b border-gray-100 ${i % 2 === 1 ? 'bg-gray-50/40' : ''}`}>
-                    <td className="px-2.5 py-2 font-medium text-gray-900">{sub.inventory_name || '—'}</td>
-                    <td className="px-2.5 py-2 font-mono text-gray-600 uppercase">{sub.hsn_sac || '—'}</td>
-                    <td className="px-2.5 py-2 text-gray-600">{sub.unit || '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums">{sub.qty}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums">{formatIndianCurrency(sub.rate)}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums text-gray-500">{sub.discount_percent ? `${sub.discount_percent}%` : '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums text-gray-500">{sub.cgst_percent ? `${sub.cgst_percent}%` : '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums text-gray-500">{sub.sgst_percent ? `${sub.sgst_percent}%` : '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums text-gray-500">{sub.igst_percent ? `${sub.igst_percent}%` : '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums">{formatIndianCurrency(c.amount)}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums text-amber-600">{taxTotal > 0 ? formatIndianCurrency(taxTotal) : '—'}</td>
-                    <td className="px-2.5 py-2 text-right font-mono tabular-nums font-semibold text-gray-900">{formatIndianCurrency(c.final_amount)}</td>
+                    <td className="px-1.5 py-1 font-medium text-gray-900">{sub.inventory_name || '—'}</td>
+                    <td className="px-1.5 py-1 font-mono text-gray-600 uppercase">{sub.hsn_sac || '—'}</td>
+                    <td className="px-1.5 py-1 text-gray-600">{sub.unit || '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums">{sub.qty}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums">{formatIndianCurrency(sub.rate)}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums text-gray-500">{sub.discount_percent ? `${sub.discount_percent}%` : '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums text-gray-500">{sub.cgst_percent ? `${sub.cgst_percent}%` : '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums text-gray-500">{sub.sgst_percent ? `${sub.sgst_percent}%` : '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums text-gray-500">{sub.igst_percent ? `${sub.igst_percent}%` : '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums">{formatIndianCurrency(c.amount)}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums text-amber-600">{taxTotal > 0 ? formatIndianCurrency(taxTotal) : '—'}</td>
+                    <td className="px-1.5 py-1 text-right font-mono tabular-nums font-semibold text-gray-900">{formatIndianCurrency(c.final_amount)}</td>
                   </tr>
                 );
               })}
             </tbody>
             <tfoot>
               <tr className="border-t-2 border-gray-300 bg-gray-50">
-                <td colSpan={9} className="px-2.5 py-2 text-xs font-semibold text-gray-600">Totals</td>
-                <td className="px-2.5 py-2 text-right font-mono font-semibold tabular-nums">{formatIndianCurrency(summary.taxableTotal)}</td>
-                <td className="px-2.5 py-2 text-right font-mono font-semibold tabular-nums text-amber-600">
+                <td colSpan={9} className="px-1.5 py-1 text-[10px] md:text-xs font-semibold text-gray-600">Totals</td>
+                <td className="px-1.5 py-1 text-right font-mono font-semibold tabular-nums">{formatIndianCurrency(summary.taxableTotal)}</td>
+                <td className="px-1.5 py-1 text-right font-mono font-semibold tabular-nums text-amber-600">
                   {formatIndianCurrency(summary.cgstTotal + summary.sgstTotal + summary.igstTotal)}
                 </td>
-                <td className="px-2.5 py-2 text-right font-mono font-bold tabular-nums text-gray-900">{formatIndianCurrency(summary.finalTotal)}</td>
+                <td className="px-1.5 py-1 text-right font-mono font-bold tabular-nums text-gray-900">{formatIndianCurrency(summary.finalTotal)}</td>
               </tr>
             </tfoot>
           </table>
@@ -152,19 +113,60 @@ function InventoryPopup({ subLines, onClose }: { subLines: InventorySubLine[]; o
 export function JournalFormat({
   companyName, period, entries,
   highlightEntryCode, emptyMessage = 'No journal entries found for this period.',
+  selectedCodes, onSelectionChange,
 }: JournalFormatProps) {
   const [inventoryPopup, setInventoryPopup] = useState<InventorySubLine[] | null>(null);
   const scrollToRef = useRef<HTMLTableRowElement | null>(null);
+  const lastClickedIndexRef = useRef<number>(-1);
+  const selectAllRef = useRef<HTMLInputElement | null>(null);
   const code = (highlightEntryCode ?? '').trim();
   const highlightIndex = code
     ? entries.findIndex(e => e.entryCode.includes(code))
     : -1;
+
+  const isSelectable = !!onSelectionChange;
+  const allSelected = isSelectable && entries.length > 0 && entries.every(e => selectedCodes?.has(e.entryCode));
+  const someSelected = isSelectable && entries.some(e => selectedCodes?.has(e.entryCode));
 
   useEffect(() => {
     if (highlightIndex >= 0 && scrollToRef.current) {
       scrollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [highlightIndex, code]);
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someSelected && !allSelected;
+    }
+  }, [someSelected, allSelected]);
+
+  const handleSelectAll = () => {
+    if (!onSelectionChange) return;
+    if (allSelected) {
+      onSelectionChange(new Set());
+    } else {
+      onSelectionChange(new Set(entries.map(e => e.entryCode)));
+    }
+  };
+
+  const handleEntryClick = (index: number, entryCode: string, isShift: boolean) => {
+    if (!onSelectionChange || !selectedCodes) return;
+    const newSet = new Set(selectedCodes);
+    if (isShift && lastClickedIndexRef.current >= 0) {
+      const start = Math.min(lastClickedIndexRef.current, index);
+      const end = Math.max(lastClickedIndexRef.current, index);
+      const selecting = !selectedCodes.has(entryCode);
+      for (let i = start; i <= end; i++) {
+        if (selecting) newSet.add(entries[i].entryCode);
+        else newSet.delete(entries[i].entryCode);
+      }
+    } else {
+      if (newSet.has(entryCode)) newSet.delete(entryCode);
+      else newSet.add(entryCode);
+      lastClickedIndexRef.current = index;
+    }
+    onSelectionChange(newSet);
+  };
 
   // Build LF map
   const allAccounts = new Set<string>();
@@ -174,8 +176,8 @@ export function JournalFormat({
 
   if (entries.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-xl p-14 text-center">
-        <p className="text-sm text-gray-400">{emptyMessage}</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
+        <p className="text-xs md:text-sm text-gray-400">{emptyMessage}</p>
       </div>
     );
   }
@@ -188,20 +190,32 @@ export function JournalFormat({
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="text-center py-3 border-b border-gray-200 bg-gray-50/50">
-        <p className="text-[11px] text-gray-400 uppercase tracking-wide">{companyName}</p>
-        <h3 className="text-base font-bold text-gray-900 mt-0.5">JOURNAL</h3>
-        <p className="text-xs text-gray-400 mt-0.5">{period}</p>
+      <div className="text-center py-2 border-b border-gray-200 bg-gray-50/50">
+        <p className="text-[10px] text-gray-400 uppercase tracking-wide">{companyName}</p>
+        <h3 className="text-sm font-bold text-gray-900 mt-px">JOURNAL</h3>
+        <p className="text-[10px] text-gray-400 mt-px">{period}</p>
       </div>
 
-      <table className="w-full text-sm">
+      <table className="w-full text-xs md:text-[13px]">
         <thead>
           <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="px-3 py-2.5 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-24 border-r border-gray-100">Date</th>
-            <th className="px-3 py-2.5 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-100">Particulars</th>
-            <th className="px-3 py-2.5 text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-10 border-r border-gray-100">LF</th>
-            <th className="px-3 py-2.5 text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-32 border-r border-gray-100">Debit (₹)</th>
-            <th className="px-3 py-2.5 text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-32">Credit (₹)</th>
+            {isSelectable && (
+              <th className="px-2 py-1.5 w-8 border-r border-gray-100 text-center">
+                <input
+                  ref={selectAllRef}
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={handleSelectAll}
+                  className="h-4 w-4 accent-blue-600 cursor-pointer"
+                  title="Select all"
+                />
+              </th>
+            )}
+            <th className="px-2 py-1.5 text-left text-[9px] md:text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-20 border-r border-gray-100">Date</th>
+            <th className="px-2 py-1.5 text-left text-[9px] md:text-[11px] font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-100">Particulars</th>
+            <th className="px-2 py-1.5 text-center text-[9px] md:text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-8 border-r border-gray-100">LF</th>
+            <th className="px-2 py-1.5 text-right text-[9px] md:text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-28 border-r border-gray-100">Debit (₹)</th>
+            <th className="px-2 py-1.5 text-right text-[9px] md:text-[11px] font-semibold text-gray-500 uppercase tracking-wider w-28">Credit (₹)</th>
           </tr>
         </thead>
         <tbody>
@@ -217,27 +231,41 @@ export function JournalFormat({
                     ref={isHighlighted && li === 0 ? scrollToRef : undefined}
                     className={`border-b border-gray-100 ${hlClass} hover:bg-blue-50/20 transition-colors`}
                   >
-                    {li === 0 && (
+                    {li === 0 && isSelectable && (
                       <td
-                        className="px-3 py-2 align-top border-r border-gray-100"
+                        className="px-2 py-1 align-top border-r border-gray-100 text-center"
                         rowSpan={entry.lines.length + 1}
                       >
-                        <div className="text-xs text-gray-500 whitespace-nowrap">{entry.date}</div>
-                        <div className="mt-1">
-                          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold ${VTYPE_CLASS[entry.voucherType] ?? 'vtype-JRN'}`}>
+                        <input
+                          type="checkbox"
+                          checked={selectedCodes?.has(entry.entryCode) ?? false}
+                          onChange={() => {}}
+                          onClick={(e) => handleEntryClick(ei, entry.entryCode, e.shiftKey)}
+                          className="h-4 w-4 accent-blue-600 cursor-pointer mt-0.5"
+                        />
+                      </td>
+                    )}
+                    {li === 0 && (
+                      <td
+                        className="px-2 py-1 align-top border-r border-gray-100"
+                        rowSpan={entry.lines.length + 1}
+                      >
+                        <div className="text-[10px] md:text-xs text-gray-500 whitespace-nowrap">{entry.date}</div>
+                        <div className="mt-0.5">
+                          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[8px] md:text-[9px] font-semibold ${VTYPE_CLASS[entry.voucherType] ?? 'vtype-JRN'}`}>
                             {VTYPE_LABEL[entry.voucherType] ?? entry.voucherType}
                           </span>
                         </div>
-                        <div className="mt-1 text-[10px] font-mono font-semibold text-blue-600">{entry.entryCode}</div>
+                        <div className="mt-0.5 text-[8px] md:text-[9px] font-mono font-semibold text-blue-600">{entry.entryCode}</div>
                       </td>
                     )}
-                    <td className={`px-3 py-2 border-r border-gray-100 ${!line.isDebit ? 'pl-8' : ''}`}>
-                      <div className="flex items-center gap-1.5 flex-wrap">
+                    <td className={`px-2 py-1 border-r border-gray-100 ${!line.isDebit ? 'pl-6' : ''}`}>
+                      <div className="flex items-center gap-1 flex-wrap">
                         {/* Inventory items button */}
                         {line.inventorySubLines && line.inventorySubLines.length > 0 && (
                           <button
                             onClick={() => setInventoryPopup(line.inventorySubLines!)}
-                            className="inline-flex items-center gap-1 h-5 px-1.5 text-[10px] font-semibold rounded-full border border-blue-300 text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors shrink-0"
+                            className="inline-flex items-center gap-0.5 h-4 px-1.5 text-[8px] md:text-[9px] font-semibold rounded-full border border-blue-300 text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors shrink-0"
                             title="View inventory items"
                           >
                             <Package className="h-2.5 w-2.5" />
@@ -246,42 +274,42 @@ export function JournalFormat({
                         )}
                         {/* TDS badge */}
                         {line.tdsSection && (
-                          <span className="inline-flex items-center h-5 px-1.5 text-[10px] font-semibold rounded-full border border-orange-300 text-orange-700 bg-orange-50 shrink-0" title={`TDS u/s ${line.tdsSection} @ ${line.tdsRate ?? '?'}%`}>
+                          <span className="inline-flex items-center h-4 px-1.5 text-[8px] md:text-[9px] font-semibold rounded-full border border-orange-300 text-orange-700 bg-orange-50 shrink-0" title={`TDS u/s ${line.tdsSection} @ ${line.tdsRate ?? '?'}%`}>
                             TDS {line.tdsSection}
                           </span>
                         )}
                         {/* TCS badge */}
                         {line.tcsSection && (
-                          <span className="inline-flex items-center h-5 px-1.5 text-[10px] font-semibold rounded-full border border-purple-300 text-purple-700 bg-purple-50 shrink-0" title={`TCS u/s ${line.tcsSection} @ ${line.tcsRate ?? '?'}%`}>
+                          <span className="inline-flex items-center h-4 px-1.5 text-[8px] md:text-[9px] font-semibold rounded-full border border-purple-300 text-purple-700 bg-purple-50 shrink-0" title={`TCS u/s ${line.tcsSection} @ ${line.tcsRate ?? '?'}%`}>
                             TCS {line.tcsSection}
                           </span>
                         )}
                         {line.isDebit ? (
                           <span className="font-medium text-gray-900">
-                            {line.accountName} A/c
-                            <span className="ml-2 text-xs font-normal text-gray-400">Dr.</span>
+                            {/a\/c\.?$/i.test(line.accountName.trim()) ? line.accountName : `${line.accountName} A/c`}
+                            <span className="ml-1 text-[9px] md:text-[10px] font-normal text-gray-400">Dr.</span>
                           </span>
                         ) : (
                           <span className="text-gray-600">
-                            To {line.accountName} A/c
+                            To {/a\/c\.?$/i.test(line.accountName.trim()) ? line.accountName : `${line.accountName} A/c`}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-2 text-center text-[11px] text-gray-400 border-r border-gray-100">
+                    <td className="px-2 py-1 text-center text-[9px] md:text-[10px] text-gray-400 border-r border-gray-100">
                       {folioMap.get(line.accountName) ?? ''}
                     </td>
-                    <td className="px-3 py-2 text-right font-mono text-[13px] tabular-nums border-r border-gray-100 text-dr">
+                    <td className="px-2 py-1 text-right font-mono text-xs md:text-[13px] tabular-nums border-r border-gray-100 text-dr">
                       {line.isDebit ? formatIndianCurrency(line.amount) : ''}
                     </td>
-                    <td className="px-3 py-2 text-right font-mono text-[13px] tabular-nums text-cr">
+                    <td className="px-2 py-1 text-right font-mono text-xs md:text-[13px] tabular-nums text-cr">
                       {!line.isDebit ? formatIndianCurrency(line.amount) : ''}
                     </td>
                   </tr>
                 ))}
                 {/* Narration row */}
                 <tr className={`border-b-2 border-gray-200 ${hlClass}`}>
-                  <td className="px-3 py-1.5 pl-8 text-xs text-gray-400 italic border-r border-gray-100" colSpan={4}>
+                  <td className="px-2 py-1.5 pl-6 text-[10px] md:text-xs text-gray-400 italic border-r border-gray-100" colSpan={4}>
                     ({entry.narration || 'No narration'})
                   </td>
                 </tr>
@@ -291,13 +319,14 @@ export function JournalFormat({
         </tbody>
         <tfoot>
           <tr className="bg-gray-50 border-t-2 border-gray-300">
-            <td className="px-3 py-2.5 border-r border-gray-100" />
-            <td className="px-3 py-2.5 font-bold text-gray-900 text-sm border-r border-gray-100">Total</td>
-            <td className="px-3 py-2.5 border-r border-gray-100" />
-            <td className="px-3 py-2.5 text-right font-mono font-bold text-[13px] text-dr border-r border-gray-100">
+            {isSelectable && <td className="px-2 py-1.5 border-r border-gray-100" />}
+            <td className="px-2 py-1.5 border-r border-gray-100" />
+            <td className="px-2 py-1.5 font-bold text-gray-900 text-xs md:text-[13px] border-r border-gray-100">Total</td>
+            <td className="px-2 py-1.5 border-r border-gray-100" />
+            <td className="px-2 py-1.5 text-right font-mono font-bold text-xs md:text-[13px] text-dr border-r border-gray-100">
               {formatIndianCurrency(totalDebit)}
             </td>
-            <td className="px-3 py-2.5 text-right font-mono font-bold text-[13px] text-cr">
+            <td className="px-2 py-1.5 text-right font-mono font-bold text-xs md:text-[13px] text-cr">
               {formatIndianCurrency(totalCredit)}
             </td>
           </tr>

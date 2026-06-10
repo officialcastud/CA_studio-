@@ -53,8 +53,18 @@ export default function CashBookPage() {
   const cashBook = computed.getCashBook(cbType);
 
   const exportData = [
-    ...cashBook.receipts.map((r: Record<string, unknown>) => ({ ...r, side: 'Receipt' })),
-    ...cashBook.payments.map((p: Record<string, unknown>) => ({ ...p, side: 'Payment' })),
+    ...cashBook.receipts.map((r: Record<string, unknown>) => ({
+      ...r,
+      side: 'Receipt',
+      // Include JE code inside the Date column for downloads.
+      date: `${String((r as any).date ?? '')} (${String((r as any).entry_code ?? '')})`,
+    })),
+    ...cashBook.payments.map((p: Record<string, unknown>) => ({
+      ...p,
+      side: 'Payment',
+      // Include JE code inside the Date column for downloads.
+      date: `${String((p as any).date ?? '')} (${String((p as any).entry_code ?? '')})`,
+    })),
   ];
 
   const exportColumns = [

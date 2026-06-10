@@ -1,4 +1,4 @@
-import type { InventorySubLine, JournalLine } from '@/types/journal';
+ import type { InventorySubLine, JournalLine } from '@/types/journal';
 import {
   classifyAccount,
   getClassificationWithClarification,
@@ -202,6 +202,15 @@ export interface ManualDraftLine {
   tds_rate?: string;
   tcs_section?: string;
   tcs_rate?: string;
+}
+
+/** Parse debit/credit from inputs; strips commas and ₹ so "1,00,000" parses correctly (parseFloat alone yields 1). */
+export function parseManualAmount(input: string | number | undefined | null): number {
+  if (input == null || input === '') return 0;
+  if (typeof input === 'number') return Number.isFinite(input) ? input : 0;
+  const s = String(input).replace(/[₹,\s]/g, '').trim();
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
 }
 
 const INVENTORY_SENSITIVE_ACCOUNTS = new Set([
@@ -453,8 +462,8 @@ export function expandManualJournalLines(
       account_name: name,
       account_group,
       nature,
-      debit: parseFloat(line.debit) || 0,
-      credit: parseFloat(line.credit) || 0,
+      debit: parseManualAmount(line.debit),
+      credit: parseManualAmount(line.credit),
       // Carry TDS/TCS metadata through to the persisted line
       ...(line.tds_section ? { tds_section: line.tds_section, tds_rate: parseFloat(line.tds_rate ?? '0') || undefined } : {}),
       ...(line.tcs_section ? { tcs_section: line.tcs_section, tcs_rate: parseFloat(line.tcs_rate ?? '0') || undefined } : {}),
@@ -468,8 +477,8 @@ export function getPreviewAmountForLine(line: ManualDraftLine): { debit: number;
   const hasInventoryDetails = (line.inventory_sub_lines?.length ?? 0) > 0;
   if (!isInventorySensitiveLine(line.account_name) || !hasInventoryDetails) {
     return {
-      debit: parseFloat(line.debit) || 0,
-      credit: parseFloat(line.credit) || 0,
+      debit: parseManualAmount(line.debit),
+      credit: parseManualAmount(line.credit),
     };
   }
 
@@ -504,8 +513,11 @@ export function getAutoGstPreviewLines(line: ManualDraftLine): Array<{ account_n
   return out;
 }
 
-export function getExpandedTotals(lines: ManualDraftLine[]): { debit: number; credit: number } {
-  const expanded = expandManualJournalLines(lines);
+export function getExpandedTotals(
+  lines: ManualDraftLine[],
+  context?: { voucherType?: string; companyId?: string }
+): { debit: number; credit: number } {
+  const expanded = expandManualJournalLines(lines, context);
   return expanded.reduce(
     (acc, line) => ({
       debit: acc.debit + (line.debit || 0),

@@ -1,4 +1,15 @@
 import type { JournalEntry } from './computeEngine';
+import {
+  GST_CREDITOR_SUBGROUPS,
+  GST_INPUT_SUBGROUPS,
+  GST_REVENUE_SUBGROUPS,
+  GST_VOUCHER,
+  accumulateGstr1Line,
+  accumulateItcFromPurchaseLine,
+  accumulateRcmFromLine,
+  pickCreditorPartyName,
+  pickDebtorPartyName,
+} from './gstSystem';
 
 export interface GSTRegisterRow {
   date: string;
@@ -40,44 +51,31 @@ export interface ITCRegisterRow {
   status: 'available' | 'reversed' | 'blocked';
 }
 
-const REVENUE_SUBGROUPS = ['Revenue from Operations'];
-const DEBTOR_SUBGROUPS = ['Trade Receivables'];
-const CREDITOR_SUBGROUPS = ['Trade Payables'];
-const GST_OUTPUT_SUBGROUPS = ['GST — Output Tax'];
-const GST_INPUT_SUBGROUPS = ['GST — Input Tax Credit'];
-const GST_RCM_SUBGROUPS = ['GST — RCM'];
-
 export function computeGSTR1(entries: JournalEntry[]): GSTR1Summary {
   const b2b: GSTRegisterRow[] = [];
   const b2c: GSTRegisterRow[] = [];
 
-  const salesEntries = entries.filter(e => e.voucher_type === 'SLS');
+  const salesEntries = entries.filter((e) => e.voucher_type === GST_VOUCHER.SALES);
 
   for (const entry of salesEntries) {
-    let taxableValue = 0, cgst = 0, sgst = 0, igst = 0;
-    let partyName = '';
-
+    const acc = { taxableValue: 0, cgst: 0, sgst: 0, igst: 0 };
     for (const line of entry.lines) {
-      if (REVENUE_SUBGROUPS.includes(line.account_group)) {
-        taxableValue += line.credit || 0;
-      } else if (line.account_name.toLowerCase().includes('output cgst') || (GST_OUTPUT_SUBGROUPS.includes(line.account_group) && line.account_name.toLowerCase().includes('cgst'))) {
-        cgst += line.credit || 0;
-      } else if (line.account_name.toLowerCase().includes('output sgst') || (GST_OUTPUT_SUBGROUPS.includes(line.account_group) && line.account_name.toLowerCase().includes('sgst'))) {
-        sgst += line.credit || 0;
-      } else if (line.account_name.toLowerCase().includes('igst') || (GST_OUTPUT_SUBGROUPS.includes(line.account_group) && line.account_name.toLowerCase().includes('igst'))) {
-        igst += line.credit || 0;
-      } else if (DEBTOR_SUBGROUPS.includes(line.account_group)) {
-        partyName = line.account_name;
-      }
+      accumulateGstr1Line(line, acc);
     }
 
+    const { taxableValue, cgst, sgst, igst } = acc;
     if (taxableValue > 0) {
+      const partyName = pickDebtorPartyName(entry.lines);
       const gstin = entry.party_gstin ?? '';
       const row: GSTRegisterRow = {
         date: entry.entry_date,
         voucherNumber: entry.voucher_number || entry.entry_code,
-        partyName, gstin,
-        taxableValue, cgst, sgst, igst,
+        partyName,
+        gstin,
+        taxableValue,
+        cgst,
+        sgst,
+        igst,
         totalGst: cgst + sgst + igst,
         invoiceTotal: taxableValue + cgst + sgst + igst,
       };
@@ -87,7 +85,8 @@ export function computeGSTR1(entries: JournalEntry[]): GSTR1Summary {
 
   const allRows = [...b2b, ...b2c];
   return {
-    b2b, b2c,
+    b2b,
+    b2c,
     totalTaxableValue: allRows.reduce((s, r) => s + r.taxableValue, 0),
     totalCGST: allRows.reduce((s, r) => s + r.cgst, 0),
     totalSGST: allRows.reduce((s, r) => s + r.sgst, 0),
@@ -98,65 +97,62 @@ export function computeGSTR1(entries: JournalEntry[]): GSTR1Summary {
 export function computeGSTR3B(entries: JournalEntry[]): GSTR3BSummary {
   const gstr1 = computeGSTR1(entries);
 
-  let itcCGST = 0, itcSGST = 0, itcIGST = 0;
-  const purchaseEntries = entries.filter(e => e.voucher_type === 'PUR');
+  const itc = { cgst: 0, sgst: 0, igst: 0 };
+  const purchaseEntries = entries.filter((e) => e.voucher_type === GST_VOUCHER.PURCHASE);
 
   for (const entry of purchaseEntries) {
     for (const line of entry.lines) {
-      const name = line.account_name.toLowerCase();
-      const isInputGroup = GST_INPUT_SUBGROUPS.includes(line.account_group);
-      if (name.includes('input cgst') || (isInputGroup && name.includes('cgst'))) itcCGST += line.debit || 0;
-      else if (name.includes('input sgst') || (isInputGroup && name.includes('sgst'))) itcSGST += line.debit || 0;
-      else if (name.includes('input igst') || (isInputGroup && name.includes('igst'))) itcIGST += line.debit || 0;
+      accumulateItcFromPurchaseLine(line, itc);
     }
   }
 
-  let rcmCGST = 0, rcmSGST = 0, rcmIGST = 0;
+  const rcm = { cgst: 0, sgst: 0, igst: 0 };
   for (const entry of entries) {
     for (const line of entry.lines) {
-      if (!GST_RCM_SUBGROUPS.includes(line.account_group)) continue;
-      const name = line.account_name.toLowerCase();
-      const amt = line.credit || 0;
-      if (name.includes('cgst')) rcmCGST += amt;
-      else if (name.includes('sgst')) rcmSGST += amt;
-      else if (name.includes('igst')) rcmIGST += amt;
+      accumulateRcmFromLine(line, rcm);
     }
   }
 
   return {
-    outwardSupplies: { taxableValue: gstr1.totalTaxableValue, cgst: gstr1.totalCGST, sgst: gstr1.totalSGST, igst: gstr1.totalIGST },
-    itcAvailed: { cgst: itcCGST, sgst: itcSGST, igst: itcIGST },
+    outwardSupplies: {
+      taxableValue: gstr1.totalTaxableValue,
+      cgst: gstr1.totalCGST,
+      sgst: gstr1.totalSGST,
+      igst: gstr1.totalIGST,
+    },
+    itcAvailed: { cgst: itc.cgst, sgst: itc.sgst, igst: itc.igst },
     netTaxPayable: {
-      cgst: gstr1.totalCGST - itcCGST + rcmCGST,
-      sgst: gstr1.totalSGST - itcSGST + rcmSGST,
-      igst: gstr1.totalIGST - itcIGST + rcmIGST,
+      cgst: gstr1.totalCGST - itc.cgst + rcm.cgst,
+      sgst: gstr1.totalSGST - itc.sgst + rcm.sgst,
+      igst: gstr1.totalIGST - itc.igst + rcm.igst,
     },
   };
 }
 
 export function computeITCRegister(entries: JournalEntry[]): ITCRegisterRow[] {
   const rows: ITCRegisterRow[] = [];
-  const purchaseEntries = entries.filter(e => e.voucher_type === 'PUR');
+  const purchaseEntries = entries.filter((e) => e.voucher_type === GST_VOUCHER.PURCHASE);
 
   for (const entry of purchaseEntries) {
-    let cgst = 0, sgst = 0, igst = 0;
-    let supplierName = '';
-
+    const acc = { cgst: 0, sgst: 0, igst: 0 };
     for (const line of entry.lines) {
-      const name = line.account_name.toLowerCase();
-      const isInputGroup = GST_INPUT_SUBGROUPS.includes(line.account_group);
-      if (name.includes('input cgst') || (isInputGroup && name.includes('cgst'))) cgst += line.debit || 0;
-      else if (name.includes('input sgst') || (isInputGroup && name.includes('sgst'))) sgst += line.debit || 0;
-      else if (name.includes('input igst') || (isInputGroup && name.includes('igst'))) igst += line.debit || 0;
-      else if (CREDITOR_SUBGROUPS.includes(line.account_group)) supplierName = line.account_name;
+      accumulateItcFromPurchaseLine(line, acc);
     }
 
+    const { cgst, sgst, igst } = acc;
     if (cgst > 0 || sgst > 0 || igst > 0) {
+      const supplierName = pickCreditorPartyName(entry.lines);
       const gstin = entry.party_gstin ?? '';
       rows.push({
-        date: entry.entry_date, supplierName, gstin,
+        date: entry.entry_date,
+        supplierName,
+        gstin,
         invoiceNumber: entry.voucher_number || entry.entry_code,
-        cgst, sgst, igst, total: cgst + sgst + igst, status: 'available',
+        cgst,
+        sgst,
+        igst,
+        total: cgst + sgst + igst,
+        status: 'available',
       });
     }
   }
@@ -177,30 +173,29 @@ export interface HSNSummaryRow {
 export function computeHSNSummary(entries: JournalEntry[]): HSNSummaryRow[] {
   const byHsn = new Map<string, { taxableValue: number; cgst: number; sgst: number; igst: number }>();
 
-  const salesEntries = entries.filter(e => e.voucher_type === 'SLS');
+  const salesEntries = entries.filter((e) => e.voucher_type === GST_VOUCHER.SALES);
   for (const entry of salesEntries) {
-    let taxableValue = 0, cgst = 0, sgst = 0, igst = 0;
     let hsnCode = 'N/A';
+    const acc = { taxableValue: 0, cgst: 0, sgst: 0, igst: 0 };
+
     for (const line of entry.lines) {
-      if (REVENUE_SUBGROUPS.includes(line.account_group)) {
-        taxableValue += line.credit || 0;
-        if (line.hsn_code) hsnCode = line.hsn_code;
-      } else if (GST_OUTPUT_SUBGROUPS.includes(line.account_group) || line.account_name.toLowerCase().includes('output')) {
-        const name = line.account_name.toLowerCase();
-        const amt = line.credit || 0;
-        if (name.includes('cgst')) cgst += amt;
-        else if (name.includes('sgst')) sgst += amt;
-        else if (name.includes('igst')) igst += amt;
+      if (
+        GST_REVENUE_SUBGROUPS.includes(line.account_group as (typeof GST_REVENUE_SUBGROUPS)[number]) &&
+        line.hsn_code
+      ) {
+        hsnCode = line.hsn_code;
       }
+      accumulateGstr1Line(line, acc);
     }
+
+    const { taxableValue, cgst, sgst, igst } = acc;
     if (taxableValue > 0 || cgst > 0 || sgst > 0 || igst > 0) {
-      const key = hsnCode;
-      const cur = byHsn.get(key) ?? { taxableValue: 0, cgst: 0, sgst: 0, igst: 0 };
+      const cur = byHsn.get(hsnCode) ?? { taxableValue: 0, cgst: 0, sgst: 0, igst: 0 };
       cur.taxableValue += taxableValue;
       cur.cgst += cgst;
       cur.sgst += sgst;
       cur.igst += igst;
-      byHsn.set(key, cur);
+      byHsn.set(hsnCode, cur);
     }
   }
 
@@ -231,13 +226,18 @@ export function computeGSTReconciliation(
   entries: JournalEntry[],
   _gstr2BData?: { invoiceNumber: string; taxableValue: number; taxAmount: number }[]
 ): GSTReconciliationRow[] {
-  const purchaseEntries = entries.filter(e => e.voucher_type === 'PUR');
+  const purchaseEntries = entries.filter((e) => e.voucher_type === GST_VOUCHER.PURCHASE);
   const rows: GSTReconciliationRow[] = [];
   for (const entry of purchaseEntries) {
-    let taxableValue = 0, taxAmount = 0;
+    let taxableValue = 0;
+    let taxAmount = 0;
     for (const line of entry.lines) {
-      if (CREDITOR_SUBGROUPS.includes(line.account_group)) taxableValue += line.credit || line.debit || 0;
-      if (GST_INPUT_SUBGROUPS.includes(line.account_group)) taxAmount += line.debit || 0;
+      if (GST_CREDITOR_SUBGROUPS.includes(line.account_group as (typeof GST_CREDITOR_SUBGROUPS)[number])) {
+        taxableValue += line.credit || line.debit || 0;
+      }
+      if (GST_INPUT_SUBGROUPS.includes(line.account_group as (typeof GST_INPUT_SUBGROUPS)[number])) {
+        taxAmount += line.debit || 0;
+      }
     }
     if (taxableValue > 0 || taxAmount > 0) {
       rows.push({

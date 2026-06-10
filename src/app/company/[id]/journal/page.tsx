@@ -1,32 +1,23 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Plus, Trash2, Search } from 'lucide-react';
+import { Plus, Trash2, Search, Download, FileDown, FileText, FileSpreadsheet, Loader2, SlidersHorizontal } from 'lucide-react';
 import { useCompany } from '@/hooks/useCompany';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { JournalFormat } from '@/components/formats/JournalFormat';
 import { DateRangeFilter } from '@/components/export/DateRangeFilter';
-import { ExportButtons } from '@/components/export/ExportButtons';
+import { exportToPDF, exportToExcel, exportToCSV } from '@/components/export/exportUtils';
 import { ManualEntryDialog } from '@/components/entries/ManualEntryDialog';
 import { getCurrentFY } from '@/lib/utils/dateUtils';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
 import { AlertBanner } from '@/components/layout/AlertBanner';
-import { getJournalDateRange } from '@/lib/offlineDb';
+import { getJournalDateRange, deleteJournalEntry } from '@/lib/offlineDb';
+import { generateUniqueEntryCode } from '@/lib/utils/entryCodeGenerator';
 import type { EntityType } from '@/types/company';
+import type { JournalLine } from '@/types/journal';
 
-const VOUCHER_FILTERS = [
-  { label: 'All', value: '' },
-  { label: 'Journal', value: 'JRN' },
-  { label: 'Sales', value: 'SLS' },
-  { label: 'Purchase', value: 'PUR' },
-  { label: 'Receipt', value: 'RCT' },
-  { label: 'Payment', value: 'PMT' },
-  { label: 'Contra', value: 'CNT' },
-  { label: 'Debit Note', value: 'DN' },
-  { label: 'Credit Note', value: 'CN' },
-] as const;
 
 export default function JournalPage() {
   const [searchParams] = useSearchParams();
@@ -40,6 +31,24 @@ export default function JournalPage() {
   const [accountFilter, setAccountFilter] = useState<string>('');
   const [entryCodeFilter, setEntryCodeFilter] = useState<string>(entryCodeFromUrl);
   const [showNewEntry, setShowNewEntry] = useState(false);
+  const [showTransferMenu, setShowTransferMenu] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState<string | null>(null);
+  const transferMenuRef = useRef<HTMLDivElement | null>(null);
+  const filterRef = useRef<HTMLDivElement | null>(null);
+  const dateRangeInitialized = useRef(false);
+
+  // On first load, expand date range to include ALL stored entries (not just current FY).
+  // This ensures previously-imported entries with old dates are always visible.
+  useEffect(() => {
+    if (!companyId || dateRangeInitialized.current) return;
+    dateRangeInitialized.current = true;
+    const range = getJournalDateRange(companyId);
+    if (!range) return;
+    setFromDate((d) => (range.from < d ? range.from : d));
+    setToDate((d) => (range.to > d ? range.to : d));
+  }, [companyId]);
 
   useEffect(() => {
     setVoucherFilter(voucherFromUrl);
@@ -49,16 +58,58 @@ export default function JournalPage() {
     setEntryCodeFilter(entryCodeFromUrl);
   }, [entryCodeFromUrl]);
 
+  useEffect(() => {
+    if (!showTransferMenu) return undefined;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!transferMenuRef.current) return;
+      if (!transferMenuRef.current.contains(event.target as Node)) {
+        setShowTransferMenu(false);
+      }
+    };
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowTransferMenu(false);
+    };
+
+    window.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('keydown', onEscape);
+    return () => {
+      window.removeEventListener('mousedown', onPointerDown);
+      window.removeEventListener('keydown', onEscape);
+    };
+  }, [showTransferMenu]);
+
+  useEffect(() => {
+    if (!showFilters) return undefined;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!filterRef.current) return;
+      if (!filterRef.current.contains(event.target as Node)) setShowFilters(false);
+    };
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowFilters(false);
+    };
+    window.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('keydown', onEscape);
+    return () => {
+      window.removeEventListener('mousedown', onPointerDown);
+      window.removeEventListener('keydown', onEscape);
+    };
+  }, [showFilters]);
+
   const JOURNAL_PAGE_LIMIT = 500;
-  const { entries, loading, createEntry, deleteEntry } = useJournalEntries({
+  const entryCodeQuery = entryCodeFilter.trim() || undefined;
+  const { entries, loading, createEntry, deleteEntry, refresh } = useJournalEntries({
     companyId: companyId || '',
     fromDate,
     toDate,
     voucherType: voucherFilter || undefined,
     accountName: accountFilter || undefined,
+    entryCode: entryCodeQuery,
     limit: JOURNAL_PAGE_LIMIT,
     enabled: !!companyId,
   });
+
+  const allRange = useMemo(() => getJournalDateRange(companyId || ''), [companyId]);
 
   if (companyLoading || !company) {
     return (
@@ -69,8 +120,6 @@ export default function JournalPage() {
   }
 
   const entityLabel = ENTITY_TYPES[company.entity_type as EntityType]?.label || company.entity_type;
-
-  const allRange = useMemo(() => getJournalDateRange(companyId || ''), [companyId]);
 
   const journalEntries = entries.map(e => ({
     entryCode: e.entry_code,
@@ -110,6 +159,219 @@ export default function JournalPage() {
     { header: 'Narration', key: 'narration' },
   ];
 
+  const downloadJsonFromObject = (filename: string, data: unknown) => {
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportJournalJson = () => {
+    if (!companyId) return;
+    // Export full visible journal data WITHOUT entry_code.
+    const exportedEntries = entries.map((e) => ({
+      entry_date: e.entry_date,
+      voucher_type: e.voucher_type,
+      voucher_number: e.voucher_number,
+      lines: e.lines,
+      narration: e.narration,
+      book_period: e.book_period,
+      is_opening: e.is_opening,
+      is_closing: e.is_closing,
+    }));
+
+    const payload = {
+      schema: 'vaarta_journal_import_v1',
+      company_id: companyId,
+      exported_at: new Date().toISOString(),
+      count: exportedEntries.length,
+      entries: exportedEntries,
+    };
+
+    const filename = `journal_export_${(company.name || 'company').replace(/\s+/g, '_')}_${fromDate}_to_${toDate}.json`;
+    downloadJsonFromObject(filename, payload);
+    setShowTransferMenu(false);
+  };
+
+  const handleDownload = async (type: 'pdf' | 'excel' | 'csv') => {
+    setDownloadLoading(type);
+    setShowTransferMenu(false);
+    try {
+      if (type === 'pdf') await exportToPDF('Journal', company.name, entityLabel, `${fromDate} to ${toDate}`, exportColumns, exportData);
+      else if (type === 'excel') await exportToExcel('Journal', exportColumns, exportData);
+      else exportToCSV(exportColumns, exportData, 'Journal');
+    } finally {
+      setDownloadLoading(null);
+    }
+  };
+
+  const computeBookPeriodFromDate = (entryDate: string): string => {
+    const d = new Date(`${entryDate}T00:00:00`);
+    const month = d.getMonth();
+    const year = d.getFullYear();
+    const fyStartYear = month < 3 ? year - 1 : year;
+    return `${fyStartYear}-${fyStartYear + 1}`;
+  };
+
+  const readTextFromFile = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ''));
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsText(file);
+    });
+
+  type ImportedPayload = {
+    schema?: string;
+    company_id?: string;
+    entries?: ImportedEntry[];
+  };
+  type ImportedEntry = {
+    entry_date?: string;
+    voucher_type?: string;
+    voucher_number?: string | null;
+    lines?: ImportedLine[];
+    narration?: string;
+    book_period?: string;
+    is_opening?: boolean;
+    is_closing?: boolean;
+  };
+  type ImportedLine = Partial<JournalLine>;
+
+  const normalizeImportedLines = (lines: ImportedLine[]): JournalLine[] =>
+    lines
+      .map((line) => {
+        const account_name = String(line.account_name || '').trim();
+        const account_group = String(line.account_group || '').trim();
+        const nature = line.nature;
+        const debit = Number(line.debit || 0);
+        const credit = Number(line.credit || 0);
+
+        if (
+          !account_name ||
+          !account_group ||
+          (nature !== 'asset' &&
+            nature !== 'liability' &&
+            nature !== 'capital' &&
+            nature !== 'revenue' &&
+            nature !== 'expense')
+        ) {
+          return null;
+        }
+
+        return {
+          account_name,
+          account_group,
+          nature,
+          debit: Number.isFinite(debit) ? debit : 0,
+          credit: Number.isFinite(credit) ? credit : 0,
+          inventory_sub_lines: line.inventory_sub_lines,
+          tds_section: line.tds_section,
+          tds_rate: line.tds_rate,
+          tcs_section: line.tcs_section,
+          tcs_rate: line.tcs_rate,
+        } as JournalLine;
+      })
+      .filter((line): line is JournalLine => !!line);
+
+  const handleImportJournalJson = async (file: File) => {
+    if (!companyId) return;
+    setShowTransferMenu(false);
+    setImporting(true);
+    try {
+      const raw = await readTextFromFile(file);
+      const parsed = JSON.parse(raw) as ImportedPayload;
+
+      if (parsed.schema && parsed.schema !== 'vaarta_journal_import_v1') {
+        window.alert('Unsupported journal JSON schema.');
+        return;
+      }
+      if (parsed.company_id && parsed.company_id !== companyId) {
+        const proceed = window.confirm(
+          'This JSON belongs to a different company. Import entries into the current company anyway?',
+        );
+        if (!proceed) return;
+      }
+
+      const importEntries = Array.isArray(parsed.entries) ? parsed.entries : [];
+      if (importEntries.length === 0) {
+        window.alert('No entries found in JSON file.');
+        return;
+      }
+
+      let importedCount = 0;
+      let invalidCount = 0;
+      let failedCount = 0;
+      const importedDates: string[] = [];
+      for (const item of importEntries) {
+        if (
+          !item?.entry_date ||
+          !item?.voucher_type ||
+          !Array.isArray(item.lines) ||
+          item.lines.length === 0
+        ) {
+          invalidCount += 1;
+          continue;
+        }
+        const normalizedLines = normalizeImportedLines(item.lines);
+        if (normalizedLines.length === 0) {
+          invalidCount += 1;
+          continue;
+        }
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await createEntry({
+            company_id: companyId,
+            entry_code: generateUniqueEntryCode(companyId),
+            entry_date: item.entry_date,
+            voucher_type: item.voucher_type,
+            voucher_number:
+              item.voucher_number === null || item.voucher_number === undefined
+                ? undefined
+                : item.voucher_number,
+            lines: normalizedLines,
+            narration: item.narration ?? '',
+            book_period: item.book_period || computeBookPeriodFromDate(item.entry_date),
+            is_opening: item.is_opening ?? false,
+            is_closing: item.is_closing ?? false,
+          });
+          importedCount += 1;
+          importedDates.push(item.entry_date);
+        } catch {
+          failedCount += 1;
+        }
+      }
+
+      // Auto-expand the visible date range so imported entries are not filtered out
+      if (importedDates.length > 0) {
+        const minDate = importedDates.reduce((a, b) => (a < b ? a : b));
+        const maxDate = importedDates.reduce((a, b) => (a > b ? a : b));
+        if (minDate < fromDate) setFromDate(minDate);
+        if (maxDate > toDate) setToDate(maxDate);
+      }
+
+      if (importedCount === 0) {
+        window.alert('No entries were imported. Check JSON format and entry balances.');
+      } else {
+        const suffix: string[] = [];
+        if (invalidCount > 0) suffix.push(`${invalidCount} invalid skipped`);
+        if (failedCount > 0) suffix.push(`${failedCount} failed validation`);
+        window.alert(
+          `Imported ${importedCount} journal entr${importedCount === 1 ? 'y' : 'ies'} successfully with new JE codes.` +
+            (suffix.length ? ` (${suffix.join(', ')})` : ''),
+        );
+      }
+    } catch (err: any) {
+      window.alert(err?.message || 'Import failed');
+    } finally {
+      setImporting(false);
+    }
+  };
+
   const handleSave = async (entry: Parameters<typeof createEntry>[0]) => {
     const created = await createEntry(entry);
     // Ensure the new entry is visible by expanding the date range if needed
@@ -118,109 +380,189 @@ export default function JournalPage() {
     return created;
   };
 
-  const handleDeleteAll = async () => {
-    if (!entries.length) return;
+  const handleDeleteSelected = async () => {
+    if (!companyId || selectedCodes.size === 0) return;
+    const n = selectedCodes.size;
     const confirmed = window.confirm(
-      `This will permanently delete all ${entries.length} journal entries currently in view (for the selected date range and filters).\n\n` +
-      `This action cannot be undone. Do you want to continue?`,
+      `Permanently delete ${n} selected journal entr${n === 1 ? 'y' : 'ies'}?\n\nThis cannot be undone.`,
     );
     if (!confirmed) return;
-    // Delete entries one by one via hook so cache + state stay consistent
-    for (const e of entries) {
-      // Best-effort; ignore individual failures
-      // eslint-disable-next-line no-await-in-loop
-      await deleteEntry(e.id);
+    for (const code of selectedCodes) {
+      const entry = entries.find(e => e.entry_code === code);
+      if (entry) deleteJournalEntry(entry.id);
     }
+    setSelectedCodes(new Set());
+    await refresh();
   };
+
+  const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set());
+
+  // Clear selection when filters or company change
+  useEffect(() => {
+    setSelectedCodes(new Set());
+  }, [voucherFilter, accountFilter, entryCodeFilter, fromDate, toDate, companyId]);
+
+  const hasActiveFilter =
+    voucherFilter !== '' ||
+    accountFilter !== '' ||
+    entryCodeFilter !== '' ||
+    fromDate !== fy.start ||
+    toDate !== fy.end;
 
   return (
     <div className="flex flex-col h-full min-h-0">
-      {/* Sticky toolbar */}
-      <div className="shrink-0 mb-4">
+      {/* Toolbar */}
+      <div className="shrink-0 mb-3">
         <PageHeader title="Journal" description={`${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} in view`}>
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setShowNewEntry(true)}
-              className="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              <Plus className="h-3.5 w-3.5" /> New Entry
+              <Plus className="h-3 w-3" /> New Entry
             </button>
-            <button
-              onClick={handleDeleteAll}
-              disabled={loading || entries.length === 0}
-              className="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-semibold border border-red-200 text-red-600 rounded-lg hover:bg-red-50 disabled:opacity-40 transition-colors"
-            >
-              <Trash2 className="h-3.5 w-3.5" /> Delete All (View)
-            </button>
-            <ExportButtons
-              title="Journal"
-              companyName={company.name}
-              entityType={entityLabel}
-              dateRange={`${fromDate} to ${toDate}`}
-              columns={exportColumns}
-              data={exportData}
-            />
+            {selectedCodes.size > 0 && (
+              <button
+                onClick={handleDeleteSelected}
+                disabled={loading}
+                className="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-semibold border border-red-200 text-red-600 rounded-lg hover:bg-red-50 disabled:opacity-40 transition-colors"
+              >
+                <Trash2 className="h-3 w-3" /> Delete ({selectedCodes.size})
+              </button>
+            )}
+
+            {/* Download dropdown */}
+            <div className="relative" ref={transferMenuRef}>
+              <button
+                type="button"
+                onClick={() => setShowTransferMenu(v => !v)}
+                className="inline-flex items-center justify-center h-7 w-7 border border-gray-200 rounded-lg text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
+                title="Download / Export"
+              >
+                {downloadLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+              </button>
+              {showTransferMenu && (
+                <div className="absolute right-0 mt-1 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-1">
+                  <button type="button" onClick={() => handleDownload('pdf')} disabled={!!downloadLoading}
+                    className="w-full h-8 px-2 text-left text-xs text-gray-700 hover:bg-gray-50 rounded flex items-center gap-2 disabled:opacity-40">
+                    <FileText className="h-3.5 w-3.5" /> PDF
+                  </button>
+                  <button type="button" onClick={() => handleDownload('excel')} disabled={!!downloadLoading}
+                    className="w-full h-8 px-2 text-left text-xs text-gray-700 hover:bg-gray-50 rounded flex items-center gap-2 disabled:opacity-40">
+                    <FileSpreadsheet className="h-3.5 w-3.5" /> Excel
+                  </button>
+                  <button type="button" onClick={() => handleDownload('csv')} disabled={!!downloadLoading}
+                    className="w-full h-8 px-2 text-left text-xs text-gray-700 hover:bg-gray-50 rounded flex items-center gap-2 disabled:opacity-40">
+                    <FileDown className="h-3.5 w-3.5" /> CSV
+                  </button>
+                  <div className="border-t border-gray-100 my-1" />
+                  <button type="button" onClick={handleExportJournalJson}
+                    className="w-full h-8 px-2 text-left text-xs text-gray-700 hover:bg-gray-50 rounded flex items-center gap-2">
+                    <FileDown className="h-3.5 w-3.5" /> Export JSON
+                  </button>
+                  <label className="w-full h-8 px-2 text-left text-xs text-gray-700 hover:bg-gray-50 rounded flex items-center gap-2 cursor-pointer">
+                    <FileText className="h-3.5 w-3.5" />
+                    {importing ? 'Importing...' : 'Import JSON'}
+                    <input
+                      type="file"
+                      accept="application/json,.json"
+                      className="hidden"
+                      disabled={importing}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        await handleImportJournalJson(file);
+                        e.currentTarget.value = '';
+                      }}
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
+
+            {/* Filter toggle */}
+            <div className="relative" ref={filterRef}>
+              <button
+                type="button"
+                onClick={() => setShowFilters(v => !v)}
+                className={`inline-flex items-center justify-center h-7 w-7 border rounded-lg transition-colors ${
+                  showFilters
+                    ? 'border-blue-500 bg-blue-50 text-blue-600'
+                    : 'border-gray-200 text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                title="Filters"
+              >
+                <SlidersHorizontal className="h-3.5 w-3.5" />
+              </button>
+
+              {showFilters && (
+                <div className="absolute right-0 mt-1 w-80 bg-white border border-gray-200 rounded-xl shadow-xl z-30 p-4 space-y-4">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-semibold text-gray-700">Filters</span>
+                    {hasActiveFilter && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFromDate(fy.start);
+                          setToDate(fy.end);
+                          setVoucherFilter('');
+                          setAccountFilter('');
+                          setEntryCodeFilter('');
+                        }}
+                        className="text-[11px] text-blue-600 hover:underline"
+                      >
+                        Reset all
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Date range */}
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Date Range</p>
+                    <DateRangeFilter
+                      fromDate={fromDate}
+                      toDate={toDate}
+                      onDateChange={(from, to) => { setFromDate(from); setToDate(to); }}
+                      allRange={allRange}
+                    />
+                  </div>
+
+                  {/* Search */}
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Search</p>
+                    <div className="space-y-2">
+                      <div className="relative">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400" />
+                        <input
+                          value={entryCodeFilter}
+                          onChange={e => setEntryCodeFilter(e.target.value)}
+                          placeholder="JE code…"
+                          maxLength={8}
+                          className="w-full h-7 pl-7 pr-2 text-xs border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div className="relative">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400" />
+                        <input
+                          value={accountFilter}
+                          onChange={e => setAccountFilter(e.target.value)}
+                          placeholder="Account name…"
+                          className="w-full h-7 pl-7 pr-2 text-xs border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </PageHeader>
-
-        {/* Filter bar */}
-        <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 flex flex-wrap items-center gap-3">
-          <DateRangeFilter
-            fromDate={fromDate}
-            toDate={toDate}
-            onDateChange={(from, to) => { setFromDate(from); setToDate(to); }}
-            allRange={allRange}
-          />
-          <div className="h-5 w-px bg-gray-200 hidden md:block" />
-          {/* Voucher type pills */}
-          <div className="flex items-center gap-1 flex-wrap">
-            {VOUCHER_FILTERS.map(v => (
-              <button
-                key={v.value}
-                onClick={() => setVoucherFilter(v.value)}
-                className={`h-6 px-2.5 text-[11px] font-semibold rounded-full border transition-all ${
-                  voucherFilter === v.value
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700'
-                }`}
-              >
-                {v.label}
-              </button>
-            ))}
-          </div>
-          <div className="h-5 w-px bg-gray-200 hidden md:block" />
-          {/* Search inputs */}
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400" />
-              <input
-                value={entryCodeFilter}
-                onChange={e => setEntryCodeFilter(e.target.value)}
-                placeholder="JE code…"
-                maxLength={8}
-                className="h-7 pl-7 pr-2 text-xs border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 w-28"
-              />
-            </div>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400" />
-              <input
-                value={accountFilter}
-                onChange={e => setAccountFilter(e.target.value)}
-                placeholder="Account name…"
-                className="h-7 pl-7 pr-2 text-xs border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 w-36"
-              />
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Scrollable content */}
       <div className="flex-1 min-h-0 overflow-auto">
         {entries.length === JOURNAL_PAGE_LIMIT && (
           <AlertBanner type="info" title="Showing latest entries only" message={`Display is capped at ${JOURNAL_PAGE_LIMIT} entries. Narrow the date range or use filters to see a specific set.`} />
-        )}
-        {entries.some(e => e.entry_date < fy.start) && (
-          <AlertBanner type="warning" title="Back-Dated Entries Detected" message="Some entries fall before the current financial year start." />
         )}
 
         {loading ? (
@@ -232,8 +574,10 @@ export default function JournalPage() {
             companyName={company.name}
             period={`${fromDate} to ${toDate}`}
             entries={journalEntries}
-            highlightEntryCode={entryCodeFilter.trim() || undefined}
+            highlightEntryCode={entryCodeQuery}
             emptyMessage="No journal entries yet. Use New Entry to create your first journal."
+            selectedCodes={selectedCodes}
+            onSelectionChange={setSelectedCodes}
           />
         )}
       </div>

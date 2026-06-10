@@ -102,7 +102,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        'lucide-react': path.resolve(__dirname, './src/shims/lucide-react'),
         'radix-ui': path.resolve(__dirname, './src/shims/radix-ui'),
       },
     },
