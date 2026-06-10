@@ -16,7 +16,7 @@ const NotFoundPage = lazy(() => import('@/app/not-found').then(m => ({ default: 
 const CompanyOverviewPage = lazy(() => import('@/app/company/[id]/page').then(m => ({ default: m.default })));
 const JournalPage = lazy(() => import('@/app/company/[id]/journal/page').then(m => ({ default: m.default })));
 const CashBookPage = lazy(() => import('@/app/company/[id]/cash-book/page').then(m => ({ default: m.default })));
-const PettyCashPage = lazy(() => import('@/app/company/[id]/petty-cash/page').then(m => ({ default: m.default })));
+
 const TrialBalancePage = lazy(() => import('@/app/company/[id]/trial-balance/page').then(m => ({ default: m.default })));
 const TradingAccountPage = lazy(() => import('@/app/company/[id]/trading-account/page').then(m => ({ default: m.default })));
 const ProfitLossPage = lazy(() => import('@/app/company/[id]/profit-loss/page').then(m => ({ default: m.default })));
@@ -72,10 +72,10 @@ const CAROPage = lazy(() => import('@/app/company/[id]/caro/page').then(m => ({ 
 const CostRecordsPage = lazy(() => import('@/app/company/[id]/cost-records/page').then(m => ({ default: m.default })));
 const FormNPage = lazy(() => import('@/app/company/[id]/form-n/page').then(m => ({ default: m.default })));
 const InventoryPage = lazy(() => import('@/app/company/[id]/inventory/page').then(m => ({ default: m.default })));
-const CogsWorkingPage = lazy(() => import('@/app/company/[id]/cogs-working/page').then(m => ({ default: m.default })));
+
 const RatioAnalysisPage = lazy(() => import('@/app/company/[id]/ratio-analysis/page').then(m => ({ default: m.default })));
 const BSNotesPage = lazy(() => import('@/app/company/[id]/bs-notes/page').then(m => ({ default: m.default })));
-const MSMEDisclosurePage = lazy(() => import('@/app/company/[id]/msme-disclosure/page').then(m => ({ default: m.default })));
+
 const BinCardPage = lazy(() => import('@/app/company/[id]/inventory/bin-card/page').then(m => ({ default: m.default })));
 const StoresLedgerPage = lazy(() => import('@/app/company/[id]/inventory/stores-ledger/page').then(m => ({ default: m.default })));
 const CostSheetPage = lazy(() => import('@/app/company/[id]/inventory/cost-sheet/page').then(m => ({ default: m.default })));
@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Suspense fallback={<PageLoader />}><CompanyOverviewPage /></Suspense> },
       { path: 'journal', element: <Suspense fallback={<PageLoader />}><JournalPage /></Suspense> },
       { path: 'cash-book', element: <Suspense fallback={<PageLoader />}><CashBookPage /></Suspense> },
-      { path: 'petty-cash', element: <Suspense fallback={<PageLoader />}><PettyCashPage /></Suspense> },
+
       { path: 'trial-balance', element: <Suspense fallback={<PageLoader />}><TrialBalancePage /></Suspense> },
       { path: 'trading-account', element: <Suspense fallback={<PageLoader />}><TradingAccountPage /></Suspense> },
       { path: 'profit-loss', element: <Suspense fallback={<PageLoader />}><ProfitLossPage /></Suspense> },
@@ -112,7 +112,7 @@ export const router = createBrowserRouter([
       { path: 'balance-sheet', element: <Suspense fallback={<PageLoader />}><BalanceSheetPage /></Suspense> },
       { path: 'cash-flow', element: <Suspense fallback={<PageLoader />}><CashFlowPage /></Suspense> },
       { path: 'funds-flow', element: <Suspense fallback={<PageLoader />}><FundsFlowPage /></Suspense> },
-      { path: 'cogs-working', element: <Suspense fallback={<PageLoader />}><CogsWorkingPage /></Suspense> },
+
       { path: 'ratio-analysis', element: <Suspense fallback={<PageLoader />}><RatioAnalysisPage /></Suspense> },
       { path: 'bs-notes', element: <Suspense fallback={<PageLoader />}><BSNotesPage /></Suspense> },
       { path: 'income-expenditure', element: <Suspense fallback={<PageLoader />}><IncomeExpenditurePage /></Suspense> },
@@ -147,7 +147,7 @@ export const router = createBrowserRouter([
       { path: 'tcs-register', element: <Suspense fallback={<PageLoader />}><TcsRegisterPage /></Suspense> },
       { path: 'advance-tax', element: <Suspense fallback={<PageLoader />}><AdvanceTaxPage /></Suspense> },
       { path: 'deferred-tax', element: <Suspense fallback={<PageLoader />}><DeferredTaxPage /></Suspense> },
-      { path: 'msme-disclosure', element: <Suspense fallback={<PageLoader />}><MSMEDisclosurePage /></Suspense> },
+
       { path: 'brs', element: <Suspense fallback={<PageLoader />}><BrsPage /></Suspense> },
       { path: 'audit', element: <Suspense fallback={<PageLoader />}><AuditPage /></Suspense> },
       { path: 'fcra', element: <Suspense fallback={<PageLoader />}><FcraPage /></Suspense> },

@@ -40,8 +40,8 @@ export function DocumentWizard({
   );
 
   const handleSave = () => {
-    state.save();
-    if (!state.error) {
+    const ok = state.save();
+    if (ok) {
       onSave();
       onClose();
     }
@@ -105,13 +105,6 @@ export function DocumentWizard({
               <HeaderSection kind="purchase" fields={state.fields} updateField={state.updateField} mode={mode} />
             )}
 
-            {/* Party */}
-            {state.kind === 'sales' ? (
-              <PartySection kind="sales" invoice={state.invoice} updateInvoice={state.updateInvoice} handleGstinChange={state.handleGstinChange} gstinError={state.gstinError} mode={mode} />
-            ) : (
-              <PartySection kind="purchase" fields={state.fields} updateField={state.updateField} mode={mode} />
-            )}
-
             {/* Original Invoice (returns only) */}
             {config.showOriginalInvoice && (
               state.kind === 'sales' ? (
@@ -119,6 +112,13 @@ export function DocumentWizard({
               ) : (
                 <OriginalInvoiceSection kind="purchase" fields={state.fields} updateField={state.updateField} existingPurchases={state.existingPurchases} selectOriginalPurchase={state.selectOriginalPurchase} mode={mode} />
               )
+            )}
+
+            {/* Party */}
+            {state.kind === 'sales' ? (
+              <PartySection kind="sales" invoice={state.invoice} updateInvoice={state.updateInvoice} handleGstinChange={state.handleGstinChange} gstinError={state.gstinError} mode={mode} />
+            ) : (
+              <PartySection kind="purchase" fields={state.fields} updateField={state.updateField} mode={mode} />
             )}
 
             {/* Line Items */}

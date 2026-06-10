@@ -196,8 +196,9 @@ export function JournalFormat({
         <p className="text-[10px] text-gray-400 mt-px">{period}</p>
       </div>
 
-      <table className="w-full text-xs md:text-[13px]">
-        <thead>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs md:text-[13px] min-w-[800px]">
+          <thead>
           <tr className="bg-gray-50 border-b border-gray-200">
             {isSelectable && (
               <th className="px-2 py-1.5 w-8 border-r border-gray-100 text-center">
@@ -332,6 +333,7 @@ export function JournalFormat({
           </tr>
         </tfoot>
       </table>
+      </div>
 
       {inventoryPopup && (
         <InventoryPopup subLines={inventoryPopup} onClose={() => setInventoryPopup(null)} />

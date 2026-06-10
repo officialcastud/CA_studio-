@@ -468,12 +468,12 @@ function financialYearShort(dateIso: string): string {
   return `${start.toString().slice(2)}${end}`;
 }
 
-function nextInvoiceNo(companyId: string, kind: 'SLS' | 'PUR', dateIso: string): string {
+function nextInvoiceNo(companyId: string, kind: 'SLS' | 'PUR' | 'SCN' | 'DN', dateIso: string): string {
   const db = loadDb();
   const fy = financialYearShort(dateIso);
   const prefix = `${kind}-${fy}-`;
-  const all = kind === 'SLS' ? db.sales : db.purchases;
-  const seq = all
+  const store = kind === 'SLS' || kind === 'SCN' ? db.sales : db.purchases;
+  const seq = store
     .filter((x) => x.company_id === companyId && x.invoice_no.startsWith(prefix))
     .map((x) => Number.parseInt(x.invoice_no.slice(prefix.length), 10))
     .filter((n) => Number.isFinite(n));
@@ -560,7 +560,9 @@ export function createPurchaseInvoice(companyId: string, draft: PurchaseInvoiceD
     ...draft,
     id: id(),
     company_id: companyId,
-    invoice_no: nextInvoiceNo(companyId, 'PUR', draft.invoice_date),
+    invoice_no: (draft.bucket === 'CDNR' && draft.vendor_invoice_no?.trim())
+      ? draft.vendor_invoice_no.trim()
+      : nextInvoiceNo(companyId, draft.bucket === 'CDNR' ? 'DN' : 'PUR', draft.invoice_date),
     taxable_value: taxable,
     gst_rate: rate,
     cgst: split.cgst,

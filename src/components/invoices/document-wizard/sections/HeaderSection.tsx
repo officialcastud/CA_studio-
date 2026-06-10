@@ -62,10 +62,22 @@ export function HeaderSection(props: HeaderSectionProps) {
           <span className="mb-1 block text-[11px] font-semibold text-gray-500">Date *</span>
           <input type="date" value={fields.invoiceDate} onChange={(e) => updateField('invoiceDate', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold" />
         </label>
-        <label>
-          <span className="mb-1 block text-[11px] font-semibold text-gray-500">Vendor Invoice No *</span>
-          <input value={fields.vendorInvoiceNo} onChange={(e) => updateField('vendorInvoiceNo', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold" placeholder="e.g. GST/2024/0042" />
-        </label>
+        {mode === 'purchase_return' ? (
+          <label>
+            <span className="mb-1 block text-[11px] font-semibold text-amber-600">Debit Note No</span>
+            <input
+              value={fields.vendorInvoiceNo}
+              onChange={(e) => updateField('vendorInvoiceNo', e.target.value)}
+              className="h-8 w-full rounded-lg border border-amber-200 bg-white px-3 text-xs font-semibold"
+              placeholder="Leave blank to auto-generate (DN-…)"
+            />
+          </label>
+        ) : (
+          <label>
+            <span className="mb-1 block text-[11px] font-semibold text-gray-500">Vendor Invoice No *</span>
+            <input value={fields.vendorInvoiceNo} onChange={(e) => updateField('vendorInvoiceNo', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold" placeholder="e.g. GST/2024/0042" />
+          </label>
+        )}
         {mode === 'purchase_invoice' && (
           <label>
             <span className="mb-1 block text-[11px] font-semibold text-gray-500">Supply Type</span>

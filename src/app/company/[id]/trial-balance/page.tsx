@@ -53,7 +53,7 @@ export default function TrialBalancePage() {
   // This makes the L.F. column meaningful and consistent across reports.
   const tableData = trialBalance.rows.map(r => ({
     account_name: r.account_name,
-    lf: r.sno,
+    lf: String(r.sno),
     debit_balance: r.debit_balance || '',
     credit_balance: r.credit_balance || '',
   }));

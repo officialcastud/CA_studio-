@@ -431,6 +431,14 @@ export default function JournalPage() {
               </button>
             )}
 
+            {/* Date Filters */}
+            <DateRangeFilter
+              fromDate={fromDate}
+              toDate={toDate}
+              onDateChange={(from, to) => { setFromDate(from); setToDate(to); }}
+              allRange={allRange}
+            />
+
             {/* Download dropdown */}
             <div className="relative" ref={transferMenuRef}>
               <button
@@ -514,17 +522,6 @@ export default function JournalPage() {
                         Reset all
                       </button>
                     )}
-                  </div>
-
-                  {/* Date range */}
-                  <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Date Range</p>
-                    <DateRangeFilter
-                      fromDate={fromDate}
-                      toDate={toDate}
-                      onDateChange={(from, to) => { setFromDate(from); setToDate(to); }}
-                      allRange={allRange}
-                    />
                   </div>
 
                   {/* Search */}

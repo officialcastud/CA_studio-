@@ -47,7 +47,7 @@ interface UseSalesDocumentState {
   gstinError: string | null;
   totals: SalesTotals;
   error: string | null;
-  save: () => void;
+  save: () => boolean;
   existingInvoices: InvoiceV2[];
   selectOriginalInvoice: (inv: InvoiceV2) => void;
 }
@@ -58,7 +58,7 @@ interface UsePurchaseDocumentState {
   updateField: <K extends keyof PurchaseFields>(key: K, value: PurchaseFields[K]) => void;
   totals: PurchaseTotals;
   error: string | null;
-  save: () => void;
+  save: () => boolean;
   existingPurchases: PurchaseInvoice[];
   selectOriginalPurchase: (inv: PurchaseInvoice) => void;
 }
@@ -442,24 +442,24 @@ function useSalesState(
     }
   }, [updateInvoice, handleGstinChange]);
 
-  const save = useCallback(() => {
-    if (!invoice.invoice_date?.trim()) { setError('Invoice date is required'); return; }
+  const save = useCallback((): boolean => {
+    if (!invoice.invoice_date?.trim()) { setError('Invoice date is required'); return false; }
     if (invoice.buyer_type !== 'CONSUMER' && !invoice.buyer_name.trim()) {
-      if (!(invoice.b2c_type === 'B2CS')) { setError('Party name is required'); return; }
+      if (!(invoice.b2c_type === 'B2CS')) { setError('Party name is required'); return false; }
     }
     if (mode === 'sales_return') {
-      if (!invoice.original_invoice_no?.trim()) { setError('Original invoice number is required'); return; }
-      if (!invoice.original_invoice_date) { setError('Original invoice date is required'); return; }
+      if (!invoice.original_invoice_no?.trim()) { setError('Original invoice number is required'); return false; }
+      if (!invoice.original_invoice_date) { setError('Original invoice date is required'); return false; }
       // Strict verification: original invoice must exist in the register
       const allInvoices = listInvoicesV2(companyId);
       const origInv = allInvoices.find((inv) => inv.invoice_no === invoice.original_invoice_no?.trim() && inv.doc_type !== 'CREDIT_NOTE');
       if (!origInv) {
         setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
-        return;
+        return false;
       }
     }
     const itemValidation = validateSalesWizardStep3(invoice);
-    if (!itemValidation.ok) { setError(itemValidation.error); return; }
+    if (!itemValidation.ok) { setError(itemValidation.error); return false; }
 
     setError(null);
     try {
@@ -468,8 +468,10 @@ function useSalesState(
       } else {
         createInvoiceV2(companyId, invoice);
       }
+      return true;
     } catch {
       setError('Failed to save invoice');
+      return false;
     }
   }, [invoice, companyId, initialInvoice, mode]);
 
@@ -574,34 +576,46 @@ function usePurchaseState(
       vendorName: inv.vendor_name,
       vendorGstin: inv.vendor_gstin || '',
       posState: inv.place_of_supply_state || prev.posState,
+      itemDescription: inv.item_description || '',
+      itemHsn: inv.item_hsn || '',
+      itemQty: String(inv.item_qty || 0),
+      itemRate: String(inv.item_rate || 0),
+      taxable: String(inv.taxable_value || 0),
+      gstRate: String(inv.gst_rate || 0),
+      supplyType: inv.supply_type || prev.supplyType,
+      itcEligible: Boolean(inv.itc_eligible),
+      itcStatus: inv.itc_status || 'ELIGIBLE_FULL',
+      itcBlockReason: inv.itc_block_reason || '17(5)(a)',
+      bucket: 'CDNR', // Enforce return bucket
     }));
   }, []);
 
-  const save = useCallback(() => {
+  const save = useCallback((): boolean => {
     setError(null);
     const taxableVal = Number(fields.taxable || 0);
     const gstVal = Number(fields.gstRate || 0);
 
-    if (!fields.invoiceDate) return setError('Date is required.');
-    if (!fields.vendorInvoiceNo.trim()) return setError('Vendor Invoice Number is strictly required.');
-    if (!fields.vendorName.trim()) return setError('Vendor name is required.');
-    if (!fields.posState.trim()) return setError('Place of supply is required.');
+    if (!fields.invoiceDate) { setError('Date is required.'); return false; }
+    if (mode === 'purchase_invoice' && !fields.vendorInvoiceNo.trim()) { setError('Vendor Invoice Number is strictly required.'); return false; }
+    if (!fields.vendorName.trim()) { setError('Vendor name is required.'); return false; }
+    if (!fields.posState.trim()) { setError('Place of supply is required.'); return false; }
     if (mode === 'purchase_return') {
-      if (!gstinIsValid(fields.vendorGstin)) return setError('Valid GSTIN required for debit notes.');
-      if (!fields.origInvNo.trim()) return setError('Original invoice number is required.');
-      if (!fields.origInvDate) return setError('Original invoice date is required.');
+      if (!gstinIsValid(fields.vendorGstin)) { setError('Valid GSTIN required for debit notes.'); return false; }
+      if (!fields.origInvNo.trim()) { setError('Original invoice number is required.'); return false; }
+      if (!fields.origInvDate) { setError('Original invoice date is required.'); return false; }
       // Strict verification: original invoice must exist in the register
       const allPurchases = listPurchaseInvoices(companyId);
       const origPurchase = allPurchases.find((inv) => inv.invoice_no === fields.origInvNo.trim() && inv.bucket !== 'CDNR');
       if (!origPurchase) {
-        return setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+        setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+        return false;
       }
     }
     if (mode === 'purchase_invoice' && fields.bucket === 'B2B' && !gstinIsValid(fields.vendorGstin)) {
-      return setError('Valid GSTIN required for B2B.');
+      setError('Valid GSTIN required for B2B.'); return false;
     }
-    if (taxableVal <= 0) return setError('Taxable value must be > 0.');
-    if (gstVal < 0) return setError('GST rate cannot be negative.');
+    if (taxableVal <= 0) { setError('Taxable value must be > 0.'); return false; }
+    if (gstVal < 0) { setError('GST rate cannot be negative.'); return false; }
 
     const posCode = INDIAN_STATES_BY_NAME[fields.posState.trim().toLowerCase()]?.gstCode || null;
     const inferredSupply: SupplyType =
@@ -649,8 +663,10 @@ function usePurchaseState(
       } else {
         createPurchaseInvoice(companyId, payload);
       }
+      return true;
     } catch {
       setError('Failed to save');
+      return false;
     }
   }, [fields, companyId, initialPurchase, mode, sellerStateCode]);
 

@@ -309,8 +309,9 @@ export function CashBookFormat({
       </div>
 
       {/* Monthly divisions are mandatory (Month/Quarter/Year all show monthly splits) */}
-      <div className="divide-y divide-[#E5E7EB]">
-        {(() => {
+      <div className="overflow-x-auto">
+        <div className="divide-y divide-[#E5E7EB] min-w-[1000px]">
+          {(() => {
           let monthOpeningCash = openingCash;
           let monthOpeningBank = openingBank;
 
@@ -400,6 +401,7 @@ export function CashBookFormat({
             return block;
           });
         })()}
+        </div>
       </div>
     </div>
   );

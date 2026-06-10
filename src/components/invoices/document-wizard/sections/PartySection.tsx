@@ -85,15 +85,15 @@ export function PartySection(props: PartySectionProps) {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <label>
           <span className="mb-1 block text-[11px] font-semibold text-gray-500">{config.partyLabel} Name *</span>
-          <input value={fields.vendorName} onChange={(e) => updateField('vendorName', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold" placeholder="Supplier name" />
+          <input disabled={mode === 'purchase_return'} value={fields.vendorName} onChange={(e) => updateField('vendorName', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed" placeholder="Supplier name" />
         </label>
         <label>
           <span className="mb-1 block text-[11px] font-semibold text-gray-500">GSTIN {needsGstin ? '*' : ''}</span>
-          <input value={fields.vendorGstin} onChange={(e) => updateField('vendorGstin', e.target.value.toUpperCase())} className="h-8 w-full rounded-lg border border-gray-300 px-3 font-mono text-xs font-semibold uppercase" placeholder="27ABCDE1234F1Z5" maxLength={15} />
+          <input disabled={mode === 'purchase_return'} value={fields.vendorGstin} onChange={(e) => updateField('vendorGstin', e.target.value.toUpperCase())} className="h-8 w-full rounded-lg border border-gray-300 px-3 font-mono text-xs font-semibold uppercase disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed" placeholder="27ABCDE1234F1Z5" maxLength={15} />
         </label>
         <label>
           <span className="mb-1 block text-[11px] font-semibold text-gray-500">Place of Supply *</span>
-          <input value={fields.posState} onChange={(e) => updateField('posState', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold" placeholder="Karnataka" />
+          <input disabled={mode === 'purchase_return'} value={fields.posState} onChange={(e) => updateField('posState', e.target.value)} className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed" placeholder="Karnataka" />
         </label>
       </div>
     </fieldset>

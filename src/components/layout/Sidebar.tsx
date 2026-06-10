@@ -116,7 +116,6 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     g.push({ heading: 'CORE', items: [
       ...(nav.journal ? [{ label: 'Journal', href: `${base}/journal`, icon: BookOpen }] : []),
       ...(nav.cashBook ? [{ label: 'Cash Book', href: `${base}/cash-book`, icon: Wallet }] : []),
-      ...(nav.pettyCash ? [{ label: 'Petty Cash', href: `${base}/petty-cash`, icon: Coins }] : []),
     ]});
 
     const registerItems: NavItem[] = [];
@@ -136,7 +135,6 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (nav.trialBalance) fsItems.push({ label: 'Trial Balance', href: `${base}/trial-balance`, icon: Scale });
     if (nav.tradingAccount !== 'never') {
       fsItems.push({ label: 'Trading Account', href: `${base}/trading-account`, icon: TrendingUp });
-      fsItems.push({ label: 'COGS Working', href: `${base}/cogs-working`, icon: FileSpreadsheet });
     }
     if (nav.profitLoss) fsItems.push({ label: 'Profit & Loss', href: `${base}/profit-loss`, icon: BarChart3 });
     if (nav.plAppropriation) fsItems.push({ label: 'P&L Appropriation', href: `${base}/pl-appropriation`, icon: BarChart3 });
@@ -171,26 +169,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (nav.advanceTax) taxItems.push({ label: 'Advance Tax', href: `${base}/advance-tax`, icon: IndianRupee });
     if (nav.deferredTax) taxItems.push({ label: 'Deferred Tax', href: `${base}/deferred-tax`, icon: Clock });
     if (nav.brs) taxItems.push({ label: 'Bank Reconciliation', href: `${base}/brs`, icon: ArrowLeftRight });
-    if (nav.msmeDisclosure) taxItems.push({ label: 'MSME Disclosure', href: `${base}/msme-disclosure`, icon: FileSpreadsheet });
     if (taxItems.length > 0) g.push({ heading: 'TAX & COMPLIANCE', items: taxItems });
 
-    const auditItems: NavItem[] = [];
-    if (nav.audit !== 'never') auditItems.push({ label: 'Audit', href: `${base}/audit`, icon: ShieldCheck });
-    if (nav.fcra !== 'never') auditItems.push({ label: 'FCRA', href: `${base}/fcra`, icon: Globe });
-    if (nav.applicationCheck) auditItems.push({ label: '85% Application', href: `${base}/application-check`, icon: Percent });
-    if (nav.form10b) auditItems.push({ label: 'Form 10B', href: `${base}/form-10b`, icon: FileCheck });
-    if (nav.llpForms) auditItems.push({ label: 'LLP Forms', href: `${base}/llp-forms`, icon: FileSignature });
-    if (nav.segmentReporting) auditItems.push({ label: 'Segment Reporting', href: `${base}/segment-reporting`, icon: PieChart });
-    const disclosureLevel = (company?.entity_details as { disclosureLevel?: 'I' | 'II' | 'III' | 'IV' } | undefined)?.disclosureLevel;
-    const levelShowsDisclosure = disclosureLevel === 'I' || disclosureLevel === 'II';
-    if (nav.relatedParty || (nav.relatedPartyByLevel && levelShowsDisclosure)) auditItems.push({ label: 'Related Party', href: `${base}/related-party`, icon: Link2 });
-    if (nav.accountingPolicies || (nav.accountingPoliciesByLevel && levelShowsDisclosure)) auditItems.push({ label: 'Accounting Policies', href: `${base}/accounting-policies`, icon: FileText });
-    if (nav.asChecklist || (nav.asChecklistByLevel && levelShowsDisclosure)) auditItems.push({ label: 'AS Checklist', href: `${base}/as-checklist`, icon: CheckSquare });
-    if (nav.contingentLiabilities) auditItems.push({ label: 'Contingent Liabilities', href: `${base}/contingent-liabilities`, icon: FileText });
-    if (nav.directorsReport) auditItems.push({ label: "Director's Report", href: `${base}/directors-report`, icon: FileText });
-    if (nav.caro) auditItems.push({ label: 'CARO', href: `${base}/caro`, icon: CheckSquare });
-    if (nav.formN) auditItems.push({ label: 'Form N', href: `${base}/form-n`, icon: FileText });
-    if (auditItems.length > 0) g.push({ heading: 'AUDIT & REPORTS', items: auditItems });
+    // AUDIT & REPORTS section removed
 
     if (nav.inventory !== 'never') {
       g.push({ heading: 'INVENTORY', items: [{ label: 'Inventory', href: `${base}/inventory`, icon: Package }] });
