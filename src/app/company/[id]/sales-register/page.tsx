@@ -42,11 +42,13 @@ type CombinedInvoice = {
   isLegacy: boolean;
 };
 
+type CtxMenu = { x: number; y: number; row: CombinedInvoice };
+
 export default function SalesRegisterPage() {
   const { company, companyId, loading } = useCompany();
   const [isWizardOpen, setIsWizardOpen] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState<InvoiceV2 | null>(null);
   const [tick, setTick] = useState(0);
+  const [ctxMenu, setCtxMenu] = useState<CtxMenu | null>(null);
 
   const sellerStateCode = useMemo(() => {
     if (!company) return undefined;
@@ -74,7 +76,9 @@ export default function SalesRegisterPage() {
       isLegacy: true,
     }));
 
-    const v2Invoices = listInvoicesV2(companyId).map((inv: InvoiceV2): CombinedInvoice => ({
+    const v2Invoices = listInvoicesV2(companyId)
+      .filter((inv: InvoiceV2) => inv.doc_type === 'TAX_INVOICE' || inv.doc_type === 'BILL_OF_SUPPLY')
+      .map((inv: InvoiceV2): CombinedInvoice => ({
       id: inv.id,
       invoice_no: inv.invoice_no,
       invoice_date: inv.invoice_date,
@@ -142,10 +146,7 @@ export default function SalesRegisterPage() {
     <div className="space-y-4">
       <PageHeader title="Sales Invoices" description="Manage your sales transactions">
         <button
-          onClick={() => {
-            setEditingInvoice(null);
-            setIsWizardOpen(true);
-          }}
+          onClick={() => setIsWizardOpen(true)}
           className="h-9 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700"
         >
           + New Invoice
@@ -157,11 +158,8 @@ export default function SalesRegisterPage() {
           mode="sales_invoice"
           companyId={companyId}
           sellerStateCode={sellerStateCode}
-          initialInvoice={editingInvoice}
-          onClose={() => {
-            setIsWizardOpen(false);
-            setEditingInvoice(null);
-          }}
+          initialInvoice={null}
+          onClose={() => setIsWizardOpen(false)}
           onSave={() => setTick((x) => x + 1)}
         />
       )}
@@ -195,78 +193,75 @@ export default function SalesRegisterPage() {
           <p className="text-xs text-gray-500">Showing {combinedRows.length} entries</p>
         </div>
         <div className="overflow-x-auto">
-        <table className="w-full min-w-[1180px] text-sm">
-          <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
-            <tr>
-              <th className="px-3 py-2 text-left">Invoice No</th>
-              <th className="px-3 py-2 text-left">Date</th>
-              <th className="px-3 py-2 text-left">Party</th>
-              <th className="px-3 py-2 text-left">Inventory Details</th>
-              <th className="px-3 py-2 text-left">GSTIN</th>
-              <th className="px-3 py-2 text-right">Taxable</th>
-              <th className="px-3 py-2 text-right">CGST</th>
-              <th className="px-3 py-2 text-right">SGST</th>
-              <th className="px-3 py-2 text-right">IGST</th>
-              <th className="px-3 py-2 text-right">Total</th>
-              <th className="px-3 py-2 text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {combinedRows.length === 0 ? (
+          <table className="w-full min-w-[1100px] text-sm">
+            <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
               <tr>
-                <td colSpan={13} className="px-3 py-10 text-center text-sm text-gray-500">
-                  No invoices yet. Click "+ New Invoice" to create one.
-                </td>
+                <th className="px-3 py-2 text-left">Invoice No</th>
+                <th className="px-3 py-2 text-left">Date</th>
+                <th className="px-3 py-2 text-left">Party</th>
+                <th className="px-3 py-2 text-left">Inventory Details</th>
+                <th className="px-3 py-2 text-left">GSTIN</th>
+                <th className="px-3 py-2 text-right">Taxable</th>
+                <th className="px-3 py-2 text-right">CGST</th>
+                <th className="px-3 py-2 text-right">SGST</th>
+                <th className="px-3 py-2 text-right">IGST</th>
+                <th className="px-3 py-2 text-right">Total</th>
               </tr>
-            ) : (
-              combinedRows.map((r) => (
-                <tr key={r.id} className="border-t border-gray-100 hover:bg-gray-50/50">
-                  <td className="px-3 py-2 font-mono text-xs">{compactInvoiceNo(r.invoice_no)}</td>
-                  <td className="px-3 py-2">{r.invoice_date}</td>
-                  <td className="px-3 py-2">{r.buyer_name}</td>
-                  <td className="max-w-[260px] px-3 py-2 text-xs text-gray-700">
-                    <span className="line-clamp-2">{r.item_summary || '—'}</span>
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs">{r.buyer_gstin || '—'}</td>
-                  <td className="px-3 py-2 text-right">{inr(r.taxable)}</td>
-                  <td className="px-3 py-2 text-right">{inr(r.cgst)}</td>
-                  <td className="px-3 py-2 text-right">{inr(r.sgst)}</td>
-                  <td className="px-3 py-2 text-right">{inr(r.igst)}</td>
-                  <td className="px-3 py-2 text-right font-semibold">{inr(r.total)}</td>
-                  <td className="px-3 py-2 text-right">
-                    <div className="inline-flex items-center gap-1.5">
-                      {!r.isLegacy ? (
-                        <button
-                          onClick={() => {
-                            const inv = listInvoicesV2(companyId).find((x) => x.id === r.id) || null;
-                            if (!inv) return;
-                            setEditingInvoice(inv);
-                            setIsWizardOpen(true);
-                          }}
-                          title="Edit"
-                          className="rounded border border-blue-200 px-2 py-1 text-xs font-semibold text-blue-600 hover:bg-blue-50"
-                        >
-                          ✎
-                        </button>
-                      ) : (
-                        <span className="rounded border border-gray-200 px-2 py-1 text-[10px] font-semibold text-gray-400">Legacy</span>
-                      )}
-                    <button
-                      onClick={() => handleDelete(r)}
-                      title="Delete"
-                      className="rounded border border-red-200 px-2 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
-                    >
-                      🗑
-                    </button>
-                    </div>
+            </thead>
+            <tbody>
+              {combinedRows.length === 0 ? (
+                <tr>
+                  <td colSpan={10} className="px-3 py-10 text-center text-sm text-gray-500">
+                    No invoices yet. Click "+ New Invoice" to create one.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                combinedRows.map((r) => (
+                  <tr
+                    key={r.id}
+                    className="cursor-default select-none border-t border-gray-100 hover:bg-gray-50/50"
+                    onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY, row: r }); }}
+                  >
+                    <td className="px-3 py-2 font-mono text-xs">{compactInvoiceNo(r.invoice_no)}</td>
+                    <td className="px-3 py-2">{r.invoice_date}</td>
+                    <td className="px-3 py-2">{r.buyer_name}</td>
+                    <td className="max-w-[260px] px-3 py-2 text-xs text-gray-700">
+                      <span className="line-clamp-2">{r.item_summary || '—'}</span>
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs">{r.buyer_gstin || '—'}</td>
+                    <td className="px-3 py-2 text-right">{inr(r.taxable)}</td>
+                    <td className="px-3 py-2 text-right">{inr(r.cgst)}</td>
+                    <td className="px-3 py-2 text-right">{inr(r.sgst)}</td>
+                    <td className="px-3 py-2 text-right">{inr(r.igst)}</td>
+                    <td className="px-3 py-2 text-right font-semibold">{inr(r.total)}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
+
+      {/* Right-click context menu */}
+      {ctxMenu && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setCtxMenu(null)} />
+          <div
+            className="fixed z-50 min-w-[160px] rounded-lg border border-gray-200 bg-white py-1 shadow-xl"
+            style={{ top: ctxMenu.y, left: ctxMenu.x }}
+          >
+            <button
+              onClick={() => { handleDelete(ctxMenu.row); setCtxMenu(null); }}
+              className="flex w-full items-center gap-2 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+              Delete Transaction
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

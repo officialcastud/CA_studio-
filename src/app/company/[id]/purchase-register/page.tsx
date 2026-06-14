@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { DocumentWizard } from '@/components/invoices/document-wizard';
 import { useCompany } from '@/hooks/useCompany';
@@ -10,9 +10,7 @@ import {
   getStateCodeFromGSTIN,
   listPurchaseInvoices,
   type PurchaseInvoice,
-  type PurchaseBucket,
 } from '@/lib/accounting/gstInvoices';
-
 
 function inr(n: number): string {
   return n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -24,11 +22,13 @@ function compactInvoiceNo(no: string): string {
   return no;
 }
 
+type CtxMenu = { x: number; y: number; row: PurchaseInvoice };
+
 export default function PurchaseRegisterPage() {
   const { company, companyId, loading } = useCompany();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [editingPurchase, setEditingPurchase] = useState<PurchaseInvoice | null>(null);
   const [tick, setTick] = useState(0);
+  const [ctxMenu, setCtxMenu] = useState<CtxMenu | null>(null);
 
   const companyGstin = company?.gst_details?.gstin || '';
   const companyStateName = company?.entity_details?.state || '';
@@ -60,10 +60,7 @@ export default function PurchaseRegisterPage() {
     <div className="space-y-4">
       <PageHeader title="Purchase Invoices" description="Manage your inward supplies and purchases">
         <button
-          onClick={() => {
-            setEditingPurchase(null);
-            setIsCreateOpen(true);
-          }}
+          onClick={() => setIsCreateOpen(true)}
           className="h-9 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700"
         >
           + New Purchase
@@ -75,8 +72,8 @@ export default function PurchaseRegisterPage() {
           mode="purchase_invoice"
           companyId={companyId}
           sellerStateCode={sellerStateCode || undefined}
-          initialPurchase={editingPurchase}
-          onClose={() => { setIsCreateOpen(false); setEditingPurchase(null); }}
+          initialPurchase={null}
+          onClose={() => setIsCreateOpen(false)}
           onSave={() => setTick((x) => x + 1)}
         />
       )}
@@ -112,7 +109,7 @@ export default function PurchaseRegisterPage() {
           <p className="text-xs text-gray-500">Showing {rows.length} entries</p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1000px] text-xs">
+          <table className="w-full min-w-[900px] text-xs">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-3 py-2 text-left text-[11px] font-semibold uppercase text-gray-500">No</th>
@@ -124,16 +121,19 @@ export default function PurchaseRegisterPage() {
                 <th className="px-3 py-2 text-right text-[11px] font-semibold uppercase text-gray-500">Taxable</th>
                 <th className="px-3 py-2 text-right text-[11px] font-semibold uppercase text-gray-500">GST</th>
                 <th className="px-3 py-2 text-right text-[11px] font-semibold uppercase text-gray-500">Total</th>
-                <th className="w-20 px-3 py-2 text-right text-[11px] font-semibold uppercase text-gray-500"></th>
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 ? (
-                <tr><td colSpan={10} className="px-3 py-10 text-center text-xs text-gray-500">No purchase invoices yet. Click "+ New Purchase" to create one.</td></tr>
+                <tr><td colSpan={9} className="px-3 py-10 text-center text-xs text-gray-500">No purchase invoices yet. Click "+ New Purchase" to create one.</td></tr>
               ) : rows.map((r) => {
                 const gstTotal = r.cgst + r.sgst + r.igst;
                 return (
-                  <tr key={r.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                  <tr
+                    key={r.id}
+                    className="cursor-default select-none border-t border-gray-100 hover:bg-gray-50/50"
+                    onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY, row: r }); }}
+                  >
                     <td className="px-3 py-2 font-mono text-[11px]">{compactInvoiceNo(r.invoice_no)}</td>
                     <td className="px-3 py-2 text-[11px]">{r.invoice_date}</td>
                     <td className="px-3 py-2">
@@ -149,12 +149,6 @@ export default function PurchaseRegisterPage() {
                     <td className="px-3 py-2 text-right font-mono text-[11px]">{inr(r.taxable_value)}</td>
                     <td className="px-3 py-2 text-right font-mono text-[11px] text-gray-500">{inr(gstTotal)}</td>
                     <td className="px-3 py-2 text-right font-mono text-[11px] font-semibold">{inr(r.total)}</td>
-                    <td className="px-3 py-2 text-right">
-                      <div className="inline-flex items-center gap-1">
-                        <button title="Edit" onClick={() => { setEditingPurchase(r); setIsCreateOpen(true); }} className="rounded border border-blue-200 px-1.5 py-0.5 text-[11px] font-semibold text-blue-600 hover:bg-blue-50">Edit</button>
-                        <button title="Delete" onClick={() => { deletePurchaseInvoice(r.id); setTick((x) => x + 1); }} className="rounded border border-red-200 px-1.5 py-0.5 text-[11px] font-semibold text-red-600 hover:bg-red-50">Del</button>
-                      </div>
-                    </td>
                   </tr>
                 );
               })}
@@ -162,6 +156,27 @@ export default function PurchaseRegisterPage() {
           </table>
         </div>
       </div>
+
+      {/* Right-click context menu */}
+      {ctxMenu && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setCtxMenu(null)} />
+          <div
+            className="fixed z-50 min-w-[160px] rounded-lg border border-gray-200 bg-white py-1 shadow-xl"
+            style={{ top: ctxMenu.y, left: ctxMenu.x }}
+          >
+            <button
+              onClick={() => { deletePurchaseInvoice(ctxMenu.row.id); setTick((x) => x + 1); setCtxMenu(null); }}
+              className="flex w-full items-center gap-2 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+              Delete Transaction
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

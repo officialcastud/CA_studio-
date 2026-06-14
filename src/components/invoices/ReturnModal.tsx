@@ -12,6 +12,7 @@ import {
   type CdnReason,
   type ReturnItemInput,
 } from '@/lib/accounting/gstInvoices';
+import { createReturnJournalEntry } from '@/lib/accounting/invoiceJournalSync';
 
 function inr(n: number): string {
   return n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -182,7 +183,8 @@ export function ReturnModal({ companyId, returnType, onClose, onSave }: ReturnMo
         );
       }
 
-      createInvoiceV2(companyId, draft);
+      const savedInvoice = createInvoiceV2(companyId, draft);
+      createReturnJournalEntry(companyId, savedInvoice);
       onSave();
       onClose();
     } catch (e) {

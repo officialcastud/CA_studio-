@@ -1,3 +1,5 @@
+import { emitInvoiceDataChanged } from '@/lib/journalSync';
+
 export type SalesBucket = 'B2B' | 'B2CL' | 'B2CS' | 'EXP' | 'CDNR' | 'CDNUR';
 export type PurchaseBucket =
   | 'B2B'
@@ -604,6 +606,7 @@ export function updatePurchaseInvoice(id: string, draft: Partial<PurchaseInvoice
   merged.total = merged.taxable_value + split.cgst + split.sgst + split.igst;
   db.purchases[idx] = merged;
   saveDb(db);
+  emitInvoiceDataChanged(merged.company_id);
   return merged;
 }
 
@@ -1336,6 +1339,7 @@ export function updateInvoiceV2(invoiceId: string, draft: Partial<InvoiceV2Draft
   const recalc = recalculateInvoiceTotals(merged);
   db.invoices[idx] = { ...merged, ...recalc };
   saveDbV2(db);
+  emitInvoiceDataChanged(existing.company_id);
   return db.invoices[idx];
 }
 
@@ -2295,6 +2299,7 @@ export function createReturnFromInvoiceV2(
     supply_type: original.supply_type,
     is_intra_state: original.is_intra_state,
     force_igst: original.force_igst || false,
+    payment_mode: original.payment_mode,
     invoice_date: returnDate,
     period: formatDateYYYYMM(returnDate),
     items,
@@ -2351,6 +2356,7 @@ export function createReturnFromPurchaseInvoiceLegacy(
     place_of_supply: stateCode,
     supply_type: original.supply_type,
     is_intra_state: isIntra,
+    payment_mode: original.payment_mode,
     invoice_date: returnDate,
     period: formatDateYYYYMM(returnDate),
     items: [item],
