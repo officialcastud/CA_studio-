@@ -19,14 +19,14 @@ const ACCT = {
   debtors:     { name: 'Sundry Debtors',                           group: 'Trade Receivables',          nature: 'asset' as const },
   cash:        { name: 'Cash in Hand',                             group: 'Cash & Cash Equivalents',    nature: 'asset' as const },
   bank:        { name: 'Bank Account',                             group: 'Bank Balances',              nature: 'asset' as const },
-  cgstItc:     { name: 'CGST Input Tax Credit Receivable',         group: 'GST — Input Tax Credit',     nature: 'asset' as const },
-  sgstItc:     { name: 'SGST / UTGST Input Tax Credit Receivable', group: 'GST — Input Tax Credit',     nature: 'asset' as const },
-  igstItc:     { name: 'IGST Input Tax Credit Receivable',         group: 'GST — Input Tax Credit',     nature: 'asset' as const },
+  cgstItc:     { name: 'Input CGST',  group: 'GST — Input Tax Credit', nature: 'asset' as const },
+  sgstItc:     { name: 'Input SGST',  group: 'GST — Input Tax Credit', nature: 'asset' as const },
+  igstItc:     { name: 'Input IGST',  group: 'GST — Input Tax Credit', nature: 'asset' as const },
   // Liability
-  creditors:   { name: 'Sundry Creditors',                         group: 'Trade Payables',             nature: 'liability' as const },
-  cgstOutput:  { name: 'CGST Output Tax Payable',                  group: 'GST — Output Tax',           nature: 'liability' as const },
-  sgstOutput:  { name: 'SGST / UTGST Output Tax Payable',          group: 'GST — Output Tax',           nature: 'liability' as const },
-  igstOutput:  { name: 'IGST Output Tax Payable',                  group: 'GST — Output Tax',           nature: 'liability' as const },
+  creditors:   { name: 'Sundry Creditors', group: 'Trade Payables',    nature: 'liability' as const },
+  cgstOutput:  { name: 'Output CGST', group: 'GST — Output Tax',       nature: 'liability' as const },
+  sgstOutput:  { name: 'Output SGST', group: 'GST — Output Tax',       nature: 'liability' as const },
+  igstOutput:  { name: 'Output IGST', group: 'GST — Output Tax',       nature: 'liability' as const },
   // Revenue
   sales:       { name: 'Sales Account',    group: 'Revenue from Operations',     nature: 'revenue' as const },
   // Expense
