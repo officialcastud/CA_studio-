@@ -9,17 +9,19 @@ export function computeGSTR3BFromInvoices(
   sales: InvoiceV2[],
   purchases: PurchaseInvoice[],
 ): GSTR3BSummary {
-  // Section 3.1 — Outward supplies (exclude cancelled)
-  const activeSales = sales.filter((s) => s.status !== 'CANCELLED');
+  // Section 3.1 — Outward supplies (exclude cancelled, exclude debit notes which are purchase docs)
+  // Credit notes REDUCE outward supplies (sign = -1); all other sales types add normally
+  const activeSales = sales.filter((s) => s.status !== 'CANCELLED' && s.doc_type !== 'DEBIT_NOTE');
   let outTxval = 0, outCgst = 0, outSgst = 0, outIgst = 0;
   for (const inv of activeSales) {
-    outTxval += inv.total_taxable;
-    outCgst += inv.total_cgst;
-    outSgst += inv.total_sgst;
-    outIgst += inv.total_igst;
+    const sign = inv.doc_type === 'CREDIT_NOTE' ? -1 : 1;
+    outTxval += sign * inv.total_taxable;
+    outCgst  += sign * inv.total_cgst;
+    outSgst  += sign * inv.total_sgst;
+    outIgst  += sign * inv.total_igst;
   }
 
-  // Section 4 — Eligible ITC from purchase invoices
+  // Section 4(A) — Eligible ITC from purchase invoices
   let itcCgst = 0, itcSgst = 0, itcIgst = 0;
   for (const p of purchases) {
     if (p.itc_eligible && (!p.itc_status || p.itc_status === 'ELIGIBLE_FULL' || p.itc_status === 'ELIGIBLE_PARTIAL')) {
@@ -28,6 +30,20 @@ export function computeGSTR3BFromInvoices(
       itcIgst += p.igst;
     }
   }
+
+  // Section 4(B)(2) — ITC to be reversed: purchase returns (debit notes stored in V2 invoice store)
+  const debitNotes = sales.filter((s) => s.status !== 'CANCELLED' && s.doc_type === 'DEBIT_NOTE');
+  let revCgst = 0, revSgst = 0, revIgst = 0;
+  for (const dn of debitNotes) {
+    revCgst += dn.total_cgst;
+    revSgst += dn.total_sgst;
+    revIgst += dn.total_igst;
+  }
+
+  // Net ITC = availed - reversed
+  const netItcCgst = itcCgst - revCgst;
+  const netItcSgst = itcSgst - revSgst;
+  const netItcIgst = itcIgst - revIgst;
 
   return {
     outwardSupplies: {
@@ -41,10 +57,15 @@ export function computeGSTR3BFromInvoices(
       sgst: itcSgst,
       igst: itcIgst,
     },
+    itcReversed: {
+      cgst: revCgst,
+      sgst: revSgst,
+      igst: revIgst,
+    },
     netTaxPayable: {
-      cgst: outCgst - itcCgst,
-      sgst: outSgst - itcSgst,
-      igst: outIgst - itcIgst,
+      cgst: outCgst - netItcCgst,
+      sgst: outSgst - netItcSgst,
+      igst: outIgst - netItcIgst,
     },
   };
 }

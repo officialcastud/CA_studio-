@@ -39,18 +39,7 @@ export default defineConfig(({ mode }) => {
           req.on('end', async () => {
             try {
               const body = JSON.parse(raw || '{}');
-              const { model, systemPrompt, history } = body ?? {};
-              if (typeof model !== 'string' || typeof systemPrompt !== 'string' || !Array.isArray(history)) {
-                res.statusCode = 400;
-                res.setHeader('content-type', 'application/json');
-                res.end(JSON.stringify({ error: 'Missing model/systemPrompt/history' }));
-                return;
-              }
-
-              const contents = history.map((m: any) => ({
-                role: m.role === 'user' ? 'user' : 'model',
-                parts: [{ text: String(m.text ?? '') }],
-              }));
+              const { model = 'gemini-2.0-flash', ...geminiPayload } = body ?? {};
 
               const response = await fetch(
                 `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
@@ -60,31 +49,15 @@ export default defineConfig(({ mode }) => {
                     'content-type': 'application/json',
                     'x-goog-api-key': localApiKey,
                   },
-                  body: JSON.stringify({
-                    systemInstruction: { role: 'user', parts: [{ text: systemPrompt }] },
-                    contents,
-                    generationConfig: { temperature: 0.2 },
-                  }),
+                  body: JSON.stringify(geminiPayload),
                 },
               );
 
               const text = await response.text();
-              if (!response.ok) {
-                res.statusCode = 502;
-                res.setHeader('content-type', 'application/json');
-                res.end(JSON.stringify({ error: `Gemini error: ${response.status} - ${text}` }));
-                return;
-              }
-
-              const data = JSON.parse(text);
-              const parts = data?.candidates?.[0]?.content?.parts;
-              const assistantText = Array.isArray(parts)
-                ? parts.map((p: any) => p?.text ?? '').join('').trim()
-                : '';
-
-              res.statusCode = 200;
+              
+              res.statusCode = response.status;
               res.setHeader('content-type', 'application/json');
-              res.end(JSON.stringify({ text: assistantText || '' }));
+              res.end(text);
             } catch (e: any) {
               res.statusCode = 500;
               res.setHeader('content-type', 'application/json');

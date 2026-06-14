@@ -35,6 +35,7 @@ import {
   validateSalesWizardStep3,
 } from '@/lib/accounting/gstInvoices';
 import { createSalesJournalEntry, createPurchaseJournalEntry } from '@/lib/accounting/invoiceJournalSync';
+import { listJournalEntries, deleteJournalEntry } from '@/lib/offlineDb';
 
 interface UseSalesDocumentState {
   kind: 'sales';
@@ -516,10 +517,38 @@ function useSalesState(
     setInvalidFields([]);
     try {
       if (initialInvoice?.id) {
-        updateInvoiceV2(initialInvoice.id, invoice);
+        const updated = updateInvoiceV2(initialInvoice.id, invoice);
+        // Sync ledgers: delete old JE(s) linked to this invoice, then recreate
+        listJournalEntries(companyId)
+          .filter((e) => e.voucher_number === initialInvoice.invoice_no)
+          .forEach((e) => deleteJournalEntry(e.id));
+        createSalesJournalEntry(companyId, { ...invoice, id: initialInvoice.id } as InvoiceV2);
+        // If editing a credit note: adjust original invoice pending by the amount delta
+        if (updated && initialInvoice.doc_type === 'CREDIT_NOTE' && updated.original_invoice_no) {
+          const origInv = listInvoicesV2(companyId).find(
+            (x) => x.invoice_no === updated.original_invoice_no && x.doc_type !== 'CREDIT_NOTE'
+          );
+          if (origInv) {
+            const delta = updated.total_amount - (initialInvoice.total_amount ?? 0);
+            if (delta !== 0) {
+              const newPending = Math.max(0, (origInv.amount_pending ?? origInv.total_amount) - delta);
+              updateInvoiceV2(origInv.id, { amount_pending: newPending });
+            }
+          }
+        }
       } else {
         const saved = createInvoiceV2(companyId, invoice);
         createSalesJournalEntry(companyId, saved);
+        // If creating a credit note (sales return): reduce original invoice pending
+        if (mode === 'sales_return' && saved.original_invoice_no) {
+          const origInv = listInvoicesV2(companyId).find(
+            (x) => x.invoice_no === saved.original_invoice_no && x.doc_type !== 'CREDIT_NOTE'
+          );
+          if (origInv) {
+            const newPending = Math.max(0, (origInv.amount_pending ?? origInv.total_amount) - saved.total_amount);
+            updateInvoiceV2(origInv.id, { amount_pending: newPending });
+          }
+        }
       }
       return true;
     } catch {
@@ -755,10 +784,38 @@ function usePurchaseState(
     setInvalidFields([]);
     try {
       if (initialPurchase?.id) {
-        updatePurchaseInvoice(initialPurchase.id, payload);
+        const updated = updatePurchaseInvoice(initialPurchase.id, payload);
+        // Sync ledgers: delete old JE(s) linked to this purchase, then recreate
+        listJournalEntries(companyId)
+          .filter((e) => e.voucher_number === initialPurchase.invoice_no)
+          .forEach((e) => deleteJournalEntry(e.id));
+        createPurchaseJournalEntry(companyId, { ...payload, id: initialPurchase.id } as PurchaseInvoice);
+        // If editing a debit note: adjust original purchase pending by the amount delta
+        if (updated && initialPurchase.bucket === 'CDNR' && updated.original_invoice_no) {
+          const origPurchase = listPurchaseInvoices(companyId).find(
+            (x) => x.invoice_no === updated.original_invoice_no && x.bucket !== 'CDNR'
+          );
+          if (origPurchase) {
+            const delta = updated.total - initialPurchase.total;
+            if (delta !== 0) {
+              const newPending = Math.max(0, (origPurchase.amount_pending ?? origPurchase.total) - delta);
+              updatePurchaseInvoice(origPurchase.id, { amount_pending: newPending });
+            }
+          }
+        }
       } else {
         const saved = createPurchaseInvoice(companyId, payload);
         createPurchaseJournalEntry(companyId, saved);
+        // If creating a debit note (purchase return): reduce original purchase pending
+        if (mode === 'purchase_return' && saved.original_invoice_no) {
+          const origPurchase = listPurchaseInvoices(companyId).find(
+            (x) => x.invoice_no === saved.original_invoice_no && x.bucket !== 'CDNR'
+          );
+          if (origPurchase) {
+            const newPending = Math.max(0, (origPurchase.amount_pending ?? origPurchase.total) - saved.total);
+            updatePurchaseInvoice(origPurchase.id, { amount_pending: newPending });
+          }
+        }
       }
       return true;
     } catch {

@@ -235,14 +235,20 @@ async function callGemini(
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   if (!apiKey) {
-    // Try the local dev proxy
+    // Use Netlify serverless function as proxy (API key stays server-side)
+    const proxyModel = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.0-flash';
     const response = await fetch('/.netlify/functions/gemini-plan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        model: proxyModel,
         contents: messages,
         systemInstruction: { parts: [{ text: systemPrompt }] },
         tools: [{ functionDeclarations: GEMINI_TOOLS }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 4096,
+        },
       }),
     });
 

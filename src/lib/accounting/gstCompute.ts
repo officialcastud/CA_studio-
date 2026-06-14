@@ -36,6 +36,8 @@ export interface GSTR1Summary {
 export interface GSTR3BSummary {
   outwardSupplies: { taxableValue: number; cgst: number; sgst: number; igst: number };
   itcAvailed: { cgst: number; sgst: number; igst: number };
+  /** ITC to be reversed — Section 4(B)(2): purchase returns / debit notes */
+  itcReversed: { cgst: number; sgst: number; igst: number };
   netTaxPayable: { cgst: number; sgst: number; igst: number };
 }
 
@@ -121,6 +123,7 @@ export function computeGSTR3B(entries: JournalEntry[]): GSTR3BSummary {
       igst: gstr1.totalIGST,
     },
     itcAvailed: { cgst: itc.cgst, sgst: itc.sgst, igst: itc.igst },
+    itcReversed: { cgst: 0, sgst: 0, igst: 0 }, // journal-based path; invoice-based path handles this
     netTaxPayable: {
       cgst: gstr1.totalCGST - itc.cgst + rcm.cgst,
       sgst: gstr1.totalSGST - itc.sgst + rcm.sgst,

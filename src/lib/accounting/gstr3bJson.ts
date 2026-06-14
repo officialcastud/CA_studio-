@@ -57,6 +57,9 @@ export function prefillGstr3bFormFromBooks(summary: GSTR3BSummary): Gstr3bFormSt
   const base = emptyGstr3bForm();
   const o = summary.outwardSupplies;
   const i = summary.itcAvailed;
+  const r = summary.itcReversed;
+
+  // Section 3.1 — outward taxable supplies
   base.sup_details.osup_det = {
     txval: round2(o.taxableValue),
     iamt: round2(o.igst),
@@ -64,12 +67,23 @@ export function prefillGstr3bFormFromBooks(summary: GSTR3BSummary): Gstr3bFormSt
     samt: round2(o.sgst),
     csamt: 0,
   };
+
+  // Section 4(A) — ITC availed (domestic purchases)
   base.itc_avl_oth = {
     iamt: round2(i.igst),
     camt: round2(i.cgst),
     samt: round2(i.sgst),
     csamt: 0,
   };
+
+  // Section 4(B)(2) — ITC reversed: purchase returns / debit notes
+  base.itc_rev_oth = {
+    iamt: round2(r.igst),
+    camt: round2(r.cgst),
+    samt: round2(r.sgst),
+    csamt: 0,
+  };
+
   return base;
 }
 

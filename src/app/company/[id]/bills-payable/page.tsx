@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCompany } from '@/hooks/useCompany';
 import { PageHeader } from '@/components/layout/PageHeader';
 import {
   listPurchaseInvoices,
   type PurchaseInvoice,
 } from '@/lib/accounting/gstInvoices';
+import { INVOICE_DATA_CHANGED_EVENT } from '@/lib/journalSync';
 
 function inr(n: number): string {
   return n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -40,6 +41,13 @@ function daysOverdue(dueDate: string): number {
 export default function BillsPayablePage() {
   const { company, companyId, loading } = useCompany();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    const handler = () => setTick((x) => x + 1);
+    window.addEventListener(INVOICE_DATA_CHANGED_EVENT, handler);
+    return () => window.removeEventListener(INVOICE_DATA_CHANGED_EVENT, handler);
+  }, []);
 
   const rows = useMemo<PayableRow[]>(() => {
     if (!companyId) return [];
@@ -68,9 +76,18 @@ export default function BillsPayablePage() {
         };
       })
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [companyId]);
+  }, [companyId, tick]);
 
   const selected = rows.find((r) => r.id === selectedId) || null;
+
+  // Debit notes (purchase returns) against the selected purchase invoice
+  const debitNotes = useMemo(() => {
+    if (!companyId || !selected) return [];
+    return listPurchaseInvoices(companyId).filter(
+      (x) => x.bucket === 'CDNR' && x.original_invoice_no === selected.invoiceNo
+    );
+  }, [companyId, selected, tick]);
+  const totalReturns = debitNotes.reduce((s, dn) => s + dn.total, 0);
 
   const totalPending = rows.reduce((s, r) => s + r.pending, 0);
   const overdue30 = rows.filter((r) => r.overdueDays > 30).reduce((s, r) => s + r.pending, 0);
@@ -201,17 +218,34 @@ export default function BillsPayablePage() {
               </div>
 
               {/* Financial breakdown */}
-              <div className="rounded-lg border border-gray-100 bg-gray-50/50 p-4 space-y-3">
+              <div className="rounded-lg border border-gray-100 bg-gray-50/50 p-4 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-gray-500">Invoice Total</span>
+                  <span className="text-[11px] text-gray-500">Original Invoice Total</span>
                   <span className="font-mono text-[11px] font-semibold text-gray-900">{inr(selected.totalAmount)}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-gray-500">Amount Paid</span>
-                  <span className="font-mono text-[11px] font-semibold text-emerald-600">{inr(selected.amountPaid)}</span>
-                </div>
-                <div className="border-t border-gray-200 pt-3 flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-gray-700">Pending Balance</span>
+                {debitNotes.length > 0 && (
+                  <>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-red-400 pt-1">Returns (Debit Notes)</div>
+                    {debitNotes.map((dn) => (
+                      <div key={dn.id} className="flex items-center justify-between pl-3">
+                        <span className="text-[11px] text-gray-500">{dn.invoice_no}{dn.invoice_date ? ` · ${dn.invoice_date}` : ''}</span>
+                        <span className="font-mono text-[11px] text-red-600">−{inr(dn.total)}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center justify-between border-t border-dashed border-gray-200 pt-2">
+                      <span className="text-[11px] text-gray-500">Net After Returns</span>
+                      <span className="font-mono text-[11px] font-semibold text-gray-700">{inr(selected.totalAmount - totalReturns)}</span>
+                    </div>
+                  </>
+                )}
+                {selected.amountPaid > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-gray-500">Payments Made</span>
+                    <span className="font-mono text-[11px] font-semibold text-emerald-600">−{inr(selected.amountPaid)}</span>
+                  </div>
+                )}
+                <div className="border-t border-gray-200 pt-2.5 flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-gray-700">Net Payable</span>
                   <span className="font-mono text-sm font-bold text-gray-900">{inr(selected.pending)}</span>
                 </div>
               </div>
