@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useCompany } from '@/hooks/useCompany';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
@@ -12,6 +12,7 @@ import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
 import { computeTradingAccount } from '@/lib/accounting/tradingAccountCompute';
 import type { EntityType } from '@/types/company';
+import { listJournalEntries } from '@/lib/offlineDb';
 
 export default function TradingAccountPage() {
   const { company, companyId, loading: companyLoading } = useCompany();
@@ -27,6 +28,24 @@ export default function TradingAccountPage() {
   });
 
   const tradingAccount = useMemo(() => computeTradingAccount(entries), [entries]);
+
+  const allRange = useMemo(() => {
+    if (!companyId) return null;
+    const all = listJournalEntries(companyId);
+    if (!all.length) return null;
+    const dates = all.map((e) => e.entry_date).sort();
+    return { from: dates[0], to: dates[dates.length - 1] };
+  }, [companyId, entries]);
+
+  // Auto-expand date range so entries outside default FY are visible
+  const rangeExpanded = useRef(false);
+  useEffect(() => {
+    if (!allRange || rangeExpanded.current) return;
+    let changed = false;
+    if (allRange.from < fromDate) { setFromDate(allRange.from); changed = true; }
+    if (allRange.to > toDate) { setToDate(allRange.to); changed = true; }
+    if (changed) rangeExpanded.current = true;
+  }, [allRange, fromDate, toDate]);
 
   if (companyLoading || !company) {
     return <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;

@@ -131,22 +131,22 @@ export function PaymentSection(props: PaymentSectionProps) {
             {/* Pending Amount Read-only */}
             {(isPartial || isCredit) && (
               <div className="flex flex-col justify-end">
-                <span className="mb-1 block text-[11px] font-semibold text-red-600">Pending Amount</span>
-                <div className="flex h-8 items-center rounded-lg border border-red-200 bg-red-50 px-3 text-xs font-bold text-red-700">
+                <span className="mb-1 block text-[11px] font-semibold text-gray-500">Pending Amount</span>
+                <div className="flex h-8 items-center rounded-lg border border-gray-200 bg-gray-50 px-3 text-xs font-bold text-gray-700">
                   ₹ {amountPending.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
               </div>
             )}
 
-            {/* Due Date (Mandatory for Credit/Partial) */}
+            {/* Due Date */}
             {(isPartial || isCredit) && (
               <label>
-                <span className="mb-1 block text-[11px] font-semibold text-red-600">Due Date *</span>
+                <span className="mb-1 block text-[11px] font-semibold text-gray-500">Due Date *</span>
                 <input
                   type="date"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
-                  className="h-8 w-full rounded-lg border border-red-300 px-3 text-xs font-semibold focus:border-red-500 focus:ring-red-500"
+                  className="h-8 w-full rounded-lg border border-gray-300 px-3 text-xs font-semibold focus:border-blue-400 focus:ring-blue-100"
                 />
               </label>
             )}

@@ -1,45 +1,31 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useCompany } from '@/hooks/useCompany';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { AlertBanner } from '@/components/layout/AlertBanner';
 import { getGSTMidYearDate } from '@/lib/utils/edgeCases';
+import { listInvoicesV2, listPurchaseInvoices } from '@/lib/accounting/gstInvoices';
+import { getCurrentFY } from '@/lib/utils/dateUtils';
+import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 
-/* ── KPI card config ── */
-const kpiCards = [
-  {
-    label: 'Estimated Tax Liability',
-    value: '0.00',
-    trend: 'neutral' as const,
-    trendLabel: 'Current period',
-    icon: (
-      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797-2.101c.727-.198 1.453-.406 2.164-.624m-19.961 2.725A60.07 60.07 0 0 1 18.75 12.75m-18.75 6A59.94 59.94 0 0 1 21.485 12M2.25 18.75 9 12l2.25 2.25L15 10.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Available ITC',
-    value: '0.00',
-    trend: 'up' as const,
-    trendLabel: 'Input credits',
-    icon: (
-      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Total Outward Supplies',
-    value: '0.00',
-    trend: 'neutral' as const,
-    trendLabel: 'Sales + adjustments',
-    icon: (
-      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-      </svg>
-    ),
-  },
-];
+/* ── KPI icon constants ── */
+const KPI_ICONS = {
+  taxLiability: (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797-2.101c.727-.198 1.453-.406 2.164-.624m-19.961 2.725A60.07 60.07 0 0 1 18.75 12.75m-18.75 6A59.94 59.94 0 0 1 21.485 12M2.25 18.75 9 12l2.25 2.25L15 10.5" />
+    </svg>
+  ),
+  itc: (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+    </svg>
+  ),
+  outward: (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+    </svg>
+  ),
+};
 
 /* ── Module card configs ── */
 const complianceModules = [
@@ -138,7 +124,7 @@ const coreModules = [
     gradient: 'from-white to-gray-50/60',
     borderHover: 'hover:border-gray-400',
     iconBg: 'bg-gray-100 text-gray-600',
-    badge: null,
+    badge: 'Coming Soon',
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -233,6 +219,37 @@ function ModuleCard({
 /* ── Main Page ── */
 export default function GSTPage() {
   const { company, companyId, loading } = useCompany();
+  const fy = getCurrentFY();
+
+  const kpiCards = useMemo(() => {
+    if (!companyId) return [];
+    const sales = listInvoicesV2(companyId).filter(
+      (s) => s.invoice_date >= fy.start && s.invoice_date <= fy.end && s.status !== 'CANCELLED',
+    );
+    const purchases = listPurchaseInvoices(companyId).filter(
+      (p) => p.invoice_date >= fy.start && p.invoice_date <= fy.end,
+    );
+
+    let taxLiability = 0;
+    let totalOutward = 0;
+    for (const s of sales) {
+      taxLiability += s.total_cgst + s.total_sgst + s.total_igst;
+      totalOutward += s.total_amount;
+    }
+
+    let availableITC = 0;
+    for (const p of purchases) {
+      if (p.itc_eligible && (!p.itc_status || p.itc_status === 'ELIGIBLE_FULL' || p.itc_status === 'ELIGIBLE_PARTIAL')) {
+        availableITC += p.cgst + p.sgst + p.igst;
+      }
+    }
+
+    return [
+      { label: 'Estimated Tax Liability', value: formatIndianCurrency(taxLiability), trend: taxLiability > 0 ? 'up' as const : 'neutral' as const, trendLabel: 'Current period', icon: KPI_ICONS.taxLiability },
+      { label: 'Available ITC', value: formatIndianCurrency(availableITC), trend: availableITC > 0 ? 'up' as const : 'neutral' as const, trendLabel: 'Input credits', icon: KPI_ICONS.itc },
+      { label: 'Total Outward Supplies', value: formatIndianCurrency(totalOutward), trend: totalOutward > 0 ? 'up' as const : 'neutral' as const, trendLabel: 'Sales + adjustments', icon: KPI_ICONS.outward },
+    ];
+  }, [companyId, fy.start, fy.end]);
 
   if (loading || !company) {
     return (
@@ -333,7 +350,7 @@ export default function GSTPage() {
       <div>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400">Current Period Summary</h2>
-          <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-semibold text-gray-500">FY 2025-26</span>
+          <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-semibold text-gray-500">{fy.label}</span>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {kpiCards.map((kpi) => (
@@ -350,7 +367,7 @@ export default function GSTPage() {
                   <TrendBadge trend={kpi.trend} label={kpi.trendLabel} />
                 </div>
                 <p className="mt-3 font-mono text-2xl font-bold tabular-nums text-gray-900">
-                  <span className="text-base font-semibold text-gray-400">&#8377;</span>{kpi.value}
+                  {kpi.value}
                 </p>
                 <p className="mt-0.5 text-[11px] font-semibold text-gray-400">{kpi.label}</p>
               </div>

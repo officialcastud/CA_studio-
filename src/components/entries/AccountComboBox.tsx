@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
-import { ChevronDown, Plus, X, Search } from 'lucide-react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { Search, X, ChevronDown } from 'lucide-react';
 import { searchAccounts, getMasterAccount, findExistingAccountName, normalizeAccountName } from '@/lib/chartOfAccounts';
+import { registerCustomAccount } from '@/lib/offlineDb';
 import { LEDGER_GROUPS, getGroupByScheduleIII } from '@/lib/coa';
 import type { PrimaryGroup, JournalNature } from '@/lib/coa';
 
 // ─── New Account Dialog ───────────────────────────────────────────────────────
-// Single "Under" selector — 26 Tally-style groups instead of 4+50 confusing sub-groups
 
 interface NewAccountDialogProps {
   name: string;
@@ -15,144 +15,201 @@ interface NewAccountDialogProps {
   onCancel: () => void;
 }
 
-const GROUP_SECTION_LABELS: Partial<Record<PrimaryGroup, string>> = {
-  'Capital & Liabilities': 'CAPITAL & LIABILITIES',
-  'Assets': 'ASSETS',
-  'Income': 'INCOME',
-  'Expenses': 'EXPENSES',
+const PG_ORDER: PrimaryGroup[] = ['Capital & Liabilities', 'Assets', 'Income', 'Expenses'];
+
+const PG_COLORS: Record<PrimaryGroup, { card: string; badge: string; border: string }> = {
+  'Capital & Liabilities': { card: 'hover:border-orange-300 hover:bg-orange-50', badge: 'bg-orange-100 text-orange-700', border: 'border-orange-300 bg-orange-50' },
+  'Assets':               { card: 'hover:border-blue-300 hover:bg-blue-50',   badge: 'bg-blue-100 text-blue-700',   border: 'border-blue-300 bg-blue-50' },
+  'Income':               { card: 'hover:border-green-300 hover:bg-green-50', badge: 'bg-green-100 text-green-700', border: 'border-green-300 bg-green-50' },
+  'Expenses':             { card: 'hover:border-red-300 hover:bg-red-50',     badge: 'bg-red-100 text-red-700',     border: 'border-red-300 bg-red-50' },
 };
 
 function NewAccountDialog({ name, onConfirm, onCancel }: NewAccountDialogProps) {
-  const [selectedId, setSelectedId] = useState('indirect_expenses');
-  const [groupSearch, setGroupSearch] = useState('');
+  const [accountName, setAccountName] = useState(name);
+  const [selectedGroupId, setSelectedGroupId] = useState('');
+  const [activePG, setActivePG] = useState<PrimaryGroup>('Assets');
+  const [error, setError] = useState('');
 
-  const selected = LEDGER_GROUPS.find((g) => g.id === selectedId) ?? LEDGER_GROUPS[0];
+  const groupedOptions = useMemo(() =>
+    PG_ORDER.map(pg => ({
+      pg,
+      groups: LEDGER_GROUPS.filter(g => g.primaryGroup === pg),
+    })),
+  []);
 
-  const filteredGroups = useMemo(() => {
-    const q = groupSearch.toLowerCase();
-    if (!q) return LEDGER_GROUPS;
-    return LEDGER_GROUPS.filter(
-      (g) => g.label.toLowerCase().includes(q) || g.description.toLowerCase().includes(q),
-    );
-  }, [groupSearch]);
+  const selectedGroup = LEDGER_GROUPS.find(g => g.id === selectedGroupId);
 
-  // Group by primaryGroup for section headers
-  const sections: { pg: PrimaryGroup; groups: typeof LEDGER_GROUPS }[] = [];
-  const seenPg = new Set<PrimaryGroup>();
-  for (const g of filteredGroups) {
-    if (!seenPg.has(g.primaryGroup)) {
-      seenPg.add(g.primaryGroup);
-      sections.push({ pg: g.primaryGroup, groups: [] });
-    }
-    sections[sections.length - 1].groups.push(g);
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!accountName.trim()) { setError('Account name is required'); return; }
+    if (!selectedGroupId || !selectedGroup) { setError('Please select an account group'); return; }
+    onConfirm(accountName.trim(), selectedGroup.primaryGroup, selectedGroup.scheduleIII);
+  };
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-[60] flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
+    <div className="fixed inset-0 bg-black/40 z-[70] flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh]">
+
         {/* Header */}
-        <div className="flex items-start justify-between px-5 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
           <div>
-            <h3 className="text-sm font-bold text-gray-900">Create New Account</h3>
-            <p className="text-xs text-gray-400 mt-0.5">Select which group this account falls under</p>
+            <h2 className="text-sm font-bold text-gray-900">Create New Account</h2>
+            <p className="text-[11px] text-gray-400 mt-0.5">Give this account a name and place it under the right group</p>
           </div>
-          <button onClick={onCancel} className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100">
+          <button onClick={onCancel} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="px-5 pt-4 pb-2">
-          {/* Account name */}
-          <div className="mb-4">
-            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Account Name</p>
-            <div className="h-9 px-3 flex items-center text-sm font-semibold text-gray-900 bg-blue-50 border border-blue-200 rounded-lg">
-              {name}
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+          <div className="flex-1 overflow-y-auto">
+
+            {/* Account name */}
+            <div className="px-6 pt-5 pb-3">
+              {error && <div className="mb-3 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</div>}
+              <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Account Name *</label>
+              <input
+                autoFocus
+                value={accountName}
+                onChange={e => setAccountName(e.target.value)}
+                placeholder="e.g. Ramesh Traders, Office Rent Expense, SBI Current Account"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-400"
+              />
             </div>
-          </div>
 
-          {/* Under — single selector with search */}
-          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Under (Account Group)</p>
-
-          {/* Search */}
-          <div className="relative mb-2">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
-            <input
-              value={groupSearch}
-              onChange={(e) => setGroupSearch(e.target.value)}
-              placeholder="Search groups…"
-              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Group list */}
-          <div className="max-h-52 overflow-y-auto border border-gray-200 rounded-lg">
-            {sections.map(({ pg, groups }) => (
-              <div key={pg}>
-                <div className="px-2.5 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 sticky top-0 border-b border-gray-100">
-                  {GROUP_SECTION_LABELS[pg]}
-                </div>
-                {groups.map((g) => (
-                  <button
-                    key={g.id}
-                    onClick={() => setSelectedId(g.id)}
-                    className={`w-full text-left px-3 py-2 flex items-start gap-2 transition-colors border-b border-gray-50 last:border-0 ${
-                      selectedId === g.id ? 'bg-blue-50' : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className={`w-3 h-3 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                      selectedId === g.id ? 'border-blue-500' : 'border-gray-300'
-                    }`}>
-                      {selectedId === g.id && <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
-                    </div>
-                    <div className="min-w-0">
-                      <p className={`text-sm font-medium ${selectedId === g.id ? 'text-blue-700' : 'text-gray-800'}`}>
-                        {g.label}
-                      </p>
-                      <p className="text-[11px] text-gray-400 truncate">{g.description}</p>
-                    </div>
-                  </button>
-                ))}
+            {/* Primary group tabs */}
+            <div className="px-6 pb-2">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Under Group *</p>
+              <div className="flex gap-1.5 flex-wrap mb-3">
+                {PG_ORDER.map(pg => {
+                  const colors = PG_COLORS[pg];
+                  const isActive = activePG === pg;
+                  return (
+                    <button
+                      key={pg}
+                      type="button"
+                      onClick={() => { setActivePG(pg); setSelectedGroupId(''); }}
+                      className={`h-7 px-3 rounded-full text-[11px] font-semibold transition-colors ${
+                        isActive
+                          ? `${colors.badge} ring-1 ring-current`
+                          : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                    >
+                      {pg}
+                    </button>
+                  );
+                })}
               </div>
-            ))}
-            {sections.length === 0 && (
-              <p className="text-sm text-gray-400 text-center py-4">No groups match your search</p>
+
+              {/* Groups for selected primary group */}
+              <div className="grid grid-cols-2 gap-2">
+                {groupedOptions.find(g => g.pg === activePG)?.groups.map(group => {
+                  const colors = PG_COLORS[activePG];
+                  const isSelected = selectedGroupId === group.id;
+                  return (
+                    <button
+                      key={group.id}
+                      type="button"
+                      onClick={() => setSelectedGroupId(group.id)}
+                      className={`text-left p-3 rounded-xl border transition-colors ${
+                        isSelected
+                          ? colors.border
+                          : `border-gray-100 bg-gray-50/50 ${colors.card}`
+                      }`}
+                    >
+                      <p className={`text-[11px] font-bold mb-0.5 ${isSelected ? '' : 'text-gray-700'}`}>{group.label}</p>
+                      <p className="text-[10px] text-gray-400 leading-tight">{group.description}</p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Selected group indicator */}
+            {selectedGroup && (
+              <div className="mx-6 mb-4 px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
+                <p className="text-[11px] text-blue-700">
+                  <span className="font-semibold">{selectedGroup.label}</span>
+                  <span className="text-blue-400 mx-1.5">·</span>
+                  <span className="capitalize">{selectedGroup.nature}</span>
+                  <span className="text-blue-400 mx-1.5">·</span>
+                  <span>{selectedGroup.primaryGroup}</span>
+                </p>
+              </div>
             )}
           </div>
 
-          {/* Preview of selected */}
-          {selected && (
-            <div className="mt-3 flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="text-[11px] text-gray-500">
-                <span className="font-semibold text-gray-700">{selected.label}</span>
-                {' → '}
-                <span className="font-mono">{selected.scheduleIII}</span>
-                {' · '}
-                <span className="capitalize">{selected.nature}</span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-200 mt-2">
-          <button onClick={onCancel} className="h-9 px-4 text-sm font-medium border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50">
-            Cancel
-          </button>
-          <button
-            onClick={() => selected && onConfirm(name, selected.primaryGroup, selected.scheduleIII)}
-            disabled={!selected}
-            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Add Account
-          </button>
-        </div>
+          {/* Footer */}
+          <div className="flex gap-2 px-6 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl shrink-0">
+            <button type="button" onClick={onCancel} className="flex-1 h-9 text-sm text-gray-600 hover:bg-gray-100 rounded-xl transition-colors border border-gray-200 bg-white">
+              Cancel
+            </button>
+            <button type="submit" disabled={!selectedGroupId || !accountName.trim()} className="flex-1 h-9 text-sm bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-40 transition-colors font-semibold">
+              Create Account
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 }
 
+// ─── GST Shortcut Accounts ────────────────────────────────────────────────────
+
+const GST_SHORTCUTS: Array<{
+  name: string;
+  subGroup: string;
+  primaryGroup: PrimaryGroup;
+  nature: JournalNature;
+  badge: string;
+  desc: string;
+  itemColor: string;
+  badgeColor: string;
+}> = [
+  {
+    name: 'Intra GST Input',
+    subGroup: 'GST_INTRA_INPUT',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    badge: 'CGST + SGST',
+    desc: 'Purchase · Dr CGST & SGST Input Tax Credit',
+    itemColor: 'text-blue-700 hover:bg-blue-50',
+    badgeColor: 'bg-blue-100 text-blue-600',
+  },
+  {
+    name: 'Intra GST Output',
+    subGroup: 'GST_INTRA_OUTPUT',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'liability',
+    badge: 'CGST + SGST',
+    desc: 'Sales · Cr CGST & SGST Output Tax',
+    itemColor: 'text-green-700 hover:bg-green-50',
+    badgeColor: 'bg-green-100 text-green-600',
+  },
+  {
+    name: 'Inter GST Input (IGST)',
+    subGroup: 'GST_INTER_INPUT',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    badge: 'IGST',
+    desc: 'Purchase · Dr IGST Input Tax Credit',
+    itemColor: 'text-indigo-700 hover:bg-indigo-50',
+    badgeColor: 'bg-indigo-100 text-indigo-600',
+  },
+  {
+    name: 'Inter GST Output (IGST)',
+    subGroup: 'GST_INTER_OUTPUT',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'liability',
+    badge: 'IGST',
+    desc: 'Sales · Cr IGST Output Tax',
+    itemColor: 'text-violet-700 hover:bg-violet-50',
+    badgeColor: 'bg-violet-100 text-violet-600',
+  },
+];
+
 // ─── AccountComboBox ──────────────────────────────────────────────────────────
+
 interface AccountComboBoxProps {
   companyId: string;
   value: string;
@@ -180,7 +237,36 @@ export function AccountComboBox({
     [companyId, search]
   );
 
-  const allVisible = useMemo(() => [...basic, ...extended], [basic, extended]);
+  // Merge basic + extended into one flat alphabetical list, no duplicates
+  const allVisible = useMemo(() => {
+    const seen = new Set<string>();
+    const merged: string[] = [];
+    for (const n of [...basic, ...extended]) {
+      const k = n.toLowerCase();
+      if (!seen.has(k)) { seen.add(k); merged.push(n); }
+    }
+    return merged.sort((a, b) => a.localeCompare(b));
+  }, [basic, extended]);
+
+  // Space+case insensitive: "Sudhir " == "sudhir" == " SUDHIR"
+  const normalizedSearch = useMemo(() => normalizeAccountName(search).toLowerCase(), [search]);
+  const existingMatch = useMemo(() => {
+    if (!normalizedSearch) return null;
+    return allVisible.find(n => normalizeAccountName(n).toLowerCase() === normalizedSearch) ?? null;
+  }, [normalizedSearch, allVisible]);
+
+  const hasQuery = search.trim().length > 0;
+  // Always show "Create" row when there is a non-empty query
+  const hasNewRow = hasQuery;
+
+  // GST shortcut items — visible when query matches any part of their name
+  const visibleGstShortcuts = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return [];
+    return GST_SHORTCUTS.filter(s => s.name.toLowerCase().includes(q));
+  }, [search]);
+
+  const showDropdown = open && (allVisible.length > 0 || hasNewRow || visibleGstShortcuts.length > 0);
 
   useEffect(() => { setSearch(value); }, [value]);
   useEffect(() => { setHighlightIdx(-1); }, [search]);
@@ -191,9 +277,7 @@ export function AccountComboBox({
       if (
         inputRef.current && !inputRef.current.contains(e.target as Node) &&
         listRef.current && !listRef.current.contains(e.target as Node)
-      ) {
-        setOpen(false);
-      }
+      ) setOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -213,22 +297,16 @@ export function AccountComboBox({
   const handleNewAccount = (name: string, pg: PrimaryGroup, sg: string) => {
     const normalized = normalizeAccountName(name);
     const existing = findExistingAccountName(companyId, normalized);
-    if (existing) {
-      selectName(existing);
-      setPendingNew(null);
-      return;
-    }
+    if (existing) { selectName(existing); setPendingNew(null); return; }
     const group = getGroupByScheduleIII(sg);
     const nature: JournalNature = group?.nature ?? 'expense';
+    // Persist account so it survives JE deletion
+    registerCustomAccount(companyId, normalized, sg, nature);
     onChange(normalized, { primaryGroup: pg, subGroup: sg, nature });
     setSearch(normalized);
     setPendingNew(null);
     setOpen(false);
   };
-
-  const hasQuery = search.trim().length > 0;
-  const hasNewRow = isNew && hasQuery;
-  const showDropdown = open && (allVisible.length > 0 || hasNewRow);
 
   return (
     <>
@@ -238,49 +316,34 @@ export function AccountComboBox({
           type="text"
           value={search}
           onFocus={() => setOpen(true)}
-          onChange={e => {
-            setSearch(e.target.value);
-            onChange(e.target.value);
-            setOpen(true);
-          }}
+          onChange={e => { setSearch(e.target.value); onChange(e.target.value); setOpen(true); }}
           onKeyDown={e => {
-            if (e.key === 'ArrowDown') {
+            const optionCount = allVisible.length + (hasNewRow ? 1 : 0);
+            if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setHighlightIdx(p => Math.min(p + 1, optionCount - 1)); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); setHighlightIdx(p => Math.max(p - 1, -1)); }
+            else if (e.key === 'Enter') {
               e.preventDefault();
-              setOpen(true);
-              const optionCount = allVisible.length + (hasNewRow ? 1 : 0);
-              setHighlightIdx(p => Math.min(p + 1, optionCount - 1));
-            } else if (e.key === 'ArrowUp') {
-              e.preventDefault();
-              setHighlightIdx(p => Math.max(p - 1, -1));
-            } else if (e.key === 'Enter') {
-              e.preventDefault();
-              const optionCount = allVisible.length + (hasNewRow ? 1 : 0);
               if (highlightIdx >= 0 && highlightIdx < optionCount) {
                 if (hasNewRow && highlightIdx === 0) {
-                  const normalized = normalizeAccountName(search);
-                  const existing = findExistingAccountName(companyId, normalized);
-                  if (existing) {
-                    selectName(existing);
+                  if (existingMatch) {
+                    selectName(existingMatch);
                   } else {
-                    setPendingNew(normalized);
+                    const normalized = normalizeAccountName(search);
+                    const existing = findExistingAccountName(companyId, normalized);
+                    if (existing) { selectName(existing); }
+                    else { setPendingNew(normalized); }
                   }
                   setOpen(false);
                 } else {
-                  const indexInList = highlightIdx - (hasNewRow ? 1 : 0);
-                  if (indexInList >= 0 && indexInList < allVisible.length) {
-                    selectName(allVisible[indexInList]);
-                    setOpen(false);
-                  }
+                  const idx = highlightIdx - (hasNewRow ? 1 : 0);
+                  if (idx >= 0 && idx < allVisible.length) { selectName(allVisible[idx]); setOpen(false); }
                 }
-              } else if (!hasNewRow) {
-                setOpen(false);
               }
-            } else if (e.key === 'Escape') {
-              setOpen(false);
             }
+            else if (e.key === 'Escape') setOpen(false);
           }}
           placeholder={placeholder}
-          className={`w-full border border-gray-200 rounded-lg px-2 pr-6 bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 ${className}`}
+          className={`w-full border border-gray-200 rounded-lg px-2.5 pr-7 bg-white focus:outline-none focus:ring-1 focus:ring-blue-400 ${className}`}
           autoComplete="off"
         />
         <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400 pointer-events-none" />
@@ -288,83 +351,79 @@ export function AccountComboBox({
         {showDropdown && (
           <div
             ref={listRef}
-            className="absolute z-50 top-full left-0 right-0 mt-0.5 max-h-56 overflow-auto bg-white border border-gray-200 rounded-xl shadow-lg"
+            className="absolute z-50 top-full left-0 right-0 mt-0.5 max-h-64 overflow-auto bg-white border border-gray-200 rounded-xl shadow-lg"
           >
-            {/* Create new (always on top when applicable) */}
+            {/* GST Shortcut Items */}
+            {visibleGstShortcuts.length > 0 && (
+              <div className="border-b border-gray-100">
+                <p className="px-3 pt-2 pb-1 text-[9px] font-bold text-gray-400 uppercase tracking-widest">GST Shortcuts</p>
+                {visibleGstShortcuts.map(sc => (
+                  <div
+                    key={sc.subGroup}
+                    onMouseDown={e => {
+                      e.preventDefault();
+                      onChange(sc.name, { primaryGroup: sc.primaryGroup, subGroup: sc.subGroup, nature: sc.nature });
+                      setSearch(sc.name);
+                      setOpen(false);
+                    }}
+                    className={`flex items-center justify-between px-3 py-2 cursor-pointer ${sc.itemColor}`}
+                  >
+                    <div>
+                      <p className="text-xs font-semibold">{sc.name}</p>
+                      <p className="text-[10px] opacity-60">{sc.desc}</p>
+                    </div>
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0 ml-2 ${sc.badgeColor}`}>{sc.badge}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Create / duplicate indicator */}
             {hasNewRow && (
               <div
                 onMouseDown={e => {
                   e.preventDefault();
-                  const normalized = normalizeAccountName(search);
-                  const existing = findExistingAccountName(companyId, normalized);
-                  if (existing) {
-                    selectName(existing);
+                  if (existingMatch) {
+                    // Duplicate: just select the existing account
+                    selectName(existingMatch);
                   } else {
-                    setPendingNew(normalized);
-                    setOpen(false);
+                    const normalized = normalizeAccountName(search);
+                    const existing = findExistingAccountName(companyId, normalized);
+                    if (existing) { selectName(existing); }
+                    else { setPendingNew(normalized); setOpen(false); }
                   }
                 }}
-                className="flex items-center gap-2 px-2.5 py-2 cursor-pointer border-b border-gray-100 text-blue-700 bg-blue-50"
+                className={`flex items-center justify-between gap-2 px-3 py-2 cursor-pointer border-b border-gray-100 ${existingMatch ? 'text-amber-700 bg-amber-50' : 'text-blue-700 bg-blue-50'} ${highlightIdx === 0 ? 'brightness-95' : ''}`}
               >
-                <Plus className="h-3.5 w-3.5 shrink-0" />
-                <span className="text-sm font-medium">
-                  Create "<span className="font-semibold">{search.trim()}</span>"
+                <span className="text-xs font-medium">
+                  {existingMatch
+                    ? <>Already exists: <span className="font-bold">{existingMatch}</span> — click to select</>
+                    : <>+ Create "<span className="font-bold">{search.trim()}</span>"</>
+                  }
                 </span>
               </div>
             )}
 
-            {/* Basic accounts */}
-            {basic.length > 0 && (
-              <>
-                {hasQuery && (
-                  <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 border-b border-gray-100 sticky top-0">
-                    Common Accounts
-                  </div>
-                )}
-                {basic.map((name, i) => (
-                  <div
-                    key={name}
-                    onMouseDown={e => { e.preventDefault(); selectName(name); }}
-                    onMouseEnter={() => setHighlightIdx((hasNewRow ? 1 : 0) + i)}
-                    className={`px-2.5 py-1.5 cursor-pointer text-sm truncate ${
-                      ((hasNewRow ? 1 : 0) + i) === highlightIdx ? 'bg-blue-50 text-blue-700' : 'hover:bg-gray-50 text-gray-800'
-                    }`}
-                  >
-                    {name}
-                  </div>
-                ))}
-              </>
-            )}
-
-            {/* Extended accounts — COA defaults */}
-            {extended.length > 0 && (
-              <>
-                <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 border-y border-gray-100 sticky top-0">
-                  {basic.length > 0 ? 'Standard Accounts' : 'Suggested Accounts'}
+            {/* Flat alphabetical list */}
+            {allVisible.map((name, i) => {
+              const idx = i + (hasNewRow ? 1 : 0);
+              return (
+                <div
+                  key={name}
+                  onMouseDown={e => { e.preventDefault(); selectName(name); }}
+                  onMouseEnter={() => setHighlightIdx(idx)}
+                  className={`px-3 py-1.5 cursor-pointer text-sm truncate ${
+                    idx === highlightIdx ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  {name}
                 </div>
-                {extended.map((name, i) => {
-                  const idx = (hasNewRow ? 1 : 0) + basic.length + i;
-                  return (
-                    <div
-                      key={name}
-                      onMouseDown={e => { e.preventDefault(); selectName(name); }}
-                      onMouseEnter={() => setHighlightIdx(idx)}
-                      className={`px-2.5 py-1.5 cursor-pointer text-sm truncate text-gray-500 ${
-                        idx === highlightIdx ? 'bg-blue-50 text-blue-700' : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      {name}
-                    </div>
-                  );
-                })}
-              </>
-            )}
-
+              );
+            })}
           </div>
         )}
       </div>
 
-      {/* New Account Classification Dialog */}
       {pendingNew && (
         <NewAccountDialog
           name={pendingNew}

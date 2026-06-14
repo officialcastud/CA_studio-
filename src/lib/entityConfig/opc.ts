@@ -32,5 +32,6 @@ export const opcConfig: EntityConfig = {
     contingentLiabilities: true, directorsReport: true, caro: true, costRecords: 'never', formN: false,
     salesInvoice: true, purchaseVoucher: true, paymentVoucher: true,
     receiptVoucher: true, debitNote: true, creditNote: true,
+    bankImport: true,
   },
 };

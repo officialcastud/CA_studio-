@@ -17,11 +17,22 @@ export interface EntityDataRecord {
   updated_at: string;
 }
 
+/** Explicitly registered accounts (persists after all JEs are deleted). */
+export interface CustomAccount {
+  id: string;
+  company_id: string;
+  name: string;
+  account_group: string;
+  nature: string;
+  created_at: string;
+}
+
 type DbSchema = {
   companies: Company[];
   journal_entries: JournalEntry[];
   book_periods: BookPeriod[];
   entity_data: EntityDataRecord[];
+  custom_accounts: CustomAccount[];
 };
 
 // v2: bump key so all previous local data is ignored (fresh DB)
@@ -33,7 +44,7 @@ function isBrowser() {
 }
 
 function emptyDb(): DbSchema {
-  return { companies: [], journal_entries: [], book_periods: [], entity_data: [] };
+  return { companies: [], journal_entries: [], book_periods: [], entity_data: [], custom_accounts: [] };
 }
 
 function loadDb(): DbSchema {
@@ -53,6 +64,7 @@ function loadDb(): DbSchema {
       journal_entries: parsed.journal_entries ?? [],
       book_periods: parsed.book_periods ?? [],
       entity_data: parsed.entity_data ?? [],
+      custom_accounts: parsed.custom_accounts ?? [],
     };
   } catch {
     const empty = emptyDb();
@@ -96,6 +108,7 @@ export function deleteCompany(id: string): void {
   db.journal_entries = db.journal_entries.filter((e) => e.company_id !== id);
   db.book_periods = db.book_periods.filter((p) => p.company_id !== id);
   db.entity_data = db.entity_data.filter((d) => d.company_id !== id);
+  db.custom_accounts = db.custom_accounts.filter((a) => a.company_id !== id);
   saveDb(db);
 }
 
@@ -313,6 +326,95 @@ export function deleteAllJournalEntries(companyId: string): number {
   saveDb(db);
   emitJournalDataChanged(companyId);
   return before - db.journal_entries.length;
+}
+
+// ---- Custom Accounts (user-created accounts that persist after JE deletion) ----
+
+export function getCustomAccounts(companyId: string): CustomAccount[] {
+  const db = loadDb();
+  return (db.custom_accounts ?? []).filter((a) => a.company_id === companyId);
+}
+
+/** Register an account so it persists even if all its JEs are deleted. Idempotent. */
+export function registerCustomAccount(
+  companyId: string,
+  name: string,
+  accountGroup: string,
+  nature: string,
+): void {
+  const db = loadDb();
+  if (!db.custom_accounts) db.custom_accounts = [];
+  const key = name.trim().replace(/\s+/g, ' ').toLowerCase();
+  const existing = db.custom_accounts.find(
+    (a) => a.company_id === companyId && a.name.trim().replace(/\s+/g, ' ').toLowerCase() === key
+  );
+  if (existing) {
+    // Update group/nature if provided
+    if (accountGroup) { existing.account_group = accountGroup; existing.nature = nature; }
+  } else {
+    db.custom_accounts.push({
+      id: generateId(),
+      company_id: companyId,
+      name: name.trim().replace(/\s+/g, ' '),
+      account_group: accountGroup,
+      nature,
+      created_at: new Date().toISOString(),
+    });
+  }
+  saveDb(db);
+}
+
+/** Delete a custom account from the registry by id. */
+export function deleteCustomAccount(companyId: string, id: string): void {
+  const db = loadDb();
+  if (!db.custom_accounts) return;
+  db.custom_accounts = db.custom_accounts.filter((a) => !(a.company_id === companyId && a.id === id));
+  saveDb(db);
+}
+
+/** Rename a custom account in the registry (does NOT rename in JE lines). */
+export function renameCustomAccount(companyId: string, id: string, newName: string): void {
+  const db = loadDb();
+  if (!db.custom_accounts) return;
+  const acc = db.custom_accounts.find((a) => a.company_id === companyId && a.id === id);
+  if (acc) { acc.name = newName.trim().replace(/\s+/g, ' '); saveDb(db); }
+}
+
+/** Update an account's group/nature across all its journal lines + registry. */
+export function updateAccountGroupInAllEntries(
+  companyId: string,
+  accountName: string,
+  newGroup: string,
+  newNature: string,
+): void {
+  const db = loadDb();
+  let changed = false;
+  for (const entry of db.journal_entries) {
+    if (entry.company_id !== companyId) continue;
+    for (const line of entry.lines) {
+      if (line.account_name === accountName) {
+        (line as any).account_group = newGroup;
+        (line as any).nature = newNature;
+        changed = true;
+      }
+    }
+  }
+  // Update registry entry too
+  if (!db.custom_accounts) db.custom_accounts = [];
+  const key = accountName.trim().replace(/\s+/g, ' ').toLowerCase();
+  const reg = db.custom_accounts.find(
+    (a) => a.company_id === companyId && a.name.trim().replace(/\s+/g, ' ').toLowerCase() === key
+  );
+  if (reg) { reg.account_group = newGroup; reg.nature = newNature; changed = true; }
+  else {
+    // Register it now so group persists
+    db.custom_accounts.push({
+      id: generateId(), company_id: companyId, name: accountName,
+      account_group: newGroup, nature: newNature, created_at: new Date().toISOString(),
+    });
+    changed = true;
+  }
+  if (changed) { saveDb(db); emitJournalDataChanged(companyId); }
 }
 
 // ---- Entity Data (per-company entity-specific modules) ----

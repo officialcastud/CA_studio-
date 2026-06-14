@@ -3,13 +3,10 @@
 import { useMemo, useState } from 'react';
 import { useCompany } from '@/hooks/useCompany';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { DocumentWizard } from '@/components/invoices/document-wizard';
-import { INDIAN_STATES_BY_NAME } from '@/lib/constants/indianStates';
+import { ReturnModal } from '@/components/invoices/ReturnModal';
 import {
   deleteInvoiceV2,
-  getStateCodeFromGSTIN,
   listInvoicesV2,
-  type InvoiceV2,
   type CdnReason,
 } from '@/lib/accounting/gstInvoices';
 
@@ -30,12 +27,6 @@ export default function SalesReturnsPage() {
   const { company, companyId, loading } = useCompany();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tick, setTick] = useState(0);
-
-  const companyGstin = company?.gst_details?.gstin || '';
-  const companyStateName = company?.entity_details?.state || '';
-  const sellerStateCode = companyGstin
-    ? getStateCodeFromGSTIN(companyGstin)
-    : (companyStateName ? INDIAN_STATES_BY_NAME[companyStateName.toLowerCase()]?.gstCode : null);
 
   const creditNotes = useMemo(() => {
     if (!companyId) return [];
@@ -61,15 +52,14 @@ export default function SalesReturnsPage() {
           onClick={() => setIsModalOpen(true)}
           className="h-9 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          + New Credit Note
+          + New Sales Return
         </button>
       </PageHeader>
 
       {isModalOpen && (
-        <DocumentWizard
-          mode="sales_return"
+        <ReturnModal
           companyId={companyId}
-          sellerStateCode={sellerStateCode || undefined}
+          returnType="SALES"
           onClose={() => setIsModalOpen(false)}
           onSave={() => setTick((x) => x + 1)}
         />

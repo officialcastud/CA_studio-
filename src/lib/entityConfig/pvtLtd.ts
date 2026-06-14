@@ -10,7 +10,7 @@ export const pvtLtdConfig: EntityConfig = {
     purchaseRegister: 'conditional', salesRegister: 'conditional',
     purchaseReturns: 'conditional', salesReturns: 'conditional',
     billsReceivable: true, billsPayable: true,
-    ledger: true, debtors: false, creditors: false, fixedAssets: false,
+    ledger: true, debtors: true, creditors: true, fixedAssets: false,
     investments: 'never', loans: 'never',
     trialBalance: true, tradingAccount: 'conditional',
     profitLoss: true, profitLossFormat: 'schedule_iii',
@@ -32,5 +32,6 @@ export const pvtLtdConfig: EntityConfig = {
     contingentLiabilities: true, directorsReport: true, caro: true, costRecords: 'never', formN: false,
     salesInvoice: true, purchaseVoucher: true, paymentVoucher: true,
     receiptVoucher: true, debitNote: true, creditNote: true,
+    bankImport: true,
   },
 };

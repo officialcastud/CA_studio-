@@ -2,6 +2,7 @@ import type { JournalEntry } from './computeEngine';
 
 export interface LedgerRow {
   date: string;
+  entry_id: string;
   entry_code: string;
   particulars: string;
   voucher_type: string;
@@ -19,24 +20,42 @@ export function computeLedger(
   let runningDebit = 0;
   let runningCredit = 0;
 
+  const isAllSales = accountName === 'All Sales Accounts';
+  const isAllPurchases = accountName === 'All Purchase Accounts';
+
   for (const entry of entries) {
-    const matchingLines = entry.lines.filter(l => l.account_name === accountName);
+    const matchingLines = entry.lines.filter(l => {
+      if (isAllSales) return l.account_group === 'Revenue from Operations';
+      if (isAllPurchases) return l.account_group === 'Purchases of Stock-in-Trade';
+      return l.account_name === accountName;
+    });
+
     if (matchingLines.length === 0) continue;
 
-    const otherAccounts = entry.lines
-      .filter(l => l.account_name !== accountName)
-      .map(l => l.account_name);
-    const particulars = otherAccounts.length === 1
-      ? otherAccounts[0]
-      : 'Sundries (' + otherAccounts.join(', ') + ')';
-
     for (const line of matchingLines) {
+      const otherAccounts = entry.lines
+        .filter(l => {
+          if (isAllSales) return l.account_group !== 'Revenue from Operations';
+          if (isAllPurchases) return l.account_group !== 'Purchases of Stock-in-Trade';
+          return l.account_name !== accountName;
+        })
+        .map(l => l.account_name);
+
+      let particulars = otherAccounts.length === 1
+        ? otherAccounts[0]
+        : 'Sundries (' + otherAccounts.join(', ') + ')';
+
+      if (isAllSales || isAllPurchases) {
+        particulars = `${line.account_name} (${particulars})`;
+      }
+
       runningDebit += line.debit || 0;
       runningCredit += line.credit || 0;
       const diff = runningDebit - runningCredit;
 
       rows.push({
         date: entry.entry_date,
+        entry_id: entry.id,
         entry_code: entry.entry_code,
         particulars,
         voucher_type: entry.voucher_type,

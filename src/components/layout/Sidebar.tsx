@@ -13,7 +13,7 @@ import {
   ClipboardCheck, Building, Banknote, Calculator, FileSpreadsheet,
   IndianRupee, Clock, ArrowLeftRight, ShieldCheck, Globe, Percent,
   FileCheck, FileSignature, PieChart, Link2, CheckSquare, Package,
-  Settings, Sparkles, FolderOpen, File, FileCode, FilePlus,
+  Settings, Sparkles, FolderOpen, File, FileCode, FilePlus, FileUp,
   Trash2, Pencil, Check, X, LayoutGrid, type LucideIcon,
 } from 'lucide-react';
 
@@ -129,6 +129,8 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
 
     const ledgerItems: NavItem[] = [];
     if (nav.ledger) ledgerItems.push({ label: 'Ledger Accounts', href: `${base}/ledger`, icon: BookOpen });
+    if (nav.debtors) ledgerItems.push({ label: 'Debtors', href: `${base}/debtors`, icon: Users });
+    if (nav.creditors) ledgerItems.push({ label: 'Creditors', href: `${base}/creditors`, icon: Users });
     if (ledgerItems.length > 0) g.push({ heading: 'LEDGERS', items: ledgerItems });
 
     const fsItems: NavItem[] = [];
@@ -169,6 +171,7 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (nav.advanceTax) taxItems.push({ label: 'Advance Tax', href: `${base}/advance-tax`, icon: IndianRupee });
     if (nav.deferredTax) taxItems.push({ label: 'Deferred Tax', href: `${base}/deferred-tax`, icon: Clock });
     if (nav.brs) taxItems.push({ label: 'Bank Reconciliation', href: `${base}/brs`, icon: ArrowLeftRight });
+    if (nav.bankImport) taxItems.push({ label: 'Bank Import', href: `${base}/bank-import`, icon: FileUp });
     if (taxItems.length > 0) g.push({ heading: 'TAX & COMPLIANCE', items: taxItems });
 
     // AUDIT & REPORTS section removed
@@ -177,11 +180,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
       g.push({ heading: 'INVENTORY', items: [{ label: 'Inventory', href: `${base}/inventory`, icon: Package }] });
     }
 
-    if (nav.bulkWorkspace) {
-      g.push({ heading: 'BULK WORKFLOW', items: [
-        { label: 'Bank Statement Importer', href: `${base}/bulk-workspace`, icon: LayoutGrid },
-      ]});
-    }
+    g.push({ heading: 'BULK WORKFLOW', items: [
+      { label: 'Bank Statement Importer', href: `${base}/bulk-workspace`, icon: LayoutGrid },
+    ]});
 
     return g;
   }, [config, companyId, company]);

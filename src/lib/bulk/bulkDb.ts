@@ -139,6 +139,16 @@ export function updateSuspenseRows(
   saveCompanyData(companyId, data);
 }
 
+export function deleteSuspenseRows(
+  companyId: string,
+  ids: string[]
+): void {
+  const data = getCompanyData(companyId);
+  const idSet = new Set(ids);
+  data.suspense_transactions = data.suspense_transactions.filter((t) => !idSet.has(t.id));
+  saveCompanyData(companyId, data);
+}
+
 // ── Ledger Entries ────────────────────────────────────────────────────────────
 
 export function getLedgerEntries(

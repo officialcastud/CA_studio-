@@ -242,12 +242,19 @@ function normalized(name: string) {
 }
 
 function canonicalAccount(name: string): string {
-  const n = normalized(name);
-  if (n === 'purchase' || n === 'purchases') return 'purchases';
-  if (n === 'sale' || n === 'sales') return 'sales';
-  if (n === 'purchase return' || n === 'purchase returns') return 'purchase returns';
-  if (n === 'sales return' || n === 'sales returns') return 'sales returns';
+  const n = name.trim().toLowerCase();
+  if (n.includes('purchase') && n.includes('return')) return 'purchase returns';
+  if (n.includes('sale') && n.includes('return')) return 'sales returns';
+  if (n.includes('purchase')) return 'purchases';
+  if (n.includes('sale')) return 'sales';
   return n;
+}
+
+export function resolveEffectiveGroup(accountName: string, providedGroup?: string): string {
+  if (providedGroup) return providedGroup;
+  const cls = classifyAccount(accountName);
+  if (cls) return cls.subGroup;
+  return getSafeFallbackClassification(accountName).subGroup;
 }
 
 const INVENTORY_SENSITIVE_SUBGROUPS = new Set<string>([
@@ -268,28 +275,23 @@ function findMasterAccountByName(name: string): MasterAccount | undefined {
   return match;
 }
 
-export function isInventorySensitiveLine(accountName: string): boolean {
+export function isInventorySensitiveLine(accountName: string, providedGroup?: string): boolean {
   const trimmed = accountName.trim();
   if (!trimmed) return false;
 
-  const master = findMasterAccountByName(trimmed);
-  if (master) {
-    if (master.isInventorySensitive) return true;
-    if (INVENTORY_SENSITIVE_SUBGROUPS.has(master.subGroup)) return true;
-  }
+  const effectiveGroup = resolveEffectiveGroup(trimmed, providedGroup);
+  if (INVENTORY_SENSITIVE_SUBGROUPS.has(effectiveGroup)) return true;
 
-  const cls = classifyAccount(trimmed);
-  if (cls && INVENTORY_SENSITIVE_SUBGROUPS.has(cls.subGroup)) {
-    return true;
-  }
+  const master = findMasterAccountByName(trimmed);
+  if (master && master.isInventorySensitive) return true;
 
   const name = canonicalAccount(trimmed);
   return INVENTORY_SENSITIVE_ACCOUNTS.has(name);
 }
 
 // Backwards-compatible alias used by UI components like ManualEntryDialog.
-export function isInventorySensitiveAccount(accountName: string): boolean {
-  return isInventorySensitiveLine(accountName);
+export function isInventorySensitiveAccount(accountName: string, providedGroup?: string): boolean {
+  return isInventorySensitiveLine(accountName, providedGroup);
 }
 
 export function emptyInventorySubLine(): InventorySubLine {
@@ -349,37 +351,42 @@ export function summarizeInventorySubLines(subLines: InventorySubLine[] = []): I
   );
 }
 
-function parentSideForAccount(accountName: string): 'debit' | 'credit' {
+function parentSideForAccount(accountName: string, providedGroup?: string): 'debit' | 'credit' {
+  const group = resolveEffectiveGroup(accountName, providedGroup);
+  if (group === 'Revenue from Operations' || group === 'Cost of Materials Consumed' && canonicalAccount(accountName) === 'purchase returns') return 'credit';
+  if (group === 'Cost of Materials Consumed' || group === 'Revenue from Operations' && canonicalAccount(accountName) === 'sales returns') return 'debit';
+  
   const name = canonicalAccount(accountName);
   if (name === 'sales' || name === 'purchase returns') return 'credit';
   return 'debit';
 }
 
-function gstPrefixForAccount(accountName: string): 'Input' | 'Output' {
+function gstPrefixForAccount(accountName: string, providedGroup?: string): 'Input' | 'Output' {
+  const group = resolveEffectiveGroup(accountName, providedGroup);
+  if (group === 'Revenue from Operations') return 'Output';
+  if (group === 'Cost of Materials Consumed') return 'Input';
+  
   const name = canonicalAccount(accountName);
   if (name === 'sales' || name === 'sales returns') return 'Output';
   return 'Input';
 }
 
-function gstSideForAccount(accountName: string): 'debit' | 'credit' {
-  const name = canonicalAccount(accountName);
-  if (name === 'sales' || name === 'purchase returns') return 'credit';
-  return 'debit';
+function gstSideForAccount(accountName: string, providedGroup?: string): 'debit' | 'credit' {
+  return parentSideForAccount(accountName, providedGroup);
 }
 
-function lineGroup(accountName: string): string {
-  const cls = classifyAccount(accountName);
-  if (cls) return cls.subGroup;
-  const name = canonicalAccount(accountName);
-  if (name === 'purchases') return 'Cost of Materials Consumed';
-  if (name === 'sales') return 'Revenue from Operations';
-  if (name === 'purchase returns') return 'Cost of Materials Consumed';
-  if (name === 'sales returns') return 'Revenue from Operations';
-  if (name === 'stock-in-trade') return 'Inventories';
-  return 'Unclassified';
+function lineGroup(accountName: string, providedGroup?: string): string {
+  return resolveEffectiveGroup(accountName, providedGroup);
 }
 
-function lineNature(accountName: string): JournalLine['nature'] {
+function lineNature(accountName: string, providedGroup?: string): JournalLine['nature'] {
+  const group = resolveEffectiveGroup(accountName, providedGroup);
+  if (group === 'Revenue from Operations' || group === 'Other Income') return 'revenue';
+  if (group === 'Cost of Materials Consumed' || group === 'Changes in Inventories' || group === 'Direct Expenses' || group.startsWith('Other Expenses')) return 'expense';
+  if (group === 'Inventories' || group.includes('Assets') || group === 'Trade Receivables' || group === 'Bank Balances' || group === 'Cash & Cash Equivalents') return 'asset';
+  if (group === 'Trade Payables' || group.includes('Liabilities') || group === 'Short-term Borrowings' || group === 'Long-term Borrowings') return 'liability';
+  if (group === 'Share Capital' || group === 'Reserves & Surplus') return 'capital';
+
   const cls = classifyAccount(accountName);
   if (cls) return cls.nature;
   const name = canonicalAccount(accountName);
@@ -419,20 +426,20 @@ export function expandManualJournalLines(
     if (!name) continue;
 
     const hasInventoryDetails = (line.inventory_sub_lines?.length ?? 0) > 0;
-    if (isInventorySensitiveLine(name) && hasInventoryDetails) {
+    if (isInventorySensitiveLine(name, line.account_group) && hasInventoryDetails) {
       const summary = summarizeInventorySubLines(line.inventory_sub_lines ?? []);
       const parentAmount = summary.taxableTotal;
-      const parentSide = parentSideForAccount(name);
+      const parentSide = parentSideForAccount(name, line.account_group);
       expanded.push(
         makeLine(name, parentAmount, parentSide, {
-          account_group: lineGroup(name),
-          nature: lineNature(name),
+          account_group: line.account_group ?? lineGroup(name),
+          nature: line.nature ?? lineNature(name),
           inventory_sub_lines: line.inventory_sub_lines ?? [],
         })
       );
 
-      const gstPrefix = gstPrefixForAccount(name);
-      const gstSide = gstSideForAccount(name);
+      const gstPrefix = gstPrefixForAccount(name, line.account_group);
+      const gstSide = gstSideForAccount(name, line.account_group);
       if (summary.cgstTotal > 0) {
         expanded.push(makeLine(`${gstPrefix} CGST`, summary.cgstTotal, gstSide, {
           account_group: 'Duties & Taxes',
@@ -475,7 +482,7 @@ export function expandManualJournalLines(
 
 export function getPreviewAmountForLine(line: ManualDraftLine): { debit: number; credit: number } {
   const hasInventoryDetails = (line.inventory_sub_lines?.length ?? 0) > 0;
-  if (!isInventorySensitiveLine(line.account_name) || !hasInventoryDetails) {
+  if (!isInventorySensitiveLine(line.account_name, line.account_group) || !hasInventoryDetails) {
     return {
       debit: parseManualAmount(line.debit),
       credit: parseManualAmount(line.credit),
@@ -483,7 +490,7 @@ export function getPreviewAmountForLine(line: ManualDraftLine): { debit: number;
   }
 
   const summary = summarizeInventorySubLines(line.inventory_sub_lines ?? []);
-  const side = parentSideForAccount(line.account_name);
+  const side = parentSideForAccount(line.account_name, line.account_group);
   return {
     debit: side === 'debit' ? summary.taxableTotal : 0,
     credit: side === 'credit' ? summary.taxableTotal : 0,
@@ -492,10 +499,10 @@ export function getPreviewAmountForLine(line: ManualDraftLine): { debit: number;
 
 export function getAutoGstPreviewLines(line: ManualDraftLine): Array<{ account_name: string; debit: number; credit: number }> {
   const hasInventoryDetails = (line.inventory_sub_lines?.length ?? 0) > 0;
-  if (!isInventorySensitiveLine(line.account_name) || !hasInventoryDetails) return [];
+  if (!isInventorySensitiveLine(line.account_name, line.account_group) || !hasInventoryDetails) return [];
   const summary = summarizeInventorySubLines(line.inventory_sub_lines ?? []);
-  const gstPrefix = gstPrefixForAccount(line.account_name);
-  const gstSide = gstSideForAccount(line.account_name);
+  const gstPrefix = gstPrefixForAccount(line.account_name, line.account_group);
+  const gstSide = gstSideForAccount(line.account_name, line.account_group);
 
   const out: Array<{ account_name: string; debit: number; credit: number }> = [];
   const pushTax = (label: string, amount: number) => {

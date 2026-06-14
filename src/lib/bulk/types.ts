@@ -124,6 +124,8 @@ export interface BulkProgress {
 export interface ImportResult {
   batchId: string;
   rowsImported: number;
+  rowsSkipped: number;
+  truncated: boolean;   // true if file had more than 4000 valid rows
   totalPayments: number;
   totalReceipts: number;
 }

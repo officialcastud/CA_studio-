@@ -33,6 +33,8 @@ const PurchaseReturnsPage = lazy(() => import('@/app/company/[id]/purchase-retur
 const SalesReturnsPage = lazy(() => import('@/app/company/[id]/sales-returns/page').then(m => ({ default: m.default })));
 const BillsReceivablePage = lazy(() => import('@/app/company/[id]/bills-receivable/page').then(m => ({ default: m.default })));
 const BillsPayablePage = lazy(() => import('@/app/company/[id]/bills-payable/page').then(m => ({ default: m.default })));
+const DebtorsPage = lazy(() => import('@/app/company/[id]/debtors/page').then(m => ({ default: m.default })));
+const CreditorsPage = lazy(() => import('@/app/company/[id]/creditors/page').then(m => ({ default: m.default })));
 const PartnersCapitalPage = lazy(() => import('@/app/company/[id]/partners-capital/page').then(m => ({ default: m.default })));
 const RevaluationPage = lazy(() => import('@/app/company/[id]/revaluation/page').then(m => ({ default: m.default })));
 const RealisationPage = lazy(() => import('@/app/company/[id]/realisation/page').then(m => ({ default: m.default })));
@@ -82,6 +84,7 @@ const CostSheetPage = lazy(() => import('@/app/company/[id]/inventory/cost-sheet
 const PayrollPage = lazy(() => import('@/app/company/[id]/payroll/page').then(m => ({ default: m.default })));
 const FoldersPage = lazy(() => import('@/app/company/[id]/folders/page').then(m => ({ default: m.default })));
 const BulkWorkspacePage = lazy(() => import('@/app/company/[id]/bulk-workspace/page').then(m => ({ default: m.default })));
+const BankImportPage = lazy(() => import('@/app/company/[id]/bank-import/page').then(m => ({ default: m.default })));
 const SettingsPage = lazy(() => import('@/app/company/[id]/settings/page').then(m => ({ default: m.default })));
 
 const PageLoader = () => (
@@ -124,6 +127,8 @@ export const router = createBrowserRouter([
       { path: 'sales-returns', element: <Suspense fallback={<PageLoader />}><SalesReturnsPage /></Suspense> },
       { path: 'bills-receivable', element: <Suspense fallback={<PageLoader />}><BillsReceivablePage /></Suspense> },
       { path: 'bills-payable', element: <Suspense fallback={<PageLoader />}><BillsPayablePage /></Suspense> },
+      { path: 'debtors', element: <Suspense fallback={<PageLoader />}><DebtorsPage /></Suspense> },
+      { path: 'creditors', element: <Suspense fallback={<PageLoader />}><CreditorsPage /></Suspense> },
       { path: 'partners-capital', element: <Suspense fallback={<PageLoader />}><PartnersCapitalPage /></Suspense> },
       { path: 'revaluation', element: <Suspense fallback={<PageLoader />}><RevaluationPage /></Suspense> },
       { path: 'realisation', element: <Suspense fallback={<PageLoader />}><RealisationPage /></Suspense> },
@@ -170,6 +175,7 @@ export const router = createBrowserRouter([
       { path: 'payroll', element: <Suspense fallback={<PageLoader />}><PayrollPage /></Suspense> },
       { path: 'folders', element: <Suspense fallback={<PageLoader />}><FoldersPage /></Suspense> },
       { path: 'bulk-workspace', element: <Suspense fallback={<PageLoader />}><BulkWorkspacePage /></Suspense> },
+      { path: 'bank-import', element: <Suspense fallback={<PageLoader />}><BankImportPage /></Suspense> },
       { path: 'settings', element: <Suspense fallback={<PageLoader />}><SettingsPage /></Suspense> },
       { path: 'ai', element: <Navigate to=".." replace /> },
     ],

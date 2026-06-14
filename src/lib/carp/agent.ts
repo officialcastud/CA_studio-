@@ -8,6 +8,7 @@
 import { CARP_TOOLS, executeTool, type ToolResult } from './tools';
 import { toGeminiFunctionDeclarations } from './geminiSchema';
 import { getUploadedWorkbook, getWorkbookSummary } from '@/lib/excelUpload';
+import { getSuspenseTransactions } from '@/lib/bulk/bulkDb';
 
 const GEMINI_TOOLS = toGeminiFunctionDeclarations(CARP_TOOLS);
 import { getEntityData } from '@/lib/offlineDb';
@@ -95,7 +96,7 @@ function describeAction(name: string, args: Record<string, unknown>): string {
    System Prompt
    ═══════════════════════════════════════════════════════ */
 
-function buildSystemPrompt(companyName: string, entityType: string, aiRules?: string | null): string {
+function buildSystemPrompt(companyName: string, entityType: string, companyId: string, aiRules?: string | null): string {
   let prompt = `You are CARP (CA Resource Planner) — an AI accounting agent built for Indian Chartered Accountants.
 
 You are currently working on: "${companyName}" (${entityType})
@@ -140,8 +141,9 @@ RULES:
 
 When the user asks you to do something, USE YOUR TOOLS to actually do it. You are an agent, not a chatbot.`;
 
-  // Bulk Private Limited mode — inject specialised bulk system prompt
-  if (entityType === 'bulk_pvt_ltd') {
+  // Bulk mode — inject specialised bulk system prompt when company has bulk data
+  const hasBulkData = getSuspenseTransactions(companyId).length > 0;
+  if (hasBulkData) {
     prompt += `
 
 ═══════════════════════════════════════════
@@ -336,7 +338,7 @@ export async function runAgent(
     // ignore — rules are optional
   }
 
-  const systemPrompt = buildSystemPrompt(companyName, entityType, aiRules);
+  const systemPrompt = buildSystemPrompt(companyName, entityType, companyId, aiRules);
   const newMessages: CarpMessage[] = [];
 
   // Build Gemini message history

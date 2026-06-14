@@ -1,518 +1,448 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCompany } from '@/hooks/useCompany';
-import { useJournalEntries } from '@/hooks/useJournalEntries';
-import { PageHeader } from '@/components/layout/PageHeader';
-import { DateRangeFilter } from '@/components/export/DateRangeFilter';
-import { ExportButtons } from '@/components/export/ExportButtons';
-import { getCurrentFY } from '@/lib/utils/dateUtils';
-import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
-import { computeAllBalances } from '@/lib/accounting/computeEngine';
-import { computeTDSRegister } from '@/lib/accounting/tdsCompute';
-import { getEntityConfig } from '@/lib/entityConfig';
 import type { EntityType } from '@/types/company';
+import { Calculator, FileText, CheckCircle, Shield, Lock, LockKeyhole } from 'lucide-react';
 
-// Entity types that use company flat-rate taxation (not slab)
-const COMPANY_ENTITIES = ['pvt_ltd', 'public_ltd', 'opc', 'section8'];
+// ITR form applicable per entity type
+const ENTITY_ITR_MAP: Record<string, string> = {
+  llp:          'ITR-5',
+  partnership:  'ITR-5',
+  aop:          'ITR-5',
+  boi:          'ITR-5',
+  trust:        'ITR-7',
+  society:      'ITR-7',
+  section8:     'ITR-7',
+  huf:          'ITR-2 / ITR-3',
+  sole_prop:    'ITR-3 / ITR-4',
+  ngo:          'ITR-7',
+  cooperative:  'ITR-5',
+};
 
-// Individual/HUF slab rates (AY 2025-26 Old Regime)
-const OLD_SLABS = [
-  { upto: 250000, rate: 0 },
-  { upto: 500000, rate: 5 },
-  { upto: 1000000, rate: 20 },
-  { upto: Infinity, rate: 30 },
-];
+// Entity types that use ITR-6 (company returns)
+const COMPANY_ENTITY_TYPES = ['pvt_ltd', 'bulk_pvt_ltd', 'opc', 'public_ltd'];
 
-// New Regime (Sec 115BAC) slab rates
-const NEW_SLABS = [
-  { upto: 300000, rate: 0 },
-  { upto: 700000, rate: 5 },
-  { upto: 1000000, rate: 10 },
-  { upto: 1200000, rate: 15 },
-  { upto: 1500000, rate: 20 },
-  { upto: Infinity, rate: 30 },
-];
+export default function IncomeTaxDashboard() {
+  const { company, loading } = useCompany();
+  const [activeTab, setActiveTab] = useState<'calc' | 'itr'>('itr');
+  const [itrForm, setItrForm] = useState<'itr1' | 'itr2'>('itr1');
+  const [taxPayload, setTaxPayload] = useState<Record<string, number> | null>(null);
+  const [showLetter, setShowLetter] = useState(false);
 
-function computeSlabTax(income: number, slabs: typeof OLD_SLABS): number {
-  if (income <= 0) return 0;
-  let tax = 0;
-  let prev = 0;
-  for (const slab of slabs) {
-    if (income <= prev) break;
-    const taxable = Math.min(income, slab.upto) - prev;
-    tax += taxable * slab.rate / 100;
-    prev = slab.upto;
-  }
-  return Math.round(tax);
-}
+  const itr1Ref = useRef<HTMLIFrameElement>(null);
+  const itr2Ref = useRef<HTMLIFrameElement>(null);
+  const itr6Ref = useRef<HTMLIFrameElement>(null);
 
-function computeCompanyTax(income: number, rate: number): number {
-  if (income <= 0) return 0;
-  return Math.round(income * rate / 100);
-}
+  const isCompany = company ? COMPANY_ENTITY_TYPES.includes(company.entity_type) : false;
 
-export default function IncomeTaxPage() {
-  const { company, companyId, loading: companyLoading } = useCompany();
-  const fy = getCurrentFY();
-  const [fromDate, setFromDate] = useState(fy.start);
-  const [toDate, setToDate] = useState(fy.end);
+  // Show letter once per company on first visit
+  useEffect(() => {
+    if (!company?.id || !isCompany) return;
+    const key = `ca_itr6_notice_${company.id}`;
+    if (!localStorage.getItem(key)) setShowLetter(true);
+  }, [company?.id, isCompany]);
 
-  // Regime selection
-  const isCompany = company ? COMPANY_ENTITIES.includes(company.entity_type) : false;
-  const [regime, setRegime] = useState<'old' | 'new'>('old');
-  const [companyRate, setCompanyRate] = useState<'30' | '25' | '22' | '15'>('22');
+  // Write company data bridge so iframes can auto-fill
+  useEffect(() => {
+    if (!company) return;
+    const bridge = {
+      companyName: company.name,
+      pan: (company as unknown as Record<string, string>).pan || '',
+      gstin: company.gst_details?.gstin || '',
+      address: company.entity_details?.address || '',
+      fy: '2024-25',
+      ay: '2025-26',
+    };
+    localStorage.setItem('ca_tax_bridge', JSON.stringify(bridge));
+  }, [company]);
 
-  // User-entered adjustments
-  const [disallowances, setDisallowances] = useState<{ label: string; amount: string }[]>([
-    { label: 'Depreciation as per books (add back)', amount: '' },
-    { label: 'Penalty / Fine for violation of law', amount: '' },
-    { label: 'Cash payments > Rs.10,000 (Sec 40A(3))', amount: '' },
-    { label: 'Delayed statutory payments (Sec 43B)', amount: '' },
-  ]);
-  const [deductions, setDeductions] = useState<{ label: string; amount: string }[]>([
-    { label: 'Depreciation as per Income Tax Act (Sec 32)', amount: '' },
-    { label: 'Income exempt under IT but credited to P&L', amount: '' },
-  ]);
-  const [chapterVIA, setChapterVIA] = useState<{ label: string; amount: string }[]>([
-    { label: '80C (LIC, PPF, ELSS etc.) — max Rs.1,50,000', amount: '' },
-    { label: '80D (Medical Insurance)', amount: '' },
-    { label: '80E (Education Loan Interest)', amount: '' },
-    { label: '80G (Donations)', amount: '' },
-  ]);
-  const [advanceTaxPaid, setAdvanceTaxPaid] = useState('');
+  // Listen for tax data from IT Calculator iframe
+  useEffect(() => {
+    const handler = (event: MessageEvent) => {
+      if (event.data?.type === 'TAX_DATA_UPDATED') setTaxPayload(event.data.payload);
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
 
-  const { entries, loading } = useJournalEntries({
-    companyId: companyId || '',
-    fromDate,
-    toDate,
-    enabled: !!companyId,
-  });
-
-  // Auto-compute net profit from P&L
-  const netProfit = useMemo(() => {
-    const balances = computeAllBalances(entries);
-    const expenseGroups = ['Direct Expenses', 'Indirect Expenses', 'Office Expenses', 'Admin Expenses',
-      'Selling Expenses', 'Finance Costs', 'Depreciation', 'Cost of Goods Sold', 'Purchases'];
-    const revenueGroups = ['Sales', 'Revenue', 'Direct Income', 'Indirect Income', 'Other Income', 'Non-Operating Income'];
-    let totalRevenue = 0;
-    let totalExpense = 0;
-    for (const b of balances) {
-      if (revenueGroups.includes(b.account_group)) totalRevenue += b.balance;
-      if (expenseGroups.includes(b.account_group)) totalExpense += b.balance;
+  // Push tax data into ITR iframe when switching to ITR tab
+  useEffect(() => {
+    if (!taxPayload || activeTab !== 'itr') return;
+    const msg = { type: 'HYDRATE_ITR', payload: taxPayload };
+    if (isCompany) {
+      itr6Ref.current?.contentWindow?.postMessage(msg, '*');
+    } else {
+      const ref = itrForm === 'itr1' ? itr1Ref : itr2Ref;
+      ref.current?.contentWindow?.postMessage(msg, '*');
     }
-    return totalRevenue - totalExpense;
-  }, [entries]);
+  }, [activeTab, itrForm, taxPayload, isCompany]);
 
-  // TDS credit from register
-  const tdsCredit = useMemo(() => {
-    const tds = computeTDSRegister(entries);
-    return tds.reduce((s, r) => s + r.tdsAmount, 0);
-  }, [entries]);
-
-  // TCS credit
-  const tcsCredit = useMemo(() => {
-    let total = 0;
-    for (const entry of entries) {
-      for (const line of entry.lines) {
-        if (line.account_name.toLowerCase().includes('tcs') && (line.account_group === 'Statutory Liabilities' || line.account_group === 'Duties & Taxes')) {
-          total += line.credit || 0;
-        }
-      }
-    }
-    return total;
-  }, [entries]);
-
-  // Advance tax from entries
-  const advanceTaxFromEntries = useMemo(() => {
-    let total = 0;
-    for (const entry of entries) {
-      for (const line of entry.lines) {
-        if ((line.account_name.toLowerCase().includes('advance tax') ||
-             line.account_name.toLowerCase().includes('advance income tax')) && line.debit > 0) {
-          total += line.debit;
-        }
-      }
-    }
-    return total;
-  }, [entries]);
-
-  if (companyLoading || !company) {
-    return <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
-  }
-
-  const entityLabel = ENTITY_TYPES[company.entity_type as EntityType]?.label || company.entity_type;
-  const entityConfig = getEntityConfig(company.entity_type);
-  const itrForm = entityConfig.itrForm;
-
-  // Computations
-  const totalDisallowances = disallowances.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0);
-  const totalDeductions = deductions.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0);
-  const pgbpIncome = netProfit + totalDisallowances - totalDeductions;
-  const grossTotalIncome = Math.max(pgbpIncome, 0);
-  const totalChapterVIA = regime === 'old' ? chapterVIA.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0) : 0;
-  const taxableIncome = Math.max(grossTotalIncome - totalChapterVIA, 0);
-
-  // Tax computation
-  let baseTax = 0;
-  let taxRateLabel = '';
-  if (isCompany) {
-    const rate = parseFloat(companyRate);
-    baseTax = computeCompanyTax(taxableIncome, rate);
-    taxRateLabel = `@ ${rate}%`;
-  } else {
-    const slabs = regime === 'old' ? OLD_SLABS : NEW_SLABS;
-    baseTax = computeSlabTax(taxableIncome, slabs);
-    taxRateLabel = regime === 'old' ? '(Old Regime Slabs)' : '(New Regime Slabs)';
-  }
-
-  // Surcharge (simplified)
-  let surchargeRate = 0;
-  if (isCompany) {
-    if (taxableIncome > 100000000) surchargeRate = 12;
-    else if (taxableIncome > 10000000) surchargeRate = 7;
-  } else {
-    if (taxableIncome > 50000000) surchargeRate = 37;
-    else if (taxableIncome > 20000000) surchargeRate = 25;
-    else if (taxableIncome > 10000000) surchargeRate = 15;
-    else if (taxableIncome > 5000000) surchargeRate = 10;
-  }
-  const surcharge = Math.round(baseTax * surchargeRate / 100);
-  const cessBase = baseTax + surcharge;
-  const cess = Math.round(cessBase * 4 / 100); // Health & Education Cess
-  const totalTax = baseTax + surcharge + cess;
-
-  const advTaxPaidManual = parseFloat(advanceTaxPaid) || 0;
-  const totalAdvanceTax = advTaxPaidManual || advanceTaxFromEntries;
-  const taxPayable = totalTax - totalAdvanceTax - tdsCredit - tcsCredit;
-
-  const exportColumns = [
-    { header: 'Particulars', key: 'label' },
-    { header: 'Amount (₹)', key: 'amount', align: 'right' as const, isMono: true },
-  ];
-
-  const exportData = [
-    { label: 'Net Profit as per P&L', amount: netProfit },
-    { label: 'Add: Disallowances', amount: totalDisallowances },
-    { label: 'Less: IT Deductions', amount: -totalDeductions },
-    { label: 'PGBP Income', amount: pgbpIncome },
-    { label: 'Gross Total Income', amount: grossTotalIncome },
-    { label: 'Less: Chapter VI-A Deductions', amount: -totalChapterVIA },
-    { label: 'Total Taxable Income', amount: taxableIncome },
-    { label: `Tax ${taxRateLabel}`, amount: baseTax },
-    { label: `Surcharge @ ${surchargeRate}%`, amount: surcharge },
-    { label: 'Health & Education Cess @ 4%', amount: cess },
-    { label: 'Total Tax Liability', amount: totalTax },
-    { label: 'Less: Advance Tax Paid', amount: -totalAdvanceTax },
-    { label: 'Less: TDS Credit', amount: -tdsCredit },
-    { label: 'Less: TCS Credit', amount: -tcsCredit },
-    { label: taxPayable >= 0 ? 'Tax Payable' : 'Refund Due', amount: taxPayable },
-  ];
-
-  const updateAdjustment = (
-    list: { label: string; amount: string }[],
-    setter: (v: { label: string; amount: string }[]) => void,
-    index: number,
-    value: string
-  ) => {
-    const updated = [...list];
-    updated[index] = { ...updated[index], amount: value };
-    setter(updated);
+  const dismissLetter = () => {
+    if (company?.id) localStorage.setItem(`ca_itr6_notice_${company.id}`, '1');
+    setShowLetter(false);
   };
 
-  const addRow = (
-    list: { label: string; amount: string }[],
-    setter: (v: { label: string; amount: string }[]) => void,
-  ) => {
-    setter([...list, { label: '', amount: '' }]);
-  };
+  if (loading || !company) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+      </div>
+    );
+  }
 
-  return (
-    <div>
-      <PageHeader title="Income Tax Computation" description={`Working paper for ${isCompany ? company.entity_type === 'section8' ? 'ITR-7' : 'ITR-6' : itrForm || 'ITR'} preparation`}>
-        <div className="flex flex-col gap-2 items-end">
-          <DateRangeFilter fromDate={fromDate} toDate={toDate} onDateChange={(f, t) => { setFromDate(f); setToDate(t); }} />
-          <ExportButtons title="Income Tax Computation" companyName={company.name} entityType={entityLabel} dateRange={`AY ${parseInt(toDate.split('-')[0]) + 1}-${(parseInt(toDate.split('-')[0]) + 2).toString().slice(-2)}`} columns={exportColumns} data={exportData} />
+  const entityType = company.entity_type as EntityType;
+
+  // All other entity types — locked screen
+  if (!isCompany && entityType !== 'individual') {
+    const entityLabel = ENTITY_TYPES[entityType]?.label || entityType;
+    const applicableItr = ENTITY_ITR_MAP[entityType] || 'ITR-5 / ITR-7';
+    return (
+      <div className="flex h-[calc(100vh-60px)] flex-col">
+        <div className="border-b border-gray-100 bg-white px-4 py-2 flex items-center gap-2">
+          <LockKeyhole className="h-4 w-4 text-gray-400" />
+          <span className="text-sm font-semibold text-gray-800">Income Tax Returns</span>
+          <span className="text-xs text-gray-400">· {entityLabel}</span>
         </div>
-      </PageHeader>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
-      ) : (
-        <div className="space-y-4">
-          {/* Regime / Rate selector */}
-          <div className="bg-white border border-gray-200 rounded-xl px-4 py-3">
-            <div className="flex flex-wrap gap-4 items-center">
-              {isCompany ? (
-                <>
-                  <span className="text-sm font-medium text-gray-700">Tax Rate:</span>
-                  <div className="flex border border-gray-200 rounded-xl overflow-hidden">
-                    {[
-                      { val: '30', label: '30% (Old)' },
-                      { val: '25', label: '25% (<₹400Cr)' },
-                      { val: '22', label: '22% (115BAA)' },
-                      { val: '15', label: '15% (115BAB)' },
-                    ].map(opt => (
-                      <button
-                        key={opt.val}
-                        onClick={() => setCompanyRate(opt.val as typeof companyRate)}
-                        className={`px-3 py-1.5 text-sm ${companyRate === opt.val ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <span className="text-sm font-medium text-gray-700">Tax Regime:</span>
-                  <div className="flex border border-gray-200 rounded-xl overflow-hidden">
-                    <button onClick={() => setRegime('old')} className={`px-4 py-1.5 text-sm ${regime === 'old' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}>Old Regime</button>
-                    <button onClick={() => setRegime('new')} className={`px-4 py-1.5 text-sm ${regime === 'new' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}>New Regime (115BAC)</button>
-                  </div>
-                </>
-              )}
+        <div className="flex flex-1 items-center justify-center bg-gray-50 p-8">
+          <div className="w-full max-w-lg text-center">
+
+            {/* Lock icon */}
+            <div className="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-full bg-amber-50 border-2 border-amber-200">
+              <LockKeyhole className="h-9 w-9 text-amber-500" />
+            </div>
+
+            <h2 className="text-xl font-bold text-gray-900 mb-1">
+              {applicableItr} — Coming Soon
+            </h2>
+            <p className="text-sm text-gray-500 mb-6">
+              Applicable for <strong>{entityLabel}</strong>
+            </p>
+
+            {/* Notice box */}
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-6 py-5 text-left space-y-3 mb-6">
+              <p className="text-sm text-amber-900 leading-relaxed">
+                The Income Tax computation and ITR filing module for <strong>{entityLabel}</strong> is
+                currently under development and will be available in the upcoming release.
+              </p>
+              <ul className="space-y-2">
+                {[
+                  `${applicableItr} filing with full schedule support`,
+                  'Auto-import from your financial statements and company records',
+                  'AI-assisted form filling — zero manual entry required',
+                  'Real-time validation before submission',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-amber-800">
+                    <Lock className="h-3.5 w-3.5 shrink-0 text-amber-400 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Security note */}
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+              <Shield className="h-3.5 w-3.5" />
+              <span>128-bit encrypted · Stored locally · Only accessible by you</span>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          {/* Main computation */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="text-center py-3 border-b border-gray-200 bg-gray-50/50">
-              <p className="text-[11px] text-gray-400 uppercase tracking-wide">{company.name} · PAN: {company.entity_details?.pan || '—'}</p>
-              <h3 className="text-sm font-bold text-gray-900">Computation of Total Income and Tax Liability</h3>
-              <p className="text-xs text-gray-400 mt-0.5">Assessment Year {parseInt(toDate.split('-')[0]) + 1}-{(parseInt(toDate.split('-')[0]) + 2).toString().slice(-2)}</p>
+  return (
+    <div className="flex h-[calc(100vh-60px)] flex-col">
+
+      {/* ── First-visit formal letter ─────────────────────────────────────────── */}
+      {showLetter && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-2xl overflow-hidden">
+
+            {/* Letter header */}
+            <div className="bg-gradient-to-r from-blue-800 to-blue-600 px-8 py-6">
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="h-5 w-5 text-blue-200" />
+                <span className="text-xs font-semibold uppercase tracking-widest text-blue-200">
+                  Income Tax &amp; ITR Filing Module
+                </span>
+              </div>
+              <h2 className="text-xl font-bold text-white">Important Notice</h2>
+              <p className="text-sm text-blue-200 mt-0.5">
+                Assessment Year 2025-26 &nbsp;·&nbsp; ITR-6 &nbsp;·&nbsp; Private Limited Company
+              </p>
             </div>
 
-            <div className="p-6 space-y-6">
-              {/* Section 1: Net Profit */}
-              <div>
-                <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1.5">INCOME FROM BUSINESS / PROFESSION</h4>
-                <div className="flex justify-between items-center py-1.5">
-                  <span className="text-sm text-gray-700">Net Profit as per Statement of Profit & Loss</span>
-                  <span className={`text-sm font-mono font-semibold ${netProfit >= 0 ? 'text-green-700' : 'text-red-600'}`}>
-                    {formatIndianCurrency(Math.abs(netProfit))} {netProfit < 0 ? '(Loss)' : ''}
-                  </span>
-                </div>
-                <p className="text-xs text-gray-400 mb-3">(Auto-computed from journal entries)</p>
+            {/* Letter body */}
+            <div className="max-h-[58vh] overflow-y-auto px-8 py-6 space-y-4 text-sm text-gray-700 leading-relaxed">
+              <p className="font-medium text-gray-900 text-base">Dear Sir / Madam,</p>
 
-                {/* Disallowances */}
-                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-4 mb-1.5">Add: Expenses disallowed under Income Tax</p>
-                {disallowances.map((d, i) => (
-                  <div key={i} className="flex gap-2 items-center mb-1">
-                    <input
-                      type="text"
-                      value={d.label}
-                      onChange={e => {
-                        const updated = [...disallowances];
-                        updated[i] = { ...updated[i], label: e.target.value };
-                        setDisallowances(updated);
-                      }}
-                      className="flex-1 px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Description"
-                    />
-                    <input
-                      type="number"
-                      value={d.amount}
-                      onChange={e => updateAdjustment(disallowances, setDisallowances, i, e.target.value)}
-                      className="w-36 px-2 py-1 text-sm text-right font-mono border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="0"
-                    />
-                  </div>
-                ))}
-                <button onClick={() => addRow(disallowances, setDisallowances)} className="text-xs text-blue-600 hover:underline mt-1">+ Add disallowance</button>
+              <p>
+                We extend our warmest greetings and welcome you to the{' '}
+                <strong>Income Tax &amp; ITR Filing</strong> module. This module is currently in its{' '}
+                <strong>final stages of deployment</strong>, and our development team is diligently working
+                towards the timely integration of all applicable ITR forms covering the last three assessment
+                years — <strong>AY 2023-24, AY 2024-25, and AY 2025-26</strong>.
+              </p>
 
-                {/* Deductions */}
-                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-4 mb-1.5">Less: Income/Deductions allowable under IT</p>
-                {deductions.map((d, i) => (
-                  <div key={i} className="flex gap-2 items-center mb-1">
-                    <input
-                      type="text"
-                      value={d.label}
-                      onChange={e => {
-                        const updated = [...deductions];
-                        updated[i] = { ...updated[i], label: e.target.value };
-                        setDeductions(updated);
-                      }}
-                      className="flex-1 px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Description"
-                    />
-                    <input
-                      type="number"
-                      value={d.amount}
-                      onChange={e => updateAdjustment(deductions, setDeductions, i, e.target.value)}
-                      className="w-36 px-2 py-1 text-sm text-right font-mono border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="0"
-                    />
-                  </div>
-                ))}
-                <button onClick={() => addRow(deductions, setDeductions)} className="text-xs text-blue-600 hover:underline mt-1">+ Add deduction</button>
-
-                {/* PGBP */}
-                <div className="flex justify-between items-center py-2 mt-3 border-t border-gray-200 font-bold">
-                  <span className="text-sm">Income under head &quot;PGBP&quot;</span>
-                  <span className="text-sm font-mono">{formatIndianCurrency(pgbpIncome)}</span>
-                </div>
+              {/* Auto-import + AI highlight — prominent */}
+              <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3.5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-green-700 mb-2">
+                  Zero Manual Data Entry — Fully Automated
+                </p>
+                <ul className="space-y-1.5">
+                  <li className="flex items-start gap-2 text-sm text-green-900">
+                    <CheckCircle className="h-4 w-4 shrink-0 text-green-600 mt-0.5" />
+                    <span>
+                      <strong>All your data will be automatically imported</strong> — company details,
+                      financial statements, P&amp;L, balance sheet, TDS records, and more will be pulled
+                      directly into the ITR form. There is absolutely no need for manual re-entry or integration.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-green-900">
+                    <CheckCircle className="h-4 w-4 shrink-0 text-green-600 mt-0.5" />
+                    <span>
+                      <strong>In the second version, our AI will handle all manual work</strong> — it will
+                      intelligently fill, review, validate, and optimise every schedule and section of your
+                      ITR form on your behalf, with zero effort from your side.
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              {/* Section 2: Gross Total Income */}
-              <div>
-                <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1.5">GROSS TOTAL INCOME</h4>
-                <div className="flex justify-between items-center py-1.5 font-bold">
-                  <span className="text-sm">Gross Total Income</span>
-                  <span className="text-sm font-mono">{formatIndianCurrency(grossTotalIncome)}</span>
-                </div>
+              {/* Preview notice */}
+              <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3.5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1.5">
+                  You are currently visualising
+                </p>
+                <p className="font-semibold text-blue-900">
+                  ITR-6 &nbsp;·&nbsp; Tax Year 2024-25 &nbsp;·&nbsp; Assessment Year 2025-26
+                </p>
+                <p className="text-xs text-blue-700 mt-1">
+                  Applicable for Private Limited Companies not claiming exemption under Section 11 of
+                  the Income Tax Act, 1961.
+                </p>
               </div>
 
-              {/* Section 3: Chapter VI-A (Old regime only for individuals) */}
-              {(!isCompany && regime === 'old') && (
-                <div>
-                  <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1.5">DEDUCTIONS UNDER CHAPTER VI-A</h4>
-                  {chapterVIA.map((d, i) => (
-                    <div key={i} className="flex gap-2 items-center mb-1">
-                      <input
-                        type="text"
-                        value={d.label}
-                        onChange={e => {
-                          const updated = [...chapterVIA];
-                          updated[i] = { ...updated[i], label: e.target.value };
-                          setChapterVIA(updated);
-                        }}
-                        className="flex-1 px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        placeholder="Section"
-                      />
-                      <input
-                        type="number"
-                        value={d.amount}
-                        onChange={e => updateAdjustment(chapterVIA, setChapterVIA, i, e.target.value)}
-                        className="w-36 px-2 py-1 text-sm text-right font-mono border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        placeholder="0"
-                      />
-                    </div>
+              {/* What to expect */}
+              <div>
+                <p className="font-semibold text-gray-900 mb-2">
+                  In the final launch of this product, you can expect:
+                </p>
+                <ul className="space-y-2">
+                  {[
+                    'All ITR forms simplified and restructured for effortless and guided data entry',
+                    'Our AI assistant will be more supportive and actively help in creating and reviewing your returns',
+                    'Smart auto-population of data directly from your financial statements, balance sheet, P&L, and company records — significantly reducing manual entry',
+                    'Comprehensive real-time validation and cross-checking before submission',
+                    'Export-ready XML / JSON in the format accepted by the Income Tax e-filing portal',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 shrink-0 text-green-500 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                  <button onClick={() => addRow(chapterVIA, setChapterVIA)} className="text-xs text-blue-600 hover:underline mt-1">+ Add deduction</button>
-                  <div className="flex justify-between items-center py-1.5 mt-2 border-t border-gray-200 font-medium">
-                    <span className="text-sm">Total Chapter VI-A Deductions</span>
-                    <span className="text-sm font-mono">({formatIndianCurrency(totalChapterVIA)})</span>
-                  </div>
-                </div>
-              )}
+                </ul>
+              </div>
 
-              {regime === 'new' && !isCompany && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-2">
-                  <p className="text-sm text-yellow-700">New Regime (Sec 115BAC): Chapter VI-A deductions (except 80CCD(2)) are NOT available.</p>
-                </div>
-              )}
-
-              {/* Section 4: Taxable Income */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-blue-800">TOTAL TAXABLE INCOME</span>
-                  <span className="text-lg font-bold font-mono text-blue-700">{formatIndianCurrency(taxableIncome)}</span>
+              {/* Security */}
+              <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3.5 flex gap-3">
+                <Shield className="h-5 w-5 shrink-0 text-blue-500 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-gray-800 text-xs uppercase tracking-wide mb-1">
+                    Your Data Security &amp; Privacy
+                  </p>
+                  <p className="text-gray-600">
+                    All your financial data is encoded using <strong>128-bit encryption</strong> and is stored
+                    exclusively on your device and only with you. No data is ever transmitted to external
+                    servers or shared with any third party. Your records remain entirely private and under
+                    your control at all times.
+                  </p>
                 </div>
               </div>
 
-              {/* Section 5: Tax Computation */}
+              {/* Coming soon */}
               <div>
-                <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1.5">TAX COMPUTATION</h4>
-                <div className="space-y-1">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-gray-700">Tax on Total Income {taxRateLabel}</span>
-                    <span className="text-sm font-mono">{formatIndianCurrency(baseTax)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-gray-700">Add: Surcharge @ {surchargeRate}%</span>
-                    <span className="text-sm font-mono">{formatIndianCurrency(surcharge)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-gray-700">Add: Health & Education Cess @ 4%</span>
-                    <span className="text-sm font-mono">{formatIndianCurrency(cess)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-t border-gray-200 font-bold">
-                    <span className="text-sm">TOTAL TAX LIABILITY</span>
-                    <span className="text-sm font-mono">{formatIndianCurrency(totalTax)}</span>
-                  </div>
-                </div>
+                <p className="font-semibold text-gray-900 mb-1.5">Coming Soon — All ITR Forms:</p>
+                <p className="text-gray-600">
+                  ITR-1 (Sahaj) &nbsp;·&nbsp; ITR-2 &nbsp;·&nbsp; ITR-3 &nbsp;·&nbsp; ITR-4 (Sugam)
+                  &nbsp;·&nbsp; ITR-5 &nbsp;·&nbsp; <strong className="text-blue-700">ITR-6</strong>
+                  &nbsp;·&nbsp; ITR-7
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  for Assessment Years 2022-23 &nbsp;·&nbsp; 2023-24 &nbsp;·&nbsp; 2024-25 &nbsp;·&nbsp; 2025-26
+                </p>
               </div>
 
-              {/* Section 6: Credits */}
+              <p className="text-gray-500">
+                We sincerely appreciate your patience and thank you for placing your trust in this platform.
+              </p>
+
               <div>
-                <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1.5">LESS: TAX CREDITS</h4>
-                <div className="space-y-1">
-                  <div className="flex justify-between items-center py-1">
-                    <div className="flex-1">
-                      <span className="text-sm text-gray-700">Advance Tax Paid</span>
-                      {advanceTaxFromEntries > 0 && !advanceTaxPaid && (
-                        <span className="text-xs text-gray-400 ml-2">(auto from entries)</span>
-                      )}
-                    </div>
-                    <input
-                      type="number"
-                      value={advanceTaxPaid || (advanceTaxFromEntries > 0 ? advanceTaxFromEntries.toString() : '')}
-                      onChange={e => setAdvanceTaxPaid(e.target.value)}
-                      className="w-36 px-2 py-1 text-sm text-right font-mono border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="0"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-gray-700">TDS Credit</span>
-                    <span className="text-sm font-mono">({formatIndianCurrency(tdsCredit)})</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-gray-700">TCS Credit</span>
-                    <span className="text-sm font-mono">({formatIndianCurrency(tcsCredit)})</span>
-                  </div>
-                </div>
+                <p className="text-gray-900">Warm regards,</p>
+                <p className="font-bold text-blue-700 text-base mt-0.5">The Development Team</p>
+                <p className="text-xs text-gray-400">Your trusted partner in financial compliance</p>
               </div>
+            </div>
 
-              {/* Final result */}
-              <div className={`rounded-xl px-4 py-3 border ${taxPayable >= 0 ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}>
-                <div className="flex justify-between items-center">
-                  <span className={`text-sm font-bold ${taxPayable >= 0 ? 'text-red-800' : 'text-green-800'}`}>
-                    {taxPayable >= 0 ? 'NET TAX PAYABLE' : 'REFUND DUE'}
-                  </span>
-                  <span className={`text-xl font-bold font-mono ${taxPayable >= 0 ? 'text-red-700' : 'text-green-700'}`}>
-                    {formatIndianCurrency(Math.abs(taxPayable))}
-                  </span>
-                </div>
+            {/* Footer */}
+            <div className="border-t border-gray-100 bg-gray-50 px-8 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                <Lock className="h-3.5 w-3.5" />
+                128-bit encrypted &nbsp;·&nbsp; Stored locally &nbsp;·&nbsp; Fully private
               </div>
-
-              {/* Slab table for individuals */}
-              {!isCompany && (
-                <div className="mt-4">
-                  <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Tax Slab Rates — {regime === 'old' ? 'Old Regime' : 'New Regime (115BAC)'}</h4>
-                  <table className="w-full text-sm border border-gray-200 rounded overflow-hidden">
-                    <thead>
-                      <tr className="bg-gray-50 border-b border-gray-200">
-                        <th className="px-3 py-2 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Income Slab</th>
-                        <th className="px-3 py-2 text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Rate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {(regime === 'old' ? OLD_SLABS : NEW_SLABS).map((slab, i, arr) => (
-                        <tr key={i} className="border-b border-gray-100">
-                          <td className="px-3 py-1 text-gray-700">
-                            {i === 0 ? `Upto ${formatIndianCurrency(slab.upto)}` :
-                             slab.upto === Infinity ? `Above ${formatIndianCurrency(arr[i - 1].upto)}` :
-                             `${formatIndianCurrency(arr[i - 1].upto + 1)} to ${formatIndianCurrency(slab.upto)}`}
-                          </td>
-                          <td className="px-3 py-1 text-right font-mono">{slab.rate}%</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {/* Note */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-blue-700">
-                <p className="font-medium">This is a WORKING PAPER</p>
-                <p className="mt-1 text-xs">Not filed directly. Used to prepare {isCompany ? 'ITR-6' : itrForm || 'ITR'}. User must verify all disallowances and deductions. Consult a tax professional for accuracy.</p>
-              </div>
+              <button
+                onClick={dismissLetter}
+                className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+              >
+                I Understand, Proceed →
+              </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* ── Compact header strip ─────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between border-b border-gray-100 bg-white px-4 py-1.5">
+        <div className="flex items-center gap-2">
+          <FileText className="h-4 w-4 text-blue-600" />
+          <span className="text-sm font-semibold text-gray-800">Income Tax</span>
+          <span className="text-xs text-gray-400">
+            {isCompany ? '· AY 2025-26 · ITR-6 · Private Limited' : '· AY 2026-27 · IT Calculator & ITR Filing'}
+          </span>
+        </div>
+      </div>
+
+      {/* ── Tab bar ───────────────────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between border-b border-gray-200 bg-white px-4">
+        <div className="flex gap-4">
+          <button
+            onClick={() => setActiveTab('calc')}
+            className={`flex items-center gap-1.5 border-b-2 py-1.5 text-xs font-semibold transition-colors ${
+              activeTab === 'calc'
+                ? 'border-blue-600 text-blue-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Calculator className="h-3.5 w-3.5" />
+            IT Calculator
+          </button>
+          <button
+            onClick={() => setActiveTab('itr')}
+            className={`flex items-center gap-1.5 border-b-2 py-1.5 text-xs font-semibold transition-colors ${
+              activeTab === 'itr'
+                ? 'border-blue-600 text-blue-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <FileText className="h-3.5 w-3.5" />
+            {isCompany ? 'ITR-6 Form' : 'ITR Filing'}
+          </button>
+        </div>
+
+        {/* ITR-1 / ITR-2 switcher — individual only */}
+        {activeTab === 'itr' && !isCompany && (
+          <div className="flex overflow-hidden rounded border border-gray-300">
+            <button
+              type="button"
+              onClick={() => setItrForm('itr1')}
+              className={`px-3 py-1 text-[11px] font-semibold transition-colors ${
+                itrForm === 'itr1' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              ITR-1 Sahaj
+            </button>
+            <button
+              type="button"
+              onClick={() => setItrForm('itr2')}
+              className={`border-l border-gray-300 px-3 py-1 text-[11px] font-semibold transition-colors ${
+                itrForm === 'itr2' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              ITR-2
+            </button>
+          </div>
+        )}
+
+        {/* AY / form badges — company type */}
+        {isCompany && (
+          <div className="flex items-center gap-1.5">
+            <span className="rounded border border-blue-200 bg-blue-50 px-2 py-0.5 text-[11px] font-semibold text-blue-700">
+              AY 2025-26
+            </span>
+            <span className="rounded border border-green-200 bg-green-50 px-2 py-0.5 text-[11px] font-semibold text-green-700">
+              ITR-6
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* ── Tax data sync bar ─────────────────────────────────────────────────── */}
+      {taxPayload && (
+        <div className="flex items-center justify-between border-b border-indigo-100 bg-indigo-50 px-4 py-1">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-indigo-700">
+            <CheckCircle className="h-3 w-3" />
+            Tax data synced
+          </div>
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="text-gray-500">
+              Total Income: <b className="font-mono text-gray-900">₹{(taxPayload.totalIncome || 0).toLocaleString('en-IN')}</b>
+            </span>
+            <span className="text-gray-500">
+              Tax Payable: <b className="font-mono text-red-600">₹{(taxPayload.taxPayable || 0).toLocaleString('en-IN')}</b>
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── Iframe containers ─────────────────────────────────────────────────── */}
+      <div className="relative flex-1 overflow-hidden bg-gray-50">
+
+        {/* IT Calculator (both entity types use this) */}
+        <iframe
+          src={isCompany ? '/tax-utilities/it-calculator.html' : '/tax-utilities/calculator.html'}
+          className={`absolute inset-0 h-full w-full border-none ${
+            activeTab === 'calc' ? 'z-10' : 'pointer-events-none z-0 opacity-0'
+          }`}
+          title="IT Calculator"
+        />
+
+        {/* Individual: ITR-1 & ITR-2 */}
+        {!isCompany && (
+          <>
+            <iframe
+              ref={itr1Ref}
+              src="/tax-utilities/itr1.html"
+              className={`absolute inset-0 h-full w-full border-none ${
+                activeTab === 'itr' && itrForm === 'itr1' ? 'z-10' : 'pointer-events-none z-0 opacity-0'
+              }`}
+              title="ITR-1 Sahaj"
+            />
+            <iframe
+              ref={itr2Ref}
+              src="/tax-utilities/itr2.html"
+              className={`absolute inset-0 h-full w-full border-none ${
+                activeTab === 'itr' && itrForm === 'itr2' ? 'z-10' : 'pointer-events-none z-0 opacity-0'
+              }`}
+              title="ITR-2"
+            />
+          </>
+        )}
+
+        {/* Company: ITR-6 */}
+        {isCompany && (
+          <iframe
+            ref={itr6Ref}
+            src="/tax-utilities/itr6.html"
+            className={`absolute inset-0 h-full w-full border-none ${
+              activeTab === 'itr' ? 'z-10' : 'pointer-events-none z-0 opacity-0'
+            }`}
+            title="ITR-6"
+          />
+        )}
+      </div>
     </div>
   );
 }

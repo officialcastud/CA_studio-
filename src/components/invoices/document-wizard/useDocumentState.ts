@@ -34,7 +34,7 @@ import {
   getCessInfo,
   validateSalesWizardStep3,
 } from '@/lib/accounting/gstInvoices';
-import { INDIAN_STATES_BY_NAME } from '@/lib/constants/indianStates';
+import { createSalesJournalEntry, createPurchaseJournalEntry } from '@/lib/accounting/invoiceJournalSync';
 
 interface UseSalesDocumentState {
   kind: 'sales';
@@ -45,8 +45,10 @@ interface UseSalesDocumentState {
   removeItem: (index: number) => void;
   handleGstinChange: (value: string) => void;
   gstinError: string | null;
+  gstinLocked: boolean;
   totals: SalesTotals;
   error: string | null;
+  invalidFields: string[];
   save: () => boolean;
   existingInvoices: InvoiceV2[];
   selectOriginalInvoice: (inv: InvoiceV2) => void;
@@ -56,8 +58,10 @@ interface UsePurchaseDocumentState {
   kind: 'purchase';
   fields: PurchaseFields;
   updateField: <K extends keyof PurchaseFields>(key: K, value: PurchaseFields[K]) => void;
+  gstinLocked: boolean;
   totals: PurchaseTotals;
   error: string | null;
+  invalidFields: string[];
   save: () => boolean;
   existingPurchases: PurchaseInvoice[];
   selectOriginalPurchase: (inv: PurchaseInvoice) => void;
@@ -72,6 +76,7 @@ export interface PurchaseFields {
   itemHsn: string;
   itemQty: string;
   itemRate: string;
+  itemDiscount: string;
   posState: string;
   supplyType: SupplyType;
   taxable: string;
@@ -119,6 +124,7 @@ function initPurchaseFields(
       itemHsn: initial.item_hsn || '',
       itemQty: String(initial.item_qty ?? 1),
       itemRate: String(initial.item_rate ?? 0),
+      itemDiscount: '0',
       posState: initial.place_of_supply_state || companyStateName,
       supplyType: initial.supply_type,
       taxable: String(initial.taxable_value || 0),
@@ -157,6 +163,7 @@ function initPurchaseFields(
     itemHsn: '',
     itemQty: '1',
     itemRate: '0',
+    itemDiscount: '0',
     posState: companyStateName,
     supplyType: 'intra',
     taxable: '0',
@@ -228,10 +235,15 @@ function useSalesState(
   });
 
   const [error, setError] = useState<string | null>(null);
+  const [invalidFields, setInvalidFields] = useState<string[]>([]);
   const [gstinError, setGstinError] = useState<string | null>(null);
+  const [gstinLocked, setGstinLocked] = useState(false);
 
   const updateInvoice = useCallback((updates: Partial<InvoiceV2Draft>) => {
     setInvoice((prev) => ({ ...prev, ...updates }));
+    // Clear validation on change
+    const changedKeys = Object.keys(updates);
+    setInvalidFields((prev) => prev.filter((f) => !changedKeys.includes(f)));
   }, []);
 
   const updateItem = useCallback((index: number, updates: Partial<LineItem>) => {
@@ -281,7 +293,7 @@ function useSalesState(
     }));
   }, [invoice.doc_type, invoice.bos_reason]);
 
-  // Auto-categorize
+  // Auto-categorize — respects force_igst override
   useEffect(() => {
     const catUpdates = autoCategorize(invoice, sellerStateCode);
     const keys = Object.keys(catUpdates) as Array<keyof InvoiceV2Draft>;
@@ -289,7 +301,15 @@ function useSalesState(
     const invAny = invoice as unknown as Record<string, unknown>;
     const needsUpdate = keys.some((k) => catAny[k] !== invAny[k]);
     if (needsUpdate) {
-      setInvoice((prev) => ({ ...prev, ...catUpdates }));
+      setInvoice((prev) => {
+        const updated = { ...prev, ...catUpdates };
+        // If force_igst is on, always override to inter-state
+        if (prev.force_igst) {
+          updated.supply_type = 'inter';
+          updated.is_intra_state = false;
+        }
+        return updated;
+      });
     }
   }, [
     invoice.buyer_gstin,
@@ -299,14 +319,17 @@ function useSalesState(
     invoice.place_of_supply,
     invoice.total_amount,
     invoice.is_amendment,
+    invoice.force_igst,
     sellerStateCode,
   ]);
 
-  // Recalculate totals
+  // Recalculate totals — respects force_igst
   useEffect(() => {
     const pos = invoice.place_of_supply || invoice.buyer_state_code;
     const autoSupplyType = determineSupplyType(sellerStateCode, invoice.buyer_state_code, pos);
-    const forcedType: SupplyType | null = invoice.buyer_type === 'CBW' || invoice.buyer_type === 'OVERSEAS' ? 'inter' : null;
+    // force_igst overrides to inter-state regardless of POS/seller state
+    const forcedType: SupplyType | null =
+      (invoice.force_igst || invoice.buyer_type === 'CBW' || invoice.buyer_type === 'OVERSEAS') ? 'inter' : null;
     const supplyType = forcedType || autoSupplyType;
     const isIntra = supplyType === 'intra';
 
@@ -381,6 +404,7 @@ function useSalesState(
     invoice.b2c_type,
     invoice.is_amendment,
     invoice.supply_type,
+    invoice.force_igst,
     invoice.payment_mode,
     invoice.amount_received,
     sellerStateCode,
@@ -388,24 +412,35 @@ function useSalesState(
 
   const handleGstinChange = useCallback((value: string) => {
     const gstin = value.trim().toUpperCase();
-    updateInvoice({ buyer_gstin: gstin });
-    if (!gstin) { setGstinError(null); return; }
-    if (gstin.length === 15) {
-      if (!gstinIsValid(gstin)) { setGstinError('Invalid GSTIN format'); return; }
+    if (!gstin) {
+      updateInvoice({ buyer_gstin: '' });
       setGstinError(null);
+      return;
+    }
+
+    const updates: Partial<InvoiceV2Draft> = { buyer_gstin: gstin };
+
+    if (gstin.length >= 2) {
       const stateCode = getStateCodeFromGSTIN(gstin);
       const stateName = getStateFromGSTIN(gstin);
       if (stateCode && stateName) {
-        updateInvoice({
-          buyer_gstin: gstin,
-          buyer_state_code: stateCode,
-          buyer_state: stateName,
-          place_of_supply: stateCode,
-        });
+        updates.buyer_state_code = stateCode;
+        updates.buyer_state = stateName;
+        updates.place_of_supply = stateCode;
+      }
+    }
+
+    if (gstin.length === 15) {
+      if (!gstinIsValid(gstin)) {
+        setGstinError('Invalid GSTIN format');
+      } else {
+        setGstinError(null);
       }
     } else {
       setGstinError(null);
     }
+
+    updateInvoice(updates);
   }, [updateInvoice]);
 
   const totals = useMemo<SalesTotals>(() => ({
@@ -436,25 +471,41 @@ function useSalesState(
       buyer_state_code: inv.buyer_state_code,
       buyer_state: inv.buyer_state,
       place_of_supply: inv.place_of_supply,
+      force_igst: inv.force_igst || false,
+      payment_mode: inv.payment_mode,
+      received_medium: inv.received_medium,
+      due_date: inv.due_date,
+      ...(inv.items?.length ? { items: inv.items.map((item) => ({ ...item })) } : {}),
     });
     if (inv.buyer_gstin) {
       handleGstinChange(inv.buyer_gstin);
     }
+    setGstinLocked(true);
   }, [updateInvoice, handleGstinChange]);
 
   const save = useCallback((): boolean => {
-    if (!invoice.invoice_date?.trim()) { setError('Invoice date is required'); return false; }
+    const errors: string[] = [];
+
+    if (!invoice.invoice_date?.trim()) errors.push('invoice_date');
     if (invoice.buyer_type !== 'CONSUMER' && !invoice.buyer_name.trim()) {
-      if (!(invoice.b2c_type === 'B2CS')) { setError('Party name is required'); return false; }
+      if (!(invoice.b2c_type === 'B2CS')) errors.push('buyer_name');
     }
     if (mode === 'sales_return') {
-      if (!invoice.original_invoice_no?.trim()) { setError('Original invoice number is required'); return false; }
-      if (!invoice.original_invoice_date) { setError('Original invoice date is required'); return false; }
-      // Strict verification: original invoice must exist in the register
+      if (!invoice.original_invoice_no?.trim()) errors.push('original_invoice_no');
+      if (!invoice.original_invoice_date) errors.push('original_invoice_date');
+    }
+
+    if (errors.length > 0) {
+      setInvalidFields(errors);
+      setError(null);
+      return false;
+    }
+
+    if (mode === 'sales_return') {
       const allInvoices = listInvoicesV2(companyId);
       const origInv = allInvoices.find((inv) => inv.invoice_no === invoice.original_invoice_no?.trim() && inv.doc_type !== 'CREDIT_NOTE');
       if (!origInv) {
-        setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+        setError('Original Invoice not found in register.');
         return false;
       }
     }
@@ -462,11 +513,13 @@ function useSalesState(
     if (!itemValidation.ok) { setError(itemValidation.error); return false; }
 
     setError(null);
+    setInvalidFields([]);
     try {
       if (initialInvoice?.id) {
         updateInvoiceV2(initialInvoice.id, invoice);
       } else {
-        createInvoiceV2(companyId, invoice);
+        const saved = createInvoiceV2(companyId, invoice);
+        createSalesJournalEntry(companyId, saved);
       }
       return true;
     } catch {
@@ -484,8 +537,10 @@ function useSalesState(
     removeItem,
     handleGstinChange,
     gstinError,
+    gstinLocked,
     totals,
     error,
+    invalidFields,
     save,
     existingInvoices,
     selectOriginalInvoice,
@@ -503,19 +558,26 @@ function usePurchaseState(
     initPurchaseFields(mode, initialPurchase, companyStateName)
   );
   const [error, setError] = useState<string | null>(null);
+  const [invalidFields, setInvalidFields] = useState<string[]>([]);
+  const [gstinLocked, setGstinLocked] = useState(false);
 
   const updateField = useCallback(<K extends keyof PurchaseFields>(key: K, value: PurchaseFields[K]) => {
     setFields((prev) => ({ ...prev, [key]: value }));
+    setInvalidFields((prev) => prev.filter((f) => f !== key));
   }, []);
 
-  // Auto-calc taxable from qty * rate
+  // Auto-calc taxable from qty * rate * (1 - discountPct/100)
   useEffect(() => {
     const qty = Number(fields.itemQty || 0);
     const rate = Number(fields.itemRate || 0);
+    const discountPct = Number(fields.itemDiscount || 0);
     if (qty > 0 && rate >= 0) {
-      setFields((prev) => ({ ...prev, taxable: (qty * rate).toString() }));
+      const gross = qty * rate;
+      const discountAmt = Math.round(gross * discountPct) / 100;
+      const taxable = Math.max(0, gross - discountAmt);
+      setFields((prev) => ({ ...prev, taxable: taxable.toString() }));
     }
-  }, [fields.itemQty, fields.itemRate]);
+  }, [fields.itemQty, fields.itemRate, fields.itemDiscount]);
 
   // Auto-calc amount pending
   useEffect(() => {
@@ -523,10 +585,10 @@ function usePurchaseState(
     const gstRate = Number(fields.gstRate || 0);
     const totalGst = taxable * gstRate / 100;
     const totalAmount = Math.round(taxable + totalGst);
-    
+
     let pending = 0;
     let paid = Number(fields.amountPaid || 0);
-    
+
     if (fields.paymentMode === 'CASH' || fields.paymentMode === 'ONLINE') {
       pending = 0;
       paid = totalAmount;
@@ -536,7 +598,7 @@ function usePurchaseState(
     } else if (fields.paymentMode === 'PARTIAL') {
       pending = Math.max(0, totalAmount - paid);
     }
-    
+
     setFields((prev) => ({
       ...prev,
       amountPending: String(pending),
@@ -544,13 +606,30 @@ function usePurchaseState(
     }));
   }, [fields.taxable, fields.gstRate, fields.paymentMode, fields.amountPaid]);
 
+  // Auto-detect supply type from vendor GSTIN vs Place of Supply
+  useEffect(() => {
+    if (!fields.vendorGstin || !gstinIsValid(fields.vendorGstin) || !fields.posState) return;
+    const vendorStateCode = fields.vendorGstin.slice(0, 2);
+    const posStateCode = Object.keys(STATE_CODES).find(k => STATE_CODES[k] === fields.posState);
+    if (!posStateCode) return;
+    const autoSupply: SupplyType = posStateCode === vendorStateCode ? 'intra' : 'inter';
+    setFields((prev) => prev.supplyType === autoSupply ? prev : { ...prev, supplyType: autoSupply });
+  }, [fields.vendorGstin, fields.posState]);
+
+  // Auto-adjust GST rate based on bucket selection
+  useEffect(() => {
+    if (fields.bucket === 'URD' || fields.bucket === 'EXEMPT_NIL') {
+      setFields((prev) => prev.gstRate === '0' ? prev : { ...prev, gstRate: '0' });
+    } else if (fields.bucket === 'B2B' && fields.gstRate === '0') {
+      setFields((prev) => ({ ...prev, gstRate: '18' }));
+    }
+  }, [fields.bucket]);
+
+
   const totals = useMemo<PurchaseTotals>(() => {
     const taxable = Number(fields.taxable || 0);
     const gstRate = Number(fields.gstRate || 0);
-    const posCode = INDIAN_STATES_BY_NAME[fields.posState.trim().toLowerCase()]?.gstCode || null;
-    const inferredSupply: SupplyType =
-      sellerStateCode && posCode && sellerStateCode === posCode ? 'intra' : fields.supplyType;
-    const isIntra = inferredSupply === 'intra';
+    const isIntra = fields.supplyType === 'intra';
     const totalGst = taxable * gstRate / 100;
     return {
       taxable,
@@ -558,10 +637,10 @@ function usePurchaseState(
       sgst: isIntra ? totalGst / 2 : 0,
       igst: isIntra ? 0 : totalGst,
       total: taxable + totalGst,
-      supplyType: inferredSupply,
+      supplyType: fields.supplyType,
       isIntra,
     };
-  }, [fields.taxable, fields.gstRate, fields.posState, fields.supplyType, sellerStateCode]);
+  }, [fields.taxable, fields.gstRate, fields.supplyType]);
 
   const existingPurchases = useMemo(() => {
     if (mode !== 'purchase_return') return [];
@@ -580,46 +659,61 @@ function usePurchaseState(
       itemHsn: inv.item_hsn || '',
       itemQty: String(inv.item_qty || 0),
       itemRate: String(inv.item_rate || 0),
+      itemDiscount: '0',
       taxable: String(inv.taxable_value || 0),
       gstRate: String(inv.gst_rate || 0),
       supplyType: inv.supply_type || prev.supplyType,
       itcEligible: Boolean(inv.itc_eligible),
       itcStatus: inv.itc_status || 'ELIGIBLE_FULL',
       itcBlockReason: inv.itc_block_reason || '17(5)(a)',
-      bucket: 'CDNR', // Enforce return bucket
+      bucket: 'CDNR',
+      paymentMode: inv.payment_mode || 'CREDIT',
+      paidMedium: inv.paid_medium || 'BANK_TRANSFER',
+      amountPaid: String(inv.amount_paid || 0),
+      amountPending: String(inv.amount_pending || inv.total || 0),
+      dueDate: inv.due_date || '',
+      vendorInvoiceNo: inv.vendor_invoice_no || '',
     }));
+    setGstinLocked(true);
   }, []);
 
   const save = useCallback((): boolean => {
-    setError(null);
+    const errors: string[] = [];
     const taxableVal = Number(fields.taxable || 0);
     const gstVal = Number(fields.gstRate || 0);
 
-    if (!fields.invoiceDate) { setError('Date is required.'); return false; }
-    if (mode === 'purchase_invoice' && !fields.vendorInvoiceNo.trim()) { setError('Vendor Invoice Number is strictly required.'); return false; }
-    if (!fields.vendorName.trim()) { setError('Vendor name is required.'); return false; }
-    if (!fields.posState.trim()) { setError('Place of supply is required.'); return false; }
+    if (!fields.invoiceDate) errors.push('invoiceDate');
+    if (mode === 'purchase_invoice' && !fields.vendorInvoiceNo.trim()) errors.push('vendorInvoiceNo');
+    if (!fields.vendorName.trim()) errors.push('vendorName');
+    if (!fields.posState.trim()) errors.push('posState');
     if (mode === 'purchase_return') {
-      if (!gstinIsValid(fields.vendorGstin)) { setError('Valid GSTIN required for debit notes.'); return false; }
-      if (!fields.origInvNo.trim()) { setError('Original invoice number is required.'); return false; }
-      if (!fields.origInvDate) { setError('Original invoice date is required.'); return false; }
-      // Strict verification: original invoice must exist in the register
+      if (!fields.origInvNo.trim()) errors.push('origInvNo');
+      if (!fields.origInvDate) errors.push('origInvDate');
+    }
+    if (mode === 'purchase_invoice' && fields.bucket === 'B2B' && !gstinIsValid(fields.vendorGstin)) {
+      errors.push('vendorGstin');
+    }
+    if (taxableVal <= 0) errors.push('taxable');
+
+    if (errors.length > 0) {
+      setInvalidFields(errors);
+      setError(null);
+      return false;
+    }
+
+    // Non-field errors
+    if (fields.vendorGstin && !gstinIsValid(fields.vendorGstin)) {
+      setError('Invalid GSTIN format.'); return false;
+    }
+    if (gstVal < 0) { setError('GST rate cannot be negative.'); return false; }
+    if (mode === 'purchase_return') {
       const allPurchases = listPurchaseInvoices(companyId);
       const origPurchase = allPurchases.find((inv) => inv.invoice_no === fields.origInvNo.trim() && inv.bucket !== 'CDNR');
       if (!origPurchase) {
-        setError('Original Invoice not found in the register. You cannot create a return against a non-existent invoice.');
+        setError('Original Invoice not found in register.');
         return false;
       }
     }
-    if (mode === 'purchase_invoice' && fields.bucket === 'B2B' && !gstinIsValid(fields.vendorGstin)) {
-      setError('Valid GSTIN required for B2B.'); return false;
-    }
-    if (taxableVal <= 0) { setError('Taxable value must be > 0.'); return false; }
-    if (gstVal < 0) { setError('GST rate cannot be negative.'); return false; }
-
-    const posCode = INDIAN_STATES_BY_NAME[fields.posState.trim().toLowerCase()]?.gstCode || null;
-    const inferredSupply: SupplyType =
-      sellerStateCode && posCode && sellerStateCode === posCode ? 'intra' : fields.supplyType;
 
     const payload: PurchaseInvoiceDraft = {
       invoice_date: fields.invoiceDate,
@@ -633,7 +727,7 @@ function usePurchaseState(
       item_qty: Number(fields.itemQty || 0) || undefined,
       item_rate: Number(fields.itemRate || 0) || undefined,
       place_of_supply_state: fields.posState.trim(),
-      supply_type: inferredSupply,
+      supply_type: fields.supplyType,
       rcm_applicable: fields.rcmApplicable,
       taxable_value: taxableVal,
       gst_rate: gstVal,
@@ -657,11 +751,14 @@ function usePurchaseState(
       due_date: fields.dueDate || undefined,
     };
 
+    setError(null);
+    setInvalidFields([]);
     try {
       if (initialPurchase?.id) {
         updatePurchaseInvoice(initialPurchase.id, payload);
       } else {
-        createPurchaseInvoice(companyId, payload);
+        const saved = createPurchaseInvoice(companyId, payload);
+        createPurchaseJournalEntry(companyId, saved);
       }
       return true;
     } catch {
@@ -674,8 +771,10 @@ function usePurchaseState(
     kind: 'purchase',
     fields,
     updateField,
+    gstinLocked,
     totals,
     error,
+    invalidFields,
     save,
     existingPurchases,
     selectOriginalPurchase,

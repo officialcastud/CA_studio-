@@ -8,7 +8,7 @@
  * This means even a brand-new company sees a populated dropdown.
  */
 
-import { listJournalEntries } from '@/lib/offlineDb';
+import { listJournalEntries, getCustomAccounts } from '@/lib/offlineDb';
 import { getAllDefaultAccounts, classifyDefaultAccount } from '@/lib/coa';
 
 export function normalizeAccountName(name: string): string {
@@ -23,11 +23,12 @@ function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
-/** Names from journal entries for this company (user-created / AI-created). */
+/** Names from journal entries + custom account registry for this company. */
 function getJournalAccountNames(companyId: string): string[] {
   if (!isBrowser() || !companyId) return [];
   const names: string[] = [];
   const seen = new Set<string>();
+  // 1. Journal-line accounts
   for (const entry of listJournalEntries(companyId)) {
     for (const line of entry.lines) {
       const normalized = normalizeAccountName(line.account_name || '');
@@ -36,6 +37,14 @@ function getJournalAccountNames(companyId: string): string[] {
       seen.add(k);
       names.push(normalized);
     }
+  }
+  // 2. Explicitly registered accounts (persists after JE deletion)
+  for (const acc of getCustomAccounts(companyId)) {
+    const normalized = normalizeAccountName(acc.name || '');
+    const k = normalized.toLowerCase();
+    if (!normalized || seen.has(k)) continue;
+    seen.add(k);
+    names.push(normalized);
   }
   return names;
 }

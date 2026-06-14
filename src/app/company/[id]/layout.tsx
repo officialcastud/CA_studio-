@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { Outlet } from 'react-router-dom';
+import { BackNav } from '@/components/layout/BackNav';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
 import { ErrorBoundary } from '@/components/layout/ErrorBoundary';
@@ -77,6 +78,7 @@ export default function CompanyLayout() {
 
           {/* Main content */}
           <main className="flex-1 min-h-0 overflow-auto p-4 min-w-0">
+            <BackNav />
             <ErrorBoundary>
               <Outlet />
             </ErrorBoundary>

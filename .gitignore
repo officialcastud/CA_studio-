@@ -8,7 +8,7 @@ out/
 coverage/
 .DS_Store
 
-# Env / secrets
+# Env / secrets (never commit these)
 .env
 .env.*
 
@@ -19,7 +19,13 @@ yarn-error.log*
 pnpm-debug.log*
 *.log
 
+# TypeScript build cache
+tsconfig.tsbuildinfo
+
 # IDE/editor
 .vscode/
 .idea/
 
+# Dev-only tools (not part of the app)
+mcp-server/dist/
+mcp-server/node_modules/

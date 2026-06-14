@@ -32,5 +32,6 @@ export const societyConfig: EntityConfig = {
     contingentLiabilities: true, directorsReport: false, caro: false, costRecords: 'never', formN: false,
     salesInvoice: true, purchaseVoucher: true, paymentVoucher: true,
     receiptVoucher: true, debitNote: true, creditNote: true,
+    bankImport: true,
   },
 };

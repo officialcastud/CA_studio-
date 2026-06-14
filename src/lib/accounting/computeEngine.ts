@@ -95,19 +95,30 @@ export function computeAllBalances(entries: JournalEntry[]): AccountBalance[] {
 
   for (const entry of entries) {
     for (const line of entry.lines) {
-      const existing = balanceMap.get(line.account_name) || {
-        account_group: line.account_group,
-        nature: line.nature,
-        total_debit: 0,
-        total_credit: 0,
-      };
-      existing.total_debit += line.debit || 0;
-      existing.total_credit += line.credit || 0;
-      balanceMap.set(line.account_name, existing);
+      const existing = balanceMap.get(line.account_name);
+      if (existing) {
+        existing.total_debit += line.debit || 0;
+        existing.total_credit += line.credit || 0;
+        // Update group/nature if the stored line has a more specific value
+        if (!existing.account_group || existing.account_group === 'Auto') {
+          if (line.account_group && line.account_group !== 'Auto') {
+            existing.account_group = line.account_group;
+            existing.nature = line.nature;
+          }
+        }
+      } else {
+        balanceMap.set(line.account_name, {
+          account_group: line.account_group || 'Other Expenses — Administration',
+          nature: line.nature || 'expense',
+          total_debit: line.debit || 0,
+          total_credit: line.credit || 0,
+        });
+      }
     }
   }
 
   const results: AccountBalance[] = [];
+
   for (const [account_name, data] of balanceMap) {
     const diff = data.total_debit - data.total_credit;
     results.push({
@@ -120,5 +131,6 @@ export function computeAllBalances(entries: JournalEntry[]): AccountBalance[] {
       balance_type: diff >= 0 ? 'Dr' : 'Cr',
     });
   }
+
   return results;
 }

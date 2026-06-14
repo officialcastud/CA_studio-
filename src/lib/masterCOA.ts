@@ -442,8 +442,6 @@ const GROUPS: GD[] = [
     [304, 'CGST Input Tax Credit Receivable'],
     [305, 'SGST / UTGST Input Tax Credit Receivable'],
     [306, 'IGST Input Tax Credit Receivable'],
-  ]],
-  [1, 'GST — RCM', [
     [307, 'GST — RCM Input Tax Credit Receivable'],
   ]],
   [1, 'GST — Refund', [

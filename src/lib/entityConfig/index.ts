@@ -113,8 +113,8 @@ export interface EntityConfig {
     debitNote: boolean;
     creditNote: boolean;
 
-    /** Bulk Private Limited: enables the bulk bank statement importer workspace */
-    bulkWorkspace?: boolean;
+    /** Bank statement import → review → journalize workflow */
+    bankImport?: boolean;
   };
 }
 
@@ -131,9 +131,10 @@ import { societyConfig } from './society';
 import { section8Config } from './section8';
 import { aopBoiConfig } from './aopBoi';
 import { cooperativeConfig } from './cooperative';
-import { bulkPvtLtdConfig } from './bulkPvtLtd';
+import { individualConfig } from './individual';
 
 const configs: Record<string, EntityConfig> = {
+  individual: individualConfig,
   sole_proprietorship: soleProprietorshipConfig,
   partnership: partnershipConfig,
   llp: llpConfig,
@@ -146,7 +147,6 @@ const configs: Record<string, EntityConfig> = {
   section8: section8Config,
   aop_boi: aopBoiConfig,
   cooperative: cooperativeConfig,
-  bulk_pvt_ltd: bulkPvtLtdConfig,
 };
 
 export function getEntityConfig(entityType: EntityType | string): EntityConfig {

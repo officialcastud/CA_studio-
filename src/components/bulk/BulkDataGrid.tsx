@@ -10,8 +10,8 @@
  */
 
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { ArrowUpDown, ChevronUp, ChevronDown, Search, Filter } from 'lucide-react';
-import type { SuspenseTransaction } from '@/lib/bulk/types';
+import { ArrowUpDown, ChevronUp, ChevronDown, Search, Filter, Layers, Check } from 'lucide-react';
+import type { SuspenseTransaction, BulkLedgerAccount } from '@/lib/bulk/types';
 
 interface CtxMenuState {
   x: number;
@@ -21,9 +21,13 @@ interface CtxMenuState {
 
 interface Props {
   transactions: SuspenseTransaction[];
+  ledgerAccounts: BulkLedgerAccount[];
   onMoveToLedger: (selectedIds: string[]) => void;
   onCreateAndMove: (selectedIds: string[]) => void;
   onFlagRows: (selectedIds: string[]) => void;
+  onDeleteRows: (selectedIds: string[]) => void;
+  onUnallocateRows: (selectedIds: string[]) => void;
+  onCreateNewLedger?: () => void;
 }
 
 type SortKey = 'txnDate' | 'narration' | 'amount' | 'direction' | 'status';
@@ -49,15 +53,10 @@ function rowBg(status: SuspenseTransaction['status'], selected: boolean): string
   return '';
 }
 
-function statusBadge(status: SuspenseTransaction['status']) {
-  if (status === 'ALLOCATED') return <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700">Allocated</span>;
-  if (status === 'FLAGGED') return <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700">Flagged</span>;
-  return <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-500">Pending</span>;
-}
+const PAGE_SIZE = 1000;
+const MAX_BULK_ACTION = 300;
 
-const PAGE_SIZE = 200;
-
-export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, onFlagRows }: Props) {
+export function BulkDataGrid({ transactions, ledgerAccounts, onMoveToLedger, onCreateAndMove, onFlagRows, onDeleteRows, onUnallocateRows, onCreateNewLedger }: Props) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [lastSelected, setLastSelected] = useState<string | null>(null);
   const [ctx, setCtx] = useState<CtxMenuState | null>(null);
@@ -65,9 +64,33 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | SuspenseTransaction['status']>('ALL');
+  const [isCollageMode, setIsCollageMode] = useState(false);
   const [page, setPage] = useState(0);
 
   const ctxRef = useRef<HTMLDivElement>(null);
+
+  const statusBadge = (t: SuspenseTransaction) => {
+    if (t.status === 'UNALLOCATED') {
+      return <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-[10px] font-medium border border-gray-200">Pending</span>;
+    }
+    if (t.status === 'ALLOCATED') {
+      const ledger = t.allocatedLedgerId ? ledgerAccounts.find((l) => l.id === t.allocatedLedgerId) : null;
+      const ledgerName = ledger ? ledger.name : 'Allocated';
+      return (
+        <span 
+          className="bg-green-50 text-green-700 px-2 py-0.5 rounded text-[10px] font-medium border border-green-200 flex items-center gap-1 justify-center max-w-[140px] truncate mx-auto"
+          title={ledgerName}
+        >
+          <Check className="h-3 w-3 shrink-0" />
+          <span className="truncate">{ledgerName}</span>
+        </span>
+      );
+    }
+    if (t.status === 'FLAGGED') {
+      return <span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-[10px] font-medium border border-orange-200">Flagged</span>;
+    }
+    return null;
+  };
 
   // Close context menu on outside click
   useEffect(() => {
@@ -76,6 +99,15 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
     document.addEventListener('mousedown', close);
     return () => document.removeEventListener('mousedown', close);
   }, [ctx]);
+
+  const extractPayee = useCallback((narration: string) => {
+    const parts = narration.split('/');
+    if (parts.length >= 2 && ['UPI', 'NEFT', 'IMPS', 'RTGS'].some(p => narration.toUpperCase().startsWith(p))) {
+      return parts[1].trim().toUpperCase();
+    }
+    // Fallback: first 3 words
+    return narration.split(' ').slice(0, 3).join(' ').trim().toUpperCase();
+  }, []);
 
   const filtered = useMemo(() => {
     let rows = transactions;
@@ -88,16 +120,63 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
           t.referenceNo.toLowerCase().includes(q),
       );
     }
-    return [...rows].sort((a, b) => {
+    
+    if (isCollageMode) {
+      const payeeStats = new Map<string, { count: number; totalAmt: number }>();
+      rows.forEach(t => {
+        const p = extractPayee(t.narration);
+        const stats = payeeStats.get(p) || { count: 0, totalAmt: 0 };
+        stats.count += 1;
+        stats.totalAmt += t.amount;
+        payeeStats.set(p, stats);
+      });
+
+      const collageSorted = [...rows].sort((a, b) => {
+        const pA = extractPayee(a.narration);
+        const pB = extractPayee(b.narration);
+        if (pA !== pB) {
+          const sA = payeeStats.get(pA)!;
+          const sB = payeeStats.get(pB)!;
+          if (sA.count !== sB.count) return sB.count - sA.count;
+          if (sA.totalAmt !== sB.totalAmt) return sB.totalAmt - sA.totalAmt;
+          return pA.localeCompare(pB);
+        }
+        if (a.direction !== b.direction) return a.direction.localeCompare(b.direction);
+        const dateCmp = (a.txnDate ?? '').localeCompare(b.txnDate ?? '');
+        if (dateCmp === 0) return a.originalRowNumber - b.originalRowNumber;
+        return dateCmp;
+      });
+
+      if (statusFilter === 'ALL') {
+        return [...collageSorted.filter(t => t.status !== 'ALLOCATED'), ...collageSorted.filter(t => t.status === 'ALLOCATED')];
+      }
+      return collageSorted;
+    }
+
+    const sorted = [...rows].sort((a, b) => {
       let cmp = 0;
       if (sortKey === 'txnDate') cmp = (a.txnDate ?? '').localeCompare(b.txnDate ?? '');
       else if (sortKey === 'narration') cmp = a.narration.localeCompare(b.narration);
       else if (sortKey === 'amount') cmp = a.amount - b.amount;
       else if (sortKey === 'direction') cmp = a.direction.localeCompare(b.direction);
       else if (sortKey === 'status') cmp = a.status.localeCompare(b.status);
+
+      // Secondary sort by originalRowNumber to prevent jumbled transactions on the same day
+      if (cmp === 0) {
+        return a.originalRowNumber - b.originalRowNumber;
+      }
+
       return sortDir === 'asc' ? cmp : -cmp;
     });
-  }, [transactions, statusFilter, search, sortKey, sortDir]);
+
+    // Push ALLOCATED rows to the bottom (only when showing all statuses)
+    if (statusFilter === 'ALL') {
+      const unalloc = sorted.filter(t => t.status !== 'ALLOCATED');
+      const alloc = sorted.filter(t => t.status === 'ALLOCATED');
+      return [...unalloc, ...alloc];
+    }
+    return sorted;
+  }, [transactions, statusFilter, search, sortKey, sortDir, isCollageMode, extractPayee]);
 
   const paged = useMemo(
     () => filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE),
@@ -111,24 +190,34 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
     else { setSortKey(key); setSortDir('asc'); }
   }, [sortKey]);
 
-  const handleRowClick = useCallback(
-    (e: React.MouseEvent, id: string) => {
-      e.preventDefault();
+  const handleInteraction = useCallback(
+    (e: React.MouseEvent, id: string, isCheckbox: boolean) => {
+      if (!isCheckbox) {
+        e.preventDefault();
+      }
+      e.stopPropagation();
+
       const newSel = new Set(selected);
+
       if (e.shiftKey && lastSelected) {
-        // Range select
+        // Range select (always adds to current selection)
         const ids = paged.map((t) => t.id);
         const from = ids.indexOf(lastSelected);
         const to = ids.indexOf(id);
-        const [lo, hi] = from < to ? [from, to] : [to, from];
-        for (let i = lo; i <= hi; i++) newSel.add(ids[i]);
-      } else if (e.ctrlKey || e.metaKey) {
-        if (newSel.has(id)) newSel.delete(id); else newSel.add(id);
+        if (from >= 0 && to >= 0) {
+          const [lo, hi] = from < to ? [from, to] : [to, from];
+          for (let i = lo; i <= hi; i++) newSel.add(ids[i]);
+        }
+      } else if (isCheckbox || e.ctrlKey || e.metaKey) {
+        // Toggle specific row
+        if (newSel.has(id)) newSel.delete(id);
+        else newSel.add(id);
       } else {
-        // Single select
+        // Exclusive single select
         newSel.clear();
         newSel.add(id);
       }
+
       setSelected(newSel);
       setLastSelected(id);
     },
@@ -192,27 +281,65 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
           </select>
         </div>
 
+        <div className="h-4 w-px bg-gray-300 mx-1" />
+
+        <button
+          onClick={() => { setIsCollageMode(!isCollageMode); setPage(0); }}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded transition-colors border ${
+            isCollageMode 
+              ? 'bg-blue-50 border-blue-200 text-blue-700 font-medium' 
+              : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+          }`}
+          title="Group by Payee (Highest transaction count first)"
+        >
+          <Layers className={`h-3.5 w-3.5 ${isCollageMode ? 'text-blue-600' : 'text-gray-400'}`} />
+          Collage by Payee
+        </button>
+
         <span className="text-xs text-gray-500">
           {filtered.length.toLocaleString()} rows
           {selected.size > 0 && <span className="text-blue-600 font-medium"> · {selected.size} selected</span>}
         </span>
 
+        <div className="flex-1" />
+
+        {onCreateNewLedger && (
+          <button
+            onClick={onCreateNewLedger}
+            className="px-2.5 py-1.5 text-xs text-blue-600 bg-blue-50 hover:bg-blue-100 rounded font-medium transition-colors border border-blue-200"
+          >
+            + New Ledger
+          </button>
+        )}
+
         {selected.size > 0 && (
           <button
-            onClick={() => onMoveToLedger([...selected])}
-            className="px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium transition-colors"
+            onClick={() => {
+              if (selected.size < 1) return;
+              if (selected.size > MAX_BULK_ACTION) {
+                alert(`Too many rows selected for Move to Ledger (${selected.size}). Maximum is ${MAX_BULK_ACTION} at a time.\n\nTip: Delete has no limit — you can delete all rows at once.`);
+                return;
+              }
+              onMoveToLedger([...selected]);
+            }}
+            className={`px-3 py-1.5 text-xs rounded font-medium transition-colors ${
+              selected.size > MAX_BULK_ACTION
+                ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
+            title={selected.size > MAX_BULK_ACTION ? `Select at most ${MAX_BULK_ACTION} rows to move (${selected.size} selected)` : undefined}
           >
-            Move to Ledger
+            Move to Ledger{selected.size > MAX_BULK_ACTION ? ` (max ${MAX_BULK_ACTION})` : ''}
           </button>
         )}
       </div>
 
       {/* Table */}
       <div className="flex-1 overflow-auto">
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-[11px] border-collapse">
           <thead className="sticky top-0 z-10 bg-gray-100">
             <tr>
-              <th className="w-8 px-2 py-2 text-left">
+              <th className="w-8 px-2 py-1.5 text-left">
                 <input
                   type="checkbox"
                   checked={paged.length > 0 && selected.size === paged.length}
@@ -231,7 +358,7 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
                 <th
                   key={key}
                   onClick={() => key !== 'referenceNo' && toggleSort(key as SortKey)}
-                  className={`px-3 py-2 text-left font-semibold text-gray-600 tracking-wide whitespace-nowrap ${
+                  className={`px-3 py-1.5 text-left font-semibold text-gray-600 tracking-wide whitespace-nowrap ${
                     key !== 'referenceNo' ? 'cursor-pointer hover:bg-gray-200 select-none' : ''
                   } ${key === 'amount' ? 'text-right' : ''}`}
                 >
@@ -246,47 +373,56 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
           <tbody>
             {paged.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center text-gray-400 py-12">
+                <td colSpan={7} className="text-center text-gray-400 py-8">
                   {transactions.length === 0
                     ? 'No transactions yet — import a bank statement to begin.'
                     : 'No rows match the current filter.'}
                 </td>
               </tr>
             ) : (
-              paged.map((t) => (
-                <tr
-                  key={t.id}
-                  className={`border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors ${rowBg(t.status, selected.has(t.id))}`}
-                  onClick={(e) => handleRowClick(e, t.id)}
-                  onContextMenu={(e) => handleContextMenu(e, t.id)}
-                >
-                  <td className="px-2 py-1.5">
+              paged.map((t, i) => {
+                const isNewGroup = isCollageMode && i > 0 && extractPayee(t.narration) !== extractPayee(paged[i - 1].narration);
+                return (
+                  <React.Fragment key={t.id}>
+                    {isNewGroup && (
+                      <tr>
+                        <td colSpan={7} className="h-3 bg-gray-50 border-y border-gray-200 shadow-inner"></td>
+                      </tr>
+                    )}
+                    <tr
+                      className={`border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors ${rowBg(t.status, selected.has(t.id))}`}
+                      onClick={(e) => handleInteraction(e, t.id, false)}
+                      onContextMenu={(e) => handleContextMenu(e, t.id)}
+                    >
+                  <td className="px-2 py-1">
                     <input
                       type="checkbox"
                       checked={selected.has(t.id)}
-                      onChange={() => {}}
-                      className="rounded border-gray-300"
-                      onClick={(e) => e.stopPropagation()}
+                      readOnly
+                      className="rounded border-gray-300 cursor-pointer"
+                      onClick={(e) => handleInteraction(e, t.id, true)}
                     />
                   </td>
-                  <td className="px-3 py-1.5 whitespace-nowrap text-gray-600">{formatDate(t.txnDate)}</td>
-                  <td className="px-3 py-1.5 text-gray-800 max-w-xs truncate" title={t.narration}>{t.narration}</td>
-                  <td className="px-3 py-1.5 text-gray-500 max-w-[120px] truncate">{t.referenceNo || '—'}</td>
-                  <td className={`px-3 py-1.5 text-right font-mono tabular-nums whitespace-nowrap ${
+                  <td className="px-3 py-1 whitespace-nowrap text-gray-600">{formatDate(t.txnDate)}</td>
+                  <td className="px-3 py-1 text-gray-800 break-words">{t.narration}</td>
+                  <td className="px-3 py-1 text-gray-500 max-w-[120px] truncate">{t.referenceNo || '—'}</td>
+                  <td className={`px-3 py-1 text-right font-mono tabular-nums whitespace-nowrap ${
                     t.direction === 'PAYMENT' ? 'text-red-600' : 'text-green-700'
                   }`}>
                     {t.direction === 'PAYMENT' ? '−' : '+'}₹{formatAmount(t.amount)}
                   </td>
-                  <td className="px-3 py-1.5 text-center">
-                    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${
+                  <td className="px-3 py-1 text-center">
+                    <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${
                       t.direction === 'PAYMENT' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'
                     }`}>
                       {t.direction === 'PAYMENT' ? 'Pay' : 'Rcpt'}
                     </span>
                   </td>
-                  <td className="px-3 py-1.5">{statusBadge(t.status)}</td>
+                  <td className="px-3 py-1 text-center">{statusBadge(t)}</td>
                 </tr>
-              ))
+                </React.Fragment>
+              );
+            })
             )}
           </tbody>
         </table>
@@ -318,36 +454,72 @@ export function BulkDataGrid({ transactions, onMoveToLedger, onCreateAndMove, on
       )}
 
       {/* Right-click context menu */}
-      {ctx && (
-        <div
-          ref={ctxRef}
-          onMouseDown={(e) => e.stopPropagation()}
-          style={{ position: 'fixed', left: ctx.x, top: ctx.y, zIndex: 9999 }}
-          className="bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[200px] text-sm"
-        >
-          <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest px-3 py-1">
-            {ctx.selectedIds.length} row{ctx.selectedIds.length !== 1 ? 's' : ''} selected
-          </p>
-          <div className="my-1 border-t border-gray-100" />
-          <CtxItem
-            label="Move to Ledger"
-            sub="Select an existing ledger"
-            onClick={() => { setCtx(null); onMoveToLedger(ctx.selectedIds); }}
-          />
-          <CtxItem
-            label="Create Ledger & Move"
-            sub="Create a new ledger inline"
-            onClick={() => { setCtx(null); onCreateAndMove(ctx.selectedIds); }}
-          />
-          <div className="my-1 border-t border-gray-100" />
-          <CtxItem
-            label="Flag for Review"
-            sub="Mark as needs review"
-            onClick={() => { setCtx(null); onFlagRows(ctx.selectedIds); }}
-            danger
-          />
-        </div>
-      )}
+      {ctx && (() => {
+        const ctxIds = ctx.selectedIds;
+        const allAllocated = ctxIds.every(id => transactions.find(t => t.id === id)?.status === 'ALLOCATED');
+        // Guard for ledger-allocation actions only (max 300). Delete is unlimited.
+        const guardMove = (fn: () => void) => () => {
+          if (ctxIds.length > MAX_BULK_ACTION) {
+            alert(`Too many rows selected for this action (${ctxIds.length}). Maximum is ${MAX_BULK_ACTION} at a time.\n\nTip: Delete has no limit — you can delete all rows at once.`);
+            setCtx(null);
+            return;
+          }
+          fn();
+        };
+        return (
+          <div
+            ref={ctxRef}
+            onMouseDown={(e) => e.stopPropagation()}
+            style={{ position: 'fixed', left: ctx.x, top: ctx.y, zIndex: 9999 }}
+            className="bg-white border border-gray-200 rounded-lg shadow-xl py-1 min-w-[200px] text-sm"
+          >
+            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest px-3 py-1">
+              {ctxIds.length} row{ctxIds.length !== 1 ? 's' : ''} selected
+            </p>
+            <div className="my-1 border-t border-gray-100" />
+            {allAllocated ? (
+              <>
+                <CtxItem
+                  label="Unallocate"
+                  sub="Reset to unallocated (pending)"
+                  onClick={() => { setCtx(null); onUnallocateRows(ctxIds); }}
+                />
+                <CtxItem
+                  label="Alter / Move"
+                  sub="Re-classify to a different ledger"
+                  onClick={guardMove(() => { setCtx(null); onMoveToLedger(ctxIds); })}
+                />
+              </>
+            ) : (
+              <>
+                <CtxItem
+                  label="Move to Ledger"
+                  sub={`Select an existing ledger${ctxIds.length > MAX_BULK_ACTION ? ` (max ${MAX_BULK_ACTION})` : ''}`}
+                  onClick={guardMove(() => { setCtx(null); onMoveToLedger(ctxIds); })}
+                />
+                <CtxItem
+                  label="Create Ledger & Move"
+                  sub="Create a new ledger inline"
+                  onClick={guardMove(() => { setCtx(null); onCreateAndMove(ctxIds); })}
+                />
+                <div className="my-1 border-t border-gray-100" />
+                <CtxItem
+                  label="Flag for Review"
+                  sub="Mark as needs review"
+                  onClick={() => { setCtx(null); onFlagRows(ctxIds); }}
+                />
+              </>
+            )}
+            <div className="my-1 border-t border-gray-100" />
+            <CtxItem
+              label="Delete Rows"
+              sub={`Permanently remove ${ctxIds.length.toLocaleString()} row${ctxIds.length !== 1 ? 's' : ''}`}
+              onClick={() => { setCtx(null); onDeleteRows(ctxIds); }}
+              danger
+            />
+          </div>
+        );
+      })()}
     </div>
   );
 }

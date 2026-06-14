@@ -158,7 +158,7 @@ export const UQC_OPTIONS = [
   'PCS', 'PRS', 'QTL', 'SHT', 'SQF', 'SQY', 'TBS', 'TIN', 'UGS', 'UNT', 'YDS', 'OTH',
 ];
 
-export const GST_RATES = [0, 0.1, 0.25, 1, 1.5, 3, 5, 6, 12, 18, 28];
+export const GST_RATES = [0, 0.1, 0.25, 1, 1.5, 3, 5, 6, 12, 18, 28, 40];
 
 export const CESS_HSN_CODES: Record<string, { cessRate: number; specific: boolean; specificPerTon?: number; desc: string }> = {
   '2401': { cessRate: 0, specific: true, desc: 'Unmanufactured tobacco' },
@@ -317,6 +317,7 @@ export interface InvoiceV2Draft {
   ack_date?: string;
   signed_qr?: string;
   status: InvoiceStatus;
+  force_igst?: boolean;
   cancel_reason?: string;
   notes?: string;
   payment_mode?: 'CASH' | 'ONLINE' | 'CREDIT' | 'PARTIAL';
@@ -347,6 +348,7 @@ export interface SalesInvoiceDraft {
   original_invoice_no?: string;
   original_invoice_date?: string;
   note_type?: 'Credit' | 'Debit';
+  linked_journal_id?: string;
   hsn_code?: string;
   quantity?: number;
   uqc?: string;
@@ -388,6 +390,7 @@ export interface PurchaseInvoiceDraft {
   capital_goods?: boolean;
   original_invoice_no?: string;
   original_invoice_date?: string;
+  linked_journal_id?: string;
   narration?: string;
   payment_mode?: 'CASH' | 'ONLINE' | 'CREDIT' | 'PARTIAL';
   paid_medium?: 'UPI' | 'CARD' | 'CASH' | 'BANK_TRANSFER';
@@ -867,6 +870,7 @@ export function createEmptyInvoiceV2Draft(docType: DocType = 'TAX_INVOICE'): Inv
     nil_rated_value: 0,
     exempt_value: 0,
     non_gst_value: 0,
+    force_igst: false,
     status: 'DRAFT',
     payment_mode: 'CREDIT',
     received_medium: 'BANK_TRANSFER',
@@ -2233,6 +2237,125 @@ export function autoCategorize(
   updates.gstr1_table = determineGSTR1Table(merged);
 
   return updates;
+}
+
+// ─── Return helpers ────────────────────────────────────────────────────────
+
+export interface ReturnItemInput {
+  itemIndex: number;
+  returnQty: number;
+}
+
+/** Build a CREDIT_NOTE (sales return) or DEBIT_NOTE (purchase return) from a V2 invoice. */
+export function createReturnFromInvoiceV2(
+  original: InvoiceV2,
+  returnItems: ReturnItemInput[],
+  returnDate: string,
+  reason: CdnReason,
+  returnType: 'SALES' | 'PURCHASE'
+): InvoiceV2Draft {
+  const docType: DocType = returnType === 'SALES' ? 'CREDIT_NOTE' : 'DEBIT_NOTE';
+  const noteType: 'C' | 'D' = returnType === 'SALES' ? 'C' : 'D';
+
+  const items: LineItem[] = returnItems
+    .filter((ri) => ri.returnQty > 0 && ri.itemIndex < original.items.length)
+    .map((ri, idx) => {
+      const orig = original.items[ri.itemIndex];
+      const cappedQty = Math.min(ri.returnQty, orig.qty);
+      const proportion = orig.qty > 0 ? cappedQty / orig.qty : 0;
+      return {
+        ...orig,
+        sl_no: idx + 1,
+        qty: cappedQty,
+        discount: Math.round(orig.discount * proportion * 100) / 100,
+        taxable_value: 0,
+        cgst: 0,
+        sgst: 0,
+        igst: 0,
+        cess: 0,
+        line_total: 0,
+      };
+    });
+
+  return {
+    ...createEmptyInvoiceV2Draft(docType),
+    doc_type: docType,
+    note_type: noteType,
+    cdn_reason: reason,
+    original_invoice_no: original.invoice_no,
+    original_invoice_date: original.invoice_date,
+    buyer_type: original.buyer_type,
+    buyer_gstin: original.buyer_gstin,
+    buyer_name: original.buyer_name,
+    buyer_address: original.buyer_address,
+    buyer_state: original.buyer_state,
+    buyer_state_code: original.buyer_state_code,
+    buyer_pincode: original.buyer_pincode,
+    place_of_supply: original.place_of_supply,
+    supply_type: original.supply_type,
+    is_intra_state: original.is_intra_state,
+    force_igst: original.force_igst || false,
+    invoice_date: returnDate,
+    period: formatDateYYYYMM(returnDate),
+    items,
+    status: 'SAVED',
+  };
+}
+
+/** Build a DEBIT_NOTE from a legacy V1 purchase invoice. */
+export function createReturnFromPurchaseInvoiceLegacy(
+  original: PurchaseInvoice,
+  returnTaxableAmount: number,
+  returnDate: string,
+  reason: CdnReason
+): InvoiceV2Draft {
+  const stateCode = original.vendor_gstin
+    ? (getStateCodeFromGSTIN(original.vendor_gstin) || '')
+    : '';
+  const buyerType: BuyerType = original.vendor_gstin ? 'REGISTERED' : 'UNREGISTERED';
+  const isIntra = original.supply_type === 'intra';
+
+  const item: LineItem = {
+    sl_no: 1,
+    description: original.item_description || 'Purchase Return',
+    hsn: original.item_hsn || '',
+    is_service: false,
+    uqc: 'OTH',
+    qty: 1,
+    rate: returnTaxableAmount,
+    discount: 0,
+    taxable_value: returnTaxableAmount,
+    supply_nature: 'TAXABLE',
+    gst_rate: original.gst_rate,
+    cess_rate: 0,
+    cess_specific_rate: 0,
+    cgst: 0,
+    sgst: 0,
+    igst: 0,
+    cess: 0,
+    line_total: 0,
+  };
+
+  return {
+    ...createEmptyInvoiceV2Draft('DEBIT_NOTE'),
+    doc_type: 'DEBIT_NOTE',
+    note_type: 'D',
+    cdn_reason: reason,
+    original_invoice_no: original.invoice_no,
+    original_invoice_date: original.invoice_date,
+    buyer_type: buyerType,
+    buyer_gstin: original.vendor_gstin,
+    buyer_name: original.vendor_name,
+    buyer_state: original.place_of_supply_state,
+    buyer_state_code: stateCode,
+    place_of_supply: stateCode,
+    supply_type: original.supply_type,
+    is_intra_state: isIntra,
+    invoice_date: returnDate,
+    period: formatDateYYYYMM(returnDate),
+    items: [item],
+    status: 'SAVED',
+  };
 }
 
 export function downloadGSTR1JSON(companyId: string, gstin: string, period: string): void {

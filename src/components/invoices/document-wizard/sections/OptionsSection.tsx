@@ -29,6 +29,8 @@ export function OptionsSection(props: OptionsSectionProps) {
     const { invoice, updateInvoice, sellerStateCode } = props;
     const [isExport, setIsExport] = useState(() => invoice.buyer_type === 'OVERSEAS');
 
+    const isIgst = invoice.supply_type === 'inter';
+
     return (
       <fieldset className="rounded-lg border border-gray-200 p-4">
         <legend className="px-2 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Options</legend>
@@ -55,6 +57,7 @@ export function OptionsSection(props: OptionsSectionProps) {
                     place_of_supply: '96',
                     supply_type: 'inter',
                     is_intra_state: false,
+                    force_igst: true,
                   });
                 } else {
                   updateInvoice({
@@ -63,6 +66,7 @@ export function OptionsSection(props: OptionsSectionProps) {
                     place_of_supply: sellerStateCode || '',
                     buyer_state_code: sellerStateCode || '',
                     buyer_state: sellerStateCode ? STATE_CODES[sellerStateCode] || '' : '',
+                    force_igst: false,
                   });
                 }
               }}
@@ -70,6 +74,29 @@ export function OptionsSection(props: OptionsSectionProps) {
             />
             <span className="font-semibold text-gray-700">Export</span>
           </label>
+          {/* IGST / CGST+SGST segmented button */}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-semibold text-gray-500">Tax:</span>
+            <div className="flex overflow-hidden rounded-lg border border-gray-300">
+              <button
+                type="button"
+                disabled={isExport}
+                onClick={() => updateInvoice({ force_igst: true, supply_type: 'inter', is_intra_state: false })}
+                className={`px-3 py-1 text-[11px] font-semibold transition-colors disabled:opacity-50 ${isIgst ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+              >
+                IGST
+              </button>
+              <button
+                type="button"
+                disabled={isExport}
+                onClick={() => updateInvoice({ force_igst: false, supply_type: 'intra', is_intra_state: true })}
+                className={`border-l border-gray-300 px-3 py-1 text-[11px] font-semibold transition-colors disabled:opacity-50 ${!isIgst ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+              >
+                CGST+SGST
+              </button>
+            </div>
+            {!invoice.force_igst && <span className="text-[10px] italic text-gray-400">auto</span>}
+          </div>
         </div>
 
         {isExport && (
@@ -139,12 +166,32 @@ export function OptionsSection(props: OptionsSectionProps) {
             )}
           </>
         )}
+        {/* IGST / CGST+SGST segmented button */}
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-semibold text-gray-500">Tax:</span>
+          <div className="flex overflow-hidden rounded-lg border border-gray-300">
+            <button
+              type="button"
+              onClick={() => updateField('supplyType', 'inter')}
+              className={`px-3 py-1 text-[11px] font-semibold transition-colors ${fields.supplyType === 'inter' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+            >
+              IGST
+            </button>
+            <button
+              type="button"
+              onClick={() => updateField('supplyType', 'intra')}
+              className={`border-l border-gray-300 px-3 py-1 text-[11px] font-semibold transition-colors ${fields.supplyType === 'intra' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+            >
+              CGST+SGST
+            </button>
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => updateField('showAdvanced', !fields.showAdvanced)}
           className="text-[11px] font-semibold text-blue-600 hover:text-blue-800"
         >
-          Advanced {fields.showAdvanced ? '\u25BE' : '\u25B8'}
+          Advanced {fields.showAdvanced ? '▾' : '▸'}
         </button>
       </div>
 

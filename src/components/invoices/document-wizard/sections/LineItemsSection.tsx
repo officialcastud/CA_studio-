@@ -25,7 +25,7 @@ export function LineItemsSection({ invoice, updateItem, addItem, removeItem }: L
               <th className="px-2 py-1.5 text-left w-20">HSN *</th>
               <th className="px-2 py-1.5 text-right w-14">Qty</th>
               <th className="px-2 py-1.5 text-right w-20">Rate</th>
-              <th className="px-2 py-1.5 text-right w-16">Disc</th>
+              <th className="px-2 py-1.5 text-right w-16">Disc %</th>
               <th className="px-2 py-1.5 text-right w-16">GST%</th>
               <th className="px-2 py-1.5 text-right w-20">Tax</th>
               <th className="px-2 py-1.5 text-right w-24">Total</th>
@@ -72,7 +72,7 @@ export function LineItemsSection({ invoice, updateItem, addItem, removeItem }: L
                       type="number"
                       value={item.qty || ''}
                       onChange={(e) => updateItem(idx, { qty: Number(e.target.value) || 0 })}
-                      className="h-7 w-full rounded border border-gray-200 px-2 text-right text-[11px]"
+                      className="h-7 w-full rounded border border-gray-200 px-2 text-right text-[11px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       min={0}
                     />
                   </td>
@@ -81,18 +81,28 @@ export function LineItemsSection({ invoice, updateItem, addItem, removeItem }: L
                       type="number"
                       value={item.rate || ''}
                       onChange={(e) => updateItem(idx, { rate: Number(e.target.value) || 0 })}
-                      className="h-7 w-full rounded border border-gray-200 px-2 text-right text-[11px]"
+                      className="h-7 w-full rounded border border-gray-200 px-2 text-right text-[11px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       min={0}
                     />
                   </td>
                   <td className="px-2 py-1">
-                    <input
-                      type="number"
-                      value={item.discount || ''}
-                      onChange={(e) => updateItem(idx, { discount: Number(e.target.value) || 0 })}
-                      className="h-7 w-full rounded border border-gray-200 px-2 text-right text-[11px]"
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={item.qty * item.rate > 0
+                          ? Math.round((item.discount / (item.qty * item.rate)) * 10000) / 100 || ''
+                          : ''}
+                        onChange={(e) => {
+                          const pct = Math.min(100, Math.max(0, Number(e.target.value) || 0));
+                          updateItem(idx, { discount: Math.round(item.qty * item.rate * pct) / 100 });
+                        }}
+                        className="h-7 w-full rounded border border-gray-200 px-2 pr-5 text-right text-[11px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        min={0}
+                        max={100}
+                        step={0.01}
+                      />
+                      <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 pointer-events-none">%</span>
+                    </div>
                   </td>
                   <td className="px-2 py-1">
                     <select

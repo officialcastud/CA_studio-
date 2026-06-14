@@ -134,11 +134,14 @@ export function computeScheduleIIIBalanceSheet(
 
   const stBorrowings = g('Short-term Borrowings');
   const tradePayables = g('Trade Payables');
-  const otherCL = g(['Other Current Liabilities', 'Statutory Liabilities']);
+  const otherCL = g(['Other Current Liabilities', 'Statutory Liabilities', 'GST — Output Tax', 'GST — RCM', 'GST — Advances']);
   const stProvisions = g('Short-term Provisions');
 
-  const tangibleFA = g('Tangible Fixed Assets') - g('Accumulated Depreciation');
-  const intangibleFA = g('Intangible Assets') - g('Accumulated Amortisation');
+  // Accumulated Depreciation/Amortisation are contra-assets (Cr balance).
+  // sumGroupAsset returns NEGATIVE for asset-nature accounts with Cr balance,
+  // so we ADD (not subtract) to get the correct net book value.
+  const tangibleFA = g('Tangible Fixed Assets') + g('Accumulated Depreciation');
+  const intangibleFA = g('Intangible Assets') + g('Accumulated Amortisation');
   const cwip = g('Capital Work in Progress');
   const deferredTaxA = g('Deferred Tax Asset');
   const ncInvestments = g('Non-current Investments');
@@ -177,7 +180,7 @@ export function computeScheduleIIIBalanceSheet(
       subheadings: [
         { label: 'Short-term Borrowings', noteRef: '5', currentYear: stBorrowings, previousYear: gp('Short-term Borrowings') },
         { label: 'Trade Payables', noteRef: '6', currentYear: tradePayables, previousYear: gp('Trade Payables') },
-        { label: 'Other Current Liabilities', noteRef: '7', currentYear: otherCL, previousYear: gp(['Other Current Liabilities', 'Statutory Liabilities']) },
+        { label: 'Other Current Liabilities', noteRef: '7', currentYear: otherCL, previousYear: gp(['Other Current Liabilities', 'Statutory Liabilities', 'GST — Output Tax', 'GST — RCM', 'GST — Advances']) },
         { label: 'Short-term Provisions', noteRef: '8', currentYear: stProvisions, previousYear: gp('Short-term Provisions') },
       ],
       total: stBorrowings + tradePayables + otherCL + stProvisions,
@@ -188,8 +191,8 @@ export function computeScheduleIIIBalanceSheet(
     {
       heading: 'Non-Current Assets',
       subheadings: [
-        { label: 'Tangible Assets', noteRef: '9', currentYear: tangibleFA, previousYear: gp('Tangible Fixed Assets') - gp('Accumulated Depreciation') },
-        { label: 'Intangible Assets', noteRef: '10', currentYear: intangibleFA, previousYear: gp('Intangible Assets') - gp('Accumulated Amortisation') },
+        { label: 'Tangible Assets', noteRef: '9', currentYear: tangibleFA, previousYear: gp('Tangible Fixed Assets') + gp('Accumulated Depreciation') },
+        { label: 'Intangible Assets', noteRef: '10', currentYear: intangibleFA, previousYear: gp('Intangible Assets') + gp('Accumulated Amortisation') },
         { label: 'Capital Work in Progress', noteRef: '9a', currentYear: cwip, previousYear: gp('Capital Work in Progress') },
         { label: 'Deferred Tax Assets (Net)', noteRef: '9b', currentYear: deferredTaxA, previousYear: gp('Deferred Tax Asset') },
         { label: 'Non-current Investments', noteRef: '11', currentYear: ncInvestments, previousYear: gp('Non-current Investments') },
@@ -206,7 +209,7 @@ export function computeScheduleIIIBalanceSheet(
         { label: 'Trade Receivables', noteRef: '14', currentYear: tradeReceivables, previousYear: gp('Trade Receivables') },
         { label: 'Cash and Cash Equivalents', noteRef: '15', currentYear: cashEquiv, previousYear: gp(['Cash & Cash Equivalents', 'Bank Balances', 'Cash Equivalents']) },
         { label: 'Short-term Loans and Advances', noteRef: '16', currentYear: stLoans, previousYear: gp('Short-term Loans & Advances') },
-        { label: 'Other Current Assets', noteRef: '16a', currentYear: otherCA, previousYear: gp(['Other Current Assets', 'GST — Input Tax Credit']) },
+        { label: 'Other Current Assets', noteRef: '16a', currentYear: otherCA, previousYear: gp(['Other Current Assets', 'GST — Input Tax Credit', 'GST — Refund', 'GST — Reconciliation', 'GST — Legacy']) },
       ],
       total: cInvestments + inventories + tradeReceivables + cashEquiv + stLoans + otherCA,
     },

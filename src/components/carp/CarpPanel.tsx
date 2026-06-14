@@ -14,7 +14,7 @@ import {
 import {
   X, Send, Loader2, ChevronDown, Wrench,
   Check, AlertCircle, ArrowRight, RotateCcw,
-  FileText, Download, Paperclip, FileSpreadsheet, Bot,
+  FileText, Download, Paperclip, FileSpreadsheet, Bot, LockKeyhole,
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════
@@ -292,15 +292,15 @@ export function CarpPanel({ open, onClose, width, onWidthChange }: CarpPanelProp
                   {s}
                 </button>
               ))}
-              {/* Upload shortcut */}
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full text-left px-2.5 py-1.5 rounded-md border border-dashed border-green-200 text-[11px] text-green-600
-                  hover:border-green-400 hover:bg-green-50 transition-colors flex items-center gap-1.5"
+              {/* Upload shortcut — locked */}
+              <div
+                className="w-full text-left px-2.5 py-1.5 rounded-md border border-dashed border-gray-200 text-[11px] text-gray-400
+                  bg-gray-50 flex items-center gap-1.5 cursor-not-allowed select-none"
+                title="Upload disabled for security"
               >
-                <Paperclip className="h-3 w-3 shrink-0" />
-                Upload Excel / CSV for bulk import
-              </button>
+                <LockKeyhole className="h-3 w-3 shrink-0 text-amber-400" />
+                <span>Upload disabled — <span className="text-amber-600">security restriction</span></span>
+              </div>
             </div>
           </div>
         )}
@@ -346,22 +346,13 @@ export function CarpPanel({ open, onClose, width, onWidthChange }: CarpPanelProp
         )}
 
         <div className="flex items-end gap-1.5">
-          {/* Upload button */}
+          {/* Upload button — locked for security */}
           <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isLoading || uploading}
-            title="Upload Excel / CSV"
-            className={`h-8 w-8 rounded-lg border flex items-center justify-center shrink-0 transition-colors
-              ${uploadedFile
-                ? 'border-green-300 bg-green-50 text-green-600'
-                : 'border-gray-200 text-gray-400 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50'
-              }
-              disabled:opacity-30 disabled:cursor-not-allowed`}
+            disabled
+            title="Upload disabled for security reasons"
+            className="h-8 w-8 rounded-lg border border-amber-200 bg-amber-50 flex items-center justify-center shrink-0 cursor-not-allowed"
           >
-            {uploading
-              ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              : <Paperclip className="h-3.5 w-3.5" />
-            }
+            <LockKeyhole className="h-3.5 w-3.5 text-amber-400" />
           </button>
 
           <textarea
@@ -397,12 +388,19 @@ export function CarpPanel({ open, onClose, width, onWidthChange }: CarpPanelProp
           </button>
         </div>
 
-        {/* Hidden file input */}
+        {/* Security notice */}
+        <p className="mt-1.5 text-[10px] text-gray-400 flex items-center gap-1">
+          <LockKeyhole className="h-2.5 w-2.5 text-amber-400 shrink-0" />
+          Upload disabled for security. You can still explore the AI freely.
+        </p>
+
+        {/* Hidden file input — disabled */}
         <input
           ref={fileInputRef}
           type="file"
           accept=".xlsx,.xls,.csv"
           className="hidden"
+          disabled
           onChange={handleFileUpload}
         />
       </div>

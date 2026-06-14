@@ -90,6 +90,10 @@ export interface ScheduleIIIPLData {
   deferredTaxExpense: number;
   otherTaxExpense: number;
   profitAfterTax: number;
+
+  oci: number;
+  ociBreakdown: LedgerBreakdown[];
+  totalComprehensiveIncome: number;
 }
 
 function sumSubGroup(
@@ -127,6 +131,7 @@ export function computeScheduleIIIPL(entries: JournalEntry[]): ScheduleIIIPLData
   const finCost = sumSubGroup(balances, 'Finance Costs');
   const depAmort = sumSubGroup(balances, 'Depreciation & Amortisation');
   const otherExp = sumSubGroup(balances, [
+    'Direct Expenses',
     'Other Expenses — Administration',
     'Other Expenses — Selling',
     'Other Expenses — Write-offs',
@@ -135,6 +140,7 @@ export function computeScheduleIIIPL(entries: JournalEntry[]): ScheduleIIIPLData
   const exceptionalItems = sumSubGroup(balances, 'Exceptional Items');
   const taxExp = sumSubGroup(balances, 'Tax Expense');
   const gstItc = sumSubGroup(balances, 'GST — ITC');
+  const ociResult = sumSubGroup(balances, 'Other Comprehensive Income');
 
   const totalExpenses =
     costMat.total + purSIT.total + chgInv.total +
@@ -186,5 +192,9 @@ export function computeScheduleIIIPL(entries: JournalEntry[]): ScheduleIIIPLData
     deferredTaxExpense: deferredTaxExp,
     otherTaxExpense: otherTaxExp,
     profitAfterTax,
+
+    oci: ociResult.total,
+    ociBreakdown: ociResult.breakdown,
+    totalComprehensiveIncome: profitAfterTax + ociResult.total,
   };
 }

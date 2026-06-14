@@ -107,6 +107,21 @@ export default function TCSRegisterPage() {
   const data = tcsRows.map((r, i) => ({ sno: i + 1, ...r }));
 
   return (
+    <div className="space-y-4">
+      <PageHeader title="TCS Register" description="Tax Collected at Source — register of all TCS collections" />
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="h-16 w-16 rounded-full bg-red-50 border border-red-100 flex items-center justify-center mb-5">
+          <svg className="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+          </svg>
+        </div>
+        <h3 className="text-sm font-bold text-gray-800 mb-2">Access Restricted</h3>
+        <p className="text-xs text-gray-500 max-w-sm leading-relaxed">For security reasons, this register is currently not accessible. It will be enabled in a future update.</p>
+      </div>
+    </div>
+  );
+  // eslint-disable-next-line no-unreachable
+  return (
     <div>
       <PageHeader title="TCS Register" description="Tax Collected at Source — register of all TCS collections">
         <div className="flex flex-col gap-2 items-end">

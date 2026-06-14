@@ -41,11 +41,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'capital',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Equity Share Capital',
-      'Preference Share Capital',
       'Proprietor\'s Capital Account',
       'Drawings Account',
-      'Calls in Arrears',
     ],
   },
 
@@ -57,13 +54,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Capital & Liabilities',
     nature: 'capital',
     normalBalance: 'credit',
-    defaultAccounts: [
-      'Partner\'s Capital Account — A',
-      'Partner\'s Capital Account — B',
-      'Partner\'s Current Account — A',
-      'Partner\'s Current Account — B',
-      'Partner\'s Drawings Account',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -75,13 +66,19 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'capital',
     normalBalance: 'credit',
     defaultAccounts: [
-      'General Reserve',
-      'Securities Premium Reserve',
       'Retained Earnings / Surplus in P&L',
-      'Capital Reserve',
-      'Dividend Equalisation Reserve',
-      'Revaluation Reserve',
     ],
+  },
+
+  {
+    id: 'share_warrants',
+    label: 'Money Against Share Warrants',
+    description: 'Money received against share warrants pending allotment (Schedule III)',
+    scheduleIII: 'Money received against share warrants',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'capital',
+    normalBalance: 'credit',
+    defaultAccounts: [],
   },
 
   {
@@ -93,12 +90,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'liability',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Term Loans from Banks — Secured',
-      'Term Loans from NBFCs — Secured',
-      'Debentures — Secured',
-      'Loans from Directors',
-      'Vehicle Loans — Long-term',
-      'Loans from Related Parties',
+      'Term Loans',
     ],
   },
 
@@ -111,10 +103,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'liability',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Trade Creditors — Domestic (Goods)',
-      'Trade Creditors — Domestic (Services)',
-      'Bills Payable',
-      'Advance from Customers',
+      'Sundry Creditors',
     ],
   },
 
@@ -127,10 +116,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'liability',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Cash Credit from Banks',
-      'Overdraft from Banks',
-      'Loans from Banks — Short-term',
-      'Commercial Papers',
+      'Bank Overdraft',
     ],
   },
 
@@ -143,12 +129,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'liability',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Outstanding Expenses Payable',
-      'Salary Payable',
-      'Rent Payable',
-      'Advance from Customers (Short-term)',
-      'Deposits from Dealers / Agents',
-      'Audit Fee Payable',
+      'Outstanding Expenses',
     ],
   },
 
@@ -161,14 +142,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'liability',
     normalBalance: 'credit',
     defaultAccounts: [
-      'TDS Payable — Sec 192 (Salary)',
-      'TDS Payable — Sec 194C (Contractors)',
-      'TDS Payable — Sec 194J (Professional Fees)',
-      'TDS Payable — Sec 194I (Rent)',
-      'PF Payable (Employee + Employer)',
-      'ESI Payable (Employee + Employer)',
-      'Income Tax Payable',
-      'Provision for Tax (Current Year)',
+      'TDS Payable',
     ],
   },
 
@@ -180,12 +154,45 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Capital & Liabilities',
     nature: 'liability',
     normalBalance: 'credit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'gst_rcm',
+    label: 'GST — Reverse Charge (RCM)',
+    description: 'GST payable under Reverse Charge Mechanism on purchases from unregistered dealers / notified services',
+    scheduleIII: 'GST — RCM',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'liability',
+    normalBalance: 'credit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'gst_advances',
+    label: 'GST on Advance Receipts',
+    description: 'GST collected on advance payments received from customers before supply',
+    scheduleIII: 'GST — Advances',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'liability',
+    normalBalance: 'credit',
     defaultAccounts: [
-      'CGST Output Tax Payable',
-      'SGST / UTGST Output Tax Payable',
-      'IGST Output Tax Payable',
-      'GST — Reverse Charge Liability (RCM)',
-      'GST — Late Fee Payable',
+      'GST on Advance Receipts',
+    ],
+  },
+
+  {
+    id: 'short_term_provisions',
+    label: 'Short-term Provisions',
+    description: 'Provision for employee bonuses, proposed dividends, short-term warranty, leave encashment (< 1 year)',
+    scheduleIII: 'Short-term Provisions',
+    primaryGroup: 'Capital & Liabilities',
+    nature: 'liability',
+    normalBalance: 'credit',
+    defaultAccounts: [
+      'Provision for Bonus',
+      'Provision for Dividend',
+      'Provision for Leave Encashment',
     ],
   },
 
@@ -197,10 +204,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Capital & Liabilities',
     nature: 'liability',
     normalBalance: 'credit',
-    defaultAccounts: [
-      'Deferred Tax Liability',
-      'Deferred Tax Liability — Accelerated Depreciation',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -211,11 +215,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Capital & Liabilities',
     nature: 'liability',
     normalBalance: 'credit',
-    defaultAccounts: [
-      'Security Deposits Received (Long-term)',
-      'Deferred Revenue — Long-term',
-      'Advance from Customers — Long-term',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -226,11 +226,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Capital & Liabilities',
     nature: 'liability',
     normalBalance: 'credit',
-    defaultAccounts: [
-      'Provision for Gratuity (Long-term)',
-      'Provision for Leave Encashment (Long-term)',
-      'Provision for Warranty (Long-term)',
-    ],
+    defaultAccounts: [],
   },
 
   /* ── ASSETS ── */
@@ -244,18 +240,20 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Land — Freehold',
-      'Buildings — Office',
-      'Buildings — Factory',
-      'Plant & Machinery',
       'Furniture & Fixtures',
       'Computers & IT Equipment',
-      'Vehicles — Commercial',
-      'Vehicles — Passenger',
-      'Accumulated Depreciation — Buildings',
-      'Accumulated Depreciation — Plant & Machinery',
-      'Accumulated Depreciation — Computers',
     ],
+  },
+
+  {
+    id: 'accumulated_depreciation',
+    label: 'Provision for Depreciation',
+    description: 'Accumulated / provision for depreciation on tangible fixed assets (contra-asset, credit balance)',
+    scheduleIII: 'Accumulated Depreciation',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'credit',
+    defaultAccounts: [],
   },
 
   {
@@ -266,13 +264,18 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'Goodwill',
-      'Patents & Trademarks',
-      'Computer Software — ERP',
-      'Brand / Trade Name',
-      'Accumulated Amortisation — Software',
-    ],
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'accumulated_amortisation',
+    label: 'Provision for Amortisation',
+    description: 'Accumulated / provision for amortisation on intangible assets (contra-asset, credit balance)',
+    scheduleIII: 'Accumulated Amortisation',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'credit',
+    defaultAccounts: [],
   },
 
   {
@@ -283,11 +286,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'Capital Work-in-Progress — Building',
-      'Capital Work-in-Progress — Plant & Machinery',
-      'Capital Work-in-Progress — IT Infrastructure',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -298,11 +297,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'Deferred Tax Asset',
-      'Deferred Tax Asset — Unabsorbed Losses',
-      'MAT Credit Entitlement',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -313,12 +308,20 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'current_investments',
+    label: 'Current Investments',
+    description: 'Short-term investments — liquid mutual funds, treasury bills, short-term FDs (< 1 year)',
+    scheduleIII: 'Current Investments',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
     defaultAccounts: [
-      'Investment in Shares — Subsidiary',
-      'Investment in Shares — Others',
-      'Mutual Funds — Long-term',
-      'FD with Banks (> 1 year)',
-      'NSC / KVP',
+      'Liquid Mutual Funds',
+      'Short-term Fixed Deposits',
     ],
   },
 
@@ -330,12 +333,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'Capital Advances (for Fixed Asset Purchase)',
-      'Security Deposits with Govt Authorities',
-      'Loan to Subsidiary / Associate',
-      'Advance Income Tax (Long-term)',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -346,11 +344,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'Prepaid Expenses — Long-term',
-      'Unamortised Preliminary Expenses',
-      'Deferred Revenue Expenditure',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -362,9 +356,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Trade Debtors — Domestic',
-      'Trade Debtors — Export',
-      'Bills Receivable',
+      'Sundry Debtors',
     ],
   },
 
@@ -377,9 +369,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Cash in Hand — Main / Head Office',
-      'Petty Cash',
-      'Cash in Hand — Branch',
+      'Cash in Hand',
     ],
   },
 
@@ -392,11 +382,19 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Current Account — Primary Bank',
-      'Current Account — Secondary Bank',
-      'Savings Account',
-      'FD with Banks (< 3 months)',
+      'Bank Account',
     ],
+  },
+
+  {
+    id: 'cash_equivalents',
+    label: 'Cash Equivalents',
+    description: 'Treasury bills, commercial paper, money market instruments maturing within 3 months',
+    scheduleIII: 'Cash Equivalents',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
+    defaultAccounts: [],
   },
 
   {
@@ -408,11 +406,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Advance to Suppliers (Short-term)',
-      'Staff Advances / Employee Loans',
-      'Security Deposits Paid',
-      'Prepaid Expenses',
-      'Rent Advance Paid',
+      'Advance to Suppliers',
     ],
   },
 
@@ -425,12 +419,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'asset',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Opening Stock — Raw Materials',
-      'Opening Stock — Work in Progress',
-      'Opening Stock — Finished Goods',
-      'Opening Stock — Traded Goods',
-      'Closing Stock — Raw Materials',
-      'Closing Stock — Finished Goods',
+      'Opening Stock',
+      'Closing Stock',
     ],
   },
 
@@ -442,14 +432,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
-    defaultAccounts: [
-      'TDS Receivable — Sec 194A (Interest)',
-      'TDS Receivable — Sec 194J (Professional Fees)',
-      'Advance Income Tax Paid (Current Year)',
-      'Income Tax Refund Receivable',
-      'Accrued Income / Income Receivable',
-      'Prepaid Insurance',
-    ],
+    defaultAccounts: [],
   },
 
   {
@@ -460,12 +443,57 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     primaryGroup: 'Assets',
     nature: 'asset',
     normalBalance: 'debit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'gst_refund',
+    label: 'GST Refund Receivable',
+    description: 'GST refund claimed from department and pending receipt',
+    scheduleIII: 'GST — Refund',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
     defaultAccounts: [
-      'CGST Input Tax Credit Receivable',
-      'SGST / UTGST Input Tax Credit Receivable',
-      'IGST Input Tax Credit Receivable',
-      'GST — RCM Input Credit',
-      'GST — Transition Credit (TRAN-1)',
+      'GST Refund Receivable',
+    ],
+  },
+
+  {
+    id: 'gst_reconciliation',
+    label: 'GST Reconciliation Account',
+    description: 'Temporary GST reconciliation / suspense account for GSTR-2A/2B mismatches',
+    scheduleIII: 'GST — Reconciliation',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
+    defaultAccounts: [
+      'GST Reconciliation Suspense',
+    ],
+  },
+
+  {
+    id: 'gst_legacy',
+    label: 'GST Legacy / Transition Credit',
+    description: 'Transitional input tax credit (TRAN-1 / TRAN-2) carried forward from pre-GST regime (excise, VAT, service tax)',
+    scheduleIII: 'GST — Legacy',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'suspense_clearing',
+    label: 'Suspense & Clearing',
+    description: 'Unidentified receipts/payments pending classification; clearing accounts',
+    scheduleIII: 'Suspense & Clearing',
+    primaryGroup: 'Assets',
+    nature: 'asset',
+    normalBalance: 'debit',
+    defaultAccounts: [
+      'Suspense Account',
+      'Clearing Account',
     ],
   },
 
@@ -480,14 +508,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'revenue',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Sales — Domestic Products / Goods',
-      'Sales — Services Rendered',
-      'Sales — Traded Goods',
-      'Sales — Export Goods',
-      'Sales — Online / E-commerce',
-      'Sales Returns & Allowances',
-      'Trade Discounts Allowed',
-      'Other Operating Revenue',
+      'Sales Account',
+      'Sales Returns',
     ],
   },
 
@@ -500,15 +522,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'revenue',
     normalBalance: 'credit',
     defaultAccounts: [
-      'Interest Income — Fixed Deposits',
-      'Interest Income — Loans Given',
-      'Rent Received',
-      'Dividend Received',
-      'Commission Received',
       'Discount Received',
-      'Profit on Sale of Fixed Assets',
-      'Miscellaneous Income',
-      'Foreign Exchange Gain',
+      'Interest Received',
     ],
   },
 
@@ -523,12 +538,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Purchases — Raw Materials (Domestic)',
-      'Purchases — Raw Materials (Import)',
-      'Purchases — Traded Goods',
-      'Purchases — Stock-in-Trade',
-      'Purchase Returns & Allowances',
-      'Carriage Inward / Freight Inward',
+      'Purchase Account',
+      'Purchase Returns',
     ],
   },
 
@@ -541,13 +552,8 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Direct Labour / Manufacturing Wages',
-      'Power & Fuel — Manufacturing',
-      'Factory Rent',
-      'Packaging Materials',
-      'Carriage on Production',
-      'Royalties',
-      'Job Work Charges',
+      'Direct Labour / Wages',
+      'Freight Inward',
     ],
   },
 
@@ -560,25 +566,10 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Rent — Office',
-      'Electricity & Power — Office',
-      'Telephone & Internet — Office',
-      'Printing & Stationery',
-      'Legal & Professional Charges',
-      'Audit Fee',
-      'Advertisement & Publicity',
-      'Freight Outward / Delivery Charges',
+      'Rent Expense',
+      'Office Expenses',
+      'Bank Charges',
       'Discount Allowed',
-      'Bank Charges & Commission',
-      'Travelling & Conveyance',
-      'Vehicle Running Expenses',
-      'Repairs & Maintenance — General',
-      'Insurance Premium',
-      'Rates & Taxes',
-      'Miscellaneous Administrative Expenses',
-      'Bad Debts Written Off',
-      'Loss on Sale of Fixed Assets',
-      'Foreign Exchange Loss',
     ],
   },
 
@@ -592,13 +583,6 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     normalBalance: 'debit',
     defaultAccounts: [
       'Salaries & Wages',
-      'Director\'s Remuneration',
-      'Bonus & Incentives',
-      'Staff Welfare Expenses',
-      'PF Contribution — Employer',
-      'ESI Contribution — Employer',
-      'Gratuity Expense',
-      'Leave Encashment Expense',
     ],
   },
 
@@ -611,12 +595,7 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Interest on Term Loans',
-      'Interest on Working Capital / Cash Credit',
-      'Interest on Overdraft',
-      'Bank Charges — Finance',
-      'Loan Processing Fees',
-      'Interest on Debentures',
+      'Interest Expense',
     ],
   },
 
@@ -629,29 +608,97 @@ export const LEDGER_GROUPS: LedgerGroup[] = [
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Depreciation — Tangible Assets',
-      'Depreciation — Buildings',
-      'Depreciation — Plant & Machinery',
-      'Depreciation — Computers',
-      'Amortisation — Intangible Assets',
-      'Amortisation — Goodwill',
+      'Depreciation Expense',
     ],
   },
 
   {
-    id: 'tax_expense',
-    label: 'Tax Expense',
-    description: 'Income tax provision, deferred tax, MAT credit',
+    id: 'current_tax',
+    label: 'Current Tax',
+    description: 'Current year income tax, MAT, short/excess provision of earlier years',
     scheduleIII: 'Tax Expense',
     primaryGroup: 'Expenses',
     nature: 'expense',
     normalBalance: 'debit',
     defaultAccounts: [
-      'Current Tax — Income Tax',
-      'Deferred Tax Expense / (Benefit)',
-      'MAT (Minimum Alternate Tax)',
-      'Wealth Tax',
+      'Current Tax Expense',
+      'Income Tax Payable',
     ],
+  },
+
+  {
+    id: 'deferred_tax_pl',
+    label: 'Deferred Tax (Expense)',
+    description: 'Deferred tax expense or credit recognised in the Statement of Profit & Loss',
+    scheduleIII: 'Tax Expense',
+    primaryGroup: 'Expenses',
+    nature: 'expense',
+    normalBalance: 'debit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'stock_in_trade_purchases',
+    label: 'Purchases of Stock-in-Trade',
+    description: 'Purchases of goods for resale by trading companies (not manufacturing)',
+    scheduleIII: 'Purchases of Stock-in-Trade',
+    primaryGroup: 'Expenses',
+    nature: 'expense',
+    normalBalance: 'debit',
+    defaultAccounts: [
+      'Purchases of Stock-in-Trade',
+      'Stock-in-Trade Returns',
+    ],
+  },
+
+  {
+    id: 'inventory_changes',
+    label: 'Changes in Inventories',
+    description: 'Changes in inventories of finished goods, WIP and stock-in-trade (Opening − Closing)',
+    scheduleIII: 'Changes in Inventories',
+    primaryGroup: 'Expenses',
+    nature: 'expense',
+    normalBalance: 'debit',
+    defaultAccounts: [],
+  },
+
+  {
+    id: 'exceptional_items',
+    label: 'Exceptional Items',
+    description: 'Non-recurring, unusual items — loss on sale of asset, write-offs, restructuring costs',
+    scheduleIII: 'Exceptional Items',
+    primaryGroup: 'Expenses',
+    nature: 'expense',
+    normalBalance: 'debit',
+    defaultAccounts: [
+      'Loss on Sale of Asset',
+      'Impairment Loss',
+    ],
+  },
+
+  {
+    id: 'gst_itc',
+    label: 'GST — ITC Reversal / Blocked',
+    description: 'ITC reversal on exempt supplies, personal use, ineligible credits (Rule 42/43), and permanently blocked ITC (Section 17(5))',
+    scheduleIII: 'GST — ITC',
+    primaryGroup: 'Expenses',
+    nature: 'expense',
+    normalBalance: 'debit',
+    defaultAccounts: [
+      'GST — ITC Reversal Account',
+      'GST — ITC Blocked (Non-eligible)',
+    ],
+  },
+
+  {
+    id: 'other_comprehensive_income',
+    label: 'Other Comprehensive Income',
+    description: 'Remeasurement of defined benefit plans, FVOCI investments, forex translation (Ind AS Schedule III)',
+    scheduleIII: 'Other Comprehensive Income',
+    primaryGroup: 'Income',
+    nature: 'revenue',
+    normalBalance: 'credit',
+    defaultAccounts: [],
   },
 ];
 
@@ -706,7 +753,8 @@ export function classifyAccount(name: string): LedgerGroup | null {
   if (/\b(depreciation)\b/.test(n)) return getGroupById('depreciation')!;
   if (/\b(amortis|amortiz)\b/.test(n)) return getGroupById('depreciation')!;
   if (/\b(interest on|bank charges|loan processing|finance cost)\b/.test(n)) return getGroupById('finance_costs')!;
-  if (/\b(income tax|deferred tax|current tax|mat)\b/.test(n)) return getGroupById('tax_expense')!;
+  if (/\b(current tax|income tax|mat|short provision|excess provision|prior year tax)\b/.test(n)) return getGroupById('current_tax')!;
+  if (/\b(deferred tax expense|deferred tax.*charge|deferred tax.*credit)\b/.test(n)) return getGroupById('deferred_tax_pl')!;
   if (/\b(rent |electricity|telephone|internet|printing|stationery|legal|professional|audit fee|advertisement|freight outward|bad debt|insurance|repair|maintenance|conveyance|travelling)\b/.test(n)) return getGroupById('indirect_expenses')!;
   if (/\b(direct labour|manufacturing wage|factory|power.*fuel|packaging|job work|royalt)\b/.test(n)) return getGroupById('direct_expenses')!;
   if (/\b(cash in hand|petty cash)\b/.test(n)) return getGroupById('cash_in_hand')!;
@@ -736,6 +784,19 @@ export function classifyAccount(name: string): LedgerGroup | null {
   if (/\b(capital work.in.progress|cwip|capital wip|asset.*under.*construct)\b/.test(n)) return getGroupById('capital_wip')!;
   if (/\b(long.term loans.*advance|capital advance|loan.*subsidiary|loan.*associate)\b/.test(n)) return getGroupById('long_term_loans_advances')!;
   if (/\b(other non.current asset|unamortis|preliminary expense|deferred revenue expenditure)\b/.test(n)) return getGroupById('other_non_current_assets')!;
+  if (/\b(share warrant|warrant.*application|money.*warrant)\b/.test(n)) return getGroupById('share_warrants')!;
+  if (/\b(short.term provision|provision.*bonus|provision.*dividend|provision.*leave encash.*short)\b/.test(n)) return getGroupById('short_term_provisions')!;
+  if (/\b(rcm.*payable|reverse charge.*payable|gst.*rcm|rcm.*gst)\b/.test(n)) return getGroupById('gst_rcm')!;
+  if (/\b(gst.*advance receipt|tax.*advance.*receiv|gst on advance)\b/.test(n)) return getGroupById('gst_advances')!;
+  if (/\b(provision.*depreciation|accumulated depreciation|accumulated dep|dep.*provision)\b/.test(n)) return getGroupById('accumulated_depreciation')!;
+  if (/\b(provision.*amortis|accumulated amortis|amortis.*provision)\b/.test(n)) return getGroupById('accumulated_amortisation')!;
+  if (/\b(current investment|liquid.*fund|short.term.*fd|short.term fixed deposit|liquid mutual)\b/.test(n)) return getGroupById('current_investments')!;
+  if (/\b(treasury bill|t.bill|commercial paper|money market instrument|cash equivalent)\b/.test(n)) return getGroupById('cash_equivalents')!;
+  if (/\b(gst refund|refund.*gst|gst.*refund.*receiv)\b/.test(n)) return getGroupById('gst_refund')!;
+  if (/\b(gst reconcil|gst.*mismatch|gstr.2[ab].*reconcil)\b/.test(n)) return getGroupById('gst_reconciliation')!;
+  if (/\b(tran.1|tran.2|transition credit|pre.gst credit|excise credit.*gst|vat credit.*gst)\b/.test(n)) return getGroupById('gst_legacy')!;
+  if (/\b(itc reversal|itc blocked|itc.*ineligible|blocked.*itc|rule 42|rule 43|section 17.5)\b/.test(n)) return getGroupById('gst_itc')!;
+  if (/\b(suspense|clearing account|unidentified)\b/.test(n)) return getGroupById('suspense_clearing')!;
 
   return null;
 }
@@ -763,6 +824,7 @@ export const PNL_EXPENSE_SUBGROUPS = [
   'Employee Benefits Expense',
   'Finance Costs',
   'Depreciation & Amortisation',
+  'Direct Expenses',
   'Other Expenses — Administration',
   'Other Expenses — Selling',
   'Other Expenses — Write-offs',
@@ -775,6 +837,11 @@ export const PNL_EXPENSE_SUBGROUPS = [
 /** Income sub-groups for P&L (other income — not trading revenue) */
 export const PNL_INCOME_SUBGROUPS = [
   'Other Income',
+];
+
+/** OCI sub-groups (Schedule III — Other Comprehensive Income section) */
+export const OCI_SUBGROUPS = [
+  'Other Comprehensive Income',
 ];
 
 /** Cash & bank sub-groups for Cash Book */

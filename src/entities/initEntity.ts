@@ -16,7 +16,6 @@ import { initPrivateLimited } from '@/entities/private-limited/init';
 export function initEntityData(company: Company): void {
   switch (company.entity_type) {
     case 'pvt_ltd':
-    case 'bulk_pvt_ltd':
       initPrivateLimited(company);
       break;
     // Future: other entity types

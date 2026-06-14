@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useCompany } from '@/hooks/useCompany';
-import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { getOrCreateFiling, saveFiling } from '@/lib/gstr1/gstr1Db';
-import { autoFillFromEntries } from '@/lib/gstr1/autoFill';
+import { autoFillFromInvoices } from '@/lib/gstr1/autoFillFromInvoices';
+import { listInvoicesV2, deleteInvoiceV2, updateInvoiceV2 } from '@/lib/accounting/gstInvoices';
+import type { InvoiceV2, DocType } from '@/lib/accounting/gstInvoices';
 import { validateFiling } from '@/lib/gstr1/gstr1Validate';
 import { generateGstr1Json } from '@/lib/gstr1/gstr1Json';
 import { STATE_CODES, UQC_OPTIONS } from '@/lib/gstr1/config';
@@ -295,12 +296,15 @@ function calcTax(txval:number, rt:number, isInter:boolean, isDiff:boolean, diffP
 
 type B2BDraft = B2BInvoice;
 
-function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
+function B2BSection({ autoRows, filing, onChange, period, companyStateCode, onDeleteAuto, onUpdateAuto, allInvoices }: {
   autoRows: B2BInvoice[];
   filing: GSTR1Filing;
   onChange: (f: GSTR1Filing) => void;
   period: string;
   companyStateCode: string;
+  onDeleteAuto: (id: string) => void;
+  onUpdateAuto: (id: string, draft: Partial<InvoiceV2>) => void;
+  allInvoices: InvoiceV2[];
 }) {
   const blank = (): B2BDraft => ({ id:uid(), ctin:'', inv_typ:'R', inum:'', idt:'', val:0, pos:'27', rchrg:'N', itms:[{num:1,itm_det:{rt:18,txval:0}}] });
   const blankAmend = (): B2BInvoice => ({ ...blank(), isAmended:true, origInvNum:'', origInvDt:'' });
@@ -312,6 +316,8 @@ function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
   const [draftAmend, setDraftAmend] = useState<B2BInvoice>(blankAmend());
   const [editId, setEditId] = useState<string|null>(null);
   const [editDraft, setEditDraft] = useState<B2BInvoice>(blank());
+  const [editAutoId, setEditAutoId] = useState<string|null>(null);
+  const [editAutoDraft, setEditAutoDraft] = useState<B2BInvoice>(blank());
 
   // Detect inter-state from GSTIN vs company
   const isInterFromGstin = (ctin:string) => ctin.length >= 2 && ctin.slice(0,2) !== companyStateCode;
@@ -339,6 +345,30 @@ function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
   const startEdit = (row:B2BInvoice) => { setEditId(row.id); setEditDraft({...row}); };
   const saveEdit = () => { onChange({...filing,b2b:filing.b2b.map(r=>r.id===editId?editDraft:r)}); setEditId(null); };
   const saveAdd = () => { onChange({...filing,b2b:[...filing.b2b,draft]}); setDraft(blank()); setAdding(false); setIsDiff(false); };
+  const startEditAuto = (row: B2BInvoice) => {
+    const inv = allInvoices.find((x) => x.id === row.id);
+    if (!inv) return;
+    setEditAutoId(row.id);
+    setEditAutoDraft({ ...row });
+  };
+  const saveEditAuto = () => {
+    if (!editAutoId) return;
+    // Convert DD-MM-YYYY back to YYYY-MM-DD for invoice storage
+    const ddmmyyyy = editAutoDraft.idt;
+    let invoice_date = '';
+    if (ddmmyyyy && ddmmyyyy.length === 10) {
+      const [dd,mm,yy] = ddmmyyyy.split('-');
+      invoice_date = `${yy}-${mm}-${dd}`;
+    }
+    onUpdateAuto(editAutoId, {
+      buyer_gstin: editAutoDraft.ctin || undefined,
+      invoice_no: editAutoDraft.inum,
+      invoice_date: invoice_date || undefined,
+      place_of_supply: editAutoDraft.pos,
+      reverse_charge: editAutoDraft.rchrg === 'Y',
+    } as Partial<InvoiceV2>);
+    setEditAutoId(null);
+  };
   const saveAmend = () => { onChange({...filing,b2ba:[...amendRows,{...draftAmend,isAmended:true}]}); setDraftAmend(blankAmend()); setAddingAmend(false); };
 
   const B2BForm = ({ d, setD, isPeriodLocked, onSave, onClear, saveLabel }:{ d:B2BInvoice; setD:(v:B2BInvoice)=>void; isPeriodLocked:boolean; onSave:()=>void; onClear:()=>void; saveLabel:string }) => {
@@ -429,7 +459,13 @@ function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
         <Td>
           <div className="flex items-center gap-1">
             <RCMPill val={rcm} onClick={()=>isAuto?toggleRCMauto(row.id):toggleRCMmanual(row.id)} />
-            {!isAuto&&<><button type="button" onClick={()=>startEdit(row)} className="text-gray-400 hover:text-blue-600 px-1 text-[13px]">✎</button><DelBtn onClick={()=>del(row.id)} /></>}
+            {isAuto
+              ? <>
+                  <button type="button" onClick={()=>editAutoId===row.id?setEditAutoId(null):startEditAuto(row)} className="text-gray-400 hover:text-blue-600 px-1 text-[13px]" title="Edit invoice">✎</button>
+                  <DelBtn onClick={()=>{ if(window.confirm('Delete this auto-imported invoice from the GST register? Journal entries are not affected.')) onDeleteAuto(row.id); }} />
+                </>
+              : <><button type="button" onClick={()=>startEdit(row)} className="text-gray-400 hover:text-blue-600 px-1 text-[13px]">✎</button><DelBtn onClick={()=>del(row.id)} /></>
+            }
           </div>
         </Td>
       </tr>
@@ -445,7 +481,30 @@ function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
             <Th ch="#" /><Th ch="GSTIN / State" /><Th ch="Invoice No." /><Th ch="Invoice Date" /><Th ch="Value" right /><Th ch="POS" /><Th ch="Type" /><Th ch="Rate" /><Th ch="Taxable" right /><Th ch="IGST" right /><Th ch="CGST" right /><Th ch="SGST" right /><Th ch="Cess" right /><Th ch="RCM" />
           </tr></thead>
           <tbody>
-            {autoRows.map((row,i) => <B2BRow key={row.id} row={row} idx={i} isAuto={true} />)}
+            {autoRows.map((row,i) => (
+              <React.Fragment key={row.id}>
+                <B2BRow row={row} idx={i} isAuto={true} />
+                {editAutoId===row.id && (
+                  <tr className="bg-green-50 border-b border-green-200">
+                    <td colSpan={14} className="p-3">
+                      <EditPanel onClose={()=>setEditAutoId(null)}>
+                        <p className="text-[10px] text-gray-400 mb-2">Editing GST-level fields only. Journal entries are not affected.</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                          <F label="GSTIN of Recipient"><Inp value={editAutoDraft.ctin} onChange={v=>setEditAutoDraft({...editAutoDraft,ctin:v.toUpperCase()})} placeholder="29AAAAA0000A1Z5" /></F>
+                          <F label="Invoice No."><Inp value={editAutoDraft.inum} onChange={v=>setEditAutoDraft({...editAutoDraft,inum:v})} /></F>
+                          <F label="Invoice Date"><DatePicker value={editAutoDraft.idt} onChange={v=>setEditAutoDraft({...editAutoDraft,idt:v})} period={period} /></F>
+                          <F label="Place of Supply"><Sel value={editAutoDraft.pos} onChange={v=>setEditAutoDraft({...editAutoDraft,pos:v})} options={STATE_OPTS} /></F>
+                        </div>
+                        <div className="mt-3 p-3 bg-orange-50/50 border border-orange-100 rounded-lg">
+                          <RCMToggle val={editAutoDraft.rchrg} onChange={v=>setEditAutoDraft({...editAutoDraft,rchrg:v})} />
+                        </div>
+                        <SaveCancelBtns onSave={saveEditAuto} onCancel={()=>setEditAutoId(null)} />
+                      </EditPanel>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
             {filing.b2b.map((row,i) => editId===row.id ? (
               <tr key={row.id} className="bg-green-50 border-b border-green-200">
                 <td colSpan={14} className="p-3">
@@ -532,8 +591,8 @@ function B2BSection({ autoRows, filing, onChange, period, companyStateCode }: {
 
 // ── B2CL Section ──────────────────────────────────────────────────────────────
 
-function B2CLSection({ autoRows, filing, onChange, period, companyStateCode }: {
-  autoRows:B2CLInvoice[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; period:string; companyStateCode:string;
+function B2CLSection({ autoRows, filing, onChange, period, companyStateCode, onDeleteAuto }: {
+  autoRows:B2CLInvoice[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; period:string; companyStateCode:string; onDeleteAuto:(id:string)=>void;
 }) {
   const defaultPOS = companyStateCode === '29' ? '27' : '29'; // default to a different state
   const blk = (): B2CLInvoice => ({ id:uid(), inum:'', idt:'', val:0, pos:defaultPOS, itms:[{num:1,itm_det:{rt:18,txval:0,iamt:0}}] });
@@ -590,7 +649,7 @@ function B2CLSection({ autoRows, filing, onChange, period, companyStateCode }: {
                 <Td right mono>{formatIndianCurrency(row.itms[0]?.itm_det.txval??0)}</Td>
                 <Td right mono>{formatIndianCurrency(row.itms[0]?.itm_det.iamt??0)}</Td>
                 <Td right mono dim>—</Td>
-                <td className="px-2 border-b border-gray-100" />
+                <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>{ if(window.confirm('Delete this auto-imported invoice? Journal entries are not affected.')) onDeleteAuto(row.id); }} /></td>
               </tr>
             ))}
             {filing.b2cl.map((row,i) => editId===row.id ? (
@@ -824,20 +883,32 @@ function B2CSSection({ autoRows, filing, onChange }: { autoRows:B2CSSummary[]; f
 
 // ── EXP Section ───────────────────────────────────────────────────────────────
 
-function EXPSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
+function EXPSection({ autoRows, filing, onChange, onDeleteAuto }: { autoRows: EXPInvoice[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; onDeleteAuto:(id:string)=>void }) {
   const [adding, setAdding] = useState(false);
   const blk = (): EXPInvoice => ({ id:uid(), exp_typ:'WOPAY', inum:'', idt:'', val:0, itms:[{txval:0,rt:0}] });
   const [d, setD] = useState<EXPInvoice>(blk());
   const add = () => { onChange({...filing,exp:[...filing.exp,d]}); setD(blk()); setAdding(false); };
   const del = (id:string) => onChange({...filing,exp:filing.exp.filter(r=>r.id!==id)});
+  const allRows = [...autoRows, ...filing.exp];
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="w-full text-sm">
           <thead><tr>
-            <Th ch="Export Type" /><Th ch="Invoice No." /><Th ch="Invoice Date" /><Th ch="Invoice Value" right /><Th ch="Shipping Bill No." /><Th ch="Shipping Bill Date" /><Th ch="Port Code" /><Th ch="Rate%" /><Th ch="Taxable Value" right /><Th ch="IGST" right />
+            <Th ch="Export Type" /><Th ch="Invoice No." /><Th ch="Invoice Date" /><Th ch="Invoice Value" right /><Th ch="Shipping Bill No." /><Th ch="Shipping Bill Date" /><Th ch="Port Code" /><Th ch="Rate%" /><Th ch="Taxable Value" right /><Th ch="IGST" right /><Th />
           </tr></thead>
           <tbody>
+            {autoRows.map(r=>(
+              <tr key={r.id} className="bg-blue-50/30 hover:bg-blue-50/60">
+                <Td>{r.exp_typ}</Td><Td><div className="flex items-center gap-1"><BooksBadge />{r.inum}</div></Td><Td dim>{r.idt}</Td>
+                <Td right mono>{formatIndianCurrency(r.val)}</Td>
+                <Td dim>{r.sbnum||'—'}</Td><Td dim>{r.sbdt||'—'}</Td><Td dim>{r.sbpcode||'—'}</Td>
+                <Td dim>{r.itms[0]?.rt}%</Td>
+                <Td right mono>{formatIndianCurrency(r.itms[0]?.txval??0)}</Td>
+                <Td right mono>{r.itms[0]?.iamt?formatIndianCurrency(r.itms[0].iamt):'—'}</Td>
+                <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>{ if(window.confirm('Delete this auto-imported export invoice? Journal entries are not affected.')) onDeleteAuto(r.id); }} /></td>
+              </tr>
+            ))}
             {filing.exp.map(r=>(
               <tr key={r.id} className="hover:bg-gray-50">
                 <Td>{r.exp_typ}</Td><Td>{r.inum}</Td><Td dim>{r.idt}</Td>
@@ -849,7 +920,7 @@ function EXPSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
                 <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>del(r.id)} /></td>
               </tr>
             ))}
-            {filing.exp.length===0&&<tr><td colSpan={10} className="px-4 py-8 text-center text-sm text-gray-400">No exports for this period</td></tr>}
+            {allRows.length===0&&<tr><td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-400">No exports for this period</td></tr>}
           </tbody>
         </table>
       </div>
@@ -877,7 +948,7 @@ function EXPSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
 
 // ── CDNR Section ──────────────────────────────────────────────────────────────
 
-function CDNRSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
+function CDNRSection({ autoRows, filing, onChange, onDeleteAuto }: { autoRows: CDNRNote[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; onDeleteAuto:(id:string)=>void }) {
   const [adding, setAdding] = useState(false);
   const blk = (): CDNRNote => ({ id:uid(), ctin:'', ntty:'C', nt:[{ntnum:'',ntdt:'',val:0,itms:[{num:1,itm_det:{rt:18,txval:0}}]}] });
   const [d, setD] = useState<CDNRNote>(blk());
@@ -886,14 +957,28 @@ function CDNRSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GST
   const del = (id:string) => onChange({...filing,cdnr:filing.cdnr.filter(r=>r.id!==id)});
   const setNt = (v: Partial<typeof nt0>) => setD({...d,nt:[{...nt0,...v}]});
   const setItm = (v: Partial<typeof nt0.itms[0]['itm_det']>) => setD({...d,nt:[{...nt0,itms:[{num:1,itm_det:{...nt0.itms[0].itm_det,...v}}]}]});
+  const allRows = [...autoRows, ...filing.cdnr];
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="w-full text-sm">
           <thead><tr>
-            <Th ch="GSTIN of Recipient" /><Th ch="Note No." /><Th ch="Note Date" /><Th ch="Note Type" /><Th ch="Note Value" right /><Th ch="Rate%" /><Th ch="Taxable" right /><Th ch="IGST" right /><Th ch="CGST" right /><Th ch="SGST" right />
+            <Th ch="GSTIN of Recipient" /><Th ch="Note No." /><Th ch="Note Date" /><Th ch="Note Type" /><Th ch="Note Value" right /><Th ch="Rate%" /><Th ch="Taxable" right /><Th ch="IGST" right /><Th ch="CGST" right /><Th ch="SGST" right /><Th />
           </tr></thead>
           <tbody>
+            {autoRows.map(r=>(
+              <tr key={r.id} className="bg-blue-50/30 hover:bg-blue-50/60">
+                <Td mono><div className="flex items-center gap-1"><BooksBadge /><span className="text-[11px]">{r.ctin}</span></div></Td><Td>{r.nt[0]?.ntnum}</Td><Td dim>{r.nt[0]?.ntdt}</Td>
+                <Td><span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded ${r.ntty==='C'?'bg-green-100 text-green-700':'bg-red-100 text-red-700'}`}>{r.ntty==='C'?'Credit':'Debit'}</span></Td>
+                <Td right mono>{formatIndianCurrency(r.nt[0]?.val??0)}</Td>
+                <Td dim>{r.nt[0]?.itms[0]?.itm_det.rt}%</Td>
+                <Td right mono>{formatIndianCurrency(r.nt[0]?.itms[0]?.itm_det.txval??0)}</Td>
+                <Td right mono>{r.nt[0]?.itms[0]?.itm_det.iamt?formatIndianCurrency(r.nt[0].itms[0].itm_det.iamt):'—'}</Td>
+                <Td right mono>{r.nt[0]?.itms[0]?.itm_det.camt?formatIndianCurrency(r.nt[0].itms[0].itm_det.camt):'—'}</Td>
+                <Td right mono>{r.nt[0]?.itms[0]?.itm_det.samt?formatIndianCurrency(r.nt[0].itms[0].itm_det.samt):'—'}</Td>
+                <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>{ if(window.confirm('Delete this auto-imported credit/debit note? Journal entries are not affected.')) onDeleteAuto(r.id); }} /></td>
+              </tr>
+            ))}
             {filing.cdnr.map(r=>(
               <tr key={r.id} className="hover:bg-gray-50">
                 <Td mono>{r.ctin}</Td><Td>{r.nt[0]?.ntnum}</Td><Td dim>{r.nt[0]?.ntdt}</Td>
@@ -907,7 +992,7 @@ function CDNRSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GST
                 <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>del(r.id)} /></td>
               </tr>
             ))}
-            {filing.cdnr.length===0&&<tr><td colSpan={10} className="px-4 py-8 text-center text-sm text-gray-400">No credit/debit notes to registered persons</td></tr>}
+            {allRows.length===0&&<tr><td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-400">No credit/debit notes to registered persons</td></tr>}
           </tbody>
         </table>
       </div>
@@ -1070,9 +1155,10 @@ function ATTXPDSection({ section, filing, onChange }: { section:'at'|'txpd'; fil
 
 // ── HSN Section ───────────────────────────────────────────────────────────────
 
-function HSNSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
+function HSNSection({ autoRows, filing, onChange }: { autoRows: HSNSummary[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
   const [adding, setAdding] = useState(false);
-  const blk = (): HSNSummary => ({ id:uid(), num:filing.hsn.length+1, hsn_sc:'', desc:'', uqc:'NOS', qty:0, val:0, txval:0, iamt:0, camt:0, samt:0, csamt:0 });
+  const allHsn = [...autoRows, ...filing.hsn];
+  const blk = (): HSNSummary => ({ id:uid(), num:allHsn.length+1, hsn_sc:'', desc:'', uqc:'NOS', qty:0, val:0, txval:0, iamt:0, camt:0, samt:0, csamt:0 });
   const [d, setD] = useState<HSNSummary>(blk());
   const add = () => { onChange({...filing,hsn:[...filing.hsn,d]}); setD(blk()); setAdding(false); };
   const del = (id:string) => onChange({...filing,hsn:filing.hsn.filter(r=>r.id!==id)});
@@ -1082,6 +1168,19 @@ function HSNSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
         <table className="w-full text-sm">
           <thead><tr><Th ch="HSN/SAC Code" /><Th ch="Description" /><Th ch="UQC" /><Th ch="Qty" right /><Th ch="Total Value" right /><Th ch="Taxable Value" right /><Th ch="IGST" right /><Th ch="CGST" right /><Th ch="SGST/UTGST" right /><Th ch="Cess" right /><Th /></tr></thead>
           <tbody>
+            {autoRows.map(r=>(
+              <tr key={r.id} className="bg-blue-50/30 hover:bg-blue-50/60">
+                <Td mono><div className="flex items-center gap-1"><BooksBadge />{r.hsn_sc}</div></Td><Td>{r.desc}</Td><Td dim>{r.uqc}</Td>
+                <Td right mono>{r.qty}</Td>
+                <Td right mono>{formatIndianCurrency(r.val)}</Td>
+                <Td right mono>{formatIndianCurrency(r.txval)}</Td>
+                <Td right mono>{formatIndianCurrency(r.iamt)}</Td>
+                <Td right mono>{formatIndianCurrency(r.camt)}</Td>
+                <Td right mono>{formatIndianCurrency(r.samt)}</Td>
+                <Td right mono dim>{formatIndianCurrency(r.csamt)}</Td>
+                <td className="px-2 border-b border-gray-100" />
+              </tr>
+            ))}
             {filing.hsn.map(r=>(
               <tr key={r.id} className="hover:bg-gray-50">
                 <Td mono>{r.hsn_sc}</Td><Td>{r.desc}</Td><Td dim>{r.uqc}</Td>
@@ -1095,7 +1194,7 @@ function HSNSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
                 <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>del(r.id)} /></td>
               </tr>
             ))}
-            {filing.hsn.length===0&&<tr><td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-400">No HSN/SAC entries</td></tr>}
+            {allHsn.length===0&&<tr><td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-400">No HSN/SAC entries</td></tr>}
           </tbody>
         </table>
       </div>
@@ -1125,11 +1224,36 @@ function HSNSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
 
 const DOC_TYPES = ['Tax Invoice','Credit Note','Debit Note','Receipt Voucher','Delivery Challan','Payment Voucher'];
 
-function DocSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
-  const docs = DOC_TYPES.map((_,i) =>
-    filing.doc_issue.find(d=>d.doc_num===i+1) ??
-    { id:`doc_${i+1}`, doc_num:i+1, docs:[{num:1,from:'',to:'',totnum:0,cancel:0,net_issue:0}] }
-  );
+function DocSection({ filing, onChange, allInvoices }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; allInvoices: InvoiceV2[] }) {
+  // Auto-compute serial number ranges from invoices for this period
+  const [mm, yyyy] = [filing.period.slice(0,2), filing.period.slice(2)];
+  const monthStr = `${yyyy}-${mm}`;
+  const periodInvs = allInvoices.filter(inv => inv.invoice_date.startsWith(monthStr));
+
+  const autoSerial = (docTypes: DocType[]): { from: string; to: string; totnum: number; cancel: number } => {
+    const matching = periodInvs.filter(inv => docTypes.includes(inv.doc_type));
+    if (matching.length === 0) return { from: '', to: '', totnum: 0, cancel: 0 };
+    const sorted = matching.sort((a, b) => a.invoice_no.localeCompare(b.invoice_no));
+    const cancelled = matching.filter(inv => inv.status === 'CANCELLED').length;
+    return { from: sorted[0].invoice_no, to: sorted[sorted.length - 1].invoice_no, totnum: matching.length, cancel: cancelled };
+  };
+
+  // doc_num: 1=Tax Invoice, 2=Credit Note, 3=Debit Note, 4=Receipt Voucher, 5=Delivery Challan, 6=Payment Voucher
+  const docTypeMap: Record<number, DocType[]> = {
+    1: ['TAX_INVOICE', 'BILL_OF_SUPPLY'],
+    2: ['CREDIT_NOTE'],
+    3: ['DEBIT_NOTE'],
+    4: ['RECEIPT_VOUCHER'],
+    5: ['DELIVERY_CHALLAN'],
+    6: ['PAYMENT_VOUCHER'],
+  };
+
+  const docs = DOC_TYPES.map((_,i) => {
+    const saved = filing.doc_issue.find(d=>d.doc_num===i+1);
+    if (saved) return saved;
+    const auto = autoSerial(docTypeMap[i + 1] ?? []);
+    return { id:`doc_${i+1}`, doc_num:i+1, docs:[{num:1, from:auto.from, to:auto.to, totnum:auto.totnum, cancel:auto.cancel, net_issue:auto.totnum - auto.cancel}] };
+  });
   const upd = (doc_num:number, field:string, val:string|number) => {
     const updated = docs.map(d => {
       if (d.doc_num!==doc_num) return d;
@@ -1140,20 +1264,25 @@ function DocSection({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
     onChange({...filing,doc_issue:updated});
   };
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
-      <table className="w-full text-sm">
-        <thead><tr><Th ch="Document Type" /><Th ch="Sr. No. From" /><Th ch="Sr. No. To" /><Th ch="Total Issued" right /><Th ch="Cancelled" right /><Th ch="Net Issued" right /></tr></thead>
-        <tbody>{docs.map(doc=>(
-          <tr key={doc.doc_num} className="border-b border-gray-100">
-            <Td>{DOC_TYPES[doc.doc_num-1]}</Td>
-            <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.from??''} onChange={v=>upd(doc.doc_num,'from',v)} placeholder="001" /></td>
-            <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.to??''} onChange={v=>upd(doc.doc_num,'to',v)} placeholder="100" /></td>
-            <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.totnum??0} onChange={v=>upd(doc.doc_num,'totnum',parseInt(v)||0)} className="text-right" /></td>
-            <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.cancel??0} onChange={v=>upd(doc.doc_num,'cancel',parseInt(v)||0)} className="text-right" /></td>
-            <td className="px-3 py-2 text-right font-mono text-sm border-b border-gray-100 font-semibold">{doc.docs[0]?.net_issue??0}</td>
-          </tr>
-        ))}</tbody>
-      </table>
+    <div>
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="w-full text-sm">
+          <thead><tr><Th ch="Document Type" /><Th ch="Sr. No. From" /><Th ch="Sr. No. To" /><Th ch="Total Issued" right /><Th ch="Cancelled" right /><Th ch="Net Issued" right /></tr></thead>
+          <tbody>{docs.map(doc=>(
+            <tr key={doc.doc_num} className="border-b border-gray-100">
+              <Td>{DOC_TYPES[doc.doc_num-1]}</Td>
+              <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.from??''} onChange={v=>upd(doc.doc_num,'from',v)} placeholder="001" /></td>
+              <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.to??''} onChange={v=>upd(doc.doc_num,'to',v)} placeholder="100" /></td>
+              <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.totnum??0} onChange={v=>upd(doc.doc_num,'totnum',parseInt(v)||0)} className="text-right" /></td>
+              <td className="px-2 py-1 border-b border-gray-100"><Inp value={doc.docs[0]?.cancel??0} onChange={v=>upd(doc.doc_num,'cancel',parseInt(v)||0)} className="text-right" /></td>
+              <td className="px-3 py-2 text-right font-mono text-sm border-b border-gray-100 font-semibold">{doc.docs[0]?.net_issue??0}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      {periodInvs.length > 0 && (
+        <p className="mt-2 text-[11px] text-blue-600"><span className="inline-block w-2 h-2 bg-blue-200 rounded-full mr-1" />Serial numbers auto-populated from {periodInvs.length} invoice(s) in this period</p>
+      )}
     </div>
   );
 }
@@ -1406,16 +1535,19 @@ export default function GSTR1Page() {
   const [validationErrors, setValidationErrors] = useState<ValidationError[] | null>(null);
   const [showPeriodPicker, setShowPeriodPicker] = useState(false);
 
-  const { fromDate, toDate } = useMemo(() => periodToRange(period), [period]);
-
-  const { entries, loading: entriesLoading } = useJournalEntries({
-    companyId: companyId || '',
-    fromDate, toDate,
-    enabled: !!companyId,
-  });
-
   const gstin = company?.gst_details?.gstin ?? '';
   const companyStateCode = gstin.slice(0,2) || '27';
+  const [invTick, setInvTick] = useState(0);
+
+  // Load all invoices for this company (memoised on companyId + period + invTick)
+  const allInvoices = useMemo(
+    () => (companyId ? listInvoicesV2(companyId) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [companyId, period, invTick],
+  );
+
+  const deleteAutoInv = (id: string) => { deleteInvoiceV2(id); setInvTick((t) => t + 1); };
+  const updateAutoInv = (id: string, draft: Parameters<typeof updateInvoiceV2>[1]) => { updateInvoiceV2(id, draft); setInvTick((t) => t + 1); };
 
   useEffect(() => {
     if (!companyId) return;
@@ -1431,15 +1563,19 @@ export default function GSTR1Page() {
     setFiling(f);
   }, [companyId, period, gstin]);
 
-  // Live auto data from books
+  // Live auto data from invoice registers
   const liveData = useMemo(() => {
-    if (!filing || entriesLoading) return null;
-    return autoFillFromEntries(entries, filing, companyStateCode);
-  }, [entries, filing, companyStateCode, entriesLoading]);
+    if (!filing) return null;
+    return autoFillFromInvoices(allInvoices, filing, companyStateCode);
+  }, [allInvoices, filing, companyStateCode]);
 
   const autoB2B = liveData?.b2b ?? [];
   const autoB2CL = liveData?.b2cl ?? [];
   const autoB2CS = liveData?.b2cs ?? [];
+  const autoCDNR = liveData?.cdnr ?? [];
+  const autoCDNUR = liveData?.cdnur ?? [];
+  const autoEXP = liveData?.exp ?? [];
+  const autoHSN = liveData?.hsn ?? [];
 
   const handleChange = useCallback((updated: GSTR1Filing) => {
     setFiling(updated);
@@ -1458,8 +1594,12 @@ export default function GSTR1Page() {
       b2b: [...autoB2BWithRCM, ...filing.b2b],
       b2cl: [...autoB2CL, ...filing.b2cl],
       b2cs: [...autoB2CS, ...filing.b2cs],
+      cdnr: [...autoCDNR, ...filing.cdnr],
+      cdnur: [...autoCDNUR, ...filing.cdnur],
+      exp: [...autoEXP, ...filing.exp],
+      hsn: [...autoHSN, ...filing.hsn],
     };
-  }, [filing, autoB2B, autoB2CL, autoB2CS]);
+  }, [filing, autoB2B, autoB2CL, autoB2CS, autoCDNR, autoCDNUR, autoEXP, autoHSN]);
 
   const handleValidate = () => {
     if (!fullFiling) return;
@@ -1510,7 +1650,6 @@ export default function GSTR1Page() {
             <span className="text-gray-400 text-xs">▾</span>
           </button>
           {showPeriodPicker && <PeriodPickerModal period={period} onSelect={p=>{setPeriod(p);setShowPeriodPicker(false);}} onClose={()=>setShowPeriodPicker(false)} />}
-          {entriesLoading && <span className="text-xs text-blue-500 animate-pulse">Loading books…</span>}
           <button type="button" onClick={handleValidate} className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-50">Validate</button>
           <button type="button" onClick={handleDownloadJson} className="px-3 py-1.5 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700">↓ JSON</button>
         </div>
@@ -1549,25 +1688,25 @@ export default function GSTR1Page() {
             {TABS.find(t=>t.key===activeTab)?.tableNum && <>Table {TABS.find(t=>t.key===activeTab)?.tableNum} — </>}
             {activeTab==='b2b'?'Supplies to Registered Persons':activeTab==='b2cl'?'Inter-state Supplies to Unregistered (>₹1L)':activeTab==='b2cs'?'Other Supplies to Unregistered':activeTab==='exp'?'Export Supplies':activeTab==='cdnr'?'Credit/Debit Notes (Registered)':activeTab==='cdnur'?'Credit/Debit Notes (Unregistered)':activeTab==='nil'?'Nil/Exempt/Non-GST Supplies':activeTab==='at'?'Tax Liability on Advances Received (Table 11A)':activeTab==='txpd'?'Advance Amount Adjusted Against Tax Paid Earlier (Table 11B)':activeTab==='hsn'?'HSN-wise Summary':'Document Issue Summary'}
           </p>
-          {(activeTab==='b2b'||activeTab==='b2cl'||activeTab==='b2cs') && (
-            <p className="text-[11px] text-blue-600 mt-0.5"><span className="inline-block w-2 h-2 bg-blue-200 rounded-full mr-1" />Rows with <strong>books</strong> badge are auto-populated from your sales register</p>
+          {(activeTab==='b2b'||activeTab==='b2cl'||activeTab==='b2cs'||activeTab==='cdnr'||activeTab==='cdnur'||activeTab==='exp'||activeTab==='hsn') && (
+            <p className="text-[11px] text-blue-600 mt-0.5"><span className="inline-block w-2 h-2 bg-blue-200 rounded-full mr-1" />Rows with <strong>books</strong> badge are auto-populated from the invoice register</p>
           )}
         </div>
       )}
 
       {/* Section panels */}
       {activeTab==='overview' && fullFiling && <OverviewSection fullFiling={fullFiling} period={period} onNavigate={(tab)=>setActiveTab(tab)} />}
-      {activeTab==='b2b'  && <B2BSection autoRows={autoB2B} filing={filing} onChange={handleChange} period={period} companyStateCode={companyStateCode} />}
-      {activeTab==='b2cl' && <B2CLSection autoRows={autoB2CL} filing={filing} onChange={handleChange} period={period} companyStateCode={companyStateCode} />}
+      {activeTab==='b2b'  && <B2BSection autoRows={autoB2B} filing={filing} onChange={handleChange} period={period} companyStateCode={companyStateCode} onDeleteAuto={deleteAutoInv} onUpdateAuto={updateAutoInv} allInvoices={allInvoices} />}
+      {activeTab==='b2cl' && <B2CLSection autoRows={autoB2CL} filing={filing} onChange={handleChange} period={period} companyStateCode={companyStateCode} onDeleteAuto={deleteAutoInv} />}
       {activeTab==='b2cs' && <B2CSSection autoRows={autoB2CS} filing={filing} onChange={handleChange} />}
-      {activeTab==='exp'  && <EXPSection filing={filing} onChange={handleChange} />}
-      {activeTab==='cdnr' && <CDNRSection filing={filing} onChange={handleChange} />}
-      {activeTab==='cdnur'&& <CDNURPanel filing={filing} onChange={handleChange} />}
+      {activeTab==='exp'  && <EXPSection autoRows={autoEXP} filing={filing} onChange={handleChange} onDeleteAuto={deleteAutoInv} />}
+      {activeTab==='cdnr' && <CDNRSection autoRows={autoCDNR} filing={filing} onChange={handleChange} onDeleteAuto={deleteAutoInv} />}
+      {activeTab==='cdnur'&& <CDNURPanel autoRows={autoCDNUR} filing={filing} onChange={handleChange} onDeleteAuto={deleteAutoInv} />}
       {activeTab==='nil'  && <NILSection filing={filing} onChange={handleChange} />}
       {activeTab==='at'   && <ATTXPDSection section="at"   filing={filing} onChange={handleChange} />}
       {activeTab==='txpd' && <ATTXPDSection section="txpd" filing={filing} onChange={handleChange} />}
-      {activeTab==='hsn'  && <HSNSection filing={filing} onChange={handleChange} />}
-      {activeTab==='doc'  && <DocSection filing={filing} onChange={handleChange} />}
+      {activeTab==='hsn'  && <HSNSection autoRows={autoHSN} filing={filing} onChange={handleChange} />}
+      {activeTab==='doc'  && <DocSection filing={filing} onChange={handleChange} allInvoices={allInvoices} />}
 
       {validationErrors !== null && <ValidationModal errors={validationErrors} onClose={()=>setValidationErrors(null)} />}
     </div>
@@ -1576,19 +1715,32 @@ export default function GSTR1Page() {
 
 // ── CDNUR panel (inline, to avoid re-declaring type) ─────────────────────────
 
-function CDNURPanel({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void }) {
+function CDNURPanel({ autoRows, filing, onChange, onDeleteAuto }: { autoRows: CDNURNote[]; filing:GSTR1Filing; onChange:(f:GSTR1Filing)=>void; onDeleteAuto:(id:string)=>void }) {
   type N = CDNURNote;
   const [adding, setAdding] = useState(false);
   const blk = (): N => ({ id:uid(), ntty:'C', typ:'B2CL', ntnum:'', ntdt:'', val:0, pos:'27', itms:[{num:1,itm_det:{rt:18,txval:0}}] });
   const [d, setD] = useState<N>(blk());
   const add = () => { onChange({...filing,cdnur:[...filing.cdnur,d]}); setD(blk()); setAdding(false); };
   const del = (id:string) => onChange({...filing,cdnur:filing.cdnur.filter(r=>r.id!==id)});
+  const allRows = [...autoRows, ...filing.cdnur];
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="w-full text-sm">
           <thead><tr><Th ch="UR Type" /><Th ch="Note No." /><Th ch="Note Date" /><Th ch="Note Type" /><Th ch="Place of Supply" /><Th ch="Note Value" right /><Th ch="Rate%" /><Th ch="Taxable" right /><Th ch="IGST" right /><Th /></tr></thead>
           <tbody>
+            {autoRows.map(r=>(
+              <tr key={r.id} className="bg-blue-50/30 hover:bg-blue-50/60">
+                <Td dim>{r.typ}</Td><Td><div className="flex items-center gap-1"><BooksBadge />{r.ntnum}</div></Td><Td dim>{r.ntdt}</Td>
+                <Td><span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded ${r.ntty==='C'?'bg-green-100 text-green-700':'bg-red-100 text-red-700'}`}>{r.ntty==='C'?'Credit':'Debit'}</span></Td>
+                <Td dim>{STATE_CODES[r.pos]||r.pos}</Td>
+                <Td right mono>{formatIndianCurrency(r.val)}</Td>
+                <Td dim>{r.itms[0]?.itm_det.rt}%</Td>
+                <Td right mono>{formatIndianCurrency(r.itms[0]?.itm_det.txval??0)}</Td>
+                <Td right mono>{r.itms[0]?.itm_det.iamt?formatIndianCurrency(r.itms[0].itm_det.iamt):'—'}</Td>
+                <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>{ if(window.confirm('Delete this auto-imported credit/debit note? Journal entries are not affected.')) onDeleteAuto(r.id); }} /></td>
+              </tr>
+            ))}
             {filing.cdnur.map(r=>(
               <tr key={r.id} className="hover:bg-gray-50">
                 <Td dim>{r.typ}</Td><Td>{r.ntnum}</Td><Td dim>{r.ntdt}</Td>
@@ -1601,7 +1753,7 @@ function CDNURPanel({ filing, onChange }: { filing:GSTR1Filing; onChange:(f:GSTR
                 <td className="px-2 border-b border-gray-100"><DelBtn onClick={()=>del(r.id)} /></td>
               </tr>
             ))}
-            {filing.cdnur.length===0&&<tr><td colSpan={10} className="px-4 py-8 text-center text-sm text-gray-400">No credit/debit notes to unregistered persons</td></tr>}
+            {allRows.length===0&&<tr><td colSpan={10} className="px-4 py-8 text-center text-sm text-gray-400">No credit/debit notes to unregistered persons</td></tr>}
           </tbody>
         </table>
       </div>

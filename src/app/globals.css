@@ -179,3 +179,13 @@ table { border-collapse: collapse; width: 100%; }
 .vtype-DN  { @apply bg-orange-50 text-orange-700; }
 .vtype-CN  { @apply bg-purple-50 text-purple-700; }
 .vtype-PAY { @apply bg-indigo-50 text-indigo-700; }
+
+/* -- Number Input Spin Buttons Removal -- */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

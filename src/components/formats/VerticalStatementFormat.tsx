@@ -11,6 +11,9 @@ interface StatementItem {
   isBold?: boolean;
   isTotal?: boolean;
   indent?: number;
+  /** If provided, renders an editable number input in the Current Year cell */
+  editValue?: string;
+  onEdit?: (value: string) => void;
 }
 
 interface StatementSection {
@@ -27,11 +30,12 @@ interface VerticalStatementProps {
   sections: StatementSection[];
   showPreviousYear?: boolean;
   signatureBlock?: boolean;
+  onItemClick?: (label: string, noteNo?: string) => void;
 }
 
 export function VerticalStatementFormat({
   title, companyName, cin, period,
-  sections, showPreviousYear = true, signatureBlock = false,
+  sections, showPreviousYear = true, signatureBlock = false, onItemClick,
 }: VerticalStatementProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -90,10 +94,30 @@ export function VerticalStatementFormat({
                     className={`px-4 py-2 text-gray-700 ${item.isBold || item.isTotal ? 'font-semibold text-gray-900' : ''}`}
                     style={{ paddingLeft: `${((item.indent || 0) + (section.indent || 0)) * 16 + 16}px` }}
                   >
-                    {item.label}
+                    {onItemClick && !item.isTotal ? (
+                      <button
+                        onClick={() => onItemClick(item.label, item.noteNo)}
+                        className="text-left hover:text-blue-600 hover:underline cursor-pointer transition-colors"
+                      >
+                        {item.label}
+                      </button>
+                    ) : (
+                      item.label
+                    )}
                   </td>
                   <td className={`px-4 py-2 text-right font-mono text-[13px] tabular-nums ${item.isTotal ? 'font-bold text-gray-900' : 'text-gray-700'}`}>
-                    {item.currentYear !== null ? formatIndianCurrency(item.currentYear) : ''}
+                    {item.onEdit ? (
+                      <input
+                        type="number"
+                        min="0"
+                        value={item.editValue ?? ''}
+                        onChange={e => item.onEdit!(e.target.value)}
+                        placeholder={item.currentYear !== null ? String(item.currentYear) : '0'}
+                        className="w-full text-right bg-amber-50 border border-amber-200 rounded px-2 py-0.5 font-mono text-[13px] tabular-nums focus:outline-none focus:ring-1 focus:ring-amber-400 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                      />
+                    ) : (
+                      item.currentYear !== null ? formatIndianCurrency(item.currentYear) : ''
+                    )}
                   </td>
                   {showPreviousYear && (
                     <td className="px-4 py-2 text-right font-mono text-[13px] tabular-nums text-gray-400">

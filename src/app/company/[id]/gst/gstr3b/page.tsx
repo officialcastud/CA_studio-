@@ -2,14 +2,14 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useCompany } from '@/hooks/useCompany';
-import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { DateRangeFilter } from '@/components/export/DateRangeFilter';
 import { ExportButtons } from '@/components/export/ExportButtons';
 import { getCurrentFY } from '@/lib/utils/dateUtils';
 import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
-import { computeGSTR3B } from '@/lib/accounting/gstCompute';
+import { computeGSTR3BFromInvoices } from '@/lib/accounting/gstComputeFromInvoices';
+import { listInvoicesV2, listPurchaseInvoices } from '@/lib/accounting/gstInvoices';
 import { emptyGstr3bForm, prefillGstr3bFormFromBooks, calendarMonthRangeIso } from '@/lib/accounting/gstr3bJson';
 import type { EntityType } from '@/types/company';
 import { Gstr3bUtilityPanel } from '@/components/gst/Gstr3bUtilityPanel';
@@ -32,21 +32,20 @@ export default function GSTR3BPage() {
     [retYear, retMonth]
   );
 
-  const { entries: utilityEntries, loading: utilityLoading } = useJournalEntries({
-    companyId: companyId || '',
-    fromDate: monthFrom,
-    toDate: monthTo,
-    enabled: !!companyId && tab === 'utility',
-  });
+  // Load invoices from registers
+  const allSales = useMemo(() => companyId ? listInvoicesV2(companyId) : [], [companyId]);
+  const allPurchases = useMemo(() => companyId ? listPurchaseInvoices(companyId) : [], [companyId]);
 
-  const { entries, loading } = useJournalEntries({
-    companyId: companyId || '',
-    fromDate,
-    toDate,
-    enabled: !!companyId && tab === 'books',
-  });
+  // Utility tab: filter by selected month
+  const utilitySales = useMemo(() => allSales.filter((s) => s.invoice_date >= monthFrom && s.invoice_date <= monthTo), [allSales, monthFrom, monthTo]);
+  const utilityPurchases = useMemo(() => allPurchases.filter((p) => p.invoice_date >= monthFrom && p.invoice_date <= monthTo), [allPurchases, monthFrom, monthTo]);
 
-  const gstr3b = useMemo(() => computeGSTR3B(entries), [entries]);
+  // Books tab: filter by date range
+  const booksSales = useMemo(() => allSales.filter((s) => s.invoice_date >= fromDate && s.invoice_date <= toDate), [allSales, fromDate, toDate]);
+  const booksPurchases = useMemo(() => allPurchases.filter((p) => p.invoice_date >= fromDate && p.invoice_date <= toDate), [allPurchases, fromDate, toDate]);
+
+  const gstr3b = useMemo(() => computeGSTR3BFromInvoices(booksSales, booksPurchases), [booksSales, booksPurchases]);
+  const loading = false; // Invoice reads are synchronous (localStorage)
 
   useEffect(() => {
     setCaConfirmed(false);
@@ -108,7 +107,7 @@ export default function GSTR3BPage() {
   ];
 
   const loadFromBooks = () => {
-    const summary = computeGSTR3B(utilityEntries);
+    const summary = computeGSTR3BFromInvoices(utilitySales, utilityPurchases);
     setForm(prefillGstr3bFormFromBooks(summary));
     setCaConfirmed(false);
   };
@@ -156,7 +155,7 @@ export default function GSTR3BPage() {
           }}
           form={form}
           setForm={setForm}
-          loadingBooks={utilityLoading}
+          loadingBooks={false}
           onLoadFromBooks={loadFromBooks}
           caConfirmed={caConfirmed}
           onCaConfirmedChange={setCaConfirmed}

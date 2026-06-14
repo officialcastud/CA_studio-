@@ -13,10 +13,11 @@ import { ManualEntryDialog } from '@/components/entries/ManualEntryDialog';
 import { getCurrentFY } from '@/lib/utils/dateUtils';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
 import { AlertBanner } from '@/components/layout/AlertBanner';
-import { getJournalDateRange, deleteJournalEntry } from '@/lib/offlineDb';
+import { getJournalDateRange, deleteJournalEntry, listJournalEntries } from '@/lib/offlineDb';
 import { generateUniqueEntryCode } from '@/lib/utils/entryCodeGenerator';
 import type { EntityType } from '@/types/company';
 import type { JournalLine } from '@/types/journal';
+import type { JournalEntry as ComputeJournalEntry } from '@/lib/accounting/computeEngine';
 
 
 export default function JournalPage() {
@@ -96,7 +97,10 @@ export default function JournalPage() {
     };
   }, [showFilters]);
 
-  const JOURNAL_PAGE_LIMIT = 500;
+  const JOURNAL_PAGE_LIMIT = 5000;
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 100;
+
   const entryCodeQuery = entryCodeFilter.trim() || undefined;
   const { entries, loading, createEntry, deleteEntry, refresh } = useJournalEntries({
     companyId: companyId || '',
@@ -137,6 +141,9 @@ export default function JournalPage() {
     narration: e.narration,
     voucherType: e.voucher_type,
   }));
+
+  const totalPages = Math.ceil(journalEntries.length / PAGE_SIZE);
+  const paginatedEntries = journalEntries.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   // Export data (without JE codes)
   const exportData = entries.flatMap(e =>
@@ -380,6 +387,21 @@ export default function JournalPage() {
     return created;
   };
 
+  const handleEditEntry = (entryCode: string) => {
+    const entry = entries.find(e => e.entry_code === entryCode);
+    if (entry) setEditingEntry(entry);
+  };
+
+  const handleDeleteEntry = async (entryCode: string) => {
+    if (!companyId) return;
+    const entry = entries.find(e => e.entry_code === entryCode);
+    if (!entry) return;
+    const confirmed = window.confirm(`Delete journal entry ${entryCode}?\n\nThis cannot be undone. The account names will still exist in the ledger.`);
+    if (!confirmed) return;
+    deleteJournalEntry(entry.id);
+    await refresh();
+  };
+
   const handleDeleteSelected = async () => {
     if (!companyId || selectedCodes.size === 0) return;
     const n = selectedCodes.size;
@@ -396,10 +418,12 @@ export default function JournalPage() {
   };
 
   const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set());
+  const [editingEntry, setEditingEntry] = useState<ComputeJournalEntry | null>(null);
 
-  // Clear selection when filters or company change
+  // Clear selection and pagination when filters or company change
   useEffect(() => {
     setSelectedCodes(new Set());
+    setCurrentPage(1);
   }, [voucherFilter, accountFilter, entryCodeFilter, fromDate, toDate, companyId]);
 
   const hasActiveFilter =
@@ -557,25 +581,59 @@ export default function JournalPage() {
       </div>
 
       {/* Scrollable content */}
-      <div className="flex-1 min-h-0 overflow-auto">
+      <div className="flex-1 min-h-0 overflow-auto flex flex-col">
         {entries.length === JOURNAL_PAGE_LIMIT && (
-          <AlertBanner type="info" title="Showing latest entries only" message={`Display is capped at ${JOURNAL_PAGE_LIMIT} entries. Narrow the date range or use filters to see a specific set.`} />
+          <div className="shrink-0">
+            <AlertBanner type="info" title="Showing latest entries only" message={`Display is capped at ${JOURNAL_PAGE_LIMIT} entries. Narrow the date range or use filters to see a specific set.`} />
+          </div>
         )}
 
         {loading ? (
-          <div className="flex items-center justify-center py-16">
+          <div className="flex-1 flex items-center justify-center py-16">
             <div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <JournalFormat
-            companyName={company.name}
-            period={`${fromDate} to ${toDate}`}
-            entries={journalEntries}
-            highlightEntryCode={entryCodeQuery}
-            emptyMessage="No journal entries yet. Use New Entry to create your first journal."
-            selectedCodes={selectedCodes}
-            onSelectionChange={setSelectedCodes}
-          />
+          <div className="flex-1 min-h-0 relative">
+            <JournalFormat
+              companyName={company.name}
+              period={`${fromDate} to ${toDate}`}
+              entries={paginatedEntries}
+              highlightEntryCode={entryCodeQuery}
+              emptyMessage="No journal entries yet. Use New Entry to create your first journal."
+              selectedCodes={selectedCodes}
+              onSelectionChange={setSelectedCodes}
+              onEditEntry={handleEditEntry}
+              onDeleteEntry={handleDeleteEntry}
+            />
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {!loading && totalPages > 1 && (
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 shadow-[0_-4px_10px_-4px_rgba(0,0,0,0.05)]">
+            <div className="text-xs text-gray-500 font-medium">
+              Showing <span className="font-bold text-gray-900">{(currentPage - 1) * PAGE_SIZE + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * PAGE_SIZE, journalEntries.length)}</span> of <span className="font-bold text-gray-900">{journalEntries.length}</span> entries
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="h-8 px-3 text-xs font-semibold border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+              >
+                Previous
+              </button>
+              <div className="h-8 px-3 flex items-center justify-center text-xs font-bold text-gray-900 bg-gray-100 rounded-md">
+                Page {currentPage} of {totalPages}
+              </div>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="h-8 px-3 text-xs font-semibold border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         )}
       </div>
 
@@ -585,6 +643,17 @@ export default function JournalPage() {
         companyId={companyId || ''}
         onSave={handleSave}
       />
+
+      {/* Edit dialog */}
+      {editingEntry && (
+        <ManualEntryDialog
+          open={!!editingEntry}
+          onOpenChange={(open) => { if (!open) setEditingEntry(null); }}
+          companyId={companyId || ''}
+          onSave={handleSave}
+          initialEntry={editingEntry}
+        />
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useCompany } from '@/hooks/useCompany';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
@@ -10,6 +10,7 @@ import { ProfitLossNotesStrip } from '@/components/financials/ProfitLossNotesStr
 import { DateRangeFilter } from '@/components/export/DateRangeFilter';
 import { ExportButtons } from '@/components/export/ExportButtons';
 import { exportElementAsImagePDF } from '@/components/export/exportUtils';
+import { BsNotesDrawer } from '@/components/financials/BsNotesDrawer';
 import { getCurrentFY } from '@/lib/utils/dateUtils';
 import { formatIndianCurrency } from '@/lib/utils/currencyFormat';
 import { ENTITY_TYPES } from '@/lib/constants/entityTypes';
@@ -17,12 +18,28 @@ import { getEntityConfig } from '@/lib/entityConfig';
 import { computeTradingAccount } from '@/lib/accounting/tradingAccountCompute';
 import { computeProfitLoss, computeScheduleIIIPL } from '@/lib/accounting/profitLossCompute';
 import type { EntityType } from '@/types/company';
+import { listJournalEntries } from '@/lib/offlineDb';
+
+/** Maps note number → scheduleIII group strings for the P&L drill-down drawer */
+const PL_NOTE_GROUPS: Record<string, string[]> = {
+  '1': ['Revenue from Operations'],
+  '2': ['Other Income'],
+  '3': ['Cost of Materials Consumed'],
+  '4': ['Changes in Inventories'],
+  '5': ['Employee Benefits Expense'],
+  '6': ['Finance Costs'],
+  '7': ['Depreciation & Amortisation'],
+  '8': ['Direct Expenses', 'Other Expenses — Administration', 'Other Expenses — Selling', 'Other Expenses — Write-offs', 'Other Expenses', 'GST — ITC'],
+};
 
 export default function ProfitLossPage() {
   const { company, companyId, loading: companyLoading } = useCompany();
   const fy = getCurrentFY();
   const [fromDate, setFromDate] = useState(fy.start);
   const [toDate, setToDate] = useState(fy.end);
+  const [openPLNote, setOpenPLNote] = useState<{ label: string; groups: string[] } | null>(null);
+  const [manualCurrentTax, setManualCurrentTax] = useState('');
+  const [manualDeferredTax, setManualDeferredTax] = useState('');
   const statementRef = useRef<HTMLDivElement | null>(null);
 
   const { entries, loading } = useJournalEntries({
@@ -38,6 +55,24 @@ export default function ProfitLossPage() {
     [entries, tradingAccount.grossProfit]
   );
   const scheduleIII = useMemo(() => computeScheduleIIIPL(entries), [entries]);
+
+  const allRange = useMemo(() => {
+    if (!companyId) return null;
+    const all = listJournalEntries(companyId);
+    if (!all.length) return null;
+    const dates = all.map((e) => e.entry_date).sort();
+    return { from: dates[0], to: dates[dates.length - 1] };
+  }, [companyId, entries]);
+
+  // Auto-expand date range so entries outside default FY are visible
+  const rangeExpanded = useRef(false);
+  useEffect(() => {
+    if (!allRange || rangeExpanded.current) return;
+    let changed = false;
+    if (allRange.from < fromDate) { setFromDate(allRange.from); changed = true; }
+    if (allRange.to > toDate) { setToDate(allRange.to); changed = true; }
+    if (changed) rangeExpanded.current = true;
+  }, [allRange, fromDate, toDate]);
 
   if (companyLoading || !company) {
     return <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
@@ -75,6 +110,14 @@ export default function ProfitLossPage() {
 
   const pl = scheduleIII;
 
+  // Manual tax overrides — empty string means "use computed"
+  const effCurrentTax = manualCurrentTax !== '' ? (parseFloat(manualCurrentTax) || 0) : pl.currentTaxExpense;
+  const effDeferredTax = manualDeferredTax !== '' ? (parseFloat(manualDeferredTax) || 0) : pl.deferredTaxExpense;
+  const effTotalTax = effCurrentTax + effDeferredTax + pl.otherTaxExpense;
+  const effProfitAfterTax = pl.profitBeforeTax - effTotalTax;
+  const effTotalCI = effProfitAfterTax + pl.oci;
+  const hasManualTax = manualCurrentTax !== '' || manualDeferredTax !== '';
+
   return (
     <div>
       <PageHeader
@@ -103,24 +146,29 @@ export default function ProfitLossPage() {
 
       {!loading && entries.length > 0 && (
         <div className={
-          (isScheduleIII ? scheduleIII.profitAfterTax : profitLoss.netProfit) >= 0
+          (isScheduleIII ? effProfitAfterTax : profitLoss.netProfit) >= 0
              ? "tally-ok" : "tally-err"}>
-          {(isScheduleIII ? scheduleIII.profitAfterTax : profitLoss.netProfit) >= 0
-            ? `Net Profit: ${formatIndianCurrency(isScheduleIII ? scheduleIII.profitAfterTax : profitLoss.netProfit)}`
-            : `Net Loss: ${formatIndianCurrency(Math.abs(isScheduleIII ? scheduleIII.profitAfterTax : profitLoss.netProfit))}`}
+          {(isScheduleIII ? effProfitAfterTax : profitLoss.netProfit) >= 0
+            ? `Net Profit: ${formatIndianCurrency(isScheduleIII ? effProfitAfterTax : profitLoss.netProfit)}`
+            : `Net Loss: ${formatIndianCurrency(Math.abs(isScheduleIII ? effProfitAfterTax : profitLoss.netProfit))}`}
         </div>
       )}
+
 
       {loading ? (
         <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
       ) : isScheduleIII ? (
-        <>
-          <div ref={statementRef}>
+        <div ref={statementRef}>
             <VerticalStatementFormat
               title="Statement of Profit and Loss"
               companyName={company.name}
               period={`For the year ended ${toDate}`}
               showPreviousYear={true}
+              onItemClick={(label, noteNo) => {
+                if (!noteNo) return;
+                const groups = PL_NOTE_GROUPS[noteNo];
+                if (groups) setOpenPLNote({ label, groups });
+              }}
               sections={[
                 {
                   heading: 'I. REVENUE FROM OPERATIONS',
@@ -198,21 +246,18 @@ export default function ProfitLossPage() {
                 {
                   heading: 'VIII. Tax Expense',
                   indent: 0,
-                  items: pl.taxExpenseBreakdown.length > 0
-                    ? pl.taxExpenseBreakdown.map(t => ({
-                      label: t.name, currentYear: t.amount, previousYear: null,
-                    }))
-                    : [
-                      { label: '(a) Current Tax', currentYear: 0, previousYear: null },
-                      { label: '(b) Deferred Tax', currentYear: 0, previousYear: null },
-                    ],
+                  items: [
+                    { label: '(a) Current Tax', currentYear: effCurrentTax, previousYear: null, editValue: manualCurrentTax, onEdit: (v: string) => setManualCurrentTax(v) },
+                    { label: '(b) Deferred Tax', currentYear: effDeferredTax, previousYear: null, editValue: manualDeferredTax, onEdit: (v: string) => setManualDeferredTax(v) },
+                    ...(pl.otherTaxExpense !== 0 ? [{ label: '(c) Other Tax', currentYear: pl.otherTaxExpense, previousYear: null }] : []),
+                  ],
                 },
                 {
                   heading: 'IX. PROFIT / (LOSS) FOR THE YEAR (VII - VIII)',
                   indent: 0,
                   items: [{
-                    label: pl.profitAfterTax >= 0 ? 'Profit for the year' : 'Loss for the year',
-                    currentYear: pl.profitAfterTax,
+                    label: effProfitAfterTax >= 0 ? 'Profit for the year' : 'Loss for the year',
+                    currentYear: effProfitAfterTax,
                     previousYear: null,
                     isBold: true,
                     isTotal: true,
@@ -221,14 +266,19 @@ export default function ProfitLossPage() {
                 {
                   heading: 'X. Other Comprehensive Income',
                   indent: 0,
-                  items: [{ label: 'Other Comprehensive Income', currentYear: 0, previousYear: null }],
+                  items: pl.ociBreakdown.length > 0
+                    ? [
+                        ...pl.ociBreakdown.map(o => ({ label: o.name, currentYear: o.amount, previousYear: null })),
+                        { label: 'Total OCI', currentYear: pl.oci, previousYear: null, isBold: true, isTotal: true },
+                      ]
+                    : [{ label: 'Other Comprehensive Income', currentYear: pl.oci, previousYear: null }],
                 },
                 {
-                  heading: 'XI. TOTAL COMPREHENSIVE INCOME',
+                  heading: 'XI. TOTAL COMPREHENSIVE INCOME (IX + X)',
                   indent: 0,
                   items: [{
                     label: 'Total Comprehensive Income',
-                    currentYear: pl.profitAfterTax,
+                    currentYear: effTotalCI,
                     previousYear: null,
                     isBold: true,
                     isTotal: true,
@@ -244,23 +294,7 @@ export default function ProfitLossPage() {
                 },
               ]}
             />
-          </div>
-          <ProfitLossNotesStrip
-            visible={true}
-            companyName={company.name}
-            entityLabel={entityLabel}
-            period={`${fromDate} to ${toDate}`}
-            revenueFromOperations={pl.revenueFromOperations}
-            revenueBreakdown={pl.revenueFromOperationsBreakdown}
-            otherIncomeBreakdown={pl.otherIncomeBreakdown}
-            costOfMaterialsBreakdown={pl.costOfMaterialsBreakdown}
-            changesInInventoriesBreakdown={pl.changesInInventoriesBreakdown}
-            employeeBenefitsBreakdown={pl.employeeBenefitsBreakdown}
-            financeCostsBreakdown={pl.financeCostsBreakdown}
-            depreciationBreakdown={pl.depreciationAmortisationBreakdown}
-            otherExpensesBreakdown={pl.otherExpensesBreakdown}
-          />
-        </>
+        </div>
       ) : (
         <div ref={statementRef}>
           <TAccountFormat
@@ -283,6 +317,38 @@ export default function ProfitLossPage() {
             rightTotal={balancedTotal}
           />
         </div>
+      )}
+
+      {/* Notes to Accounts — below the statement (Schedule III only) */}
+      {!loading && isScheduleIII && (
+        <ProfitLossNotesStrip
+          companyId={companyId || ''}
+          visible={true}
+          companyName={company.name}
+          entityLabel={entityLabel}
+          period={`${fromDate} to ${toDate}`}
+          revenueFromOperations={pl.revenueFromOperations}
+          revenueBreakdown={pl.revenueFromOperationsBreakdown}
+          otherIncomeBreakdown={pl.otherIncomeBreakdown}
+          costOfMaterialsBreakdown={pl.costOfMaterialsBreakdown}
+          changesInInventoriesBreakdown={pl.changesInInventoriesBreakdown}
+          employeeBenefitsBreakdown={pl.employeeBenefitsBreakdown}
+          financeCostsBreakdown={pl.financeCostsBreakdown}
+          depreciationBreakdown={pl.depreciationAmortisationBreakdown}
+          otherExpensesBreakdown={pl.otherExpensesBreakdown}
+        />
+      )}
+
+      {/* P&L drill-down drawer */}
+      {openPLNote && (
+        <BsNotesDrawer
+          companyId={companyId || ''}
+          label={openPLNote.label}
+          groups={openPLNote.groups}
+          entries={entries}
+          sectionLabel="Profit & Loss"
+          onClose={() => setOpenPLNote(null)}
+        />
       )}
     </div>
   );

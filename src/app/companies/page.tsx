@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { listCompanies, deleteCompany } from '@/lib/offlineDb';
 import { ENTITY_TYPES, type EntityType } from '@/lib/constants/entityTypes';
-import { Plus, Search, Trash2, ArrowRight, Building2 } from 'lucide-react';
+import { Plus, Search, Trash2, ArrowRight, Building2, PhoneCall, Phone, Award, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
 import type { Company } from '@/types/company';
+import SignUpForm, { type UserRegistration } from './SignUpForm';
 
 const ENTITY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   sole_proprietorship: { bg: 'bg-blue-50',   text: 'text-blue-700',   border: 'border-blue-100' },
@@ -21,16 +22,42 @@ const ENTITY_COLORS: Record<string, { bg: string; text: string; border: string }
   cooperative:        { bg: 'bg-cyan-50',    text: 'text-cyan-700',   border: 'border-cyan-100' },
 };
 
+// Read registration status synchronously — runs once before the very first render.
+// This means the form can NEVER appear if the user has already registered,
+// regardless of navigation method (browser back, direct URL, refresh, etc.).
+function readRegistration(): UserRegistration | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const alreadyRegistered = localStorage.getItem('ca_studio_registered') === '1';
+    const raw = localStorage.getItem('ca_user_registration');
+    if (raw) {
+      return JSON.parse(raw) as UserRegistration;
+    }
+    if (alreadyRegistered) {
+      // Sentinel flag set but full JSON missing — treat as registered with placeholder
+      return { name: '', phone: '', email: '', state: '', city: '', profession: '', expertise: [] };
+    }
+  } catch {
+    // If anything goes wrong, fall back to showing the form
+  }
+  return null;
+}
+
 export default function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading]     = useState(true);
   const [search, setSearch]       = useState('');
+  // Lazy initializer: localStorage is read synchronously on first render — no async delay.
+  const [registrationData, setRegistrationData] = useState<UserRegistration | null>(readRegistration);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
-  const load = () => {
-    setCompanies(listCompanies());
-    setLoading(false);
-  };
-  useEffect(load, []);
+  // Load companies list whenever we have registration data
+  useEffect(() => {
+    if (registrationData) {
+      setCompanies(listCompanies());
+      setLoading(false);
+    }
+  }, [registrationData]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -41,12 +68,20 @@ export default function CompaniesPage() {
     );
   }, [companies, search]);
 
+  // Guard: if not registered, show the form. Because readRegistration() runs
+  // synchronously, this decision is made on the very first render — no spinner,
+  // no flash, no way for a registered user to ever see this form again.
+  if (!registrationData) {
+    return <SignUpForm onSuccess={(data) => setRegistrationData(data)} />;
+  }
+
   const handleDelete = (e: React.MouseEvent, company: Company) => {
     e.preventDefault();
     e.stopPropagation();
     if (!confirm(`Delete "${company.name}"?\n\nAll journal entries for this company will be permanently deleted.`)) return;
     deleteCompany(company.id);
-    load();
+    setCompanies(listCompanies());
+    setLoading(false);
     toast.success(`${company.name} deleted`);
   };
 
@@ -180,6 +215,107 @@ export default function CompaniesPage() {
               })}
             </div>
           </>
+        )}
+
+        {/* ── Contact Us Banner ── */}
+        <footer className="mt-12 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm shadow-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 bg-gradient-to-b from-blue-600 to-indigo-600 h-full" />
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 shadow-sm">
+              <PhoneCall className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Questions or need assistance?</h3>
+              <p className="text-xs text-slate-550 mt-0.5 leading-relaxed font-medium">
+                You can pre-register for upcoming modules or get support from our activation agents immediately.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <button onClick={() => setShowDetailsModal(true)} className="flex-1 md:flex-none inline-flex items-center justify-center h-10 px-5 text-xs font-bold text-slate-650 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm cursor-pointer">
+              View Registered Profile
+            </button>
+            <div className="flex-1 md:flex-none inline-flex flex-col items-center justify-center gap-0.5 h-10 px-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-[0_3px_10px_0_rgba(37,99,235,0.25)]">
+              <span className="text-[10px] font-semibold opacity-80 leading-none">Pre-register / Contact Us</span>
+              <span className="text-xs font-bold tracking-wide leading-none">9740018205 &nbsp;·&nbsp; 87222 51178</span>
+            </div>
+          </div>
+        </footer>
+
+        {/* ── Registered Profile Details Modal ── */}
+        {showDetailsModal && registrationData && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setShowDetailsModal(false)}>
+            <div className="bg-white border border-slate-200 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+                <div>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">User Settings</p>
+                  <p className="text-base font-black text-slate-900 mt-0.5">Registered Profile Details</p>
+                </div>
+                <button onClick={() => setShowDetailsModal(false)} className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-colors">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Full Name</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block">{registrationData.name}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Phone Number</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block font-mono">{registrationData.phone}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email Address</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block font-mono">{registrationData.email}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">State</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block">{registrationData.state}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">City</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block">{registrationData.city}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Profession</span>
+                    <span className="text-sm font-bold text-slate-800 mt-0.5 block capitalize">
+                      {registrationData.profession.replace('_', ' ')}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Areas of Expertise</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {registrationData.expertise.map(exp => (
+                      <span key={exp} className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-xs font-bold text-blue-700">
+                        <Award className="h-3 w-3 shrink-0" />
+                        {exp}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="flex gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+                <button onClick={() => {
+                  setShowDetailsModal(false);
+                  localStorage.removeItem('ca_user_registration');
+                  setRegistrationData(null);
+                }} className="w-full h-11 text-xs font-bold text-red-650 hover:bg-red-50 hover:border-red-200 border border-transparent rounded-xl transition-all cursor-pointer">
+                  Update Registered Info
+                </button>
+                <button onClick={() => setShowDetailsModal(false)} className="w-full h-11 text-xs font-bold text-slate-600 border border-slate-200 rounded-xl bg-white hover:bg-slate-50 transition-all shadow-sm cursor-pointer">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </div>

@@ -1,5 +1,6 @@
 export type EntityType =
   | 'sole_proprietorship'
+  | 'individual'
   | 'partnership'
   | 'llp'
   | 'opc'
@@ -10,8 +11,7 @@ export type EntityType =
   | 'society'
   | 'section8'
   | 'aop_boi'
-  | 'cooperative'
-  | 'bulk_pvt_ltd';
+  | 'cooperative';
 
 export type GSTStatus = 'unregistered' | 'regular' | 'composition';
 export type AccountingMethod = 'mercantile' | 'cash';
@@ -40,17 +40,25 @@ export interface ShareCapitalDetail {
 export interface EntityDetails {
   // Common
   pan?: string;
+  tan?: string;
   address?: string;
   city?: string;
   state?: string;
   pincode?: string;
   phone?: string;
   email?: string;
+  tradeName?: string;
+
+  // Individual
+  aadhaar?: string;
+  dob?: string;
 
   // Partnership / LLP
   partners?: PartnerDetail[];
   capitalMethod?: 'fixed' | 'fluctuating';
   goodwillMethod?: 'average_profit' | 'super_profit' | 'capitalisation';
+  llpin?: string;
+  dateOfIncorporation?: string; // used for LLP formation date or partnership deed date
 
   // Company (OPC, Pvt Ltd, Public Ltd, Section 8)
   cin?: string;

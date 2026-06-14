@@ -11,17 +11,18 @@
 
 import * as XLSX from 'xlsx';
 import type { ImportResult, SuspenseTransaction, BulkLedgerEntry } from './types';
-import { bulkInsertSuspense, bulkInsertLedgerEntries, appendAuditLog, upsertLedgerAccount } from './bulkDb';
+import { bulkInsertSuspense, bulkInsertLedgerEntries, appendAuditLog, upsertLedgerAccount, getSuspenseTransactions } from './bulkDb';
 import { round2 } from './bulkLedger';
 
 // ── Column detection ──────────────────────────────────────────────────────────
 
-const DATE_ALIASES = ['date', 'txn date', 'transaction date', 'value date', 'posting date', 'tran date'];
+const DATE_ALIASES = ['value date', 'txn date', 'tran date', 'posting date', 'transaction date', 'date'];
 const NARRATION_ALIASES = ['narration', 'description', 'particulars', 'remarks', 'details', 'transaction remarks', 'tran remarks'];
 const REF_ALIASES = ['reference', 'ref no', 'reference no', 'chq/ref number', 'chq no', 'ref', 'cheque no', 'utr'];
-const DEBIT_ALIASES = ['debit', 'withdrawal', 'withdrawals', 'debit amount', 'dr amount', 'dr', 'payment'];
-const CREDIT_ALIASES = ['credit', 'deposit', 'deposits', 'credit amount', 'cr amount', 'cr', 'receipt'];
-const BALANCE_ALIASES = ['balance', 'closing balance', 'running balance', 'available balance'];
+const DEBIT_ALIASES = ['debit', 'withdrawal', 'withdrawals', 'debit amount', 'dr amount', 'payment']; // removed generic 'dr' to avoid matching 'dr / cr'
+const CREDIT_ALIASES = ['credit', 'deposit', 'deposits', 'credit amount', 'cr amount', 'receipt']; // removed generic 'cr'
+const AMOUNT_ALIASES = ['amount', 'txn amount', 'transaction amount'];
+const DR_CR_ALIASES = ['dr / cr', 'dr/cr', 'type', 'indicator'];
 
 function findCol(headers: string[], aliases: string[]): number {
   const lower = headers.map((h) => h.toLowerCase().trim());
@@ -32,47 +33,77 @@ function findCol(headers: string[], aliases: string[]): number {
   return -1;
 }
 
-function parseAmount(val: string | number | null | undefined): number {
+function parseAmount(val: unknown): number {
   if (val == null || val === '') return 0;
   const str = String(val).replace(/[₹,\s]/g, '').trim();
   const n = parseFloat(str);
   return isNaN(n) ? 0 : round2(Math.abs(n));
 }
 
-function parseDate(val: string | number | null | undefined): string | null {
-  if (!val) return null;
-  // SheetJS with cellDates:true returns Date objects as strings already
+function parseDate(val: unknown): string | null {
+  if (val == null || val === '') return null;
+
+  // Handle JS Date objects (SheetJS returns these when cellDates: true for Excel date cells)
+  if (val instanceof Date) {
+    if (isNaN(val.getTime())) return null;
+    const y = val.getUTCFullYear();
+    const mo = String(val.getUTCMonth() + 1).padStart(2, '0');
+    const dy = String(val.getUTCDate()).padStart(2, '0');
+    return `${y}-${mo}-${dy}`;
+  }
+
   const str = String(val).trim();
-  // Try to extract date from various formats
-  const patterns = [
-    /^(\d{4})-(\d{2})-(\d{2})/, // YYYY-MM-DD
-    /^(\d{2})\/(\d{2})\/(\d{4})/, // DD/MM/YYYY
-    /^(\d{2})-(\d{2})-(\d{4})/, // DD-MM-YYYY
-    /^(\d{2})-(\w{3})-(\d{4})/i, // DD-Mon-YYYY
-    /^(\d{2})\/(\d{2})\/(\d{2})$/, // DD/MM/YY
-  ];
+  if (!str) return null;
 
-  for (const pat of patterns) {
-    const m = str.match(pat);
-    if (!m) continue;
-    try {
-      const d = new Date(str);
-      if (!isNaN(d.getTime())) {
-        return d.toISOString().split('T')[0];
-      }
-    } catch {
-      // ignore
-    }
+  // Indian-first string parsing — NO JS Date fallback (it is US MM/DD biased)
+
+  // 1. YYYY-MM-DD (ISO) — e.g. 2025-11-07
+  const m1 = str.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+  if (m1) return `${m1[1]}-${m1[2].padStart(2, '0')}-${m1[3].padStart(2, '0')}`;
+
+  // 2. DD/MM/YYYY or DD-MM-YYYY or DD.MM.YYYY (Indian standard)
+  // Handles both 07-11-2025 and 7-11-2025 (with or without leading zero)
+  const m2 = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+  if (m2) return `${m2[3]}-${m2[2].padStart(2, '0')}-${m2[1].padStart(2, '0')}`;
+
+  // 3. DD-Mon-YYYY or D-Mon-YYYY (e.g. 15-Jan-2024, 7-Nov-2025)
+  const m3 = str.match(/^(\d{1,2})[-/ ]([A-Za-z]{3})[-/ ](\d{4})/);
+  if (m3) {
+    const months: Record<string, string> = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const mo = months[m3[2].toLowerCase()];
+    if (mo) return `${m3[3]}-${mo}-${m3[1].padStart(2, '0')}`;
   }
 
-  // Fallback: just try Date constructor
-  try {
-    const d = new Date(str);
-    if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
-  } catch {
-    // ignore
+  // 4. DD/MM/YY or DD-MM-YY (2-digit year)
+  const m4 = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2})$/);
+  if (m4) {
+    const yr = parseInt(m4[3]);
+    const fullYr = yr < 50 ? 2000 + yr : 1900 + yr;
+    return `${fullYr}-${m4[2].padStart(2, '0')}-${m4[1].padStart(2, '0')}`;
   }
-  return null;
+
+  return null; // No JS Date fallback — dangerous for Indian dates
+}
+
+// ── Duplicate detection ───────────────────────────────────────────────────────
+
+function txnFingerprintRaw(
+  txnDate: string | null,
+  amount: number,
+  direction: string,
+  referenceNo: string,
+  narration: string,
+): string {
+  // If a reference number (UTR/cheque) is present, use it — globally unique in India
+  if (referenceNo.trim()) {
+    return `${txnDate}|${amount}|${direction}|ref:${referenceNo.trim()}`;
+  }
+  // Otherwise match on date + amount + direction + first 60 chars of narration (case-insensitive)
+  return `${txnDate}|${amount}|${direction}|nar:${narration.trim().slice(0, 60).toLowerCase()}`;
+}
+
+function txnFingerprint(t: SuspenseTransaction): string {
+  return txnFingerprintRaw(t.txnDate, t.amount, t.direction, t.referenceNo, t.narration);
 }
 
 // ── Main import function ──────────────────────────────────────────────────────
@@ -85,19 +116,19 @@ export async function importBankCSV(
   const arrayBuffer = await file.arrayBuffer();
   const wb = XLSX.read(new Uint8Array(arrayBuffer), {
     type: 'array',
-    cellDates: false, // keep as strings for flexible date parsing
-    raw: false,
+    cellDates: true, // return Excel date serials as JS Date objects (avoids SheetJS US-bias string formatting)
+    raw: true,       // don't auto-coerce CSV strings — prevents "07-11-2025" being re-parsed as July 11
   });
 
   // Use first sheet
   const sheetName = wb.SheetNames[0];
   const ws = wb.Sheets[sheetName];
 
-  const rows = XLSX.utils.sheet_to_json<string[]>(ws, {
+  const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, {
     header: 1,
     defval: '',
-    raw: false,
-  }) as string[][];
+    raw: true, // get raw values: Date objects for date cells, numbers for numeric cells, strings as-is
+  }) as unknown[][];
 
   // Find the header row (first row with recognisable column names)
   let headerRowIdx = 0;
@@ -124,12 +155,18 @@ export async function importBankCSV(
   const dateCol = findCol(headers, DATE_ALIASES);
   const narCol = findCol(headers, NARRATION_ALIASES);
   const refCol = findCol(headers, REF_ALIASES);
-  const drCol = findCol(headers, DEBIT_ALIASES);
-  const crCol = findCol(headers, CREDIT_ALIASES);
+  let drCol = findCol(headers, DEBIT_ALIASES);
+  let crCol = findCol(headers, CREDIT_ALIASES);
+  const amtCol = findCol(headers, AMOUNT_ALIASES);
+  const drCrCol = findCol(headers, DR_CR_ALIASES);
 
-  if (narCol < 0 && drCol < 0 && crCol < 0) {
+  // Fallback if strict DR/CR aliases fail, sometimes they are just 'dr' and 'cr' exactly
+  if (drCol < 0) drCol = headers.findIndex(h => h.toLowerCase().trim() === 'dr');
+  if (crCol < 0) crCol = headers.findIndex(h => h.toLowerCase().trim() === 'cr');
+
+  if (narCol < 0 && drCol < 0 && crCol < 0 && amtCol < 0) {
     throw new Error(
-      'Could not detect bank statement columns. Please ensure your CSV has headers like Date, Narration/Description, Debit/Withdrawal, Credit/Deposit.',
+      'Could not detect bank statement columns. Please ensure your CSV has headers like Date, Narration/Description, Debit/Credit or Amount + Dr/Cr.',
     );
   }
 
@@ -141,25 +178,68 @@ export async function importBankCSV(
     createdBy: 'MANUAL',
   });
 
+  const MAX_BATCH = 4000; // localStorage safety cap — re-upload same file for next batch (dupes auto-skipped)
+
   const batchId = crypto.randomUUID();
   const suspenseRows: SuspenseTransaction[] = [];
   const bankEntries: BulkLedgerEntry[] = [];
   const now = new Date().toISOString();
 
+  // Build dedup fingerprint set from already-imported rows for this company+FY
+  const existingRows = getSuspenseTransactions(companyId, fy);
+  const seen = new Set<string>(existingRows.map(txnFingerprint));
+
   let rowsImported = 0;
+  let rowsSkipped = 0;
+  let truncated = false;
   let totalPayments = 0;
   let totalReceipts = 0;
 
   const dataRows = rows.slice(headerRowIdx + 1);
+
+  let lastSeenDate: string | null = null;
 
   dataRows.forEach((row, idx) => {
     // Skip completely empty rows
     if (!row || row.every((c) => String(c ?? '').trim() === '')) return;
 
     const narration = narCol >= 0 ? String(row[narCol] ?? '').trim() : '';
-    const drAmt = drCol >= 0 ? parseAmount(row[drCol]) : 0;
-    const crAmt = crCol >= 0 ? parseAmount(row[crCol]) : 0;
-    const dateStr = dateCol >= 0 ? parseDate(row[dateCol]) : null;
+
+    let drAmt = 0;
+    let crAmt = 0;
+
+    if (drCol >= 0 && crCol >= 0) {
+      drAmt = parseAmount(row[drCol]);
+      crAmt = parseAmount(row[crCol]);
+    } else if (amtCol >= 0 && drCrCol >= 0) {
+      const amt = parseAmount(row[amtCol]);
+      const indicator = String(row[drCrCol] ?? '').trim().toUpperCase();
+      if (indicator === 'DR' || indicator === 'DEBIT') {
+        drAmt = amt;
+      } else if (indicator === 'CR' || indicator === 'CREDIT') {
+        crAmt = amt;
+      }
+    } else if (amtCol >= 0) {
+      const raw = String(row[amtCol] ?? '').trim().toUpperCase();
+      if (raw.startsWith('-') || raw.includes('DR')) {
+        drAmt = parseAmount(raw);
+      } else {
+        crAmt = parseAmount(raw);
+      }
+    } else {
+      drAmt = drCol >= 0 ? parseAmount(row[drCol]) : 0;
+      crAmt = crCol >= 0 ? parseAmount(row[crCol]) : 0;
+    }
+
+    let dateStr = dateCol >= 0 ? parseDate(row[dateCol]) : null;
+
+    // Inherit the last seen date if the bank left this row's date blank
+    if (dateStr) {
+      lastSeenDate = dateStr;
+    } else if (!dateStr && lastSeenDate) {
+      dateStr = lastSeenDate;
+    }
+
     const refNo = refCol >= 0 ? String(row[refCol] ?? '').trim() : '';
 
     // Skip rows where both debit and credit are zero (might be balance row etc.)
@@ -167,6 +247,14 @@ export async function importBankCSV(
 
     const amount = drAmt > 0 ? drAmt : crAmt;
     const direction = drAmt > 0 ? 'PAYMENT' : 'RECEIPT';
+
+    // Duplicate check — skip if this exact transaction was already imported
+    const fp = txnFingerprintRaw(dateStr, amount, direction, refNo, narration);
+    if (seen.has(fp)) { rowsSkipped++; return; }
+    seen.add(fp);
+
+    // Batch cap — stop at 4000 new rows; user re-uploads same file for next batch
+    if (rowsImported >= MAX_BATCH) { truncated = true; return; }
 
     const suspenseId = crypto.randomUUID();
 
@@ -215,8 +303,11 @@ export async function importBankCSV(
     rowsImported++;
   });
 
-  if (rowsImported === 0) {
+  if (rowsImported === 0 && rowsSkipped === 0) {
     throw new Error('No valid transaction rows found in the CSV. Please check the file format.');
+  }
+  if (rowsImported === 0 && rowsSkipped > 0) {
+    throw new Error(`All ${rowsSkipped} rows in this file were already imported. No new transactions added.`);
   }
 
   // Bulk insert
@@ -230,11 +321,12 @@ export async function importBankCSV(
       fileName: file.name,
       batchId,
       rowsImported,
+      rowsSkipped,
       totalPayments,
       totalReceipts,
       fy,
     },
   });
 
-  return { batchId, rowsImported, totalPayments, totalReceipts };
+  return { batchId, rowsImported, rowsSkipped, truncated, totalPayments, totalReceipts };
 }

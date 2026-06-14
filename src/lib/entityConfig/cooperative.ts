@@ -33,5 +33,6 @@ export const cooperativeConfig: EntityConfig = {
     contingentLiabilities: true, directorsReport: false, caro: false, costRecords: 'never', formN: true,
     salesInvoice: true, purchaseVoucher: true, paymentVoucher: true,
     receiptVoucher: true, debitNote: true, creditNote: true,
+    bankImport: true,
   },
 };

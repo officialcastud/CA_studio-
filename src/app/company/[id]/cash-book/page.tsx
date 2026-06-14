@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { useCompany } from '@/hooks/useCompany';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
@@ -40,6 +40,16 @@ export default function CashBookPage() {
     if (!all.length) return null;
     return { from: all[0].entry_date, to: all[all.length - 1].entry_date };
   }, [companyId, entries]);
+
+  // Auto-expand date range so entries outside default FY are visible
+  const rangeExpanded = useRef(false);
+  useEffect(() => {
+    if (!allRange || rangeExpanded.current) return;
+    let changed = false;
+    if (allRange.from < fromDate) { setFromDate(allRange.from); changed = true; }
+    if (allRange.to > toDate) { setToDate(allRange.to); changed = true; }
+    if (changed) rangeExpanded.current = true;
+  }, [allRange, fromDate, toDate]);
 
   if (companyLoading || !company) {
     return (

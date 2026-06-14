@@ -9,7 +9,8 @@ interface Props {
 
 export function CreateLedgerModal({ onConfirm, onClose }: Props) {
   const [name, setName] = useState('');
-  const [group, setGroup] = useState('');
+  const [group, setGroup] = useState('');        // scheduleIII value — stored in BulkLedgerAccount.group
+  const [groupLabel, setGroupLabel] = useState(''); // Tally label — shown in dropdown
   const [accountType, setAccountType] = useState('');
   const [error, setError] = useState('');
 
@@ -20,10 +21,9 @@ export function CreateLedgerModal({ onConfirm, onClose }: Props) {
   }));
 
   const handleGroupChange = (label: string) => {
-    setGroup(label);
-    // Auto-fill accountType from the selected group's nature
+    setGroupLabel(label);
     const found = LEDGER_GROUPS.find((g) => g.label === label);
-    if (found) setAccountType(found.nature);
+    if (found) { setGroup(found.scheduleIII); setAccountType(found.nature); }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -71,7 +71,7 @@ export function CreateLedgerModal({ onConfirm, onClose }: Props) {
               Under (Group) *
             </label>
             <select
-              value={group}
+              value={groupLabel}
               onChange={(e) => handleGroupChange(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
             >

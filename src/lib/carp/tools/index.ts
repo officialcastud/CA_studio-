@@ -55,7 +55,7 @@ export const CARP_TOOLS: ToolDeclaration[] = [
   ...validationDeclarations,
   // Excel (1)
   ...excelDeclarations,
-  // Bulk Private Limited (8)
+  // Bulk Workspace (8)
   ...bulkDeclarations,
 ];
 

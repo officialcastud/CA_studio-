@@ -107,6 +107,8 @@ export function ImportCSVModal({ companyId, fy, onSuccess, onClose }: Props) {
                 <p>Narration: <span className="font-mono">Narration, Description, Particulars, Remarks</span></p>
                 <p>Debit: <span className="font-mono">Debit, Withdrawal, Dr Amount, Payment</span></p>
                 <p>Credit: <span className="font-mono">Credit, Deposit, Cr Amount, Receipt</span></p>
+                <p>Amount: <span className="font-mono">Amount, Txn Amount</span></p>
+                <p>Indicator: <span className="font-mono">Dr / Cr, Type</span></p>
               </div>
 
               {error && (
@@ -146,9 +148,24 @@ export function ImportCSVModal({ companyId, fy, onSuccess, onClose }: Props) {
                 <CheckCircle className="h-5 w-5 shrink-0" />
                 <div>
                   <p className="font-semibold text-sm">Import Successful!</p>
-                  <p className="text-xs mt-0.5">{result.rowsImported.toLocaleString()} rows imported</p>
+                  <p className="text-xs mt-0.5">
+                    {result.rowsImported.toLocaleString()} rows imported
+                    {result.rowsSkipped > 0 && (
+                      <span className="text-amber-600"> · {result.rowsSkipped.toLocaleString()} duplicates skipped</span>
+                    )}
+                  </p>
                 </div>
               </div>
+
+              {result.truncated && (
+                <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2.5">
+                  <span className="text-amber-500 text-base leading-none mt-0.5">⚠</span>
+                  <div className="text-xs text-amber-800">
+                    <p className="font-semibold">Only first 4,000 transactions imported</p>
+                    <p className="mt-0.5">Your file has more rows. Re-upload the <strong>same file</strong> to import the next batch — already-imported rows are automatically skipped.</p>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-lg p-3 text-center">

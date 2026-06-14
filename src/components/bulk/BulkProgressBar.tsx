@@ -2,9 +2,10 @@ import type { BulkProgress } from '@/lib/bulk/types';
 
 interface Props {
   progress: BulkProgress;
+  compact?: boolean;
 }
 
-export function BulkProgressBar({ progress }: Props) {
+export function BulkProgressBar({ progress, compact }: Props) {
   const { totalRows, allocated, remaining, completionPct } = progress;
 
   const barColor =
@@ -15,6 +16,23 @@ export function BulkProgressBar({ progress }: Props) {
         : completionPct >= 50
           ? 'bg-yellow-500'
           : 'bg-orange-500';
+
+  if (compact) {
+    return (
+      <div className="flex items-center gap-3 w-full">
+        <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-500 ${barColor}`}
+            style={{ width: `${completionPct}%` }}
+          />
+        </div>
+        <div className="flex items-center gap-2 text-[10px] font-medium whitespace-nowrap">
+          <span className="text-gray-900">{allocated} / {totalRows}</span>
+          <span className="text-gray-400">({completionPct}%)</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4">

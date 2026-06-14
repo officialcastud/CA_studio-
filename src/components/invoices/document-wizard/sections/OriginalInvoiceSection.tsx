@@ -11,6 +11,7 @@ interface SalesOrigProps {
   existingInvoices: InvoiceV2[];
   selectOriginalInvoice: (inv: InvoiceV2) => void;
   mode: DocumentMode;
+  invalidFields?: string[];
 }
 
 interface PurchaseOrigProps {
@@ -20,9 +21,14 @@ interface PurchaseOrigProps {
   existingPurchases: PurchaseInvoice[];
   selectOriginalPurchase: (inv: PurchaseInvoice) => void;
   mode: DocumentMode;
+  invalidFields?: string[];
 }
 
 type OriginalInvoiceSectionProps = SalesOrigProps | PurchaseOrigProps;
+
+function err(invalidFields: string[] | undefined, key: string) {
+  return invalidFields?.includes(key) ? 'border-red-500 bg-red-50' : '';
+}
 
 export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,7 +43,7 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
   const accentInputBorder = isSales ? 'border-rose-300' : 'border-amber-300';
 
   if (props.kind === 'sales') {
-    const { invoice, updateInvoice, existingInvoices, selectOriginalInvoice } = props;
+    const { invoice, updateInvoice, existingInvoices, selectOriginalInvoice, invalidFields } = props;
 
     const filtered = useMemo(() => {
       if (!searchTerm.trim()) return existingInvoices.slice(0, 10);
@@ -63,9 +69,12 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
               }}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-              className={`h-8 w-full rounded-lg border ${accentInputBorder} bg-white px-3 text-xs font-semibold`}
+              className={`h-8 w-full rounded-lg border ${err(invalidFields, 'original_invoice_no') || accentInputBorder} bg-white px-3 text-xs font-semibold`}
               placeholder="Search or type invoice no..."
             />
+            {invalidFields?.includes('original_invoice_no') && (
+              <span className="text-[10px] text-red-600">Original invoice number is required</span>
+            )}
             {isOpen && filtered.length > 0 && (
               <div className="absolute left-0 right-0 top-full z-10 mt-1 max-h-48 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
                 {filtered.map((inv) => (
@@ -93,8 +102,11 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
               type="date"
               value={invoice.original_invoice_date || ''}
               onChange={(e) => updateInvoice({ original_invoice_date: e.target.value })}
-              className={`h-8 w-full rounded-lg border ${accentInputBorder} bg-white px-3 text-xs font-semibold`}
+              className={`h-8 w-full rounded-lg border ${err(invalidFields, 'original_invoice_date') || accentInputBorder} bg-white px-3 text-xs font-semibold`}
             />
+            {invalidFields?.includes('original_invoice_date') && (
+              <span className="text-[10px] text-red-600">Original invoice date is required</span>
+            )}
           </label>
           <label>
             <span className={`mb-1 block text-[11px] font-semibold ${accentLabelColor}`}>Reason</span>
@@ -121,7 +133,7 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
   }
 
   // Purchase returns
-  const { fields, updateField, existingPurchases, selectOriginalPurchase } = props;
+  const { fields, updateField, existingPurchases, selectOriginalPurchase, invalidFields } = props;
 
   const filtered = useMemo(() => {
     if (!searchTerm.trim()) return existingPurchases.slice(0, 10);
@@ -144,9 +156,12 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
             }}
             onFocus={() => setIsOpen(true)}
             onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-            className={`h-8 w-full rounded-lg border ${accentInputBorder} bg-white px-3 text-xs font-semibold`}
+            className={`h-8 w-full rounded-lg border ${err(invalidFields, 'origInvNo') || accentInputBorder} bg-white px-3 text-xs font-semibold`}
             placeholder="Search or type invoice no..."
           />
+          {invalidFields?.includes('origInvNo') && (
+            <span className="text-[10px] text-red-600">Original invoice number is required</span>
+          )}
           {isOpen && filtered.length > 0 && (
             <div className="absolute left-0 right-0 top-full z-10 mt-1 max-h-48 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
               {filtered.map((inv) => (
@@ -174,8 +189,11 @@ export function OriginalInvoiceSection(props: OriginalInvoiceSectionProps) {
             type="date"
             value={fields.origInvDate}
             onChange={(e) => updateField('origInvDate', e.target.value)}
-            className={`h-8 w-full rounded-lg border ${accentInputBorder} bg-white px-3 text-xs font-semibold`}
+            className={`h-8 w-full rounded-lg border ${err(invalidFields, 'origInvDate') || accentInputBorder} bg-white px-3 text-xs font-semibold`}
           />
+          {invalidFields?.includes('origInvDate') && (
+            <span className="text-[10px] text-red-600">Original invoice date is required</span>
+          )}
         </label>
         <label>
           <span className={`mb-1 block text-[11px] font-semibold ${accentLabelColor}`}>Reason</span>
