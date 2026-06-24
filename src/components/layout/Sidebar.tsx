@@ -118,23 +118,6 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
       ...(nav.cashBook ? [{ label: 'Cash Book', href: `${base}/cash-book`, icon: Wallet }] : []),
     ]});
 
-    // QUICK ACCESS — shortcuts moved here from the company dashboard (placed above Registers)
-    const quickItems: NavItem[] = [];
-    if (nav.journal) quickItems.push({ label: 'Journal', href: `${base}/journal`, icon: BookOpen });
-    if (nav.trialBalance) quickItems.push({ label: 'Trial Balance', href: `${base}/trial-balance`, icon: Scale });
-    if (nav.profitLoss) quickItems.push({ label: 'Profit & Loss', href: `${base}/profit-loss`, icon: TrendingUp });
-    if (nav.balanceSheet) quickItems.push({ label: 'Balance Sheet', href: `${base}/balance-sheet`, icon: Building2 });
-    if (nav.gst !== 'never') quickItems.push({ label: 'GST', href: `${base}/gst`, icon: Receipt });
-    if (nav.incomeTax || nav.taxComputation) quickItems.push({ label: nav.taxComputation ? 'Tax Computation' : 'Income Tax', href: `${base}/income-tax`, icon: Calculator });
-    if (nav.cashBook) quickItems.push({ label: 'Cash Book', href: `${base}/cash-book`, icon: Wallet });
-    if (nav.ledger) quickItems.push({ label: 'Ledger', href: `${base}/ledger`, icon: FileText });
-    if (nav.debtors) quickItems.push({ label: 'Debtors', href: `${base}/debtors`, icon: Users });
-    if (nav.creditors) quickItems.push({ label: 'Creditors', href: `${base}/creditors`, icon: Users });
-    if (nav.inventory !== 'never' && company?.inventory_enabled) quickItems.push({ label: 'Inventory', href: `${base}/inventory`, icon: Package });
-    if (nav.cashFlowStatement !== 'never') quickItems.push({ label: 'Cash Flow', href: `${base}/cash-flow`, icon: ArrowRightLeft });
-    if (nav.audit !== 'never') quickItems.push({ label: 'Audit', href: `${base}/audit`, icon: ShieldCheck });
-    if (quickItems.length > 0) g.push({ heading: 'QUICK ACCESS', items: quickItems });
-
     const registerItems: NavItem[] = [];
     if (nav.purchaseRegister !== 'never') registerItems.push({ label: 'Purchase', href: `${base}/purchase-register`, icon: ClipboardList });
     if (nav.salesRegister !== 'never') registerItems.push({ label: 'Sales', href: `${base}/sales-register`, icon: ClipboardList });
@@ -192,6 +175,7 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (nav.deferredTax) taxItems.push({ label: 'Deferred Tax', href: `${base}/deferred-tax`, icon: Clock });
     if (nav.brs) taxItems.push({ label: 'Bank Reconciliation', href: `${base}/brs`, icon: ArrowLeftRight });
     if (nav.bankImport) taxItems.push({ label: 'Bank Import', href: `${base}/bank-import`, icon: FileUp });
+    if (nav.audit !== 'never') taxItems.push({ label: 'Audit', href: `${base}/audit`, icon: ShieldCheck });
     if (taxItems.length > 0) g.push({ heading: 'TAX & COMPLIANCE', items: taxItems });
 
     // AUDIT & REPORTS section removed
