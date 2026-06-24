@@ -14,7 +14,7 @@ export const soleProprietorshipConfig: EntityConfig = {
     investments: 'conditional', loans: 'conditional',
     trialBalance: true, tradingAccount: 'conditional',
     profitLoss: true, profitLossFormat: 'traditional',
-    plAppropriation: false, balanceSheet: true, balanceSheetFormat: 'traditional',
+    plAppropriation: false, balanceSheet: true, balanceSheetFormat: 'schedule_iii',
     cashFlowStatement: 'never', fundsFlowStatement: 'never',
     incomeExpenditure: false, receiptsPayments: false,
     partnersCapital: false, revaluation: false, realisation: false,

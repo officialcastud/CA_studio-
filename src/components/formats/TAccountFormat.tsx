@@ -23,6 +23,7 @@ interface TAccountProps {
   rightTotal: number;
   companyName: string;
   showFooterTotals?: boolean;
+  hideSideLabels?: boolean;
   linkColumnKey?: string;
   getRowHref?: (row: Record<string, any>) => string;
 }
@@ -34,6 +35,7 @@ export function TAccountFormat({
   leftTotal, rightTotal,
   companyName,
   showFooterTotals = true,
+  hideSideLabels = false,
   linkColumnKey,
   getRowHref,
 }: TAccountProps) {
@@ -57,9 +59,11 @@ export function TAccountFormat({
   }: { columns: TAccountCol[]; data: Record<string, any>[]; total: number; label: string }) => (
     <div className="flex flex-col">
       {/* Side label */}
-      <div className="bg-gray-50 px-3 py-2 border-b border-gray-200 text-center">
-        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{label}</span>
-      </div>
+      {!hideSideLabels && (
+        <div className="bg-gray-50 px-3 py-2 border-b border-gray-200 text-center">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{label}</span>
+        </div>
+      )}
       {/* Column headers */}
       <div className="border-b border-gray-200">
         <table className="w-full table-fixed">

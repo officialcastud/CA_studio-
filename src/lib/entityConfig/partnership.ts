@@ -14,7 +14,7 @@ export const partnershipConfig: EntityConfig = {
     investments: 'conditional', loans: 'conditional',
     trialBalance: true, tradingAccount: 'conditional',
     profitLoss: true, profitLossFormat: 'traditional',
-    plAppropriation: true, balanceSheet: true, balanceSheetFormat: 'traditional',
+    plAppropriation: true, balanceSheet: true, balanceSheetFormat: 'schedule_iii',
     cashFlowStatement: 'never', fundsFlowStatement: 'never',
     incomeExpenditure: false, receiptsPayments: false,
     partnersCapital: true, revaluation: true, realisation: true,

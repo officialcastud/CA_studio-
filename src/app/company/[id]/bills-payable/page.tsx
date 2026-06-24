@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useCompany } from '@/hooks/useCompany';
+import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { ScheduleIIIAgeingCard } from '@/components/formats/ScheduleIIIAgeingCard';
+import { computeCreditorAgeing } from '@/lib/accounting/ageingCompute';
 import {
   listPurchaseInvoices,
   type PurchaseInvoice,
@@ -40,8 +43,15 @@ function daysOverdue(dueDate: string): number {
 
 export default function BillsPayablePage() {
   const { company, companyId, loading } = useCompany();
+  const { entries } = useJournalEntries({ companyId: companyId || '', enabled: !!companyId });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const creditorAgeing = useMemo(
+    () => (entries.length ? computeCreditorAgeing(entries, today, 'schedule_iii').sort((a, b) => b.ageing.total - a.ageing.total) : []),
+    [entries, today],
+  );
 
   useEffect(() => {
     const handler = () => setTick((x) => x + 1);
@@ -184,6 +194,15 @@ export default function BillsPayablePage() {
           </table>
         </div>
       </div>
+
+      {/* ── Creditors Ageing (Schedule III) ── */}
+      <ScheduleIIIAgeingCard
+        title="Creditors Ageing (Schedule III)"
+        rows={creditorAgeing}
+        asAt={today}
+        nameHeader="Party Name"
+        emptyText="No outstanding creditors. All payables are settled."
+      />
 
       {/* ── Slide-Out Drawer ── */}
       {selected && (

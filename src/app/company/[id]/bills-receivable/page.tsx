@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useCompany } from '@/hooks/useCompany';
+import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { ScheduleIIIAgeingCard } from '@/components/formats/ScheduleIIIAgeingCard';
+import { computeDebtorAgeing } from '@/lib/accounting/ageingCompute';
 import {
   listInvoicesV2,
   listSalesInvoices,
@@ -41,8 +44,15 @@ function daysOverdue(dueDate: string): number {
 
 export default function BillsReceivablePage() {
   const { company, companyId, loading } = useCompany();
+  const { entries } = useJournalEntries({ companyId: companyId || '', enabled: !!companyId });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const debtorAgeing = useMemo(
+    () => (entries.length ? computeDebtorAgeing(entries, today, 'schedule_iii').sort((a, b) => b.ageing.total - a.ageing.total) : []),
+    [entries, today],
+  );
 
   useEffect(() => {
     const handler = () => setTick((x) => x + 1);
@@ -208,6 +218,15 @@ export default function BillsReceivablePage() {
           </table>
         </div>
       </div>
+
+      {/* ── Debtors Ageing (Schedule III) ── */}
+      <ScheduleIIIAgeingCard
+        title="Debtors Ageing (Schedule III)"
+        rows={debtorAgeing}
+        asAt={today}
+        nameHeader="Party Name"
+        emptyText="No outstanding debtors. All receivables are settled."
+      />
 
       {/* ── Slide-Out Drawer ── */}
       {selected && (

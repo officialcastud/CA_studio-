@@ -85,22 +85,6 @@ export default function CompanyOverviewPage() {
   const netProfit  = pl.netProfit;
   const isProfit   = netProfit >= 0;
 
-  const quickLinks = [
-    { label: 'Journal',       href: 'journal',       icon: BookOpen,      show: true },
-    { label: 'Trial Balance', href: 'trial-balance',  icon: Scale,         show: true },
-    { label: 'Profit & Loss', href: 'profit-loss',    icon: TrendingUp,    show: config?.nav.profitLoss },
-    { label: 'Balance Sheet', href: 'balance-sheet',  icon: Building2,     show: true },
-    { label: 'GST',           href: 'gst',            icon: Receipt,       show: config?.nav.gst !== 'never' },
-    { label: 'Income Tax',    href: 'income-tax',     icon: Calculator,    show: true },
-    { label: 'Cash Book',     href: 'cash-book',      icon: Wallet,        show: true },
-    { label: 'Ledger',        href: 'ledger',         icon: FileText,      show: true },
-    { label: 'Debtors',       href: 'debtors',        icon: Users,         show: config?.nav.debtors },
-    { label: 'Creditors',     href: 'creditors',      icon: Users,         show: config?.nav.creditors },
-    { label: 'Inventory',     href: 'inventory',      icon: Package,       show: config?.nav.inventory !== 'never' && company.inventory_enabled },
-    { label: 'Cash Flow',     href: 'cash-flow',      icon: ArrowRightLeft,show: config?.nav.cashFlowStatement !== 'never' },
-    { label: 'Audit',         href: 'audit',          icon: ShieldCheck,   show: config?.nav.audit !== 'never' },
-  ].filter(l => l.show);
-
   return (
     <div className="space-y-5">
 
@@ -217,30 +201,6 @@ export default function CompanyOverviewPage() {
           </div>
         </div>
       )}
-
-      {/* ── Quick access ── */}
-      <div>
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Quick Access</p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
-          {quickLinks.map(link => (
-            <Link
-              key={link.href}
-              to={`/company/${companyId}/${link.href}`}
-              className="group bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:border-blue-200 transition-all flex items-center gap-3"
-            >
-              <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 group-hover:bg-blue-50 transition-colors">
-                <link.icon className="h-4 w-4 text-gray-500 group-hover:text-blue-600 transition-colors" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-gray-800 group-hover:text-blue-700 transition-colors truncate">
-                  {link.label}
-                </p>
-              </div>
-              <ArrowRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-blue-500 shrink-0 group-hover:translate-x-0.5 transition-all" />
-            </Link>
-          ))}
-        </div>
-      </div>
 
     </div>
   );

@@ -55,13 +55,11 @@ export default function TradingAccountPage() {
 
   const leftColumns = [
     { header: 'Particulars', key: 'name' },
-    { header: 'J.F.', key: 'jf', width: 'w-[12%]' },
     { header: 'Amount (₹)', key: 'amount', align: 'right' as const },
   ];
 
   const rightColumns = [
     { header: 'Particulars', key: 'name' },
-    { header: 'J.F.', key: 'jf', width: 'w-[12%]' },
     { header: 'Amount (₹)', key: 'amount', align: 'right' as const },
   ];
 
@@ -111,10 +109,11 @@ export default function TradingAccountPage() {
           companyName={company.name}
           leftLabel="Dr."
           rightLabel="Cr."
+          hideSideLabels
           leftColumns={leftColumns}
           rightColumns={rightColumns}
-          leftData={tradingAccount.debitItems.map(i => ({ ...i, jf: '' }))}
-          rightData={tradingAccount.creditItems.map(i => ({ ...i, jf: '' }))}
+          leftData={tradingAccount.debitItems}
+          rightData={tradingAccount.creditItems}
           leftTotal={balancedTotal}
           rightTotal={balancedTotal}
         />
