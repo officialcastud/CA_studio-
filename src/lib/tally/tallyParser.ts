@@ -55,6 +55,9 @@ const firstText = (el: Element, tag: string): string => {
 
 // ── parse ───────────────────────────────────────────────────────────────────
 export function parseTallyXml(xmlText: string, fileName = 'tally.xml'): TallyDataset {
+  if (!xmlText || !xmlText.trim()) {
+    throw new Error(`"${fileName}" is empty (0 bytes). Re-export from Tally and make sure the report has data for the chosen period.`);
+  }
   const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
   if (doc.getElementsByTagName('parsererror').length) {
     throw new Error('Could not parse the file — make sure it is a Tally XML export.');
@@ -78,7 +81,7 @@ export function parseTallyXml(xmlText: string, fileName = 'tally.xml'): TallyDat
   let minDate = '';
   let maxDate = '';
   for (const v of Array.from(doc.getElementsByTagName('VOUCHER'))) {
-    const date = tallyDate(firstText(v, 'DATE'));
+    const date = tallyDate(firstText(v, 'DATE') || firstText(v, 'BASICVOUCHERDATE'));
     const type = firstText(v, 'VOUCHERTYPENAME') || v.getAttribute('VCHTYPE') || '';
     const number = firstText(v, 'VOUCHERNUMBER');
     const narration = firstText(v, 'NARRATION');
