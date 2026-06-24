@@ -166,6 +166,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (nav.ratioAnalysis) fsItems.push({ label: 'Ratio Analysis', href: `${base}/ratio-analysis`, icon: BarChart3 });
     if (nav.incomeExpenditure) fsItems.push({ label: 'Income & Expenditure', href: `${base}/income-expenditure`, icon: Receipt });
     if (nav.receiptsPayments) fsItems.push({ label: 'Receipts & Payments', href: `${base}/receipts-payments`, icon: Receipt });
+    // Tally — standalone viewer, placed above Financial Statements
+    g.push({ heading: 'TALLY', items: [{ label: 'Tally', href: `${base}/tally`, icon: FileText }] });
+
     if (fsItems.length > 0) g.push({ heading: 'FINANCIAL STATEMENTS', items: fsItems });
 
     const specialItems: NavItem[] = [];

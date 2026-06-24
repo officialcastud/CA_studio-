@@ -85,6 +85,7 @@ const PayrollPage = lazy(() => import('@/app/company/[id]/payroll/page').then(m 
 const FoldersPage = lazy(() => import('@/app/company/[id]/folders/page').then(m => ({ default: m.default })));
 const BulkWorkspacePage = lazy(() => import('@/app/company/[id]/bulk-workspace/page').then(m => ({ default: m.default })));
 const BankImportPage = lazy(() => import('@/app/company/[id]/bank-import/page').then(m => ({ default: m.default })));
+const TallyViewerPage = lazy(() => import('@/app/company/[id]/tally/page').then(m => ({ default: m.default })));
 const SettingsPage = lazy(() => import('@/app/company/[id]/settings/page').then(m => ({ default: m.default })));
 
 const PageLoader = () => (
@@ -176,6 +177,7 @@ export const router = createBrowserRouter([
       { path: 'folders', element: <Suspense fallback={<PageLoader />}><FoldersPage /></Suspense> },
       { path: 'bulk-workspace', element: <Suspense fallback={<PageLoader />}><BulkWorkspacePage /></Suspense> },
       { path: 'bank-import', element: <Suspense fallback={<PageLoader />}><BankImportPage /></Suspense> },
+      { path: 'tally', element: <Suspense fallback={<PageLoader />}><TallyViewerPage /></Suspense> },
       { path: 'settings', element: <Suspense fallback={<PageLoader />}><SettingsPage /></Suspense> },
       { path: 'ai', element: <Navigate to=".." replace /> },
     ],
