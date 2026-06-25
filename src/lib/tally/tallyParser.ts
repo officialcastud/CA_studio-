@@ -154,7 +154,7 @@ const PRIMARY_GROUP_NATURE: Record<string, TallyNature> = {
   'purchase accounts': 'expense', 'direct expenses': 'expense', 'expenses (direct)': 'expense', 'indirect expenses': 'expense', 'expenses (indirect)': 'expense',
 };
 
-function keywordNature(name: string): TallyNature {
+export function keywordNature(name: string): TallyNature {
   const n = name.toLowerCase();
   if (/debtor|receivable/.test(n)) return 'asset';
   if (/creditor|payable/.test(n)) return 'liability';
@@ -193,7 +193,8 @@ export function ledgerBalancesAsAt(ds: TallyDataset, toDate: string): LedgerBala
     if (!row) {
       const led = ds.ledgers.find((l) => l.name.toLowerCase() === key);
       const group = led?.parent ?? '';
-      row = { name: led?.name ?? name, group, nature: natureOf(ds, group), signed: led?.opening ?? 0 };
+      // classify by group when known (XML masters), else fall back to the ledger name (PDF)
+      row = { name: led?.name ?? name, group, nature: natureOf(ds, group || (led?.name ?? name)), signed: led?.opening ?? 0 };
       map.set(key, row);
     }
     return row;
@@ -227,6 +228,22 @@ export interface ProfitLoss { income: PLLine[]; expenses: PLLine[]; totalIncome:
 
 /** P&L for the period [fromDate, toDate] from income/expense ledger flows. */
 export function computeTallyProfitLoss(ds: TallyDataset, fromDate: string, toDate: string): ProfitLoss {
+  // Balances-only import (e.g. a Trial Balance PDF): derive P&L from ledger balances.
+  if (ds.vouchers.length === 0) {
+    const income: PLLine[] = [];
+    const expenses: PLLine[] = [];
+    for (const b of ledgerBalancesAsAt(ds, toDate)) {
+      if (Math.abs(b.signed) < 0.005) continue;
+      if (b.nature === 'income') income.push({ name: b.name, amount: -b.signed });
+      else if (b.nature === 'expense') expenses.push({ name: b.name, amount: b.signed });
+    }
+    income.sort((a, b) => b.amount - a.amount);
+    expenses.sort((a, b) => b.amount - a.amount);
+    const totalIncome = income.reduce((s, r) => s + r.amount, 0);
+    const totalExpense = expenses.reduce((s, r) => s + r.amount, 0);
+    return { income, expenses, totalIncome, totalExpense, netProfit: totalIncome - totalExpense };
+  }
+
   const flow = new Map<string, { nature: TallyNature; signed: number }>();
   const natureFor = (name: string) => {
     const led = ds.ledgers.find((l) => l.name.toLowerCase() === name.toLowerCase());

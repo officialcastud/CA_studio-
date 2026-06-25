@@ -57,8 +57,14 @@ export default function TallyViewerPage() {
     try {
       let merged: TallyDataset | null = null;
       for (const file of Array.from(files)) {
-        const text = await file.text();
-        const parsed = parseTallyXml(text, file.name);
+        const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+        let parsed: TallyDataset;
+        if (isPdf) {
+          const { parseTallyPdf } = await import('@/lib/tally/pdfExtract');
+          parsed = await parseTallyPdf(file);
+        } else {
+          parsed = parseTallyXml(await file.text(), file.name);
+        }
         merged = merged ? mergeTallyDatasets(merged, parsed) : parsed;
       }
       if (!merged || (!merged.ledgers.length && !merged.vouchers.length)) {
@@ -122,7 +128,7 @@ export default function TallyViewerPage() {
       <input
         ref={fileRef}
         type="file"
-        accept=".xml,text/xml,application/xml"
+        accept=".xml,.pdf,text/xml,application/xml,application/pdf"
         multiple
         className="hidden"
         onChange={(e) => { const fs = e.target.files; if (fs && fs.length) handleFiles(fs); }}
@@ -136,10 +142,10 @@ export default function TallyViewerPage() {
           </div>
           <h2 className="text-base font-bold text-gray-900">Import a Tally document</h2>
           <p className="mx-auto mt-1.5 max-w-lg text-xs leading-relaxed text-gray-500">
-            Export from Tally as <span className="font-semibold">XML</span> (Alt+E → Format: XML) and upload it here.
-            For full reports, select <span className="font-semibold">both</span> files together:
-            <br /><span className="font-semibold">List of Accounts</span> (groups, ledgers &amp; opening balances) and the
-            <span className="font-semibold"> Day Book</span> with the period set to all dates (vouchers).
+            Accepts Tally <span className="font-semibold">XML</span> or <span className="font-semibold">PDF</span> (Alt+E → Export).
+            <span className="font-semibold"> XML is recommended</span> — for full reports select <span className="font-semibold">both</span> the
+            <span className="font-semibold"> List of Accounts</span> (masters) and the <span className="font-semibold">Day Book</span> (all dates) XMLs together.
+            A <span className="font-semibold">PDF</span> Trial Balance also works (balances only).
           </p>
           <p className="mx-auto mt-2 max-w-lg text-[11px] leading-relaxed text-amber-600">
             Note: a Tally <b>company data folder</b> (the <code className="rounded bg-amber-50 px-1">.1800</code> / <code className="rounded bg-amber-50 px-1">.TSF</code> files, or a zip of them) cannot be read — those are Tally's binary database. You must export to XML from inside Tally.
@@ -149,7 +155,7 @@ export default function TallyViewerPage() {
             disabled={importing}
             className="mx-auto mt-5 inline-flex items-center gap-2 h-11 px-6 text-sm font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-60 transition-colors shadow-sm"
           >
-            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally XML</>}
+            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally File (XML / PDF)</>}
           </button>
         </div>
       ) : (
