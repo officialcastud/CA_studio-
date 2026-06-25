@@ -21,6 +21,9 @@ interface NavItem { label: string; href: string; icon: LucideIcon }
 interface NavGroup { heading: string; items: NavItem[] }
 interface SidebarProps { onAlezaToggle?: () => void }
 
+type AccessMode = 'professional' | 'business';
+const ACCESS_MODE_KEY = 'ca_access_mode';
+
 /* ── file type icon ── */
 function fileIcon(type: WorkspaceFile['type']) {
   if (type === 'csv') return FileSpreadsheet;
@@ -47,6 +50,18 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
   const [renaming, setRenaming] = useState<string | null>(null); // fileId
   const [renameVal, setRenameVal] = useState('');
   const ctxRef = useRef<HTMLDivElement>(null);
+
+  // Access mode — user picks Professional (full menu) or Business (curated). Nav
+  // stays hidden until one is chosen. Persisted so the choice sticks.
+  const [mode, setMode] = useState<AccessMode | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const m = localStorage.getItem(ACCESS_MODE_KEY);
+    return m === 'professional' || m === 'business' ? m : null;
+  });
+  const chooseMode = useCallback((m: AccessMode) => {
+    setMode(m);
+    try { localStorage.setItem(ACCESS_MODE_KEY, m); } catch { /* ignore */ }
+  }, []);
 
   /* close context menu on outside click or Escape */
   useEffect(() => {
@@ -111,6 +126,29 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (!config || !companyId) return null;
     const base = `/company/${companyId}`;
     const nav = config.nav;
+
+    // ── Business mode — curated access list (per the business-users spec) ──
+    if (mode === 'business') {
+      return [
+        { heading: 'REGISTERS', items: [
+          { label: 'Sales', href: `${base}/sales-register`, icon: ClipboardList },
+          { label: 'Purchase', href: `${base}/purchase-register`, icon: ClipboardList },
+          { label: 'Sales Return', href: `${base}/sales-returns`, icon: ClipboardMinus },
+          { label: 'Purchase Return', href: `${base}/purchase-returns`, icon: ClipboardMinus },
+          { label: 'Bills Receivable', href: `${base}/bills-receivable`, icon: FileText },
+          { label: 'Bills Payable', href: `${base}/bills-payable`, icon: FileText },
+        ]},
+        { heading: 'TAX & COMPLIANCES', items: [
+          { label: 'GST', href: `${base}/gst`, icon: Receipt },
+        ]},
+        { heading: 'BANKING', items: [
+          { label: 'Bank Accounts', href: `${base}/bank-accounts`, icon: Landmark },
+          { label: 'Bank Statement Importer', href: `${base}/bulk-workspace`, icon: LayoutGrid },
+          { label: 'Cash Flow Statement', href: `${base}/cash-flow`, icon: ArrowRightLeft },
+        ]},
+      ];
+    }
+
     const g: NavGroup[] = [];
 
     g.push({ heading: 'CORE', items: [
@@ -189,7 +227,7 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     ]});
 
     return g;
-  }, [config, companyId, company]);
+  }, [config, companyId, company, mode]);
 
   if (loading || !groups) {
     return (
@@ -220,6 +258,29 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
             </button>
           </div>
 
+          {/* Access mode switcher */}
+          <div className="mb-2 px-1.5">
+            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest px-1.5 mb-1.5">Access Mode</p>
+            <div className="grid grid-cols-2 gap-1.5">
+              <button type="button" onClick={() => chooseMode('professional')}
+                className={`flex flex-col items-center gap-1 py-2 rounded-lg border text-[11px] font-bold transition-colors ${mode === 'professional' ? 'bg-blue-600 border-blue-600 text-white shadow-sm' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                <Building2 className="h-4 w-4" /> Professional
+              </button>
+              <button type="button" onClick={() => chooseMode('business')}
+                className={`flex flex-col items-center gap-1 py-2 rounded-lg border text-[11px] font-bold transition-colors ${mode === 'business' ? 'bg-blue-600 border-blue-600 text-white shadow-sm' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                <Briefcase className="h-4 w-4" /> Business
+              </button>
+            </div>
+          </div>
+
+          {mode === null ? (
+            <div className="px-4 py-10 text-center">
+              <p className="text-[11px] text-gray-400 font-medium leading-relaxed">
+                Choose <b className="text-gray-600">Professional</b> or <b className="text-gray-600">Business</b> above to view the menu.
+              </p>
+            </div>
+          ) : (
+          <>
           {/* Nav groups */}
           {groups.map((group) => (
             <div key={group.heading} className="mb-1">
@@ -244,7 +305,8 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
             </div>
           ))}
 
-          {/* WORKSPACE — file tree, right-click for context menu */}
+          {/* WORKSPACE — file tree (hidden in Business mode) */}
+          {mode !== 'business' && (
           <div className="mb-1" onContextMenu={openWorkspaceBg}>
             <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest px-3 py-1.5 mt-1 flex items-center justify-between">
               <span>WORKSPACE</span>
@@ -303,6 +365,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
               })
             )}
           </div>
+          )}
+          </>
+          )}
         </nav>
 
         {/* Settings */}

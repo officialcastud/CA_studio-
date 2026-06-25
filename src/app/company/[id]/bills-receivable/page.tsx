@@ -179,12 +179,13 @@ export default function BillsReceivablePage() {
                 <th className="px-4 py-2.5 text-left text-[10px] font-bold uppercase tracking-widest text-gray-400">Party</th>
                 <th className="px-4 py-2.5 text-right text-[10px] font-bold uppercase tracking-widest text-gray-400">Pending</th>
                 <th className="px-4 py-2.5 text-left text-[10px] font-bold uppercase tracking-widest text-gray-400">Due Date</th>
+                <th className="px-4 py-2.5 text-right text-[10px] font-bold uppercase tracking-widest text-gray-400">Days O/s</th>
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-xs text-gray-400">
+                  <td colSpan={6} className="px-4 py-12 text-center text-xs text-gray-400">
                     No outstanding receivables. All invoices are fully paid.
                   </td>
                 </tr>
@@ -210,6 +211,9 @@ export default function BillsReceivablePage() {
                       ) : (
                         <span className="text-gray-300">-</span>
                       )}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-[11px]">
+                      {r.overdueDays > 0 ? <span className="font-semibold text-red-600">{r.overdueDays}</span> : <span className="text-gray-300">0</span>}
                     </td>
                   </tr>
                 ))
