@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Upload, FileText, Scale, Building2, TrendingUp, BookOpen, RefreshCw } from 'lucide-react';
 import {
   parseTallyXml,
+  parseTallyJson,
   mergeTallyDatasets,
   saveTallyDataset,
   loadTallyDataset,
@@ -57,11 +58,15 @@ export default function TallyViewerPage() {
     try {
       let merged: TallyDataset | null = null;
       for (const file of Array.from(files)) {
-        const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+        const lower = file.name.toLowerCase();
+        const isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+        const isJson = file.type === 'application/json' || lower.endsWith('.json');
         let parsed: TallyDataset;
         if (isPdf) {
           const { parseTallyPdf } = await import('@/lib/tally/pdfExtract');
           parsed = await parseTallyPdf(file);
+        } else if (isJson) {
+          parsed = parseTallyJson(await file.text(), file.name);
         } else {
           parsed = parseTallyXml(await file.text(), file.name);
         }
@@ -128,7 +133,7 @@ export default function TallyViewerPage() {
       <input
         ref={fileRef}
         type="file"
-        accept=".xml,.pdf,text/xml,application/xml,application/pdf"
+        accept=".xml,.json,.pdf,text/xml,application/xml,application/json,application/pdf"
         multiple
         className="hidden"
         onChange={(e) => { const fs = e.target.files; if (fs && fs.length) handleFiles(fs); }}
@@ -142,9 +147,9 @@ export default function TallyViewerPage() {
           </div>
           <h2 className="text-base font-bold text-gray-900">Import a Tally document</h2>
           <p className="mx-auto mt-1.5 max-w-lg text-xs leading-relaxed text-gray-500">
-            Accepts Tally <span className="font-semibold">XML</span> or <span className="font-semibold">PDF</span> (Alt+E → Export).
-            <span className="font-semibold"> XML is recommended</span> — for full reports select <span className="font-semibold">both</span> the
-            <span className="font-semibold"> List of Accounts</span> (masters) and the <span className="font-semibold">Day Book</span> (all dates) XMLs together.
+            Accepts Tally <span className="font-semibold">XML</span>, <span className="font-semibold">JSON</span> or <span className="font-semibold">PDF</span> (Alt+E → Export → choose the format).
+            <span className="font-semibold"> XML/JSON are recommended</span> — for full reports select <span className="font-semibold">both</span> the
+            <span className="font-semibold"> List of Accounts</span> (masters) and the <span className="font-semibold">Day Book</span> (all dates) together.
             A <span className="font-semibold">PDF</span> Trial Balance also works (balances only).
           </p>
           <p className="mx-auto mt-2 max-w-lg text-[11px] leading-relaxed text-amber-600">
@@ -155,7 +160,7 @@ export default function TallyViewerPage() {
             disabled={importing}
             className="mx-auto mt-5 inline-flex items-center gap-2 h-11 px-6 text-sm font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-60 transition-colors shadow-sm"
           >
-            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally File (XML / PDF)</>}
+            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally File (XML / JSON / PDF)</>}
           </button>
         </div>
       ) : (

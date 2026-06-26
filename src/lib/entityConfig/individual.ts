@@ -28,8 +28,8 @@ export const individualConfig: EntityConfig = {
     // ── Financial Statements ── not applicable
     trialBalance: false,
     tradingAccount: 'never',
-    profitLoss: false,
-    profitLossFormat: 'traditional',
+    profitLoss: true,
+    profitLossFormat: 'schedule_iii',
     plAppropriation: false,
     balanceSheet: false,
     balanceSheetFormat: 'traditional',

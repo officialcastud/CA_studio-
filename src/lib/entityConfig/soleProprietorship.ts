@@ -13,7 +13,7 @@ export const soleProprietorshipConfig: EntityConfig = {
     ledger: true, debtors: false, creditors: false, fixedAssets: false,
     investments: 'conditional', loans: 'conditional',
     trialBalance: true, tradingAccount: 'conditional',
-    profitLoss: true, profitLossFormat: 'traditional',
+    profitLoss: true, profitLossFormat: 'schedule_iii',
     plAppropriation: false, balanceSheet: true, balanceSheetFormat: 'schedule_iii',
     cashFlowStatement: 'never', fundsFlowStatement: 'never',
     incomeExpenditure: false, receiptsPayments: false,

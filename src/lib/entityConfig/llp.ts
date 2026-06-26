@@ -13,7 +13,7 @@ export const llpConfig: EntityConfig = {
     ledger: true, debtors: false, creditors: false, fixedAssets: false,
     investments: 'conditional', loans: 'conditional',
     trialBalance: true, tradingAccount: 'conditional',
-    profitLoss: true, profitLossFormat: 'traditional',
+    profitLoss: true, profitLossFormat: 'schedule_iii',
     plAppropriation: true, balanceSheet: true, balanceSheetFormat: 'schedule_iii',
     cashFlowStatement: 'conditional', fundsFlowStatement: 'never',
     incomeExpenditure: false, receiptsPayments: false,

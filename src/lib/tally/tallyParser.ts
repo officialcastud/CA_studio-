@@ -140,6 +140,117 @@ export function mergeTallyDatasets(a: TallyDataset, b: TallyDataset): TallyDatas
   };
 }
 
+// ── parse JSON (Tally JSON export, a flat array, or our normalized shape) ─────
+// Tally Prime 3.x can export reports as JSON. The exact shape varies, so this is
+// deliberately tolerant: it walks the tree for VOUCHER / LEDGER / GROUP nodes
+// (case-insensitive, attribute keys like "@NAME" handled) and also accepts a
+// plain { ledgers, vouchers } object or a flat array of vouchers.
+function getCI(obj: any, ...keys: string[]): any {
+  if (!obj || typeof obj !== 'object') return undefined;
+  const lower: Record<string, any> = {};
+  for (const k of Object.keys(obj)) lower[k.replace(/^[@$]+/, '').toLowerCase()] = obj[k];
+  for (const k of keys) {
+    const v = lower[k.toLowerCase()];
+    if (v !== undefined && v !== null) return v;
+  }
+  return undefined;
+}
+
+function jText(v: any): string {
+  if (v == null) return '';
+  if (Array.isArray(v)) return jText(v[0]);
+  if (typeof v === 'object') return jText(getCI(v, '_', '#text', 'value', 'text'));
+  return String(v);
+}
+
+function collectByKey(node: any, re: RegExp, out: any[]): void {
+  if (Array.isArray(node)) { for (const x of node) collectByKey(x, re, out); return; }
+  if (node && typeof node === 'object') {
+    for (const [k, v] of Object.entries(node)) {
+      if (re.test(k.replace(/^[@$]+/, ''))) (Array.isArray(v) ? v : [v]).forEach((it) => { if (it && typeof it === 'object') out.push(it); });
+      collectByKey(v, re, out);
+    }
+  }
+}
+
+function parseJsonVoucher(v: any): TallyVoucher | null {
+  const date = tallyDate(jText(getCI(v, 'date', 'basicvoucherdate', 'voucher_date')));
+  const type = jText(getCI(v, 'vouchertypename', 'vchtype', 'voucher_type', 'type'));
+  const number = jText(getCI(v, 'vouchernumber', 'voucher_number', 'number'));
+  const narration = jText(getCI(v, 'narration'));
+  let raw = getCI(v, 'allledgerentries.list', 'ledgerentries.list', 'allledgerentries', 'ledgerentries', 'lines', 'entries');
+  if (raw && !Array.isArray(raw)) raw = [raw];
+  const lines: TallyVoucherLine[] = [];
+  for (const e of (raw || [])) {
+    const ledger = jText(getCI(e, 'ledgername', 'ledger', 'account_name', 'account', 'name'));
+    if (!ledger) continue;
+    const dr = getCI(e, 'debit'); const cr = getCI(e, 'credit');
+    if (dr !== undefined || cr !== undefined) {
+      const d = Math.abs(num(jText(dr))); const c = Math.abs(num(jText(cr)));
+      if (d || c) lines.push({ ledger, debit: d, credit: c });
+    } else {
+      const amt = Math.abs(num(jText(getCI(e, 'amount'))));
+      if (!amt) continue;
+      const isDebit = jText(getCI(e, 'isdeemedpositive')).toLowerCase() === 'yes';
+      lines.push({ ledger, debit: isDebit ? amt : 0, credit: isDebit ? 0 : amt });
+    }
+  }
+  return lines.length ? { date, type, number, narration, lines } : null;
+}
+
+export function parseTallyJson(text: string, fileName = 'tally.json'): TallyDataset {
+  if (!text || !text.trim()) {
+    throw new Error(`"${fileName}" is empty (0 bytes). Re-export from Tally and make sure it contains data.`);
+  }
+  let data: any;
+  try { data = JSON.parse(text); } catch { throw new Error('Could not parse the file — make sure it is valid Tally JSON.'); }
+
+  const groups: TallyGroup[] = [];
+  const ledgers: TallyLedger[] = [];
+  const vouchers: TallyVoucher[] = [];
+
+  const normLedgers = getCI(data, 'ledgers');
+  const normVouchers = getCI(data, 'vouchers');
+  if (Array.isArray(normLedgers) || Array.isArray(normVouchers)) {
+    // normalized { ledgers, vouchers, groups }
+    for (const l of (normLedgers || [])) {
+      const name = jText(getCI(l, 'name', 'ledgername')); if (!name) continue;
+      const ob = getCI(l, 'opening', 'openingbalance');
+      ledgers.push({ name, parent: jText(getCI(l, 'parent', 'group')), opening: typeof ob === 'number' ? ob : -num(jText(ob)) });
+    }
+    for (const g of (getCI(data, 'groups') || [])) {
+      const name = jText(getCI(g, 'name')); if (name) groups.push({ name, parent: jText(getCI(g, 'parent')) });
+    }
+    for (const v of (normVouchers || [])) { const pv = parseJsonVoucher(v); if (pv) vouchers.push(pv); }
+  } else {
+    // Tally nested envelope, or a flat array of vouchers
+    const groupNodes: any[] = []; collectByKey(data, /^group$/i, groupNodes);
+    const ledgerNodes: any[] = []; collectByKey(data, /^ledger$/i, ledgerNodes);
+    const voucherNodes: any[] = []; collectByKey(data, /^voucher$/i, voucherNodes);
+    for (const g of groupNodes) { const name = jText(getCI(g, 'name')); if (name) groups.push({ name, parent: jText(getCI(g, 'parent')) }); }
+    for (const l of ledgerNodes) { const name = jText(getCI(l, 'name')); if (name) ledgers.push({ name, parent: jText(getCI(l, 'parent')), opening: -num(jText(getCI(l, 'openingbalance'))) }); }
+    for (const v of voucherNodes) { const pv = parseJsonVoucher(v); if (pv) vouchers.push(pv); }
+    if (!voucherNodes.length && Array.isArray(data)) {
+      for (const v of data) { const pv = parseJsonVoucher(v); if (pv) vouchers.push(pv); }
+    }
+  }
+
+  if (!ledgers.length && !vouchers.length) {
+    throw new Error(`No ledgers or vouchers found in "${fileName}". Make sure it is a Tally JSON export.`);
+  }
+
+  const dates = vouchers.map((v) => v.date).filter(Boolean).sort();
+  return {
+    fileName,
+    importedAt: new Date().toISOString(),
+    groups,
+    ledgers,
+    vouchers,
+    minDate: dates[0] ?? '',
+    maxDate: dates[dates.length - 1] ?? '',
+  };
+}
+
 // ── group/nature classification ─────────────────────────────────────────────
 const PRIMARY_GROUP_NATURE: Record<string, TallyNature> = {
   'capital account': 'liability', 'reserves & surplus': 'liability', 'reserves and surplus': 'liability',
