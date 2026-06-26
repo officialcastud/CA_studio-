@@ -39,6 +39,11 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* EduMon hero palette */
+  --color-hero: var(--hero);
+  --color-hero-2: var(--hero-2);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -51,7 +56,8 @@
 :root {
   --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
-  --radius: 0.5rem;
+  /* Softer, rounder corners across the app (EduMon look) */
+  --radius: 0.75rem;
   /* LIGHT THEME ONLY */
   --background: #FAFBFC;
   --foreground: #0F172A;
@@ -61,6 +67,14 @@
   --popover-foreground: #111827;
   --primary: #2563EB;
   --primary-foreground: #FFFFFF;
+  /* EduMon deep-teal hero (dark sections / heroes) */
+  --hero: #0B2A33;
+  --hero-2: #0F3A45;
+  --hero-foreground: #FFFFFF;
+  --hero-muted: #9FB7BE;
+  /* Soft floating-card shadow */
+  --shadow-float: 0 18px 40px -18px rgba(8, 40, 48, 0.20);
+  --shadow-float-lg: 0 28px 60px -22px rgba(8, 40, 48, 0.28);
   --secondary: #F9FAFB;
   --secondary-foreground: #111827;
   --muted: #F9FAFB;
@@ -97,6 +111,11 @@
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+  }
+  /* Bolder, tighter headings — EduMon display style */
+  h1, h2, h3 {
+    letter-spacing: -0.018em;
+    font-weight: 700;
   }
   /* Scrollbar */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -137,15 +156,68 @@ table { border-collapse: collapse; width: 100%; }
 .text-cr  { color: #059669; }
 .text-bal { color: #0F172A; font-weight: 600; }
 
-/* ── Page card ── */
+/* ── Page card (EduMon floating card) ── */
 .page-card {
-  @apply bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden;
+  @apply bg-white border border-gray-100 rounded-2xl overflow-hidden;
+  box-shadow: var(--shadow-float);
 }
 
-/* ── Stat card ── */
+/* ── Stat card (floating, hover-lift) ── */
 .stat-card {
-  @apply bg-white border border-gray-200 rounded-xl p-4;
+  @apply bg-white border border-gray-100 rounded-2xl p-4 transition-all;
+  box-shadow: var(--shadow-float);
 }
+.stat-card:hover { box-shadow: var(--shadow-float-lg); transform: translateY(-2px); }
+
+/* ── EduMon deep-teal hero section ── */
+.hero {
+  position: relative;
+  color: var(--hero-foreground);
+  background:
+    radial-gradient(120% 120% at 85% -10%, color-mix(in srgb, var(--primary) 26%, transparent) 0%, transparent 45%),
+    linear-gradient(135deg, var(--hero) 0%, var(--hero-2) 100%);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+.hero-muted { color: var(--hero-muted); }
+/* "Creating" — accent highlight inside hero headings */
+.hero-accent { color: #5B9BFF; }
+
+/* ── Blue circular icon badge (the floating-card icon in the reference) ── */
+.icon-badge {
+  @apply inline-flex items-center justify-center rounded-full text-white shrink-0;
+  background: var(--primary);
+  width: 2.75rem;
+  height: 2.75rem;
+  box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--primary) 60%, transparent);
+}
+.icon-badge-sm { width: 2rem; height: 2rem; }
+
+/* ── Pill buttons (fully rounded — EduMon CTA style) ── */
+.btn-pill,
+.btn-pill-primary,
+.btn-pill-outline,
+.btn-pill-dark {
+  @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold text-sm transition-all px-5 h-10 whitespace-nowrap;
+}
+.btn-pill-primary {
+  @apply text-white;
+  background: var(--primary);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--primary) 70%, transparent);
+}
+.btn-pill-primary:hover { background: color-mix(in srgb, var(--primary) 90%, black); }
+.btn-pill-outline {
+  @apply border;
+  border-color: color-mix(in srgb, currentColor 35%, transparent);
+  background: transparent;
+}
+.btn-pill-outline:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+/* Dark pill for light navbars (the "Login / Register" button) */
+.btn-pill-dark {
+  @apply text-white;
+  background: var(--hero);
+}
+.btn-pill-dark:hover { background: var(--hero-2); }
 
 /* ── Two-column T-format equal split ── */
 .t-split { display: grid; grid-template-columns: 1fr 1fr; }
