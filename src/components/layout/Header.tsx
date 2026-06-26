@@ -50,7 +50,7 @@ export function Header({ onMenuToggle, onAlezaToggle, alezaOpen }: HeaderProps) 
         {company.name}
       </span>
 
-      <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold shrink-0 border border-blue-100 leading-tight">
+      <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold shrink-0 border border-blue-100 leading-tight">
         {meta?.shortLabel ?? company.entity_type}
       </span>
 
@@ -59,9 +59,9 @@ export function Header({ onMenuToggle, onAlezaToggle, alezaOpen }: HeaderProps) 
       {onAlezaToggle && (
         <button
           onClick={onAlezaToggle}
-          className={`h-6 px-3 rounded-md text-xs font-semibold transition-all ${
+          className={`h-6 px-3.5 rounded-full text-xs font-semibold transition-all ${
             alezaOpen
-              ? 'bg-slate-900 text-white'
+              ? 'bg-[var(--hero)] text-white'
               : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50 border border-gray-200'
           }`}
           title="Aleza AI Agent"

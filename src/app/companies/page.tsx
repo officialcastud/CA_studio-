@@ -92,17 +92,20 @@ export default function CompaniesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ── Header ── */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight">CA Accounting</h1>
-            <p className="text-xs text-gray-400 mt-0.5">Professional accounting software for India</p>
+    <div className="min-h-screen bg-background">
+      {/* ── Hero header ── */}
+      <header className="px-4 pt-4 sm:px-6 sm:pt-6">
+        <div className="hero max-w-6xl mx-auto px-6 sm:px-8 py-7 flex items-center justify-between gap-4">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
+          <div className="relative">
+            <p className="hero-muted text-xs font-semibold mb-1.5">Professional accounting software for India</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+              <span className="hero-accent">CA</span> Studio Workspace
+            </h1>
           </div>
           <Link
             to="/companies/create"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+            className="btn-pill-primary relative shrink-0"
           >
             <Plus className="h-4 w-4" />
             New Company
@@ -119,17 +122,14 @@ export default function CompaniesPage() {
         ) : companies.length === 0 ? (
           /* ── Empty state ── */
           <div className="flex flex-col items-center justify-center py-28 text-center">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-5">
-              <Building2 className="h-8 w-8 text-blue-600" />
+            <div className="icon-badge mb-5" style={{ width: '4rem', height: '4rem' }}>
+              <Building2 className="h-8 w-8" />
             </div>
             <h2 className="text-lg font-bold text-gray-900 mb-2">No companies yet</h2>
             <p className="text-sm text-gray-500 mb-6 max-w-xs">
               Create your first company to start managing journal entries and financial statements.
             </p>
-            <Link
-              to="/companies/create"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <Link to="/companies/create" className="btn-pill-primary">
               <Plus className="h-4 w-4" />
               Create First Company
             </Link>
@@ -151,7 +151,7 @@ export default function CompaniesPage() {
                   placeholder="Search by name, entity type, PAN…"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  className="pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400"
+                  className="pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-full w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400 shadow-sm"
                 />
               </div>
             </div>
@@ -165,16 +165,19 @@ export default function CompaniesPage() {
                   <Link
                     key={company.id}
                     to={`/company/${company.id}`}
-                    className="group bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-blue-200 transition-all duration-150 block"
+                    className="stat-card group hover:border-blue-200 !p-5 block"
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate group-hover:text-blue-700 transition-colors text-sm">
-                          {company.name}
-                        </h3>
-                        <span className={`inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${colors.bg} ${colors.text} ${colors.border}`}>
-                          {meta?.shortLabel ?? company.entity_type}
-                        </span>
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <span className="icon-badge icon-badge-sm mt-0.5"><Building2 className="h-4 w-4" /></span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-gray-900 truncate group-hover:text-blue-700 transition-colors text-sm">
+                            {company.name}
+                          </h3>
+                          <span className={`inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${colors.bg} ${colors.text} ${colors.border}`}>
+                            {meta?.shortLabel ?? company.entity_type}
+                          </span>
+                        </div>
                       </div>
                       <button
                         onClick={e => handleDelete(e, company)}

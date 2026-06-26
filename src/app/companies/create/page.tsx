@@ -92,7 +92,7 @@ const TextInput = ({ value, onValueChange, transform, ...rest }: TextInputProps)
 const toUpper = (s: string) => s.toUpperCase();
 const digitsOnly = (s: string) => s.replace(/\D/g, '');
 
-const cardCls = "bg-white border border-slate-200/80 rounded-3xl p-7 sm:p-8 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_18px_50px_-18px_rgba(15,23,42,0.15)] ring-1 ring-slate-100 relative overflow-hidden";
+const cardCls = "page-card relative p-7 sm:p-8";
 
 export default function CreateCompanyPage() {
   const navigate = useNavigate();
@@ -302,31 +302,36 @@ export default function CreateCompanyPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 bg-[radial-gradient(60rem_40rem_at_50%_-10%,_theme(colors.blue.50)_0%,_transparent_60%)]">
-      {/* Header */}
-      <header className="bg-white/85 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-6 py-3.5 flex items-center gap-3">
-          <Link to="/companies" className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0">
-            <LucideIcons.Building2 className="h-[18px] w-[18px]" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-[15px] font-bold text-slate-900 leading-tight">Create New Company</h1>
-            <p className="text-[11px] text-slate-500 font-medium truncate">Step {step + 1} of {steps.length} · {steps[step]?.title}</p>
-          </div>
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
-            <LucideIcons.ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Secure &amp; Local
-          </span>
-        </div>
-        {/* Slim progress bar */}
-        <div className="h-1 w-full bg-slate-100">
-          <div className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-500 ease-out"
-            style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
-        </div>
-      </header>
-
       <main className="max-w-3xl mx-auto px-6 py-8 sm:py-10">
+
+        {/* ─── Hero header ──────────────────────────────────────────────────── */}
+        <section className="hero relative px-6 sm:px-9 py-8 sm:py-9 mb-8">
+          <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full border border-white/10" />
+          <div className="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full border border-white/5" />
+          <div className="relative flex items-start gap-4">
+            <Link to="/companies" className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/20 text-white/80 hover:text-white hover:bg-white/10 transition-colors shrink-0">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            <span className="icon-badge shrink-0">
+              <LucideIcons.Building2 className="h-5 w-5" />
+            </span>
+            <div className="flex-1 min-w-0">
+              <p className="hero-muted text-[11px] font-bold uppercase tracking-[0.2em] mb-1.5">New Workspace</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+                Create New <span className="hero-accent">Company</span>
+              </h1>
+              <p className="hero-muted text-sm font-medium mt-2">Step {step + 1} of {steps.length} · {steps[step]?.title}</p>
+            </div>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-bold text-white/80 bg-white/10 border border-white/15 px-3 py-1.5 rounded-full backdrop-blur-sm shrink-0">
+              <LucideIcons.ShieldCheck className="h-3.5 w-3.5 text-emerald-300" /> Secure &amp; Local
+            </span>
+          </div>
+          {/* Slim progress bar */}
+          <div className="relative mt-7 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div className="h-full rounded-full bg-[#5B9BFF] transition-all duration-500 ease-out"
+              style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
+          </div>
+        </section>
 
         {/* ─── Stepper ─────────────────────────────────────────────────────── */}
         <nav className="mb-8 overflow-x-auto">
@@ -362,14 +367,14 @@ export default function CreateCompanyPage() {
 
         {/* ─── Step card ───────────────────────────────────────────────────── */}
         <div className={`${cardCls} animate-in fade-in slide-in-from-bottom-2 duration-400`}>
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-[var(--primary)]" />
 
-          <div className="flex items-center gap-3 mb-6 pb-5 border-b border-slate-100">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-blue-500/20">
+          <div className="flex items-center gap-3.5 mb-6 pb-5 border-b border-slate-100">
+            <div className="icon-badge text-sm font-extrabold">
               {String(step + 1).padStart(2, '0')}
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
                 {currentKey === 'entity' && 'Select Entity Type'}
                 {currentKey === 'details' && 'Company & Registration Details'}
                 {currentKey === 'business' && 'Business Nature & Accounting'}
@@ -406,8 +411,8 @@ export default function CreateCompanyPage() {
                     <button key={key} onClick={() => { upd({ entity_type: key }); setLockedClicked(null); }}
                       className={`p-5 rounded-2xl border-2 text-left transition-all duration-300 relative overflow-hidden group
                         ${active
-                          ? 'border-blue-600 bg-blue-50/50 shadow-md shadow-blue-500/10 -translate-y-0.5'
-                          : 'border-slate-200 hover:border-blue-300 bg-white hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-200/50'}`}>
+                          ? 'border-blue-500 ring-2 ring-blue-500 bg-blue-50 shadow-md shadow-blue-500/10 -translate-y-0.5'
+                          : 'border-gray-200 hover:border-blue-200 bg-white hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-200/50'}`}>
                       {active && <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -z-10" />}
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors ${active ? 'bg-blue-600 text-white shadow-inner shadow-black/10' : 'bg-slate-100 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600'}`}>
                         <Icon className="h-5 w-5" strokeWidth={active ? 2 : 1.5} />
@@ -753,19 +758,19 @@ export default function CreateCompanyPage() {
           <div className="flex items-center justify-between gap-3 mt-8 pt-6 border-t border-slate-100">
             {step > 0 ? (
               <button onClick={goBack}
-                className="inline-flex items-center gap-2 h-12 px-6 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 shadow-sm">
+                className="btn-pill-outline h-11 px-6 text-slate-600 hover:text-slate-900">
                 <ArrowLeft className="h-4 w-4" /> Back
               </button>
             ) : <span />}
 
             {!isLastStep ? (
               <button onClick={goNext} disabled={currentKey === 'entity' && !data.entity_type}
-                className="inline-flex items-center gap-2 h-12 px-8 text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed transition-all duration-300">
+                className="btn-pill-primary h-11 px-8 disabled:opacity-50 disabled:cursor-not-allowed">
                 Next <ArrowRight className="h-4 w-4" />
               </button>
             ) : (
               <button onClick={handleSave} disabled={saving}
-                className="inline-flex items-center gap-2 h-12 px-8 text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:scale-[1.02] disabled:opacity-60 transition-all duration-300">
+                className="btn-pill-primary h-11 px-8 disabled:opacity-60 disabled:cursor-not-allowed">
                 {saving
                   ? <><div className="h-5 w-5 border-[2.5px] border-white/30 border-t-white rounded-full animate-spin" /> Creating…</>
                   : <><LucideIcons.Rocket className="h-4 w-4" /> Launch Company</>}

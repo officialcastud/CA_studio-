@@ -251,7 +251,7 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
           <div className="mb-2 px-1.5">
             <button
               onClick={onAlezaToggle}
-              className="w-full flex items-center gap-2.5 px-3 py-1.5 mx-0 rounded-md text-[13px] font-medium transition-colors text-gray-600 hover:bg-blue-50 hover:text-blue-700 group"
+              className="w-full flex items-center gap-2.5 px-3 py-1.5 mx-0 rounded-lg text-[13px] font-medium transition-colors text-gray-600 hover:bg-blue-50 hover:text-blue-700 group"
             >
               <Sparkles className="h-3.5 w-3.5 shrink-0 text-gray-400 group-hover:text-blue-600" />
               <span className="truncate">Aleza</span>
@@ -293,11 +293,11 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
                   <Link
                     key={item.href}
                     to={item.href}
-                    className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-md text-[13px] font-medium transition-colors ${
-                      isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-lg text-[13px] font-medium transition-colors ${
+                      isActive ? 'bg-blue-600 text-white shadow-[0_8px_18px_-8px_color-mix(in_srgb,var(--primary)_70%,transparent)]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     }`}
                   >
-                    <item.icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
+                    <item.icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-white' : 'text-gray-400'}`} />
                     <span className="truncate">{item.label}</span>
                   </Link>
                 );
@@ -352,11 +352,11 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
                     ) : (
                       <Link
                         to={fileHref}
-                        className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-md text-[13px] font-medium transition-colors ${
-                          isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-lg text-[13px] font-medium transition-colors ${
+                          isActive ? 'bg-blue-600 text-white shadow-[0_8px_18px_-8px_color-mix(in_srgb,var(--primary)_70%,transparent)]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                         }`}
                       >
-                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
+                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-white' : 'text-gray-400'}`} />
                         <span className="truncate text-xs">{f.name}</span>
                       </Link>
                     )}
@@ -374,11 +374,11 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
         <div className="border-t border-gray-200 mt-1 pt-1 pb-2 shrink-0">
           <Link
             to={`${base}/settings`}
-            className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-md text-[13px] font-medium transition-colors ${
-              pathname === `${base}/settings` ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+            className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-lg text-[13px] font-medium transition-colors ${
+              pathname === `${base}/settings` ? 'bg-blue-600 text-white shadow-[0_8px_18px_-8px_color-mix(in_srgb,var(--primary)_70%,transparent)]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
             }`}
           >
-            <Settings className={`h-3.5 w-3.5 shrink-0 ${pathname === `${base}/settings` ? 'text-blue-600' : 'text-gray-400'}`} />
+            <Settings className={`h-3.5 w-3.5 shrink-0 ${pathname === `${base}/settings` ? 'text-white' : 'text-gray-400'}`} />
             <span>Settings</span>
           </Link>
         </div>
