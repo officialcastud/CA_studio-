@@ -8,6 +8,7 @@ import { Upload, FileText, Scale, Building2, TrendingUp, BookOpen, RefreshCw } f
 import {
   parseTallyXml,
   parseTallyJson,
+  decodeTallyText,
   mergeTallyDatasets,
   saveTallyDataset,
   loadTallyDataset,
@@ -66,9 +67,9 @@ export default function TallyViewerPage() {
           const { parseTallyPdf } = await import('@/lib/tally/pdfExtract');
           parsed = await parseTallyPdf(file);
         } else if (isJson) {
-          parsed = parseTallyJson(await file.text(), file.name);
+          parsed = parseTallyJson(decodeTallyText(await file.arrayBuffer()), file.name);
         } else {
-          parsed = parseTallyXml(await file.text(), file.name);
+          parsed = parseTallyXml(decodeTallyText(await file.arrayBuffer()), file.name);
         }
         merged = merged ? mergeTallyDatasets(merged, parsed) : parsed;
       }

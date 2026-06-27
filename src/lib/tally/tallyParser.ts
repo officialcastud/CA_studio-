@@ -53,6 +53,17 @@ const firstText = (el: Element, tag: string): string => {
   return found?.textContent?.trim() ?? '';
 };
 
+/** Decode a Tally export honoring its byte-order mark. Tally commonly exports
+ *  XML/JSON as UTF-16 (LE) with a BOM; the browser's File.text() always assumes
+ *  UTF-8 and would garble those, so callers should read the file as an
+ *  ArrayBuffer and pass it here. */
+export function decodeTallyText(buffer: ArrayBuffer): string {
+  const b = new Uint8Array(buffer);
+  if (b.length >= 2 && b[0] === 0xff && b[1] === 0xfe) return new TextDecoder('utf-16le').decode(buffer);
+  if (b.length >= 2 && b[0] === 0xfe && b[1] === 0xff) return new TextDecoder('utf-16be').decode(buffer);
+  return new TextDecoder('utf-8').decode(buffer); // strips a UTF-8 BOM if present
+}
+
 // ── parse ───────────────────────────────────────────────────────────────────
 export function parseTallyXml(xmlText: string, fileName = 'tally.xml'): TallyDataset {
   if (!xmlText || !xmlText.trim()) {
@@ -209,9 +220,27 @@ export function parseTallyJson(text: string, fileName = 'tally.json'): TallyData
   const ledgers: TallyLedger[] = [];
   const vouchers: TallyVoucher[] = [];
 
+  const tallyMessages = getCI(data, 'tallymessage', 'tallymessages');
   const normLedgers = getCI(data, 'ledgers');
   const normVouchers = getCI(data, 'vouchers');
-  if (Array.isArray(normLedgers) || Array.isArray(normVouchers)) {
+  if (Array.isArray(tallyMessages)) {
+    // Tally "TALLYMESSAGE" export — each item is discriminated by metadata.type
+    // (Group / Ledger / Voucher / Currency …); this is the shape Tally Prime's
+    // Masters / All Masters JSON export produces.
+    for (const m of (tallyMessages as any[])) {
+      const meta = getCI(m, 'metadata') || {};
+      const type = jText(getCI(meta, 'type')).toLowerCase();
+      const name = jText(getCI(meta, 'name')) || jText(getCI(m, 'name'));
+      if (type === 'group') {
+        if (name) groups.push({ name, parent: jText(getCI(m, 'parent')) });
+      } else if (type === 'ledger') {
+        if (name) ledgers.push({ name, parent: jText(getCI(m, 'parent')), opening: -num(jText(getCI(m, 'openingbalance'))) });
+      } else if (type === 'voucher') {
+        const pv = parseJsonVoucher(m);
+        if (pv) vouchers.push(pv);
+      }
+    }
+  } else if (Array.isArray(normLedgers) || Array.isArray(normVouchers)) {
     // normalized { ledgers, vouchers, groups }
     for (const l of (normLedgers || [])) {
       const name = jText(getCI(l, 'name', 'ledgername')); if (!name) continue;
