@@ -11,6 +11,8 @@ coverage/
 # Env / secrets (never commit these)
 .env
 .env.*
+# …but keep the committed template
+!.env.example
 
 # Logs
 npm-debug.log*
