@@ -6,7 +6,6 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { toast } from 'sonner';
 import { Upload, FileText, Scale, Building2, TrendingUp, BookOpen, RefreshCw } from 'lucide-react';
 import {
-  parseTallyXml,
   parseTallyJson,
   decodeTallyText,
   mergeTallyDatasets,
@@ -60,17 +59,11 @@ export default function TallyViewerPage() {
       let merged: TallyDataset | null = null;
       for (const file of Array.from(files)) {
         const lower = file.name.toLowerCase();
-        const isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
         const isJson = file.type === 'application/json' || lower.endsWith('.json');
-        let parsed: TallyDataset;
-        if (isPdf) {
-          const { parseTallyPdf } = await import('@/lib/tally/pdfExtract');
-          parsed = await parseTallyPdf(file);
-        } else if (isJson) {
-          parsed = parseTallyJson(decodeTallyText(await file.arrayBuffer()), file.name);
-        } else {
-          parsed = parseTallyXml(decodeTallyText(await file.arrayBuffer()), file.name);
+        if (!isJson) {
+          throw new Error(`"${file.name}" is not a JSON file. Only Tally JSON exports can be imported — in Tally, Export → File Format → JSON.`);
         }
+        const parsed = parseTallyJson(decodeTallyText(await file.arrayBuffer()), file.name);
         merged = merged ? mergeTallyDatasets(merged, parsed) : parsed;
       }
       if (!merged || (!merged.ledgers.length && !merged.vouchers.length)) {
@@ -120,7 +113,7 @@ export default function TallyViewerPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Tally" description="Import a Tally XML export and view its Balance Sheet, P&L, Trial Balance and Ledgers">
+      <PageHeader title="Tally" description="Import a Tally JSON export and view its Balance Sheet, P&L, Trial Balance and Ledgers">
         {ds && (
           <button
             onClick={reImport}
@@ -134,7 +127,7 @@ export default function TallyViewerPage() {
       <input
         ref={fileRef}
         type="file"
-        accept=".xml,.json,.pdf,text/xml,application/xml,application/json,application/pdf"
+        accept=".json,application/json"
         multiple
         className="hidden"
         onChange={(e) => { const fs = e.target.files; if (fs && fs.length) handleFiles(fs); }}
@@ -146,22 +139,21 @@ export default function TallyViewerPage() {
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
             <FileText className="h-7 w-7 text-blue-600" />
           </div>
-          <h2 className="text-base font-bold text-gray-900">Import a Tally document</h2>
+          <h2 className="text-base font-bold text-gray-900">Import a Tally JSON file</h2>
           <p className="mx-auto mt-1.5 max-w-lg text-xs leading-relaxed text-gray-500">
-            Accepts Tally <span className="font-semibold">XML</span>, <span className="font-semibold">JSON</span> or <span className="font-semibold">PDF</span> (Alt+E → Export → choose the format).
-            <span className="font-semibold"> XML/JSON are recommended</span> — for full reports select <span className="font-semibold">both</span> the
+            Accepts Tally <span className="font-semibold">JSON</span> exports only (in Tally: Export → <span className="font-semibold">File Format → JSON</span>).
+            For full reports select <span className="font-semibold">both</span> the
             <span className="font-semibold"> List of Accounts</span> (masters) and the <span className="font-semibold">Day Book</span> (all dates) together.
-            A <span className="font-semibold">PDF</span> Trial Balance also works (balances only).
           </p>
           <p className="mx-auto mt-2 max-w-lg text-[11px] leading-relaxed text-amber-600">
-            Note: a Tally <b>company data folder</b> (the <code className="rounded bg-amber-50 px-1">.1800</code> / <code className="rounded bg-amber-50 px-1">.TSF</code> files, or a zip of them) cannot be read — those are Tally's binary database. You must export to XML from inside Tally.
+            Note: XML and PDF are not accepted here — export to <b>JSON</b> from inside Tally. A Tally <b>company data folder</b> (the <code className="rounded bg-amber-50 px-1">.1800</code> / <code className="rounded bg-amber-50 px-1">.TSF</code> files, or a zip of them) cannot be read either — those are Tally's binary database.
           </p>
           <button
             onClick={reImport}
             disabled={importing}
             className="mx-auto mt-5 inline-flex items-center gap-2 h-11 px-6 text-sm font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-60 transition-colors shadow-sm"
           >
-            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally File (XML / JSON / PDF)</>}
+            {importing ? <><div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Importing…</> : <><Upload className="h-4 w-4" /> Import Tally JSON</>}
           </button>
         </div>
       ) : (
