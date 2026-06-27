@@ -96,7 +96,7 @@ const PageLoader = () => (
 );
 
 export const router = createBrowserRouter([
-  { index: true, element: <Navigate to="/companies" replace /> },
+  { index: true, element: <Navigate to="/auth" replace /> },
   { path: '/auth', element: <Suspense fallback={<PageLoader />}><AuthPage /></Suspense> },
   { path: '/companies', element: <Suspense fallback={<PageLoader />}><CompaniesPage /></Suspense> },
   { path: '/companies/create', element: <Suspense fallback={<PageLoader />}><CreateCompanyPage /></Suspense> },
