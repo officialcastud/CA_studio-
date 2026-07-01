@@ -141,6 +141,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
           { label: 'Bank Statement Importer', href: `${base}/bulk-workspace`, icon: LayoutGrid },
           { label: 'Cash Flow Statement', href: `${base}/cash-flow`, icon: ArrowRightLeft },
         ]},
+        { heading: 'TALLY', items: [
+          { label: 'Tally', href: `${base}/tally`, icon: FileText },
+        ]},
       ];
     }
 
