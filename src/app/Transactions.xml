@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  Tally (Prime / ERP 9) Import file  =  Ledgers + Vouchers
+  ============================================================================
+  HOW TO IMPORT
+    Gateway of Tally  ->  Import Data  ->  Vouchers  (or "Masters" first)
+    Select this file. Tally Prime: Alt+O (Import) -> Vouchers -> pick file.
+
+  KEY RULES (do not break these or the file will not import cleanly)
+    * Wrap everything in ONE <ENVELOPE> with TALLYREQUEST = "Import Data".
+    * A voucher's ledgers MUST already exist in the company. The <LEDGER>
+      masters below create them; remove that block if they already exist.
+    * Set SVCURRENTCOMPANY to the EXACT company name open in Tally.
+    * DATE format is YYYYMMDD (no separators).
+    * Sign convention inside a voucher:
+        Debit  line  -> <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>, AMOUNT negative
+        Credit line  -> <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>,  AMOUNT positive
+      The AMOUNTs in every voucher must sum to 0 (debits = credits).
+    * ACTION="Create" adds new; use ACTION="Alter" to update existing.
+  ============================================================================
+-->
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>All Masters</REPORTNAME>
+        <STATICVARIABLES>
+          <!-- Replace with the exact name of the company open in Tally -->
+          <SVCURRENTCOMPANY>My Company (FY 2025-26)</SVCURRENTCOMPANY>
+        </STATICVARIABLES>
+      </REQUESTDESC>
+      <REQUESTDATA>
+
+        <!-- ================= LEDGER MASTERS ================= -->
+        <!-- Created first so the vouchers below can reference them.        -->
+        <!-- Delete this block if these ledgers already exist in Tally.     -->
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="Cash" ACTION="Create">
+            <NAME>Cash</NAME>
+            <PARENT>Cash-in-Hand</PARENT>
+            <OPENINGBALANCE>0.00</OPENINGBALANCE>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="HDFC Bank" ACTION="Create">
+            <NAME>HDFC Bank</NAME>
+            <PARENT>Bank Accounts</PARENT>
+            <OPENINGBALANCE>0.00</OPENINGBALANCE>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="Sales" ACTION="Create">
+            <NAME>Sales</NAME>
+            <PARENT>Sales Accounts</PARENT>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="Purchase" ACTION="Create">
+            <NAME>Purchase</NAME>
+            <PARENT>Purchase Accounts</PARENT>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="Conveyance A/c" ACTION="Create">
+            <NAME>Conveyance A/c</NAME>
+            <PARENT>Indirect Expenses</PARENT>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="ABC Traders" ACTION="Create">
+            <NAME>ABC Traders</NAME>
+            <PARENT>Sundry Debtors</PARENT>
+            <ISBILLWISEON>Yes</ISBILLWISEON>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="XYZ Suppliers" ACTION="Create">
+            <NAME>XYZ Suppliers</NAME>
+            <PARENT>Sundry Creditors</PARENT>
+            <ISBILLWISEON>Yes</ISBILLWISEON>
+          </LEDGER>
+        </TALLYMESSAGE>
+
+        <!-- ===================== VOUCHERS ===================== -->
+
+        <!-- 1) RECEIPT — money received from a customer into bank.
+                Dr HDFC Bank 25,000 ; Cr ABC Traders 25,000 -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Receipt" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250405</DATE>
+            <VOUCHERTYPENAME>Receipt</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <NARRATION>Being amount received from ABC Traders against invoice.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>HDFC Bank</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-25000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>ABC Traders</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>25000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+        <!-- 2) PAYMENT — expense paid in cash.
+                Dr Conveyance A/c 1,200 ; Cr Cash 1,200 -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Payment" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250408</DATE>
+            <VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <NARRATION>Being conveyance expenses paid in cash.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Conveyance A/c</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-1200.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Cash</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>1200.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+        <!-- 3) SALES — credit sale to a customer.
+                Dr ABC Traders 50,000 ; Cr Sales 50,000
+                (Add GST output ledgers as extra lines if applicable.) -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Sales" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250412</DATE>
+            <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <REFERENCE>INV-001</REFERENCE>
+            <NARRATION>Being goods sold to ABC Traders on credit.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>ABC Traders</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-50000.00</AMOUNT>
+              <BILLALLOCATIONS.LIST>
+                <NAME>INV-001</NAME>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <AMOUNT>-50000.00</AMOUNT>
+              </BILLALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Sales</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>50000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+        <!-- 4) PURCHASE — credit purchase from a supplier.
+                Dr Purchase 30,000 ; Cr XYZ Suppliers 30,000 -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Purchase" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250415</DATE>
+            <VOUCHERTYPENAME>Purchase</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <REFERENCE>BILL-117</REFERENCE>
+            <NARRATION>Being goods purchased from XYZ Suppliers on credit.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Purchase</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-30000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>XYZ Suppliers</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>30000.00</AMOUNT>
+              <BILLALLOCATIONS.LIST>
+                <NAME>BILL-117</NAME>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <AMOUNT>30000.00</AMOUNT>
+              </BILLALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+        <!-- 5) CONTRA — cash deposited into bank.
+                Dr HDFC Bank 10,000 ; Cr Cash 10,000 -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Contra" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250418</DATE>
+            <VOUCHERTYPENAME>Contra</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <NARRATION>Being cash deposited into HDFC Bank.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>HDFC Bank</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-10000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Cash</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>10000.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+        <!-- 6) JOURNAL — adjustment entry (no cash/bank).
+                Dr Conveyance A/c 500 ; Cr Cash 500 -->
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Journal" ACTION="Create" OBJVIEW="Accounting Voucher View">
+            <DATE>20250420</DATE>
+            <VOUCHERTYPENAME>Journal</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>1</VOUCHERNUMBER>
+            <NARRATION>Being adjustment of conveyance expense.</NARRATION>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Conveyance A/c</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-500.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Cash</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>500.00</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>
