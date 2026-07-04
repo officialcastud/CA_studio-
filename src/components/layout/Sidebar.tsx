@@ -122,31 +122,7 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     const base = `/company/${companyId}`;
     const nav = config.nav;
 
-    // ── Business mode — curated access list (per the business-users spec) ──
-    if (mode === 'business') {
-      return [
-        { heading: 'REGISTERS', items: [
-          { label: 'Sales', href: `${base}/sales-register`, icon: ClipboardList },
-          { label: 'Purchase', href: `${base}/purchase-register`, icon: ClipboardList },
-          { label: 'Sales Return', href: `${base}/sales-returns`, icon: ClipboardMinus },
-          { label: 'Purchase Return', href: `${base}/purchase-returns`, icon: ClipboardMinus },
-          { label: 'Bills Receivable', href: `${base}/bills-receivable`, icon: FileText },
-          { label: 'Bills Payable', href: `${base}/bills-payable`, icon: FileText },
-        ]},
-        { heading: 'TAX & COMPLIANCES', items: [
-          { label: 'GST', href: `${base}/gst`, icon: Receipt },
-        ]},
-        { heading: 'BANKING', items: [
-          { label: 'Bank Accounts', href: `${base}/bank-accounts`, icon: Landmark },
-          { label: 'Bank Statement Importer', href: `${base}/bulk-workspace`, icon: LayoutGrid },
-          { label: 'Cash Flow Statement', href: `${base}/cash-flow`, icon: ArrowRightLeft },
-        ]},
-        { heading: 'TALLY', items: [
-          { label: 'Tally', href: `${base}/tally`, icon: FileText },
-        ]},
-      ];
-    }
-
+    // Both Professional and Business now see the full (unlocked) menu.
     const g: NavGroup[] = [];
 
     g.push({ heading: 'CORE', items: [
