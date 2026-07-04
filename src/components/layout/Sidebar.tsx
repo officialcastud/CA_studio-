@@ -14,7 +14,7 @@ import {
   IndianRupee, Clock, ArrowLeftRight, ShieldCheck, Globe, Percent,
   FileCheck, FileSignature, PieChart, Link2, CheckSquare, Package,
   Settings, Sparkles, FolderOpen, File, FileCode, FilePlus, FileUp,
-  Trash2, Pencil, Check, X, LayoutGrid, type LucideIcon,
+  Trash2, Pencil, Check, X, LayoutGrid, Search, type LucideIcon,
 } from 'lucide-react';
 
 interface NavItem { label: string; href: string; icon: LucideIcon }
@@ -57,6 +57,9 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     if (typeof window === 'undefined') return 'professional';
     return localStorage.getItem(ACCESS_MODE_KEY) === 'business' ? 'business' : 'professional';
   });
+
+  // Quick search — type the start of a menu entry to jump to it.
+  const [query, setQuery] = useState('');
 
   /* close context menu on outside click or Escape */
   useEffect(() => {
@@ -203,6 +206,25 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
     return g;
   }, [config, companyId, company, mode]);
 
+  // Filtered menu entries for the quick-search box (start-of-word matches first).
+  const q = query.trim().toLowerCase();
+  const matches = useMemo(() => {
+    if (!q || !groups) return [];
+    const seen = new Set<string>();
+    const all = groups.flatMap((grp) => grp.items).filter((it) => {
+      if (seen.has(it.href)) return false;
+      seen.add(it.href);
+      return true;
+    });
+    return all
+      .filter((it) => it.label.toLowerCase().includes(q))
+      .sort((a, b) => {
+        const aStart = a.label.toLowerCase().startsWith(q) ? 0 : 1;
+        const bStart = b.label.toLowerCase().startsWith(q) ? 0 : 1;
+        return aStart - bStart || a.label.localeCompare(b.label);
+      });
+  }, [q, groups]);
+
   if (loading || !groups) {
     return (
       <aside className="w-full bg-white border-r border-gray-200 h-full shrink-0 flex flex-col min-h-0">
@@ -232,7 +254,55 @@ export const Sidebar = React.memo(function Sidebar({ onAlezaToggle }: SidebarPro
             </button>
           </div>
 
-          {(
+          {/* Quick search — type the start of an entry to float it to the top */}
+          <div className="mb-2 px-1.5">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && matches.length) { navigate(matches[0].href); setQuery(''); }
+                  if (e.key === 'Escape') setQuery('');
+                }}
+                placeholder="Search menu…"
+                className="w-full h-8 pl-8 pr-7 text-[13px] bg-gray-100 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 placeholder:text-gray-400 transition-colors"
+              />
+              {query && (
+                <button onClick={() => setQuery('')} title="Clear"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-0.5 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200">
+                  <X className="h-3 w-3" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {q ? (
+          /* ── Search results (matches float to the top) ── */
+          <div className="mb-1">
+            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest px-3 py-1.5 mt-1">
+              Results{matches.length ? ` (${matches.length})` : ''}
+            </p>
+            {matches.length === 0 ? (
+              <p className="text-[11px] text-gray-400 px-4 py-1 italic">No matching menu items</p>
+            ) : matches.map((item) => {
+              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              return (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  onClick={() => setQuery('')}
+                  className={`flex items-center gap-2.5 px-3 py-1.5 mx-1.5 rounded-lg text-[13px] font-medium transition-colors ${
+                    isActive ? 'bg-blue-600 text-white shadow-[0_8px_18px_-8px_color-mix(in_srgb,var(--primary)_70%,transparent)]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <item.icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                  <span className="truncate">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+          ) : (
           <>
           {/* Nav groups */}
           {groups.map((group) => (
