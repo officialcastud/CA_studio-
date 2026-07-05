@@ -1681,7 +1681,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
   const b2bJsonTables = new Set<Gstr1Table>(['B2B', 'SEWP', 'SEWOP', 'DE']);
   const b2bInvs = invoices.filter((x) => b2bJsonTables.has(x.gstr1_table));
   if (b2bInvs.length) {
-    const grouped: Record<string, { ctin: string; inv: Gstr1JsonOutput['b2b'][0]['inv'] }> = {};
+    const grouped: Record<string, { ctin: string; inv: NonNullable<Gstr1JsonOutput['b2b']>[0]['inv'] }> = {};
     b2bInvs.forEach((inv) => {
       const k = inv.buyer_gstin || '';
       if (!grouped[k]) grouped[k] = { ctin: k, inv: [] };
@@ -1714,7 +1714,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const b2baInvs = invoices.filter((x) => x.gstr1_table === 'B2BA');
   if (b2baInvs.length) {
-    const grouped: Record<string, { ctin: string; inv: Gstr1JsonOutput['b2ba'][0]['inv'] }> = {};
+    const grouped: Record<string, { ctin: string; inv: NonNullable<Gstr1JsonOutput['b2ba']>[0]['inv'] }> = {};
     b2baInvs.forEach((inv) => {
       const k = inv.buyer_gstin || '';
       if (!grouped[k]) grouped[k] = { ctin: k, inv: [] };
@@ -1748,7 +1748,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const b2clInvs = invoices.filter((x) => x.gstr1_table === 'B2CL');
   if (b2clInvs.length) {
-    const grouped: Record<string, { pos: string; inv: Gstr1JsonOutput['b2cl'][0]['inv'] }> = {};
+    const grouped: Record<string, { pos: string; inv: NonNullable<Gstr1JsonOutput['b2cl']>[0]['inv'] }> = {};
     b2clInvs.forEach((inv) => {
       const k = inv.place_of_supply;
       if (!grouped[k]) grouped[k] = { pos: k, inv: [] };
@@ -1776,7 +1776,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const b2csInvs = invoices.filter((x) => x.gstr1_table === 'B2CS');
   if (b2csInvs.length) {
-    const consolidated: Record<string, Gstr1JsonOutput['b2cs'][0]> = {};
+    const consolidated: Record<string, NonNullable<Gstr1JsonOutput['b2cs']>[0]> = {};
     b2csInvs.forEach((inv) => {
       inv.items
         .filter((x) => x.supply_nature === 'TAXABLE')
@@ -1830,7 +1830,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const expInvs = invoices.filter((x) => x.gstr1_table === 'EXP');
   if (expInvs.length) {
-    const grouped: Record<string, { exp_typ: 'WPAY' | 'WOPAY'; inv: Gstr1JsonOutput['exp'][0]['inv'] }> = {};
+    const grouped: Record<string, { exp_typ: 'WPAY' | 'WOPAY'; inv: NonNullable<Gstr1JsonOutput['exp']>[0]['inv'] }> = {};
     expInvs.forEach((inv) => {
       const k = inv.export_type || 'WOPAY';
       if (!grouped[k]) grouped[k] = { exp_typ: k as 'WPAY' | 'WOPAY', inv: [] };
@@ -1855,7 +1855,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const expaInvs = invoices.filter((x) => x.gstr1_table === 'EXPA');
   if (expaInvs.length) {
-    const grouped: Record<string, { exp_typ: 'WPAY' | 'WOPAY'; inv: Gstr1JsonOutput['expa'][0]['inv'] }> = {};
+    const grouped: Record<string, { exp_typ: 'WPAY' | 'WOPAY'; inv: NonNullable<Gstr1JsonOutput['expa']>[0]['inv'] }> = {};
     expaInvs.forEach((inv) => {
       const k = inv.export_type || 'WOPAY';
       if (!grouped[k]) grouped[k] = { exp_typ: k as 'WPAY' | 'WOPAY', inv: [] };
@@ -1881,7 +1881,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const cdnrInvs = invoices.filter((x) => x.gstr1_table === 'CDNR');
   if (cdnrInvs.length) {
-    const grouped: Record<string, { ctin: string; nt: Gstr1JsonOutput['cdnr'][0]['nt'] }> = {};
+    const grouped: Record<string, { ctin: string; nt: NonNullable<Gstr1JsonOutput['cdnr']>[0]['nt'] }> = {};
     cdnrInvs.forEach((inv) => {
       const k = inv.buyer_gstin || '';
       if (!grouped[k]) grouped[k] = { ctin: k, nt: [] };
@@ -1913,7 +1913,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const cdnraInvs = invoices.filter((x) => x.gstr1_table === 'CDNRA');
   if (cdnraInvs.length) {
-    const grouped: Record<string, { ctin: string; nt: Gstr1JsonOutput['cdnra'][0]['nt'] }> = {};
+    const grouped: Record<string, { ctin: string; nt: NonNullable<Gstr1JsonOutput['cdnra']>[0]['nt'] }> = {};
     cdnraInvs.forEach((inv) => {
       const k = inv.buyer_gstin || '';
       if (!grouped[k]) grouped[k] = { ctin: k, nt: [] };
@@ -2014,7 +2014,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
 
   const atInvs = invoices.filter((x) => x.gstr1_table === 'AT');
   if (atInvs.length) {
-    const grouped: Record<string, { pos: string; itms: Gstr1JsonOutput['at'][0]['itms'] }> = {};
+    const grouped: Record<string, { pos: string; itms: NonNullable<Gstr1JsonOutput['at']>[0]['itms'] }> = {};
     atInvs.forEach((inv) => {
       inv.items.forEach((item) => {
         const k = `${inv.place_of_supply}_${item.gst_rate}`;
@@ -2031,7 +2031,7 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
     });
     json.at = Object.values(grouped).map((x) => ({
       ...x,
-      sply_ty: x.itms.some((t) => t.iamt > 0) ? 'INTER' : 'INTRA',
+      sply_ty: x.itms.some((t: NonNullable<Gstr1JsonOutput['at']>[0]['itms'][0]) => t.iamt > 0) ? 'INTER' : 'INTRA',
     }));
   }
 
@@ -2085,8 +2085,8 @@ export function buildGSTR1JSON(companyId: string, gstin: string, period: string)
     }));
   }
 
-  const hsnB2bMap: Record<string, Gstr1JsonOutput['hsn']['hsn_b2b'][0]> = {};
-  const hsnB2cMap: Record<string, Gstr1JsonOutput['hsn']['hsn_b2c'][0]> = {};
+  const hsnB2bMap: Record<string, NonNullable<Gstr1JsonOutput['hsn']>['hsn_b2b'][0]> = {};
+  const hsnB2cMap: Record<string, NonNullable<Gstr1JsonOutput['hsn']>['hsn_b2c'][0]> = {};
   invoices.forEach((inv) => {
     if (inv.gstr1_table === 'NONE' || inv.gstr1_table === 'NIL') return;
     inv.items.forEach((item) => {

@@ -7,7 +7,7 @@ export interface InventoryRegisterFilters {
   inventoryAccount?: string;
 }
 
-export interface InventoryRegisterRow {
+export interface InventoryStockSummaryRow {
   itemName: string;
   inventoryAccount: string;
   unit: string;
@@ -26,7 +26,7 @@ export function computeInventoryRegister(
   fromDate?: string,
   toDate?: string,
   filters?: InventoryRegisterFilters
-): InventoryRegisterRow[] {
+): InventoryStockSummaryRow[] {
   const jf: JournalEntryFilters = {
     fromDate,
     toDate,
@@ -51,7 +51,7 @@ export function computeInventoryRegister(
     }
   }
 
-  const rows: InventoryRegisterRow[] = [];
+  const rows: InventoryStockSummaryRow[] = [];
 
   for (const [key, bucket] of byKey) {
     const [itemName, inventoryAccount] = key.split('::');

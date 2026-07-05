@@ -274,7 +274,7 @@ export default function BalanceSheetNotesPage() {
                           <td className="px-2 py-1.5 text-gray-800">{row.accountName}</td>
                           {SCHEDULE_III_AGEING_LABELS.map(({ key }) => (
                             <td key={key} className="px-2 py-1.5 text-right font-mono">
-                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as Record<string, number>)[key]) : '—'}
+                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as unknown as Record<string, number>)[key]) : '—'}
                             </td>
                           ))}
                           <td className="px-2 py-1.5 text-right font-mono font-medium">
@@ -306,7 +306,7 @@ export default function BalanceSheetNotesPage() {
                           <td className="px-2 py-1.5 text-gray-800">{row.accountName}</td>
                           {SCHEDULE_III_AGEING_LABELS.map(({ key }) => (
                             <td key={key} className="px-2 py-1.5 text-right font-mono">
-                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as Record<string, number>)[key]) : '—'}
+                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as unknown as Record<string, number>)[key]) : '—'}
                             </td>
                           ))}
                           <td className="px-2 py-1.5 text-right font-mono font-medium">
@@ -338,7 +338,7 @@ export default function BalanceSheetNotesPage() {
                           <td className="px-2 py-1.5 text-gray-800">{row.accountName}</td>
                           {SCHEDULE_III_AGEING_LABELS.map(({ key }) => (
                             <td key={key} className="px-2 py-1.5 text-right font-mono">
-                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as Record<string, number>)[key]) : '—'}
+                              {row.scheduleIIIAgeing ? formatIndianCurrency((row.scheduleIIIAgeing as unknown as Record<string, number>)[key]) : '—'}
                             </td>
                           ))}
                           <td className="px-2 py-1.5 text-right font-mono font-medium">

@@ -82,7 +82,7 @@ export default function TDSRegisterPage() {
             <button onClick={() => setShowNewEntry(true)} className="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
               <Plus className="h-3.5 w-3.5" /> New Entry
             </button>
-            <ExportButtons title="TDS Register" companyName={company.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={columns} data={data} />
+            <ExportButtons title="TDS Register" companyName={company!.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={columns} data={data} />
           </div>
         </div>
       </PageHeader>
@@ -116,7 +116,7 @@ export default function TDSRegisterPage() {
       ) : (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="text-center py-3 border-b border-gray-200 bg-gray-50/50">
-            <p className="text-[11px] text-gray-400 uppercase tracking-wide">{company.name}</p>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide">{company!.name}</p>
             <h3 className="text-base font-bold text-gray-900 mt-0.5">TDS Register</h3>
             <p className="text-xs text-gray-400 mt-0.5">{fromDate} to {toDate}</p>
           </div>

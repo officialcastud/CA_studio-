@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-type AnyElement = keyof JSX.IntrinsicElements;
-
-function primitive<T extends AnyElement>(tag: T) {
-  return React.forwardRef<any, React.ComponentPropsWithoutRef<T>>((props, ref) =>
+function primitive(tag: keyof React.JSX.IntrinsicElements) {
+  return React.forwardRef<any, any>((props, ref) =>
     React.createElement(tag, { ref, ...props })
   );
 }
@@ -43,6 +41,7 @@ export const DropdownMenu = {
   CheckboxItem: primitive('div'),
   RadioGroup: primitive('div'),
   RadioItem: primitive('div'),
+  ItemIndicator: primitive('span'),
   Label: primitive('div'),
   Separator: primitive('div'),
   Shortcut: primitive('span'),

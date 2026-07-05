@@ -558,16 +558,15 @@ export default function SettingsPage() {
                 <h4 className="text-sm font-bold text-slate-900 mb-4">Statutory & System Configuration</h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    ['ITR Form', entityConfig.itrForm, FileText],
-                    ['Audit Form', entityConfig.nav.auditForm, FileCheck],
-                    ['P&L Format', entityConfig.nav.profitLossFormat, BarChart3],
-                    ['BS Format', entityConfig.nav.balanceSheetFormat, BookOpen]
-                  ].map(([label, val, Icon]) => {
-                    const I = Icon as any;
+                    { label: 'ITR Form', val: entityConfig.itrForm, Icon: FileText },
+                    { label: 'Audit Form', val: entityConfig.nav.auditForm, Icon: FileCheck },
+                    { label: 'P&L Format', val: entityConfig.nav.profitLossFormat, Icon: BarChart3 },
+                    { label: 'BS Format', val: entityConfig.nav.balanceSheetFormat, Icon: BookOpen }
+                  ].map(({ label, val, Icon }) => {
                     return (
                       <div key={label} className="bg-slate-50/40 border border-slate-200/60 rounded-2xl p-4 flex flex-col items-start shadow-sm hover:border-blue-200 hover:bg-blue-50/10 transition-colors">
                         <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5">
-                          <I className="h-4 w-4" />
+                          <Icon className="h-4 w-4" />
                         </div>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
                         <span className="text-sm font-black text-slate-800 mt-1">{val || '—'}</span>

@@ -14,7 +14,8 @@
     "jsx": "react-jsx",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "radix-ui": ["./src/shims/radix-ui.tsx"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.mts"],

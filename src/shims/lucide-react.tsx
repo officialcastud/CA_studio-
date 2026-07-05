@@ -1,8 +1,8 @@
-import type { SVGProps } from 'react';
+import type { SVGProps, ReactElement } from 'react';
 
 type IconProps = SVGProps<SVGSVGElement>;
 
-export type LucideIcon = (props: IconProps) => JSX.Element;
+export type LucideIcon = ((props: IconProps) => ReactElement) & { displayName?: string };
 
 function makeIcon(displayName: string) {
   const Icon: LucideIcon = (props: IconProps) => (

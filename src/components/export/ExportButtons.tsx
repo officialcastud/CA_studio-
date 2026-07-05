@@ -15,6 +15,8 @@ interface ExportButtonsProps {
   includeSignatureBlock?: boolean;
   /** When true (default), export options are locked behind Pro version. */
   locked?: boolean;
+  /** Optional custom PDF handler (accepted for callers that supply their own). */
+  onPdf?: () => Promise<void> | void;
 }
 
 const LOCK_SVG = (

@@ -15,7 +15,7 @@ export type InventoryMovementType =
   | 'OTHER';
 
 export interface InventoryMovement {
-  companyId: string;
+  companyId?: string;
   date: string;
   entryId: string;
   entryCode: string;
@@ -90,7 +90,6 @@ export function journalLinesToInventoryMovements(entries: JournalEntry[]): Inven
         const value = qty * rate;
 
         movements.push({
-          companyId: entry.company_id,
           date: entry.entry_date,
           entryId: entry.id,
           entryCode: entry.entry_code,

@@ -34,7 +34,11 @@ export function CashBookFormat({
   totalDiscountAllowed,
   totalDiscountReceived,
 }: CashBookFormatProps) {
-  const typeLabel = type === 'single' ? 'Single Column' : type === 'double' ? 'Double Column' : 'Triple Column';
+  // colType retains the full union type so the column-width ternaries can compare
+  // against 'single' even inside JSX blocks that only render for 'double' | 'triple'
+  // (where TypeScript would otherwise narrow `type` and reject the comparison).
+  const colType: 'single' | 'double' | 'triple' = type;
+  const typeLabel = colType === 'single' ? 'Single Column' : type === 'double' ? 'Double Column' : 'Triple Column';
 
   const toMonthKey = (isoDate: string) => isoDate.slice(0, 7); // YYYY-MM
 
@@ -116,20 +120,20 @@ export function CashBookFormat({
       )}
       <table
         className={`w-full table-fixed ${
-          type === 'single' ? 'text-[13px]' : 'text-[11px]'
+          colType === 'single' ? 'text-[13px]' : 'text-[11px]'
         } [&_th]:border-r [&_th]:border-gray-200 [&_th:last-child]:border-r-0 [&_td]:border-r [&_td]:border-gray-200 [&_td:last-child]:border-r-0`}
       >
         <thead>
           <tr className="bg-gray-50 border-b border-gray-200">
-            <th className={`text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${dateWidth} ${type === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>Date</th>
-            <th className={`text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${particularsWidth} ${type === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>Particulars</th>
-            <th className={`text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${lfWidth} ${type === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>LF</th>
+            <th className={`text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${dateWidth} ${colType === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>Date</th>
+            <th className={`text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${particularsWidth} ${colType === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>Particulars</th>
+            <th className={`text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${lfWidth} ${colType === 'single' ? 'px-2 py-1.5 text-xs' : 'px-1 py-1 text-[10px]'}`}>LF</th>
             {type === 'triple' && (
               <th className={`text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${discountWidth} px-1 py-1 text-[10px]`}>Disc.</th>
             )}
             <th
               className={`text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${amountWidth} ${
-                type === 'single'
+                colType === 'single'
                   ? 'px-2 py-1.5 text-xs'
                   : type === 'triple'
                   ? 'px-1 py-1 text-[10px]'
@@ -141,7 +145,7 @@ export function CashBookFormat({
             {(type === 'double' || type === 'triple') && (
               <th
                 className={`text-right text-[11px] font-semibold text-gray-500 uppercase tracking-wider ${amountWidth} ${
-                  type === 'single'
+                  colType === 'single'
                     ? 'px-2 py-1.5 text-xs'
                     : type === 'triple'
                     ? 'px-1 py-1 text-[10px]'
@@ -165,7 +169,7 @@ export function CashBookFormat({
               {type === 'triple' && <td className={`${discountWidth} ${type === 'triple' ? 'px-1 py-1' : 'px-2 py-1.5'}`}></td>}
               <td
                 className={`${amountWidth} ${
-                  type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                  type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                 } text-right font-mono tabular-nums whitespace-nowrap`}
               >
                 {openingBalance.cash !== 0 ? formatIndianCurrency(Math.abs(openingBalance.cash)) : ''}
@@ -173,7 +177,7 @@ export function CashBookFormat({
               {(type === 'double' || type === 'triple') && (
                 <td
                   className={`${amountWidth} ${
-                    type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                    type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                   } text-right font-mono tabular-nums whitespace-nowrap`}
                 >
                   {openingBalance.bank !== 0 ? formatIndianCurrency(Math.abs(openingBalance.bank)) : ''}
@@ -203,7 +207,7 @@ export function CashBookFormat({
               )}
               <td
                 className={`${amountWidth} ${
-                  type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                  type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                 } text-right font-mono tabular-nums whitespace-nowrap`}
               >
                 {row.cashAmount > 0 ? formatIndianCurrency(row.cashAmount) : ''}
@@ -211,7 +215,7 @@ export function CashBookFormat({
               {(type === 'double' || type === 'triple') && (
                 <td
                   className={`${amountWidth} ${
-                    type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                    type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                   } text-right font-mono tabular-nums whitespace-nowrap`}
                 >
                   {row.bankAmount > 0 ? formatIndianCurrency(row.bankAmount) : ''}
@@ -241,7 +245,7 @@ export function CashBookFormat({
               {type === 'triple' && <td className={`${discountWidth} ${type === 'triple' ? 'px-1 py-1' : 'px-2 py-1.5'}`}></td>}
               <td
                 className={`${amountWidth} ${
-                  type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                  type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                 } text-right font-mono tabular-nums whitespace-nowrap`}
               >
                 {closingBalance.cash !== 0 ? formatIndianCurrency(Math.abs(closingBalance.cash)) : ''}
@@ -249,7 +253,7 @@ export function CashBookFormat({
               {(type === 'double' || type === 'triple') && (
                 <td
                   className={`${amountWidth} ${
-                    type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                    type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                   } text-right font-mono tabular-nums whitespace-nowrap`}
                 >
                   {closingBalance.bank !== 0 ? formatIndianCurrency(Math.abs(closingBalance.bank)) : ''}
@@ -279,7 +283,7 @@ export function CashBookFormat({
             )}
             <td
               className={`${amountWidth} ${
-                type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
               } text-right font-mono tabular-nums whitespace-nowrap`}
             >
               {cashTotal !== 0 ? formatIndianCurrency(Math.abs(cashTotal)) : ''}
@@ -287,7 +291,7 @@ export function CashBookFormat({
             {(type === 'double' || type === 'triple') && (
               <td
                 className={`${amountWidth} ${
-                  type === 'triple' ? 'px-1 py-1 text-[10px]' : type === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
+                  type === 'triple' ? 'px-1 py-1 text-[10px]' : colType === 'single' ? 'px-2 py-1.5' : 'px-2 py-1.5 text-[11px]'
                 } text-right font-mono tabular-nums whitespace-nowrap`}
               >
                 {bankTotal !== 0 ? formatIndianCurrency(Math.abs(bankTotal)) : ''}

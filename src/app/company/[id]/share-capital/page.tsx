@@ -67,7 +67,7 @@ export default function ShareCapitalPage() {
   // eslint-disable-next-line no-unreachable
   // Detail view for selected account
   if (selectedAccount) {
-    const ledgerRows = computeLedger(entries, selectedAccount);
+    const ledgerRows = computeLedger(entries, selectedAccount!);
     const runningColumns = [
       { header: 'Date', key: 'date' },
       { header: 'Particulars', key: 'particulars' },
@@ -85,17 +85,17 @@ export default function ShareCapitalPage() {
 
     return (
       <div>
-        <PageHeader title={selectedAccount} description="Share capital account detail">
+        <PageHeader title={selectedAccount!} description="Share capital account detail">
           <div className="flex flex-col gap-2 items-end">
             <button onClick={() => setSelectedAccount(null)} className="px-3 py-1.5 text-sm border border-gray-200 rounded-xl hover:bg-blue-50/30 transition-colors">Back to Share Capital</button>
             <DateRangeFilter fromDate={fromDate} toDate={toDate} onDateChange={(f, t) => { setFromDate(f); setToDate(t); }} />
-            <ExportButtons title={selectedAccount} companyName={company.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={runningColumns} data={runningData} />
+            <ExportButtons title={selectedAccount!} companyName={company!.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={runningColumns} data={runningData} />
           </div>
         </PageHeader>
         {loading ? (
           <div className="flex items-center justify-center py-16"><div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
         ) : (
-          <RegisterFormat title={`${selectedAccount} — Ledger`} subtitle={`${fromDate} to ${toDate}`} companyName={company.name} columns={runningColumns} data={runningData} totals={{ debit: totalDebit, credit: totalCredit }} emptyMessage="No transactions found." />
+          <RegisterFormat title={`${selectedAccount} — Ledger`} subtitle={`${fromDate} to ${toDate}`} companyName={company!.name} columns={runningColumns} data={runningData} totals={{ debit: totalDebit, credit: totalCredit }} emptyMessage="No transactions found." />
         )}
       </div>
     );
@@ -129,7 +129,7 @@ export default function ShareCapitalPage() {
       <PageHeader title="Share Capital" description="Share capital accounts — issue, allotment, calls, forfeiture">
         <div className="flex flex-col gap-2 items-end">
           <DateRangeFilter fromDate={fromDate} toDate={toDate} onDateChange={(f, t) => { setFromDate(f); setToDate(t); }} />
-          <ExportButtons title="Share Capital" companyName={company.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={summaryColumns} data={summaryData} />
+          <ExportButtons title="Share Capital" companyName={company!.name} entityType={entityLabel} dateRange={`${fromDate} to ${toDate}`} columns={summaryColumns} data={summaryData} />
         </div>
       </PageHeader>
 
@@ -148,7 +148,7 @@ export default function ShareCapitalPage() {
       ) : (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="text-center py-3 border-b border-gray-200 bg-gray-50/50">
-            <p className="text-[11px] text-gray-400 uppercase tracking-wide">{company.name}</p>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide">{company!.name}</p>
             <h3 className="text-base font-bold text-gray-900 mt-0.5">Share Capital Register</h3>
             <p className="text-xs text-gray-400 mt-0.5">{fromDate} to {toDate}</p>
           </div>

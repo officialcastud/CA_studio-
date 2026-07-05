@@ -23,12 +23,12 @@ const PURGE_FLAG_KEY = 'ca_legacy_data_purged_v2';
 const DEMO_COMPANY_NAME = 'Varatax Private Limited';
 const SEED_TAG = '[VARATAX_SEED_V2]';
 
-const LEGACY_STORAGE_KEYS = [
+const LEGACY_STORAGE_KEYS: readonly string[] = [
   'ca_offline_db',
   'ca_offline_db_v1',
   'ca_journal_entries',
   'ca_companies',
-] as const;
+];
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
