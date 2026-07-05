@@ -5,6 +5,7 @@ import {
   Receipt, Wallet, ArrowRight, ShieldCheck, FileText,
   Users, Package, ArrowRightLeft,
 } from 'lucide-react';
+import { QuickOpen } from '@/components/company/QuickOpen';
 import { useCompany } from '@/hooks/useCompany';
 import { useEntityConfig } from '@/hooks/useEntityConfig';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
@@ -150,6 +151,9 @@ export default function CompanyOverviewPage() {
           )}
         </div>
       </div>
+
+      {/* ── Quick open — type a shortcut (e.g. "tall", "bal") to open a page ── */}
+      {companyId && <QuickOpen companyId={companyId} />}
 
       {/* ── Key metrics ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
