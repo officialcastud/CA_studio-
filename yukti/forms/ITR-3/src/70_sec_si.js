@@ -366,7 +366,7 @@ function expSi(j){
       FirmName:sv(f.name),
       FirmPAN:sv(f.pan)?String(f.pan).toUpperCase():undefined,
       ProfitSharePercent:N(f.pct),
-      ProfitShareAmt:n0(f.profit),
+      ProfitShareAmt:sg(f.profit),         /* signed — a share of loss is negative */
       FirmCapBalOn31Mar:sg(f.capbal)};     /* required per element */
       if(f.audit==="Y"||f.audit==="N")o.IsLiableToAudit=f.audit;
       if(f.sec92e==="Y"||f.sec92e==="N")o.Sec92EFirmFlag=f.sec92e;
@@ -376,7 +376,7 @@ function expSi(j){
     const T=G.ifTot||{};
     j.ScheduleIF={
       PartnerFirmDetails:arr,
-      TotalProfitShareAmt:n0(T.profit),      /* required */
+      TotalProfitShareAmt:sg(T.profit),      /* required (signed) */
       TotalIntrstAmtDueOrRecv:n0(T.interest),
       TotalRemunernAmtDueOrRecv:n0(T.remun),
       TotalFirmCapBalOn31Mar:sg(T.capbal)};  /* required */
