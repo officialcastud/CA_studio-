@@ -1,0 +1,24 @@
+{
+ "gate": 1,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "sections": [
+   "al",
+   "bank",
+   "cg",
+   "ded",
+   "ei",
+   "fa",
+   "hp",
+   "loss",
+   "os",
+   "other",
+   "paid",
+   "sal",
+   "si",
+   "tax",
+   "who"
+  ]
+ }
+}
