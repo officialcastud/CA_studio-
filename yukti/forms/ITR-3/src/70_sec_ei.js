@@ -195,7 +195,7 @@ function secEi(){
     {k:"head",h:"Head of income",t:"sel",opts:EI_HEAD,w:"200px",req:1},
     {k:"trc",h:"TRC obtained",t:"sel",opts:EI_TRC,w:"120px"}
   ], E.dtaa||[], {min:"1120px", empty:"For non-residents only.", add:"Add a DTAA row",
-     foot:[{l:1,v:"Total",span:1},{v:(C.dtaaTotal||0)},{l:1,v:"",span:5}]});
+     foot:[{v:(C.dtaaTotal||0)},{l:1,v:"Total income from DTAA claimed not chargeable (Sl. No. 4)",span:6}]});
 
   /* ===== 5 · Pass-through income ===== */
   h += row("5 · Pass-through income claimed not chargeable to tax (Schedule PTI)",
