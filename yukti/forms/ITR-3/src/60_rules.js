@@ -330,7 +330,7 @@ function runRules(I,S_){
     A(572,!newR||!N(RG(cy,"TotalLossSetOff.TotHPlossCurYrSetoff")),"New regime: a house-property loss cannot be set off in CYLA (2ii to 2xii).");
     A(573,!newR||!N(RG(cy,"LossRemAftSetOff.BalHPlossCurYrAftSetoff")),"New regime: a house-property loss cannot be carried forward via CYLA (2xvii).");
     A(579,!newR||!N(RG(cy,"TotalLossSetOff.TotHPlossCurYrSetoff")),"New regime: house-property losses cannot be adjusted against any income.");
-    if(I.ScheduleHP)A(552,REQ(inc("HP"),N(I.ScheduleHP.TotalIncomeChargeableUnHP)),"CYLA HP income must equal item 3 of Schedule HP.");
+    if(I.ScheduleHP)A(552,REQ(inc("HP"),Math.max(0,N(I.ScheduleHP.TotalIncomeChargeableUnHP))),"CYLA HP income must equal item 3 of Schedule HP.");
     if(I.ScheduleS)A(571,REQ(inc("Salary"),I.ScheduleS.TotIncUnderHeadSalaries),"CYLA salary income must equal item 6 of Schedule S.");
     if(I.ScheduleOS){A(568,REQ(inc("OthSrcExclRaceHorse"),Math.max(0,N(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.BalanceNoRaceHorse")))),"CYLA other sources must equal item 6 of Schedule OS.");
       A(569,REQ(inc("OthSrcRaceHorse"),Math.max(0,N(RG(I,"ScheduleOS.IncFromOwnHorse.BalanceOwnRaceHorse")))),"CYLA race horses must equal item 8e of Schedule OS.");}

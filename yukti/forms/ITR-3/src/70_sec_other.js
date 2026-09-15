@@ -500,4 +500,4 @@ reg({id:"other", t:"Other schedules", ref:"Sch 5A · PTI · ESOP",
        const p=(C.pti||[]).filter(x=>x.hasVal).length; const s=oth_s5a();
        const bits=[]; if(s)bits.push("5A"); if(p)bits.push(p+" PTI"); if(e)bits.push("ESOP "+RS(e));
        return bits.join(" · ");},
-     eng:engOther, exp:expOther, imp:impOther, chk:chkOther, order:24});
+     eng:engOther, exp:expOther, imp:impOther, chk:chkOther, order:11});

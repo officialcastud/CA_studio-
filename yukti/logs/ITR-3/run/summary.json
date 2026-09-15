@@ -14,11 +14,6 @@
  "rules": [
   {
    "cat": "A",
-   "n": 222,
-   "msg": "HP item 2 must equal the house-property pass-through in Schedule PTI."
-  },
-  {
-   "cat": "A",
    "n": 355,
    "msg": "Total STCG must equal the individual short-term heads."
   },
@@ -31,11 +26,6 @@
    "cat": "A",
    "n": 531,
    "msg": "OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime)."
-  },
-  {
-   "cat": "A",
-   "n": 552,
-   "msg": "CYLA HP income must equal item 3 of Schedule HP."
   },
   {
    "cat": "A",
@@ -69,10 +59,10 @@
   }
  ],
  "exported": false,
- "export_block": "The portal would reject this return \u2014 7 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA942 \u00b7 Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A.",
+ "export_block": "The portal would reject this return \u2014 5 Category A rules fail:\n\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA942 \u00b7 Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A.",
  "saved": true,
  "page_errors": [],
  "alerts": [
-  "The portal would reject this return \u2014 7 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term head"
+  "The portal would reject this return \u2014 5 Category A rules fail:\n\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is "
  ]
 }
