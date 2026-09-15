@@ -104,7 +104,8 @@ function engTax(){
 
   /* ===== Chapter VI-A (S.C.ded, guarded) — Part B/CA/D and Part C, capped at (GTI − 11) (J41/L43) ===== */
   const DED=(S.C.ded||{});
-  const viaPartB=Math.max(0,R(DED.partB!=null?DED.partB:(DED.PartBchapterVIA||0)));
+  /* item 12a = Part-B + Part CA and D of Schedule VI-A (Part_B_TI J41); 12b = Part-C */
+  const viaPartB=Math.max(0,R((DED.partB!=null?DED.partB:(DED.PartBchapterVIA||0))+(DED.partCAandD||0)));
   const viaPartC=Math.max(0,R(DED.partC!=null?DED.partC:(DED.PartCchapterVIA||0)));
   const viaCap=Math.max(0,gti-splInc);
   const viaTot=Math.max(0,Math.min(viaPartB+viaPartC,viaCap));           /* item 12c (L43) */

@@ -173,7 +173,7 @@ S.ei={interest:120000,
  land:[{district:"Mandya",pin:"571401",meas:6.5,owned:"O",irr:"IRG"}],
  others:[{cat:"SRPC",sub:"10(11)",desc:"Statutory PF received",amt:50000},
          {cat:"AGRI",sub:"10(30)",desc:"Tea Board subsidy",amt:25000}],
- dtaa:[],passThr:15000};
+ dtaa:[],passThr:25000};
 
 /* ---------------- SPI · SI · IF (si) ---------------- */
 S.si={

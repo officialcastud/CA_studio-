@@ -4,39 +4,14 @@
  "boot_errors": [],
  "checks_err": [],
  "figures": {
-  "gti": 3263500,
-  "ti": 1901500,
-  "tax": 397748,
-  "net": 438961,
+  "gti": 3273500,
+  "ti": 1786500,
+  "tax": 361868,
+  "net": 416835,
   "balance": 0,
-  "refund": 1139040
+  "refund": 1161170
  },
  "rules": [
-  {
-   "cat": "A",
-   "n": 355,
-   "msg": "Total STCG must equal the individual short-term heads."
-  },
-  {
-   "cat": "A",
-   "n": 393,
-   "msg": "CG B4a must equal column 14 of Schedule 112A."
-  },
-  {
-   "cat": "A",
-   "n": 531,
-   "msg": "OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime)."
-  },
-  {
-   "cat": "A",
-   "n": 992,
-   "msg": "Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI."
-  },
-  {
-   "cat": "A",
-   "n": 942,
-   "msg": "Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A."
-  },
   {
    "cat": "D",
    "n": 1,
@@ -58,11 +33,10 @@
    "msg": "Deduction u/s 10AA is claimed \u2014 Form 56F should be filed."
   }
  ],
- "exported": false,
- "export_block": "The portal would reject this return \u2014 5 Category A rules fail:\n\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA942 \u00b7 Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A.",
+ "exported": true,
  "saved": true,
  "page_errors": [],
  "alerts": [
-  "The portal would reject this return \u2014 5 Category A rules fail:\n\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is "
+  "Exported. 4 Category D notices to act on after upload:\n\nD1 \u00b7 AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory.\nD12 \u00b7 Liable to pay AMT u/s 115JC \u2014 Form 29C shoul"
  ]
 }

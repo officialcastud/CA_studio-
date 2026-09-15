@@ -270,8 +270,10 @@ function engOs(){
 
   /* ===== item 3 — section 57 deductions ===== */
   const expenses = R(O.dExpenses);                                        /* 3a(i) Expenses */
-  /* 3a(ii) family-pension deduction (J88) = MIN(1/3 family pension, 25000), only if fp>0 */
-  const fpDed = fp>0 ? Math.min(R(fp/3), 25000) : 0;                      /* DeductionUs57iia (max 25000) */
+  /* 3a(ii) family-pension deduction (J88) = MIN(1/3 family pension, cap), only if fp>0.
+     Cap is Rs.25,000 under the new regime 115BAC (bacValue=1) but Rs.15,000 in the old
+     regime u/s 57(iia) (rule A531). */
+  const fpDed = fp>0 ? Math.min(R(fp/3), isNew()?25000:15000) : 0;        /* DeductionUs57iia */
   /* 3b depreciation — allowed only if rental income (1c) offered */
   const dep = c1>0 ? Math.max(0,R(O.dDep)) : 0;                           /* Depreciation */
   /* 3c interest expenditure u/s 57(1): eligible ≤ 20% of dividend at 1a(i)/1a(ii);
