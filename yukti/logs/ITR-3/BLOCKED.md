@@ -1,65 +1,53 @@
-# BLOCKED — Gate 3 label heuristic is unsatisfiable for single-word labels
+# BLOCKED — Gate 3 provably unsatisfiable for sheet "CYLA - BFLA"
 
-**Raised by:** sheet-reader for **VI-A** (ITR-3, Phase 3)
-**Date:** 2026-09-15
-
-## What is blocked
-`python3 tools/gates/gate.py --form ITR-3 --gate 3 --sheet "VI-A"` cannot print
-`GATE 3: GREEN`. After the book covers every visible multi-word label, every
-required schema key of `ScheduleVIA`, and every dropdown value, three items remain
-and are **provably impossible to satisfy without editing the gate**:
+Sheet: **CYLA - BFLA** (schema blocks ScheduleCYLA, ScheduleBFLA). Book:
+`books/ITR-3/CYLA_BFLA.md` — complete and correct; every visible labelled row,
+every required schema leaf key, and both dropdown values ("No", "Yes") are
+present. Gate 3 nonetheless prints RED with exactly 4 items, all of the same
+mechanical kind:
 
 ```
-[VI-A] label not in book: SAL.TotalGrossSalary
-[VI-A] label not in book: Schedule VI-A
-[VI-A] label not in book: Identifier No.
+[CYLA - BFLA] label not in book: Speculative Income
+[CYLA - BFLA] label not in book: Speculation Income
+[CYLA - BFLA] label not in book: Remaining Set off BP
+[CYLA - BFLA] label not in book: Remaining Set off
 ```
 
-## Why it is a gate defect, not a book defect
-`tools/gates/gate.py` line 75 (function `gate3`):
-
-```python
+## Why this is a gate defect, not a book defect
+Gate 3's live-label check (tools/gates/gate.py, gate3):
+```
 words=[w for w in norm(t).split() if len(w)>3 and w not in STOP][:6]
-if words and sum(1 for w in words if w in book)<max(2,len(words)-2):missing.append(t[:80])
+if words and sum(1 for w in words if w in book) < max(2, len(words)-2): missing.append(...)
 ```
+`STOP` contains "income". After dropping words of length <=3 and the stop-word
+"income", each of these four **visible** labels reduces to a SINGLE content word:
 
-The threshold is floored at **2** (`max(2, …)`). A label whose significant-word
-list has **exactly one** word (>3 chars, not a stop-word) can contribute at most
-**1** to the sum, so `1 < 2` is always true and the label is always reported
-missing — no matter what the book contains.
+| Label (visible row) | Source cell | content words | threshold max(2,len-2) | max achievable sum | satisfiable? |
+|---|---|---|---|---|---|
+| Speculative Income | E11 (CYLA, row 11 visible) | [speculative] | 2 | 1 | NO |
+| Speculation Income | E37 (BFLA, row 37 visible) | [speculation] | 2 | 1 | NO |
+| Remaining Set off BP | S5 (helper col, row 5 visible) | [remaining] | 2 | 1 | NO |
+| Remaining Set off | W31 (helper col, row 31 visible) | [remaining] | 2 | 1 | NO |
 
-The three VI-A offenders each reduce to a single significant word ≥12 chars:
+For a label with 1 content word the threshold is `max(2,-1)=2`, but the maximum
+possible number of distinct content words found in the book is 1, so
+`1 < 2` is always true. No amount of book text can satisfy it. Confirmed
+empirically: appending the exact strings "speculative", "speculation",
+"remaining", "bp" to the book leaves all 4 items unchanged.
 
-| Sheet cell | Label text (`t`) | `norm` → words | count needed |
-|---|---|---|---|
-| Q2 (helper) | `SAL.TotalGrossSalary` | `['totalgrosssalary']` | 2 (max reachable 1) |
-| C3 (title) | `Schedule VI-A` | `['schedule']` | 2 (max reachable 1) |
-| F8 (header) | `Identifier No.` | `['identifier']` | 2 (max reachable 1) |
+Rows 11, 37, 5, 31 carry no `hidden="1"` in
+`sources/ITR-3/utility/xl/worksheets/sheet25.xml`, so they are genuinely
+visible; "Speculative Income"/"Speculation Income" are real heads (item iv/v of
+CYLA / iii/iv of BFLA) and must be built. They are not hidden rows and must not
+be dropped.
 
-Verified empirically: appending the exact strings
-`SAL.TotalGrossSalary`, `Schedule VI-A`, `Identifier No.` (and the bare tokens)
-to the book leaves the three items still reported.
+This defect affects any single-content-word visible label. Across ITR-3 the same
+pattern hits many other sheets ("Depreciation", "Verification", "Dividend
+income", "Advertisement", "Entertainment", "Schedule CFL", etc.), so Gate 3 is
+un-greenable form-wide until fixed.
 
-## Scope — this is systemic, not VI-A-specific
-31 of the ITR-3 visible sheets carry at least one such single-word label
-(examples: `Verification`, `Depreciation`, `Dividend Income`, `TOTAL INCOME`,
-`Schedule VDA`, `Schedule CFL`, `EXEMPT INCOME`, `PAN of Co-owner(s)`,
-`Salary as per section 17(1)`, `No Zip Code?`, …). Every one of these sheets is
-therefore stuck RED on Gate 3 for the same reason. Only sheets with no single-word
-label (e.g. `Nature Of Business`) can reach green today.
-
-## What is needed to unblock
-A one-line fix to the gate's threshold so a single-word label needs its one word
-present rather than an impossible two — e.g. change line 75 from
-`max(2,len(words)-2)` to `max(1,len(words)-2)` (or `min(2,len(words))`). Per the
-constitution I must not edit a gate myself; this needs the CEO / auditor to make
-the change (or confirm the intended heuristic).
-
-## State of the VI-A book
-`books/ITR-3/VI_A.md` is otherwise complete and passes every other Gate 3 check:
-no `required schema key not in book` and no `dropdown value not in book` items.
-All Part B / C / CA-and-D visible rows, both schema objects
-(`UsrDeductUndChapVIA`, `DeductUndChapVIA`), all required totals, the
-`PensionContribution80CCC[]` array keys, and all six dropdown lists are covered.
-The three failing items are the title, a column header, and a cross-sheet helper
-reference — all present verbatim in the book; they fail only on the threshold bug.
+## What is needed
+Fix the gate's threshold so a label with one content word requires 1 match, e.g.
+`min(len(words), max(2, len(words)-2))` or `max(1, len(words)-2)`. The book needs
+no change. Per CLAUDE.md the gate must not be edited by a reader/CEO to "pass";
+this is filed for the auditor to raise as an issue with the evidence above.

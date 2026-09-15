@@ -64,7 +64,7 @@ B-TTI."*
 | Col 10 | Claimed in the hands of spouse / other person — PAN | string | `TDSOthThanSalaryDtls[].TaxDeductCreditDtls.TaxClaimedSpouseOthPrsnPAN` | |
 | Col 10 | Claimed in the hands of spouse / other person — Aadhaar | string | `TDSOthThanSalaryDtls[].TaxDeductCreditDtls.SpouseOthPrsnAadhaar` | |
 | Col 11 | Corresponding Receipt/withdrawals offered — Gross Amount | integer | `TDSOthThanSalaryDtls[].GrossAmount` | |
-| Col 12 | Head of Income | string | `TDSOthThanSalaryDtls[].HeadOfIncome` | enum **HP, BP, CG, OS, EI, NA**; dropdown pre-filled from the section |
+| Col 12 | Head of Income (Col 12) | string | `TDSOthThanSalaryDtls[].HeadOfIncome` | enum **HP, BP, CG, OS, EI, NA**; dropdown pre-filled from the section |
 | Col 13 | TDS Credit being carried forward | integer | `TDSOthThanSalaryDtls[].AmtCarriedFwd` | required; `W23=MAX(0,L23+O23+M23-P23-R23)` |
 | Total | Total | computed | `TotalTDSonOthThanSals` | `P28=SUM(TDS2.ClaimedInOwnHands)` |
 
@@ -96,7 +96,7 @@ identified by **PAN**, not TAN.
 | Col 10 | Claimed in the hands of spouse / other person — PAN | string | `TDS3onOthThanSalDtls[].TaxDeductCreditDtls.TaxClaimedSpouseOthPrsnPAN` | |
 | Col 10 | Claimed in the hands of spouse / other person — Aadhaar | string | `TDS3onOthThanSalDtls[].TaxDeductCreditDtls.SpouseOthPrsnAadhaar` | |
 | Col 11 | Corresponding Receipt offered — Gross Amount | integer | `TDS3onOthThanSalDtls[].GrossAmount` | |
-| Col 12 | Head of Income | string | `TDS3onOthThanSalDtls[].HeadOfIncome` | enum HP, BP, CG, OS, EI (no NA); dropdown of 6 values |
+| Col 12 | Head of Income (Col 12) | string | `TDS3onOthThanSalDtls[].HeadOfIncome` | enum HP, BP, CG, OS, EI (no NA); dropdown of 6 values |
 | Col 13 | TDS Credit being carried forward | integer | `TDS3onOthThanSalDtls[].AmtCarriedFwd` | required; `X38=MAX(0,M38+N38+P38-Q38-S38)` |
 | Total | Total | computed | `TotalTDS3OnOthThanSal` | `Q43=SUM(TDS3.ClaimedInOwnHands)` |
 
@@ -114,7 +114,7 @@ Part B-TTI."*
 | Col 2ii | Tax Deduction and Tax Collection Account Number of the Collector | string | `TCS[].EmployerOrDeductorOrCollectTAN` | required, max 10 |
 | Col 3 | PAN of Other person (if TCS credit related to other person) | string | `TCS[].PANOfSpouseOrOthrPrsn` | when col 2i = Other Person |
 | Col 4 | Financial year in which TCS is collected | integer | `TCS[].DeductedYr` | dropdown 2024 … 2008; enum 2008–2024 |
-| Col 5 | Unclaimed TCS brought forward (b/f) — Amount b/f | integer | `TCS[].BroughtFwdTDSAmt` | |
+| Col 5 | Unclaimed TCS brought forward (b/f) — Amount b/f (Col 5) | integer | `TCS[].BroughtFwdTDSAmt` | |
 | Col 6i | TCS of the current financial Year (TCS collected during the FY 2025-26) — Collected in own hands | integer | `TCS[].TCSCurrFYDtls.TCSAmtCollOwnHand` | |
 | Col 6ii | Collected in the hands of spouse as per section 5A or any other person as per rule 37i(1) (if applicable) | integer | `TCS[].TCSCurrFYDtls.TCSAmtCollSpouseOrOthrHand` | |
 | Col 7i | TCS credit being claimed this year — Claimed in own hands | integer | `TCS[].TCSClaimedThisYearDtls.TCSAmtCollOwnHand` | totalled at L73 |
@@ -158,14 +158,24 @@ in 10c of Part B-TTI."*
 (Select), 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009,
 2008.)*
 
-**Head of Income — TDS 2** (`V23:V26`): (Select), Income from House Property,
-Income from Business & Profession, Income from Capital Gains, Income from Other
-Sources, Exempt Income, Not applicable ( only in case TDS is deducted u/s 194N).
-*(enum HP, BP, CG, OS, EI, NA.)*
+**Head of Income — TDS 2** (`V23:V26`), enum HP, BP, CG, OS, EI, NA:
 
-**Head of Income — TDS 3** (`W38:W41`): (Select), Income from House Property,
-Income from Business & Profession, Income from Capital Gains, Income from Other
-Sources, Exempt Income. *(enum HP, BP, CG, OS, EI — no NA.)*
+- (Select)
+- Income from House Property
+- Income from Business & Profession
+- Income from Capital Gains
+- Income from Other Sources
+- Exempt Income
+- Not applicable ( only in case TDS is deducted u/s 194N)
+
+**Head of Income — TDS 3** (`W38:W41`), enum HP, BP, CG, OS, EI (no NA):
+
+- (Select)
+- Income from House Property
+- Income from Business & Profession
+- Income from Capital Gains
+- Income from Other Sources
+- Exempt Income
 
 **Section under which TDS is deducted** — `I23:J26` (TDS 2), `J38:K41` (TDS 3),
 list `TDS_Section_List_1`, 60 codes plus (Select):
