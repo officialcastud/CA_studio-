@@ -72,7 +72,7 @@ def gate3(form,only=None):
                 t=cell.split("] ",1)[-1].strip()
                 if len(t)<12 or t.startswith("(Select") or "Sl. No" in t:continue
                 words=[w for w in norm(t).split() if len(w)>3 and w not in STOP][:6]
-                if words and sum(1 for w in words if w in book)<max(2,len(words)-2):missing.append(t[:80])
+                if words and sum(1 for w in words if w in book)<min(len(words),max(2,len(words)-2)):missing.append(t[:80])
         for m in missing[:25]:items.append(f"[{n}] label not in book: {m}")
         # schema leaves of the blocks the book claims
         for blk in mp.get(n,{}).get("blocks",[]):
