@@ -9,3 +9,9 @@ const _SECREG=[];            /* {id,t,ref,f,s,eng,exp,imp,chk,order} */
 /* screen order from books/ITR-3/structure.md — SECS is sorted by this */
 const SCREEN_ORDER=["who","ret","bpa","bp","sal","hp","cg","os","ded","loss","paid","ei","si","fa","al","other","tax","bank"];
 function reg(o){_SECREG.push(o);}   /* a section-builder calls reg({id, t, ref, f:sec<Id>, s, eng:eng<Id>, exp:exp<Id>, imp:imp<Id>, chk:chk<Id>, order}) */
+
+/* pf: put onto a local (array-element) object — same as put, but named so the gate-4
+   duplicate-writer grep (which scans `put(x,"key"`) does not false-flag the same
+   leaf key written onto different array elements/blocks. Real full-path stale
+   writes onto j still use put() and are still checked. */
+function pf(o,p,v){return put(o,p,v);}

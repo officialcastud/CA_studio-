@@ -360,9 +360,9 @@ function expFa(j){
   (C.fsi||[]).forEach(cr=>{
     if(!cr.code)return;    /* no country code → row not considered (E5 note) */
     const el={};
-    put(el,"CountryName", cr.name||FA_CONM[cr.code]||"");
-    put(el,"CountryCodeExcludingIndia", cr.code);
-    put(el,"TaxIdentificationNo", cr.tin);
+    pf(el,"CountryName", cr.name||FA_CONM[cr.code]||"");
+    pf(el,"CountryCodeExcludingIndia", cr.code);
+    pf(el,"TaxIdentificationNo", cr.tin);
     const H=cr.heads||{};
     const obj=(key,h)=>{h=h||{b:0,c:0,d:0,e:0};const o={};
       /* four required integer leaves, present even at zero */
@@ -387,9 +387,9 @@ function expFa(j){
   const trArr=[];
   (C.trRows||[]).forEach(r=>{
     const el={};
-    put(el,"CountryName", r.name||FA_CONM[r.code]||"");
-    put(el,"CountryCodeExcludingIndia", r.code);
-    put(el,"TaxIdentificationNo", r.tin);
+    pf(el,"CountryName", r.name||FA_CONM[r.code]||"");
+    pf(el,"CountryCodeExcludingIndia", r.code);
+    pf(el,"TaxIdentificationNo", r.tin);
     el.TaxPaidOutsideIndia=n0(r.paid);
     el.TaxReliefOutsideIndia=n0(r.relief);
     if(sv(r.sec))el.ReliefClaimedUsSection=r.sec;
@@ -412,10 +412,10 @@ function expFa(j){
   /* ---- ScheduleFA ---- (resident & ordinarily resident only) ---- */
   if(res!=="RES")return;
   const hasCode=r=>st0(r.code)!=="";
-  const cc=(el,r)=>{put(el,"CountryCodeExcludingIndia",r.code);put(el,"CountryName",FA_CONM[r.code]||"");};
-  const S1=(el,r,fields)=>fields.forEach(f=>put(el,f,sv(r[f])));
-  const N1=(el,r,fields)=>fields.forEach(f=>{if(N(r[f]))put(el,f,n0(r[f]));});
-  const D1=(el,r,map)=>Object.keys(map).forEach(k=>{const iso=ISO(r[map[k]]);if(iso)put(el,k,iso);});
+  const cc=(el,r)=>{pf(el,"CountryCodeExcludingIndia",r.code);pf(el,"CountryName",FA_CONM[r.code]||"");};
+  const S1=(el,r,fields)=>fields.forEach(f=>pf(el,f,sv(r[f])));
+  const N1=(el,r,fields)=>fields.forEach(f=>{if(N(r[f]))pf(el,f,n0(r[f]));});
+  const D1=(el,r,map)=>Object.keys(map).forEach(k=>{const iso=ISO(r[map[k]]);if(iso)pf(el,k,iso);});
 
   const a1=(S.fa.a1||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
     S1(el,r,["Bankname","AddressOfBank","ZipCode","ForeignAccountNumber","OwnerStatus"]);

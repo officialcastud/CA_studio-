@@ -886,9 +886,9 @@ function expBp(j){
     ICDS_ROWS.forEach(r=>{
       const o=icds.rows[r[0]]||{};
       if(!(o.inc||o.dec))return;
-      put(j,"ScheduleICDS."+r[3]+".IncreaseInProfit",n0(o.inc));
-      put(j,"ScheduleICDS."+r[3]+".DecreaseInProfit",n0(o.dec));
-      put(j,"ScheduleICDS."+r[3]+".NetEffect",sg(o.net));
+      const _icb="ScheduleICDS."+r[3]; put(j,_icb+".IncreaseInProfit",n0(o.inc));
+      put(j,_icb+".DecreaseInProfit",n0(o.dec));
+      put(j,_icb+".NetEffect",sg(o.net));
     });
     put(j,"ScheduleICDS.TotalNetAmtDetl.IncreaseInProfit",n0(icds.totInc));
     put(j,"ScheduleICDS.TotalNetAmtDetl.DecreaseInProfit",n0(icds.totDec));

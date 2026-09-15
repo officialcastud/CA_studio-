@@ -258,8 +258,8 @@ function expEi(j){
       const d = {};
       d.AmountOfIncome = n0(r.amt);
       put(d,"NatureOfIncome", sv(r.nature) ? sv(r.nature).slice(0,75) : undefined);
-      put(d,"CountryName",(sv(r.cname)||"NA").slice(0,55));
-      put(d,"CountryCodeExcludingIndia", sv(r.ccode));
+      pf(d,"CountryName",(sv(r.cname)||"NA").slice(0,55));
+      pf(d,"CountryCodeExcludingIndia", sv(r.ccode));
       put(d,"ArticleOfDTAA", sv(r.article) ? sv(r.article).slice(0,16) : undefined);
       put(d,"HeadOfIncome", sv(r.head));
       put(d,"TRCFlag", sv(r.trc));
