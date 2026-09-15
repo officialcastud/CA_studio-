@@ -51,3 +51,31 @@ Fix the gate's threshold so a label with one content word requires 1 match, e.g.
 `min(len(words), max(2, len(words)-2))` or `max(1, len(words)-2)`. The book needs
 no change. Per CLAUDE.md the gate must not be edited by a reader/CEO to "pass";
 this is filed for the auditor to raise as an issue with the evidence above.
+
+---
+
+# Also confirmed on sheet "Verification"
+
+Sheet: **Verification** (schema blocks Verification, TaxReturnPreparer). Book:
+`books/ITR-3/Verification.md` — complete and correct: every visible labelled row,
+every required schema leaf key (AssesseeVerName, FatherName, AssesseeVerPAN,
+Capacity, Date, Place, IdentificationNoOfTRP, NameOfTRP), and every dropdown
+value ((Select), Self, Representative, Karta, Authorised Signatory) are present.
+Gate 3 still prints RED with exactly 2 items, both the same single-content-word
+defect:
+
+```
+[Verification] label not in book: Verification
+[Verification] label not in book: son/ daughter of
+```
+
+| Label (visible row) | Source cell | content words | threshold max(2,len-2) | max sum | satisfiable? |
+|---|---|---|---|---|---|
+| Verification | F3 (sheet title, visible) | [verification] | 2 | 1 | NO |
+| son/ daughter of | I4 (FatherName label, visible) | [daughter] | 2 | 1 | NO |
+
+("son" is len 3 and "of" is a stop-word, so only "daughter" survives.) Both
+words are already in the book; the min-2-match threshold makes them unsatisfiable
+exactly as documented above. The one hidden row (r8, the APA critical-assumptions
+declaration) is correctly excluded and does not enter the gate. No book change
+can green this sheet; the same gate fix noted above resolves it.

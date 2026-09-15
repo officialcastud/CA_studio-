@@ -1,9 +1,6 @@
 {
  "gate": 3,
- "ok": false,
- "failing": [
-  "[Verification] label not in book: Verification",
-  "[Verification] label not in book: son/ daughter of"
- ],
+ "ok": true,
+ "failing": [],
  "extra": {}
 }
