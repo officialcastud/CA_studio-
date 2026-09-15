@@ -136,6 +136,11 @@ function secWho(){
 function expWho(j){
   const ind=S.pi.status!=="H";
   const fs=S.fs||{}, decl=S.decl||{}, aud=S.aud||{};
+  /* repeating tables must be JSON ARRAYS (constitution rule 12 — round-trip),
+     not objects keyed "0","1". oPut drops an empty leaf; putArr assigns the
+     array (and builds its parents) only when it carries at least one row. */
+  const oPut=(o,k,v)=>{if(v!==undefined&&v!==null&&v!=="")o[k]=v;};
+  const putArr=(path,arr)=>{if(arr&&arr.length)put(j,path,arr);};
 
   /* ---------- PartA_GEN1 · PersonalInfo (rows 7-27, 110) ---------- */
   if(ind){
@@ -200,10 +205,9 @@ function expWho(j){
     put(j,"PartA_GEN1.FilingStatus.IncrExpAggAmt1LkElctrctyPrYrFlg",sv(decl.ele_f));
     if(decl.ele) put(j,"PartA_GEN1.FilingStatus.AmtSeventhProvisio139iii",R(decl.ele));
     put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139i",sv(decl.c4_f));
-    if(decl.c4_f==="Y") (decl.c4||[]).forEach((r,i)=>{
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iNature",sv(r.nature));
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iAmount",R(r.amt));
-    });
+    if(decl.c4_f==="Y") putArr("PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls",
+      (decl.c4||[]).map(r=>{const o={};oPut(o,"clauseiv7provisio139iNature",sv(r.nature));
+        oPut(o,"clauseiv7provisio139iAmount",R(r.amt));return o;}));
   }
   if([13,14,16,18,20].indexOf(+fs.sec)>=0){
     put(j,"PartA_GEN1.FilingStatus.NoticeNo",sv(fs.din));
@@ -225,32 +229,24 @@ function expWho(j){
     }
   }
   put(j,"PartA_GEN1.FilingStatus.CompDirectorPrvYrFlg",sv(fs.dir||"N"));
-  if(fs.dir==="Y") (S.pi.dirco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.CompDirectorPrvYr.CompDirectorPrvYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"SharesTypes",sv(r.listed||"L"));
-    put(j,b+"DIN",sv(r.din));
-  });
+  if(fs.dir==="Y") putArr("PartA_GEN1.FilingStatus.CompDirectorPrvYr.CompDirectorPrvYrDtls",
+    (S.pi.dirco||[]).map(r=>{const o={};
+      oPut(o,"NameOfCompany",sv(r.name)); oPut(o,"CompanyType",sv(r.type||"D"));
+      oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
+      oPut(o,"SharesTypes",sv(r.listed||"L")); oPut(o,"DIN",sv(r.din)); return o;}));
   put(j,"PartA_GEN1.FilingStatus.PartnerInFirmFlg",sv(fs.partner||"N"));
-  if(fs.partner==="Y") (S.pi.firms||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.PartnerInFirm.PartnerInFirmDtls."+i+".";
-    put(j,b+"NameOfFirm",sv(r.name));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-  });
+  if(fs.partner==="Y") putArr("PartA_GEN1.FilingStatus.PartnerInFirm.PartnerInFirmDtls",
+    (S.pi.firms||[]).map(r=>{const o={};
+      oPut(o,"NameOfFirm",sv(r.name)); oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase())); return o;}));
   put(j,"PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYrFlg",sv(fs.unl||"N"));
-  if(fs.unl==="Y") (S.pi.unlco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"OpngBalNumberOfShares",R(r.obNo));
-    put(j,b+"OpngBalCostOfAcquisition",R(r.obCost));
-    if(r.acqNo) put(j,b+"ShrAcqDurYrNumberOfShares",R(r.acqNo));
-    put(j,b+"ClsngBalNumberOfShares",R(r.cbNo));
-    put(j,b+"ClsngBalCostOfAcquisition",R(r.cbCost));
-  });
+  if(fs.unl==="Y") putArr("PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls",
+    (S.pi.unlco||[]).map(r=>{const o={};
+      oPut(o,"NameOfCompany",sv(r.name)); oPut(o,"CompanyType",sv(r.type||"D"));
+      oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
+      oPut(o,"OpngBalNumberOfShares",R(r.obNo)); oPut(o,"OpngBalCostOfAcquisition",R(r.obCost));
+      if(r.acqNo) oPut(o,"ShrAcqDurYrNumberOfShares",R(r.acqNo));
+      oPut(o,"ClsngBalNumberOfShares",R(r.cbNo)); oPut(o,"ClsngBalCostOfAcquisition",R(r.cbCost));
+      return o;}));
   if(fs.resStatus!=="RES"){
     put(j,"PartA_GEN1.FilingStatus.NriPEinIndia",sv(fs.nriPE));
     put(j,"PartA_GEN1.FilingStatus.NriSEPinIndia",sv(fs.nriSEP));
@@ -296,27 +292,18 @@ function expWho(j){
     put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.DateOfAudit",ISO(aud.date92E));
     if(aud.ack92E) put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.AckNum92E",R(aud.ack92E));
   }
-  (aud.oth||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditDetails."+i+".";
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"AuditFlag",sv(r.flag));
-    put(j,b+"DateOfAudit",ISO(r.date));
-    if(r.ack) put(j,b+"AckNumOth",R(r.ack));
-  });
-  (aud.act||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditReportDetails."+i+".";
-    put(j,b+"AuditReportAct",sv(r.act));
-    put(j,b+"AuditReportActOthers",sv(r.actOther));
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"DateOfAudit",ISO(r.date));
-  });
+  putArr("PartA_GEN2.AuditInfo.AuditDetails",
+    (aud.oth||[]).map(r=>{const o={};
+      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"AuditFlag",sv(r.flag));
+      oPut(o,"DateOfAudit",ISO(r.date)); if(r.ack) oPut(o,"AckNumOth",R(r.ack)); return o;}));
+  putArr("PartA_GEN2.AuditInfo.AuditReportDetails",
+    (aud.act||[]).map(r=>{const o={};
+      oPut(o,"AuditReportAct",sv(r.act)); oPut(o,"AuditReportActOthers",sv(r.actOther));
+      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
   /* ---------- PartA_GEN2 · NatOfBus ---------- */
-  (S.nob||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.NatOfBus.NatureOfBusiness."+i+".";
-    put(j,b+"Code",sv(r.code));
-    put(j,b+"TradeName1",sv(r.trade));
-    put(j,b+"Description",sv(r.desc));
-  });
+  putArr("PartA_GEN2.NatOfBus.NatureOfBusiness",
+    (S.nob||[]).map(r=>{const o={};
+      oPut(o,"Code",sv(r.code)); oPut(o,"TradeName1",sv(r.trade)); oPut(o,"Description",sv(r.desc)); return o;}));
 }
 
 /* =====================================================================
