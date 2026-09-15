@@ -79,7 +79,7 @@ function sel(p,opts,o){o=o||{};const v=get(p);
     opts.map(x=>{const a=Array.isArray(x)?x[0]:x,b=Array.isArray(x)?x[1]:x;
       return '<option value="'+esc(a)+'"'+(String(v==null?"":v)===String(a)?" selected":"")+
         '>'+esc(b)+'</option>';}).join("")+'</select>';}
-function grid(key,cols,rows,o){o=o||{};
+function grid(key,cols,rows,o){o=o||{};rows=Array.isArray(rows)?rows:[];
   let h='<div class="full"><table class="gt"'+(o.min?' style="min-width:'+o.min+'"':'')+'><thead><tr>';
   cols.forEach(c=>h+='<th'+(c.t==="txt"||c.t==="sel"||c.t==="date"?' class="l':' class="')+
     (c.req?" req":"")+'"'+(c.w?' style="width:'+c.w+'"':'')+'>'+esc(c.h)+

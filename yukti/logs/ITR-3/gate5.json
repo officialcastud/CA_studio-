@@ -1,0 +1,8 @@
+{
+ "gate": 5,
+ "ok": false,
+ "failing": [
+  "syntax: /tmp/_g.js:11982\nconst RG=(o,p,d)=>{try{const v=p.split(\".\").reduce((t,k)=>t==null?undefined:t[k],o);return v==null?(d===undefined?0:d):v;}catch(e){return d===undefined?0:d;}};\n      ^\n\nSyntaxError: Identifier 'RG' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1637:18)\n"
+ ],
+ "extra": {}
+}
