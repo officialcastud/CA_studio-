@@ -1,6 +1,10 @@
 {
  "gate": 3,
- "ok": true,
- "failing": [],
+ "ok": false,
+ "failing": [
+  "[AL] label not in book: Description (2)",
+  "[AL] label not in book: Description (2)",
+  "[AL] label not in book: PAN of the firm/ AOP (4)"
+ ],
  "extra": {}
 }
