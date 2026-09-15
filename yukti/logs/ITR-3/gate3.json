@@ -1,0 +1,22 @@
+{
+ "gate": 3,
+ "ok": false,
+ "failing": [
+  "[Part A - BS] label not in book: Total ( iiA + iiB)",
+  "[Part A - BS] label not in book: Total (ai + iiC)",
+  "[Part A - BS] label not in book: Total (bi + bii)",
+  "[Part A - BS] label not in book: Depreciation",
+  "[Part A - BS] label not in book: Net Block (1a \u2013 1b)",
+  "[Part A - BS] label not in book: Total (1c + 1d)",
+  "[Part A - BS] label not in book: Total (ai + aii)",
+  "[Part A - BS] label not in book: Raw materials",
+  "[Part A - BS] label not in book: Total (iA + iB + iC + iD)",
+  "[Part A - BS] label not in book: Total (iA + iB + iC + iD)",
+  "[Part A - BS] label not in book: Provision for Income Tax",
+  "[Part A - BS] label not in book: Total (iiA + iiB + iiC )",
+  "[Part A - BS] label not in book: Total (iE + iiD)",
+  "[Part A - BS] label not in book: Total (4a + 4b + 4c)",
+  "[Part A - BS] label not in book: NO ACCOUNT CASE"
+ ],
+ "extra": {}
+}
