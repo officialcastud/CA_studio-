@@ -678,14 +678,3 @@ const SKEL=
 /* compute() — Phase 2 stub. Zero the whole S.C contract the shell's footer
    (#s_gti #s_ti #s_tax #s_b) and band() read, so it paints without throwing.
    Real income/tax/interest engines: Phase 4. */
-function compute(){
-  S.C.gti=0;
-  S.C.ti=0;
-  S.C.tax={gross:0,regime:(typeof isNew==="function"&&isNew())?"New":"Old",rebate:0};
-  S.C.int={refund:0,balance:0,net:0,paid:0,total:0};
-  S.C.amt={applies:false};
-  S.C.checks=engChecks();
-}
-
-/* engChecks() — Phase 2 stub: no engine checks yet. */
-function engChecks(){return [];}
