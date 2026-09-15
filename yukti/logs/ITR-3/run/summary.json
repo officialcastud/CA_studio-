@@ -4,12 +4,12 @@
  "boot_errors": [],
  "checks_err": [],
  "figures": {
-  "gti": 1891000,
-  "ti": 529000,
-  "tax": 62400,
-  "net": 0,
+  "gti": 3263500,
+  "ti": 1901500,
+  "tax": 397748,
+  "net": 438961,
   "balance": 0,
-  "refund": 1578000
+  "refund": 1139040
  },
  "rules": [
   {
@@ -39,23 +39,23 @@
   },
   {
    "cat": "A",
-   "n": 571,
-   "msg": "CYLA salary income must equal item 6 of Schedule S."
-  },
-  {
-   "cat": "A",
    "n": 992,
    "msg": "Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI."
   },
   {
    "cat": "A",
-   "n": 920,
-   "msg": "Part B-TI: salary income must equal Schedule S."
-  },
-  {
-   "cat": "A",
    "n": 942,
    "msg": "Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A."
+  },
+  {
+   "cat": "D",
+   "n": 1,
+   "msg": "AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory."
+  },
+  {
+   "cat": "D",
+   "n": 12,
+   "msg": "Liable to pay AMT u/s 115JC \u2014 Form 29C should be filed."
   },
   {
    "cat": "D",
@@ -69,10 +69,10 @@
   }
  ],
  "exported": false,
- "export_block": "The portal would reject this return \u2014 9 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA571 \u00b7 CYLA salary income must equal item 6 of Schedule S.\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA920 \u00b7 Part B-TI: salary income must equal Schedule S",
+ "export_block": "The portal would reject this return \u2014 7 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA942 \u00b7 Part B-TI: 12a must equal Part B plus Part CA & D of Schedule VI-A.",
  "saved": true,
  "page_errors": [],
  "alerts": [
-  "The portal would reject this return \u2014 9 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term head"
+  "The portal would reject this return \u2014 7 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term head"
  ]
 }

@@ -159,7 +159,7 @@ function engSal(){
   /* [L80] Income chargeable under Salaries = max(0, net - deduction16) */
   const income=Math.max(0,R(net-d16));
 
-  return {gross:R(gross),grossS:R(gS),grossP:R(gP),grossPr:R(gPr),
+  return S.C.sal={gross:R(gross),grossS:R(gS),grossP:R(gP),grossPr:R(gPr),
     n89d:R(g89d),n89e:R(g89e),n89f:R(g89f),
     hraB,hraC,hra13a:R(hra13a),exemptDrop:R(exemptDrop),exempt:R(exempt),
     rel89a:R(rel89a),net:R(net),d16ia:R(d16ia),ent:R(ent),pt:R(pt),d16:R(d16),
