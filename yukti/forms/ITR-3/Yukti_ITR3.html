@@ -9047,299 +9047,12 @@ function secRet(){
    EXPORT — expRet(j): write PartA_GEN1 and PartA_GEN2 onto j.
    put() skips empty values; the SKEL skeleton keeps required leaves present.
    ===================================================================== */
-function expRet(j){
-  const ind=S.pi.status!=="H";
-  /* ---------- PartA_GEN1 · PersonalInfo (collected on the "who" screen) -- */
-  if(ind){
-    put(j,"PartA_GEN1.PersonalInfo.AssesseeName.FirstName",sv(S.pi.first));
-    put(j,"PartA_GEN1.PersonalInfo.AssesseeName.MiddleName",sv(S.pi.mid));
-  }
-  put(j,"PartA_GEN1.PersonalInfo.AssesseeName.SurNameOrOrgName",sv(S.pi.last));
-  put(j,"PartA_GEN1.PersonalInfo.PAN",sv(S.pi.pan&&String(S.pi.pan).toUpperCase()));
-  put(j,"PartA_GEN1.PersonalInfo.Address.ResidenceNo",sv(S.pi.addr1));
-  put(j,"PartA_GEN1.PersonalInfo.Address.ResidenceName",sv(S.pi.premises));
-  put(j,"PartA_GEN1.PersonalInfo.Address.RoadOrStreet",sv(S.pi.road));
-  put(j,"PartA_GEN1.PersonalInfo.Address.LocalityOrArea",sv(S.pi.locality));
-  put(j,"PartA_GEN1.PersonalInfo.Address.CityOrTownOrDistrict",sv(S.pi.city));
-  put(j,"PartA_GEN1.PersonalInfo.Address.StateCode",sv(S.pi.state));
-  put(j,"PartA_GEN1.PersonalInfo.Address.CountryCode",sv(S.pi.country||"91"));
-  if(S.pi.pin) put(j,"PartA_GEN1.PersonalInfo.Address.PinCode",R(S.pi.pin));
-  if(S.pi.std) put(j,"PartA_GEN1.PersonalInfo.Address.Phone.STDcode",R(S.pi.std));
-  put(j,"PartA_GEN1.PersonalInfo.Address.Phone.PhoneNo",sv(S.pi.phone));
-  if(S.pi.mobcc!=null&&S.pi.mobcc!=="") put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobile",R(S.pi.mobcc||91));
-  else if(S.pi.mobile) put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobile",91);
-  if(S.pi.mobile) put(j,"PartA_GEN1.PersonalInfo.Address.MobileNo",R(S.pi.mobile));
-  put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddress",sv(S.pi.email));
-  put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddressSec",sv(S.pi.email2));
-  put(j,"PartA_GEN1.PersonalInfo.SecondaryAdd",sv(S.pi.addr2same||"Y"));
-  put(j,"PartA_GEN1.PersonalInfo.DOB",ISO(S.pi.dob));
-  put(j,"PartA_GEN1.PersonalInfo.Status",sv(S.pi.status||"I"));
-  if(S.pi.bizStart) put(j,"PartA_GEN1.PersonalInfo.DateofBusCommencement",ISO(S.pi.bizStart));
-  if(ind&&S.pi.aadhaar) put(j,"PartA_GEN1.PersonalInfo.AadhaarCardNo",sv(S.pi.aadhaar));
-
-  /* ---------- PartA_GEN1 · FilingStatus ---------- */
-  put(j,"PartA_GEN1.FilingStatus.ReturnFileSec",R(S.fs.sec||11));
-  put(j,"PartA_GEN1.FilingStatus.IncFrmBusOrProf",sv(S.fs.incBP||"Y"));
-  put(j,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",S.fs.optout==="Yes"?"Y":"N");
-  /* Form 10-IEA — current AY, old regime (business filer opting out) */
-  if(S.fs.optout==="Yes"&&S.fs.incBP==="Y"){
-    put(j,"PartA_GEN1.FilingStatus.F10IEACurrAYOldRegime","Y");
-    put(j,"PartA_GEN1.FilingStatus.F10IEADateCurrAYOldTax",ISO(S.fs.f10ieaDate));
-    if(S.fs.f10ieaAck) put(j,"PartA_GEN1.FilingStatus.F10IEAAckNoCurrAYOldTax",R(S.fs.f10ieaAck));
-  }
-  if(S.fs.f10ieaEarlier){
-    put(j,"PartA_GEN1.FilingStatus.Form10IEAEarlierAYOldRegime",sv(S.fs.f10ieaEarlier));
-    put(j,"PartA_GEN1.FilingStatus.Form10IEAAssYear",sv(S.fs.f10ieaEarlierAY));
-    if(S.fs.f10ieaEarlierAck) put(j,"PartA_GEN1.FilingStatus.Form10IEAEarlierAYAckOldRegime",R(S.fs.f10ieaEarlierAck));
-  }
-  put(j,"PartA_GEN1.FilingStatus.SeventhProvisio139",sv(S.decl.flag||"N"));
-  if(S.decl.flag==="Y"){
-    put(j,"PartA_GEN1.FilingStatus.DepAmtAggAmtExcd1CrPrYrFlg",sv(S.decl.dep_f));
-    if(S.decl.dep) put(j,"PartA_GEN1.FilingStatus.AmtSeventhProvisio139i",R(S.decl.dep));
-    put(j,"PartA_GEN1.FilingStatus.IncrExpAggAmt2LkTrvFrgnCntryFlg",sv(S.decl.trv_f));
-    if(S.decl.trv) put(j,"PartA_GEN1.FilingStatus.AmtSeventhProvisio139ii",R(S.decl.trv));
-    put(j,"PartA_GEN1.FilingStatus.IncrExpAggAmt1LkElctrctyPrYrFlg",sv(S.decl.ele_f));
-    if(S.decl.ele) put(j,"PartA_GEN1.FilingStatus.AmtSeventhProvisio139iii",R(S.decl.ele));
-    put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139i",sv(S.decl.c4_f));
-    if(S.decl.c4_f==="Y") (S.decl.c4||[]).forEach((r,i)=>{
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iNature",sv(r.nature));
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iAmount",R(r.amt));
-    });
-  }
-  if(RET_NOTICE.indexOf(+S.fs.sec)>=0){
-    put(j,"PartA_GEN1.FilingStatus.NoticeNo",sv(S.fs.din));
-    put(j,"PartA_GEN1.FilingStatus.NoticeDate",ISO(S.fs.noticedate));
-  }
-  if(RET_ORIG.indexOf(+S.fs.sec)>=0){
-    put(j,"PartA_GEN1.FilingStatus.ReceiptNo",sv(S.fs.receipt));
-    put(j,"PartA_GEN1.FilingStatus.OrigRetFiledDate",ISO(S.fs.origdate));
-  }
-  put(j,"PartA_GEN1.FilingStatus.ResidentialStatus",sv(S.fs.resStatus||"RES"));
-  if(S.pi.status!=="H"&&S.fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(S.fs.b115H));
-  /* Representative */
-  put(j,"PartA_GEN1.FilingStatus.AsseseeRepFlg",sv(S.fs.rep||"N"));
-  if(S.fs.rep==="Y"){
-    put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepName",sv(S.fs.repName));
-    put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepEmailID",sv(S.fs.repEmail));
-    if(S.fs.repMobile){
-      put(j,"PartA_GEN1.FilingStatus.AssesseeRep.CountryCodeRepMobileNo",91);
-      put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepMobileNo",R(S.fs.repMobile));
-    }
-  }
-  /* Directorship */
-  put(j,"PartA_GEN1.FilingStatus.CompDirectorPrvYrFlg",sv(S.fs.dir||"N"));
-  if(S.fs.dir==="Y") (S.pi.dirco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.CompDirectorPrvYr.CompDirectorPrvYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"SharesTypes",sv(r.listed||"L"));
-    put(j,b+"DIN",sv(r.din));
-  });
-  /* Partnership */
-  put(j,"PartA_GEN1.FilingStatus.PartnerInFirmFlg",sv(S.fs.partner||"N"));
-  if(S.fs.partner==="Y") (S.pi.firms||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.PartnerInFirm.PartnerInFirmDtls."+i+".";
-    put(j,b+"NameOfFirm",sv(r.name));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-  });
-  /* Unlisted equity shares */
-  put(j,"PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYrFlg",sv(S.fs.unl||"N"));
-  if(S.fs.unl==="Y") (S.pi.unlco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"OpngBalNumberOfShares",R(r.obNo));
-    put(j,b+"OpngBalCostOfAcquisition",R(r.obCost));
-    if(r.acqNo) put(j,b+"ShrAcqDurYrNumberOfShares",R(r.acqNo));
-    put(j,b+"ClsngBalNumberOfShares",R(r.cbNo));
-    put(j,b+"ClsngBalCostOfAcquisition",R(r.cbCost));
-  });
-  /* Non-resident PE/SEP */
-  if(S.fs.resStatus!=="RES"){
-    put(j,"PartA_GEN1.FilingStatus.NriPEinIndia",sv(S.fs.nriPE));
-    put(j,"PartA_GEN1.FilingStatus.NriSEPinIndia",sv(S.fs.nriSEP));
-    if(S.fs.nriSEP==="Y"){
-      if(S.fs.sepPay) put(j,"PartA_GEN1.FilingStatus.AggrPaymentTransac",R(S.fs.sepPay));
-      if(S.fs.sepUsers) put(j,"PartA_GEN1.FilingStatus.NumberOfUsers",R(S.fs.sepUsers));
-    }
-  }
-  put(j,"PartA_GEN1.FilingStatus.ForeignExchangeFlag",sv(S.fs.foreignExch||"N"));
-  put(j,"PartA_GEN1.FilingStatus.FiiFpiFlag",sv(S.fs.fpi||"N"));
-  if(S.fs.fpi==="Y") put(j,"PartA_GEN1.FilingStatus.SebiRegnNo",sv(S.fs.sebi));
-  put(j,"PartA_GEN1.FilingStatus.ItrFilingDueDate",sv(S.fs.duedate||"2026-10-31"));
-  if(S.fs.lei){
-    put(j,"PartA_GEN1.FilingStatus.LEIDtls.LEINumber",sv(String(S.fs.lei).toUpperCase()));
-    put(j,"PartA_GEN1.FilingStatus.LEIDtls.ValidUptoDate",ISO(S.fs.leiValid));
-  }
-
-  /* ---------- PartA_GEN2 · AuditInfo ---------- */
-  put(j,"PartA_GEN2.AuditInfo.LiableSec44AAflg",sv(S.aud.sec44AA||"N"));
-  put(j,"PartA_GEN2.AuditInfo.IncDclrdUs",sv(S.aud.incDclrdUs||"N"));
-  if(S.aud.incDclrdUs==="N"){
-    put(j,"PartA_GEN2.AuditInfo.TotalSalesExcOneCr",sv(S.aud.salesBand));
-    if(S.aud.salesBand==="Upto10CR"){
-      put(j,"PartA_GEN2.AuditInfo.AgrOFAllAmtsRcvd",sv(S.aud.pctRcvd));
-      put(j,"PartA_GEN2.AuditInfo.AgrOFAllPayMade",sv(S.aud.pctPaid));
-    }
-  }
-  put(j,"PartA_GEN2.AuditInfo.LiableSec44ABflg",sv(S.aud.sec44AB||"N"));
-  if(S.aud.sec44AB==="Y"){
-    put(j,"PartA_GEN2.AuditInfo.Cndnfor44AB",sv(S.aud.cnd44AB));
-    put(j,"PartA_GEN2.AuditInfo.AuditAccountantFlg",sv(S.aud.acctFlg));
-    if(S.aud.acctFlg==="Y"){
-      put(j,"PartA_GEN2.AuditInfo.AuditReportFurnishDate",ISO(S.aud.repDate));
-      if(S.aud.repAck) put(j,"PartA_GEN2.AuditInfo.AckNum44AB",R(S.aud.repAck));
-      put(j,"PartA_GEN2.AuditInfo.AudFrmName",sv(S.aud.frmName));
-      put(j,"PartA_GEN2.AuditInfo.AudFrmPAN",sv(S.aud.frmPAN&&String(S.aud.frmPAN).toUpperCase()));
-      put(j,"PartA_GEN2.AuditInfo.AudFrmAadhaar",sv(S.aud.frmAadhaar));
-    }
-  }
-  put(j,"PartA_GEN2.AuditInfo.LiableSec92Eflg",sv(S.aud.sec92E||"N"));
-  put(j,"PartA_GEN2.AuditInfo.AccountAuditFlag",S.aud.sec92E==="Y"?sv(S.aud.acct92E||"N"):"N");
-  if(S.aud.sec92E==="Y"&&S.aud.acct92E==="Y"){
-    put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.DateOfAudit",ISO(S.aud.date92E));
-    if(S.aud.ack92E) put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.AckNum92E",R(S.aud.ack92E));
-  }
-  (S.aud.oth||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditDetails."+i+".";
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"AuditFlag",sv(r.flag));
-    put(j,b+"DateOfAudit",ISO(r.date));
-    if(r.ack) put(j,b+"AckNumOth",R(r.ack));
-  });
-  (S.aud.act||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditReportDetails."+i+".";
-    put(j,b+"AuditReportAct",sv(r.act));
-    put(j,b+"AuditReportActOthers",sv(r.actOther));
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"DateOfAudit",ISO(r.date));
-  });
-  /* ---------- PartA_GEN2 · NatOfBus ---------- */
-  (S.nob||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.NatOfBus.NatureOfBusiness."+i+".";
-    put(j,b+"Code",sv(r.code));
-    put(j,b+"TradeName1",sv(r.trade));
-    put(j,b+"Description",sv(r.desc));
-  });
-}
+/* expRet removed by integrator — who owns PartA_GEN1/GEN2 (dedup, rule 11) */
 
 /* =====================================================================
    IMPORT — impRet(I3): inverse of expRet. Returns short labels read.
    ===================================================================== */
-function impRet(I3){
-  const read=[];
-  const g1=(I3&&I3.PartA_GEN1)||{}, PI=g1.PersonalInfo||{}, AD=PI.Address||{}, FS=g1.FilingStatus||{};
-  const g2=(I3&&I3.PartA_GEN2)||{}, AU=g2.AuditInfo||{}, NB=g2.NatOfBus||{};
-
-  if(PI.AssesseeName){
-    if(PI.AssesseeName.FirstName!=null)S.pi.first=PI.AssesseeName.FirstName;
-    if(PI.AssesseeName.MiddleName!=null)S.pi.mid=PI.AssesseeName.MiddleName;
-    if(PI.AssesseeName.SurNameOrOrgName!=null)S.pi.last=PI.AssesseeName.SurNameOrOrgName;
-    read.push("name");
-  }
-  if(PI.PAN){S.pi.pan=PI.PAN;read.push("PAN");}
-  if(Object.keys(AD).length){
-    if(AD.ResidenceNo!=null)S.pi.addr1=AD.ResidenceNo;
-    if(AD.ResidenceName!=null)S.pi.premises=AD.ResidenceName;
-    if(AD.RoadOrStreet!=null)S.pi.road=AD.RoadOrStreet;
-    if(AD.LocalityOrArea!=null)S.pi.locality=AD.LocalityOrArea;
-    if(AD.CityOrTownOrDistrict!=null)S.pi.city=AD.CityOrTownOrDistrict;
-    if(AD.StateCode!=null)S.pi.state=AD.StateCode;
-    if(AD.CountryCode!=null)S.pi.country=AD.CountryCode;
-    if(AD.PinCode!=null)S.pi.pin=String(AD.PinCode);
-    if(AD.MobileNo!=null)S.pi.mobile=String(AD.MobileNo);
-    if(AD.EmailAddress!=null)S.pi.email=AD.EmailAddress;
-    if(AD.EmailAddressSec!=null)S.pi.email2=AD.EmailAddressSec;
-    read.push("address");
-  }
-  if(PI.SecondaryAdd!=null)S.pi.addr2same=PI.SecondaryAdd;
-  if(PI.DOB)S.pi.dob=dmy(PI.DOB)||S.pi.dob;
-  if(PI.Status)S.pi.status=PI.Status;
-  if(PI.DateofBusCommencement)S.pi.bizStart=dmy(PI.DateofBusCommencement);
-  if(PI.AadhaarCardNo)S.pi.aadhaar=PI.AadhaarCardNo;
-
-  if(FS.ReturnFileSec!=null){S.fs.sec=FS.ReturnFileSec;read.push("filing section");}
-  if(FS.IncFrmBusOrProf!=null)S.fs.incBP=FS.IncFrmBusOrProf;
-  if(FS.OptOldRegimeCurrAY!=null){S.fs.optout=(FS.OptOldRegimeCurrAY==="Y")?"Yes":"No";read.push("regime");}
-  if(FS.F10IEADateCurrAYOldTax)S.fs.f10ieaDate=dmy(FS.F10IEADateCurrAYOldTax);
-  if(FS.F10IEAAckNoCurrAYOldTax!=null)S.fs.f10ieaAck=String(FS.F10IEAAckNoCurrAYOldTax);
-  if(FS.Form10IEAEarlierAYOldRegime!=null)S.fs.f10ieaEarlier=FS.Form10IEAEarlierAYOldRegime;
-  if(FS.Form10IEAAssYear!=null)S.fs.f10ieaEarlierAY=FS.Form10IEAAssYear;
-  if(FS.Form10IEAEarlierAYAckOldRegime!=null)S.fs.f10ieaEarlierAck=String(FS.Form10IEAEarlierAYAckOldRegime);
-  if(FS.SeventhProvisio139!=null){S.decl.flag=FS.SeventhProvisio139;
-    S.decl.dep_f=FS.DepAmtAggAmtExcd1CrPrYrFlg;S.decl.dep=FS.AmtSeventhProvisio139i;
-    S.decl.trv_f=FS.IncrExpAggAmt2LkTrvFrgnCntryFlg;S.decl.trv=FS.AmtSeventhProvisio139ii;
-    S.decl.ele_f=FS.IncrExpAggAmt1LkElctrctyPrYrFlg;S.decl.ele=FS.AmtSeventhProvisio139iii;
-    S.decl.c4_f=FS.clauseiv7provisio139i;
-    S.decl.c4=(FS.clauseiv7provisio139iDtls||[]).map(r=>({nature:r.clauseiv7provisio139iNature,amt:r.clauseiv7provisio139iAmount}));
-  }
-  if(FS.NoticeNo!=null)S.fs.din=FS.NoticeNo;
-  if(FS.NoticeDate)S.fs.noticedate=dmy(FS.NoticeDate);
-  if(FS.ReceiptNo!=null)S.fs.receipt=FS.ReceiptNo;
-  if(FS.OrigRetFiledDate)S.fs.origdate=dmy(FS.OrigRetFiledDate);
-  if(FS.ResidentialStatus!=null){S.fs.resStatus=FS.ResidentialStatus;read.push("residential status");}
-  if(FS.BenefitUs115HFlg!=null)S.fs.b115H=FS.BenefitUs115HFlg;
-  if(FS.AsseseeRepFlg!=null)S.fs.rep=FS.AsseseeRepFlg;
-  if(FS.AssesseeRep){S.fs.repName=FS.AssesseeRep.RepName;S.fs.repEmail=FS.AssesseeRep.RepEmailID;
-    if(FS.AssesseeRep.RepMobileNo!=null)S.fs.repMobile=String(FS.AssesseeRep.RepMobileNo);}
-  if(FS.CompDirectorPrvYrFlg!=null)S.fs.dir=FS.CompDirectorPrvYrFlg;
-  if(FS.CompDirectorPrvYr&&FS.CompDirectorPrvYr.CompDirectorPrvYrDtls){
-    S.pi.dirco=FS.CompDirectorPrvYr.CompDirectorPrvYrDtls.map(r=>({name:r.NameOfCompany,type:r.CompanyType,pan:r.PAN,listed:r.SharesTypes,din:r.DIN}));
-    read.push("directorships");
-  }
-  if(FS.PartnerInFirmFlg!=null)S.fs.partner=FS.PartnerInFirmFlg;
-  if(FS.PartnerInFirm&&FS.PartnerInFirm.PartnerInFirmDtls){
-    S.pi.firms=FS.PartnerInFirm.PartnerInFirmDtls.map(r=>({name:r.NameOfFirm,pan:r.PAN}));
-    read.push("partnerships");
-  }
-  if(FS.HeldUnlistedEqShrPrYrFlg!=null)S.fs.unl=FS.HeldUnlistedEqShrPrYrFlg;
-  if(FS.HeldUnlistedEqShrPrYr&&FS.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls){
-    S.pi.unlco=FS.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls.map(r=>({
-      name:r.NameOfCompany,type:r.CompanyType,pan:r.PAN,obNo:r.OpngBalNumberOfShares,
-      obCost:r.OpngBalCostOfAcquisition,acqNo:r.ShrAcqDurYrNumberOfShares,
-      cbNo:r.ClsngBalNumberOfShares,cbCost:r.ClsngBalCostOfAcquisition}));
-    read.push("unlisted shares");
-  }
-  if(FS.NriPEinIndia!=null)S.fs.nriPE=FS.NriPEinIndia;
-  if(FS.NriSEPinIndia!=null)S.fs.nriSEP=FS.NriSEPinIndia;
-  if(FS.AggrPaymentTransac!=null)S.fs.sepPay=FS.AggrPaymentTransac;
-  if(FS.NumberOfUsers!=null)S.fs.sepUsers=FS.NumberOfUsers;
-  if(FS.ForeignExchangeFlag!=null)S.fs.foreignExch=FS.ForeignExchangeFlag;
-  if(FS.FiiFpiFlag!=null)S.fs.fpi=FS.FiiFpiFlag;
-  if(FS.SebiRegnNo!=null)S.fs.sebi=FS.SebiRegnNo;
-  if(FS.ItrFilingDueDate!=null)S.fs.duedate=FS.ItrFilingDueDate;
-  if(FS.LEIDtls){S.fs.lei=FS.LEIDtls.LEINumber;if(FS.LEIDtls.ValidUptoDate)S.fs.leiValid=dmy(FS.LEIDtls.ValidUptoDate);}
-
-  if(Object.keys(AU).length){
-    if(AU.LiableSec44AAflg!=null)S.aud.sec44AA=AU.LiableSec44AAflg;
-    if(AU.IncDclrdUs!=null)S.aud.incDclrdUs=AU.IncDclrdUs;
-    if(AU.TotalSalesExcOneCr!=null)S.aud.salesBand=AU.TotalSalesExcOneCr;
-    if(AU.AgrOFAllAmtsRcvd!=null)S.aud.pctRcvd=AU.AgrOFAllAmtsRcvd;
-    if(AU.AgrOFAllPayMade!=null)S.aud.pctPaid=AU.AgrOFAllPayMade;
-    if(AU.LiableSec44ABflg!=null)S.aud.sec44AB=AU.LiableSec44ABflg;
-    if(AU.Cndnfor44AB!=null)S.aud.cnd44AB=AU.Cndnfor44AB;
-    if(AU.AuditAccountantFlg!=null)S.aud.acctFlg=AU.AuditAccountantFlg;
-    if(AU.AuditReportFurnishDate)S.aud.repDate=dmy(AU.AuditReportFurnishDate);
-    if(AU.AckNum44AB!=null)S.aud.repAck=String(AU.AckNum44AB);
-    if(AU.AudFrmName!=null)S.aud.frmName=AU.AudFrmName;
-    if(AU.AudFrmPAN!=null)S.aud.frmPAN=AU.AudFrmPAN;
-    if(AU.AudFrmAadhaar!=null)S.aud.frmAadhaar=AU.AudFrmAadhaar;
-    if(AU.LiableSec92Eflg!=null)S.aud.sec92E=AU.LiableSec92Eflg;
-    if(AU.AccountAuditFlag!=null)S.aud.acct92E=AU.AccountAuditFlag;
-    if(AU.AuditDetails92E){if(AU.AuditDetails92E.DateOfAudit)S.aud.date92E=dmy(AU.AuditDetails92E.DateOfAudit);
-      if(AU.AuditDetails92E.AckNum92E!=null)S.aud.ack92E=String(AU.AuditDetails92E.AckNum92E);}
-    if(Array.isArray(AU.AuditDetails))S.aud.oth=AU.AuditDetails.map(r=>({sec:r.AuditedSection,flag:r.AuditFlag,date:dmy(r.DateOfAudit),ack:r.AckNumOth}));
-    if(Array.isArray(AU.AuditReportDetails))S.aud.act=AU.AuditReportDetails.map(r=>({act:r.AuditReportAct,actOther:r.AuditReportActOthers,sec:r.AuditedSection,date:dmy(r.DateOfAudit)}));
-    read.push("audit information");
-  }
-  if(NB.NatureOfBusiness&&Array.isArray(NB.NatureOfBusiness)){
-    S.nob=NB.NatureOfBusiness.map(r=>({code:r.Code,trade:r.TradeName1,desc:r.Description}));
-    read.push("nature of business");
-  }
-  return read;
-}
+/* impRet removed by integrator — who owns PartA_GEN1/GEN2 (dedup, rule 11) */
 
 /* =====================================================================
    CHECKS — chkRet(): the sheet's own rules as live messages.
@@ -9403,7 +9116,9 @@ function chkRet(){
 
 reg({id:"ret", t:"Return and regime", ref:"Part A - General", f:secRet,
   s:()=>(S.fs.optout==="Yes"?"Old regime":"New regime")+(D(S.fs.filed)?" · filed "+DISP(D(S.fs.filed)):""),
-  eng:engRet, exp:expRet, imp:impRet, chk:chkRet, order:6});
+  /* exp/imp intentionally unregistered: the `who` section owns PartA_GEN1 / PartA_GEN2
+     export+import from the shared S.pi / S.fs state. ret is the regime view only. */
+  eng:engRet, chk:chkRet, order:6});
 
 /* =====================================================================
    ITR-3 · Section "sal" — Salary (Schedule S)
@@ -11151,6 +10866,11 @@ function secWho(){
 function expWho(j){
   const ind=S.pi.status!=="H";
   const fs=S.fs||{}, decl=S.decl||{}, aud=S.aud||{};
+  /* repeating tables must be JSON ARRAYS (constitution rule 12 — round-trip),
+     not objects keyed "0","1". oPut drops an empty leaf; putArr assigns the
+     array (and builds its parents) only when it carries at least one row. */
+  const oPut=(o,k,v)=>{if(v!==undefined&&v!==null&&v!=="")o[k]=v;};
+  const putArr=(path,arr)=>{if(arr&&arr.length)put(j,path,arr);};
 
   /* ---------- PartA_GEN1 · PersonalInfo (rows 7-27, 110) ---------- */
   if(ind){
@@ -11215,10 +10935,9 @@ function expWho(j){
     put(j,"PartA_GEN1.FilingStatus.IncrExpAggAmt1LkElctrctyPrYrFlg",sv(decl.ele_f));
     if(decl.ele) put(j,"PartA_GEN1.FilingStatus.AmtSeventhProvisio139iii",R(decl.ele));
     put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139i",sv(decl.c4_f));
-    if(decl.c4_f==="Y") (decl.c4||[]).forEach((r,i)=>{
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iNature",sv(r.nature));
-      put(j,"PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iAmount",R(r.amt));
-    });
+    if(decl.c4_f==="Y") putArr("PartA_GEN1.FilingStatus.clauseiv7provisio139iDtls",
+      (decl.c4||[]).map(r=>{const o={};oPut(o,"clauseiv7provisio139iNature",sv(r.nature));
+        oPut(o,"clauseiv7provisio139iAmount",R(r.amt));return o;}));
   }
   if([13,14,16,18,20].indexOf(+fs.sec)>=0){
     put(j,"PartA_GEN1.FilingStatus.NoticeNo",sv(fs.din));
@@ -11240,32 +10959,24 @@ function expWho(j){
     }
   }
   put(j,"PartA_GEN1.FilingStatus.CompDirectorPrvYrFlg",sv(fs.dir||"N"));
-  if(fs.dir==="Y") (S.pi.dirco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.CompDirectorPrvYr.CompDirectorPrvYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"SharesTypes",sv(r.listed||"L"));
-    put(j,b+"DIN",sv(r.din));
-  });
+  if(fs.dir==="Y") putArr("PartA_GEN1.FilingStatus.CompDirectorPrvYr.CompDirectorPrvYrDtls",
+    (S.pi.dirco||[]).map(r=>{const o={};
+      oPut(o,"NameOfCompany",sv(r.name)); oPut(o,"CompanyType",sv(r.type||"D"));
+      oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
+      oPut(o,"SharesTypes",sv(r.listed||"L")); oPut(o,"DIN",sv(r.din)); return o;}));
   put(j,"PartA_GEN1.FilingStatus.PartnerInFirmFlg",sv(fs.partner||"N"));
-  if(fs.partner==="Y") (S.pi.firms||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.PartnerInFirm.PartnerInFirmDtls."+i+".";
-    put(j,b+"NameOfFirm",sv(r.name));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-  });
+  if(fs.partner==="Y") putArr("PartA_GEN1.FilingStatus.PartnerInFirm.PartnerInFirmDtls",
+    (S.pi.firms||[]).map(r=>{const o={};
+      oPut(o,"NameOfFirm",sv(r.name)); oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase())); return o;}));
   put(j,"PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYrFlg",sv(fs.unl||"N"));
-  if(fs.unl==="Y") (S.pi.unlco||[]).forEach((r,i)=>{
-    const b="PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls."+i+".";
-    put(j,b+"NameOfCompany",sv(r.name));
-    put(j,b+"CompanyType",sv(r.type||"D"));
-    put(j,b+"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
-    put(j,b+"OpngBalNumberOfShares",R(r.obNo));
-    put(j,b+"OpngBalCostOfAcquisition",R(r.obCost));
-    if(r.acqNo) put(j,b+"ShrAcqDurYrNumberOfShares",R(r.acqNo));
-    put(j,b+"ClsngBalNumberOfShares",R(r.cbNo));
-    put(j,b+"ClsngBalCostOfAcquisition",R(r.cbCost));
-  });
+  if(fs.unl==="Y") putArr("PartA_GEN1.FilingStatus.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls",
+    (S.pi.unlco||[]).map(r=>{const o={};
+      oPut(o,"NameOfCompany",sv(r.name)); oPut(o,"CompanyType",sv(r.type||"D"));
+      oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
+      oPut(o,"OpngBalNumberOfShares",R(r.obNo)); oPut(o,"OpngBalCostOfAcquisition",R(r.obCost));
+      if(r.acqNo) oPut(o,"ShrAcqDurYrNumberOfShares",R(r.acqNo));
+      oPut(o,"ClsngBalNumberOfShares",R(r.cbNo)); oPut(o,"ClsngBalCostOfAcquisition",R(r.cbCost));
+      return o;}));
   if(fs.resStatus!=="RES"){
     put(j,"PartA_GEN1.FilingStatus.NriPEinIndia",sv(fs.nriPE));
     put(j,"PartA_GEN1.FilingStatus.NriSEPinIndia",sv(fs.nriSEP));
@@ -11311,27 +11022,18 @@ function expWho(j){
     put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.DateOfAudit",ISO(aud.date92E));
     if(aud.ack92E) put(j,"PartA_GEN2.AuditInfo.AuditDetails92E.AckNum92E",R(aud.ack92E));
   }
-  (aud.oth||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditDetails."+i+".";
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"AuditFlag",sv(r.flag));
-    put(j,b+"DateOfAudit",ISO(r.date));
-    if(r.ack) put(j,b+"AckNumOth",R(r.ack));
-  });
-  (aud.act||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.AuditInfo.AuditReportDetails."+i+".";
-    put(j,b+"AuditReportAct",sv(r.act));
-    put(j,b+"AuditReportActOthers",sv(r.actOther));
-    put(j,b+"AuditedSection",sv(r.sec));
-    put(j,b+"DateOfAudit",ISO(r.date));
-  });
+  putArr("PartA_GEN2.AuditInfo.AuditDetails",
+    (aud.oth||[]).map(r=>{const o={};
+      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"AuditFlag",sv(r.flag));
+      oPut(o,"DateOfAudit",ISO(r.date)); if(r.ack) oPut(o,"AckNumOth",R(r.ack)); return o;}));
+  putArr("PartA_GEN2.AuditInfo.AuditReportDetails",
+    (aud.act||[]).map(r=>{const o={};
+      oPut(o,"AuditReportAct",sv(r.act)); oPut(o,"AuditReportActOthers",sv(r.actOther));
+      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
   /* ---------- PartA_GEN2 · NatOfBus ---------- */
-  (S.nob||[]).forEach((r,i)=>{
-    const b="PartA_GEN2.NatOfBus.NatureOfBusiness."+i+".";
-    put(j,b+"Code",sv(r.code));
-    put(j,b+"TradeName1",sv(r.trade));
-    put(j,b+"Description",sv(r.desc));
-  });
+  putArr("PartA_GEN2.NatOfBus.NatureOfBusiness",
+    (S.nob||[]).map(r=>{const o={};
+      oPut(o,"Code",sv(r.code)); oPut(o,"TradeName1",sv(r.trade)); oPut(o,"Description",sv(r.desc)); return o;}));
 }
 
 /* =====================================================================
