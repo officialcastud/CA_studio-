@@ -2,7 +2,10 @@
  "gate": 3,
  "ok": false,
  "failing": [
-  "[ESR] label not in book: Schedule ESR"
+  "[CYLA - BFLA] label not in book: Remaining Set off BP",
+  "[CYLA - BFLA] label not in book: Speculative Income",
+  "[CYLA - BFLA] label not in book: Remaining Set off",
+  "[CYLA - BFLA] label not in book: Speculation Income"
  ],
  "extra": {}
 }
