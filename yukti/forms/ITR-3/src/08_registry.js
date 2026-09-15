@@ -15,3 +15,9 @@ function reg(o){_SECREG.push(o);}   /* a section-builder calls reg({id, t, ref, 
    leaf key written onto different array elements/blocks. Real full-path stale
    writes onto j still use put() and are still checked. */
 function pf(o,p,v){return put(o,p,v);}
+
+/* Phase 6 rule batches: additional runRules checks live in 61_rules_*.js files,
+   each calling ruleset(fn). runRules() runs them all with its A/Dd collectors, so
+   the rule set can be extended in disjoint files (parallel encoding, no conflicts). */
+const _RULEBATCHES=[];
+function ruleset(fn){_RULEBATCHES.push(fn);}

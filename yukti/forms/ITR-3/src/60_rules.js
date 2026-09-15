@@ -643,6 +643,7 @@ function runRules(I,S_){
   Dd(13,!(N(RG(I,"ITR3ScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.Us115BBF"))>0),"Income disclosed u/s 115BBF — Form 3CFA should be filed within the 139(1) due date.");
   Dd(9,!(N(RG(I,"ITR3ScheduleBP.IncChrgUnHdProftGain"))>0)||(!!I.PARTA_BS&&!!I.PARTA_PL),"Business/profession income is offered — the Balance Sheet and Profit & Loss account must be filled (section 139(9) read with 44AA).");
 
+  if(typeof _RULEBATCHES!=="undefined")_RULEBATCHES.forEach(rb=>{try{rb(I,S_,A,Dd);}catch(e){}});
   return out;
 }
 
