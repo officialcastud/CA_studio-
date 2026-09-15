@@ -682,6 +682,22 @@ function expCg(j){
     CapitalLossBuyBackSharesDtls:bbl.map(x=>({Rate:x.rate||"LTL125",Amount:-n0(x.amt)}))};
   LT.TotalLTCG=sg(B.total);
 
+  /* schema-required sub-objects that must be present even when the filer has no such
+     transaction (empty stubs; the utility emits them at zero). */
+  const dfl=(o,k,v)=>{if(o[k]===undefined)o[k]=v;};
+  const zDed48=()=>({AquisitCost:0,ImproveCost:0,ExpOnTrans:0,TotalDedn:0});
+  dfl(ST,"SlumpSaleInStcg",{FMV11UAEii:0,FMV11UAEiii:0,FullConsideration:0,NetWorthOfDivision:0,CapgainonAssets:0});
+  dfl(ST,"NRITransacSec48Dtl",{NRItaxSTTPaid:0,NRItaxSTTNotPaid:0});
+  dfl(ST,"NRISecur115AD",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
+    FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,CapgainonAssets:0});
+  dfl(ST,"SaleOnOtherAssets",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
+    FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,
+    DeemedStcgOnAssets:0,ExemptionOrDednUs54:{ExemptionGrandTotal:0},CapgainonAssets:0});
+  dfl(LT,"SlumpSaleInLtcgDtls",{});
+  dfl(LT,"NRISaleOfEquityShareUs112A",{BalanceCG:0,DeductionUs54F:0,CapgainonAssets:0});
+  dfl(LT,"NRISaleofForeignAsset",{SaleonSpecAsset:0,DednSpecAssetus115:0,BalonSpeciAsset:0});
+  dfl(LT,"SaleofAssetNADtls",{});
+
   j.ScheduleCGFor23={ShortTermCapGainFor23:ST,LongTermCapGain23:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),TotScheduleCGFor23:sg(G.C3)};
 
@@ -697,7 +713,7 @@ function expCg(j){
       else if(sec==="54D"){rowd.DateofAcquisition=ISO(d.transfer)||"2025-04-01";}
       (DED[key]=DED[key]||[]).push(rowd);dedTot+=r.amt;});});
   DED.TotDeductClaim=n0(dedTot);
-  if(dedTot)j.ScheduleCGFor23.DeducClaimInfo=DED;
+  j.ScheduleCGFor23.DeducClaimInfo=DED;   /* required even when no deduction is claimed */
 
   /* ---- Part E ---- */
   const SL=[["st20","InStcg20Per","StclSetoff20Per"],["st30","InStcg30Per","StclSetoff30Per"],
@@ -709,6 +725,10 @@ function expCg(j){
     SL.forEach(l=>{if(l[0]===x[0])return;
       if(x[0].charAt(0)==="l"||l[0].charAt(0)!=="l")node[l[2]]=n0((G.matrix[x[0]]||{})[l[0]]||0);});
     node.CurrYrCapGain=n0(G.after[x[0]]);E[x[1]]=node;});
+  /* TotLossSetOff / LossRemainSetOff are required: per-rate total set off and loss remaining */
+  E.TotLossSetOff={};E.LossRemainSetOff={};
+  SL.forEach(x=>{E.TotLossSetOff[x[2]]=n0(G.totSet&&G.totSet[x[0]]);
+    E.LossRemainSetOff[x[2]]=n0(G.remain&&G.remain[x[0]]);});
   j.ScheduleCGFor23.CurrYrLosses=E;
 
   /* ---- Part F ---- */
@@ -716,8 +736,8 @@ function expCg(j){
   const FN={st20:"ShortTermUnder20Per",st30:"ShortTermUnder30Per",stApp:"ShortTermUnderAppRate",
     stDTAA:"ShortTermUnderDTAARate",lt125:"LongTermUnder12_5Per",ltDTAA:"LongTermUnderDTAARate"};
   const AF={};SL.forEach(x=>{const dr={};QK.forEach((q,i)=>dr[q]=n0((G.F[x[0]]||[])[i]));AF[FN[x[0]]]={DateRange:dr};});
-  if(G.C2){const vq=[0,0,0,0,0];(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
-    const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}
+  {const vq=[0,0,0,0,0];if(G.C2)(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
+    const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}  /* required key */
   j.ScheduleCGFor23.AccruOrRecOfCG=AF;
 
   /* ---- Schedule 112A / 115AD / VDA ---- */
@@ -740,16 +760,22 @@ function impCg(I3){
   if(CGb){
     S.cg=S.cg||{};S.cg.on=true;
     const ST=CGb.ShortTermCapGainFor23||{}, LT=CGb.LongTermCapGain23||{};
+    /* restore the buyer table + property address so TrnsfImmblPrprty round-trips */
+    const bback=x=>{const bs=(g(x,"TrnsfImmblPrprty.TrnsfImmblPrprtyDtls")||[]);
+      const out={buyers:bs.map(y=>({name:y.NameOfBuyer||"",pan:y.PANofBuyer||"",aadhaar:y.AaadhaarOfBuyer||"",
+        share:nz(y.PercentageShare),amt:nz(y.Amount)}))};
+      if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";}
+      return out;};
     const land=[];
-    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>land.push({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
+    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
       lt:"Short",cons:nz(x.FullConsideration),sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
-      improve:[],ded:{s54B:nz(g(x,"ExemptionOrDednUs54.ExemptionGrandTotal"))},buyers:[]}));
+      improve:[],ded:{s54B:nz(g(x,"ExemptionOrDednUs54.ExemptionGrandTotal"))}},bback(x))));
     (g(LT,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
       (g(x,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls")||[]).forEach(e=>d["s"+e.ExemptionSecCode]=nz(e.ExemptionAmount));
-      land.push({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),lt:"Long",cons:nz(x.FullConsideration),
+      land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),lt:"Long",cons:nz(x.FullConsideration),
         sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
         improve:(g(x,"CostOfImprovements.CostOfImprovementsDtls")||[]).map(y=>({amt:nz(y.ImproveCost),yr:y.ImproveDate})),
-        ded:d,buyers:[]});});
+        ded:d},bback(x)));});
     if(land.length){S.cg.land=land;read.push("capital gains (land/building)");}
     if(ST.SlumpSaleInStcg)S.cg.a2={fmv2:nz(ST.SlumpSaleInStcg.FMV11UAEii),fmv3:nz(ST.SlumpSaleInStcg.FMV11UAEiii),networth:nz(ST.SlumpSaleInStcg.NetWorthOfDivision)};
     if(g(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg")){const s=g(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg");

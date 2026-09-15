@@ -555,13 +555,18 @@ function expDed(j){
       TotalEligibleDonationAmt80GGC:n0(out.c80ggc)};}}
   /* ---- Schedule80_IA / 80_IB / 80_IC (80-IE) — the undertaking detail ---- */
   if(N(S.ded.ia.amt)){const amt=n0(S.ded.ia.amt);
-    j.Schedule80_IA={Sch80SectionCode:st0(S.ded.ia.code)||"80IA",
-      DeductUs80_IA_4_iv:{Sch80LocOrDescCode:st0(S.ded.ia.code)||"POWER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
+    /* Sch80SectionCode / Sch80LocOrDescCode are fixed schema codes (80-IA / POWER),
+       not the sub-clause label the filer types. */
+    j.Schedule80_IA={Sch80SectionCode:"80-IA",
+      DeductUs80_IA_4_iv:{Sch80LocOrDescCode:"POWER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
       TotSchedule80_IA:n0(out.c80ia)};}
-  if(N(S.ded.ib.amt)){const amt=n0(S.ded.ib.amt);const und={Sch80LocOrDescCode:st0(S.ded.ib.code)||"OTHER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]};
-    j.Schedule80_IB={Sch80SectionCode:st0(S.ded.ib.code)||"80IB",
-      DeductMinOilUs80_IB_9_Und:und,DeductHousUs80_IB_10_Und:{Sch80LocOrDescCode:"NA",Sch80DeductAmtDtls:[]},
-      DeductFoodGrainUs80_IB_11A_Und:{Sch80LocOrDescCode:"NA",Sch80DeductAmtDtls:[]},TotSchedule80_IB:n0(out.c80ib)};}
+  if(N(S.ded.ib.amt)){const amt=n0(S.ded.ib.amt);
+    /* the three sub-undertaking objects are required; each needs its fixed LocOrDescCode,
+       but Sch80DeductAmtDtls is optional and only carried where an amount exists. */
+    j.Schedule80_IB={Sch80SectionCode:"80-IB",
+      DeductMinOilUs80_IB_9_Und:{Sch80LocOrDescCode:"COMM_PROD",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
+      DeductHousUs80_IB_10_Und:{Sch80LocOrDescCode:"HOUSING_PROJECT"},
+      DeductFoodGrainUs80_IB_11A_Und:{Sch80LocOrDescCode:"STOR_TRANS"},TotSchedule80_IB:n0(out.c80ib)};}
   if(N(S.ded.ie.amt)){const amt=n0(S.ded.ie.amt);const mkU=v=>({Sch80LocOrDescCode:v||"NA",Sch80DeductAmtDtls:v?[{DeductAmountSec80:amt}]:[]});
     j.Schedule80_IC={Sch80SectionCode:st0(S.ded.ie.code)||"80IE",
       DeductInNorthEast:{Assam_Und:mkU(st0(S.ded.ie.code)),ArunachalPradesh_Und:mkU(""),Manipur_Und:mkU(""),Mizoram_Und:mkU(""),

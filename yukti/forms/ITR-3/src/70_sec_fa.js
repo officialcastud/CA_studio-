@@ -432,13 +432,17 @@ function expFa(j){
   const a3=(S.fa.a3||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
     S1(el,r,["NameOfEntity","AddressOfEntity","ZipCode","NatureOfEntity"]);
     D1(el,r,{InterestAcquiringDate:"InterestAcquiringDate"});
-    N1(el,r,["InitialValOfInvstmnt","PeakBalanceDuringPeriod","ClosingBalance","TotGrossAmtPaidCredited","TotGrossProceeds"]);return el;});
+    N1(el,r,["InitialValOfInvstmnt","PeakBalanceDuringPeriod","ClosingBalance"]);
+    el.TotGrossAmtPaidCredited=n0(r.TotGrossAmtPaidCredited);el.TotGrossProceeds=n0(r.TotGrossProceeds);/* required */
+    return el;});
   if(a3.length)put(j,"ScheduleFA.DtlsForeignEquityDebtInterest",a3);
 
   const a4=(S.fa.a4||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
     S1(el,r,["FinancialInstName","FinancialInstAddress","ZipCode"]);
     D1(el,r,{ContractDate:"ContractDate"});
-    N1(el,r,["CashValOrSurrenderVal","TotGrossAmtPaidCredited"]);return el;});
+    N1(el,r,["CashValOrSurrenderVal"]);
+    el.TotGrossAmtPaidCredited=n0(r.TotGrossAmtPaidCredited);/* required */
+    return el;});
   if(a4.length)put(j,"ScheduleFA.DtlsForeignCashValueInsurance",a4);
 
   const b=(S.fa.b||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
@@ -454,9 +458,11 @@ function expFa(j){
   if(c.length)put(j,"ScheduleFA.DetailsImmovableProperty",c);
 
   const d=(S.fa.d||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
-    S1(el,r,["ZipCode","NatureOfAsset","Ownership","NatureOfInc","IncTaxSch","IncTaxSchNo"]);
+    S1(el,r,["ZipCode","NatureOfAsset","Ownership","NatureOfInc","IncTaxSch"]);
     D1(el,r,{DateOfAcq:"DateOfAcq"});
-    N1(el,r,["TotalInvestment","IncDrvAsset","IncTaxAmt"]);return el;});
+    N1(el,r,["TotalInvestment"]);
+    el.IncDrvAsset=n0(r.IncDrvAsset);el.IncTaxAmt=n0(r.IncTaxAmt);el.IncTaxSchNo=sv(r.IncTaxSchNo)||"-";/* required */
+    return el;});
   if(d.length)put(j,"ScheduleFA.DetailsOthAssets",d);
 
   const e=(S.fa.e||[]).filter(hasCode).map(r=>{const el={};cc(el,r);

@@ -397,7 +397,9 @@ function impSal(I3){
     o.nprof=back(sy.NatureOfProfitInLieuOfSalary);
     return o;
   });
-  S.sal.alw=(g_(sc,"AllwncExemptUs10.AllwncExemptUs10Dtls")||[]).map(a=>({
+  /* 10(13A) is re-derived from the Section10_13A HRA working on export, not a manual
+     allowance row — drop it here so it is not double-counted on re-export (round-trip). */
+  S.sal.alw=(g_(sc,"AllwncExemptUs10.AllwncExemptUs10Dtls")||[]).filter(a=>a.SalNatureDesc!=="10(13A)").map(a=>({
     sec:a.SalNatureDesc,desc:a.SalOthNatOfInc||"",amt:a.SalOthAmount}));
   const H=sc.Section10_13A;
   if(H) S.sal.hra={place:H.Placeofwork||"",salary:nz(H.DtlsSalUsSec171),

@@ -206,7 +206,8 @@ function engTax(){
   const filed=D(S.fs.filed);
   const endA=([17,18].indexOf(+S.fs.sec)>=0&&D(S.fs.origdate))?D(S.fs.origdate):filed;   /* B12: revised/defective → original date */
   const late=!!(endA&&endA>dueDate);
-  const IT=Array.isArray(S.it)?S.it:[];
+  /* challans live canonically in S.paid.it (restored on import); S.it is only a legacy mirror */
+  const IT=Array.isArray((S.paid||{}).it)?S.paid.it:(Array.isArray(S.it)?S.it:[]);
   const isSAT=c=>{const d=D(c.dt);return d?d>YREND:false;};
   const satIn=(a,b)=>IT.filter(c=>isSAT(c)&&D(c.dt)&&D(c.dt)>=a&&D(c.dt)<=b).reduce((s,c)=>s+N(c.amt),0);
 

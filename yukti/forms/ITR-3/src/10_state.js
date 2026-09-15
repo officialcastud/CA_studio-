@@ -20,19 +20,19 @@ const SEED={};
 const SKEL=
 {
  "CreationInfo": {
-  "SWVersionNo": "na",
-  "SWCreatedBy": "na",
-  "JSONCreatedBy": "na",
+  "SWVersionNo": "1.0",
+  "SWCreatedBy": "SW10000000",
+  "JSONCreatedBy": "SW10000000",
   "JSONCreationDate": "2026-01-01",
   "IntermediaryCity": "na",
-  "Digest": "na"
+  "Digest": "-"
  },
  "Form_ITR3": {
   "FormName": "ITR-3",
   "Description": "na",
   "AssessmentYear": "2026",
-  "SchemaVer": "na",
-  "FormVer": "na"
+  "SchemaVer": "Ver1.0",
+  "FormVer": "Ver1.0"
  },
  "PartA_GEN1": {
   "PersonalInfo": {

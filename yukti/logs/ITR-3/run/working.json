@@ -4,7 +4,7 @@
   "form": "ITR-3",
   "ay": "2026-27",
   "ver": 1,
-  "saved": "2026-09-15T19:59:57.310Z"
+  "saved": "2026-09-15T20:14:45.524Z"
  },
  "pi": {
   "status": "I",
@@ -77,15 +77,15 @@
   "sec": 11,
   "incBP": "Y",
   "filed": "28/07/2026",
-  "duedate": "2026-07-31",
-  "dueExt": "2026-07-31",
+  "duedate": "2026-10-31",
+  "dueExt": "2026-10-31",
   "resStatus": "RES",
   "f10ieaDate": "25/07/2026",
   "f10ieaAck": "123456789012345",
   "rep": "N",
-  "dir": "Yes",
-  "partner": "Yes",
-  "unl": "Yes",
+  "dir": "Y",
+  "partner": "Y",
+  "unl": "Y",
   "fpi": "N",
   "foreignExch": "Y",
   "lei": "3358005G7M7VX2ZUXX88",
@@ -337,7 +337,7 @@
    "SaleOfServices": 0,
    "OtherOperatingRevenueDtls": [
     {
-     "OperatingRevenueNature": "Scrap sales",
+     "OperatingRevenueName": "Scrap sales",
      "OperatingRevenueAmt": 50000
     }
    ],
@@ -360,7 +360,7 @@
    "PowerAndFuel": 10000,
    "OtherIncDtls": [
     {
-     "Nature": "Misc direct expense",
+     "NatureOfIncome": "Misc direct expense",
      "Amount": 5000
     }
    ],
@@ -1671,26 +1671,20 @@
   "sec44AA": "Y",
   "incDclrdUs": "N",
   "salesBand": "Upto10CR",
-  "pctRcvd": "Y",
-  "pctPaid": "Y",
+  "pctRcvd": "Upto5Per",
+  "pctPaid": "Upto5Per",
   "sec44AB": "N",
   "sec92E": "N",
   "acct92E": "N",
   "oth": [
    {
-    "sec": "92CD",
-    "flag": "N",
-    "date": ""
+    "sec": "80-IA",
+    "flag": "Y",
+    "date": "10/09/2026",
+    "ack": "111122223333444"
    }
   ],
-  "act": [
-   {
-    "act": "Companies Act 2013",
-    "actOther": "",
-    "sec": "143",
-    "date": "20/09/2026"
-   }
-  ]
+  "act": []
  },
  "nob": [
   {
@@ -1839,8 +1833,9 @@
    "rows": [
     {
      "bsr": "0510308",
+     "bank": "State Bank of India, MG Road",
      "dt": "10/09/2026",
-     "sn": "88",
+     "chln": "88",
      "amt": 15000
     }
    ]

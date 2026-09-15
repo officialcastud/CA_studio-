@@ -17,14 +17,14 @@ S.pi={status:"I",first:"S",mid:"",last:"SUDHIR",pan:"TVOPS4373C",aadhaar:"734519
   unlco:[{name:"Sudhir Infotech Private Limited",type:"D",pan:"AABCS4321K",obNo:5000,obCost:500000,acqNo:1000,cbNo:5500,cbCost:600000}]};
 
 /* ---------------- Return & regime / filing / audit (ret) ---------------- */
-S.fs={optout:"Yes",sec:11,incBP:"Y",filed:"28/07/2026",duedate:"2026-07-31",dueExt:"2026-07-31",
+S.fs={optout:"Yes",sec:11,incBP:"Y",filed:"28/07/2026",duedate:"2026-10-31",dueExt:"2026-10-31",
   resStatus:"RES",f10ieaDate:"25/07/2026",f10ieaAck:"123456789012345",
-  rep:"N",dir:"Yes",partner:"Yes",unl:"Yes",fpi:"N",foreignExch:"Y",
+  rep:"N",dir:"Y",partner:"Y",unl:"Y",fpi:"N",foreignExch:"Y",
   lei:"3358005G7M7VX2ZUXX88",leiValid:"31/12/2026"};
 S.decl={flag:"Y",dep_f:"Y",dep:12000000,trv_f:"Y",trv:450000,ele_f:"Y",ele:180000,c4_f:"Y",c4:[{nature:"3",amt:60000}]};
-S.aud={sec44AA:"Y",incDclrdUs:"N",salesBand:"Upto10CR",pctRcvd:"Y",pctPaid:"Y",sec44AB:"N",sec92E:"N",acct92E:"N",
-  oth:[{sec:"92CD",flag:"N",date:""}],
-  act:[{act:"Companies Act 2013",actOther:"",sec:"143",date:"20/09/2026"}]};
+S.aud={sec44AA:"Y",incDclrdUs:"N",salesBand:"Upto10CR",pctRcvd:"Upto5Per",pctPaid:"Upto5Per",sec44AB:"N",sec92E:"N",acct92E:"N",
+  oth:[{sec:"80-IA",flag:"Y",date:"10/09/2026",ack:"111122223333444"}],
+  act:[]};
 S.nob=[{code:"09028",trade:"Sudhir Traders",desc:"Wholesale trading"},
        {code:"14005",trade:"Sudhir Consulting",desc:"Professional — management consultancy"}];
 
@@ -57,12 +57,12 @@ S.bpa={
         IndirectWages:0,FactoryRentAndRates:0,FactoryInsurance:0,FactoryFuelAndPower:0,FactoryGeneralExpenses:0,DeprctnOfFactoryMachinery:0},
        ClosingStock:{ClsngStckRawMaterial:0,ClsngStckWrkInPrgrs:0}},
   trd:{SaleOfGoods:10000000,SaleOfServices:0,
-       OtherOperatingRevenueDtls:[{OperatingRevenueNature:"Scrap sales",OperatingRevenueAmt:50000}],
+       OtherOperatingRevenueDtls:[{OperatingRevenueName:"Scrap sales",OperatingRevenueAmt:50000}],
        GrossRcptFromProfession:0,
        ExciseCustomsVAT:{UnionExciseDuty:0,ServiceTax:0,VATorSaleTax:0,CentralGoodServiceTax:0,StateGoodServiceTax:0,IntegratedGoodServiceTax:0,UnionTerrGoodServiceTax:0,OthDutyTaxCess:0},
        ClsngStckOfFinishedStcks:200000,OpngStckOfFinishedStcks:150000,Purchases:6000000,
        CarriageInward:20000,PowerAndFuel:10000,
-       OtherIncDtls:[{Nature:"Misc direct expense",Amount:5000}],
+       OtherIncDtls:[{NatureOfIncome:"Misc direct expense",Amount:5000}],
        DutyTaxPay:{ExciseCustomsVAT:{CustomDuty:0,CounterVailDuty:0,SplAddDuty:0,UnionExciseDuty:0,ServiceTax:0,VATorSaleTax:0,CentralGoodServiceTax:0,StateGoodServiceTax:0,IntegratedGoodServiceTax:0,UnionTerrGoodServiceTax:0,OthDutyTaxCess:0}},
        IncomeIntradayTrd:0,TurnoverIntradayTrd:0,IncomeFutureTrd:0,TurnoverFutureTrd:0},
   pl:{CreditsToPL:{OthIncome:{RentInc:30000,Comissions:0,Dividends:0,InterestInc:0,ProfitOnSaleFixedAsset:0,ProfitOnInvChrSTT:0,ProfitOnOthInv:0,ProfitOnCurrFluct:0,ProfitOnCnvInvntryToCapAsst:0,ProfitOnAgriIncome:0,LiabilityWrittenBack:0,AmtofInterest:0,AmtofRem:0,OtherIncDtls:[]}},
@@ -247,7 +247,7 @@ S.it=S.paid.it;
 /* ---------------- Part B — roll-up, AMT, AMTC, TPSA (tax) ---------------- */
 S.tax={s89:0,f234i:0,
  amtc:{"2022-23":{gross:180000,setoff:60000},"2024-25":{gross:95000,setoff:0}},
- tpsaOn:"Yes",tpsa:{amt:100000,rows:[{bsr:"0510308",dt:"10/09/2026",sn:"88",amt:15000}]},amtIFSC:0};
+ tpsaOn:"Yes",tpsa:{amt:100000,rows:[{bsr:"0510308",bank:"State Bank of India, MG Road",dt:"10/09/2026",chln:"88",amt:15000}]},amtIFSC:0};
 
 /* ---------------- Bank & verification (bank) ---------------- */
 S.bank=[{ifsc:"SBIN0040011",bank:"State Bank of India",acno:"30412345678",type:"SB",refund:"Y"},

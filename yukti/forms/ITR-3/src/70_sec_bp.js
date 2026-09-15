@@ -770,7 +770,8 @@ function expBp(j){
     const D=root+".DepreciationDetail.";
     put(j,D+"WDVFirstDay",n0(blk.wdv));
     if(isNew()&&N(raw.AdjustmentSec115BAC))put(j,D+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));
-    if(N(raw.AdjustmentSec115BAC)||blk.tot3)put(j,D+"Total",n0(blk.tot3));
+    /* 'Total' exists only on the DPM DepreciationDetail, not the DOA one (opts.total===false) */
+    if(opts.total!==false&&(N(raw.AdjustmentSec115BAC)||blk.tot3))put(j,D+"Total",n0(blk.tot3));
     put(j,D+"AdditionsGrThan180Days",n0(blk.add180));
     put(j,D+"RealizationTotalPeriod",n0(blk.realTot));
     put(j,D+"FullRateDeprAmt",n0(blk.fullAmt));
@@ -807,7 +808,7 @@ function expBp(j){
   }
   [["Building.Rate5","b5"],["Building.Rate10","b10"],["Building.Rate40","b40"],
    ["FurnitureFittings.Rate10","furn"],["IntangibleAssets.Rate25","intang"],["Ships.Rate20","ships"]].forEach(x=>{
-    if(putBlock("ScheduleDOA."+x[0],"doa."+x[1],(S.doa||{})[x[1]],doa[x[1]]||{},{addl:false}))wrote.doa=true;
+    if(putBlock("ScheduleDOA."+x[0],"doa."+x[1],(S.doa||{})[x[1]],doa[x[1]]||{},{addl:false,total:false}))wrote.doa=true;
   });
 
   /* ---- ScheduleDEP (always emit — required object) ---- */
@@ -933,7 +934,11 @@ function impBp(I3){
     S.bp.d22=N(A.DeemIncUs43CA);S.bp.d23=N(A.OthItemDisallowUs28To44DA);
     S.bp.i24a=N(A.AnyOthIncNotInclInSalary);S.bp.i24b=N(A.AnyOthIncNotInclInBonus);S.bp.i24c=N(A.AnyOthIncNotInclInCommission);
     S.bp.i24d=N(A.AnyOthIncNotInclInInterest);S.bp.i24e=N(A.AnyOthIncNotInclInOthers);
-    S.bp.i25=N(A.IncProfDecLossAccICDSAdj);S.bp.i32=N(A.DecProfIncLossAccICDSAdj);
+    /* items 25/32 carry the OI-typed part PLUS the Schedule ICDS totals on export; on import
+       strip the ICDS schedule contribution so it is not double-counted when recomputed. */
+    {const IC=(I3&&I3.ScheduleICDS)||{},TN=IC.TotalNetAmtDetl||{};
+     S.bp.i25=Math.max(0,N(A.IncProfDecLossAccICDSAdj)-N(TN.IncreaseInProfit));
+     S.bp.i32=Math.max(0,N(A.DecProfIncLossAccICDSAdj)-N(TN.DecreaseInProfit));}
     S.bp.d27=N(A.DeductUs32_1_iii);S.bp.d29=N(A.AmtDisallUs40NowAllow);S.bp.d30=N(A.AmtDisallUs43BNowAllow);S.bp.d31=N(A.AnyOthAmtAllDeduct);
     const dp=A.DeemedProfitBusUs||{};
     S.bp.d35_44AD=N(dp.Section44AD);S.bp.d35_44ADA=N(dp.Section44ADA);S.bp.d35_44AE=N(dp.Section44AE);

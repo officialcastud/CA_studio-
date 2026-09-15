@@ -2,19 +2,19 @@
  "ITR": {
   "ITR3": {
    "CreationInfo": {
-    "SWVersionNo": "na",
-    "SWCreatedBy": "na",
-    "JSONCreatedBy": "na",
+    "SWVersionNo": "1.0",
+    "SWCreatedBy": "SW10000000",
+    "JSONCreatedBy": "SW10000000",
     "JSONCreationDate": "2026-01-01",
     "IntermediaryCity": "na",
-    "Digest": "na"
+    "Digest": "-"
    },
    "Form_ITR3": {
     "FormName": "ITR-3",
     "Description": "na",
     "AssessmentYear": "2026",
-    "SchemaVer": "na",
-    "FormVer": "na"
+    "SchemaVer": "Ver1.0",
+    "FormVer": "Ver1.0"
    },
    "PartA_GEN1": {
     "PersonalInfo": {
@@ -62,10 +62,10 @@
      "IncFrmBusOrProf": "Y",
      "SeventhProvisio139": "Y",
      "ResidentialStatus": "RES",
-     "HeldUnlistedEqShrPrYrFlg": "Yes",
+     "HeldUnlistedEqShrPrYrFlg": "Y",
      "ForeignExchangeFlag": "Y",
      "FiiFpiFlag": "N",
-     "ItrFilingDueDate": "2026-07-31",
+     "ItrFilingDueDate": "2026-10-31",
      "OptOldRegimeCurrAY": "Y",
      "F10IEACurrAYOldRegime": "Y",
      "F10IEADateCurrAYOldTax": "2026-07-25",
@@ -84,8 +84,47 @@
       }
      ],
      "AsseseeRepFlg": "N",
-     "CompDirectorPrvYrFlg": "Yes",
-     "PartnerInFirmFlg": "Yes",
+     "CompDirectorPrvYrFlg": "Y",
+     "CompDirectorPrvYr": {
+      "CompDirectorPrvYrDtls": [
+       {
+        "NameOfCompany": "Sudhir Infotech Private Limited",
+        "CompanyType": "D",
+        "PAN": "AABCS4321K",
+        "SharesTypes": "U",
+        "DIN": "07654321"
+       },
+       {
+        "NameOfCompany": "Global Trade Corp",
+        "CompanyType": "F",
+        "SharesTypes": "L",
+        "DIN": "07654322"
+       }
+      ]
+     },
+     "PartnerInFirmFlg": "Y",
+     "PartnerInFirm": {
+      "PartnerInFirmDtls": [
+       {
+        "NameOfFirm": "Sudhir & Associates",
+        "PAN": "AAJFS7788L"
+       }
+      ]
+     },
+     "HeldUnlistedEqShrPrYr": {
+      "HeldUnlistedEqShrPrYrDtls": [
+       {
+        "NameOfCompany": "Sudhir Infotech Private Limited",
+        "CompanyType": "D",
+        "PAN": "AABCS4321K",
+        "OpngBalNumberOfShares": 5000,
+        "OpngBalCostOfAcquisition": 500000,
+        "ShrAcqDurYrNumberOfShares": 1000,
+        "ClsngBalNumberOfShares": 5500,
+        "ClsngBalCostOfAcquisition": 600000
+       }
+      ]
+     },
      "PortugeseCC5A": "Y",
      "LEIDtls": {
       "LEINumber": "3358005G7M7VX2ZUXX88",
@@ -101,19 +140,14 @@
      "LiableSec92Eflg": "N",
      "AccountAuditFlag": "N",
      "TotalSalesExcOneCr": "Upto10CR",
-     "AgrOFAllAmtsRcvd": "Y",
-     "AgrOFAllPayMade": "Y",
+     "AgrOFAllAmtsRcvd": "Upto5Per",
+     "AgrOFAllPayMade": "Upto5Per",
      "AuditDetails": [
       {
-       "AuditedSection": "92CD",
-       "AuditFlag": "N"
-      }
-     ],
-     "AuditReportDetails": [
-      {
-       "AuditReportAct": "Companies Act 2013",
-       "AuditedSection": "143",
-       "DateOfAudit": "2026-09-20"
+       "AuditedSection": "80-IA",
+       "AuditFlag": "Y",
+       "DateOfAudit": "2026-09-10",
+       "AckNumOth": 111122223333444
       }
      ]
     },
@@ -988,7 +1022,6 @@
      "Rate5": {
       "DepreciationDetail": {
        "WDVFirstDay": 200000,
-       "Total": 200000,
        "AdditionsGrThan180Days": 0,
        "RealizationTotalPeriod": 0,
        "FullRateDeprAmt": 200000,
@@ -1011,7 +1044,6 @@
      "Rate10": {
       "DepreciationDetail": {
        "WDVFirstDay": 50000,
-       "Total": 50000,
        "AdditionsGrThan180Days": 0,
        "RealizationTotalPeriod": 0,
        "FullRateDeprAmt": 50000,
@@ -1180,7 +1212,7 @@
     "SaleOfServices": 0,
     "OtherOperatingRevenueDtls": [
      {
-      "OperatingRevenueNature": 0,
+      "OperatingRevenueName": "Scrap sales",
       "OperatingRevenueAmt": 50000
      }
     ],
@@ -1203,7 +1235,7 @@
     "PowerAndFuel": 10000,
     "OtherIncDtls": [
      {
-      "Nature": 0,
+      "NatureOfIncome": "Misc direct expense",
       "Amount": 5000
      }
     ],
@@ -1276,7 +1308,54 @@
      "PassThrIncNatureSTCG": 0,
      "TotalAmtNotTaxUsDTAAStcg": 0,
      "TotalAmtTaxUsDTAAStcg": 0,
-     "TotalSTCG": 450000
+     "TotalSTCG": 450000,
+     "SlumpSaleInStcg": {
+      "FMV11UAEii": 0,
+      "FMV11UAEiii": 0,
+      "FullConsideration": 0,
+      "NetWorthOfDivision": 0,
+      "CapgainonAssets": 0
+     },
+     "NRITransacSec48Dtl": {
+      "NRItaxSTTPaid": 0,
+      "NRItaxSTTNotPaid": 0
+     },
+     "NRISecur115AD": {
+      "FullValueConsdRecvUnqshr": 0,
+      "FairMrktValueUnqshr": 0,
+      "FullValueConsdSec50CA": 0,
+      "FullValueConsdOthUnqshr": 0,
+      "FullConsideration": 0,
+      "DeductSec48": {
+       "AquisitCost": 0,
+       "ImproveCost": 0,
+       "ExpOnTrans": 0,
+       "TotalDedn": 0
+      },
+      "BalanceCG": 0,
+      "LossSec94of7Or94of8": 0,
+      "CapgainonAssets": 0
+     },
+     "SaleOnOtherAssets": {
+      "FullValueConsdRecvUnqshr": 0,
+      "FairMrktValueUnqshr": 0,
+      "FullValueConsdSec50CA": 0,
+      "FullValueConsdOthUnqshr": 0,
+      "FullConsideration": 0,
+      "DeductSec48": {
+       "AquisitCost": 0,
+       "ImproveCost": 0,
+       "ExpOnTrans": 0,
+       "TotalDedn": 0
+      },
+      "BalanceCG": 0,
+      "LossSec94of7Or94of8": 0,
+      "DeemedStcgOnAssets": 0,
+      "ExemptionOrDednUs54": {
+       "ExemptionGrandTotal": 0
+      },
+      "CapgainonAssets": 0
+     }
     },
     "LongTermCapGain23": {
      "SaleOfEquityShareUs112A": {
@@ -1288,11 +1367,26 @@
      "PassThrIncNatureLTCG": 0,
      "TotalAmtNotTaxUsDTAALtcg": 0,
      "TotalAmtTaxUsDTAALtcg": 0,
-     "TotalLTCG": 300000
+     "TotalLTCG": 300000,
+     "SlumpSaleInLtcgDtls": {},
+     "NRISaleOfEquityShareUs112A": {
+      "BalanceCG": 0,
+      "DeductionUs54F": 0,
+      "CapgainonAssets": 0
+     },
+     "NRISaleofForeignAsset": {
+      "SaleonSpecAsset": 0,
+      "DednSpecAssetus115": 0,
+      "BalonSpeciAsset": 0
+     },
+     "SaleofAssetNADtls": {}
     },
     "SumOfCGIncm": 750000,
     "IncmFromVDATrnsf": 200000,
     "TotScheduleCGFor23": 950000,
+    "DeducClaimInfo": {
+     "TotDeductClaim": 0
+    },
     "CurrYrLosses": {
      "InLossSetOff": {
       "StclSetoff20Per": 0,
@@ -1347,6 +1441,22 @@
       "StclSetoffDTAARate": 0,
       "LtclSetOff12_5Per": 0,
       "CurrYrCapGain": 0
+     },
+     "TotLossSetOff": {
+      "StclSetoff20Per": 0,
+      "StclSetoff30Per": 0,
+      "StclSetoffAppRate": 0,
+      "StclSetoffDTAARate": 0,
+      "LtclSetOff12_5Per": 0,
+      "LtclSetOffDTAARate": 0
+     },
+     "LossRemainSetOff": {
+      "StclSetoff20Per": 0,
+      "StclSetoff30Per": 0,
+      "StclSetoffAppRate": 0,
+      "StclSetoffDTAARate": 0,
+      "LtclSetOff12_5Per": 0,
+      "LtclSetOffDTAARate": 0
      }
     },
     "AccruOrRecOfCG": {
@@ -1725,9 +1835,9 @@
     "TotalEligibleDonationAmt80GGC": 25000
    },
    "Schedule80_IA": {
-    "Sch80SectionCode": "A",
+    "Sch80SectionCode": "80-IA",
     "DeductUs80_IA_4_iv": {
-     "Sch80LocOrDescCode": "A",
+     "Sch80LocOrDescCode": "POWER",
      "Sch80DeductAmtDtls": [
       {
        "DeductAmountSec80": 100000
@@ -1737,9 +1847,9 @@
     "TotSchedule80_IA": 100000
    },
    "Schedule80_IB": {
-    "Sch80SectionCode": "B",
+    "Sch80SectionCode": "80-IB",
     "DeductMinOilUs80_IB_9_Und": {
-     "Sch80LocOrDescCode": "B",
+     "Sch80LocOrDescCode": "COMM_PROD",
      "Sch80DeductAmtDtls": [
       {
        "DeductAmountSec80": 50000
@@ -1747,12 +1857,10 @@
      ]
     },
     "DeductHousUs80_IB_10_Und": {
-     "Sch80LocOrDescCode": "NA",
-     "Sch80DeductAmtDtls": []
+     "Sch80LocOrDescCode": "HOUSING_PROJECT"
     },
     "DeductFoodGrainUs80_IB_11A_Und": {
-     "Sch80LocOrDescCode": "NA",
-     "Sch80DeductAmtDtls": []
+     "Sch80LocOrDescCode": "STOR_TRANS"
     },
     "TotSchedule80_IB": 50000
    },
@@ -1966,7 +2074,9 @@
       "InterestAcquiringDate": "2021-09-15",
       "InitialValOfInvstmnt": 1800000,
       "PeakBalanceDuringPeriod": 2600000,
-      "ClosingBalance": 2400000
+      "ClosingBalance": 2400000,
+      "TotGrossAmtPaidCredited": 0,
+      "TotGrossProceeds": 0
      }
     ],
     "DtlsForeignCashValueInsurance": [
@@ -1977,7 +2087,8 @@
       "FinancialInstAddress": "St Helen's, London",
       "ZipCode": "EC3P3DQ",
       "ContractDate": "2018-01-10",
-      "CashValOrSurrenderVal": 900000
+      "CashValOrSurrenderVal": 900000,
+      "TotGrossAmtPaidCredited": 0
      }
     ],
     "DetailsFinancialInterest": [
@@ -2024,7 +2135,10 @@
       "NatureOfInc": "None",
       "IncTaxSch": "NI",
       "DateOfAcq": "2021-02-05",
-      "TotalInvestment": 400000
+      "TotalInvestment": 400000,
+      "IncDrvAsset": 0,
+      "IncTaxAmt": 0,
+      "IncTaxSchNo": "-"
      }
     ],
     "DetailsOfAccntsHvngSigningAuth": [
@@ -2995,9 +3109,9 @@
     "DtlsTaxesPaid": [
      {
       "BSRCode": "0510308",
-      "BankBranchName": "",
+      "BankBranchName": "State Bank of India, MG Road",
       "DateDep": "2026-09-10",
-      "SrlNoOfChaln": 0,
+      "SrlNoOfChaln": 88,
       "Amount": 15000
      }
     ]

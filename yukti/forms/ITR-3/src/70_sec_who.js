@@ -218,7 +218,7 @@ function expWho(j){
     put(j,"PartA_GEN1.FilingStatus.OrigRetFiledDate",ISO(fs.origdate));
   }
   put(j,"PartA_GEN1.FilingStatus.ResidentialStatus",sv(fs.resStatus||"RES"));
-  if(S.pi.status!=="H"&&fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(fs.b115H));
+  if(S.pi.status!=="H"&&fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(fs.b115H||"N"));
   put(j,"PartA_GEN1.FilingStatus.AsseseeRepFlg",sv(fs.rep||"N"));
   if(fs.rep==="Y"){
     put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepName",sv(fs.repName));
@@ -378,6 +378,7 @@ function impWho(I3){
   if(FS.OrigRetFiledDate)S.fs.origdate=dmy(FS.OrigRetFiledDate);
   if(FS.ResidentialStatus!=null){S.fs.resStatus=FS.ResidentialStatus;read.push("residential status");}
   if(FS.BenefitUs115HFlg!=null)S.fs.b115H=FS.BenefitUs115HFlg;
+  if(FS.PortugeseCC5A!=null)S.pi.s5a=FS.PortugeseCC5A==="Y"?"Yes":"No";  /* restore 5A on-switch for round-trip */
   if(FS.AsseseeRepFlg!=null)S.fs.rep=FS.AsseseeRepFlg;
   if(FS.AssesseeRep){S.fs.repName=FS.AssesseeRep.RepName;S.fs.repEmail=FS.AssesseeRep.RepEmailID;
     if(FS.AssesseeRep.RepMobileNo!=null)S.fs.repMobile=String(FS.AssesseeRep.RepMobileNo);}

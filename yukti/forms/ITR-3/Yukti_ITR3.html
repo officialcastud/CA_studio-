@@ -299,19 +299,19 @@ const SEED={};
 const SKEL=
 {
  "CreationInfo": {
-  "SWVersionNo": "na",
-  "SWCreatedBy": "na",
-  "JSONCreatedBy": "na",
+  "SWVersionNo": "1.0",
+  "SWCreatedBy": "SW10000000",
+  "JSONCreatedBy": "SW10000000",
   "JSONCreationDate": "2026-01-01",
   "IntermediaryCity": "na",
-  "Digest": "na"
+  "Digest": "-"
  },
  "Form_ITR3": {
   "FormName": "ITR-3",
   "Description": "na",
   "AssessmentYear": "2026",
-  "SchemaVer": "na",
-  "FormVer": "na"
+  "SchemaVer": "Ver1.0",
+  "FormVer": "Ver1.0"
  },
  "PartA_GEN1": {
   "PersonalInfo": {
@@ -3174,7 +3174,8 @@ function expBp(j){
     const D=root+".DepreciationDetail.";
     put(j,D+"WDVFirstDay",n0(blk.wdv));
     if(isNew()&&N(raw.AdjustmentSec115BAC))put(j,D+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));
-    if(N(raw.AdjustmentSec115BAC)||blk.tot3)put(j,D+"Total",n0(blk.tot3));
+    /* 'Total' exists only on the DPM DepreciationDetail, not the DOA one (opts.total===false) */
+    if(opts.total!==false&&(N(raw.AdjustmentSec115BAC)||blk.tot3))put(j,D+"Total",n0(blk.tot3));
     put(j,D+"AdditionsGrThan180Days",n0(blk.add180));
     put(j,D+"RealizationTotalPeriod",n0(blk.realTot));
     put(j,D+"FullRateDeprAmt",n0(blk.fullAmt));
@@ -3211,7 +3212,7 @@ function expBp(j){
   }
   [["Building.Rate5","b5"],["Building.Rate10","b10"],["Building.Rate40","b40"],
    ["FurnitureFittings.Rate10","furn"],["IntangibleAssets.Rate25","intang"],["Ships.Rate20","ships"]].forEach(x=>{
-    if(putBlock("ScheduleDOA."+x[0],"doa."+x[1],(S.doa||{})[x[1]],doa[x[1]]||{},{addl:false}))wrote.doa=true;
+    if(putBlock("ScheduleDOA."+x[0],"doa."+x[1],(S.doa||{})[x[1]],doa[x[1]]||{},{addl:false,total:false}))wrote.doa=true;
   });
 
   /* ---- ScheduleDEP (always emit — required object) ---- */
@@ -3337,7 +3338,11 @@ function impBp(I3){
     S.bp.d22=N(A.DeemIncUs43CA);S.bp.d23=N(A.OthItemDisallowUs28To44DA);
     S.bp.i24a=N(A.AnyOthIncNotInclInSalary);S.bp.i24b=N(A.AnyOthIncNotInclInBonus);S.bp.i24c=N(A.AnyOthIncNotInclInCommission);
     S.bp.i24d=N(A.AnyOthIncNotInclInInterest);S.bp.i24e=N(A.AnyOthIncNotInclInOthers);
-    S.bp.i25=N(A.IncProfDecLossAccICDSAdj);S.bp.i32=N(A.DecProfIncLossAccICDSAdj);
+    /* items 25/32 carry the OI-typed part PLUS the Schedule ICDS totals on export; on import
+       strip the ICDS schedule contribution so it is not double-counted when recomputed. */
+    {const IC=(I3&&I3.ScheduleICDS)||{},TN=IC.TotalNetAmtDetl||{};
+     S.bp.i25=Math.max(0,N(A.IncProfDecLossAccICDSAdj)-N(TN.IncreaseInProfit));
+     S.bp.i32=Math.max(0,N(A.DecProfIncLossAccICDSAdj)-N(TN.DecreaseInProfit));}
     S.bp.d27=N(A.DeductUs32_1_iii);S.bp.d29=N(A.AmtDisallUs40NowAllow);S.bp.d30=N(A.AmtDisallUs43BNowAllow);S.bp.d31=N(A.AnyOthAmtAllDeduct);
     const dp=A.DeemedProfitBusUs||{};
     S.bp.d35_44AD=N(dp.Section44AD);S.bp.d35_44ADA=N(dp.Section44ADA);S.bp.d35_44AE=N(dp.Section44AE);
@@ -5048,6 +5053,22 @@ function expCg(j){
     CapitalLossBuyBackSharesDtls:bbl.map(x=>({Rate:x.rate||"LTL125",Amount:-n0(x.amt)}))};
   LT.TotalLTCG=sg(B.total);
 
+  /* schema-required sub-objects that must be present even when the filer has no such
+     transaction (empty stubs; the utility emits them at zero). */
+  const dfl=(o,k,v)=>{if(o[k]===undefined)o[k]=v;};
+  const zDed48=()=>({AquisitCost:0,ImproveCost:0,ExpOnTrans:0,TotalDedn:0});
+  dfl(ST,"SlumpSaleInStcg",{FMV11UAEii:0,FMV11UAEiii:0,FullConsideration:0,NetWorthOfDivision:0,CapgainonAssets:0});
+  dfl(ST,"NRITransacSec48Dtl",{NRItaxSTTPaid:0,NRItaxSTTNotPaid:0});
+  dfl(ST,"NRISecur115AD",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
+    FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,CapgainonAssets:0});
+  dfl(ST,"SaleOnOtherAssets",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
+    FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,
+    DeemedStcgOnAssets:0,ExemptionOrDednUs54:{ExemptionGrandTotal:0},CapgainonAssets:0});
+  dfl(LT,"SlumpSaleInLtcgDtls",{});
+  dfl(LT,"NRISaleOfEquityShareUs112A",{BalanceCG:0,DeductionUs54F:0,CapgainonAssets:0});
+  dfl(LT,"NRISaleofForeignAsset",{SaleonSpecAsset:0,DednSpecAssetus115:0,BalonSpeciAsset:0});
+  dfl(LT,"SaleofAssetNADtls",{});
+
   j.ScheduleCGFor23={ShortTermCapGainFor23:ST,LongTermCapGain23:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),TotScheduleCGFor23:sg(G.C3)};
 
@@ -5063,7 +5084,7 @@ function expCg(j){
       else if(sec==="54D"){rowd.DateofAcquisition=ISO(d.transfer)||"2025-04-01";}
       (DED[key]=DED[key]||[]).push(rowd);dedTot+=r.amt;});});
   DED.TotDeductClaim=n0(dedTot);
-  if(dedTot)j.ScheduleCGFor23.DeducClaimInfo=DED;
+  j.ScheduleCGFor23.DeducClaimInfo=DED;   /* required even when no deduction is claimed */
 
   /* ---- Part E ---- */
   const SL=[["st20","InStcg20Per","StclSetoff20Per"],["st30","InStcg30Per","StclSetoff30Per"],
@@ -5075,6 +5096,10 @@ function expCg(j){
     SL.forEach(l=>{if(l[0]===x[0])return;
       if(x[0].charAt(0)==="l"||l[0].charAt(0)!=="l")node[l[2]]=n0((G.matrix[x[0]]||{})[l[0]]||0);});
     node.CurrYrCapGain=n0(G.after[x[0]]);E[x[1]]=node;});
+  /* TotLossSetOff / LossRemainSetOff are required: per-rate total set off and loss remaining */
+  E.TotLossSetOff={};E.LossRemainSetOff={};
+  SL.forEach(x=>{E.TotLossSetOff[x[2]]=n0(G.totSet&&G.totSet[x[0]]);
+    E.LossRemainSetOff[x[2]]=n0(G.remain&&G.remain[x[0]]);});
   j.ScheduleCGFor23.CurrYrLosses=E;
 
   /* ---- Part F ---- */
@@ -5082,8 +5107,8 @@ function expCg(j){
   const FN={st20:"ShortTermUnder20Per",st30:"ShortTermUnder30Per",stApp:"ShortTermUnderAppRate",
     stDTAA:"ShortTermUnderDTAARate",lt125:"LongTermUnder12_5Per",ltDTAA:"LongTermUnderDTAARate"};
   const AF={};SL.forEach(x=>{const dr={};QK.forEach((q,i)=>dr[q]=n0((G.F[x[0]]||[])[i]));AF[FN[x[0]]]={DateRange:dr};});
-  if(G.C2){const vq=[0,0,0,0,0];(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
-    const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}
+  {const vq=[0,0,0,0,0];if(G.C2)(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
+    const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}  /* required key */
   j.ScheduleCGFor23.AccruOrRecOfCG=AF;
 
   /* ---- Schedule 112A / 115AD / VDA ---- */
@@ -5106,16 +5131,22 @@ function impCg(I3){
   if(CGb){
     S.cg=S.cg||{};S.cg.on=true;
     const ST=CGb.ShortTermCapGainFor23||{}, LT=CGb.LongTermCapGain23||{};
+    /* restore the buyer table + property address so TrnsfImmblPrprty round-trips */
+    const bback=x=>{const bs=(g(x,"TrnsfImmblPrprty.TrnsfImmblPrprtyDtls")||[]);
+      const out={buyers:bs.map(y=>({name:y.NameOfBuyer||"",pan:y.PANofBuyer||"",aadhaar:y.AaadhaarOfBuyer||"",
+        share:nz(y.PercentageShare),amt:nz(y.Amount)}))};
+      if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";}
+      return out;};
     const land=[];
-    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>land.push({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
+    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
       lt:"Short",cons:nz(x.FullConsideration),sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
-      improve:[],ded:{s54B:nz(g(x,"ExemptionOrDednUs54.ExemptionGrandTotal"))},buyers:[]}));
+      improve:[],ded:{s54B:nz(g(x,"ExemptionOrDednUs54.ExemptionGrandTotal"))}},bback(x))));
     (g(LT,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
       (g(x,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls")||[]).forEach(e=>d["s"+e.ExemptionSecCode]=nz(e.ExemptionAmount));
-      land.push({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),lt:"Long",cons:nz(x.FullConsideration),
+      land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),lt:"Long",cons:nz(x.FullConsideration),
         sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
         improve:(g(x,"CostOfImprovements.CostOfImprovementsDtls")||[]).map(y=>({amt:nz(y.ImproveCost),yr:y.ImproveDate})),
-        ded:d,buyers:[]});});
+        ded:d},bback(x)));});
     if(land.length){S.cg.land=land;read.push("capital gains (land/building)");}
     if(ST.SlumpSaleInStcg)S.cg.a2={fmv2:nz(ST.SlumpSaleInStcg.FMV11UAEii),fmv3:nz(ST.SlumpSaleInStcg.FMV11UAEiii),networth:nz(ST.SlumpSaleInStcg.NetWorthOfDivision)};
     if(g(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg")){const s=g(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg");
@@ -5744,13 +5775,18 @@ function expDed(j){
       TotalEligibleDonationAmt80GGC:n0(out.c80ggc)};}}
   /* ---- Schedule80_IA / 80_IB / 80_IC (80-IE) — the undertaking detail ---- */
   if(N(S.ded.ia.amt)){const amt=n0(S.ded.ia.amt);
-    j.Schedule80_IA={Sch80SectionCode:st0(S.ded.ia.code)||"80IA",
-      DeductUs80_IA_4_iv:{Sch80LocOrDescCode:st0(S.ded.ia.code)||"POWER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
+    /* Sch80SectionCode / Sch80LocOrDescCode are fixed schema codes (80-IA / POWER),
+       not the sub-clause label the filer types. */
+    j.Schedule80_IA={Sch80SectionCode:"80-IA",
+      DeductUs80_IA_4_iv:{Sch80LocOrDescCode:"POWER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
       TotSchedule80_IA:n0(out.c80ia)};}
-  if(N(S.ded.ib.amt)){const amt=n0(S.ded.ib.amt);const und={Sch80LocOrDescCode:st0(S.ded.ib.code)||"OTHER",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]};
-    j.Schedule80_IB={Sch80SectionCode:st0(S.ded.ib.code)||"80IB",
-      DeductMinOilUs80_IB_9_Und:und,DeductHousUs80_IB_10_Und:{Sch80LocOrDescCode:"NA",Sch80DeductAmtDtls:[]},
-      DeductFoodGrainUs80_IB_11A_Und:{Sch80LocOrDescCode:"NA",Sch80DeductAmtDtls:[]},TotSchedule80_IB:n0(out.c80ib)};}
+  if(N(S.ded.ib.amt)){const amt=n0(S.ded.ib.amt);
+    /* the three sub-undertaking objects are required; each needs its fixed LocOrDescCode,
+       but Sch80DeductAmtDtls is optional and only carried where an amount exists. */
+    j.Schedule80_IB={Sch80SectionCode:"80-IB",
+      DeductMinOilUs80_IB_9_Und:{Sch80LocOrDescCode:"COMM_PROD",Sch80DeductAmtDtls:[{DeductAmountSec80:amt}]},
+      DeductHousUs80_IB_10_Und:{Sch80LocOrDescCode:"HOUSING_PROJECT"},
+      DeductFoodGrainUs80_IB_11A_Und:{Sch80LocOrDescCode:"STOR_TRANS"},TotSchedule80_IB:n0(out.c80ib)};}
   if(N(S.ded.ie.amt)){const amt=n0(S.ded.ie.amt);const mkU=v=>({Sch80LocOrDescCode:v||"NA",Sch80DeductAmtDtls:v?[{DeductAmountSec80:amt}]:[]});
     j.Schedule80_IC={Sch80SectionCode:st0(S.ded.ie.code)||"80IE",
       DeductInNorthEast:{Assam_Und:mkU(st0(S.ded.ie.code)),ArunachalPradesh_Und:mkU(""),Manipur_Und:mkU(""),Mizoram_Und:mkU(""),
@@ -6667,13 +6703,17 @@ function expFa(j){
   const a3=(S.fa.a3||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
     S1(el,r,["NameOfEntity","AddressOfEntity","ZipCode","NatureOfEntity"]);
     D1(el,r,{InterestAcquiringDate:"InterestAcquiringDate"});
-    N1(el,r,["InitialValOfInvstmnt","PeakBalanceDuringPeriod","ClosingBalance","TotGrossAmtPaidCredited","TotGrossProceeds"]);return el;});
+    N1(el,r,["InitialValOfInvstmnt","PeakBalanceDuringPeriod","ClosingBalance"]);
+    el.TotGrossAmtPaidCredited=n0(r.TotGrossAmtPaidCredited);el.TotGrossProceeds=n0(r.TotGrossProceeds);/* required */
+    return el;});
   if(a3.length)put(j,"ScheduleFA.DtlsForeignEquityDebtInterest",a3);
 
   const a4=(S.fa.a4||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
     S1(el,r,["FinancialInstName","FinancialInstAddress","ZipCode"]);
     D1(el,r,{ContractDate:"ContractDate"});
-    N1(el,r,["CashValOrSurrenderVal","TotGrossAmtPaidCredited"]);return el;});
+    N1(el,r,["CashValOrSurrenderVal"]);
+    el.TotGrossAmtPaidCredited=n0(r.TotGrossAmtPaidCredited);/* required */
+    return el;});
   if(a4.length)put(j,"ScheduleFA.DtlsForeignCashValueInsurance",a4);
 
   const b=(S.fa.b||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
@@ -6689,9 +6729,11 @@ function expFa(j){
   if(c.length)put(j,"ScheduleFA.DetailsImmovableProperty",c);
 
   const d=(S.fa.d||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
-    S1(el,r,["ZipCode","NatureOfAsset","Ownership","NatureOfInc","IncTaxSch","IncTaxSchNo"]);
+    S1(el,r,["ZipCode","NatureOfAsset","Ownership","NatureOfInc","IncTaxSch"]);
     D1(el,r,{DateOfAcq:"DateOfAcq"});
-    N1(el,r,["TotalInvestment","IncDrvAsset","IncTaxAmt"]);return el;});
+    N1(el,r,["TotalInvestment"]);
+    el.IncDrvAsset=n0(r.IncDrvAsset);el.IncTaxAmt=n0(r.IncTaxAmt);el.IncTaxSchNo=sv(r.IncTaxSchNo)||"-";/* required */
+    return el;});
   if(d.length)put(j,"ScheduleFA.DetailsOthAssets",d);
 
   const e=(S.fa.e||[]).filter(hasCode).map(r=>{const el={};cc(el,r);
@@ -10196,7 +10238,9 @@ function impSal(I3){
     o.nprof=back(sy.NatureOfProfitInLieuOfSalary);
     return o;
   });
-  S.sal.alw=(g_(sc,"AllwncExemptUs10.AllwncExemptUs10Dtls")||[]).map(a=>({
+  /* 10(13A) is re-derived from the Section10_13A HRA working on export, not a manual
+     allowance row — drop it here so it is not double-counted on re-export (round-trip). */
+  S.sal.alw=(g_(sc,"AllwncExemptUs10.AllwncExemptUs10Dtls")||[]).filter(a=>a.SalNatureDesc!=="10(13A)").map(a=>({
     sec:a.SalNatureDesc,desc:a.SalOthNatOfInc||"",amt:a.SalOthAmount}));
   const H=sc.Section10_13A;
   if(H) S.sal.hra={place:H.Placeofwork||"",salary:nz(H.DtlsSalUsSec171),
@@ -10962,7 +11006,8 @@ function engTax(){
   const filed=D(S.fs.filed);
   const endA=([17,18].indexOf(+S.fs.sec)>=0&&D(S.fs.origdate))?D(S.fs.origdate):filed;   /* B12: revised/defective → original date */
   const late=!!(endA&&endA>dueDate);
-  const IT=Array.isArray(S.it)?S.it:[];
+  /* challans live canonically in S.paid.it (restored on import); S.it is only a legacy mirror */
+  const IT=Array.isArray((S.paid||{}).it)?S.paid.it:(Array.isArray(S.it)?S.it:[]);
   const isSAT=c=>{const d=D(c.dt);return d?d>YREND:false;};
   const satIn=(a,b)=>IT.filter(c=>isSAT(c)&&D(c.dt)&&D(c.dt)>=a&&D(c.dt)<=b).reduce((s,c)=>s+N(c.amt),0);
 
@@ -11630,7 +11675,7 @@ function expWho(j){
     put(j,"PartA_GEN1.FilingStatus.OrigRetFiledDate",ISO(fs.origdate));
   }
   put(j,"PartA_GEN1.FilingStatus.ResidentialStatus",sv(fs.resStatus||"RES"));
-  if(S.pi.status!=="H"&&fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(fs.b115H));
+  if(S.pi.status!=="H"&&fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(fs.b115H||"N"));
   put(j,"PartA_GEN1.FilingStatus.AsseseeRepFlg",sv(fs.rep||"N"));
   if(fs.rep==="Y"){
     put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepName",sv(fs.repName));
@@ -11790,6 +11835,7 @@ function impWho(I3){
   if(FS.OrigRetFiledDate)S.fs.origdate=dmy(FS.OrigRetFiledDate);
   if(FS.ResidentialStatus!=null){S.fs.resStatus=FS.ResidentialStatus;read.push("residential status");}
   if(FS.BenefitUs115HFlg!=null)S.fs.b115H=FS.BenefitUs115HFlg;
+  if(FS.PortugeseCC5A!=null)S.pi.s5a=FS.PortugeseCC5A==="Y"?"Yes":"No";  /* restore 5A on-switch for round-trip */
   if(FS.AsseseeRepFlg!=null)S.fs.rep=FS.AsseseeRepFlg;
   if(FS.AssesseeRep){S.fs.repName=FS.AssesseeRep.RepName;S.fs.repEmail=FS.AssesseeRep.RepEmailID;
     if(FS.AssesseeRep.RepMobileNo!=null)S.fs.repMobile=String(FS.AssesseeRep.RepMobileNo);}
