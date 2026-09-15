@@ -262,6 +262,9 @@ function _bpaHas(o){
    ================================================================ */
 function secBpa(){
   const B=S.bpa, V=p=>N(get("bpa."+p));
+  B.qd=B.qd||{}; ["trd","raw","fin"].forEach(k=>{if(!Array.isArray(B.qd[k]))B.qd[k]=[];});
+  if(!Array.isArray(B.gst))B.gst=[];
+  B.pl=B.pl||{}; if(!Array.isArray(B.pl.NonResidentPLDetails))B.pl.NonResidentPLDetails=[];
   const ri=(l,pth,ref,o)=>{o=o||{};return row(l,inp("bpa."+pth,{n:1}),{ref:ref,ind:o.ind,hint:o.hint,req:o.req,cls:o.cls});};
   const rt=(l,pth,ref,o)=>{o=o||{};return row(l,inp("bpa."+pth,{max:o.max,ph:o.ph}),{ref:ref,ind:o.ind,hint:o.hint,req:o.req});};
   const rc=(l,pth,ref,o)=>{o=o||{};return row(l,cell(V(pth)),{ref:ref,ind:o.ind,cls:o.cls||"tot",hint:o.hint});};
