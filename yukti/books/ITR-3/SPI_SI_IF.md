@@ -352,3 +352,30 @@ SI hidden special-rate rows:
 7. **Export** — `ScheduleSPI.SpecifiedPerson[]`; `ScheduleSI.SplCodeRateTax[]`
    with `TotSplRateInc`/`TotSplRateIncTax`/`EditAutopoulatedDetail`;
    `ScheduleIF.PartnerFirmDetails[]` with its four totals.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule SPI
+- Relationship
+- Tax thereon (iii)
+- ExemptionUnderSI
+- ExemptionAmt
+- For 112(proviso)
+- 1st-112-20%LTCG
+- FOR 112 Proviso
+- 4th - PTI-20% STCG
+- For 111A-15%
+- 6th-PTI-15%-STCG
+- For PTI-20% LTCG
+- 115BBE - Tax on income under section 68, 69, 69A, 69B, 69C or 69D.
+- PTI_LTCG12_5P
+- PTI_5A1aiiaa
+- PTI_5A1aiiab
+- PTI_5A1aiiac
+- PTI_5A1aiiaaP
+- PTI_5A1aiiaa2P
+- PTI_5AD1iDiv
+- Tax at Spl Rate
+- PAN of the firm

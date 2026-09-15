@@ -98,3 +98,10 @@ capacity, one PAN, one place, one date. Neither `Verification` nor
    integer.
 5. **Do not build** the hidden APA critical-assumptions row (r8) or an input
    for the submission-date note (r10).
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Verification
+- son/ daughter of

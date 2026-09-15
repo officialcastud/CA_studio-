@@ -102,3 +102,11 @@ Nothing repeats as a user-added array. Each rate block is a single fixed `Deprec
 - Capital-gains cells (`CapGainUs50`) alone may be negative (min -99999999999999) and only when the block ceases to exist; every other cell floors at 0.
 - New tax regime (115BAC): additional depreciation must be zero and the 45% P&M block cannot be claimed (Rule 5); the `AdjustmentSec115BAC` / hidden 3a/3b rows carry the second-proviso WDV adjustment.
 - Do not surface the hidden rows (r8, r9, r10, r31, r47, r48) as items.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule DPM
+- Total (3a+3b)
+- Schedule DOA

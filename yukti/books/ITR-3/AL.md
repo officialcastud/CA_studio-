@@ -187,3 +187,10 @@ No labelled Part A/B/C/D row is hidden; all four parts are visible and built.
 7. **Export** — `ScheduleAL` with all eight `MovableAsset` lines, the
    `InterstAOPFlag`, and `LiabilityInRelatAssets` always; `ImmovableDetails[]`
    and `InterestHeldInaAsset[]` arrays only when they have rows.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Description (2)
+- PAN of the firm/ AOP (4)

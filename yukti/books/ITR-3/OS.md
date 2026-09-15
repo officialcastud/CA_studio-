@@ -311,3 +311,19 @@ columns are rules, read them):
 - **X60** — *"OS Section"* tag on the 2d row.
 - **X82** — *"os.BalanceNoRaceHorse"* (points item-7 balance into the totals chain).
 - **X94 / S103 / S111** — *"For AY 2025-26"* / *"for AY 2025-26"* annotations against the not-deductible-58, race-horse 8d and item-10 3b rows.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Dividend income u/s 2(22)(e)
+- Dividend income u/s 2(22)(f)
+- From Income Tax refund
+- Income Benefit
+- Amount of income
+- Rate as per I.T. Act
+- os.BalanceNoRaceHorse
+- Depreciation
+- For AY 2025-26
+- for AY 2025-26
+- Upto 15/6 (i)

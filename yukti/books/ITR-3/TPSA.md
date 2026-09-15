@@ -146,3 +146,10 @@ they are recorded here and never presented as items.
 - Item 3 "Taxes paid" must be wired to `TotalAmountDeposited`, and net payable
   floored at zero — do not allow a negative.
 - Do not build the hidden Financial-Year/Amount rows (r5–r7).
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Surcharge @ 12% on “a”
+- Net tax payable (2d-3)

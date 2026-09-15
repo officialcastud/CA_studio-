@@ -750,3 +750,16 @@ Why hidden: A4/A5 and B5–B9 (rows 56–75, 122–134, 186–187, 201–215, 22
 - Part D tables must prove every exemption claimed in A or B: dates, cost of new asset, CGAS deposit, account/IFSC, amount. `TotDeductClaim` (1i) totals them.
 - Part E set-off matrix nets STCG (20%/30%/applicable/DTAA) and LTCG (12.5%/DTAA) losses against gains; Part F splits each taxable gain across the five 234C date ranges (Upto 15/6, to 15/9, to 15/12, to 15/3, to 31/3), sourcing values from Schedule BFLA.
 
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Deductions under section 48
+- PAN of Buyer
+- Total ( i + ii + iii)
+- Total (ic + ii)
+- Amount of income (2)
+- Rate as per I.T. Act (9)
+- PAN of Buyer(s)
+- Upto 15/6 (i)

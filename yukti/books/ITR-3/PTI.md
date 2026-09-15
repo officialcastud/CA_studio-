@@ -133,3 +133,14 @@ hidden fillable row.)
 5. **Export**: `SchedulePTI.SchedulePTIDtls[]` with every required head object
    present (zero where empty); emit `SectionCode` + nested `SecBCIncExmptDtl`
    only when the iv b / iv c exempt rows are used.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule PTI
+- Head of income (6)
+- Net Income/ Loss 9=7-8 (9)
+- TDS on such amount, if any (10)
+- Section 111A
+- Section 112A

@@ -229,3 +229,10 @@ they are not hidden here.
    loss and all four summary blocks (`TotalOfBFLossesEarlierYrs`,
    `AdjTotBFLossInBFLA`, `CurrentAYloss`, `TotalLossCFSummary`), written to the
    schema's own keys and validated before the file is written.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule CFL
+- Serial No. (1)

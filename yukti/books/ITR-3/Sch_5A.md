@@ -104,3 +104,10 @@ questions) and row 11 (Business or profession), which are hidden on ITR-2, are
 5. Export `Schedule5A2014` with all four head objects present (zero if nothing)
    plus `TotalHeadIncome`; map the two audit flags to `BooksSpouse44ABFlg` /
    `BooksSpouse92EFlg` as Y/N.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- PAN of the Spouse
+- Total (1+2+3+4)

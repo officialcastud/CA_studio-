@@ -57,3 +57,9 @@ Schema `required`: **`DeductionUs35`** (the root object of the schedule). No ind
 - If any amount is entered for rows ii, iii, iv or vi (35(1)(ii)/(iia)/(iii)/(2AA)), flag that Schedule RA becomes mandatory, and surface the note prompting Schedule RA details.
 - Push X(4) to Schedule BP Sl.No. 28, and feed the absolute total of negative (col 3 − col 2) values to BP Sl.No. 24(e).
 - All amounts are non-negative integers with maximum 99999999999999.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule ESR

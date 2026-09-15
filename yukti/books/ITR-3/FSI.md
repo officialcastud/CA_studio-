@@ -379,3 +379,9 @@ the repeatable `ScheduleFSIDtls[]` array.
 5. Export `ScheduleFSI.ScheduleFSIDtls[]` — one element per country with all six
    objects; the four required integer leaves in each; `DTAAReliefUs90or90A` only
    where relief is under 90/90A.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Head of Income (a)

@@ -115,3 +115,11 @@ These blocks are hidden in the utility (rate slabs no longer live for A.Y. 2026-
 - DEP figures are floored non-negative (min 0, and [J22] wraps in MAX(0,…)); DCG figures may be negative (min -99999999999999) since a deemed capital gain computation can yield a loss/negative before aggregation — keep the DCG cells signed.
 - Totals: DEP 1e=[J13], 2d=[J18], total 6=[J22]; DCG 1e=[J34], 2d=[J39], total=[J43]. Wire these exactly to the SUM/MAX formulas above.
 - Both blocks are required at the object level, so always emit `SummaryFromDeprSch` and `SummaryFromDeprSchCG` with all required leaves (zero when empty) to be filed.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Total ( 1a +1b + 1c +1d)
+- Total ( 2a + 2b + 2c)
+- Total ( 1e+2d+3+4+5)

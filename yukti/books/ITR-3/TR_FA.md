@@ -251,3 +251,14 @@ These `Total:` rows are hidden in the utility (they hold a SUM formula, not an i
 2. **Schedule FA** — build all **nine** tables (A1–A4, B, C, D, E, F, G), each unlimited, every column typed, with the "where offered" columns (amount, schedule dropdown, item number) on B, C, D, E, F, G. Gate FA to resident-and-ordinarily-resident only (not NRI, not RNOR); the calendar-year window is 1 Jan – 31 Dec 2025.
 3. **Note to surface:** the country-code note (blank code = row ignored) and the closing NOTE — *an individual, not being an Indian citizen, in India on a business, employment or student visa need not report an asset acquired while non-resident if no income is derived from it in the current year*.
 4. **Export** — `ScheduleTR1` with the four required totals and the country array; `ScheduleFA` with only the tables that actually have rows.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Zip Code 2(b)
+- Nature of Income 9
+- Nature of Income 8
+- Zip Code 3(c)
+- Income derived 4
+- Nature of income 5

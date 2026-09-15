@@ -316,3 +316,12 @@ instead.
    zero.
 6. **Export** — every row to its schema object under the right block; enforce the
    validation that year of deduction is provided whenever TDS b/f is claimed.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Section under which TDS is deducted
+- Head of Income (Col 12)
+- Schedule TCS
+- Amount b/f (Col 5)

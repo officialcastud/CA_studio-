@@ -959,3 +959,21 @@ Optional keys still built where the item is present: `GrossProfitTrnsfFrmTrdAcc`
 - Cross-links: item 13 pulls from Trading account (12/12b/12d); items 61(ii)/62(ii)/63(ii) feed Schedule BP 35(i)/(ii)/(iii); PBIDTA (50) sums the debit heads via W54/L127.
 - Business-code dropdowns are the large named ranges NOB44AD (315), NOB44ADA (38), NOB (7); StateCode enum[38] and CountryCode enum[250] on the 47ii address rows. Selecting a code makes the corresponding presumptive income mandatory.
 - Speculative block (65) and non-resident block (66) are separate from the main P&L; 65 and 66 totals are computed. Non-resident presumptive (66) available only for non-residents; 44AD presumptive barred for non-residents.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Other income
+- Dividend income
+- Interest income
+- Agriculture income
+- Entertainment
+- Advertisement
+- Total (i + ii)
+- VAT/ Sales tax
+- Expenditure, if any
+- Section 44BB
+- Section 44BBA
+- Section 44BBC
+- Section 44BBD

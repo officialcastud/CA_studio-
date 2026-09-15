@@ -253,3 +253,12 @@ these rows are not to be built.
   override on each, default **No**. BFLA column 1 must equal CYLA column 5,
   head-by-head per rules 2965–3070; BFLA's final `IncomeOfCurrYrAftCYLABFLA`
   feeds Part B-TI gross total income.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Remaining Set off BP
+- Speculative Income
+- Remaining Set off
+- Speculation Income

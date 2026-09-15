@@ -170,3 +170,11 @@ feeds the visible 80D figure (item f, row 32).
 - Add the three acknowledgement fields (`Form10BAAckNum` 15-digit under 80GG; `Form10CCDAckNum` under 80QQB; `Form10CCEAckNum` under 80RRB) and the 80DDB disease + self/dependent dropdowns.
 - Honour the schema `maximum` caps (80CCD1B 50000, 80D 100000, 80DD 125000, 80DDB 100000, 80EE 50000, 80EEA/80EEB 150000, 80GG 60000, 80QQB/80RRB 300000, 80TTA 10000, 80TTB 50000, 80U 125000, 80CCH 288000) and the GTI ceiling from Sheet8b.
 - All allowed figures are computed and untypeable (green); each override lives behind the sheet's own regime gate (many rows zero-out under the new regime / for HUF / for NRI per the K-column formulas).
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- SAL.TotalGrossSalary
+- Schedule VI-A
+- Identifier No.

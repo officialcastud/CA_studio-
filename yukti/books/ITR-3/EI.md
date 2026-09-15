@@ -259,3 +259,15 @@ None of these three is presented as an item.
    integration).
 6. **Export** — `ScheduleEI` with the required totals `TotalExemptInc` and
    `NetAgriIncOrOthrIncRule7`, each table written only when it has rows.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- EXEMPT INCOME
+- Interest income
+- Sub-Category
+- Amount of Income
+- Nature of Income
+- Head of Income
+- Total (1 + 2(v) + 3 + 4 + 5)

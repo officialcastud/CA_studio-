@@ -49,3 +49,10 @@ Schema `required` for `ScheduleGST` block: **None** (no required keys). The whol
 - Enforce the paired rule: a row with a GSTIN must have its amount; clamp amount to 0 … 99999999999999.
 - Emit the note verbatim near the table: *Please furnish the information above for each GSTIN No. separately.*
 - No totals, no cross-schedule feed — this schedule computes nothing beyond its own row serials.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule GST
+- GSTIN No(s).

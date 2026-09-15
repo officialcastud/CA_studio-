@@ -1199,3 +1199,12 @@ These rows are hidden in the utility (marked `H`). They are NOT built as items; 
 - Audit gates: 44AA liability, 44AB liability (with the a2i turnover band driving a2ii/a2iii percentage and thereby 44AB), accountant-audited flag opening auditor + audit-report fields, 92E audit, and the other-audit-report and other-Act tables.
 - Regime handling (rows 62–79 visible; 46–61 and 80–100 hidden) is the Form 10IEA new/old-regime flow; wire the visible A19(b)(I)/(II) branch and the current-AY 10-IEA acknowledgement/date fields, leaving the hidden earlier-AY 10IE/10-IEA rows unbuilt.
 - Validators to honour: DIN + date mandatory on notice/order filing; audit-report date not after system date; secondary address mandatory and distinct from primary; representative email/contact must differ from the taxpayer's primary; due-date selection (31/08, 31/10, 30/11) drives Schedule IF/5A/audit requirements.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- No Zip Code?
+- No. of shares
+- Whether you are an FPI?
+- Section Code

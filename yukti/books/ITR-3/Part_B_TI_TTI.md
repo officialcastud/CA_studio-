@@ -402,3 +402,39 @@ This appendix reproduces the exact text of every visible labelled cell (includin
 - If the return has been prepared by a Tax Return Preparer (TRP) give further details below:
 - Counter Signature of TRP
 - If TRP is entitled for any reimbursement from the Government, amount thereof……………
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- TOTAL INCOME
+- To Calculate 17
+- Total income (10 - 12c - 13)
+- tempInc(14-15)
+- Part B - TTI
+- CalcSurchargeAboveOneCrore
+- CalcSurchargeAbove50Lakh
+- taxOnCutOffInc
+- tempSurcharge
+- New tax - Old approach
+- Rebate under section 87A
+- 25% of 16(ii) of schedule SI
+- 10% or 15%, as applicable
+- AY 2024-25 Old
+- 25% of 17(ii) of schedule SI
+- On [(2f) – (17(ii) + 2(ii) +3(ii)+9(ii)+12(ii)+22(ii)+24(ii) of schedule SI )]
+- Total (ia+iia)
+- by Sai 06/01/2025
+- surchargeOnAboveCrore
+- surchargeOnAbove50Lakh
+- TO Calculate 2g
+- Section 90/ 90A ( 2 of Schedule TR)
+- Section 91 ( 3 of Schedule TR)
+- Total Inc from 17 of TI
+- Total (6a + 6b + 6c )
+- totInc (14 of TI)
+- incChargeTaxSplRate111A112 (11 of TI)
+- taxAtSpecialRates (2b of TTI)
+- TCS (column 7 of 17D)
+- // for Surcharge
+- Identification No. of TRP

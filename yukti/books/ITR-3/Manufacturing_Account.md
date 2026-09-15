@@ -73,3 +73,12 @@ None. Every row on this sheet (rows 3–28) is visible; the dump printed no `H` 
 - Enforce non-negative on every field except Sl.No. 3 (CostOfGoodsPrdcd), which alone may go negative.
 - Wire cross-sheet feeds: 1Evi Depreciation of factory machinery → Schedule BP Sl.No.11; Sl.No. 3 → Trading Account Sl.No.11 (Cost of Goods Produced transferred from Manufacturing Account).
 - Emit XML wrapper `<ITRForm:ManufacturingAccount>` with children `<OpeningInventory>`, `<ClosingStock>`, `<CostOfGoodsPrdcd>`; VBA import/export uses named ranges `ManuFactureAcc_*` (note the utility's spelling `ManuFactureAcc_TotalOpeningInventary`, `ManuFactureAcc_TotalClosingClock`, `ManuFactureAcc_DepreciationOfFactoryMachinary`).
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Total (i + ii)
+- Total (i+ii+iii+iv+v+vi)
+- Raw material
+- Total (2i +2ii)

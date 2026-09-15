@@ -94,3 +94,9 @@ None. No row in this sheet carries the hidden (`H`) flag. Rows 10–13 and 37–
 - Pull item 11 (GoodsCostPrdcdFrmMA) from the Manufacturing Account sheet — do not let the user type it directly; it mirrors ManuFactureAcc_CostOfGoodsProduced.
 - Enforce 12b ≤ 12a and 12d ≤ 12c at input; feed 12b (IncomeIntradayTrd) into Schedule BP speculative business and 12+12b+12d into the P&L gross-profit-transferred line per rules.json.
 - Two "add row" arrays need the dustbin and a running Sl.No.; each row is Nature (string, 125 chars) + Amount (integer). Keep the DutyTaxPay object nested exactly one level under DutyTaxPay.ExciseCustomsVAT so the 10i–10xii keys land correctly.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- VAT/ Sales tax

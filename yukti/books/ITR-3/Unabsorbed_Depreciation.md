@@ -65,3 +65,10 @@ None. Every row on this sheet (r3 title, r5 captions, r6 header, r7 current-AY r
 - Guard set-off: (4) ≤ (3) − (3a); (7) ≤ (6); and 115BAC adjustment (3a) forced to 0 when New Tax Regime is not selected.
 - Total row sums columns (3)–(8) including the current-year balances (UDCY / UDCY2) into (5)/(8) totals.
 - Feed depreciation set-off total and allowance-u/s-35(4) set-off total into Schedule BFLA (must match); constrain current-AY (5) against Schedule BP Sl. No. 12iii.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Depreciation
+- Allowance under section 35(4)

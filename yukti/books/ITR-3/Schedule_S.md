@@ -136,3 +136,13 @@ Schema `required` at `ScheduleS` root: `TotalGrossSalary`, `AllwncExtentExemptUs
 - **Standard deduction 16(ia)** flips on regime: ₹75,000 (new) / ₹50,000 (old), capped at net salary; schema hard-caps 75000. **16(ii)** and **16(iii)** cap at ₹5,000 each, and 16(ii) only for CG/SG/PSU employers.
 - Note the label/formula mismatch: the relief-u/s-89A line is lettered **3a** on the sheet (D58/K58) but the Net Salary formula (E75) references it as **"2a"** — schema key is `Increliefus89A`. Relief cannot be claimed unless 1d (`IncomeNotified89A`) is non-zero.
 - The exempt-allowance dropdown (`AllowanceBACYes`) lists only the old-regime-eligible sections; the schema enum `SalNatureDesc` carries the fuller 17-value set (including 10(5), 10(13A), the 115BAC variants, EIC, 10(17)). The same section may be picked more than once.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Salary as per section 17(1)
+- 50% /40% of salary (C)
+- Net Salary (2– 2a - 3)
+- Deduction u/s 16 (5a + 5b + 5c)
+- Professional tax u/s 16(iii)

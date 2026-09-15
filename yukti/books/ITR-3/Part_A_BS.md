@@ -195,3 +195,22 @@ The 6 leaves **not** individually required: `FromPrsn` and `FromOthers` (row 28-
 - Let the regular-books block (`FundSrc`/`FundApply`, rows 4-89) and the no-account-case block (`NoBooksOfAccBS`, rows 90-94) coexist rather than forcing mutual exclusivity: the utility itself allows both to be filled together and only warns — once if both are zero while Schedule BP income exceeds Rs 2.50 lakh (quoted above), and separately if both are non-zero at once ("You have filled Both Balance Sheet and No Accounts…"). Reproduce both as non-blocking warnings, gated by rules A283/B3/D9/A51/B4 for when each block actually applies.
 - Do not add an input for row 79 (Provision for Wealth Tax) — it is hidden, has no schema leaf, and is already excluded from the `TotProvisions` (L82) sum.
 - The `sheet2.`/`sheet3.`/`PartA_BS_Advances…` prefixes seen in the formulas are this sheet's own internal named-range naming, not references to another visible sheet — no cross-sheet plumbing is needed to compute anything on Part A - BS itself.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Total ( iiA + iiB)
+- Total (ai + iiC)
+- Total (bi + bii)
+- Depreciation
+- Net Block (1a – 1b)
+- Total (1c + 1d)
+- Total (ai + aii)
+- Raw materials
+- Total (iA + iB + iC + iD)
+- Provision for Income Tax
+- Total (iiA + iiB + iiC )
+- Total (iE + iiD)
+- Total (4a + 4b + 4c)
+- NO ACCOUNT CASE

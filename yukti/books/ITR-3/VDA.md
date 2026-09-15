@@ -94,3 +94,9 @@ None. The VDA dump prints no row flagged `H`; every labelled row (3, 4, 5–7, 9
 4. Compute Total A (`TotIncBusiness`) and Total B (`TotIncCapGain`) as SUMIF over rows by head — both green, both floored at zero (positive incomes only).
 5. Feed Total B to Schedule CG C2 and Total A to Schedule BP 3g (115BBH); both are cross-schedule ties enforced by the rules document.
 6. Enforce the date rule: neither date may be after 31st March of the financial year.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Schedule VDA

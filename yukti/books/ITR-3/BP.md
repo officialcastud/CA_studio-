@@ -262,3 +262,20 @@ These rows are marked hidden in the utility (H) and must NOT be surfaced as item
 - Validators to reproduce: Dividend amount in 5c cannot exceed 3d(i); 5c Nature cannot contain `<>` or `&`; the same 35AD(5) clause cannot be picked twice; A3b/A3c/A3d cannot exceed HP/CG/OS income.
 - Item E (intra-head set off) is a computed mini-table: current-year business loss (from 7A/7B/7C net) is set off first against speculative income, then specified-business income; carry the remainder onward. Fill only the positive income column per its "Fill this column only if figure is zero or positive" guard, and the loss row only if negative.
 - Do not render any hidden row (32AD, 35AC/31a-c, 44BBB, 44D, Chapter-XII-G, 10A/10AA/10B/10BA, 46a/46b, TempBusLoss) as a visible field.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- Dividend Income
+- Share of income from AOP/ BOI
+- Balance (1– 2a – 2b – 3a - 3b – 3c - 3d -3e-3f –3g- 4a-4b– 5d-5A)
+- Total (7a + 7b + 7c + 7d + 7e +7f+7g+ 8a+8b)
+- Deemed income under section 41
+- Total (14 + 15 +16 +17 +18 +19 + 20 +21 + 22 + 23 + 24+25)
+- Total (27+28+29+30+31+32)
+- Section 44BB
+- Section 44BBA
+- Section44BBC
+- Section 44BBD
+- Section 44DA

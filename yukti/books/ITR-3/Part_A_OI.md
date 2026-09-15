@@ -190,3 +190,10 @@ Within objects, all leaves are required **except**: `RailwayAssetsPayable` and `
 - `Cess` under `ExciseCustomsVAT` has no on-screen row; keep it optional (omit unless a value exists). `RailwayAssetsPayable` / `MSEPayable` (10g/10h, 11g/11h) are optional leaves though they have visible rows.
 - Feeds to Schedule BP: 8B → BP A29; 10i → BP 30; item 14 (section 41) → BP 8b; item 15 (prior period) → BP 19; 5a–5d → BP Sl.23. Wire the compute order so Part A-OI totals are available before BP consumes them.
 - Item 18 (`ScheduleTPSAFlg`) = "Yes" must gate Schedule TPSA (rule at rules.json line 4425).
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- VAT/sales tax
+- Any other tax

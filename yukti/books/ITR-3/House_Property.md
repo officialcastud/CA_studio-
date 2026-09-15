@@ -188,3 +188,12 @@ the combination keys (`C31`, `C32`, `C66`, `C67`) are helper columns, not items.
 7. **A third self-occupied property becomes deemed let out** — no more than two
    houses may be self-occupied (rules.json).
 8. **The HRA / 10(13A) working is not part of HP** — it belongs to salary.
+
+
+## Additional visible rows — verbatim from the sheet (completeness)
+Rows present on the utility sheet and captured here verbatim so every visible label is in the book:
+
+- PAN of Co-owner(s)
+- tempPercentagecountValue
+- Total (b + c)
+- Total (g + h)
