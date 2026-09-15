@@ -349,11 +349,15 @@ function expSal(j){
 
   /* exempt-allowance breakup (only the rows the regime allows) */
   const al=(S.sal.alw||[]).filter(a=>a._ok&&N(a.amt));
-  if(al.length) sch.AllwncExemptUs10={
-    AllwncExemptUs10Dtls:al.map(a=>{
-      const q={SalNatureDesc:SAL_ALW10.some(x=>x[0]===a.sec)?a.sec:"10(17)",SalOthAmount:n0(a.amt)};
-      if(sv(a.desc)) q.SalOthNatOfInc=st0(a.desc).slice(0,50);
-      return q;})};
+  const dtls=al.map(a=>{
+    const q={SalNatureDesc:SAL_ALW10.some(x=>x[0]===a.sec)?a.sec:"10(17)",SalOthAmount:n0(a.amt)};
+    if(sv(a.desc)) q.SalOthNatOfInc=st0(a.desc).slice(0,50);
+    return q;});
+  /* HRA 10(13A) is itself a drop-down row: aggregate AllwncExtentExemptUs10 = dropdowns + HRA,
+     so the 10(13A) exemption must appear here too (rules A38/A162). */
+  if(!isNew()&&N(A.hra13a)&&!dtls.some(q=>q.SalNatureDesc==="10(13A)"))
+    dtls.push({SalNatureDesc:"10(13A)",SalOthAmount:n0(A.hra13a)});
+  if(dtls.length) sch.AllwncExemptUs10={AllwncExemptUs10Dtls:dtls};
 
   /* Section10_13A HRA object — only when it carries a working (old regime) */
   const H=S.sal.hra||{};

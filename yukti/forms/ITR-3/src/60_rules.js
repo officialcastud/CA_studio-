@@ -98,9 +98,9 @@ function runRules(I,S_){
     A(163,REQ(sc.NetSalary,N(sc.TotalGrossSalary)-N(sc.AllwncExtentExemptUs10)-N(sc.Increliefus89A)),"Net salary (4) must be 2 - 3 - 2a.");
     A(164,REQ(sc.DeductionUS16,N(sc.DeductionUnderSection16ia)+N(sc.EntertainmntalwncUs16ii)+N(sc.ProfessionalTaxUs16iii)),"Deductions u/s 16 (5) must be 5a + 5b + 5c.");
     A(165,REQ(sc.TotIncUnderHeadSalaries,Math.max(0,N(sc.NetSalary)-N(sc.DeductionUS16))),"Income chargeable under Salaries (6) must be 4 - 5.");
-    const govt=emps.some(e=>e.NatureOfEmployment==="CG"||e.NatureOfEmployment==="SG");
+    const govt=emps.some(e=>e.NatureOfEmployment==="CGOV"||e.NatureOfEmployment==="SGOV");
     A(174,N(sc.ProfessionalTaxUs16iii)<=5000,"Professional tax u/s 16(iii) is limited to Rs.5,000.");
-    A(172,!N(sc.EntertainmntalwncUs16ii)||emps.some(e=>["CG","SG","PE"].indexOf(e.NatureOfEmployment)>=0),"Entertainment allowance 16(ii) is not allowed for employees other than Central/State Government and PSU.");
+    A(172,!N(sc.EntertainmntalwncUs16ii)||emps.some(e=>["CGOV","SGOV","PSU"].indexOf(e.NatureOfEmployment)>=0),"Entertainment allowance 16(ii) is not allowed for employees other than Central/State Government and PSU.");
     A(177,newR||N(sc.DeductionUnderSection16ia)<=Math.min(50000,N(sc.NetSalary)),"Old regime: standard deduction u/s 16(ia) cannot exceed the lower of Rs.50,000 and salary.");
     A(194,!newR||!N(sc.EntertainmntalwncUs16ii),"New regime: entertainment allowance u/s 16(ii) cannot be claimed.");
     A(195,!newR||!N(sc.ProfessionalTaxUs16iii),"New regime: professional tax u/s 16(iii) cannot be claimed.");
@@ -130,9 +130,9 @@ function runRules(I,S_){
     const H=RG(sc,"Section10_13A",{});
     if(H&&(N(H.ActlHRARecv)||N(H.ActlRentPaid))){
       A(38,REQ(ex("10(13A)"),N(H.EligbleExmpAllwncUs13A)),"Exempt allowance u/s 10(13A) must match the eligible exemption in the 10(13A) table.");
-      A(204,N(H.EligbleExmpAllwncUs13A)<=Math.max(0,N(H.ActlRentPaid)-N(H.ActlRentPaid10Per))+1,"HRA u/s 10(13A) cannot exceed actual rent paid less 10% of salary+DA.");
+      A(204,N(H.EligbleExmpAllwncUs13A)<=Math.max(0,N(H.ActlRentPaid10Per))+1,"HRA u/s 10(13A) cannot exceed actual rent paid less 10% of salary+DA.");
       A(205,N(H.EligbleExmpAllwncUs13A)<=N(H.Sal40Or50Per)+1,"HRA u/s 10(13A) cannot exceed 40%/50% of salary+DA.");
-      A(206,N(H.EligbleExmpAllwncUs13A)<=Math.min(N(H.ActlHRARecv),Math.max(0,N(H.ActlRentPaid)-N(H.ActlRentPaid10Per)),N(H.Sal40Or50Per))+1,"HRA exemption must be the lowest of actual HRA, rent paid less 10%, and 40%/50% of salary+DA.");
+      A(206,N(H.EligbleExmpAllwncUs13A)<=Math.min(N(H.ActlHRARecv),Math.max(0,N(H.ActlRentPaid10Per)),N(H.Sal40Or50Per))+1,"HRA exemption must be the lowest of actual HRA, rent paid less 10%, and 40%/50% of salary+DA.");
     }
     /* regime closures (A197/A198) */
     if(newR){const barred=["10(5)","10(13A)","10(14)(i)"];

@@ -2,10 +2,7 @@
  "form": "ITR-3",
  "html": "forms/ITR-3/Yukti_ITR3.html",
  "boot_errors": [],
- "checks_err": [
-  "PRAN required \u2014 A 12-digit PRAN is required to claim 80CCD(1B).",
-  "TPSA challan 1 \u2014 The date of deposit cannot be after today."
- ],
+ "checks_err": [],
  "figures": {
   "gti": 1891000,
   "ti": 529000,
@@ -19,31 +16,6 @@
    "cat": "A",
    "n": 22,
    "msg": "Portuguese Civil Code is No \u2014 Schedule 5A must not be filed."
-  },
-  {
-   "cat": "A",
-   "n": 162,
-   "msg": "Allowances exempt u/s 10 (3) must equal the sum of the drop-down rows."
-  },
-  {
-   "cat": "A",
-   "n": 172,
-   "msg": "Entertainment allowance 16(ii) is not allowed for employees other than Central/State Government and PSU."
-  },
-  {
-   "cat": "A",
-   "n": 38,
-   "msg": "Exempt allowance u/s 10(13A) must match the eligible exemption in the 10(13A) table."
-  },
-  {
-   "cat": "A",
-   "n": 204,
-   "msg": "HRA u/s 10(13A) cannot exceed actual rent paid less 10% of salary+DA."
-  },
-  {
-   "cat": "A",
-   "n": 206,
-   "msg": "HRA exemption must be the lowest of actual HRA, rent paid less 10%, and 40%/50% of salary+DA."
   },
   {
    "cat": "A",
@@ -82,11 +54,6 @@
   },
   {
    "cat": "A",
-   "n": 798,
-   "msg": "A PRAN must be provided to claim 80CCD(1) or 80CCD(1B)."
-  },
-  {
-   "cat": "A",
    "n": 992,
    "msg": "Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI."
   },
@@ -112,10 +79,10 @@
   }
  ],
  "exported": false,
- "export_block": "2 things still to fix:\n\n\u00b7 PRAN required \u2014 A 12-digit PRAN is required to claim 80CCD(1B).\n\u00b7 TPSA challan 1 \u2014 The date of deposit cannot be after today.",
+ "export_block": "The portal would reject this return \u2014 11 Category A rules fail:\n\nA22 \u00b7 Portuguese Civil Code is No \u2014 Schedule 5A must not be filed.\nA230 \u00b7 Property 1: interest payable on borrowed capital must equal the 24(b) table total.\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA571 \u00b7 CYLA salary income must equal ite",
  "saved": true,
  "page_errors": [],
  "alerts": [
-  "2 things still to fix:\n\n\u00b7 PRAN required \u2014 A 12-digit PRAN is required to claim 80CCD(1B).\n\u00b7 TPSA challan 1 \u2014 The date of deposit cannot be after today."
+  "The portal would reject this return \u2014 11 Category A rules fail:\n\nA22 \u00b7 Portuguese Civil Code is No \u2014 Schedule 5A must not be filed.\nA230 \u00b7 Property 1: interest payable on borrowed capital must equal t"
  ]
 }

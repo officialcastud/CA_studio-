@@ -148,7 +148,7 @@ S.loss={cfl:{
 /* ---------------- Deductions — Chapter VI-A (ded) ---------------- */
 S.ded={
  v:{c80ccc:20000,c80ccd1:40000,c80ccd1b:50000,c80ccd2:100000,c80ddb:40000,ddb_type:"1",ddb_disease:"k",
-    c80tta:10000,c80cch:50000,c80jjaa:30000,c80gg:0},
+    c80tta:10000,c80cch:50000,c80jjaa:30000,c80gg:0,pran:"110012345678"},
  c80c:[{amt:90000,id:"PPF-BLR-0011223"}],
  pen80ccc:[{type:"OTHPRAN",id:"LIC Jeevan Akshay 4455",amt:20000}],
  d80:{selfSr:"N",parSr:"N",selfIns:[{insurer:"Star Health",policy:"P/700001/01/2026/001234",amt:20000}],selfPHC:6000,
@@ -247,7 +247,7 @@ S.it=S.paid.it;
 /* ---------------- Part B — roll-up, AMT, AMTC, TPSA (tax) ---------------- */
 S.tax={s89:0,f234i:0,
  amtc:{"2022-23":{gross:180000,setoff:60000},"2024-25":{gross:95000,setoff:0}},
- tpsaOn:"Yes",tpsa:{amt:100000,rows:[{bsr:"0510308",dt:"20/09/2026",sn:"88",amt:15000}]},amtIFSC:0};
+ tpsaOn:"Yes",tpsa:{amt:100000,rows:[{bsr:"0510308",dt:"10/09/2026",sn:"88",amt:15000}]},amtIFSC:0};
 
 /* ---------------- Bank & verification (bank) ---------------- */
 S.bank=[{ifsc:"SBIN0040011",bank:"State Bank of India",acno:"30412345678",type:"SB",refund:"Y"},
