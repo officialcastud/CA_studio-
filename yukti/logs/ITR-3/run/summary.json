@@ -14,16 +14,6 @@
  "rules": [
   {
    "cat": "A",
-   "n": 22,
-   "msg": "Portuguese Civil Code is No \u2014 Schedule 5A must not be filed."
-  },
-  {
-   "cat": "A",
-   "n": 230,
-   "msg": "Property 1: interest payable on borrowed capital must equal the 24(b) table total."
-  },
-  {
-   "cat": "A",
    "n": 222,
    "msg": "HP item 2 must equal the house-property pass-through in Schedule PTI."
   },
@@ -79,10 +69,10 @@
   }
  ],
  "exported": false,
- "export_block": "The portal would reject this return \u2014 11 Category A rules fail:\n\nA22 \u00b7 Portuguese Civil Code is No \u2014 Schedule 5A must not be filed.\nA230 \u00b7 Property 1: interest payable on borrowed capital must equal the 24(b) table total.\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA571 \u00b7 CYLA salary income must equal ite",
+ "export_block": "The portal would reject this return \u2014 9 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term heads.\nA393 \u00b7 CG B4a must equal column 14 of Schedule 112A.\nA531 \u00b7 OS 57(iia) is the lower of one-third of family pension and Rs.15,000 (old regime).\nA552 \u00b7 CYLA HP income must equal item 3 of Schedule HP.\nA571 \u00b7 CYLA salary income must equal item 6 of Schedule S.\nA992 \u00b7 Schedule EI: item 5 must equal the exempt pass-through income in Schedule PTI.\nA920 \u00b7 Part B-TI: salary income must equal Schedule S",
  "saved": true,
  "page_errors": [],
  "alerts": [
-  "The portal would reject this return \u2014 11 Category A rules fail:\n\nA22 \u00b7 Portuguese Civil Code is No \u2014 Schedule 5A must not be filed.\nA230 \u00b7 Property 1: interest payable on borrowed capital must equal t"
+  "The portal would reject this return \u2014 9 Category A rules fail:\n\nA222 \u00b7 HP item 2 must equal the house-property pass-through in Schedule PTI.\nA355 \u00b7 Total STCG must equal the individual short-term head"
  ]
 }

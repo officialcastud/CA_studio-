@@ -42,7 +42,7 @@ S.sal={emp:[
 /* ---------------- House property (Schedule HP) — self-occupied + let-out ---------------- */
 S.hp={on:"1",pti:0,props:[
  {addr:"No. 42, 3rd Cross, Richmond Town",city:"Bengaluru",country:"91",state:"15",pin:"560025",owner:"SE",co:"NO",type:"S",
-  loans:[{from:"B",name:"State Bank of India",acno:"HL3391120044",dt:"12/04/2019",amt:8000000,os:5200000,interest:250000}]},
+  loans:[{from:"B",name:"State Bank of India",acno:"HL3391120044",dt:"12/04/2019",amt:8000000,os:5200000,interest:200000}]},
  {addr:"Flat 7B, Prestige Lakeside, Whitefield",city:"Bengaluru",country:"91",state:"15",pin:"560066",owner:"SE",co:"YES",share:50,
   coowners:[{name:"Lakshmi Sudhir",pan:"AKPPL2211M",aadhaar:"612345678901",share:50}],type:"L",
   tenants:[{name:"Rohan Mehta",pan:"BQAPM7788N",aadhaar:"501234567890",pantan:"BQAPM7788N"}],

@@ -11664,6 +11664,7 @@ function expWho(j){
       if(fs.sepUsers) put(j,"PartA_GEN1.FilingStatus.NumberOfUsers",R(fs.sepUsers));
     }
   }
+  put(j,"PartA_GEN1.FilingStatus.PortugeseCC5A",S.pi.s5a==="Yes"?"Y":"N");
   put(j,"PartA_GEN1.FilingStatus.ForeignExchangeFlag",sv(fs.foreignExch||"N"));
   put(j,"PartA_GEN1.FilingStatus.FiiFpiFlag",sv(fs.fpi||"N"));
   if(fs.fpi==="Y") put(j,"PartA_GEN1.FilingStatus.SebiRegnNo",sv(fs.sebi));
