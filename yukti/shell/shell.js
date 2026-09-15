@@ -111,6 +111,12 @@ function blk(id,title,status,inner,delPath){const on=S.open["b_"+id]!==false;
     '<span class="t">'+esc(title)+'</span><span class="s">'+esc(status)+'</span></button>'+
     (delPath?'<button class="blkdel" data-del="'+delPath+'" title="Remove">'+TRASH+'</button>':'')+
     '</div><div class="bb">'+(on?inner:"")+'</div></div>';}
+function fold(id,ref,title,status,inner,opts){
+  opts=opts||{};const on=opts.def?S.open[id]!==false:!!S.open[id];
+  return '<div class="sub2'+(on?" on":"")+'"><button class="s2h" data-sub2="'+id+'">'+
+    '<span class="cv3">'+(on?"−":"+")+'</span><span class="s2ref">'+esc(ref)+'</span>'+
+    '<span class="s2t">'+esc(title)+'</span><span class="s2v">'+status+'</span></button>'+
+    '<div class="s2b'+(on?" open":"")+'">'+(on?inner:"")+'</div></div>';}
 
 /* ---- paint, band, index ---- */
 function checksFor(id){
