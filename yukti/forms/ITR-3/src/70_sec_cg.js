@@ -113,7 +113,7 @@ function engLand(p){
   const imps=(p.improve||[]).filter(x=>N(x.amt));
   const impNo=imps.reduce((a,x)=>a+N(x.amt),0);            /* biib(a) total un-indexed */
   /* indexation only for a resident on a pre-23-Jul-2024 acquisition (Q150 biia) */
-  const canIndex = isLT && S.pi.res==="RES" && buy && buy<CGCUT;
+  const canIndex = isLT && S.fs.resStatus==="RES" && buy && buy<CGCUT;
   const fyB=FYof(p.buy), fyS=FYof(p.sale)||"2025-26";
   const idx=(amt,fy)=>{const b=CGCII[fy]||CGCII[fyB], s=CGCII[fyS]; return (b&&s)?R(N(amt)*s/b):N(amt);};
   const costIdx=canIndex?idx(p.cost,fyB):N(p.cost);        /* biia */
@@ -194,7 +194,7 @@ function engCg(){
   const C=S.cg;
   const KEYS=["st20","st30","stApp","stDTAA","lt125","ltDTAA"];
   const Z=()=>({st20:0,st30:0,stApp:0,stDTAA:0,lt125:0,ltDTAA:0});
-  const isNr=S.pi.res!=="RES";
+  const isNr=S.fs.resStatus!=="RES";
   if(!cgOn()){
     S.C.cg={on:false,nri:isNr,A:{total:0},B:{total:0},C1:0,C2:0,C3:0,
       gain:Z(),loss:Z(),used:Z(),absorbed:Z(),after:Z(),matrix:{},F:{},

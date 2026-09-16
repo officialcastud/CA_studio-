@@ -81,9 +81,14 @@ const SAL_ALW10=[["10(5)","Sec 10(5) — Leave Travel allowance"],
 /* Place of residence — 10(13A) — enum Placeofwork */
 const SAL_PLACE=[["1","Metro (Delhi, Mumbai, Kolkata, Chennai)"],["2","Non-Metro"]];
 
-/* REGIME.md — under new regime u/s 115BAC only this 10(14) subset stays
-   exempt (A198: all other 10(14) exemptions -> 0). Everything else closes. */
-const SAL_ALW10_NEW=["10(14)(i)(115BAC)","10(14)(ii)(115BAC)"];
+/* Exempt allowances that stay exempt under the new regime u/s 115BAC — the
+   utility's RngBacYes named range (DropDownValues col P, rows 21-31): the
+   retirement/statutory 10(x) exemptions continue in BOTH regimes; only LTA
+   10(5), HRA 10(13A) (handled separately), the generic 10(14)(i)/(ii), 10(17)
+   and EIC close. 10(14) survives only as its 115BAC Rule-2BB subset (A198). */
+const SAL_ALW10_NEW=["10(6)","10(7)","10(10)","10(10A)","10(10AA)",
+  "10(10B)(i)","10(10B)(ii)","10(10C)","10(10CC)",
+  "10(14)(i)(115BAC)","10(14)(ii)(115BAC)"];
 
 /* helpers scoped to this section */
 const _salEntEligible=cat=>cat==="CGOV"||cat==="SGOV"||cat==="PSU"; /* 16(ii) — book */

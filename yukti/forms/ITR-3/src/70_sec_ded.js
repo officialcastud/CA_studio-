@@ -158,7 +158,7 @@ function engDed(){
   const V={};                                    /* the result object */
   const status=(S.pi||{}).status||"I";           /* I individual, H HUF */
   const isHUF=status==="H";
-  const nri=(S.pi||{}).res!=="RES";
+  const nri=(S.fs||{}).resStatus!=="RES";
   /* best-effort GTI (heads run at order < 40). Sheet8b GrossTotalIncome
      less income taxed at special rates → the ceiling W3 (VI_A.md). The tax
      section (order 90) re-applies the authoritative cap on Total Income. */
@@ -265,7 +265,7 @@ function dedLoanTbl(key){
 function secDed(){
   const V=S.C.ded||{out:{},fed:{},total:0,allowed:0}, D8=S.C.d80||{}, G8=S.C.g80||{};
   let h="";
-  if(S.pi.res!=="RES")h+=note("A non-resident cannot claim 80DD, 80DDB, 80U, 80TTB, 80QQB or 80RRB — Yukti allows only what a non-resident may.","warn");
+  if(S.fs.resStatus!=="RES")h+=note("A non-resident cannot claim 80DD, 80DDB, 80U, 80TTB, 80QQB or 80RRB — Yukti allows only what a non-resident may.","warn");
   if(isNew())h+=note("<b>Under section 115BAC only 80CCD(2), 80CCH and (for a business filer) 80JJAA survive.</b> The rest are closed; type them if you want the New-vs-Old comparison in Return &amp; regime to use them.","stop");
 
   const fedNote={c80d:"from Schedule 80D",c80g:"from Schedule 80G",c80gga:"from Schedule 80GGA",c80ggc:"from Schedule 80GGC",

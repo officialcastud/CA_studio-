@@ -33,7 +33,7 @@ const TAX_Q_CUT=[new Date(2025,5,16),new Date(2025,8,20),new Date(2025,11,15),ne
 /* exemption limit (Tax Calculated C33/C34): new regime 400000 (bacValue=1); else age-banded by residential status. NRI never gets the senior band. */
 function taxExemptionLimit(){
   if(isNew())return 400000;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI"){ if(superSr())return 500000; if(senior())return 300000; }
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI"){ if(superSr())return 500000; if(senior())return 300000; }
   return 250000;
 }
 /* the regime slab bands (Tax Calculated: G25 new; B27 senior, B28 super-senior, B29 normal — old) */
@@ -43,7 +43,7 @@ function taxBands(){
   const SLAB_SR =[[300000,0],[500000,5],[1000000,20],[Infinity,30]];                                        /* B27 */
   const SLAB_SSR=[[500000,0],[1000000,20],[Infinity,30]];                                                   /* B28 */
   if(isNew())return SLAB_NEW;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI")return superSr()?SLAB_SSR:(senior()?SLAB_SR:SLAB_OLD);
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI")return superSr()?SLAB_SSR:(senior()?SLAB_SR:SLAB_OLD);
   return SLAB_OLD;
 }
 function taxSlab(inc,bands){let t=0,l=0;for(const b of bands){const u=b[0],r=b[1];if(inc>l)t+=(Math.min(inc,u)-l)*r/100;l=u;if(inc<=u)break;}return R(t);}
@@ -133,7 +133,7 @@ function engTax(){
 
   /* 2e — rebate under section 87A (Tax Calculated: new 60000 @ TI≤12L with marginal relief; old 12500 @ TI≤5L, not against 112A/115AD) */
   let rebate=0,marginal=0;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI"){
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI"){
     if(isNew()){
       if(ti<=1200000)rebate=Math.min(taxOn,60000);
       else{const excess=ti-1200000;if(normalTax>excess){marginal=normalTax-excess;rebate=Math.min(taxOn,marginal);}}
@@ -202,7 +202,7 @@ function engTax(){
   const paidTot=R(P.paid!=null?P.paid:(adv+tds+tcs+sat));
 
   /* ===== interest & fee (Tax Calculated sheet) ===== */
-  const dueDate=D(S.fs.dueExt)||DUE;
+  const dueDate=D(dmy(S.fs.duedate))||D(S.fs.dueExt)||DUE;   /* the user's per-case 139(1) due date (audit=31-Oct etc.); dueExt kept as an optional override */
   const filed=D(S.fs.filed);
   const endA=([17,18].indexOf(+S.fs.sec)>=0&&D(S.fs.origdate))?D(S.fs.origdate):filed;   /* B12: revised/defective → original date */
   const late=!!(endA&&endA>dueDate);
@@ -222,7 +222,7 @@ function engTax(){
   const f234i=(+S.fs.sec===17)?Math.min(99999,R(N(S.tax.f234i))):0;
 
   /* 234C: quarterly shortfall (QDEF 15/45/75/100, safe-harbour 12/36 for Q1/Q2). Special income is treated as accruing from Q1 unless a quarter-wise breakdown is published. */
-  const seniorRes=S.pi.res!=="NRI"&&S.pi.status==="I"&&senior();
+  const seniorRes=S.fs.resStatus!=="NRI"&&S.pi.status==="I"&&senior();
   const amtCase=amtApplies&&amtTotal>grossTaxLiability;
   const gate234c=net>=10000&&!seniorRes;
   const upto=d=>IT.filter(c=>!isSAT(c)&&D(c.dt)&&D(c.dt)<=d).reduce((a,c)=>a+N(c.amt),0);
@@ -540,6 +540,7 @@ function expTax(j){
   put(j,"PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid",n0(I.paid));
   put(j,"PartB_TTI.TaxPaid.BalTaxPayable",n0(I.balance));
   put(j,"PartB_TTI.Refund.RefundDue",n0(I.refund));
+  put(j,"PartB_TTI.AssetOutIndiaFlag",((S.C.fa||{}).hasFA)?"YES":"NO");   /* data-driven; was hardcoded YES in the skeleton (rule A901) */
 
   /* ---- Schedule AMTC — export whenever a credit exists (prior balance) or arises this year ---- */
   if((AC.rows||[]).some(x=>x.gross||x.setoff)||AC.curr||AC.avail){

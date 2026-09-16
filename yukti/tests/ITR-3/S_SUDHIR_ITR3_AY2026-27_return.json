@@ -831,7 +831,7 @@
     "DeemedIncomeUs115JC": 2166500,
     "IncChargeableTaxSplRates": 500000,
     "NetAgricultureIncomeOrOtherIncomeForRate": 520000,
-    "LossesOfCurrentYearCarriedFwd": 109000
+    "LossesOfCurrentYearCarriedFwd": 169000
    },
    "PartB_TTI": {
     "ComputationOfTaxLiability": {
@@ -2354,7 +2354,7 @@
       "LossFrmSpecifiedBusCF": 0,
       "TotalSTCGPTILossCF": 0,
       "TotalLTCGPTILossCF": 0,
-      "OthSrcLossRaceHorseCF": 0
+      "OthSrcLossRaceHorseCF": 60000
      }
     },
     "TotalLossCFSummary": {
@@ -2365,7 +2365,7 @@
       "LossFrmSpecifiedBusCF": 25000,
       "TotalSTCGPTILossCF": 0,
       "TotalLTCGPTILossCF": 0,
-      "OthSrcLossRaceHorseCF": 30000
+      "OthSrcLossRaceHorseCF": 90000
      }
     }
    },

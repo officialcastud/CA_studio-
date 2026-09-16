@@ -158,7 +158,7 @@ const SI_115AD=["5AD1i","5AD1iDiv","5AD1iP","5ADii","5AD1biip","5ADiii","5ADiiiP
    @12.5), si111a20 (STCG 111A @20), si115bbh (VDA @30), stDTAA / ltDTAA.  */
 function engSi(){
   const New=isNew();
-  const resident=S.pi&&S.pi.res==="RES";
+  const resident=S.pi&&S.fs.resStatus==="RES";
   const cg=(S.C.cg||{}), cgB=(cg.buckets||{});
 
   /* ----- SPI total (book I12 = Σ AmtIncluded) — a disclosure ------- */
@@ -245,7 +245,7 @@ function engSi(){
    ===================================================================== */
 function secSi(){
   const G=S.C.si||{}; let h="";
-  const resident=S.pi&&S.pi.res==="RES"; const New=isNew();
+  const resident=S.pi&&S.fs.resStatus==="RES"; const New=isNew();
 
   /* ===== Schedule SPI ============================================== */
   h+='<div class="cgband">Schedule SPI — income of specified persons includable u/s 64</div>';

@@ -40,7 +40,10 @@ const LOSS_ROWS=[
 /* the set-off walk orders (heads that can absorb each current-year loss).
    HP & business loss reach every head that carries their column; the OS
    loss is set first against race horses and OS-DTAA (CYLA_BFLA.md rule).   */
-const CY_ORDER_HP =["sal","os","horse","osDTAA","spec","specified","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
+/* HP-loss set-off order — from the CYLA sheet's R/N running-remainder chain:
+   sal → bus → spec → specified → os(normal) → race-horse → CG heads. HP loss
+   does NOT set off against OS-DTAA (the sheet has no HP column on that row). */
+const CY_ORDER_HP =["sal","bus","spec","specified","os","horse","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 const CY_ORDER_BUS=["hp","os","horse","osDTAA","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 const CY_ORDER_OS =["horse","osDTAA","sal","hp","bus","spec","specified","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 /* BFLA: a long-term loss goes first on the two long slots; a short-term
@@ -85,9 +88,9 @@ const CFL_OLDEST_8="2018-19", CFL_OLDEST_4="2022-23";
      bp.busExcl / bp.spec / bp.specified   adjusted P&L per business kind (signed)
      cg.after.{st20,st30,stApp,stDTAA,lt125,ltDTAA}  current-yr gains after CG set-off
      cg.cflSTCL / cg.cflLTCL       Table E unabsorbed STCL/LTCL (current-yr carry)
-     os.balanceNoRaceHorse         net OS at normal rates (signed)
-     os.raceHorseBal               race-horse balance (signed)
-     os.dtaa                       OS income taxable at special DTAA rates
+     os.netNormal                  net OS at normal rates (signed)  [os.BalanceNoRaceHorse]
+     os.raceHorse                  race-horse balance (signed)      [os.BalanceOwnRaceHorse]
+     os.dtaaTotal                  OS income taxable at special DTAA rates  [os.DTAA_Amt]
    Each falls back to .income where a finer key is absent.                  */
 function engLoss(){
   const g=(o)=>o||{};
@@ -96,9 +99,9 @@ function engLoss(){
   const busExcl   = ("busExcl"   in bp)?N(bp.busExcl)   : N(bp.income);  /* NetPLBusOthThanSpec7A7B7C */
   const specPL    = ("spec"      in bp)?N(bp.spec)      : 0;             /* AdjustedPLFrmSpecuBus     */
   const specifiedPL=("specified" in bp)?N(bp.specified) : 0;            /* AdjustedPLFrmSpecifiedBus */
-  const osNorm    = ("balanceNoRaceHorse" in os)?N(os.balanceNoRaceHorse) : N(os.income); /* os.BalanceNoRaceHorse */
-  const osHorseBal= ("raceHorseBal" in os)?N(os.raceHorseBal) : 0;      /* os.BalanceOwnRaceHorse */
-  const osDtaa    = N(os.dtaa);                                         /* os.DTAA_Amt */
+  const osNorm    = ("netNormal" in os)?N(os.netNormal) : N(os.income); /* os.BalanceNoRaceHorse */
+  const osHorseBal= ("raceHorse" in os)?N(os.raceHorse) : 0;            /* os.BalanceOwnRaceHorse */
+  const osDtaa    = N(os.dtaaTotal);                                    /* os.DTAA_Amt */
   const New=isNew();
 
   /* ---- CYLA row i · the three incoming current-year losses ---------- */

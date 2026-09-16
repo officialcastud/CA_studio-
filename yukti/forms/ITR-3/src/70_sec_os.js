@@ -209,7 +209,7 @@ const OS_QROWS = [
 ];
 const OS_QCOLH = ["Upto 15/6 (i)","16/6–15/9 (ii)","16/9–15/12 (iii)","16/12–15/3 (iv)","16/3–31/3 (v)"];
 
-const os_isNRI = ()=> (S.pi && S.pi.res) === "NRI";
+const os_isNRI = ()=> (S.pi && S.fs.resStatus) === "NRI";
 
 /* ---- engine ------------------------------------------------------ */
 function engOs(){

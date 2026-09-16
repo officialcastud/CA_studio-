@@ -21,7 +21,6 @@
 /* ---- state (seed only what is absent; never clobber the "who" screen) --- */
 S.pi = S.pi || {};
 if(S.pi.status===undefined) S.pi.status="I";
-if(S.pi.res===undefined)    S.pi.res="RES";
 if(S.pi.country===undefined)S.pi.country="91";
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";
 S.pi.dirco = S.pi.dirco || [];   /* FilingStatus.CompDirectorPrvYr...Dtls[]  (rows 122-126) */
@@ -315,6 +314,12 @@ function secRet(){
   h+=row("b · Are you liable for audit under section 44AB?",sel("aud.sec44AB",YN,{blank:false}),{req:1,ref:"F156"});
   if(S.aud.sec44AB==="Y"){
     h+=row("Condition by virtue of which liable for audit u/s 44AB",sel("aud.cnd44AB",CND_44AB),{ind:1,req:1,ref:"F157"});
+    if(S.aud.cnd44AB==="bii"){S.aud.bii=S.aud.bii||{};
+      h+=row("Falling under section 44AD (but not opting presumptive)?",sel("aud.bii.44AD",YN),{ind:2,ref:"AQ157"});
+      h+=row("Falling under section 44ADA?",sel("aud.bii.44ADA",YN),{ind:2,ref:"AR157"});
+      h+=row("Falling under section 44AE?",sel("aud.bii.44AE",YN),{ind:2,ref:"AS157"});
+      h+=row("Falling under section 44BB?",sel("aud.bii.44BB",YN),{ind:2,ref:"AT157"});
+    }
     h+=row("c · Have the accounts been audited by an accountant?",sel("aud.acctFlg",YN),{ind:1,ref:"F161"});
     if(S.aud.acctFlg==="Y"){
       h+=row("Date of furnishing of the audit report",dte("aud.repDate"),{ind:1,req:1,ref:"G162",hint:"cannot be after today"});

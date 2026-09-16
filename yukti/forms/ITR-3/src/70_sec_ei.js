@@ -353,7 +353,7 @@ function chkEi(){
       out.push({lvl:"err", t:"Schedule EI · DTAA",
         m:"DTAA row "+(i+1)+": amount, country name, country code and head of income are mandatory.", sec:"ei"});
   });
-  if(dtaaRows.length && st0(S.pi&&S.pi.res)==="RES")
+  if(dtaaRows.length && st0(S.pi&&S.fs.resStatus)==="RES")
     out.push({lvl:"warn", t:"Schedule EI · DTAA",
       m:"The DTAA not-chargeable table (Sl. No. 4) is applicable for non-residents only, but the residential status is Resident.", sec:"ei"});
 

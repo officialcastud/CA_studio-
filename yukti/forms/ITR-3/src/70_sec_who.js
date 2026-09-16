@@ -278,6 +278,8 @@ function expWho(j){
   put(j,"PartA_GEN2.AuditInfo.LiableSec44ABflg",sv(aud.sec44AB||"N"));
   if(aud.sec44AB==="Y"){
     put(j,"PartA_GEN2.AuditInfo.Cndnfor44AB",sv(aud.cnd44AB));
+    if(aud.cnd44AB==="bii"){const b=aud.bii||{};
+      ["44AD","44ADA","44AE","44BB"].forEach(k=>{if(b[k])put(j,"PartA_GEN2.AuditInfo.BiiDetails."+k,sv(b[k]));});}
     put(j,"PartA_GEN2.AuditInfo.AuditAccountantFlg",sv(aud.acctFlg));
     if(aud.acctFlg==="Y"){
       put(j,"PartA_GEN2.AuditInfo.AuditReportFurnishDate",ISO(aud.repDate));
@@ -418,6 +420,7 @@ function impWho(I3){
     if(AU.AgrOFAllPayMade!=null)S.aud.pctPaid=AU.AgrOFAllPayMade;
     if(AU.LiableSec44ABflg!=null)S.aud.sec44AB=AU.LiableSec44ABflg;
     if(AU.Cndnfor44AB!=null)S.aud.cnd44AB=AU.Cndnfor44AB;
+    if(AU.BiiDetails){const D=AU.BiiDetails;S.aud.bii={"44AD":D["44AD"]||"","44ADA":D["44ADA"]||"","44AE":D["44AE"]||"","44BB":D["44BB"]||""};}
     if(AU.AuditAccountantFlg!=null)S.aud.acctFlg=AU.AuditAccountantFlg;
     if(AU.AuditReportFurnishDate)S.aud.repDate=dmy(AU.AuditReportFurnishDate);
     if(AU.AckNum44AB!=null)S.aud.repAck=String(AU.AckNum44AB);

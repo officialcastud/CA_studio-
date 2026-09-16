@@ -17,7 +17,7 @@
    0 to Gross Total Income. S.C.fa.income = 0. Its output is tax relief
    (feeds Part B-TTI, not GTI) and the informational FA tables.
 
-   RESIDENCE GATE (S.pi.res: RES / NOR / NRI):
+   RESIDENCE GATE (S.fs.resStatus: RES / NOR / NRI):
    - FSI & TR: "available only in case of resident" / "not applicable if
      residential status is non resident" — apply for RES and NOR, off NRI.
    - FA: "not Applicable for NRI … resident-and-ordinarily-resident only
@@ -55,8 +55,13 @@ function engFa(){
      This head adds nothing to Gross Total Income. */
   C.income=0;
 
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const fsiOn=(res==="RES"||res==="NOR");   /* FSI/TR only for residents */
+  /* whether Schedule FA is actually filled (RES-only, any asset row) — drives
+     Part B-TTI AssetOutIndiaFlag so a filer with no foreign assets exports "NO"
+     (rule A901: flag YES ⟺ Schedule FA present). */
+  C.hasFA=(res==="RES") && ["a1","a2","a3","a4","b","c","d","e","f","g"]
+    .reduce((a,k)=>a+((S.fa[k]||[]).length),0) > 0;
 
   if(!fsiOn){S.fa.fsi=S.fa.fsi||[];return;} /* NRI: schedule not applicable — nothing computed */
 
@@ -93,7 +98,7 @@ function engFa(){
    RENDERER — sec<Id>()
    ================================================================ */
 function secFa(){
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],paidTot:0,reliefTot:0,dtaa:0,notDtaa:0};
 
   if(res==="NRI")
@@ -351,7 +356,7 @@ function blk_(id,title,status,inner,delPath){return blk(id,title,status,inner,de
    EXPORT — exp<Id>(j)   (schema keys verbatim from --leaves)
    ================================================================ */
 function expFa(j){
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],paidTot:0,reliefTot:0,dtaa:0,notDtaa:0};
   if(res==="NRI")return;   /* FSI/TR/FA not applicable to non-resident */
 
@@ -529,7 +534,7 @@ function impFa(I3){
    ================================================================ */
 function chkFa(){
   const out=[];
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],reliefTot:0};
   const anyFsi=(S.fa.fsi||[]).length>0;
   const faCnt=["a1","a2","a3","a4","b","c","d","e","f","g"].reduce((a,k)=>a+((S.fa[k]||[]).length),0);

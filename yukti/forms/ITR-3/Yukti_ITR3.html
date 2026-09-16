@@ -5562,7 +5562,7 @@ function engLand(p){
   const imps=(p.improve||[]).filter(x=>N(x.amt));
   const impNo=imps.reduce((a,x)=>a+N(x.amt),0);            /* biib(a) total un-indexed */
   /* indexation only for a resident on a pre-23-Jul-2024 acquisition (Q150 biia) */
-  const canIndex = isLT && S.pi.res==="RES" && buy && buy<CGCUT;
+  const canIndex = isLT && S.fs.resStatus==="RES" && buy && buy<CGCUT;
   const fyB=FYof(p.buy), fyS=FYof(p.sale)||"2025-26";
   const idx=(amt,fy)=>{const b=CGCII[fy]||CGCII[fyB], s=CGCII[fyS]; return (b&&s)?R(N(amt)*s/b):N(amt);};
   const costIdx=canIndex?idx(p.cost,fyB):N(p.cost);        /* biia */
@@ -5643,7 +5643,7 @@ function engCg(){
   const C=S.cg;
   const KEYS=["st20","st30","stApp","stDTAA","lt125","ltDTAA"];
   const Z=()=>({st20:0,st30:0,stApp:0,stDTAA:0,lt125:0,ltDTAA:0});
-  const isNr=S.pi.res!=="RES";
+  const isNr=S.fs.resStatus!=="RES";
   if(!cgOn()){
     S.C.cg={on:false,nri:isNr,A:{total:0},B:{total:0},C1:0,C2:0,C3:0,
       gain:Z(),loss:Z(),used:Z(),absorbed:Z(),after:Z(),matrix:{},F:{},
@@ -6456,7 +6456,7 @@ function engDed(){
   const V={};                                    /* the result object */
   const status=(S.pi||{}).status||"I";           /* I individual, H HUF */
   const isHUF=status==="H";
-  const nri=(S.pi||{}).res!=="RES";
+  const nri=(S.fs||{}).resStatus!=="RES";
   /* best-effort GTI (heads run at order < 40). Sheet8b GrossTotalIncome
      less income taxed at special rates → the ceiling W3 (VI_A.md). The tax
      section (order 90) re-applies the authoritative cap on Total Income. */
@@ -6563,7 +6563,7 @@ function dedLoanTbl(key){
 function secDed(){
   const V=S.C.ded||{out:{},fed:{},total:0,allowed:0}, D8=S.C.d80||{}, G8=S.C.g80||{};
   let h="";
-  if(S.pi.res!=="RES")h+=note("A non-resident cannot claim 80DD, 80DDB, 80U, 80TTB, 80QQB or 80RRB — Yukti allows only what a non-resident may.","warn");
+  if(S.fs.resStatus!=="RES")h+=note("A non-resident cannot claim 80DD, 80DDB, 80U, 80TTB, 80QQB or 80RRB — Yukti allows only what a non-resident may.","warn");
   if(isNew())h+=note("<b>Under section 115BAC only 80CCD(2), 80CCH and (for a business filer) 80JJAA survive.</b> The rest are closed; type them if you want the New-vs-Old comparison in Return &amp; regime to use them.","stop");
 
   const fedNote={c80d:"from Schedule 80D",c80g:"from Schedule 80G",c80gga:"from Schedule 80GGA",c80ggc:"from Schedule 80GGC",
@@ -7326,7 +7326,7 @@ function chkEi(){
       out.push({lvl:"err", t:"Schedule EI · DTAA",
         m:"DTAA row "+(i+1)+": amount, country name, country code and head of income are mandatory.", sec:"ei"});
   });
-  if(dtaaRows.length && st0(S.pi&&S.pi.res)==="RES")
+  if(dtaaRows.length && st0(S.pi&&S.fs.resStatus)==="RES")
     out.push({lvl:"warn", t:"Schedule EI · DTAA",
       m:"The DTAA not-chargeable table (Sl. No. 4) is applicable for non-residents only, but the residential status is Resident.", sec:"ei"});
 
@@ -7366,7 +7366,7 @@ reg({id:"ei", t:"Exempt income", ref:"Schedule EI",
    0 to Gross Total Income. S.C.fa.income = 0. Its output is tax relief
    (feeds Part B-TTI, not GTI) and the informational FA tables.
 
-   RESIDENCE GATE (S.pi.res: RES / NOR / NRI):
+   RESIDENCE GATE (S.fs.resStatus: RES / NOR / NRI):
    - FSI & TR: "available only in case of resident" / "not applicable if
      residential status is non resident" — apply for RES and NOR, off NRI.
    - FA: "not Applicable for NRI … resident-and-ordinarily-resident only
@@ -7404,8 +7404,13 @@ function engFa(){
      This head adds nothing to Gross Total Income. */
   C.income=0;
 
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const fsiOn=(res==="RES"||res==="NOR");   /* FSI/TR only for residents */
+  /* whether Schedule FA is actually filled (RES-only, any asset row) — drives
+     Part B-TTI AssetOutIndiaFlag so a filer with no foreign assets exports "NO"
+     (rule A901: flag YES ⟺ Schedule FA present). */
+  C.hasFA=(res==="RES") && ["a1","a2","a3","a4","b","c","d","e","f","g"]
+    .reduce((a,k)=>a+((S.fa[k]||[]).length),0) > 0;
 
   if(!fsiOn){S.fa.fsi=S.fa.fsi||[];return;} /* NRI: schedule not applicable — nothing computed */
 
@@ -7442,7 +7447,7 @@ function engFa(){
    RENDERER — sec<Id>()
    ================================================================ */
 function secFa(){
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],paidTot:0,reliefTot:0,dtaa:0,notDtaa:0};
 
   if(res==="NRI")
@@ -7700,7 +7705,7 @@ function blk_(id,title,status,inner,delPath){return blk(id,title,status,inner,de
    EXPORT — exp<Id>(j)   (schema keys verbatim from --leaves)
    ================================================================ */
 function expFa(j){
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],paidTot:0,reliefTot:0,dtaa:0,notDtaa:0};
   if(res==="NRI")return;   /* FSI/TR/FA not applicable to non-resident */
 
@@ -7878,7 +7883,7 @@ function impFa(I3){
    ================================================================ */
 function chkFa(){
   const out=[];
-  const res=(S.pi||{}).res||"RES";
+  const res=(S.fs||{}).resStatus||"RES";
   const C=S.C.fa||{fsi:[],trRows:[],reliefTot:0};
   const anyFsi=(S.fa.fsi||[]).length>0;
   const faCnt=["a1","a2","a3","a4","b","c","d","e","f","g"].reduce((a,k)=>a+((S.fa[k]||[]).length),0);
@@ -8499,7 +8504,10 @@ const LOSS_ROWS=[
 /* the set-off walk orders (heads that can absorb each current-year loss).
    HP & business loss reach every head that carries their column; the OS
    loss is set first against race horses and OS-DTAA (CYLA_BFLA.md rule).   */
-const CY_ORDER_HP =["sal","os","horse","osDTAA","spec","specified","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
+/* HP-loss set-off order — from the CYLA sheet's R/N running-remainder chain:
+   sal → bus → spec → specified → os(normal) → race-horse → CG heads. HP loss
+   does NOT set off against OS-DTAA (the sheet has no HP column on that row). */
+const CY_ORDER_HP =["sal","bus","spec","specified","os","horse","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 const CY_ORDER_BUS=["hp","os","horse","osDTAA","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 const CY_ORDER_OS =["horse","osDTAA","sal","hp","bus","spec","specified","st30","stApp","st20","stDTAA","lt125","ltDTAA"];
 /* BFLA: a long-term loss goes first on the two long slots; a short-term
@@ -8544,9 +8552,9 @@ const CFL_OLDEST_8="2018-19", CFL_OLDEST_4="2022-23";
      bp.busExcl / bp.spec / bp.specified   adjusted P&L per business kind (signed)
      cg.after.{st20,st30,stApp,stDTAA,lt125,ltDTAA}  current-yr gains after CG set-off
      cg.cflSTCL / cg.cflLTCL       Table E unabsorbed STCL/LTCL (current-yr carry)
-     os.balanceNoRaceHorse         net OS at normal rates (signed)
-     os.raceHorseBal               race-horse balance (signed)
-     os.dtaa                       OS income taxable at special DTAA rates
+     os.netNormal                  net OS at normal rates (signed)  [os.BalanceNoRaceHorse]
+     os.raceHorse                  race-horse balance (signed)      [os.BalanceOwnRaceHorse]
+     os.dtaaTotal                  OS income taxable at special DTAA rates  [os.DTAA_Amt]
    Each falls back to .income where a finer key is absent.                  */
 function engLoss(){
   const g=(o)=>o||{};
@@ -8555,9 +8563,9 @@ function engLoss(){
   const busExcl   = ("busExcl"   in bp)?N(bp.busExcl)   : N(bp.income);  /* NetPLBusOthThanSpec7A7B7C */
   const specPL    = ("spec"      in bp)?N(bp.spec)      : 0;             /* AdjustedPLFrmSpecuBus     */
   const specifiedPL=("specified" in bp)?N(bp.specified) : 0;            /* AdjustedPLFrmSpecifiedBus */
-  const osNorm    = ("balanceNoRaceHorse" in os)?N(os.balanceNoRaceHorse) : N(os.income); /* os.BalanceNoRaceHorse */
-  const osHorseBal= ("raceHorseBal" in os)?N(os.raceHorseBal) : 0;      /* os.BalanceOwnRaceHorse */
-  const osDtaa    = N(os.dtaa);                                         /* os.DTAA_Amt */
+  const osNorm    = ("netNormal" in os)?N(os.netNormal) : N(os.income); /* os.BalanceNoRaceHorse */
+  const osHorseBal= ("raceHorse" in os)?N(os.raceHorse) : 0;            /* os.BalanceOwnRaceHorse */
+  const osDtaa    = N(os.dtaaTotal);                                    /* os.DTAA_Amt */
   const New=isNew();
 
   /* ---- CYLA row i · the three incoming current-year losses ---------- */
@@ -9113,7 +9121,7 @@ const OS_QROWS = [
 ];
 const OS_QCOLH = ["Upto 15/6 (i)","16/6–15/9 (ii)","16/9–15/12 (iii)","16/12–15/3 (iv)","16/3–31/3 (v)"];
 
-const os_isNRI = ()=> (S.pi && S.pi.res) === "NRI";
+const os_isNRI = ()=> (S.pi && S.fs.resStatus) === "NRI";
 
 /* ---- engine ------------------------------------------------------ */
 function engOs(){
@@ -10500,7 +10508,6 @@ reg({id:"paid", t:"Taxes paid", ref:"TDS · TCS · IT", f:secPaid,
 /* ---- state (seed only what is absent; never clobber the "who" screen) --- */
 S.pi = S.pi || {};
 if(S.pi.status===undefined) S.pi.status="I";
-if(S.pi.res===undefined)    S.pi.res="RES";
 if(S.pi.country===undefined)S.pi.country="91";
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";
 S.pi.dirco = S.pi.dirco || [];   /* FilingStatus.CompDirectorPrvYr...Dtls[]  (rows 122-126) */
@@ -10794,6 +10801,12 @@ function secRet(){
   h+=row("b · Are you liable for audit under section 44AB?",sel("aud.sec44AB",YN,{blank:false}),{req:1,ref:"F156"});
   if(S.aud.sec44AB==="Y"){
     h+=row("Condition by virtue of which liable for audit u/s 44AB",sel("aud.cnd44AB",CND_44AB),{ind:1,req:1,ref:"F157"});
+    if(S.aud.cnd44AB==="bii"){S.aud.bii=S.aud.bii||{};
+      h+=row("Falling under section 44AD (but not opting presumptive)?",sel("aud.bii.44AD",YN),{ind:2,ref:"AQ157"});
+      h+=row("Falling under section 44ADA?",sel("aud.bii.44ADA",YN),{ind:2,ref:"AR157"});
+      h+=row("Falling under section 44AE?",sel("aud.bii.44AE",YN),{ind:2,ref:"AS157"});
+      h+=row("Falling under section 44BB?",sel("aud.bii.44BB",YN),{ind:2,ref:"AT157"});
+    }
     h+=row("c · Have the accounts been audited by an accountant?",sel("aud.acctFlg",YN),{ind:1,ref:"F161"});
     if(S.aud.acctFlg==="Y"){
       h+=row("Date of furnishing of the audit report",dte("aud.repDate"),{ind:1,req:1,ref:"G162",hint:"cannot be after today"});
@@ -11000,9 +11013,14 @@ const SAL_ALW10=[["10(5)","Sec 10(5) — Leave Travel allowance"],
 /* Place of residence — 10(13A) — enum Placeofwork */
 const SAL_PLACE=[["1","Metro (Delhi, Mumbai, Kolkata, Chennai)"],["2","Non-Metro"]];
 
-/* REGIME.md — under new regime u/s 115BAC only this 10(14) subset stays
-   exempt (A198: all other 10(14) exemptions -> 0). Everything else closes. */
-const SAL_ALW10_NEW=["10(14)(i)(115BAC)","10(14)(ii)(115BAC)"];
+/* Exempt allowances that stay exempt under the new regime u/s 115BAC — the
+   utility's RngBacYes named range (DropDownValues col P, rows 21-31): the
+   retirement/statutory 10(x) exemptions continue in BOTH regimes; only LTA
+   10(5), HRA 10(13A) (handled separately), the generic 10(14)(i)/(ii), 10(17)
+   and EIC close. 10(14) survives only as its 115BAC Rule-2BB subset (A198). */
+const SAL_ALW10_NEW=["10(6)","10(7)","10(10)","10(10A)","10(10AA)",
+  "10(10B)(i)","10(10B)(ii)","10(10C)","10(10CC)",
+  "10(14)(i)(115BAC)","10(14)(ii)(115BAC)"];
 
 /* helpers scoped to this section */
 const _salEntEligible=cat=>cat==="CGOV"||cat==="SGOV"||cat==="PSU"; /* 16(ii) — book */
@@ -11558,7 +11576,7 @@ const SI_115AD=["5AD1i","5AD1iDiv","5AD1iP","5ADii","5AD1biip","5ADiii","5ADiiiP
    @12.5), si111a20 (STCG 111A @20), si115bbh (VDA @30), stDTAA / ltDTAA.  */
 function engSi(){
   const New=isNew();
-  const resident=S.pi&&S.pi.res==="RES";
+  const resident=S.pi&&S.fs.resStatus==="RES";
   const cg=(S.C.cg||{}), cgB=(cg.buckets||{});
 
   /* ----- SPI total (book I12 = Σ AmtIncluded) — a disclosure ------- */
@@ -11645,7 +11663,7 @@ function engSi(){
    ===================================================================== */
 function secSi(){
   const G=S.C.si||{}; let h="";
-  const resident=S.pi&&S.pi.res==="RES"; const New=isNew();
+  const resident=S.pi&&S.fs.resStatus==="RES"; const New=isNew();
 
   /* ===== Schedule SPI ============================================== */
   h+='<div class="cgband">Schedule SPI — income of specified persons includable u/s 64</div>';
@@ -11911,7 +11929,7 @@ const TAX_Q_CUT=[new Date(2025,5,16),new Date(2025,8,20),new Date(2025,11,15),ne
 /* exemption limit (Tax Calculated C33/C34): new regime 400000 (bacValue=1); else age-banded by residential status. NRI never gets the senior band. */
 function taxExemptionLimit(){
   if(isNew())return 400000;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI"){ if(superSr())return 500000; if(senior())return 300000; }
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI"){ if(superSr())return 500000; if(senior())return 300000; }
   return 250000;
 }
 /* the regime slab bands (Tax Calculated: G25 new; B27 senior, B28 super-senior, B29 normal — old) */
@@ -11921,7 +11939,7 @@ function taxBands(){
   const SLAB_SR =[[300000,0],[500000,5],[1000000,20],[Infinity,30]];                                        /* B27 */
   const SLAB_SSR=[[500000,0],[1000000,20],[Infinity,30]];                                                   /* B28 */
   if(isNew())return SLAB_NEW;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI")return superSr()?SLAB_SSR:(senior()?SLAB_SR:SLAB_OLD);
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI")return superSr()?SLAB_SSR:(senior()?SLAB_SR:SLAB_OLD);
   return SLAB_OLD;
 }
 function taxSlab(inc,bands){let t=0,l=0;for(const b of bands){const u=b[0],r=b[1];if(inc>l)t+=(Math.min(inc,u)-l)*r/100;l=u;if(inc<=u)break;}return R(t);}
@@ -12011,7 +12029,7 @@ function engTax(){
 
   /* 2e — rebate under section 87A (Tax Calculated: new 60000 @ TI≤12L with marginal relief; old 12500 @ TI≤5L, not against 112A/115AD) */
   let rebate=0,marginal=0;
-  if(S.pi.status==="I"&&S.pi.res!=="NRI"){
+  if(S.pi.status==="I"&&S.fs.resStatus!=="NRI"){
     if(isNew()){
       if(ti<=1200000)rebate=Math.min(taxOn,60000);
       else{const excess=ti-1200000;if(normalTax>excess){marginal=normalTax-excess;rebate=Math.min(taxOn,marginal);}}
@@ -12080,7 +12098,7 @@ function engTax(){
   const paidTot=R(P.paid!=null?P.paid:(adv+tds+tcs+sat));
 
   /* ===== interest & fee (Tax Calculated sheet) ===== */
-  const dueDate=D(S.fs.dueExt)||DUE;
+  const dueDate=D(dmy(S.fs.duedate))||D(S.fs.dueExt)||DUE;   /* the user's per-case 139(1) due date (audit=31-Oct etc.); dueExt kept as an optional override */
   const filed=D(S.fs.filed);
   const endA=([17,18].indexOf(+S.fs.sec)>=0&&D(S.fs.origdate))?D(S.fs.origdate):filed;   /* B12: revised/defective → original date */
   const late=!!(endA&&endA>dueDate);
@@ -12100,7 +12118,7 @@ function engTax(){
   const f234i=(+S.fs.sec===17)?Math.min(99999,R(N(S.tax.f234i))):0;
 
   /* 234C: quarterly shortfall (QDEF 15/45/75/100, safe-harbour 12/36 for Q1/Q2). Special income is treated as accruing from Q1 unless a quarter-wise breakdown is published. */
-  const seniorRes=S.pi.res!=="NRI"&&S.pi.status==="I"&&senior();
+  const seniorRes=S.fs.resStatus!=="NRI"&&S.pi.status==="I"&&senior();
   const amtCase=amtApplies&&amtTotal>grossTaxLiability;
   const gate234c=net>=10000&&!seniorRes;
   const upto=d=>IT.filter(c=>!isSAT(c)&&D(c.dt)&&D(c.dt)<=d).reduce((a,c)=>a+N(c.amt),0);
@@ -12418,6 +12436,7 @@ function expTax(j){
   put(j,"PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid",n0(I.paid));
   put(j,"PartB_TTI.TaxPaid.BalTaxPayable",n0(I.balance));
   put(j,"PartB_TTI.Refund.RefundDue",n0(I.refund));
+  put(j,"PartB_TTI.AssetOutIndiaFlag",((S.C.fa||{}).hasFA)?"YES":"NO");   /* data-driven; was hardcoded YES in the skeleton (rule A901) */
 
   /* ---- Schedule AMTC — export whenever a credit exists (prior balance) or arises this year ---- */
   if((AC.rows||[]).some(x=>x.gross||x.setoff)||AC.curr||AC.avail){
@@ -12813,6 +12832,8 @@ function expWho(j){
   put(j,"PartA_GEN2.AuditInfo.LiableSec44ABflg",sv(aud.sec44AB||"N"));
   if(aud.sec44AB==="Y"){
     put(j,"PartA_GEN2.AuditInfo.Cndnfor44AB",sv(aud.cnd44AB));
+    if(aud.cnd44AB==="bii"){const b=aud.bii||{};
+      ["44AD","44ADA","44AE","44BB"].forEach(k=>{if(b[k])put(j,"PartA_GEN2.AuditInfo.BiiDetails."+k,sv(b[k]));});}
     put(j,"PartA_GEN2.AuditInfo.AuditAccountantFlg",sv(aud.acctFlg));
     if(aud.acctFlg==="Y"){
       put(j,"PartA_GEN2.AuditInfo.AuditReportFurnishDate",ISO(aud.repDate));
@@ -12953,6 +12974,7 @@ function impWho(I3){
     if(AU.AgrOFAllPayMade!=null)S.aud.pctPaid=AU.AgrOFAllPayMade;
     if(AU.LiableSec44ABflg!=null)S.aud.sec44AB=AU.LiableSec44ABflg;
     if(AU.Cndnfor44AB!=null)S.aud.cnd44AB=AU.Cndnfor44AB;
+    if(AU.BiiDetails){const D=AU.BiiDetails;S.aud.bii={"44AD":D["44AD"]||"","44ADA":D["44ADA"]||"","44AE":D["44AE"]||"","44BB":D["44BB"]||""};}
     if(AU.AuditAccountantFlg!=null)S.aud.acctFlg=AU.AuditAccountantFlg;
     if(AU.AuditReportFurnishDate)S.aud.repDate=dmy(AU.AuditReportFurnishDate);
     if(AU.AckNum44AB!=null)S.aud.repAck=String(AU.AckNum44AB);
