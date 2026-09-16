@@ -693,6 +693,8 @@ function secTax(){
    ===================================================================== */
 function expInc(j){
   const inc=S.C.inc||{}, D=inc.detail||{}, hp=S.C.hp||{}, calc=hp.calc||[], t=S.C.taxc||{};
+  /* build a plain object, keeping only non-empty leaves */
+  const ob=o=>{const r={};for(const k in o){const v=o[k];if(v!==undefined&&v!==null&&v!=="")r[k]=v;}return r;};
 
   /* ---- PersonalInfo ---- */
   put(j,"PersonalInfo.AssesseeName.FirstName",sv(S.pi.first));
@@ -747,9 +749,9 @@ function expInc(j){
     put(j,"FilingStatus.IncrExpAggAmt1LkElctrctyPrYrFlg",sv(S.fs.ele1l));
     if(N(S.fs.ele1lAmt)) put(j,"FilingStatus.AmtSeventhProvisio139iii",R(N(S.fs.ele1lAmt)));
     put(j,"FilingStatus.clauseiv7provisio139i",sv(S.fs.clz));
-    (S.fs.clause7||[]).forEach((r,i)=>{ if(!st0(r.nat)&&!N(r.amt))return;
-      pf(j,"FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iNature",sv(r.nat));
-      pf(j,"FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iAmount",R(N(r.amt))); });
+    const cl=(S.fs.clause7||[]).filter(r=>st0(r.nat)||N(r.amt))
+      .map(r=>({clauseiv7provisio139iNature:st0(r.nat),clauseiv7provisio139iAmount:R(N(r.amt))}));
+    if(cl.length) put(j,"FilingStatus.clauseiv7provisio139iDtls",cl);
   }
   if([13,14,16,18,20].indexOf(+S.fs.sec)>=0){
     put(j,"FilingStatus.NoticeNo",sv(S.fs.noticeNo));
@@ -772,20 +774,18 @@ function expInc(j){
   put(j,"IncomeDeductions.IncomeFromBusinessProf",n0(D.e8));
   put(j,"IncomeDeductions.GrossSalary",n0(D.gross));
   if(N(D.gross)){
-    put(j,"IncomeDeductions.Salary",n0(D.gross&&N(IC.sal.s17_1)));
-    put(j,"IncomeDeductions.PerquisitesValue",n0(N(IC.sal.s17_2)));
-    put(j,"IncomeDeductions.ProfitsInSalary",n0(N(IC.sal.s17_3)));
+    if(N(IC.sal.s17_1)) put(j,"IncomeDeductions.Salary",n0(N(IC.sal.s17_1)));
+    if(N(IC.sal.s17_2)) put(j,"IncomeDeductions.PerquisitesValue",n0(N(IC.sal.s17_2)));
+    if(N(IC.sal.s17_3)) put(j,"IncomeDeductions.ProfitsInSalary",n0(N(IC.sal.s17_3)));
   }
   let exTotAll=0;
-  (IC.sal.alw||[]).forEach((r,i)=>{
-    const nat=st0(r.nat); if(!nat)return;
-    const closed=isNew()&&ALW_CLOSED_NEW[nat];
-    const amt=closed?0:R(N(r.amt));
-    pf(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls."+i+".SalNatureDesc",nat);
-    pf(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls."+i+".SalOthAmount",amt);
-    exTotAll+=amt;
-  });
-  if((IC.sal.alw||[]).length) put(j,"IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10",n0(exTotAll));
+  const alwArr=(IC.sal.alw||[]).filter(r=>st0(r.nat)).map(r=>{
+    const nat=st0(r.nat); const amt=(isNew()&&ALW_CLOSED_NEW[nat])?0:R(N(r.amt)); exTotAll+=amt;
+    return {SalNatureDesc:nat,SalOthAmount:amt}; });
+  if(alwArr.length){
+    put(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",alwArr);
+    put(j,"IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10",n0(exTotAll));
+  }
   put(j,"IncomeDeductions.NetSalary",n0(D.netSal));
   put(j,"IncomeDeductions.DeductionUs16",n0(D.ded16));
   if(N(D.stdDed)) put(j,"IncomeDeductions.DeductionUs16ia",n0(D.stdDed));
@@ -793,78 +793,54 @@ function expInc(j){
   if(N(D.ptax))   put(j,"IncomeDeductions.ProfessionalTaxUs16iii",n0(D.ptax));
   put(j,"IncomeDeductions.IncomeFromSal",n0(D.incSal));
 
-  /* PropertyDetails[] */
-  (IC.hp||[]).forEach((p,i)=>{
-    const c=calc[i]||{}; const B="IncomeDeductions.PropertyDetails."+i;
-    pf(j,B+".HPSNo",i+1);
-    pf(j,B+".AddressDetailWithZipCode.AddrDetail",sv(p.addr));
-    pf(j,B+".AddressDetailWithZipCode.CityOrTownOrDistrict",sv(p.city));
-    pf(j,B+".AddressDetailWithZipCode.StateCode",sv(p.state));
-    pf(j,B+".AddressDetailWithZipCode.CountryCode",sv(p.country||"91"));
-    if(N(p.pin)) pf(j,B+".AddressDetailWithZipCode.PinCode",R(N(p.pin)));
-    pf(j,B+".PropertyOwner",sv(p.owner));
-    if(p.owner==="OT") pf(j,B+".PropertyOwnerOther",sv(p.ownerOth));
-    pf(j,B+".PropCoOwnedFlg",sv(p.co||"NO"));
-    if(p.share!==""&&p.share!=null) pf(j,B+".AsseseeShareProperty",N(p.share));
-    (p.coown||[]).forEach((o,k)=>{ if(!st0(o.name))return;
-      pf(j,B+".CoOwners."+k+".CoOwnersSNo",k+1);
-      pf(j,B+".CoOwners."+k+".NameCoOwner",sv(o.name));
-      pf(j,B+".CoOwners."+k+".PAN_CoOwner",sv(o.pan));
-      pf(j,B+".CoOwners."+k+".Aadhaar_CoOwner",sv(o.aadhaar));
-      if(o.share!==""&&o.share!=null) pf(j,B+".CoOwners."+k+".PercentShareProperty",N(o.share)); });
-    pf(j,B+".ifLetOut",sv(p.let));
-    (p.tenant||[]).forEach((tn,k)=>{ if(!st0(tn.name))return;
-      pf(j,B+".TenantDetails."+k+".TenantSNo",k+1);
-      pf(j,B+".TenantDetails."+k+".NameofTenant",sv(tn.name));
-      pf(j,B+".TenantDetails."+k+".PANofTenant",sv(tn.pan));
-      pf(j,B+".TenantDetails."+k+".AadhaarofTenant",sv(tn.aadhaar));
-      pf(j,B+".TenantDetails."+k+".PANTANofTenant",sv(tn.pantan)); });
-    pf(j,B+".Rentdetails.AnnualLetableValue",n0(c.a));
-    if(N(c.b)) pf(j,B+".Rentdetails.RentNotRealized",n0(c.b));
-    if(N(c.c)) pf(j,B+".Rentdetails.LocalTaxes",n0(c.c));
-    pf(j,B+".Rentdetails.TotalUnrealizedAndTax",n0(c.d));
-    pf(j,B+".Rentdetails.BalanceALV",n0(c.e));
-    pf(j,B+".Rentdetails.AnnualOfPropOwned",n0(c.f));
-    pf(j,B+".Rentdetails.ThirtyPercentOfBalance",n0(c.g));
-    pf(j,B+".Rentdetails.IntOnBorwCap",n0(c.intr));
-    (p.loans||[]).forEach((l,k)=>{ if(!st0(l.name)&&!N(l.intr))return;
-      const L=B+".Rentdetails.Section24B.Section24BDtls."+k;
-      pf(j,L+".LoanTknFrom",sv(l.from));
-      pf(j,L+".BankOrInstnName",sv(l.name));
-      pf(j,L+".LoanAccNoOfBankOrInstnRefNo",sv(l.accno));
-      pf(j,L+".DateofLoan",ISO(l.date));
-      pf(j,L+".TotalLoanAmt",R(N(l.total)));
-      pf(j,L+".LoanOutstndngAmt",R(N(l.outst)));
-      pf(j,L+".InterestUs24B",R(N(l.intr))); });
-    pf(j,B+".Rentdetails.Section24B.TotalInterestUs24B",n0(c.intr));
-    pf(j,B+".Rentdetails.TotalDeduct",n0(c.totDed));
-    if(N(c.j)) pf(j,B+".Rentdetails.ArrearsUnrealizedRentRcvd",n0(c.j));
-    pf(j,B+".Rentdetails.IncomeOfHP",sg(c.k));
+  /* PropertyDetails[] — native array */
+  const props=(IC.hp||[]).map((p,i)=>{
+    const c=calc[i]||{};
+    const el={};
+    el.HPSNo=i+1;
+    el.AddressDetailWithZipCode=ob({AddrDetail:sv(p.addr),CityOrTownOrDistrict:sv(p.city),
+      StateCode:sv(p.state),CountryCode:sv(p.country||"91"),PinCode:N(p.pin)?R(N(p.pin)):undefined});
+    if(sv(p.owner)) el.PropertyOwner=sv(p.owner);
+    if(p.owner==="OT"&&sv(p.ownerOth)) el.PropertyOwnerOther=sv(p.ownerOth);
+    el.PropCoOwnedFlg=sv(p.co||"NO");
+    if(p.share!==""&&p.share!=null) el.AsseseeShareProperty=N(p.share);
+    const co=(p.coown||[]).filter(o=>st0(o.name)).map((o,k)=>ob({CoOwnersSNo:k+1,NameCoOwner:sv(o.name),
+      PAN_CoOwner:sv(o.pan),Aadhaar_CoOwner:sv(o.aadhaar),PercentShareProperty:(o.share!==""&&o.share!=null)?N(o.share):undefined}));
+    if(co.length) el.CoOwners=co;
+    if(sv(p.let)) el.ifLetOut=sv(p.let);
+    const tn=(p.tenant||[]).filter(x=>st0(x.name)).map((x,k)=>ob({TenantSNo:k+1,NameofTenant:sv(x.name),
+      PANofTenant:sv(x.pan),AadhaarofTenant:sv(x.aadhaar),PANTANofTenant:sv(x.pantan)}));
+    if(tn.length) el.TenantDetails=tn;
+    const loans=(p.loans||[]).filter(l=>st0(l.name)||N(l.intr)).map(l=>ob({LoanTknFrom:sv(l.from),
+      BankOrInstnName:sv(l.name),LoanAccNoOfBankOrInstnRefNo:sv(l.accno),DateofLoan:ISO(l.date),
+      TotalLoanAmt:R(N(l.total)),LoanOutstndngAmt:R(N(l.outst)),InterestUs24B:R(N(l.intr))}));
+    const rd=ob({AnnualLetableValue:n0(c.a),RentNotRealized:N(c.b)?n0(c.b):undefined,
+      LocalTaxes:N(c.c)?n0(c.c):undefined,TotalUnrealizedAndTax:n0(c.d),BalanceALV:n0(c.e),
+      AnnualOfPropOwned:n0(c.f),ThirtyPercentOfBalance:n0(c.g),IntOnBorwCap:n0(c.intr),
+      TotalDeduct:n0(c.totDed),ArrearsUnrealizedRentRcvd:N(c.j)?n0(c.j):undefined,IncomeOfHP:sg(c.k)});
+    rd.Section24B=ob({TotalInterestUs24B:n0(c.intr)});
+    if(loans.length) rd.Section24B.Section24BDtls=loans;
+    el.Rentdetails=rd;
+    return el;
   });
+  if(props.length) put(j,"IncomeDeductions.PropertyDetails",props);
   put(j,"IncomeDeductions.TotalIncomeChargeableUnHP",sg(hp.income));
 
-  /* OthersInc (other sources) */
+  /* OthersInc (other sources) — native array */
   put(j,"IncomeDeductions.IncomeOthSrc",n0(D.incOS));
-  (IC.os.rows||[]).forEach((r,i)=>{
-    const nat=st0(r.nat); if(!nat)return;
-    const O="IncomeDeductions.OthersInc.OthersIncDtlsOthSrc."+i;
-    pf(j,O+".OthSrcNatureDesc",nat);
-    if(nat==="OTH") pf(j,O+".OthSrcOthNatOfInc",sv(r.desc));
+  const osArr=(IC.os.rows||[]).filter(r=>st0(r.nat)).map(r=>{
+    const nat=st0(r.nat);
     const amt=(nat==="DIV")?(N(r.q1)+N(r.q2)+N(r.q3)+N(r.q4)+N(r.q5)):N(r.amt);
-    pf(j,O+".OthSrcOthAmount",R(amt));
-    pf(j,O+".DividendInc.DateRange.Upto15Of6",nat==="DIV"?R(N(r.q1)):0);
-    pf(j,O+".DividendInc.DateRange.Upto15Of9",nat==="DIV"?R(N(r.q2)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of9To15Of12",nat==="DIV"?R(N(r.q3)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of12To15Of3",nat==="DIV"?R(N(r.q4)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of3To31Of3",nat==="DIV"?R(N(r.q5)):0);
-  });
+    const el=ob({OthSrcNatureDesc:nat,OthSrcOthNatOfInc:(nat==="OTH")?sv(r.desc):undefined,OthSrcOthAmount:R(amt)});
+    el.DividendInc={DateRange:{Upto15Of6:nat==="DIV"?R(N(r.q1)):0,Upto15Of9:nat==="DIV"?R(N(r.q2)):0,
+      Up16Of9To15Of12:nat==="DIV"?R(N(r.q3)):0,Up16Of12To15Of3:nat==="DIV"?R(N(r.q4)):0,
+      Up16Of3To31Of3:nat==="DIV"?R(N(r.q5)):0}};
+    return el; });
+  if(osArr.length) put(j,"IncomeDeductions.OthersInc.OthersIncDtlsOthSrc",osArr);
   if(!isNew() && N(D.ded57)) put(j,"IncomeDeductions.DeductionUs57iia",n0(D.ded57));
 
   put(j,"IncomeDeductions.GrossTotIncome",sg(t.gti));
   put(j,"IncomeDeductions.GrossTotIncomeIncLTCG112A",sg(t.gtiInc));
-
-  /* Chapter VI-A — inccore owns the totals; per-line amounts are the ded
-     builder's; SKEL keeps every Section80* leaf present at 0. */
   put(j,"IncomeDeductions.UsrDeductUndChapVIA.TotalChapVIADeductions",n0((S.C.ded||{}).total));
   put(j,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions",n0(t.via));
   put(j,"IncomeDeductions.TotalIncome",sg(t.ti));
@@ -872,63 +848,37 @@ function expInc(j){
   /* ---- ScheduleBP ---- */
   const anyBP = R(D.e1)||R(D.e3)||R(D.e5)||R(D.e8)||(IC.bp.nad||[]).length||(IC.bp.nada||[]).length||(IC.bp.nae||[]).length;
   if(anyBP){
-    (IC.bp.nad||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".CodeAD",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".Description",sv(r.desc)); });
-    if(R(D.e1)||R(D.e2c)){
-      put(j,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver",n0(D.e1));
-      if(N(D.e1a)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverBank",n0(D.e1a));
-      if(N(D.e1b)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOverInCash",n0(D.e1b));
-      if(N(D.e1c)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverAnyOthMode",n0(D.e1c));
-      if(N(D.e2a)) put(j,"ScheduleBP.PersumptiveInc44AD.PersumptiveInc44AD6Per",n0(D.e2a));
-      if(N(D.e2b)) put(j,"ScheduleBP.PersumptiveInc44AD.PersumptiveInc44AD8Per",n0(D.e2b));
-      put(j,"ScheduleBP.PersumptiveInc44AD.TotPersumptiveInc44AD",n0(D.e2c));
-    }
-    (IC.bp.nada||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".CodeADA",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".Description",sv(r.desc)); });
-    if(R(D.e3)||R(D.e4)){
-      put(j,"ScheduleBP.PersumptiveInc44ADA.GrsReceipt",n0(D.e3));
-      if(N(D.e3a)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTrnOverBank44ADA",n0(D.e3a));
-      if(N(D.e3b)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTotalTrnOverInCash44ADA",n0(D.e3b));
-      if(N(D.e3c)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTrnOverAnyOthMode44ADA",n0(D.e3c));
-      put(j,"ScheduleBP.PersumptiveInc44ADA.TotPersumptiveInc44ADA",n0(D.e4));
-    }
-    (IC.bp.nae||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".CodeAE",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".Description",sv(r.desc)); });
-    (IC.bp.gcv||[]).forEach((v,i)=>{ if(!st0(v.reg))return;
-      const G="ScheduleBP.GoodsDtlsUs44AE."+i;
-      pf(j,G+".RegNumberGoodsCarriage",sv(v.reg));
-      pf(j,G+".OwnedLeasedHiredFlag",sv(v.flag));
-      pf(j,G+".TonnageCapacity",R(N(v.tonnage)));
-      pf(j,G+".HoldingPeriod",R(N(v.months)));
-      pf(j,G+".PresumptiveIncome",R(N(v.pi))); });
-    if(R(D.e5)||R(D.e7)||R(D.e8)){
-      put(j,"ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE",n0(D.e5));
-      if(N(D.e6)) put(j,"ScheduleBP.PersumptiveInc44AE.SalInterestByFirm",n0(D.e6));
-      put(j,"ScheduleBP.PersumptiveInc44AE.TotalPersumptiveInc",n0(D.e7));
-      put(j,"ScheduleBP.PersumptiveInc44AE.IncChargeableUnderBus",n0(D.e8));
-    }
+    const nad=(IC.bp.nad||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeAD:sv(r.code),Description:sv(r.desc)}));
+    if(nad.length) put(j,"ScheduleBP.NatOfBus44AD",nad);
+    if(R(D.e1)||R(D.e2c)) put(j,"ScheduleBP.PersumptiveInc44AD",ob({
+      GrsTotalTrnOver:n0(D.e1),GrsTrnOverBank:N(D.e1a)?n0(D.e1a):undefined,
+      GrsTotalTrnOverInCash:N(D.e1b)?n0(D.e1b):undefined,GrsTrnOverAnyOthMode:N(D.e1c)?n0(D.e1c):undefined,
+      PersumptiveInc44AD6Per:N(D.e2a)?n0(D.e2a):undefined,PersumptiveInc44AD8Per:N(D.e2b)?n0(D.e2b):undefined,
+      TotPersumptiveInc44AD:n0(D.e2c)}));
+    const nada=(IC.bp.nada||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeADA:sv(r.code),Description:sv(r.desc)}));
+    if(nada.length) put(j,"ScheduleBP.NatOfBus44ADA",nada);
+    if(R(D.e3)||R(D.e4)) put(j,"ScheduleBP.PersumptiveInc44ADA",ob({
+      GrsReceipt:n0(D.e3),GrsTrnOverBank44ADA:N(D.e3a)?n0(D.e3a):undefined,
+      GrsTotalTrnOverInCash44ADA:N(D.e3b)?n0(D.e3b):undefined,GrsTrnOverAnyOthMode44ADA:N(D.e3c)?n0(D.e3c):undefined,
+      TotPersumptiveInc44ADA:n0(D.e4)}));
+    const nae=(IC.bp.nae||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeAE:sv(r.code),Description:sv(r.desc)}));
+    if(nae.length) put(j,"ScheduleBP.NatOfBus44AE",nae);
+    const gcv=(IC.bp.gcv||[]).filter(v=>st0(v.reg)).map(v=>ob({RegNumberGoodsCarriage:sv(v.reg),
+      OwnedLeasedHiredFlag:sv(v.flag),TonnageCapacity:R(N(v.tonnage)),HoldingPeriod:R(N(v.months)),PresumptiveIncome:R(N(v.pi))}));
+    if(gcv.length) put(j,"ScheduleBP.GoodsDtlsUs44AE",gcv);
+    if(R(D.e5)||R(D.e7)||R(D.e8)) put(j,"ScheduleBP.PersumptiveInc44AE",ob({
+      TotPersumInc44AE:n0(D.e5),SalInterestByFirm:N(D.e6)?n0(D.e6):undefined,
+      TotalPersumptiveInc:n0(D.e7),IncChargeableUnderBus:n0(D.e8)}));
     let gstTot=0;
-    (IC.bp.gstn||[]).forEach((r,i)=>{ if(!st0(r.gstin))return;
-      pf(j,"ScheduleBP.TurnoverGrsRcptForGSTIN."+i+".GSTINNo",sv(r.gstin));
-      pf(j,"ScheduleBP.TurnoverGrsRcptForGSTIN."+i+".AmtTurnGrossRcptGSTIN",R(N(r.amt)));
-      gstTot+=N(r.amt); });
-    if((IC.bp.gstn||[]).length) put(j,"ScheduleBP.TotalTurnoverGrsRcptGSTIN",R(gstTot));
+    const gst=(IC.bp.gstn||[]).filter(r=>st0(r.gstin)).map(r=>{gstTot+=N(r.amt);return ob({GSTINNo:sv(r.gstin),AmtTurnGrossRcptGSTIN:R(N(r.amt))});});
+    if(gst.length){ put(j,"ScheduleBP.TurnoverGrsRcptForGSTIN",gst); put(j,"ScheduleBP.TotalTurnoverGrsRcptGSTIN",R(gstTot)); }
     const f=IC.bp.fin||{};
     const capL=N(f.owncap)+N(f.secured)+N(f.unsecured)+N(f.advances)+N(f.creditors)+N(f.othliab);
     const asst=N(f.fixed)+N(f.invest)+N(f.inventories)+N(f.debtors)+N(f.bank)+N(f.cash)+N(f.loans)+N(f.otherassets);
-    if(N(f.creditors))   put(j,"ScheduleBP.FinanclPartclrOfBusiness.SundryCreditors",R(N(f.creditors)));
-    if(N(f.inventories)) put(j,"ScheduleBP.FinanclPartclrOfBusiness.Inventories",R(N(f.inventories)));
-    if(N(f.debtors))     put(j,"ScheduleBP.FinanclPartclrOfBusiness.SundryDebtors",R(N(f.debtors)));
-    if(N(f.bank))        put(j,"ScheduleBP.FinanclPartclrOfBusiness.BalWithBanks",R(N(f.bank)));
-    if(N(f.cash))        put(j,"ScheduleBP.FinanclPartclrOfBusiness.CashInHand",R(N(f.cash)));
-    if(capL) put(j,"ScheduleBP.FinanclPartclrOfBusiness.TotCapLiabilities",R(capL));
-    if(asst) put(j,"ScheduleBP.FinanclPartclrOfBusiness.TotalAssets",R(asst));
+    const fin=ob({SundryCreditors:N(f.creditors)?R(N(f.creditors)):undefined,Inventories:N(f.inventories)?R(N(f.inventories)):undefined,
+      SundryDebtors:N(f.debtors)?R(N(f.debtors)):undefined,BalWithBanks:N(f.bank)?R(N(f.bank)):undefined,
+      CashInHand:N(f.cash)?R(N(f.cash)):undefined,TotCapLiabilities:capL?R(capL):undefined,TotalAssets:asst?R(asst):undefined});
+    if(Object.keys(fin).length) put(j,"ScheduleBP.FinanclPartclrOfBusiness",fin);
   }
 
   /* ---- TaxComputation (Part D) ---- */
@@ -953,13 +903,12 @@ function expInc(j){
 
   /* ---- TaxExmpIntIncDtls (D20 exempt income) ---- */
   let exemptTot=0;
-  (IC.exmp||[]).forEach((r,i)=>{ if(!N(r.amt)&&!st0(r.cat))return;
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".Category",sv(r.cat));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".SubCategory",sv(r.sub));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".Description",sv(r.desc));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".OthAmount",R(N(r.amt)));
-    exemptTot+=N(r.amt); });
-  if((IC.exmp||[]).length) put(j,"TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe",R(exemptTot));
+  const exArr=(IC.exmp||[]).filter(r=>N(r.amt)||st0(r.cat)).map(r=>{exemptTot+=N(r.amt);
+    return ob({Category:sv(r.cat),SubCategory:sv(r.sub),Description:sv(r.desc),OthAmount:R(N(r.amt))});});
+  if(exArr.length){
+    put(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",exArr);
+    put(j,"TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe",R(exemptTot));
+  }
 }
 
 /* =====================================================================
