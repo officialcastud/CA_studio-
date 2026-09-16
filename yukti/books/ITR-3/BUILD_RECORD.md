@@ -17,7 +17,7 @@ Built end to end by the Yukti pipeline. **All gates 0–7 GREEN.**
 | 3 books | GREEN — 39 sheet books (parallel Opus readers) |
 | 4 schedules | GREEN — 18 sections built (engine/screen/export/import/checks), assembled, 0 duplicate writers |
 | 5 whole form | GREEN — full return validates 0 schema errors; byte-identical round-trip |
-| 6 rules | GREEN — 430/999 Category A coded, **0 firing** on the return; 4 Category-D advisories |
+| 6 rules | GREEN — 665/999 Category A coded (334 logged excluded with reasons), **0 firing** on the return; 4 Category-D advisories |
 | 7 test client | GREEN — S SUDHIR complete return; content audit 0 empty; hand figures match |
 
 ## The constant client — S SUDHIR (TVOPS4373C, 05/11/2006), OLD regime
