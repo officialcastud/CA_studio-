@@ -1,0 +1,154 @@
+{
+ "Income Details": {
+  "section": "inc",
+  "blocks": [
+   "PersonalInfo",
+   "FilingStatus",
+   "IncomeDeductions",
+   "TaxComputation"
+  ]
+ },
+ "HP": {
+  "section": "hp",
+  "blocks": [
+   "IncomeDeductions"
+  ]
+ },
+ "Sheet1": {
+  "section": "excluded",
+  "reason": "utility scratch sheet (single blank row) — no schedule, no schema block"
+ },
+ "44AE": {
+  "section": "inc",
+  "blocks": [
+   "ScheduleBP"
+  ],
+  "why_built": "hidden until presumptive goods-carriage income u/s 44AE is claimed — the utility unhides it on demand; it computes the per-vehicle deemed income that feeds Schedule BP's 44AE rows (E5)"
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "the 139(8A) updated-return variant of Part A General — not applicable to an original return"
+ },
+ "Schedule EA 10(13A)": {
+  "section": "inc",
+  "blocks": [
+   "ScheduleEA10_13A"
+  ],
+  "why_built": "hidden until house-rent allowance exemption u/s 10(13A) is claimed — the utility unhides it on demand; the HRA sub-schedule is filed as ScheduleEA10_13A"
+ },
+ "Schedule 24(b)": {
+  "section": "hp",
+  "blocks": [
+   "IncomeDeductions"
+  ],
+  "why_built": "hidden until interest on borrowed capital u/s 24(b) is claimed — the utility unhides it on demand; the loan details are filed under IncomeDeductions PropertyDetails.Rentdetails.Section24B"
+ },
+ "BP": {
+  "section": "inc",
+  "blocks": [
+   "ScheduleBP"
+  ]
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "TDSonSalaries",
+   "TDSonOthThanSals",
+   "ScheduleTDS3Dtls"
+  ]
+ },
+ "TCS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTCS"
+  ]
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "Part B-ATI is the updated-return (139(8A) / 140B) computation — not applicable to an original return, and no schema block in ITR-4's block list"
+ },
+ "Taxes Paid and Verification": {
+  "section": "bank",
+  "blocks": [
+   "TaxPaid",
+   "Refund",
+   "TaxExmpIntIncDtls",
+   "LTCG112A",
+   "Verification",
+   "TaxReturnPreparer"
+  ]
+ },
+ "80D": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80D"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80G"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80DD_80U": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80DD",
+   "Schedule80U"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGC"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80E_80EE_80EEA_80EEB": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80E",
+   "Schedule80EE",
+   "Schedule80EEA",
+   "Schedule80EEB"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80C": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80C"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "AL": {
+  "section": "excluded",
+  "reason": "Schedule AL applies only where total income exceeds Rs 50 lakh; ITR-4 (Sugam) is for total income up to Rs 50 lakh and its schema has no ScheduleAL block — not applicable to this form"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "hidden internal preview / summary sheet — no schedule, no schema block"
+ },
+ "Help": {
+  "section": "excluded",
+  "reason": "the utility's how-to-use instructions text — not a schedule"
+ },
+ "DB": {
+  "section": "excluded",
+  "reason": "the utility's dropdown / database master (65k rows) — lookup data, not a schedule"
+ },
+ "TaxCalc": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden computation sheet — the method behind Part D tax, the interest u/s 234A/234B/234C and the fee u/s 234F on the Income Details sheet; read, not shown (rule 7)"
+ }
+}
