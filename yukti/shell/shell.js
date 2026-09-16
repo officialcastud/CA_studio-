@@ -256,7 +256,7 @@ function importFile(txt){let j;try{j=JSON.parse(txt);}catch(e){alert("That file 
     if(typeof afterOpen==="function")afterOpen();   /* the form may repair old working files here */
     S.open={};paint();alert("Working file loaded — every field is back as it was saved.");return;}
   const I=j&&j.ITR&&(j.ITR[FORM.id.replace("-","")]||Object.values(j.ITR)[0]);
-  if(I&&I.PartA_GEN1){
+  if(I&&(I.PartA_GEN1||I.PersonalInfo)){
     const got=importReturn(I);S.open={};paint();
     alert("Return JSON read back into the form: "+got.join(", ")+".\n\nComputed schedules — CYLA, BFLA, SI, AMT, Part B — are recomputed from these. Check the date of filing, which the return does not carry.");return;}
   const got=[];const pan=deepFind(j,["PAN","pan"]);

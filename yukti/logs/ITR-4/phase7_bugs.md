@@ -93,3 +93,39 @@ Format: `section → schema key / figure → what's wrong → expected`.
 - **return-JSON round-trip not identical:** bug 7 (shell `PartA_GEN1` gate).
 
 No further state-side fix is possible; only engine/build bugs remain.
+
+---
+
+## CEO resolution (all 7 fixed; 3 further issues surfaced on re-assembly, all fixed) — Gates 0–7 GREEN
+
+1&2. `10_state.js` SKEL: `CreationInfo` → `SWVersionNo:"1.0"`, `SWCreatedBy/JSONCreatedBy:"SW10000000"`,
+   `Digest:"-"`; `Form_ITR4` → `FormName:"ITR-4"`, `AssessmentYear:"2026"`, `SchemaVer/FormVer:"Ver1.0"`,
+   plus a ≤75-char `Description` (schema `maxLength:75`).
+3. `70_sec_inccore.js` — export writes `FilingStatus.F10IEACurrAYOldRegime:"Y"` and import reads `==="Y"`.
+4. `70_sec_inccore.js` — the captured `const IC=S.ic` is now kept in sync: seeding moved into `seedIC()`,
+   and a new `afterOpen()` (called by shell `importFile`) folds a freshly-loaded `S.ic` back into the
+   captured `IC` and re-seeds. Every engine still closes over one live object.
+5. `70_sec_inccore.js` `engInc` now publishes `S.C.sal={basicDA}` (17(1) salary, the closest proxy this
+   form captures for basic+DA), `S.C.os={sav,dep}` (savings-bank / deposit interest, summed by OS nature
+   SAV/IFD). `ded`'s 80CCD(2)/80TTA/80TTB caps now bind.
+6. `pi.res` collision split: residential status keeps `S.pi.res` (also read by `ded`), and the address
+   Flat/Door line moves to `S.pi.resNo` (input, `Address.ResidenceNo` export, import). No schema
+   residential-status field exists in ITR-4 (resident-only form), so `pi.res` is UI/gating-only.
+7. `shell/shell.js` `importFile` — return detection generalised to `I.PartA_GEN1 || I.PersonalInfo`
+   (backward-compatible: ITR-2/ITR-3 returns still match on `PartA_GEN1`).
+
+Surfaced on re-assembly and fixed:
+- **Chapter VI-A per-line values never exported.** inccore wrote only `TotalChapVIADeductions`; the
+  per-section `Section80*` amounts stayed at SKEL 0, so rules A290/A293/A248 (claimed = sub-schedule
+  total) failed. `engDed` already builds ready-made `usr`/`cap` objects; inccore now drops every line in
+  (type-aware: numeric amounts via `n0`, qualifier fields as-is). `engDed.usr` also now carries the
+  schema qualifiers `PRANDtls` (80CCD1B), `Section80DDBUsrType`/`NameOfSpecDisease80DDB` (80DDB),
+  `Form10BAAckNum` (80GG) and `PensionContribution80CCC` (80CCC) — `impDed` already read these back, so
+  writing them is what makes the return round-trip and clears the re-export guards (PRAN / disease).
+- **Rule A311 (HRA) double-subtracted.** `ActlRentPaid10Per` already holds "rent − 10% of salary"
+  (book G10, and rule 311's own text), so the ceiling is that field itself, not `ActlRentPaid` minus it.
+- **Test state HP1 co-ownership was unlawful** (`co:"YES"`, `share:100`, co-owner share 0 → violates
+  A406). Co-owner economically held 0%, so it is represented as sole ownership (`co:"NO"`), which keeps
+  every hand figure intact. *(state-side fix, `tests/ITR-4/state.js`.)*
+
+Final: Gates 0–7 all GREEN; hand figures GTI ₹16,71,500 · TI ₹7,15,500 match the engine to the rupee.

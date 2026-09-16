@@ -88,7 +88,10 @@ ruleset(function(I,S_,A,Dd){
 
   /* HRA helper schedule (10(13A)) */
   if(I.ScheduleEA10_13A){ var H2=I.ScheduleEA10_13A;
-    A(311, isNew() || N(H2.EligbleExmpAllwncUs13A) <= Math.max(0, N(H2.ActlRentPaid)-N(H2.ActlRentPaid10Per))+1,
+    /* ActlRentPaid10Per already holds "rent paid after deducting 10% of salary"
+       (leg B = rent − 10%×(basic+DA), per the book G10 and rule 311's own text),
+       so the ceiling is that field itself — not ActlRentPaid minus it. */
+    A(311, isNew() || N(H2.EligbleExmpAllwncUs13A) <= N(H2.ActlRentPaid10Per)+1,
       "Old regime: HRA exempt u/s 10(13A) cannot exceed actual rent paid less 10% of salary.");
   }
 

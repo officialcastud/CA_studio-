@@ -20,19 +20,19 @@ const SEED={};
 const SKEL=
 {
  "CreationInfo": {
-  "SWVersionNo": "na",
-  "SWCreatedBy": "na",
-  "JSONCreatedBy": "na",
+  "SWVersionNo": "1.0",
+  "SWCreatedBy": "SW10000000",
+  "JSONCreatedBy": "SW10000000",
   "JSONCreationDate": "2026-01-01",
   "IntermediaryCity": "na",
-  "Digest": "na"
+  "Digest": "-"
  },
  "Form_ITR4": {
-  "FormName": "na",
-  "Description": "na",
-  "AssessmentYear": "na",
-  "SchemaVer": "na",
-  "FormVer": "na"
+  "FormName": "ITR-4",
+  "Description": "For presumptive income from Business & Profession (44AD/44ADA/44AE)",
+  "AssessmentYear": "2026",
+  "SchemaVer": "Ver1.0",
+  "FormVer": "Ver1.0"
  },
  "PersonalInfo": {
   "AssesseeName": {

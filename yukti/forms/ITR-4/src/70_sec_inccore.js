@@ -59,27 +59,38 @@ if(S.fs.seventh===undefined)S.fs.seventh="N";      /* SeventhProvisio139 */
 if(S.fs.rep===undefined)    S.fs.rep="N";          /* AsseseeRepFlg */
 S.fs.clause7 = S.fs.clause7 || [];                 /* clauseiv7provisio139iDtls[] */
 
-/* ic — this builder's own working namespace (arrays seeded [], cards off) */
+/* ic — this builder's own working namespace (arrays seeded [], cards off).
+   IC is captured once and every engine below closes over it, so it must
+   ALWAYS equal S.ic. seedIC() fills missing keys; afterOpen() re-points IC
+   to a freshly-loaded S.ic (importFile replaces the object) then re-seeds,
+   so opening a saved working file never leaves the engines on a stale ic. */
 S.ic = S.ic || {};
 const IC=S.ic;
-IC.sal = IC.sal || {};                             /* salary breakup */
-IC.sal.alw = IC.sal.alw || [];                     /* AllwncExemptUs10Dtls[] */
-IC.hp  = IC.hp  || [];                             /* PropertyDetails[] (max 2) */
-IC.os  = IC.os  || {};                             /* other sources */
-IC.os.rows = IC.os.rows || [];                     /* OthersIncDtlsOthSrc[] */
-IC.bp  = IC.bp  || {};                             /* ScheduleBP */
-IC.bp.nad  = IC.bp.nad  || [];                     /* NatOfBus44AD[] */
-IC.bp.ad   = IC.bp.ad   || {};                     /* PersumptiveInc44AD */
-IC.bp.nada = IC.bp.nada || [];                     /* NatOfBus44ADA[] */
-IC.bp.ada  = IC.bp.ada  || {};                     /* PersumptiveInc44ADA */
-IC.bp.nae  = IC.bp.nae  || [];                     /* NatOfBus44AE[] */
-IC.bp.gcv  = IC.bp.gcv  || [];                     /* GoodsDtlsUs44AE[] (max 10) */
-IC.bp.ae   = IC.bp.ae   || {};                     /* PersumptiveInc44AE (E6 SalInterestByFirm) */
-IC.bp.gstn = IC.bp.gstn || [];                     /* TurnoverGrsRcptForGSTIN[] */
-IC.bp.fin  = IC.bp.fin  || {};                     /* FinanclPartclrOfBusiness */
-IC.ltcg = IC.ltcg || {};                           /* LTCG112A (D20a) */
-IC.exmp = IC.exmp || [];                           /* TaxExmpIntIncDtls OthersIncDtls[] (D20) */
-IC.d   = IC.d   || {};                             /* Part D inputs (relief 89, interest, fees) */
+function seedIC(){
+  IC.sal = IC.sal || {};                           /* salary breakup */
+  IC.sal.alw = IC.sal.alw || [];                   /* AllwncExemptUs10Dtls[] */
+  IC.hp  = IC.hp  || [];                            /* PropertyDetails[] (max 2) */
+  IC.os  = IC.os  || {};                            /* other sources */
+  IC.os.rows = IC.os.rows || [];                    /* OthersIncDtlsOthSrc[] */
+  IC.bp  = IC.bp  || {};                            /* ScheduleBP */
+  IC.bp.nad  = IC.bp.nad  || [];                    /* NatOfBus44AD[] */
+  IC.bp.ad   = IC.bp.ad   || {};                    /* PersumptiveInc44AD */
+  IC.bp.nada = IC.bp.nada || [];                    /* NatOfBus44ADA[] */
+  IC.bp.ada  = IC.bp.ada  || {};                    /* PersumptiveInc44ADA */
+  IC.bp.nae  = IC.bp.nae  || [];                    /* NatOfBus44AE[] */
+  IC.bp.gcv  = IC.bp.gcv  || [];                    /* GoodsDtlsUs44AE[] (max 10) */
+  IC.bp.ae   = IC.bp.ae   || {};                    /* PersumptiveInc44AE (E6 SalInterestByFirm) */
+  IC.bp.gstn = IC.bp.gstn || [];                    /* TurnoverGrsRcptForGSTIN[] */
+  IC.bp.fin  = IC.bp.fin  || {};                    /* FinanclPartclrOfBusiness */
+  IC.ltcg = IC.ltcg || {};                          /* LTCG112A (D20a) */
+  IC.exmp = IC.exmp || [];                          /* TaxExmpIntIncDtls OthersIncDtls[] (D20) */
+  IC.d   = IC.d   || {};                            /* Part D inputs (relief 89, interest, fees) */
+}
+seedIC();
+function afterOpen(){
+  if(S.ic&&S.ic!==IC){for(const k in IC)delete IC[k];Object.assign(IC,S.ic);}
+  S.ic=IC;seedIC();
+}
 
 /* SEED — the shell's add-row handler carries its own literal seed table and
    shadows this global SEED; these are documented defaults (rows added blank). */
@@ -246,12 +257,14 @@ function engInc(){
   hpHead = isNew() ? Math.max(0, hpHead) : Math.max(-200000, hpHead);
 
   /* ---- Other sources (B4) ---- */
-  let osGross=0; const osCalc=[]; let famPension=0;
+  let osGross=0; const osCalc=[]; let famPension=0; let savInt=0; let depInt=0;
   (IC.os.rows||[]).forEach(r=>{
     let amt;
     if(r.nat==="DIV"){ amt=N(r.q1)+N(r.q2)+N(r.q3)+N(r.q4)+N(r.q5); }  /* dividend quarter split H163–H168 */
     else { amt=N(r.amt); }
     if(r.nat==="FAP") famPension+=amt;
+    if(r.nat==="SAV") savInt+=amt;                                    /* savings-bank interest → 80TTA cap */
+    if(r.nat==="IFD") depInt+=amt;                                    /* deposit interest → 80TTB cap */
     osGross+=amt; osCalc.push({amt});
   });
   /* F170 57(iia) family-pension deduction: old regime only; ≤ lower of 1/3 FP or 15,000 [#475/#480] */
@@ -272,6 +285,11 @@ function engInc(){
              osGross, famPension, ded57, incOS, ltSale,ltCost,ltGain,long112a };
   S.C.inc=A;
   S.C.hp={ income:hpHead, calc:hpCalc };
+  /* bases the Chapter VI-A engine (70_sec_ded.js) reads to clamp its caps:
+     80CCD(2) → basicDA (the 17(1) salary, the closest proxy this form captures
+     for basic+DA); 80TTA → savings-bank interest; 80TTB → deposit interest. */
+  S.C.sal={ basicDA:s1 };
+  S.C.os={ sav:savInt, dep:depInt };
 }
 
 /* =====================================================================
@@ -345,7 +363,7 @@ function secWho(){
     hint:"'Not Applicable' greys off the salary schedule"});
 
   h+=sub("Primary address (for communication)");
-  h+=row("Flat / Door / Block No.",inp("pi.res",{max:50}),{req:1,ref:"E10"});
+  h+=row("Flat / Door / Block No.",inp("pi.resNo",{max:50}),{req:1,ref:"E10"});
   h+=row("Premises / Building / Village",inp("pi.resName",{max:50}),{});
   h+=row("Road / Street / Post Office",inp("pi.road",{max:50}),{ref:"E12"});
   h+=row("Area / Locality",inp("pi.locality",{max:50}),{req:1});
@@ -698,7 +716,7 @@ function expInc(j){
   put(j,"PersonalInfo.AssesseeName.MiddleName",sv(S.pi.mid));
   put(j,"PersonalInfo.AssesseeName.SurNameOrOrgName",sv(S.pi.last));
   put(j,"PersonalInfo.PAN",sv(S.pi.pan));
-  put(j,"PersonalInfo.Address.ResidenceNo",sv(S.pi.res));
+  put(j,"PersonalInfo.Address.ResidenceNo",sv(S.pi.resNo));
   put(j,"PersonalInfo.Address.ResidenceName",sv(S.pi.resName));
   put(j,"PersonalInfo.Address.RoadOrStreet",sv(S.pi.road));
   put(j,"PersonalInfo.Address.LocalityOrArea",sv(S.pi.locality));
@@ -733,7 +751,7 @@ function expInc(j){
     if(N(S.fs.f10ieaAck)) put(j,"FilingStatus.Form10IEAEarlierAYAckOldRegime",R(N(S.fs.f10ieaAck)));
   }
   if(S.fs.optout==="Yes"){
-    put(j,"FilingStatus.F10IEACurrAYOldRegime","Yes");
+    put(j,"FilingStatus.F10IEACurrAYOldRegime","Y");
     put(j,"FilingStatus.F10IEADateCurrAYOldTax",ISO(S.fs.f10ieaDateCur));
     if(N(S.fs.f10ieaAckCur)) put(j,"FilingStatus.F10IEAAckNoCurrAYOldTax",R(N(S.fs.f10ieaAckCur)));
   }
@@ -838,8 +856,15 @@ function expInc(j){
 
   put(j,"IncomeDeductions.GrossTotIncome",sg(t.gti));
   put(j,"IncomeDeductions.GrossTotIncomeIncLTCG112A",sg(t.gtiInc));
-  put(j,"IncomeDeductions.UsrDeductUndChapVIA.TotalChapVIADeductions",n0((S.C.ded||{}).total));
-  put(j,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions",n0(t.via));
+  /* Chapter VI-A per-line values: the `ded` builder hands over two ready-made,
+     schema-keyed objects — usr (user-claimed) and cap (allowed, post-cap/regime)
+     — each already carrying its own TotalChapVIADeductions. Drop every line in,
+     so the summary blocks match their sub-schedules (rules A290/A293/A248/A18). */
+  const dUsr=(S.C.ded||{}).usr||{}, dCap=(S.C.ded||{}).cap||{};
+  const putVIA=(base,o)=>Object.keys(o).forEach(f=>{const v=o[f];
+    put(j,base+"."+f, (typeof v==="number")?n0(v):v);});   /* amounts n0; qualifiers (PRANDtls[], disease, type) as-is */
+  putVIA("IncomeDeductions.UsrDeductUndChapVIA",dUsr);
+  putVIA("IncomeDeductions.DeductUndChapVIA",dCap);
   put(j,"IncomeDeductions.TotalIncome",sg(t.ti));
 
   /* ---- ScheduleBP ---- */
@@ -918,7 +943,7 @@ function impInc(I4){
   if(P){
     const nm=P.AssesseeName||{}; S.pi.first=nm.FirstName||""; S.pi.mid=nm.MiddleName||""; S.pi.last=nm.SurNameOrOrgName||"";
     S.pi.pan=P.PAN||S.pi.pan;
-    const a=P.Address||{}; S.pi.res=a.ResidenceNo||""; S.pi.resName=a.ResidenceName||""; S.pi.road=a.RoadOrStreet||"";
+    const a=P.Address||{}; S.pi.resNo=a.ResidenceNo||""; S.pi.resName=a.ResidenceName||""; S.pi.road=a.RoadOrStreet||"";
     S.pi.locality=a.LocalityOrArea||""; S.pi.city=a.CityOrTownOrDistrict||""; S.pi.state=a.StateCode||"";
     S.pi.country=a.CountryCode||"91"; S.pi.pin=a.PinCode!=null?String(a.PinCode):""; S.pi.zip=a.ZipCode||"";
     if(a.Phone){ S.pi.std=a.Phone.STDcode!=null?String(a.Phone.STDcode):""; S.pi.phone=a.Phone.PhoneNo||""; }
@@ -934,7 +959,7 @@ function impInc(I4){
     S.fs.sec=FSt.ReturnFileSec!=null?FSt.ReturnFileSec:11;
     S.fs.f10ieaEarlier=FSt.Form10IEAEarlierAYOldRegime||"NA";
     S.fs.f10ieaAY=FSt.Form10IEAAssYear||""; S.fs.f10ieaAck=FSt.Form10IEAEarlierAYAckOldRegime||"";
-    S.fs.optout=(FSt.F10IEACurrAYOldRegime==="Yes")?"Yes":"No";
+    S.fs.optout=(FSt.F10IEACurrAYOldRegime==="Y")?"Yes":"No";
     S.fs.f10ieaDateCur=dmy(FSt.F10IEADateCurrAYOldTax)||""; S.fs.f10ieaAckCur=FSt.F10IEAAckNoCurrAYOldTax||"";
     S.fs.seventh=FSt.SeventhProvisio139||"N";
     S.fs.dep1cr=FSt.DepAmtAggAmtExcd1CrPrYrFlg||""; S.fs.dep1crAmt=FSt.AmtSeventhProvisio139i||"";

@@ -2,19 +2,19 @@
  "ITR": {
   "ITR4": {
    "CreationInfo": {
-    "SWVersionNo": "na",
-    "SWCreatedBy": "na",
-    "JSONCreatedBy": "na",
+    "SWVersionNo": "1.0",
+    "SWCreatedBy": "SW10000000",
+    "JSONCreatedBy": "SW10000000",
     "JSONCreationDate": "2026-01-01",
     "IntermediaryCity": "na",
-    "Digest": "na"
+    "Digest": "-"
    },
    "Form_ITR4": {
-    "FormName": "na",
-    "Description": "na",
-    "AssessmentYear": "na",
-    "SchemaVer": "na",
-    "FormVer": "na"
+    "FormName": "ITR-4",
+    "Description": "For presumptive income from Business & Profession (44AD/44ADA/44AE)",
+    "AssessmentYear": "2026",
+    "SchemaVer": "Ver1.0",
+    "FormVer": "Ver1.0"
    },
    "PersonalInfo": {
     "AssesseeName": {
@@ -23,7 +23,7 @@
     },
     "PAN": "TVOPS4373C",
     "Address": {
-     "ResidenceNo": "RES",
+     "ResidenceNo": "na",
      "LocalityOrArea": "Richmond Town",
      "CityOrTownOrDistrict": "Bengaluru",
      "StateCode": "15",
@@ -51,7 +51,7 @@
     "Form10IEAEarlierAYOldRegime": "N",
     "AsseseeRepFlg": "N",
     "ItrFilingDueDate": "2026-08-31",
-    "F10IEACurrAYOldRegime": "Yes",
+    "F10IEACurrAYOldRegime": "Y",
     "F10IEADateCurrAYOldTax": "2026-07-25",
     "F10IEAAckNoCurrAYOldTax": 123456789012345,
     "SeventhProvisio139": "N"
@@ -67,42 +67,60 @@
     "GrossTotIncome": 1571500,
     "GrossTotIncomeIncLTCG112A": 1671500,
     "UsrDeductUndChapVIA": {
-     "Section80C": 0,
-     "Section80CCC": 0,
-     "Section80CCDEmployeeOrSE": 0,
-     "Section80CCD1B": 0,
-     "Section80CCDEmployer": 0,
-     "Section80D": 0,
-     "Section80DD": 0,
-     "Section80DDB": 0,
-     "Section80E": 0,
-     "Section80G": 0,
+     "Section80C": 90000,
+     "Section80CCC": 20000,
+     "Section80CCDEmployeeOrSE": 40000,
+     "Section80CCD1B": 50000,
+     "Section80CCDEmployer": 50000,
+     "Section80D": 71000,
+     "Section80DD": 75000,
+     "Section80DDB": 40000,
+     "Section80E": 80000,
+     "Section80G": 100000,
      "Section80GG": 0,
-     "Section80GGC": 0,
-     "Section80U": 0,
-     "Section80TTA": 0,
+     "Section80GGC": 25000,
+     "Section80U": 75000,
+     "Section80TTA": 10000,
      "Section80TTB": 0,
-     "AnyOthSec80CCH": 0,
-     "TotalChapVIADeductions": 956000
+     "AnyOthSec80CCH": 50000,
+     "TotalChapVIADeductions": 956000,
+     "Section80EEA": 100000,
+     "Section80EEB": 80000,
+     "PRANDtls": [
+      {
+       "PRANNum": "110012345678"
+      }
+     ],
+     "Section80DDBUsrType": "1",
+     "NameOfSpecDisease80DDB": "k",
+     "PensionContribution80CCC": [
+      {
+       "TypeofIdentifier": "OTHPRAN",
+       "NameofIdentifier": "LIC Jeevan Akshay 4455",
+       "Amount": 20000
+      }
+     ]
     },
     "DeductUndChapVIA": {
-     "Section80C": 0,
-     "Section80CCC": 0,
-     "Section80CCDEmployeeOrSE": 0,
-     "Section80CCD1B": 0,
-     "Section80CCDEmployer": 0,
-     "Section80D": 0,
-     "Section80DD": 0,
-     "Section80DDB": 0,
-     "Section80E": 0,
-     "Section80G": 0,
+     "Section80C": 90000,
+     "Section80CCC": 20000,
+     "Section80CCDEmployeeOrSE": 40000,
+     "Section80CCD1B": 50000,
+     "Section80CCDEmployer": 50000,
+     "Section80D": 71000,
+     "Section80DD": 75000,
+     "Section80DDB": 40000,
+     "Section80E": 80000,
+     "Section80G": 100000,
      "Section80GG": 0,
-     "Section80GGC": 0,
-     "Section80U": 0,
-     "Section80TTA": 0,
+     "Section80GGC": 25000,
+     "Section80U": 75000,
+     "Section80TTA": 10000,
      "Section80TTB": 0,
-     "AnyOthSec80CCH": 0,
-     "TotalChapVIADeductions": 956000
+     "AnyOthSec80CCH": 50000,
+     "TotalChapVIADeductions": 956000,
+     "Section80EEA": 100000,
+     "Section80EEB": 80000
     },
     "TotalIncome": 715500,
     "Salary": 800000,
@@ -133,17 +151,8 @@
        "PinCode": 560025
       },
       "PropertyOwner": "SE",
-      "PropCoOwnedFlg": "YES",
+      "PropCoOwnedFlg": "NO",
       "AsseseeShareProperty": 100,
-      "CoOwners": [
-       {
-        "CoOwnersSNo": 1,
-        "NameCoOwner": "Lakshmi Sudhir",
-        "PAN_CoOwner": "AKPPL2211M",
-        "Aadhaar_CoOwner": "612345678901",
-        "PercentShareProperty": 0
-       }
-      ],
       "ifLetOut": "L",
       "TenantDetails": [
        {

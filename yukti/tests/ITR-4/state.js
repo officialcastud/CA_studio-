@@ -67,8 +67,7 @@ S.ic.bp = {
 /* House property (IncomeDeductions.PropertyDetails) — one let-out, one self-occupied */
 S.ic.hp = [
   { addr:"No. 42, 3rd Cross, Richmond Town", city:"Bengaluru", state:"15", pin:"560025", country:"91",
-    owner:"SE", let:"L", co:"YES", share:100,
-    coown:[ {name:"Lakshmi Sudhir", pan:"AKPPL2211M", aadhaar:"612345678901", share:0} ],
+    owner:"SE", let:"L", co:"NO", share:100,
     tenant:[ {name:"Rohan Mehta", pan:"BQAPM7788N", aadhaar:"501234567890", pantan:"BQAPM7788N"} ],
     gross:360000, notReal:0, localTax:40000, arrears:0,
     loans:[ {from:"B", name:"HDFC Bank", accno:"HL77812345", date:"20/07/2021", total:4500000, outst:3900000, intr:200000} ] },

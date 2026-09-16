@@ -261,6 +261,16 @@ function engDed(){
   const cchOut=n0(out.c80cch)+n0(out.c80oth);
   if(cchClaim)usr.AnyOthSec80CCH=n0(Math.min(cchClaim,288000));
   if(cchOut)cap.AnyOthSec80CCH=n0(Math.min(cchOut,288000));
+  /* qualifier fields the UsrDeductUndChapVIA schema carries beside the amounts;
+     only when the matching claim survives (all close under 115BAC). impDed reads
+     each back, so writing them here is what makes the return round-trip. */
+  if(usr.Section80CCD1B&&/^\d{12}$/.test(st0(S.ded.v.pran)))usr.PRANDtls=[{PRANNum:st0(S.ded.v.pran)}];
+  if(usr.Section80DDB){if(st0(S.ded.v.ddb_type))usr.Section80DDBUsrType=st0(S.ded.v.ddb_type)==="2"?"2":"1";
+    if(st0(S.ded.v.ddb_disease))usr.NameOfSpecDisease80DDB=st0(S.ded.v.ddb_disease);}
+  if(usr.Section80GG&&/^\d{15}$/.test(st0(S.ded.v.ack10ba)))usr.Form10BAAckNum=st0(S.ded.v.ack10ba);
+  if(usr.Section80CCC){const pc=(S.ded.pen80ccc||[]).filter(r=>N(r.amt)).map(r=>({
+      TypeofIdentifier:r.type==="OTHPRAN"?"OTHPRAN":"PRAN",NameofIdentifier:(sv(r.id)||"NA").slice(0,125),Amount:n0(r.amt)}));
+    if(pc.length)usr.PensionContribution80CCC=pc;}
   const usrTotal=keys.reduce((a,k)=>a+(regOpen(k)?R(claim(k)):0),0);
   usr.TotalChapVIADeductions=n0(usrTotal);
   cap.TotalChapVIADeductions=n0(allowed);
