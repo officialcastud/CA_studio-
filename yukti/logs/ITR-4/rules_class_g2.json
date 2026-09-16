@@ -1,0 +1,448 @@
+{
+ "coded": [
+  6,
+  9,
+  12,
+  54,
+  57,
+  63,
+  66,
+  69,
+  75,
+  78,
+  96,
+  111,
+  120,
+  126,
+  129,
+  132,
+  135,
+  138,
+  144,
+  177,
+  189,
+  195,
+  198,
+  201,
+  204,
+  207,
+  210,
+  237,
+  240,
+  243,
+  276,
+  297,
+  300,
+  351
+ ],
+ "excluded": [
+  {
+   "n": 3,
+   "reason": "ScheduleBP financial-particulars components (own capital/secured/unsecured/advances/other liab) are not exported in the ITR-4 (Sugam) schema; only TotCapLiabilities/creditors/debtors/stock/cash/bank are written, so the equality cannot be checked."
+  },
+  {
+   "n": 15,
+   "reason": "44ADA-vs-business eligibility rule; no clean cross-field mapping to exported keys."
+  },
+  {
+   "n": 18,
+   "reason": "Per-section Chapter VI-A breakup (DeductUndChapVIA.Section80X) is not populated by the exporter (only TotalChapVIADeductions is written), and the total is GTI-clamped so total<sum is legitimately possible \u2014 would false-fire."
+  },
+  {
+   "n": 21,
+   "reason": "80C+80CCC+80CCD(1) combined cap needs the three per-section VIA amounts, which are not exported (only sub-schedule 80C total exists)."
+  },
+  {
+   "n": 24,
+   "reason": "Entity-eligibility (non-individual claiming 80CCD(1B)); the 80CCD(1B) per-section amount is not exported and rule is not applicable to a resident individual."
+  },
+  {
+   "n": 27,
+   "reason": "Entity-eligibility (firm claiming 80D); not applicable to a resident individual."
+  },
+  {
+   "n": 30,
+   "reason": "UsrDeductUndChapVIA.NameOfSpecDisease80DDB / Section80DDBUsrType are read on import but never written on export, so a valid 80DDB claim would show the field missing and false-fire."
+  },
+  {
+   "n": 33,
+   "reason": "Entity-eligibility (HUF/firm claiming 80EE); not applicable to a resident individual."
+  },
+  {
+   "n": 36,
+   "reason": "80G eligible-amount cap needs per-section VIA amount vs Schedule 80G eligible; per-section VIA not exported."
+  },
+  {
+   "n": 39,
+   "reason": "80TTA-for-senior-citizen depends on the senior determination and 80TTA per-section amount, which is not exported."
+  },
+  {
+   "n": 42,
+   "reason": "80U fixed-amount category rule needs the per-section 80U user value vs Schedule 80U; category-to-amount mapping risky and per-section VIA not exported."
+  },
+  {
+   "n": 45,
+   "reason": "Representative-name mandatory-presence is format/presence only (exporter defaults) and depends on verification capacity text."
+  },
+  {
+   "n": 48,
+   "reason": "Requires the external PAN name database (name match)."
+  },
+  {
+   "n": 51,
+   "reason": "87A rebate for resident individual with total income>5L (old regime) needs residential-status + LTCG112A interplay; 87A is engine-computed already and the eligibility mapping is unsafe against a valid return."
+  },
+  {
+   "n": 60,
+   "reason": "TotalIncomeChargeableUnHP is floored (max -2,00,000 / 0 in new regime) so it legitimately differs from the raw sum of per-property IncomeOfHP for multi-property returns \u2014 would false-fire."
+  },
+  {
+   "n": 72,
+   "reason": "Rule text truncated/unclear (10(7) allowances outside India); no reliable cap mapping."
+  },
+  {
+   "n": 81,
+   "reason": "Rule text is a garbled merge of two conditions (10(14)(ii) vs 17(1) and a regime clause); unsafe to encode."
+  },
+  {
+   "n": 84,
+   "reason": "Exempt-income dropdown in ITR-4 uses 8 broad Category codes, not specific section codes like 10(11); the specific dropdown does not exist to be duplicate-checked."
+  },
+  {
+   "n": 87,
+   "reason": "Same as 84 \u2014 Sec 10(16) is not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 90,
+   "reason": "Same as 84 \u2014 Sec 10(18) is not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 93,
+   "reason": "Same as 84 \u2014 Sec 10(26) is not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 99,
+   "reason": "Schedule 80G table-A cash/other-mode mandatory presence; exporter defaults amounts and a total-only entry could false-fire."
+  },
+  {
+   "n": 102,
+   "reason": "Schedule 80G table-D cash/other-mode mandatory presence; same false-fire risk as 99."
+  },
+  {
+   "n": 105,
+   "reason": "Schedule 80G table-B total=cash+other: exporter sets DonationAmt from the entered total (may not equal cash+other) \u2014 would false-fire."
+  },
+  {
+   "n": 108,
+   "reason": "80G cash-donation aggregation by PAN over Rs.2000; exporter does not group by PAN, so eligible amount legitimately differs \u2014 cannot check offline safely."
+  },
+  {
+   "n": 114,
+   "reason": "Exporter couples DeductedYr with BroughtFwdTDSAmt (both emitted together), so the condition can never be violated \u2014 not independently checkable."
+  },
+  {
+   "n": 117,
+   "reason": "TDS2(i) claim vs income needs GrossAmount (SR.7) which is optional and frequently omitted on valid rows \u2014 would false-fire."
+  },
+  {
+   "n": 123,
+   "reason": "Requires the RBI/GIFT IFSC code database."
+  },
+  {
+   "n": 141,
+   "reason": "Rule text is a garbled merge (no BP income disclosed AND 44AE months>12/holding>120); no coherent single assertion."
+  },
+  {
+   "n": 147,
+   "reason": "80DD fixed-sum for severe disability: engine caps (min) rather than forces exactly 1,25,000, so a valid claim entered lower would false-fire."
+  },
+  {
+   "n": 150,
+   "reason": "80EE 50k cap: only Schedule 80EE interest paid is exported (can exceed the cap while the allowed deduction is capped); per-section eligible not exported."
+  },
+  {
+   "n": 153,
+   "reason": "80TTB 50k cap needs the 80TTB per-section amount, which is not exported."
+  },
+  {
+   "n": 156,
+   "reason": "80EEA 1.5L cap: only interest paid is exported, not the capped eligible amount."
+  },
+  {
+   "n": 159,
+   "reason": "Exempt allowance 10(10B) not present in the ITR-4 salary allowance nature list; no exported key."
+  },
+  {
+   "n": 162,
+   "reason": "Relief u/s 89 with zero salary/family pension: Section89 is engine-computed and the salary/FP presence mapping is unsafe."
+  },
+  {
+   "n": 165,
+   "reason": "Entity-eligibility (HUF/firm with TDS1); not applicable to a resident individual."
+  },
+  {
+   "n": 168,
+   "reason": "80D Sl.1a self&family 25k sub-limit needs internal 80D breakup fields whose engine caps are risky to mirror."
+  },
+  {
+   "n": 171,
+   "reason": "80D Sl.1b senior 50k sub-limit \u2014 same 80D internal-field risk as 168."
+  },
+  {
+   "n": 174,
+   "reason": "80D Sl.2a sum consistency \u2014 conditional 80D internal-field rule, risky mapping."
+  },
+  {
+   "n": 180,
+   "reason": "Entity-eligibility (family pension for firm/HUF); not applicable to a resident individual."
+  },
+  {
+   "n": 183,
+   "reason": "New-regime: all deductions except 80CCD(2)/80CCH must be 0 \u2014 cannot isolate the non-surviving total from the exported VIA total."
+  },
+  {
+   "n": 186,
+   "reason": "10(14)(ii) transport-allowance 38,400 cap applies only to the handicapped sub-type, which is not distinguishable from other 10(14)(ii) allowances in the export \u2014 would false-fire."
+  },
+  {
+   "n": 192,
+   "reason": "New-regime 80TTA=0: 80TTA has no sub-schedule and no per-section exported key."
+  },
+  {
+   "n": 213,
+   "reason": "BP goods-carriage registration-number uniqueness across a section that is not exported as such; duplicate-format check."
+  },
+  {
+   "n": 216,
+   "reason": "80D Sl.1a allowed only if dropdown 1 = No; needs the 80D senior-flag dropdown interplay, risky."
+  },
+  {
+   "n": 219,
+   "reason": "80D Sl.2b allowed only if dropdown 2 = Yes; same 80D dropdown-interplay risk."
+  },
+  {
+   "n": 222,
+   "reason": "Exempt-income Category dropdown uses broad codes that may legitimately repeat; a uniqueness check would false-fire."
+  },
+  {
+   "n": 225,
+   "reason": "80CCH Agnipath eligibility needs nature-of-employment + age-at-joining, not exported."
+  },
+  {
+   "n": 228,
+   "reason": "Form 10IEA detail mandatory-presence (A23) \u2014 presence/format rule governed by conditional filing-status flags; exporter defaults."
+  },
+  {
+   "n": 231,
+   "reason": "Entity-eligibility (HUF VIA eligibility list); not applicable to a resident individual."
+  },
+  {
+   "n": 234,
+   "reason": "Due date is a fixed constant defaulted by the exporter (2026-08-31); not a violable cross-field check (may be extended)."
+  },
+  {
+   "n": 246,
+   "reason": "80GGC donation date mandatory: exporter always defaults DonationDate, so never violable."
+  },
+  {
+   "n": 249,
+   "reason": "80U user value = system value = Schedule 80U ii: per-section VIA amounts not exported."
+  },
+  {
+   "n": 252,
+   "reason": "80DD>0 requires Form 10IA details: Form10IAAckNum is a presence/format field the exporter omits when absent \u2014 would false-fire on a valid claim missing it."
+  },
+  {
+   "n": 255,
+   "reason": "Salary income requires nature-of-employment: EmployerCategory is always defaulted (OTH) by the exporter; presence not violable."
+  },
+  {
+   "n": 258,
+   "reason": "Requires the external Aadhaar/profile database (number match)."
+  },
+  {
+   "n": 261,
+   "reason": "New-regime 57(iia) up-to-25k: the ITR-4 engine only computes 57(iia) in the old regime (0 in new), so the check is vacuous."
+  },
+  {
+   "n": 264,
+   "reason": "Entity-eligibility (firm A23 115BAC(6) fields); not applicable to a resident individual."
+  },
+  {
+   "n": 267,
+   "reason": "Total income (excl LTCG112A) <= 50 lakh is an ITR-4 eligibility ceiling that the engine does not otherwise cap; encoding it risks flagging borderline valid returns and needs the exact eligibility base \u2014 deferred as unsafe."
+  },
+  {
+   "n": 270,
+   "reason": "80EE/80EEA claimable only when 24(b) limit exhausted: cross-schedule 24(b)-exhaustion state not derivable from exported keys."
+  },
+  {
+   "n": 273,
+   "reason": "80C nature/policy/document mandatory presence; format/presence only."
+  },
+  {
+   "n": 279,
+   "reason": "80EEA sanction date must be 1.4.19-31.3.22: exporter defaults DateofLoan to 2025-04-01 (outside range) when blank \u2014 would false-fire."
+  },
+  {
+   "n": 282,
+   "reason": "Form 10BA mandatory for 80GG: Form10BAAckNum is not exported by the ITR-4 exporter."
+  },
+  {
+   "n": 285,
+   "reason": "80D breakup rows must match health-insurance premium: needs 80D internal per-bucket detail matching; risky."
+  },
+  {
+   "n": 288,
+   "reason": "80DDB specified-decrease details required: presence/format field not reliably exported."
+  },
+  {
+   "n": 291,
+   "reason": "80E VIA = total interest paid: per-section VIA amount not exported."
+  },
+  {
+   "n": 294,
+   "reason": "80EEB VIA = total interest paid: per-section VIA amount not exported."
+  },
+  {
+   "n": 303,
+   "reason": "Entity-eligibility (firm cannot fill 80C/80E/80EE/80EEA/80EEB/10(13A)); not applicable to a resident individual."
+  },
+  {
+   "n": 306,
+   "reason": "80D insurer/policy details required at Sl.1a: presence/format field the exporter defaults to NA."
+  },
+  {
+   "n": 309,
+   "reason": "80D insurer/policy details required at Sl.2b: presence/format field the exporter defaults to NA."
+  },
+  {
+   "n": 312,
+   "reason": "HRA 10(13A) <= 50% of basic+DA: ScheduleEA10_13A eligible is engine-computed (least of A/B/C) and the 50% relation is already embedded; the metro/non-metro percentage differs (40/50) so a flat 50% cap would false-fire."
+  },
+  {
+   "n": 315,
+   "reason": "Schedule 10(13A) must be filled to claim 10(13A): the salary 10(13A) exempt allowance vs ScheduleEA presence \u2014 HRA is not in the ITR-4 salary allowance dropdown here, mapping unsafe."
+  },
+  {
+   "n": 318,
+   "reason": "Entity-eligibility (firm/HUF formation date on/after 01/04/2026); not applicable to a resident individual and date-of-formation not exported."
+  },
+  {
+   "n": 321,
+   "reason": "A23 one-of A23A/A23B response: conditional filing-status flag interplay; presence/format governed by defaults."
+  },
+  {
+   "n": 324,
+   "reason": "Eligible 80C <= user enterable: both are per-section VIA amounts, not exported."
+  },
+  {
+   "n": 327,
+   "reason": "Eligible 80CCD(1B) <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 330,
+   "reason": "Eligible 80DD <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 333,
+   "reason": "Eligible 80EE <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 336,
+   "reason": "Eligible 80G <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 339,
+   "reason": "Eligible 80TTA <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 342,
+   "reason": "Eligible 80CCH <= user enterable: per-section VIA amounts not exported."
+  },
+  {
+   "n": 345,
+   "reason": "Representative-assessee flag Y requires details: presence/format field governed by defaults."
+  },
+  {
+   "n": 348,
+   "reason": "Share-of-co-owned-property zero -> interest zero: AsseseeShareProperty is optional and omitted for ordinary self-owned properties (RG default 0), so a normal property with interest would false-fire."
+  },
+  {
+   "n": 354,
+   "reason": "A23(B) mandatory when A23=No: conditional filing-status flag interplay; presence/format."
+  },
+  {
+   "n": 357,
+   "reason": "A23(B)(i) mandatory when A23(A)(ii)(b)=Yes: conditional filing-status flag interplay."
+  },
+  {
+   "n": 360,
+   "reason": "A23(B)(i) mandatory when A23(B)=No: conditional filing-status flag interplay."
+  },
+  {
+   "n": 363,
+   "reason": "A23(A)(ii) cannot be blank when A(ii)(a)/(b) filled: conditional filing-status flag interplay."
+  },
+  {
+   "n": 366,
+   "reason": "80CCC sum of rows = total of payments: the 80CCC PensionContribution rows are not exported by the ITR-4 exporter (only sub-schedule 80C is)."
+  },
+  {
+   "n": 369,
+   "reason": "Sec 10(11A) not a distinct exported exempt-income dropdown value (broad Category codes only)."
+  },
+  {
+   "n": 372,
+   "reason": "Sec 10(12AB) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 375,
+   "reason": "Sec 10(12C) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 378,
+   "reason": "Sec 10(23AA) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 381,
+   "reason": "Sec 10(23FD) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 384,
+   "reason": "Sec 10(30) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 387,
+   "reason": "Sec 10(35) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 390,
+   "reason": "Sec 10(44) not a distinct exported exempt-income dropdown value."
+  },
+  {
+   "n": 393,
+   "reason": "A23(A)(ii)(a) AY vs A23(A)(i) AY ordering: conditional filing-status AY comparison; fields governed by defaults, unsafe."
+  },
+  {
+   "n": 396,
+   "reason": "80G cash-donation aggregation by PAN under Rs.2000: exporter does not group by PAN \u2014 cannot check offline safely."
+  },
+  {
+   "n": 399,
+   "reason": "80G either-cash-or-other-mode per row: a valid donor may legitimately give both cash and other-mode to one donee; encoding would risk false-fire."
+  },
+  {
+   "n": 404,
+   "reason": "Not-co-owned -> share=100%: AsseseeShareProperty is optional and omitted for ordinary self-owned properties (RG default 0 != 100) \u2014 would false-fire."
+  },
+  {
+   "n": 407,
+   "reason": "PRAN entered but 80CCD(1)/(1B) amount: rule text truncated and per-section VIA amounts not exported."
+  },
+  {
+   "n": 410,
+   "reason": "Secondary address mandatory: presence/format field; SecondaryAdd is always defaulted (Y) by the exporter."
+  }
+ ]
+}

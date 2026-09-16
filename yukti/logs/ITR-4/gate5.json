@@ -1,0 +1,10 @@
+{
+ "gate": 5,
+ "ok": false,
+ "failing": [
+  "schema errors \u2014 see above",
+  "working-file round-trip not identical",
+  "return-JSON round-trip not identical"
+ ],
+ "extra": {}
+}

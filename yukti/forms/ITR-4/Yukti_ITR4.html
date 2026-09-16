@@ -456,14 +456,398 @@ const SKEL=
  ["bank","Bank and verification","Taxes Paid and Verification"],
 ].forEach(([id,t,ref])=>reg({id,t,ref,f:()=>note("<b>"+esc(t)+"</b> — being built (Phase 4)."),s:()=>""}));
 
+/* ITR-4 validation rules. runRules(I,S_) returns [{cat:"A"|"D",n,msg}] — a rule
+   FIRES (is pushed) when its assertion is false. Checkable Category-A rules live
+   in 61_rules_g*.js ruleset() batches; this runner aggregates them. Helpers
+   RG/RSUM/REQ/N/R/isNew come from the shell. */
+function runRules(I,S_){
+  const out=[];
+  const A=(n,cond,msg)=>{if(!cond)out.push({cat:"A",n:n,msg:msg});};
+  const Dd=(n,cond,msg)=>{if(!cond)out.push({cat:"D",n:n,msg:msg});};
+  if(typeof _RULEBATCHES!=="undefined")_RULEBATCHES.forEach(rb=>{try{rb(I,S_,A,Dd);}catch(e){}});
+  return out;
+}
+function auditRules(b){return [];}
+
 /* =====================================================================
-   ITR-4 (Sugam) · AY 2026-27 — the department's validation rules (Phase 6).
-   Stubs for Phase 2: 90_wiring only defines runRules/auditRules if they are
-   not already functions, so these no-op definitions keep the shell contract
-   satisfied until the real rules (books/ITR-4/rules.json) are encoded.
+   ITR-4 (Sugam) · AY 2026-27 — Category-A validation rules, batch g0
+   (Phase 6, rules-enforcer). Registered via ruleset(fn); runRules()
+   invokes it as (I,S_,A,Dd). A(n,cond,msg) FIRES when cond (the
+   assertion that holds for a VALID return) is FALSE. Every read is
+   guarded (RG / (X||{}) / arrays default []), so nothing throws.
+   Regime: isNew()===false means the OLD regime (S.fs.optout==="Yes").
+   The valid old-regime test return must satisfy every assertion here.
+   Schema keys are the flat ITR-4 build (PersonalInfo/FilingStatus/
+   IncomeDeductions/TaxComputation/TaxPaid + Schedule* siblings).
    ===================================================================== */
-function runRules(I,S_){ return []; }
-function auditRules(b){ return []; }
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var ID   = RG(I,"IncomeDeductions",{})||{};
+  var USR  = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};
+  var ALW  = RG(I,"IncomeDeductions.DeductUndChapVIA",{})||{};   /* allowed (post-cap, post-regime) */
+  var status = RG(I,"PersonalInfo.Status","I");
+  var empcat = RG(I,"PersonalInfo.EmployerCategory","OTH");
+  var dob    = RG(I,"PersonalInfo.DOB","");
+  var GOVT   = ["CGOV","SGOV","PE","PESG"];                       /* govt / govt-pensioner employer categories */
+  var g = function(p){ return N(RG(I,p)); };                       /* numeric read, default 0 */
+
+  /* exempt-income (D20) rows and salary exempt-allowance rows */
+  var exRows  = RG(I,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",[])||[];
+  var alwRows = RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var cntSub = function(code){ return exRows.filter(function(r){return r&&r.SubCategory===code;}).length; };
+  var subAmt = function(code){ return RSUM(exRows.filter(function(r){return r&&r.SubCategory===code;}),"OthAmount"); };
+  var cntAlw = function(code){ return alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}).length; };
+  var alwAmt = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+
+  /* ---------------- Presumptive business (Schedule BP) ---------------- */
+  A(1, !(g("IncomeDeductions.IncomeFromBusinessProf")>0) || !!I.ScheduleBP,
+    "Presumptive income is disclosed in Gross Total Income but Schedule BP is not filled.");
+  if(I.ScheduleBP){ var BP=I.ScheduleBP;
+    A(7, REQ(RG(BP,"PersumptiveInc44AD.TotPersumptiveInc44AD"), N(RG(BP,"PersumptiveInc44AD.PersumptiveInc44AD6Per"))+N(RG(BP,"PersumptiveInc44AD.PersumptiveInc44AD8Per"))),
+      "Schedule BP: presumptive income u/s 44AD must equal 6% of turnover through bank plus 8% of turnover in any other mode.");
+    A(13, N(RG(BP,"PersumptiveInc44ADA.TotPersumptiveInc44ADA")) <= N(RG(BP,"PersumptiveInc44ADA.GrsReceipt"))+1,
+      "Schedule BP: presumptive income u/s 44ADA cannot be more than the corresponding gross receipts.");
+    A(16, !(N(RG(BP,"PersumptiveInc44ADA.TotPersumptiveInc44ADA"))>0) || RG(BP,"NatOfBus44ADA",[]).length>0,
+      "Schedule BP: when income is declared u/s 44ADA the business code u/s 44ADA is mandatory.");
+    A(136, REQ(RG(BP,"PersumptiveInc44AE.TotPersumInc44AE"), RSUM(RG(BP,"GoodsDtlsUs44AE",[]),"PresumptiveIncome")),
+      "Schedule BP: presumptive income from goods carriage u/s 44AE must equal the per-carriage breakup.");
+    A(97, REQ(RG(BP,"PersumptiveInc44AE.TotalPersumptiveInc"), Math.max(0, N(RG(BP,"PersumptiveInc44AE.TotPersumInc44AE"))-N(RG(BP,"PersumptiveInc44AE.SalInterestByFirm")))),
+      "Schedule BP: presumptive income u/s 44AE must be the goods-carriage income reduced by salary/interest paid to partners.");
+    A(238, N(RG(BP,"PersumptiveInc44ADA.GrsReceipt")) <= 5000000,
+      "Schedule BP: gross receipts u/s 44ADA above Rs. 50,00,000 require a tax audit — ITR-3/ITR-5 must be used, not ITR-4.");
+  }
+
+  /* ---------------- Gross total income / total income / tax roll-up ---------------- */
+  A(46, REQ(g("IncomeDeductions.TotalIncome"), Math.max(0, g("IncomeDeductions.GrossTotIncomeIncLTCG112A")-N(RG(I,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions")))),
+    "Total income must equal Gross Total Income minus total Chapter VI-A deductions.");
+  A(49, isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeChargeableUnHP")+g("LTCG112A.LongCap112A")),
+    "Gross Total Income must equal the sum of income from Business/Profession, Salary, House Property, Other Sources and LTCG.");
+  A(196, !isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeChargeableUnHP")+g("LTCG112A.LongCap112A")),
+    "New regime: Gross Total Income must equal the sum of income from Business/Profession, Salary, House Property, Other Sources and LTCG.");
+  A(19, N(RG(I,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions")) <= g("IncomeDeductions.GrossTotIncomeIncLTCG112A")+1,
+    "Deductions claimed under Chapter VI-A cannot be greater than Gross Total Income.");
+  A(52, REQ(g("TaxComputation.TaxPayableOnRebate"), Math.max(0, g("TaxComputation.TotalTaxPayable")-g("TaxComputation.Rebate87A"))),
+    "Tax after rebate must equal tax payable on total income minus rebate u/s 87A.");
+  A(124, !(g("TaxComputation.TotalTaxPayable")>0) || g("IncomeDeductions.GrossTotIncomeIncLTCG112A")>0,
+    "Tax has been computed but Gross Total Income is zero.");
+  A(229, isNew() || g("TaxComputation.Rebate87A") <= 12500,
+    "Old regime: rebate u/s 87A cannot exceed Rs. 12,500.");
+  if(I.LTCG112A) A(343, REQ(g("LTCG112A.LongCap112A"), g("IncomeDeductions.GrossTotIncomeIncLTCG112A")-g("IncomeDeductions.GrossTotIncome")),
+    "LTCG u/s 112A must equal Gross Total Income including LTCG minus Gross Total Income excluding LTCG.");
+
+  /* ---------------- Salary ---------------- */
+  A(64, REQ(g("IncomeDeductions.NetSalary"), Math.max(0, g("IncomeDeductions.GrossSalary")-g("IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10"))),
+    "Net salary must equal gross salary minus allowances exempt u/s 10.");
+  A(160, REQ(g("IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10"), RSUM(alwRows,"SalOthAmount")),
+    "Total allowance exempt u/s 10 must equal the sum of the individual exempt-allowance rows.");
+  A(67, isNew() || g("IncomeDeductions.EntertainmntalwncUs16ii") <= 5000,
+    "Old regime: entertainment allowance u/s 16(ii) is allowed only up to Rs. 5,000.");
+  A(262, g("IncomeDeductions.DeductionUs16ia") <= 75000,
+    "Standard deduction u/s 16(ia) cannot exceed Rs. 75,000.");
+  A(166, status==="I" || !(g("IncomeDeductions.GrossSalary")>0),
+    "A HUF or Firm cannot report salary income.");
+
+  /* salary exempt-allowance caps (old regime) and duplicate / eligibility checks */
+  var sal171 = g("IncomeDeductions.Salary");
+  A(70, isNew() || alwAmt("10(5)") <= sal171+1,
+    "Old regime: leave travel concession exempt u/s 10(5) cannot exceed salary as per section 17(1).");
+  A(73, GOVT.indexOf(empcat)>=0 || alwAmt("10(10)") <= 2000000,
+    "Death-cum-retirement gratuity exempt u/s 10(10) cannot exceed Rs. 20,00,000.");
+  A(76, alwAmt("10(10C)") <= 500000,
+    "Amount exempt u/s 10(10C) on voluntary retirement/termination cannot exceed Rs. 5,00,000.");
+  A(79, isNew() || alwAmt("10(13A)") <= R(0.5*sal171)+1,
+    "Old regime: HRA exempt u/s 10(13A) cannot exceed 50% of salary as per section 17(1).");
+  A(181, GOVT.indexOf(empcat)>=0 || alwAmt("10(10AA)") <= 2500000,
+    "Leave encashment exempt u/s 10(10AA) cannot exceed Rs. 25,00,000 for a non-government employee.");
+  A(223, GOVT.indexOf(empcat)<0 || (alwAmt("10(10B)(i)")===0 && alwAmt("10(10B)(ii)")===0),
+    "Exemption u/s 10(10B)(i)/(ii) is not available to government employees or government pensioners.");
+  A(226, alwAmt("10(10B)(ii)") <= 500000,
+    "Compensation exempt u/s 10(10B)-second proviso cannot exceed Rs. 5,00,000.");
+  A(214, (alwAmt("10(10B)(i)")>0?1:0)+(alwAmt("10(10B)(ii)")>0?1:0)+(alwAmt("10(10C)")>0?1:0) <= 1,
+    "Exemptions u/s 10(10B)-first proviso, 10(10B)-second proviso and 10(10C) cannot be claimed simultaneously.");
+  A(322, alwAmt("EIC")===0 || GOVT.indexOf(empcat)>=0,
+    "Exempt income of a judge (10-EIC) can be claimed only by a Central/State Government employee or pensioner.");
+  A(88, isNew() || cntAlw("10(17)") <= 1,
+    "Old regime: the exempt allowance u/s 10(17) (MP/MLA/MLC) cannot be selected more than once.");
+  A(184, !isNew() || (alwAmt("10(5)")===0 && alwAmt("10(13A)")===0 && alwAmt("10(14)(i)")===0 && alwAmt("10(14)(ii)")===0),
+    "New regime: exempt allowances u/s 10(5), 10(13A), 10(14)(i) and 10(14)(ii) must be zero.");
+  A(199, !isNew() || alwAmt("10(13A)")===0,
+    "New regime: HRA exempt u/s 10(13A) must be zero.");
+  A(202, !isNew() || alwAmt("10(17)")===0,
+    "New regime: exempt allowance u/s 10(17) (MP/MLA/MLC) must be zero.");
+
+  /* HRA helper schedule */
+  if(I.ScheduleEA10_13A){ var H=I.ScheduleEA10_13A;
+    A(313, N(H.EligbleExmpAllwncUs13A) <= N(H.ActlHRARecv)+1 && N(H.EligbleExmpAllwncUs13A) <= N(H.ActlRentPaid10Per)+1 && N(H.EligbleExmpAllwncUs13A) <= N(H.Sal40Or50Per)+1,
+      "Schedule 10(13A): the HRA exemption must be the least of actual HRA received, rent paid less 10% of salary, and 40%/50% of salary.");
+  }
+
+  /* ---------------- Exempt income (D20) — 'cannot be selected more than once' ---------------- */
+  A(82,  cntSub("10(10BC)") <= 1, "Exempt income u/s 10(10BC) cannot be selected more than once.");
+  A(85,  cntSub("10(12)")   <= 1, "Exempt income u/s 10(12) (Recognized Provident Fund) cannot be selected more than once.");
+  A(91,  cntSub("DMD")      <= 1, "Exempt income 'Defense Medical Disability Pension' cannot be selected more than once.");
+  A(94,  cntSub("10(26AAA)")<= 1, "Exempt income u/s 10(26AAA) cannot be selected more than once.");
+  A(367, cntSub("10(2)")    <= 1, "Exempt income u/s 10(2) (member's share from HUF) cannot be selected more than once.");
+  A(370, cntSub("10(12A)")  <= 1, "Exempt income u/s 10(12A) (NPS partial withdrawal) cannot be selected more than once.");
+  A(373, cntSub("10(12B)")  <= 1, "Exempt income u/s 10(12B) cannot be selected more than once.");
+  A(376, cntSub("10(15)")   <= 1, "Exempt income u/s 10(15) cannot be selected more than once.");
+  A(382, cntSub("10(25)")   <= 1, "Exempt income u/s 10(25) cannot be selected more than once.");
+  A(385, cntSub("10(31)")   <= 1, "Exempt income u/s 10(31) cannot be selected more than once.");
+  A(388, cntSub("10(35A)")  <= 1, "Exempt income u/s 10(35A) cannot be selected more than once.");
+  A(130, cntSub("10(1)") <= 1 && subAmt("10(1)") <= 5000,
+    "Agricultural income shown as exempt cannot exceed Rs. 5,000 and cannot be selected more than once.");
+  A(391, !isNew() || subAmt("10(32)")===0,
+    "New regime: exempt income u/s 10(32) (minor child's income) must be zero.");
+
+  /* ---------------- House property ---------------- */
+  RG(I,"IncomeDeductions.PropertyDetails",[]).forEach(function(p,i){ var L="House property "+(i+1)+": "; if(!p) return;
+    var rd=p.Rentdetails||{};
+    A(55, REQ(rd.BalanceALV, Math.max(0, N(rd.AnnualLetableValue)-N(rd.TotalUnrealizedAndTax))), L+"the annual value must equal the annual letable value minus the unrealized rent and taxes.");
+    A(349, REQ(rd.TotalUnrealizedAndTax, N(rd.RentNotRealized)+N(rd.LocalTaxes)), L+"the total of unrealized rent and local taxes must equal their individual amounts.");
+    A(61, p.ifLetOut!=="S" || N(rd.LocalTaxes)===0, L+"tax paid to local authorities is not allowed for a self-occupied property.");
+    A(58, N(rd.AnnualLetableValue)>0 || N(rd.LocalTaxes)===0, L+"municipal tax cannot be claimed when the gross rent/lettable value is nil.");
+    A(352, N(rd.AnnualLetableValue)>0 || N(rd.RentNotRealized)===0, L+"rent which cannot be realised cannot be entered when the gross rent/lettable value is nil.");
+    A(408, N(rd.RentNotRealized) <= N(rd.AnnualLetableValue)+1, L+"rent which cannot be realised cannot exceed the gross rent received/receivable.");
+    A(289, REQ(N(rd.IntOnBorwCap), N(RG(rd,"Section24B.TotalInterestUs24B"))), L+"interest on borrowed capital must equal the total interest u/s 24(b).");
+    A(154, isNew() || p.ifLetOut!=="S" || N(rd.IntOnBorwCap) <= 200000, L+"old regime: interest on borrowed capital for a self-occupied property cannot exceed Rs. 2,00,000.");
+    if(p.PropCoOwnedFlg==="Y"){ var co=RG(p,"CoOwners",[])||[];
+      A(346, REQ(N(p.AsseseeShareProperty)+RSUM(co,"PercentShareProperty"), 100), L+"for a co-owned property the assessee's share and the co-owners' shares must total 100%.");
+      A(405, co.every(function(o){var s=N(o&&o.PercentShareProperty);return s>0&&s<100;}), L+"each co-owner's percentage share must be greater than 0 and less than 100.");
+    }
+  });
+
+  /* ---------------- Deductions (Chapter VI-A caps, eligibility, regime) ---------------- */
+  A(28, status!=="F" || N(ALW.Section80DD)===0, "A Firm cannot claim deduction u/s 80DD.");
+  A(31, status!=="F" || N(ALW.Section80DDB)===0, "A Firm cannot claim deduction u/s 80DDB.");
+  A(43, status==="I" || N(ALW.Section80U)===0, "A HUF or Firm cannot claim deduction u/s 80U.");
+  A(163, status==="I" || N(ALW.Section80EEA)===0, "A HUF or Firm (other than LLP) cannot claim deduction u/s 80EEA.");
+  A(304, status!=="H" || (!I.Schedule80E && !I.Schedule80EE && !I.Schedule80EEA && !I.Schedule80EEB && N(ALW.Section80CCC)===0),
+    "A HUF cannot fill Schedule 80CCC/80E/80EE/80EEA/80EEB.");
+  A(34, isNew() || !(N(ALW.Section80G)>0) || !!I.Schedule80G, "Old regime: deduction u/s 80G is claimed but the details in Schedule 80G are missing.");
+  A(37, isNew() || N(ALW.Section80GG) <= 60000, "Old regime: deduction u/s 80GG cannot exceed Rs. 60,000.");
+  A(40, isNew() || dob <= "1966-04-01" || N(ALW.Section80TTB)===0, "Old regime: a non-senior-citizen (born on/after 02.04.1966) cannot claim deduction u/s 80TTB.");
+  A(145, isNew() || N(ALW.Section80CCD1B) <= 50000, "Old regime: deduction u/s 80CCD(1B) is limited to Rs. 50,000.");
+  A(148, isNew() || N(ALW.Section80DDB) <= 100000, "Old regime: deduction u/s 80DDB cannot exceed the maximum limit of Rs. 1,00,000.");
+  A(157, isNew() || !(N(ALW.Section80EEA)>0 && N(ALW.Section80EE)>0), "Old regime: deduction u/s 80EEA and u/s 80EE cannot both be claimed.");
+
+  /* new-regime: these deductions are closed (allowed figure must be zero) */
+  A(190, !isNew() || (N(ALW.Section80G)===0 && !I.Schedule80G), "New regime: deduction u/s 80G cannot be claimed and Schedule 80G must not be provided.");
+  A(193, !isNew() || N(ALW.Section80TTB)===0, "New regime: deduction u/s 80TTB must be zero.");
+  A(205, !isNew() || N(ALW.Section80DDB)===0, "New regime: deduction u/s 80DDB must be zero.");
+  A(208, !isNew() || N(ALW.Section80CCDEmployeeOrSE)===0, "New regime: deduction u/s 80CCD(1) must be zero.");
+  A(211, !isNew() || (N(ALW.Section80D)===0 && !I.Schedule80D), "New regime: deduction u/s 80D cannot be claimed and Schedule 80D must not be provided.");
+
+  /* allowed deduction must never exceed the user-enterable amount */
+  A(325, N(ALW.Section80CCC)        <= N(USR.Section80CCC)+1,        "Eligible deduction u/s 80CCC cannot exceed the amount entered.");
+  A(328, N(ALW.Section80CCDEmployer)<= N(USR.Section80CCDEmployer)+1,"Eligible deduction u/s 80CCD(2) cannot exceed the amount entered.");
+  A(331, N(ALW.Section80DDB)        <= N(USR.Section80DDB)+1,        "Eligible deduction u/s 80DDB cannot exceed the amount entered.");
+  A(334, N(ALW.Section80EEA)        <= N(USR.Section80EEA)+1,        "Eligible deduction u/s 80EEA cannot exceed the amount entered.");
+  A(337, N(ALW.Section80GG)         <= N(USR.Section80GG)+1,         "Eligible deduction u/s 80GG cannot exceed the amount entered.");
+  A(340, N(ALW.Section80TTB)        <= N(USR.Section80TTB)+1,        "Eligible deduction u/s 80TTB cannot exceed the amount entered.");
+  A(241, !(N(ALW.Section80GGC)>0) || !!I.Schedule80GGC, "Deduction u/s 80GGC is claimed but the details in Schedule 80GGC are missing.");
+
+  /* ---------------- Schedule 80G / 80GGC ---------------- */
+  if(I.Schedule80G){ var G=I.Schedule80G;
+    A(103, REQ(G.TotalDonationsUs80G, N(RG(G,"Don100Percent.TotDon100Percent"))+N(RG(G,"Don50PercentNoApprReqd.TotDon50PercentNoApprReqd"))+N(RG(G,"Don100PercentApprReqd.TotDon100PercentApprReqd"))+N(RG(G,"Don50PercentApprReqd.TotDon50PercentApprReqd"))),
+      "Schedule 80G: total donations (E) must equal the sum of the four donation-category totals.");
+    if(G.Don100PercentApprReqd) A(106, REQ(RG(G,"Don100PercentApprReqd.TotDon100PercentApprReqd"), N(RG(G,"Don100PercentApprReqd.TotDon100PercentApprReqdCash"))+N(RG(G,"Don100PercentApprReqd.TotDon100PercentApprReqdOtherMode"))),
+      "Schedule 80G: total donation in table (C) must equal donation in cash plus donation in other mode.");
+  }
+  if(I.Schedule80GGC){
+    A(244, REQ(RG(I,"Schedule80GGC.TotalEligibleDonationAmt80GGC"), Math.min(RSUM(RG(I,"Schedule80GGC.Schedule80GGCDetails",[]),"EligibleDonationAmt"), g("IncomeDeductions.GrossTotIncome"))),
+      "Schedule 80GGC: eligible amount (D) must equal the sum of individual eligible amounts restricted to Gross Total Income.");
+    RG(I,"Schedule80GGC.Schedule80GGCDetails",[]).forEach(function(r,i){ if(!r) return;
+      A(256, !r.DonationDate || (r.DonationDate>="2025-04-01" && r.DonationDate<="2026-03-31"),
+        "Schedule 80GGC row "+(i+1)+": the contribution date must fall within 01.04.2025 to 31.03.2026.");
+    });
+  }
+
+  /* ---------------- Schedule 80DD / 80D ---------------- */
+  if(I.Schedule80DD) A(250, !(N(RG(I,"Schedule80DD.DeductionAmount"))>0) || (!!RG(I,"Schedule80DD.NatureOfDisability","")&&!!RG(I,"Schedule80DD.TypeOfDisability","")&&!!RG(I,"Schedule80DD.DependentType","")),
+    "Schedule 80DD: when a deduction is claimed the nature/type of disability and dependent type are mandatory.");
+  if(I.Schedule80D){ var sd=RG(I,"Schedule80D.Sec80DSelfFamSrCtznHealth",{})||{};
+    A(217, !(N(sd.SelfAndFamilySeniorCitizen)>0) || sd.SeniorCitizenFlag==="Y", "Schedule 80D: the senior-citizen self/family deduction (1b) needs the self/family dropdown set to 'Yes'.");
+    A(220, sd.SeniorCitizenFlag!=="S" || (N(sd.SelfAndFamily)===0 && N(sd.SelfAndFamilySeniorCitizen)===0), "Schedule 80D: no self/family deduction can be claimed when 'Not claiming for Self/Family' is selected.");
+    A(232, status!=="H" || (N(sd.Parents)===0 && N(sd.ParentsSeniorCitizen)===0), "Schedule 80D: a HUF cannot claim the parents deduction (Sl. No. 2).");
+    A(283, REQ(RG(sd,"Sec80DSelfFamHIDtls.TotalPayments"), RSUM(RG(sd,"Sec80DSelfFamHIDtls.Sch80DInsDtls",[]),"HealthInsAmt")), "Schedule 80D: the self/family health-insurance rows must sum to the premium entered.");
+    A(286, REQ(RG(sd,"Sec80DParentsHIDtls.TotalPayments"), RSUM(RG(sd,"Sec80DParentsHIDtls.Sch80DInsDtls",[]),"HealthInsAmt")), "Schedule 80D: the parents' health-insurance rows must sum to the premium entered.");
+  }
+
+  /* ---------------- Schedule 80EE (interest rows sum to total) ---------------- */
+  if(I.Schedule80EE) A(298, REQ(RG(I,"Schedule80EE.TotalInterest80EE"), RSUM(RG(I,"Schedule80EE.Schedule80EEDtls",[]),"Interest80EE")),
+    "Schedule 80EE: the individual interest rows must sum to the total interest u/s 80EE.");
+
+  /* ---------------- Taxes paid (TDS / TCS / totals) ---------------- */
+  if(I.TDSonSalaries) A(118, REQ(RG(I,"TDSonSalaries.TotalTDSonSalaries"), RSUM(RG(I,"TDSonSalaries.TDSonSalary",[]),"TotalTDSSal")),
+    "Schedule TDS1: total tax deducted (col 4) must equal the sum of the individual rows.");
+  if(I.ScheduleTCS) A(112, REQ(RG(I,"ScheduleTCS.TotalSchTCS"), RSUM(RG(I,"ScheduleTCS.TCS",[]),"AmtTCSClaimedThisYear")),
+    "Schedule TCS: total TCS credit claimed this year (col 5) must equal the sum of the individual rows.");
+  if(I.TDSonOthThanSals) RG(I,"TDSonOthThanSals.TDSonOthThanSalDtls",[]).forEach(function(r,i){ if(!r) return;
+    A(310, r.TDSSection!=="192", "Schedule TDS2 row "+(i+1)+": section 192 (TDS on salary) cannot be selected under TDS on income other than salary.");
+  });
+  A(127, REQ(g("TaxPaid.TaxesPaid.TotalTaxesPaid"), g("TaxPaid.TaxesPaid.AdvanceTax")+g("TaxPaid.TaxesPaid.TDS")+g("TaxPaid.TaxesPaid.TCS")+g("TaxPaid.TaxesPaid.SelfAssessmentTax")),
+    "Total taxes paid must equal the sum of Advance Tax, TDS, TCS and Self-Assessment Tax.");
+});
+
+/* ITR-4 Category-A validation rules — batch g2 (Phase 6, rules-enforcer).
+   ruleset(fn) registers this batch; runRules() (60_rules.js) runs it with the
+   A/Dd collectors. A(n,cond,msg) FIRES when cond (the "valid return" assertion)
+   is FALSE. Helpers RG/RSUM/REQ/N/R/isNew come from the shell. Schema paths are
+   the exact keys the ITR-4 section exporters (70_sec_*.js) write.
+   Every assertion below is written so a correct return leaves it TRUE. */
+ruleset(function(I,S_,A,Dd){
+  var AL   = RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var HP   = RG(I,"IncomeDeductions.PropertyDetails",[])||[];
+  var TCS  = RG(I,"ScheduleTCS.TCS",[])||[];
+  var TDS3 = RG(I,"ScheduleTDS3Dtls.TDS3Details",[])||[];
+  var E80E = RG(I,"Schedule80E.Schedule80EDtls",[])||[];
+  var E80EEB = RG(I,"Schedule80EEB.Schedule80EEBDtls",[])||[];
+  var E80EE = RG(I,"Schedule80EE.Schedule80EEDtls",[])||[];
+  var GCV  = RG(I,"ScheduleBP.GoodsDtlsUs44AE",[])||[];
+
+  /* ---- Schedule BP — presumptive 44AD / 44AE ---- */
+  var e1cash = N(RG(I,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOverInCash",0));
+  var e1oth  = N(RG(I,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverAnyOthMode",0));
+  var e1bank = N(RG(I,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverBank",0));
+  var e1     = N(RG(I,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver",0));
+
+  A(6, N(RG(I,"ScheduleBP.PersumptiveInc44AD.PersumptiveInc44AD8Per",0)) >= 0.08*(e1cash+e1oth) - 1,
+    "Presumptive income u/s 44AD on non-bank receipts must be at least 8% of gross turnover received other than through banking/electronic modes.");
+
+  A(9, e1 <= 30000000,
+    "Gross receipts/income u/s 44AD exceed Rs. 3 crore — ITR-4 cannot be used.");
+
+  A(12, (RG(I,"ScheduleBP.NatOfBus44AD",[])||[]).length===0 || N(RG(I,"ScheduleBP.PersumptiveInc44AD.TotPersumptiveInc44AD",0))>0,
+    "A 44AD business code is selected, so income u/s 44AD must be declared.");
+
+  A(135, N(RG(I,"ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE",0))===0 || GCV.length>0,
+    "Presumptive income u/s 44AE (E5) is greater than zero but Schedule 44AE (goods carriage details) is not filed.");
+
+  A(138, (RG(I,"ScheduleBP.NatOfBus44AE",[])||[]).length===0
+        || N(RG(I,"ScheduleBP.PersumptiveInc44AE.TotalPersumptiveInc",0))>0
+        || N(RG(I,"ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE",0))>0,
+    "A 44AE business code is selected, so income u/s 44AE must be declared.");
+
+  A(144, GCV.every(function(v){
+      var m=N(v.HoldingPeriod), t=N(v.TonnageCapacity);
+      var min = m*(t>12?1000*t:7500);
+      return N(v.PresumptiveIncome) >= min;
+    }),
+    "Presumptive income u/s 44AE per vehicle is below Rs.1000 per MT per month (tonnage over 12 MT) or Rs.7500 per month.");
+
+  A(237, e1 <= 20000000 || e1cash <= 0.05*e1,
+    "Gross receipts u/s 44AD exceed Rs.2 crore with cash receipts over 5% — a tax audit u/s 44AB applies; use ITR-3/ITR-5.");
+
+  A(240, REQ(e1, e1bank+e1cash+e1oth, 1),
+    "Gross receipts u/s 44AD (E1) must equal the sum of E1a + E1b + E1c.");
+
+  /* ---- Salary (IncomeDeductions) ---- */
+  var sal17_1 = N(RG(I,"IncomeDeductions.Salary",0));
+  var perq    = N(RG(I,"IncomeDeductions.PerquisitesValue",0));
+
+  A(63, REQ(N(RG(I,"IncomeDeductions.GrossSalary",0)), sal17_1 + perq + N(RG(I,"IncomeDeductions.ProfitsInSalary",0)), 1),
+    "Gross salary must be the total of salary u/s 17(1), perquisites u/s 17(2) and profits in lieu of salary u/s 17(3).");
+
+  A(66, REQ(N(RG(I,"IncomeDeductions.IncomeFromSal",0)), N(RG(I,"IncomeDeductions.NetSalary",0)) - N(RG(I,"IncomeDeductions.DeductionUs16",0)), 1),
+    "Income chargeable under Salaries (B2v) must equal Net salary (B2iii) minus deduction u/s 16 (B2iv).");
+
+  A(69, N(RG(I,"IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10",0)) <= N(RG(I,"IncomeDeductions.GrossSalary",0)) + 1,
+    "Total allowances exempt u/s 10 cannot exceed the gross salary (B2(i)(a)+(b)+(c)).");
+
+  A(75, AL.every(function(r){ return r.SalNatureDesc!=="10(10AA)" || N(r.SalOthAmount) <= sal17_1 + 1; }),
+    "Sec 10(10AA) earned-leave encashment cannot exceed salary as per section 17(1).");
+
+  A(78, AL.every(function(r){ return r.SalNatureDesc!=="10(10CC)" || N(r.SalOthAmount) <= perq + 1; }),
+    "Exempt allowance u/s 10(10CC) cannot exceed the value of perquisites as per section 17(2).");
+
+  /* ---- House property ---- */
+  A(57, HP.every(function(p){
+      return REQ(N(RG(p,"Rentdetails.ThirtyPercentOfBalance",0)), 0.30*N(RG(p,"Rentdetails.AnnualOfPropOwned",0)), 1);
+    }),
+    "Standard deduction on house property must equal 30% of the annual value.");
+
+  A(351, HP.every(function(p){
+      var pan = RG(I,"PersonalInfo.PAN","");
+      return (RG(p,"CoOwners",[])||[]).every(function(o){ return !o.PAN_CoOwner || o.PAN_CoOwner !== pan; });
+    }),
+    "In a co-owned house property, the assessee's PAN and a co-owner's PAN cannot be the same.");
+
+  /* ---- Other-source family-pension deduction 57(iia) (old regime cap) ---- */
+  A(96, N(RG(I,"IncomeDeductions.DeductionUs57iia",0)) <= 15000,
+    "Deduction u/s 57(iia) cannot exceed 1/3rd of family pension or Rs.15,000, whichever is lower.");
+
+  /* ---- Chapter VI-A sub-schedule internal consistency / caps ---- */
+  A(177, N(RG(I,"Schedule80D.Sec80DSelfFamSrCtznHealth.EligibleAmountOfDedn",0)) <= 100000,
+    "In Schedule 80D, the eligible amount of deduction (Sl. No. 3) is allowed only to the extent of Rs.1,00,000.");
+
+  A(243, REQ(N(RG(I,"Schedule80GGC.TotalDonationsUs80GGC",0)),
+             N(RG(I,"Schedule80GGC.TotalDonationAmtCash80GGC",0)) + N(RG(I,"Schedule80GGC.TotalDonationAmtOtherMode80GGC",0)), 1),
+    "Total donation u/s 80GGC must equal the sum of donation in cash and donation in other mode.");
+
+  A(276, E80EE.every(function(r){ return N(r.TotalLoanAmt) <= 3500000; }),
+    "Deduction u/s 80EE can be claimed only if the loan taken does not exceed Rs.35 lakhs.");
+
+  A(297, REQ(N(RG(I,"Schedule80E.TotalInterest80E",0)), RSUM(E80E,"Interest80E"), 1),
+    "In Schedule 80E, the sum of individual rows for interest paid must equal the total of payments.");
+
+  A(300, REQ(N(RG(I,"Schedule80EEB.TotalInterest80EEB",0)), RSUM(E80EEB,"Interest80EEB"), 1),
+    "In Schedule 80EEB, the sum of individual rows for interest paid must equal the total of payments.");
+
+  /* ---- Taxes paid / TDS / TCS / IT consistency ---- */
+  A(54, REQ(N(RG(I,"TaxComputation.TotTaxPlusIntrstPay",0)),
+            N(RG(I,"TaxComputation.NetTaxLiability",0))
+            + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234A",0))
+            + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234B",0))
+            + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234C",0))
+            + N(RG(I,"TaxComputation.IntrstPay.LateFilingFee234F",0))
+            + N(RG(I,"TaxComputation.IntrstPay.FeeFurnish234I",0)), 2),
+    "Total Tax, Fee and Interest must equal Balance Tax After Relief plus interest u/s 234A/234B/234C and fees u/s 234F/234-I.");
+
+  A(111, TCS.every(function(r){ return N(r.AmtTCSClaimedThisYear) <= N(r.TotalTCS) + 1; }),
+    "In Schedule TCS, the amount of TCS claimed this year cannot exceed the tax collected.");
+
+  A(120, REQ(N(RG(I,"ScheduleTDS3Dtls.TotalTDS3Details",0)), RSUM(TDS3,"TDSClaimed"), 1),
+    "In Schedule TDS3, the total of TDS credit claimed this year must equal the sum of the individual rows.");
+
+  A(126, REQ(N(RG(I,"TaxPaid.TaxesPaid.TDS",0)),
+             N(RG(I,"TDSonSalaries.TotalTDSonSalaries",0))
+             + N(RG(I,"TDSonOthThanSals.TotalTDSonOthThanSals",0))
+             + N(RG(I,"ScheduleTDS3Dtls.TotalTDS3Details",0)), 2)
+     && REQ(N(RG(I,"TaxPaid.TaxesPaid.AdvanceTax",0)) + N(RG(I,"TaxPaid.TaxesPaid.SelfAssessmentTax",0)),
+            N(RG(I,"ScheduleIT.TotalTaxPayments",0)), 2),
+    "TDS/advance/self-assessment tax in the Tax Paid schedule is inconsistent with Schedule TDS1/TDS2/TDS3 and Schedule IT.");
+
+  A(129, REQ(N(RG(I,"TaxPaid.BalTaxPayable",0)),
+             Math.round(Math.max(0, N(RG(I,"TaxComputation.TotTaxPlusIntrstPay",0)) - N(RG(I,"TaxPaid.TaxesPaid.TotalTaxesPaid",0)))/10)*10, 1),
+    "Amount of tax payable is inconsistent with the difference of Total Tax, Fee and Interest and Total Taxes Paid.");
+
+  A(132, REQ(N(RG(I,"TaxPaid.TaxesPaid.TCS",0)), N(RG(I,"ScheduleTCS.TotalSchTCS",0)), 1),
+    "Total TCS claimed in the Tax Paid schedule must equal the total TCS claimed in Schedule TCS.");
+
+  /* ---- New-regime (115BAC) closures ---- */
+  A(189, !isNew() || N(RG(I,"Schedule80C.TotalAmt",0))===0,
+    "Under the new tax regime, deductions u/s 80C/80CCC/80CCD(1) must be zero.");
+
+  A(195, !isNew() || N(RG(I,"IncomeDeductions.ProfessionalTaxUs16iii",0))===0,
+    "Under the new tax regime, professional tax u/s 16(iii) must be zero.");
+
+  A(198, !isNew() || AL.every(function(r){ return r.SalNatureDesc!=="10(5)" || N(r.SalOthAmount)===0; }),
+    "Under the new tax regime, Sec 10(5) leave travel concession must be zero.");
+
+  A(201, !isNew() || AL.every(function(r){ return r.SalNatureDesc!=="10(14)(ii)" || N(r.SalOthAmount)===0; }),
+    "Under the new tax regime, Sec 10(14)(ii) prescribed allowances must be zero.");
+
+  A(204, !isNew() || N(RG(I,"Schedule80DD.DeductionAmount",0))===0,
+    "Under the new tax regime, deduction u/s 80DD must be zero.");
+
+  A(207, !isNew() || HP.every(function(p){
+      return RG(p,"ifLetOut","")!=="S" || N(RG(p,"Rentdetails.IntOnBorwCap",0))===0;
+    }),
+    "Under the new tax regime, interest on borrowed capital for a self-occupied house property must be zero.");
+
+  A(210, !isNew() || N(RG(I,"Schedule80EEB.TotalInterest80EEB",0))===0,
+    "Under the new tax regime, deduction u/s 80EEB must be zero.");
+});
 
 /* =====================================================================
    ITR-4 (Sugam) · Section "ded" — Deductions (Chapter VI-A) + HRA 10(13A)
@@ -1298,9 +1682,6 @@ function engInc(){
   const e7=Math.max(0, e5-e6);                                    /* [I71] E7 = max(0, E5 − E6) */
   const e8=Math.max(0, e2c+e4+e7);                               /* [I72] E8 = E2c + E4 + E7 = IncomeFromBusinessProf */
 
-  /* per-vehicle deemed suggestion (min Rs 1000/MT/month, floor Rs 7500/month) [N54]/[O54] */
-  A.gcvDeem=(v)=>{ const m=N(v.months); return Math.max(N(v.tonnage)*m*1000, m*7500); };
-
   /* ---- House property (HP.md; PropertyDetails[]) ---- */
   let hpHead=0; const hpCalc=[];
   (IC.hp||[]).forEach(p=>{
@@ -1770,6 +2151,8 @@ function secTax(){
    ===================================================================== */
 function expInc(j){
   const inc=S.C.inc||{}, D=inc.detail||{}, hp=S.C.hp||{}, calc=hp.calc||[], t=S.C.taxc||{};
+  /* build a plain object, keeping only non-empty leaves */
+  const ob=o=>{const r={};for(const k in o){const v=o[k];if(v!==undefined&&v!==null&&v!=="")r[k]=v;}return r;};
 
   /* ---- PersonalInfo ---- */
   put(j,"PersonalInfo.AssesseeName.FirstName",sv(S.pi.first));
@@ -1824,9 +2207,9 @@ function expInc(j){
     put(j,"FilingStatus.IncrExpAggAmt1LkElctrctyPrYrFlg",sv(S.fs.ele1l));
     if(N(S.fs.ele1lAmt)) put(j,"FilingStatus.AmtSeventhProvisio139iii",R(N(S.fs.ele1lAmt)));
     put(j,"FilingStatus.clauseiv7provisio139i",sv(S.fs.clz));
-    (S.fs.clause7||[]).forEach((r,i)=>{ if(!st0(r.nat)&&!N(r.amt))return;
-      pf(j,"FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iNature",sv(r.nat));
-      pf(j,"FilingStatus.clauseiv7provisio139iDtls."+i+".clauseiv7provisio139iAmount",R(N(r.amt))); });
+    const cl=(S.fs.clause7||[]).filter(r=>st0(r.nat)||N(r.amt))
+      .map(r=>({clauseiv7provisio139iNature:st0(r.nat),clauseiv7provisio139iAmount:R(N(r.amt))}));
+    if(cl.length) put(j,"FilingStatus.clauseiv7provisio139iDtls",cl);
   }
   if([13,14,16,18,20].indexOf(+S.fs.sec)>=0){
     put(j,"FilingStatus.NoticeNo",sv(S.fs.noticeNo));
@@ -1849,20 +2232,18 @@ function expInc(j){
   put(j,"IncomeDeductions.IncomeFromBusinessProf",n0(D.e8));
   put(j,"IncomeDeductions.GrossSalary",n0(D.gross));
   if(N(D.gross)){
-    put(j,"IncomeDeductions.Salary",n0(D.gross&&N(IC.sal.s17_1)));
-    put(j,"IncomeDeductions.PerquisitesValue",n0(N(IC.sal.s17_2)));
-    put(j,"IncomeDeductions.ProfitsInSalary",n0(N(IC.sal.s17_3)));
+    if(N(IC.sal.s17_1)) put(j,"IncomeDeductions.Salary",n0(N(IC.sal.s17_1)));
+    if(N(IC.sal.s17_2)) put(j,"IncomeDeductions.PerquisitesValue",n0(N(IC.sal.s17_2)));
+    if(N(IC.sal.s17_3)) put(j,"IncomeDeductions.ProfitsInSalary",n0(N(IC.sal.s17_3)));
   }
   let exTotAll=0;
-  (IC.sal.alw||[]).forEach((r,i)=>{
-    const nat=st0(r.nat); if(!nat)return;
-    const closed=isNew()&&ALW_CLOSED_NEW[nat];
-    const amt=closed?0:R(N(r.amt));
-    pf(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls."+i+".SalNatureDesc",nat);
-    pf(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls."+i+".SalOthAmount",amt);
-    exTotAll+=amt;
-  });
-  if((IC.sal.alw||[]).length) put(j,"IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10",n0(exTotAll));
+  const alwArr=(IC.sal.alw||[]).filter(r=>st0(r.nat)).map(r=>{
+    const nat=st0(r.nat); const amt=(isNew()&&ALW_CLOSED_NEW[nat])?0:R(N(r.amt)); exTotAll+=amt;
+    return {SalNatureDesc:nat,SalOthAmount:amt}; });
+  if(alwArr.length){
+    put(j,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",alwArr);
+    put(j,"IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10",n0(exTotAll));
+  }
   put(j,"IncomeDeductions.NetSalary",n0(D.netSal));
   put(j,"IncomeDeductions.DeductionUs16",n0(D.ded16));
   if(N(D.stdDed)) put(j,"IncomeDeductions.DeductionUs16ia",n0(D.stdDed));
@@ -1870,78 +2251,54 @@ function expInc(j){
   if(N(D.ptax))   put(j,"IncomeDeductions.ProfessionalTaxUs16iii",n0(D.ptax));
   put(j,"IncomeDeductions.IncomeFromSal",n0(D.incSal));
 
-  /* PropertyDetails[] */
-  (IC.hp||[]).forEach((p,i)=>{
-    const c=calc[i]||{}; const B="IncomeDeductions.PropertyDetails."+i;
-    pf(j,B+".HPSNo",i+1);
-    pf(j,B+".AddressDetailWithZipCode.AddrDetail",sv(p.addr));
-    pf(j,B+".AddressDetailWithZipCode.CityOrTownOrDistrict",sv(p.city));
-    pf(j,B+".AddressDetailWithZipCode.StateCode",sv(p.state));
-    pf(j,B+".AddressDetailWithZipCode.CountryCode",sv(p.country||"91"));
-    if(N(p.pin)) pf(j,B+".AddressDetailWithZipCode.PinCode",R(N(p.pin)));
-    pf(j,B+".PropertyOwner",sv(p.owner));
-    if(p.owner==="OT") pf(j,B+".PropertyOwnerOther",sv(p.ownerOth));
-    pf(j,B+".PropCoOwnedFlg",sv(p.co||"NO"));
-    if(p.share!==""&&p.share!=null) pf(j,B+".AsseseeShareProperty",N(p.share));
-    (p.coown||[]).forEach((o,k)=>{ if(!st0(o.name))return;
-      pf(j,B+".CoOwners."+k+".CoOwnersSNo",k+1);
-      pf(j,B+".CoOwners."+k+".NameCoOwner",sv(o.name));
-      pf(j,B+".CoOwners."+k+".PAN_CoOwner",sv(o.pan));
-      pf(j,B+".CoOwners."+k+".Aadhaar_CoOwner",sv(o.aadhaar));
-      if(o.share!==""&&o.share!=null) pf(j,B+".CoOwners."+k+".PercentShareProperty",N(o.share)); });
-    pf(j,B+".ifLetOut",sv(p.let));
-    (p.tenant||[]).forEach((tn,k)=>{ if(!st0(tn.name))return;
-      pf(j,B+".TenantDetails."+k+".TenantSNo",k+1);
-      pf(j,B+".TenantDetails."+k+".NameofTenant",sv(tn.name));
-      pf(j,B+".TenantDetails."+k+".PANofTenant",sv(tn.pan));
-      pf(j,B+".TenantDetails."+k+".AadhaarofTenant",sv(tn.aadhaar));
-      pf(j,B+".TenantDetails."+k+".PANTANofTenant",sv(tn.pantan)); });
-    pf(j,B+".Rentdetails.AnnualLetableValue",n0(c.a));
-    if(N(c.b)) pf(j,B+".Rentdetails.RentNotRealized",n0(c.b));
-    if(N(c.c)) pf(j,B+".Rentdetails.LocalTaxes",n0(c.c));
-    pf(j,B+".Rentdetails.TotalUnrealizedAndTax",n0(c.d));
-    pf(j,B+".Rentdetails.BalanceALV",n0(c.e));
-    pf(j,B+".Rentdetails.AnnualOfPropOwned",n0(c.f));
-    pf(j,B+".Rentdetails.ThirtyPercentOfBalance",n0(c.g));
-    pf(j,B+".Rentdetails.IntOnBorwCap",n0(c.intr));
-    (p.loans||[]).forEach((l,k)=>{ if(!st0(l.name)&&!N(l.intr))return;
-      const L=B+".Rentdetails.Section24B.Section24BDtls."+k;
-      pf(j,L+".LoanTknFrom",sv(l.from));
-      pf(j,L+".BankOrInstnName",sv(l.name));
-      pf(j,L+".LoanAccNoOfBankOrInstnRefNo",sv(l.accno));
-      pf(j,L+".DateofLoan",ISO(l.date));
-      pf(j,L+".TotalLoanAmt",R(N(l.total)));
-      pf(j,L+".LoanOutstndngAmt",R(N(l.outst)));
-      pf(j,L+".InterestUs24B",R(N(l.intr))); });
-    pf(j,B+".Rentdetails.Section24B.TotalInterestUs24B",n0(c.intr));
-    pf(j,B+".Rentdetails.TotalDeduct",n0(c.totDed));
-    if(N(c.j)) pf(j,B+".Rentdetails.ArrearsUnrealizedRentRcvd",n0(c.j));
-    pf(j,B+".Rentdetails.IncomeOfHP",sg(c.k));
+  /* PropertyDetails[] — native array */
+  const props=(IC.hp||[]).map((p,i)=>{
+    const c=calc[i]||{};
+    const el={};
+    el.HPSNo=i+1;
+    el.AddressDetailWithZipCode=ob({AddrDetail:sv(p.addr),CityOrTownOrDistrict:sv(p.city),
+      StateCode:sv(p.state),CountryCode:sv(p.country||"91"),PinCode:N(p.pin)?R(N(p.pin)):undefined});
+    if(sv(p.owner)) el.PropertyOwner=sv(p.owner);
+    if(p.owner==="OT"&&sv(p.ownerOth)) el.PropertyOwnerOther=sv(p.ownerOth);
+    el.PropCoOwnedFlg=sv(p.co||"NO");
+    if(p.share!==""&&p.share!=null) el.AsseseeShareProperty=N(p.share);
+    const co=(p.coown||[]).filter(o=>st0(o.name)).map((o,k)=>ob({CoOwnersSNo:k+1,NameCoOwner:sv(o.name),
+      PAN_CoOwner:sv(o.pan),Aadhaar_CoOwner:sv(o.aadhaar),PercentShareProperty:(o.share!==""&&o.share!=null)?N(o.share):undefined}));
+    if(co.length) el.CoOwners=co;
+    if(sv(p.let)) el.ifLetOut=sv(p.let);
+    const tn=(p.tenant||[]).filter(x=>st0(x.name)).map((x,k)=>ob({TenantSNo:k+1,NameofTenant:sv(x.name),
+      PANofTenant:sv(x.pan),AadhaarofTenant:sv(x.aadhaar),PANTANofTenant:sv(x.pantan)}));
+    if(tn.length) el.TenantDetails=tn;
+    const loans=(p.loans||[]).filter(l=>st0(l.name)||N(l.intr)).map(l=>ob({LoanTknFrom:sv(l.from),
+      BankOrInstnName:sv(l.name),LoanAccNoOfBankOrInstnRefNo:sv(l.accno),DateofLoan:ISO(l.date),
+      TotalLoanAmt:R(N(l.total)),LoanOutstndngAmt:R(N(l.outst)),InterestUs24B:R(N(l.intr))}));
+    const rd=ob({AnnualLetableValue:n0(c.a),RentNotRealized:N(c.b)?n0(c.b):undefined,
+      LocalTaxes:N(c.c)?n0(c.c):undefined,TotalUnrealizedAndTax:n0(c.d),BalanceALV:n0(c.e),
+      AnnualOfPropOwned:n0(c.f),ThirtyPercentOfBalance:n0(c.g),IntOnBorwCap:n0(c.intr),
+      TotalDeduct:n0(c.totDed),ArrearsUnrealizedRentRcvd:N(c.j)?n0(c.j):undefined,IncomeOfHP:sg(c.k)});
+    rd.Section24B=ob({TotalInterestUs24B:n0(c.intr)});
+    if(loans.length) rd.Section24B.Section24BDtls=loans;
+    el.Rentdetails=rd;
+    return el;
   });
+  if(props.length) put(j,"IncomeDeductions.PropertyDetails",props);
   put(j,"IncomeDeductions.TotalIncomeChargeableUnHP",sg(hp.income));
 
-  /* OthersInc (other sources) */
+  /* OthersInc (other sources) — native array */
   put(j,"IncomeDeductions.IncomeOthSrc",n0(D.incOS));
-  (IC.os.rows||[]).forEach((r,i)=>{
-    const nat=st0(r.nat); if(!nat)return;
-    const O="IncomeDeductions.OthersInc.OthersIncDtlsOthSrc."+i;
-    pf(j,O+".OthSrcNatureDesc",nat);
-    if(nat==="OTH") pf(j,O+".OthSrcOthNatOfInc",sv(r.desc));
+  const osArr=(IC.os.rows||[]).filter(r=>st0(r.nat)).map(r=>{
+    const nat=st0(r.nat);
     const amt=(nat==="DIV")?(N(r.q1)+N(r.q2)+N(r.q3)+N(r.q4)+N(r.q5)):N(r.amt);
-    pf(j,O+".OthSrcOthAmount",R(amt));
-    pf(j,O+".DividendInc.DateRange.Upto15Of6",nat==="DIV"?R(N(r.q1)):0);
-    pf(j,O+".DividendInc.DateRange.Upto15Of9",nat==="DIV"?R(N(r.q2)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of9To15Of12",nat==="DIV"?R(N(r.q3)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of12To15Of3",nat==="DIV"?R(N(r.q4)):0);
-    pf(j,O+".DividendInc.DateRange.Up16Of3To31Of3",nat==="DIV"?R(N(r.q5)):0);
-  });
+    const el=ob({OthSrcNatureDesc:nat,OthSrcOthNatOfInc:(nat==="OTH")?sv(r.desc):undefined,OthSrcOthAmount:R(amt)});
+    el.DividendInc={DateRange:{Upto15Of6:nat==="DIV"?R(N(r.q1)):0,Upto15Of9:nat==="DIV"?R(N(r.q2)):0,
+      Up16Of9To15Of12:nat==="DIV"?R(N(r.q3)):0,Up16Of12To15Of3:nat==="DIV"?R(N(r.q4)):0,
+      Up16Of3To31Of3:nat==="DIV"?R(N(r.q5)):0}};
+    return el; });
+  if(osArr.length) put(j,"IncomeDeductions.OthersInc.OthersIncDtlsOthSrc",osArr);
   if(!isNew() && N(D.ded57)) put(j,"IncomeDeductions.DeductionUs57iia",n0(D.ded57));
 
   put(j,"IncomeDeductions.GrossTotIncome",sg(t.gti));
   put(j,"IncomeDeductions.GrossTotIncomeIncLTCG112A",sg(t.gtiInc));
-
-  /* Chapter VI-A — inccore owns the totals; per-line amounts are the ded
-     builder's; SKEL keeps every Section80* leaf present at 0. */
   put(j,"IncomeDeductions.UsrDeductUndChapVIA.TotalChapVIADeductions",n0((S.C.ded||{}).total));
   put(j,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions",n0(t.via));
   put(j,"IncomeDeductions.TotalIncome",sg(t.ti));
@@ -1949,63 +2306,37 @@ function expInc(j){
   /* ---- ScheduleBP ---- */
   const anyBP = R(D.e1)||R(D.e3)||R(D.e5)||R(D.e8)||(IC.bp.nad||[]).length||(IC.bp.nada||[]).length||(IC.bp.nae||[]).length;
   if(anyBP){
-    (IC.bp.nad||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".CodeAD",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44AD."+i+".Description",sv(r.desc)); });
-    if(R(D.e1)||R(D.e2c)){
-      put(j,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver",n0(D.e1));
-      if(N(D.e1a)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverBank",n0(D.e1a));
-      if(N(D.e1b)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOverInCash",n0(D.e1b));
-      if(N(D.e1c)) put(j,"ScheduleBP.PersumptiveInc44AD.GrsTrnOverAnyOthMode",n0(D.e1c));
-      if(N(D.e2a)) put(j,"ScheduleBP.PersumptiveInc44AD.PersumptiveInc44AD6Per",n0(D.e2a));
-      if(N(D.e2b)) put(j,"ScheduleBP.PersumptiveInc44AD.PersumptiveInc44AD8Per",n0(D.e2b));
-      put(j,"ScheduleBP.PersumptiveInc44AD.TotPersumptiveInc44AD",n0(D.e2c));
-    }
-    (IC.bp.nada||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".CodeADA",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44ADA."+i+".Description",sv(r.desc)); });
-    if(R(D.e3)||R(D.e4)){
-      put(j,"ScheduleBP.PersumptiveInc44ADA.GrsReceipt",n0(D.e3));
-      if(N(D.e3a)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTrnOverBank44ADA",n0(D.e3a));
-      if(N(D.e3b)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTotalTrnOverInCash44ADA",n0(D.e3b));
-      if(N(D.e3c)) put(j,"ScheduleBP.PersumptiveInc44ADA.GrsTrnOverAnyOthMode44ADA",n0(D.e3c));
-      put(j,"ScheduleBP.PersumptiveInc44ADA.TotPersumptiveInc44ADA",n0(D.e4));
-    }
-    (IC.bp.nae||[]).forEach((r,i)=>{ if(!st0(r.name))return;
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".NameOfBusiness",sv(r.name));
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".CodeAE",sv(r.code));
-      pf(j,"ScheduleBP.NatOfBus44AE."+i+".Description",sv(r.desc)); });
-    (IC.bp.gcv||[]).forEach((v,i)=>{ if(!st0(v.reg))return;
-      const G="ScheduleBP.GoodsDtlsUs44AE."+i;
-      pf(j,G+".RegNumberGoodsCarriage",sv(v.reg));
-      pf(j,G+".OwnedLeasedHiredFlag",sv(v.flag));
-      pf(j,G+".TonnageCapacity",R(N(v.tonnage)));
-      pf(j,G+".HoldingPeriod",R(N(v.months)));
-      pf(j,G+".PresumptiveIncome",R(N(v.pi))); });
-    if(R(D.e5)||R(D.e7)||R(D.e8)){
-      put(j,"ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE",n0(D.e5));
-      if(N(D.e6)) put(j,"ScheduleBP.PersumptiveInc44AE.SalInterestByFirm",n0(D.e6));
-      put(j,"ScheduleBP.PersumptiveInc44AE.TotalPersumptiveInc",n0(D.e7));
-      put(j,"ScheduleBP.PersumptiveInc44AE.IncChargeableUnderBus",n0(D.e8));
-    }
+    const nad=(IC.bp.nad||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeAD:sv(r.code),Description:sv(r.desc)}));
+    if(nad.length) put(j,"ScheduleBP.NatOfBus44AD",nad);
+    if(R(D.e1)||R(D.e2c)) put(j,"ScheduleBP.PersumptiveInc44AD",ob({
+      GrsTotalTrnOver:n0(D.e1),GrsTrnOverBank:N(D.e1a)?n0(D.e1a):undefined,
+      GrsTotalTrnOverInCash:N(D.e1b)?n0(D.e1b):undefined,GrsTrnOverAnyOthMode:N(D.e1c)?n0(D.e1c):undefined,
+      PersumptiveInc44AD6Per:N(D.e2a)?n0(D.e2a):undefined,PersumptiveInc44AD8Per:N(D.e2b)?n0(D.e2b):undefined,
+      TotPersumptiveInc44AD:n0(D.e2c)}));
+    const nada=(IC.bp.nada||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeADA:sv(r.code),Description:sv(r.desc)}));
+    if(nada.length) put(j,"ScheduleBP.NatOfBus44ADA",nada);
+    if(R(D.e3)||R(D.e4)) put(j,"ScheduleBP.PersumptiveInc44ADA",ob({
+      GrsReceipt:n0(D.e3),GrsTrnOverBank44ADA:N(D.e3a)?n0(D.e3a):undefined,
+      GrsTotalTrnOverInCash44ADA:N(D.e3b)?n0(D.e3b):undefined,GrsTrnOverAnyOthMode44ADA:N(D.e3c)?n0(D.e3c):undefined,
+      TotPersumptiveInc44ADA:n0(D.e4)}));
+    const nae=(IC.bp.nae||[]).filter(r=>st0(r.name)).map(r=>ob({NameOfBusiness:sv(r.name),CodeAE:sv(r.code),Description:sv(r.desc)}));
+    if(nae.length) put(j,"ScheduleBP.NatOfBus44AE",nae);
+    const gcv=(IC.bp.gcv||[]).filter(v=>st0(v.reg)).map(v=>ob({RegNumberGoodsCarriage:sv(v.reg),
+      OwnedLeasedHiredFlag:sv(v.flag),TonnageCapacity:R(N(v.tonnage)),HoldingPeriod:R(N(v.months)),PresumptiveIncome:R(N(v.pi))}));
+    if(gcv.length) put(j,"ScheduleBP.GoodsDtlsUs44AE",gcv);
+    if(R(D.e5)||R(D.e7)||R(D.e8)) put(j,"ScheduleBP.PersumptiveInc44AE",ob({
+      TotPersumInc44AE:n0(D.e5),SalInterestByFirm:N(D.e6)?n0(D.e6):undefined,
+      TotalPersumptiveInc:n0(D.e7),IncChargeableUnderBus:n0(D.e8)}));
     let gstTot=0;
-    (IC.bp.gstn||[]).forEach((r,i)=>{ if(!st0(r.gstin))return;
-      pf(j,"ScheduleBP.TurnoverGrsRcptForGSTIN."+i+".GSTINNo",sv(r.gstin));
-      pf(j,"ScheduleBP.TurnoverGrsRcptForGSTIN."+i+".AmtTurnGrossRcptGSTIN",R(N(r.amt)));
-      gstTot+=N(r.amt); });
-    if((IC.bp.gstn||[]).length) put(j,"ScheduleBP.TotalTurnoverGrsRcptGSTIN",R(gstTot));
+    const gst=(IC.bp.gstn||[]).filter(r=>st0(r.gstin)).map(r=>{gstTot+=N(r.amt);return ob({GSTINNo:sv(r.gstin),AmtTurnGrossRcptGSTIN:R(N(r.amt))});});
+    if(gst.length){ put(j,"ScheduleBP.TurnoverGrsRcptForGSTIN",gst); put(j,"ScheduleBP.TotalTurnoverGrsRcptGSTIN",R(gstTot)); }
     const f=IC.bp.fin||{};
     const capL=N(f.owncap)+N(f.secured)+N(f.unsecured)+N(f.advances)+N(f.creditors)+N(f.othliab);
     const asst=N(f.fixed)+N(f.invest)+N(f.inventories)+N(f.debtors)+N(f.bank)+N(f.cash)+N(f.loans)+N(f.otherassets);
-    if(N(f.creditors))   put(j,"ScheduleBP.FinanclPartclrOfBusiness.SundryCreditors",R(N(f.creditors)));
-    if(N(f.inventories)) put(j,"ScheduleBP.FinanclPartclrOfBusiness.Inventories",R(N(f.inventories)));
-    if(N(f.debtors))     put(j,"ScheduleBP.FinanclPartclrOfBusiness.SundryDebtors",R(N(f.debtors)));
-    if(N(f.bank))        put(j,"ScheduleBP.FinanclPartclrOfBusiness.BalWithBanks",R(N(f.bank)));
-    if(N(f.cash))        put(j,"ScheduleBP.FinanclPartclrOfBusiness.CashInHand",R(N(f.cash)));
-    if(capL) put(j,"ScheduleBP.FinanclPartclrOfBusiness.TotCapLiabilities",R(capL));
-    if(asst) put(j,"ScheduleBP.FinanclPartclrOfBusiness.TotalAssets",R(asst));
+    const fin=ob({SundryCreditors:N(f.creditors)?R(N(f.creditors)):undefined,Inventories:N(f.inventories)?R(N(f.inventories)):undefined,
+      SundryDebtors:N(f.debtors)?R(N(f.debtors)):undefined,BalWithBanks:N(f.bank)?R(N(f.bank)):undefined,
+      CashInHand:N(f.cash)?R(N(f.cash)):undefined,TotCapLiabilities:capL?R(capL):undefined,TotalAssets:asst?R(asst):undefined});
+    if(Object.keys(fin).length) put(j,"ScheduleBP.FinanclPartclrOfBusiness",fin);
   }
 
   /* ---- TaxComputation (Part D) ---- */
@@ -2030,13 +2361,12 @@ function expInc(j){
 
   /* ---- TaxExmpIntIncDtls (D20 exempt income) ---- */
   let exemptTot=0;
-  (IC.exmp||[]).forEach((r,i)=>{ if(!N(r.amt)&&!st0(r.cat))return;
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".Category",sv(r.cat));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".SubCategory",sv(r.sub));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".Description",sv(r.desc));
-    pf(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls."+i+".OthAmount",R(N(r.amt)));
-    exemptTot+=N(r.amt); });
-  if((IC.exmp||[]).length) put(j,"TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe",R(exemptTot));
+  const exArr=(IC.exmp||[]).filter(r=>N(r.amt)||st0(r.cat)).map(r=>{exemptTot+=N(r.amt);
+    return ob({Category:sv(r.cat),SubCategory:sv(r.sub),Description:sv(r.desc),OthAmount:R(N(r.amt))});});
+  if(exArr.length){
+    put(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",exArr);
+    put(j,"TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe",R(exemptTot));
+  }
 }
 
 /* =====================================================================
