@@ -1,0 +1,731 @@
+{
+ "ITR": {
+  "ITR4": {
+   "CreationInfo": {
+    "SWVersionNo": "na",
+    "SWCreatedBy": "na",
+    "JSONCreatedBy": "na",
+    "JSONCreationDate": "2026-01-01",
+    "IntermediaryCity": "na",
+    "Digest": "na"
+   },
+   "Form_ITR4": {
+    "FormName": "na",
+    "Description": "na",
+    "AssessmentYear": "na",
+    "SchemaVer": "na",
+    "FormVer": "na"
+   },
+   "PersonalInfo": {
+    "AssesseeName": {
+     "SurNameOrOrgName": "SUDHIR",
+     "FirstName": "S"
+    },
+    "PAN": "TVOPS4373C",
+    "Address": {
+     "ResidenceNo": "RES",
+     "LocalityOrArea": "Richmond Town",
+     "CityOrTownOrDistrict": "Bengaluru",
+     "StateCode": "15",
+     "CountryCode": "91",
+     "CountryCodeMobile": 91,
+     "MobileNo": 9845012345,
+     "EmailAddress": "s.sudhir.test@example.in",
+     "ResidenceName": "Brigade Gardens",
+     "RoadOrStreet": "3rd Cross, Richmond Town",
+     "PinCode": 560025,
+     "Phone": {
+      "STDcode": 80,
+      "PhoneNo": "25551234"
+     },
+     "EmailAddressSec": "sudhir.alt@example.in"
+    },
+    "SecondaryAdd": "Y",
+    "DOB": "2006-11-05",
+    "EmployerCategory": "OTH",
+    "Status": "I",
+    "AadhaarCardNo": "734519826041"
+   },
+   "FilingStatus": {
+    "ReturnFileSec": 11,
+    "Form10IEAEarlierAYOldRegime": "N",
+    "AsseseeRepFlg": "N",
+    "ItrFilingDueDate": "2026-08-31",
+    "F10IEACurrAYOldRegime": "Yes",
+    "F10IEADateCurrAYOldTax": "2026-07-25",
+    "F10IEAAckNoCurrAYOldTax": 123456789012345,
+    "SeventhProvisio139": "N"
+   },
+   "IncomeDeductions": {
+    "IncomeFromBusinessProf": 956000,
+    "GrossSalary": 850000,
+    "NetSalary": 710000,
+    "DeductionUs16": 77500,
+    "IncomeFromSal": 632500,
+    "IncomeOthSrc": 159000,
+    "TotalIncomeChargeableUnHP": -176000,
+    "GrossTotIncome": 1571500,
+    "GrossTotIncomeIncLTCG112A": 1671500,
+    "UsrDeductUndChapVIA": {
+     "Section80C": 0,
+     "Section80CCC": 0,
+     "Section80CCDEmployeeOrSE": 0,
+     "Section80CCD1B": 0,
+     "Section80CCDEmployer": 0,
+     "Section80D": 0,
+     "Section80DD": 0,
+     "Section80DDB": 0,
+     "Section80E": 0,
+     "Section80G": 0,
+     "Section80GG": 0,
+     "Section80GGC": 0,
+     "Section80U": 0,
+     "Section80TTA": 0,
+     "Section80TTB": 0,
+     "AnyOthSec80CCH": 0,
+     "TotalChapVIADeductions": 956000
+    },
+    "DeductUndChapVIA": {
+     "Section80C": 0,
+     "Section80CCC": 0,
+     "Section80CCDEmployeeOrSE": 0,
+     "Section80CCD1B": 0,
+     "Section80CCDEmployer": 0,
+     "Section80D": 0,
+     "Section80DD": 0,
+     "Section80DDB": 0,
+     "Section80E": 0,
+     "Section80G": 0,
+     "Section80GG": 0,
+     "Section80GGC": 0,
+     "Section80U": 0,
+     "Section80TTA": 0,
+     "Section80TTB": 0,
+     "AnyOthSec80CCH": 0,
+     "TotalChapVIADeductions": 956000
+    },
+    "TotalIncome": 715500,
+    "Salary": 800000,
+    "PerquisitesValue": 50000,
+    "AllwncExemptUs10": {
+     "AllwncExemptUs10Dtls": [
+      {
+       "SalNatureDesc": "10(13A)",
+       "SalOthAmount": 120000
+      },
+      {
+       "SalNatureDesc": "10(5)",
+       "SalOthAmount": 20000
+      }
+     ],
+     "TotalAllwncExemptUs10": 140000
+    },
+    "DeductionUs16ia": 75000,
+    "ProfessionalTaxUs16iii": 2500,
+    "PropertyDetails": [
+     {
+      "HPSNo": 1,
+      "AddressDetailWithZipCode": {
+       "AddrDetail": "No. 42, 3rd Cross, Richmond Town",
+       "CityOrTownOrDistrict": "Bengaluru",
+       "StateCode": "15",
+       "CountryCode": "91",
+       "PinCode": 560025
+      },
+      "PropertyOwner": "SE",
+      "PropCoOwnedFlg": "YES",
+      "AsseseeShareProperty": 100,
+      "CoOwners": [
+       {
+        "CoOwnersSNo": 1,
+        "NameCoOwner": "Lakshmi Sudhir",
+        "PAN_CoOwner": "AKPPL2211M",
+        "Aadhaar_CoOwner": "612345678901",
+        "PercentShareProperty": 0
+       }
+      ],
+      "ifLetOut": "L",
+      "TenantDetails": [
+       {
+        "TenantSNo": 1,
+        "NameofTenant": "Rohan Mehta",
+        "PANofTenant": "BQAPM7788N",
+        "AadhaarofTenant": "501234567890",
+        "PANTANofTenant": "BQAPM7788N"
+       }
+      ],
+      "Rentdetails": {
+       "AnnualLetableValue": 360000,
+       "LocalTaxes": 40000,
+       "TotalUnrealizedAndTax": 40000,
+       "BalanceALV": 320000,
+       "AnnualOfPropOwned": 320000,
+       "ThirtyPercentOfBalance": 96000,
+       "IntOnBorwCap": 200000,
+       "TotalDeduct": 296000,
+       "IncomeOfHP": 24000,
+       "Section24B": {
+        "TotalInterestUs24B": 200000,
+        "Section24BDtls": [
+         {
+          "LoanTknFrom": "B",
+          "BankOrInstnName": "HDFC Bank",
+          "LoanAccNoOfBankOrInstnRefNo": "HL77812345",
+          "DateofLoan": "2021-07-20",
+          "TotalLoanAmt": 4500000,
+          "LoanOutstndngAmt": 3900000,
+          "InterestUs24B": 200000
+         }
+        ]
+       }
+      }
+     },
+     {
+      "HPSNo": 2,
+      "AddressDetailWithZipCode": {
+       "AddrDetail": "Flat 7B, Prestige Lakeside, Whitefield",
+       "CityOrTownOrDistrict": "Bengaluru",
+       "StateCode": "15",
+       "CountryCode": "91",
+       "PinCode": 560066
+      },
+      "PropertyOwner": "SE",
+      "PropCoOwnedFlg": "NO",
+      "AsseseeShareProperty": 100,
+      "ifLetOut": "S",
+      "Rentdetails": {
+       "AnnualLetableValue": 0,
+       "TotalUnrealizedAndTax": 0,
+       "BalanceALV": 0,
+       "AnnualOfPropOwned": 0,
+       "ThirtyPercentOfBalance": 0,
+       "IntOnBorwCap": 200000,
+       "TotalDeduct": 200000,
+       "IncomeOfHP": -200000,
+       "Section24B": {
+        "TotalInterestUs24B": 200000,
+        "Section24BDtls": [
+         {
+          "LoanTknFrom": "B",
+          "BankOrInstnName": "State Bank of India",
+          "LoanAccNoOfBankOrInstnRefNo": "HL3391120044",
+          "DateofLoan": "2019-04-12",
+          "TotalLoanAmt": 8000000,
+          "LoanOutstndngAmt": 5200000,
+          "InterestUs24B": 200000
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "OthersInc": {
+     "OthersIncDtlsOthSrc": [
+      {
+       "OthSrcNatureDesc": "SAV",
+       "OthSrcOthAmount": 12000,
+       "DividendInc": {
+        "DateRange": {
+         "Upto15Of6": 0,
+         "Upto15Of9": 0,
+         "Up16Of9To15Of12": 0,
+         "Up16Of12To15Of3": 0,
+         "Up16Of3To31Of3": 0
+        }
+       }
+      },
+      {
+       "OthSrcNatureDesc": "IFD",
+       "OthSrcOthAmount": 60000,
+       "DividendInc": {
+        "DateRange": {
+         "Upto15Of6": 0,
+         "Upto15Of9": 0,
+         "Up16Of9To15Of12": 0,
+         "Up16Of12To15Of3": 0,
+         "Up16Of3To31Of3": 0
+        }
+       }
+      },
+      {
+       "OthSrcNatureDesc": "TAX",
+       "OthSrcOthAmount": 2000,
+       "DividendInc": {
+        "DateRange": {
+         "Upto15Of6": 0,
+         "Upto15Of9": 0,
+         "Up16Of9To15Of12": 0,
+         "Up16Of12To15Of3": 0,
+         "Up16Of3To31Of3": 0
+        }
+       }
+      },
+      {
+       "OthSrcNatureDesc": "DIV",
+       "OthSrcOthAmount": 40000,
+       "DividendInc": {
+        "DateRange": {
+         "Upto15Of6": 10000,
+         "Upto15Of9": 10000,
+         "Up16Of9To15Of12": 10000,
+         "Up16Of12To15Of3": 10000,
+         "Up16Of3To31Of3": 0
+        }
+       }
+      },
+      {
+       "OthSrcNatureDesc": "FAP",
+       "OthSrcOthAmount": 60000,
+       "DividendInc": {
+        "DateRange": {
+         "Upto15Of6": 0,
+         "Upto15Of9": 0,
+         "Up16Of9To15Of12": 0,
+         "Up16Of12To15Of3": 0,
+         "Up16Of3To31Of3": 0
+        }
+       }
+      }
+     ]
+    },
+    "DeductionUs57iia": 15000
+   },
+   "TaxComputation": {
+    "TotalTaxPayable": 35600,
+    "Rebate87A": 0,
+    "TaxPayableOnRebate": 35600,
+    "EducationCess": 1424,
+    "GrossTaxLiability": 37024,
+    "NetTaxLiability": 37024,
+    "IntrstPay": {
+     "IntrstPayUs234A": 0,
+     "IntrstPayUs234B": 0,
+     "IntrstPayUs234C": 0,
+     "LateFilingFee234F": 0
+    },
+    "TotTaxPlusIntrstPay": 37024
+   },
+   "TaxPaid": {
+    "TaxesPaid": {
+     "AdvanceTax": 5000,
+     "TDS": 29600,
+     "TCS": 5000,
+     "SelfAssessmentTax": 2000,
+     "TotalTaxesPaid": 41600
+    },
+    "BalTaxPayable": 0
+   },
+   "Refund": {
+    "RefundDue": 4580,
+    "BankAccountDtls": {
+     "AddtnlBankDetails": [
+      {
+       "IFSCCode": "SBIN0040011",
+       "BankName": "State Bank of India",
+       "BankAccountNo": "30412345678",
+       "AccountType": "SB",
+       "UseForRefund": "true"
+      },
+      {
+       "IFSCCode": "HDFC0000523",
+       "BankName": "HDFC Bank",
+       "BankAccountNo": "50100987654321",
+       "AccountType": "SB",
+       "UseForRefund": "false"
+      }
+     ]
+    }
+   },
+   "Verification": {
+    "Declaration": {
+     "AssesseeVerName": "S SUDHIR",
+     "FatherName": "S SUBRAMANIAM",
+     "AssesseeVerPAN": "TVOPS4373C"
+    },
+    "Capacity": "S",
+    "Place": "Bengaluru"
+   },
+   "Schedule80C": {
+    "Schedule80CDtls": [
+     {
+      "Amount": 90000,
+      "IdentificationNo": "PPF-BLR-0011223"
+     }
+    ],
+    "TotalAmt": 90000
+   },
+   "Schedule80D": {
+    "Sec80DSelfFamSrCtznHealth": {
+     "SelfAndFamily": 25000,
+     "SelfAndFamilySeniorCitizen": 0,
+     "Parents": 0,
+     "ParentsSeniorCitizen": 46000,
+     "EligibleAmountOfDedn": 71000,
+     "SeniorCitizenFlag": "N",
+     "ParentsSeniorCitizenFlag": "Y",
+     "HealthInsPremSlfFam": 22000,
+     "Sec80DSelfFamHIDtls": {
+      "Sch80DInsDtls": [
+       {
+        "InsurerName": "Star Health",
+        "PolicyNo": "P/700001/01/2026/001234",
+        "HealthInsAmt": 22000
+       }
+      ],
+      "TotalPayments": 22000
+     },
+     "PrevHlthChckUpSlfFam": 4000,
+     "HlthInsPremParentsSrCtzn": 45000,
+     "Sec80DParentsSrCtznHIDtls": {
+      "Sch80DInsDtls": [
+       {
+        "InsurerName": "New India Assurance",
+        "PolicyNo": "NIA-MED-556677",
+        "HealthInsAmt": 45000
+       }
+      ],
+      "TotalPayments": 45000
+     },
+     "PrevHlthChckUpParentsSrCtzn": 1000
+    }
+   },
+   "Schedule80DD": {
+    "NatureOfDisability": "1",
+    "TypeOfDisability": "1",
+    "DeductionAmount": 75000,
+    "DependentType": "2",
+    "DependentPan": "CQKPS1234D",
+    "DependentAadhaar": "890123456789",
+    "Form10IAAckNum": "456789012345678",
+    "UDIDNum": "KA0412345678901234"
+   },
+   "Schedule80U": {
+    "NatureOfDisability": "1",
+    "TypeOfDisability": "2",
+    "DeductionAmount": 75000,
+    "Form10IAAckNum": "654321098765432",
+    "UDIDNum": "KA0498765432109876"
+   },
+   "Schedule80E": {
+    "Schedule80EDtls": [
+     {
+      "LoanTknFrom": "B",
+      "BankOrInstnName": "Canara Bank",
+      "LoanAccNoOfBankOrInstnRefNo": "EDU-2019-04455",
+      "DateofLoan": "2019-07-05",
+      "TotalLoanAmt": 2000000,
+      "LoanOutstndngAmt": 1400000,
+      "Interest80E": 80000
+     }
+    ],
+    "TotalInterest80E": 80000
+   },
+   "Schedule80EEA": {
+    "Schedule80EEADtls": [
+     {
+      "LoanTknFrom": "B",
+      "BankOrInstnName": "HDFC Bank",
+      "LoanAccNoOfBankOrInstnRefNo": "HL-EEA-2020",
+      "DateofLoan": "2020-06-12",
+      "TotalLoanAmt": 3500000,
+      "LoanOutstndngAmt": 2600000,
+      "Interest80EEA": 100000
+     }
+    ],
+    "TotalInterest80EEA": 100000,
+    "PropStmpDtyVal": 4000000
+   },
+   "Schedule80EEB": {
+    "Schedule80EEBDtls": [
+     {
+      "LoanTknFrom": "B",
+      "BankOrInstnName": "Kotak Mahindra Bank",
+      "LoanAccNoOfBankOrInstnRefNo": "EV-2020-778",
+      "DateofLoan": "2020-12-22",
+      "TotalLoanAmt": 1400000,
+      "LoanOutstndngAmt": 700000,
+      "VehicleRegNo": "KA01MJ4521",
+      "Interest80EEB": 80000
+     }
+    ],
+    "TotalInterest80EEB": 80000
+   },
+   "Schedule80G": {
+    "Don100Percent": {
+     "DoneeWithPan": [
+      {
+       "DoneeWithPanName": "Prime Minister's National Relief Fund",
+       "DoneePAN": "AAAGP1234A",
+       "AddressDetail": {
+        "AddrDetail": "South Block",
+        "CityOrTownOrDistrict": "New Delhi",
+        "StateCode": "09",
+        "PinCode": 110011
+       },
+       "DonationAmtCash": 0,
+       "DonationAmtOtherMode": 50000,
+       "DonationAmt": 50000,
+       "EligibleDonationAmt": 50000,
+       "TransactionRefNum": "NEFT-PMNRF-2025-0917",
+       "IFSCCode": "SBIN0000691"
+      }
+     ],
+     "TotDon100PercentCash": 0,
+     "TotDon100PercentOtherMode": 50000,
+     "TotDon100Percent": 50000,
+     "TotEligibleDon100Percent": 50000
+    },
+    "Don50PercentNoApprReqd": {
+     "DoneeWithPan": [
+      {
+       "DoneeWithPanName": "Jawaharlal Nehru Memorial Fund",
+       "DoneePAN": "AAATJ0012B",
+       "AddressDetail": {
+        "AddrDetail": "Teen Murti",
+        "CityOrTownOrDistrict": "New Delhi",
+        "StateCode": "09",
+        "PinCode": 110011
+       },
+       "DonationAmtCash": 0,
+       "DonationAmtOtherMode": 60000,
+       "DonationAmt": 60000,
+       "EligibleDonationAmt": 60000,
+       "TransactionRefNum": "NEFT-JNMF-2025",
+       "IFSCCode": "SBIN0000691"
+      }
+     ],
+     "TotDon50PercentNoApprReqdCash": 0,
+     "TotDon50PercentNoApprReqdOtherMode": 60000,
+     "TotDon50PercentNoApprReqd": 60000,
+     "TotEligibleDon50Percent": 60000
+    },
+    "Don50PercentApprReqd": {
+     "DoneeWithPan": [
+      {
+       "DoneeWithPanName": "Akshaya Patra Foundation",
+       "DoneePAN": "AAATT6624F",
+       "AddressDetail": {
+        "AddrDetail": "HK Hill, Rajajinagar",
+        "CityOrTownOrDistrict": "Bengaluru",
+        "StateCode": "15",
+        "PinCode": 560010
+       },
+       "DonationAmtCash": 0,
+       "DonationAmtOtherMode": 40000,
+       "DonationAmt": 40000,
+       "EligibleDonationAmt": 40000,
+       "ArnNbr": "AAATT6624F24BLR1",
+       "TransactionRefNum": "UPI-akshaya-778812",
+       "IFSCCode": "HDFC0000523"
+      }
+     ],
+     "TotDon50PercentApprReqdCash": 0,
+     "TotDon50PercentApprReqdOtherMode": 40000,
+     "TotDon50PercentApprReqd": 40000,
+     "TotEligibleDon50PercentApprReqd": 40000
+    },
+    "TotalDonationsUs80GCash": 0,
+    "TotalDonationsUs80GOtherMode": 150000,
+    "TotalDonationsUs80G": 150000,
+    "TotalEligibleDonationsUs80G": 100000
+   },
+   "Schedule80GGC": {
+    "Schedule80GGCDetails": [
+     {
+      "DonationDate": "2025-10-11",
+      "DonationAmtCash": 0,
+      "DonationAmtOtherMode": 25000,
+      "DonationAmt": 25000,
+      "EligibleDonationAmt": 25000,
+      "PoliticalPartyName": "Bharatiya Janata Party",
+      "PoliticalPartyPAN": "AAABI0067L",
+      "TransactionRefNum": "NEFT-9988776655",
+      "IFSCCode": "SBIN0000691"
+     }
+    ],
+    "TotalDonationAmtCash80GGC": 0,
+    "TotalDonationAmtOtherMode80GGC": 25000,
+    "TotalDonationsUs80GGC": 25000,
+    "TotalEligibleDonationAmt80GGC": 25000
+   },
+   "ScheduleEA10_13A": {
+    "ActlHRARecv": 120000,
+    "ActlRentPaid": 240000,
+    "DtlsSalUsSec171": 600000,
+    "BasicSalary": 600000,
+    "ActlRentPaid10Per": 180000,
+    "Sal40Or50Per": 240000,
+    "EligbleExmpAllwncUs13A": 120000,
+    "Placeofwork": "2"
+   },
+   "ScheduleBP": {
+    "NatOfBus44AD": [
+     {
+      "NameOfBusiness": "Sudhir Traders",
+      "CodeAD": "09028",
+      "Description": "Wholesale trading"
+     }
+    ],
+    "PersumptiveInc44AD": {
+     "GrsTotalTrnOver": 2900000,
+     "GrsTrnOverBank": 2800000,
+     "GrsTotalTrnOverInCash": 100000,
+     "PersumptiveInc44AD6Per": 168000,
+     "PersumptiveInc44AD8Per": 8000,
+     "TotPersumptiveInc44AD": 176000
+    },
+    "NatOfBus44ADA": [
+     {
+      "NameOfBusiness": "Sudhir Consulting",
+      "CodeADA": "16003",
+      "Description": "Management consultancy"
+     }
+    ],
+    "PersumptiveInc44ADA": {
+     "GrsReceipt": 1200000,
+     "GrsTrnOverBank44ADA": 1000000,
+     "GrsTotalTrnOverInCash44ADA": 200000,
+     "TotPersumptiveInc44ADA": 600000
+    },
+    "NatOfBus44AE": [
+     {
+      "NameOfBusiness": "Sudhir Logistics",
+      "CodeAE": "11008",
+      "Description": "Freight transport by road"
+     }
+    ],
+    "GoodsDtlsUs44AE": [
+     {
+      "RegNumberGoodsCarriage": "KA01AB1234",
+      "OwnedLeasedHiredFlag": "OWN",
+      "TonnageCapacity": 15,
+      "HoldingPeriod": 12,
+      "PresumptiveIncome": 180000
+     }
+    ],
+    "PersumptiveInc44AE": {
+     "TotPersumInc44AE": 180000,
+     "TotalPersumptiveInc": 180000,
+     "IncChargeableUnderBus": 956000
+    },
+    "TurnoverGrsRcptForGSTIN": [
+     {
+      "GSTINNo": "29ABCDE1234F1Z5",
+      "AmtTurnGrossRcptGSTIN": 2900000
+     }
+    ],
+    "TotalTurnoverGrsRcptGSTIN": 2900000,
+    "FinanclPartclrOfBusiness": {
+     "SundryCreditors": 200000,
+     "Inventories": 300000,
+     "SundryDebtors": 150000,
+     "BalWithBanks": 400000,
+     "CashInHand": 50000,
+     "TotCapLiabilities": 200000,
+     "TotalAssets": 900000
+    }
+   },
+   "LTCG112A": {
+    "TotSaleCnsdrn": 300000,
+    "TotCstAcqisn": 200000,
+    "LongCap112A": 100000
+   },
+   "TaxExmpIntIncDtls": {
+    "OthersInc": {
+     "OthersIncDtls": [
+      {
+       "Category": "AGRI",
+       "SubCategory": "10(1)",
+       "Description": "Agricultural income",
+       "OthAmount": 4000
+      },
+      {
+       "Category": "SRPC",
+       "SubCategory": "10(11)",
+       "Description": "Statutory provident fund received",
+       "OthAmount": 50000
+      }
+     ],
+     "OthersTotalTaxExe": 54000
+    }
+   },
+   "TDSonSalaries": {
+    "TotalTDSonSalaries": 20000,
+    "TDSonSalary": [
+     {
+      "EmployerOrDeductorOrCollectDetl": {
+       "TAN": "BLRG09999C",
+       "EmployerOrDeductorOrCollecterName": "Sudhir Employer Pvt Ltd"
+      },
+      "IncChrgSal": 632500,
+      "TotalTDSSal": 20000
+     }
+    ]
+   },
+   "TDSonOthThanSals": {
+    "TotalTDSonOthThanSals": 6000,
+    "TDSonOthThanSalDtls": [
+     {
+      "TANOfDeductor": "MUMB12345D",
+      "TDSSection": "94A",
+      "TDSDeducted": 6000,
+      "TDSClaimed": 6000,
+      "GrossAmount": 60000,
+      "HeadOfIncome": "OS",
+      "TDSCreditCarriedFwd": 0
+     }
+    ]
+   },
+   "ScheduleTDS3Dtls": {
+    "TotalTDS3Details": 3600,
+    "TDS3Details": [
+     {
+      "PANofTenant": "BQAPM7788N",
+      "AadhaarofTenant": "501234567890",
+      "TDSSection": "4-IB",
+      "TDSDeducted": 3600,
+      "TDSClaimed": 3600,
+      "GrossAmount": 360000,
+      "HeadOfIncome": "HP",
+      "TDSCreditCarriedFwd": 0
+     }
+    ]
+   },
+   "ScheduleTCS": {
+    "TotalSchTCS": 5000,
+    "TCS": [
+     {
+      "EmployerOrDeductorOrCollectDetl": {
+       "TAN": "BLRC44444J",
+       "EmployerOrDeductorOrCollecterName": "Auto Dealer Ltd"
+      },
+      "Amtfrom26AS": 5000,
+      "TotalTCS": 5000,
+      "AmtTCSClaimedThisYear": 5000
+     }
+    ]
+   },
+   "ScheduleIT": {
+    "TotalTaxPayments": 7000,
+    "TaxPayment": [
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2026-03-14",
+      "SrlNoOfChaln": 63,
+      "Amt": 5000
+     },
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2026-07-25",
+      "SrlNoOfChaln": 70,
+      "Amt": 2000
+     }
+    ]
+   },
+   "TaxReturnPreparer": {
+    "IdentificationNoOfTRP": "TRP0012345",
+    "NameOfTRP": "Ramesh Iyer"
+   }
+  }
+ }
+}

@@ -1,0 +1,310 @@
+{
+ "coded": [
+  2,
+  5,
+  8,
+  11,
+  14,
+  17,
+  29,
+  35,
+  44,
+  53,
+  56,
+  59,
+  62,
+  65,
+  71,
+  74,
+  95,
+  98,
+  110,
+  113,
+  116,
+  119,
+  125,
+  128,
+  131,
+  134,
+  137,
+  149,
+  152,
+  158,
+  161,
+  170,
+  173,
+  179,
+  185,
+  191,
+  194,
+  200,
+  203,
+  206,
+  209,
+  218,
+  221,
+  233,
+  239,
+  242,
+  245,
+  248,
+  251,
+  263,
+  269,
+  272,
+  275,
+  278,
+  281,
+  284,
+  290,
+  293,
+  296,
+  299,
+  302,
+  305,
+  311,
+  314,
+  317,
+  323,
+  326,
+  329,
+  332,
+  335,
+  338,
+  341,
+  344,
+  347,
+  350,
+  353,
+  359,
+  398,
+  403,
+  406
+ ],
+ "excluded": [
+  {
+   "n": 20,
+   "reason": "Entity restriction (Firm) \u2014 not applicable to a resident individual (status=I)."
+  },
+  {
+   "n": 23,
+   "reason": "Garbled/merged rule (80CCD(1) 20%-of-GTI + non-individual bar); no clean single mapping."
+  },
+  {
+   "n": 26,
+   "reason": "Entity restriction (HUF/Firm) \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 32,
+   "reason": "Entity restriction (HUF/Firm) claiming 80EE \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 38,
+   "reason": "80TTA restricted to savings-bank interest; savings interest is not separated in the exported OS schema \u2014 false-fire risk."
+  },
+  {
+   "n": 41,
+   "reason": "80TTB restricted to savings+deposit interest; interest breakdown not separated in schema \u2014 false-fire risk."
+  },
+  {
+   "n": 47,
+   "reason": "Garbled; 80CCD(2) 14% base (basic+DA) is not captured in the ITR-4 salary schema \u2014 cannot map accurately."
+  },
+  {
+   "n": 50,
+   "reason": "Entity restriction (HUF/Firm) rebate 87A \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 68,
+   "reason": "Entertainment allowance is employer-conditional but the engine allows 16(ii) for any employer category \u2014 false-fire risk."
+  },
+  {
+   "n": 77,
+   "reason": "References 10(10B)(i)/(ii) mutual-exclusion; 10(10B) options are absent from the ITR-4 salary exempt-allowance dropdown."
+  },
+  {
+   "n": 80,
+   "reason": "'to the extent actually incurred' \u2014 the incurred amount is not verifiable offline."
+  },
+  {
+   "n": 83,
+   "reason": "Exempt-income SubCategory is a free-text field in ITR-4; no enforced dropdown code to count duplicates against."
+  },
+  {
+   "n": 86,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 89,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 92,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 101,
+   "reason": "80G cash/other entry requirement: the Yukti 'Total' field is decoupled from cash/other splits \u2014 false-fire risk."
+  },
+  {
+   "n": 104,
+   "reason": "80G Total==cash+other: 'Total' is an independent user field in Yukti and may differ \u2014 false-fire risk."
+  },
+  {
+   "n": 107,
+   "reason": "Same as 104 for table (D) \u2014 Total field decoupled from cash/other \u2014 false-fire risk."
+  },
+  {
+   "n": 122,
+   "reason": "TDS2(ii) requires GrossAmount/HeadOfIncome, but GrossAmount is optional in the Yukti grid \u2014 false-fire risk."
+  },
+  {
+   "n": 140,
+   "reason": "Meta/eligibility (rule 12(1)(ca) form-choice); not a checkable field-level assertion."
+  },
+  {
+   "n": 143,
+   "reason": "Old-regime std deduction Rs.50,000 conflicts with the engine's Rs.75,000 cap for both regimes \u2014 would false-fire."
+  },
+  {
+   "n": 146,
+   "reason": "80DD fixed Rs.75,000 equality; the engine caps but does not fix-up under-claims \u2014 false-fire risk."
+  },
+  {
+   "n": 155,
+   "reason": "Garbled/truncated rule; condition (employer/Rs.2,00,000) cannot be reconstructed reliably."
+  },
+  {
+   "n": 164,
+   "reason": "Entity restriction (HUF/Firm) claiming 80EEB \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 167,
+   "reason": "Requires the original return's filing section (142(1)) \u2014 not present in a single return object."
+  },
+  {
+   "n": 176,
+   "reason": "80D Sl.2b == sum(i+ii+iii): the sub-item breakup is not exposed as distinct schema keys."
+  },
+  {
+   "n": 182,
+   "reason": "80U fixed Rs.1,25,000 equality; the engine caps but does not fix-up under-claims \u2014 false-fire risk."
+  },
+  {
+   "n": 188,
+   "reason": "Garbled/merged (10(14)(ii)=0 + 148 revised-return bar); the 148 leg is not checkable offline."
+  },
+  {
+   "n": 197,
+   "reason": "Garbled conditional involving negative HP income and GTI composition; too ambiguous to encode safely."
+  },
+  {
+   "n": 212,
+   "reason": "Entity restriction (HUF) 44ADA eligibility \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 215,
+   "reason": "10(10CC) <= TDS u/s 192: a valid return may legitimately lack salary TDS \u2014 false-fire risk."
+  },
+  {
+   "n": 224,
+   "reason": "Garbled; 80CCH 46.2%-of-salary base (Rs.2,88,000) not captured in the ITR-4 salary schema."
+  },
+  {
+   "n": 227,
+   "reason": "Marginal-rebate band (new regime Rs.12L 87A) is complex; a clean assertion risks false-firing on the marginal band."
+  },
+  {
+   "n": 230,
+   "reason": "Positive eligibility statement (a firm IS eligible for 80G/80GGC) \u2014 not a validation condition."
+  },
+  {
+   "n": 236,
+   "reason": "Entity restriction (Firm) 80D \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 254,
+   "reason": "Entity rule (HUF dependent = 'Member of HUF') \u2014 not applicable to a resident individual."
+  },
+  {
+   "n": 257,
+   "reason": "Aadhaar match against an external profile database \u2014 cannot be checked offline."
+  },
+  {
+   "n": 260,
+   "reason": "The 115BAC option is always set internally from the regime toggle; not a meaningful presence check."
+  },
+  {
+   "n": 266,
+   "reason": "Schedule EI LTCG 112A == (i-ii) conflicts with the engine's Rs.1,25,000 non-chargeable cap logic \u2014 false-fire risk."
+  },
+  {
+   "n": 287,
+   "reason": "Form 10IA acknowledgement is optional in the Yukti export \u2014 false-fire risk."
+  },
+  {
+   "n": 308,
+   "reason": "80D insurer/policy default to 'NA' on export and the receipt/document-number field is absent from the schema."
+  },
+  {
+   "n": 320,
+   "reason": "Salary 10(13A) allowance and Schedule 10(13A) are two independent inputs with no sync guarantee \u2014 false-fire risk."
+  },
+  {
+   "n": 356,
+   "reason": "A23(A)(ii)(b) sub-fields are not exported in the ITR-4 build."
+  },
+  {
+   "n": 362,
+   "reason": "A23(A)(ii)(b)(i) sub-fields are not exported in the ITR-4 build."
+  },
+  {
+   "n": 365,
+   "reason": "Judge exempt-income dropdown is absent from the ITR-4 salary exempt-allowance schema."
+  },
+  {
+   "n": 368,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 371,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 374,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 377,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 380,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 383,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 386,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 389,
+   "reason": "Exempt-income SubCategory is free text; duplicate-of-dropdown not enforceable."
+  },
+  {
+   "n": 392,
+   "reason": "234-I fee conditional (filing date + section 139(5) + income <=5L) on a user-input field; complex, false-fire risk."
+  },
+  {
+   "n": 395,
+   "reason": "80G donee PAN mandatory but Yukti defaults it to 'NA' on export \u2014 false-fire risk."
+  },
+  {
+   "n": 409,
+   "reason": "80CCC requires an identifier row, but PensionContribution80CCC is not exported in the ITR-4 build \u2014 would false-fire."
+  }
+ ]
+}
