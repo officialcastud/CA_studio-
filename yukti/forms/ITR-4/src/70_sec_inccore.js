@@ -221,9 +221,6 @@ function engInc(){
   const e7=Math.max(0, e5-e6);                                    /* [I71] E7 = max(0, E5 − E6) */
   const e8=Math.max(0, e2c+e4+e7);                               /* [I72] E8 = E2c + E4 + E7 = IncomeFromBusinessProf */
 
-  /* per-vehicle deemed suggestion (min Rs 1000/MT/month, floor Rs 7500/month) [N54]/[O54] */
-  A.gcvDeem=(v)=>{ const m=N(v.months); return Math.max(N(v.tonnage)*m*1000, m*7500); };
-
   /* ---- House property (HP.md; PropertyDetails[]) ---- */
   let hpHead=0; const hpCalc=[];
   (IC.hp||[]).forEach(p=>{

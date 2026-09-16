@@ -1,0 +1,8 @@
+{
+ "gate": 4,
+ "ok": false,
+ "failing": [
+  "export blocked: 6 things still to fix:\n\n\u00b7 Name required \u2014 Surname / last name (or firm name) is mandatory.\n\u00b7 Bank account \u2014 At least one bank account is needed for the refund.\n\u00b7 Verification \u2014 The full name of the person verifying the return is required.\n\u00b7 Father's name \u2014 The schema makes the father's name compulso"
+ ],
+ "extra": {}
+}
