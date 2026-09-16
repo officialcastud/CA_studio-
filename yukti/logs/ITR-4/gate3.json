@@ -1,8 +1,6 @@
 {
  "gate": 3,
- "ok": false,
- "failing": [
-  "[Income Details] no book at books/ITR-4/Income_Details.md"
- ],
+ "ok": true,
+ "failing": [],
  "extra": {}
 }

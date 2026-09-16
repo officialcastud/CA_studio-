@@ -160,6 +160,9 @@ These rows are printed `H` in the dump and are excluded (never built as items):
 - Financial particulars E15, E19, E20, E21, E22 are mandatory; totals E17 and E25 are computed and untypeable.
 - Do NOT build the hidden multi-business NOB table (rows 3–7) or the hidden GST reconciliation/adjustment rows (81–91) as live items.
 
+## Dropdowns
+Every dropdown list on the BP sheet and every value. `NOB44AD` feeds the 44AD business code (F13:H17); `NOB44ADA` feeds the 44ADA profession code (F30:H35); `NOB` feeds the 44AE transport business code (F45:H49) and the hidden multi-business code (E5:E7); the Owned/Leased/Hired list feeds the goods-carriage flag (F54:F63); `NewCodes` feeds the hidden GST adjustment nature-of-items (E86:E89).
+
 **NOB** (cells `E5:E7`) — 8 values:
 
 - (Select)
