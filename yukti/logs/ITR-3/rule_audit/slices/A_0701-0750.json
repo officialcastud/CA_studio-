@@ -1,0 +1,252 @@
+[
+{
+"n": 701,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii)"
+},
+{
+"n": 702,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 2a Parents will be allowed to the extent of 25000. Deduction is available only if \"Old Tax Regime\" is selected"
+},
+{
+"n": 703,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) 41"
+},
+{
+"n": 704,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 2b Parents (Senior Citizen) will be allowed to the extent of 50000."
+},
+{
+"n": 705,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii)"
+},
+{
+"n": 706,
+"cat": "A",
+"text": "In Schedule 80D, Sl. No. 3 Eligible amount of deduction will be allowed to the extent of 100000."
+},
+{
+"n": 707,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b)"
+},
+{
+"n": 708,
+"cat": "A",
+"text": "If deduction u/s 80D is claimed in Sch VIA then details should be provided in Schedule 80D"
+},
+{
+"n": 709,
+"cat": "A",
+"text": "In Schedule VI-A, 80D claimed should be equal to Eligible amount of deduction of Schedule 80D subject to GTI"
+},
+{
+"n": 710,
+"cat": "A",
+"text": "Schedule 80D should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 711,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.1a \"Self and Family\" can be claimed only if dropdown at sl.no.1 is selected as \"No\""
+},
+{
+"n": 712,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.1b \"Self & Family including Senior Citizen\" can be claimed only if dropdown at sl.no.1 is selected as \"Yes\""
+},
+{
+"n": 713,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.2a \"Parents\" can be claimed only if dropdown at sl.no.2 is selected as \"No\""
+},
+{
+"n": 714,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.2b \"Parents including Senior Citizen\" can be claimed only if dropdown at sl.no.2 is selected as \"Yes\""
+},
+{
+"n": 715,
+"cat": "A",
+"text": "In Schedule 80D, deduction can't be claimed in sl.no.1a and 1b if dropdown is selected as \"Not claiming for Self /Family\""
+},
+{
+"n": 716,
+"cat": "A",
+"text": "In Schedule 80D, deduction can't be claimed in sl.no.2a and 2b if dropdown is selected as \"Not claiming for Parents\""
+},
+{
+"n": 717,
+"cat": "A",
+"text": "HUF is not eligible for claiming deduction at sl.no.2 of Schedule 80D"
+},
+{
+"n": 718,
+"cat": "A",
+"text": "In schedule 80D, questions at sl.no.1 and sl.no.2 are to be selected (as applicable), to claim deduction"
+},
+{
+"n": 719,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"Health Insurance amount\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 720,
+"cat": "A",
+"text": "sl.no.1a In schedule 80D, breakup of individual rows for \"Health Insurance amount\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 721,
+"cat": "A",
+"text": "sl.no.1b In schedule 80D, breakup of individual rows for \"Health Insurance amount\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.2a 42"
+},
+{
+"n": 722,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"Health Insurance amount\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 723,
+"cat": "A",
+"text": "sl.no.2b Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)"
+},
+{
+"n": 724,
+"cat": "A",
+"text": "Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1b (i)"
+},
+{
+"n": 725,
+"cat": "A",
+"text": "Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2a (i)"
+},
+{
+"n": 726,
+"cat": "A",
+"text": "Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2b (i)"
+},
+{
+"n": 727,
+"cat": "A",
+"text": "Details of loan needs to be provided for claiming deduction u/s 80E in schedule 80E"
+},
+{
+"n": 728,
+"cat": "A",
+"text": "Deduction u/s 80E in schedule VIA should match with the \"Total Interest u/s 80E\" as per schedule 80E"
+},
+{
+"n": 729,
+"cat": "A",
+"text": "In schedule 80E the sum of individual rows for \"Interest u/s 80E\" shall match with the \"Total Interest u/s 80E\" as per the schedule 80E"
+},
+{
+"n": 730,
+"cat": "A",
+"text": "Assessee having status as HUF is not eligible to fill any schedule out of 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule or Table 10(13A) for claiming"
+},
+{
+"n": 731,
+"cat": "A",
+"text": "respective deduction Details of loan needs to be provided for claiming deduction u/s 80EE in schedule 80EE"
+},
+{
+"n": 732,
+"cat": "A",
+"text": "Deduction u/s 80EE can be claimed only if maximum loan taken does not exceed Rs. 35 lakhs against the property"
+},
+{
+"n": 733,
+"cat": "A",
+"text": "Deduction u/s 80EE in schedule VIA should match with the \"Total Interest u/s 80EE\" as per schedule 80EE"
+},
+{
+"n": 734,
+"cat": "A",
+"text": "In schedule 80EE the sum of individual rows for \"Interest u/s 80EE\" shall match with the \"Total Interest u/s 80EE\" as per the schedule 80EE"
+},
+{
+"n": 735,
+"cat": "A",
+"text": "The Date of sanction of loan In schedule 80EE shall be between 1.4.16 and 31.3.17"
+},
+{
+"n": 736,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" needs to be provided for claiming deduction u/s 80EEA in schedule 80EEA"
+},
+{
+"n": 737,
+"cat": "A",
+"text": "Deduction u/s 80EEA can be claimed only on the residential house property having stamp value upto Rs.45 Lakhs"
+},
+{
+"n": 738,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22"
+},
+{
+"n": 739,
+"cat": "A",
+"text": "Deduction u/s 80EEA in schedule VIA should match with the \"Total Interest u/s 80EEA\" as per schedule 80EEA"
+},
+{
+"n": 740,
+"cat": "A",
+"text": "In schedule 80EEA the sum of individual rows for \"Interest u/s 80EEA\" shall match with the \"Total Interest u/s 80EEA\" as per the schedule 80EEA 43"
+},
+{
+"n": 741,
+"cat": "A",
+"text": "Details of loan needs to be provided for claiming deduction u/s 80EEB in schedule 80EEB"
+},
+{
+"n": 742,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEB shall be between 1.4.19 and 31.3.23"
+},
+{
+"n": 743,
+"cat": "A",
+"text": "Deduction u/s 80EEB in schedule VIA should match with the \"Total Interest u/s 80EEB\" as per schedule 80EEB"
+},
+{
+"n": 744,
+"cat": "A",
+"text": "In schedule 80EEB the sum of individual rows for \"Interest u/s 80EEB\" shall match with the \"Total Interest u/s 80EEB\" as per the schedule 80EEB"
+},
+{
+"n": 745,
+"cat": "A",
+"text": "Amount of deduction claimed u/s 80-IA in schedule VIA cannot be more than the total amount at Schedule 80IA"
+},
+{
+"n": 746,
+"cat": "A",
+"text": "If Deduction u/s 80-IA claimed in \"Schedule VI-A\" then \"Schedule 80-IA\" is to be filled."
+},
+{
+"n": 747,
+"cat": "A",
+"text": "Deduction is available only if option Old tax regime is selected In schedule VI-A, if deduction u/s 80-IB is claimed, then schedule 80-IB should be filled."
+},
+{
+"n": 748,
+"cat": "A",
+"text": "Deduction is available only if option \"Old Tax Regime\" is selected Deduction u/s 80-IE claimed in \"Schedule VI-A\" cannot be more than the amount in Total of \"Schedule 80-IE\""
+},
+{
+"n": 749,
+"cat": "A",
+"text": "If deduction u/s 80IE is claimed in schedule VI-A then \"Schedule 80-IE\" should be filled."
+},
+{
+"n": 750,
+"cat": "A",
+"text": "Deduction is available only if option \"Old Tax Regime\" is selected Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than 1,50,000."
+}
+]

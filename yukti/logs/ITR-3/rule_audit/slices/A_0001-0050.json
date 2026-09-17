@@ -1,0 +1,252 @@
+[
+{
+"n": 1,
+"cat": "A",
+"text": "Assessee should provide valid Mobile Number"
+},
+{
+"n": 2,
+"cat": "A",
+"text": "HUF cannot claim relief u/s 89"
+},
+{
+"n": 3,
+"cat": "A",
+"text": "Name entered in the return should match with the name as per the PAN database"
+},
+{
+"n": 4,
+"cat": "A",
+"text": "If taxpayer claiming benefit of senior citizen or super senior citizen then date of birth should be matched with PAN database"
+},
+{
+"n": 5,
+"cat": "A",
+"text": "If the original return is filed under section 142(1) then taxpayer cannot file revised return"
+},
+{
+"n": 6,
+"cat": "A",
+"text": "In Part A General, \"Whether you have held unlisted equity shares at any time during the previous year?\" is selected as \"Yes\" then details in table should be filled"
+},
+{
+"n": 7,
+"cat": "A",
+"text": "In Part A General information, \"Are you governed by Portuguese Civil Code as per section 5A?\" is selected as Yes then schedule 5A should be filled"
+},
+{
+"n": 8,
+"cat": "A",
+"text": "If return is being filed by Representative Assessee then PAN quoted in verification schedule of the return should be same as the PAN who is trying to upload the return."
+},
+{
+"n": 9,
+"cat": "A",
+"text": "In Verification, if representative is selected from dropdown of capacity then Yes should be selected in \"Whether this return is being filed by a representative assessee\" & details"
+},
+{
+"n": 10,
+"cat": "A",
+"text": "of representative assessee in Part-A General and details of representative should be filled In Part A General, Are you filing return of income under Seventh proviso to Section 139(1) is selected as Yes then details should be provided"
+},
+{
+"n": 11,
+"cat": "A",
+"text": "In Part A General, Whether you were Director in a company at any time during the previous year? is selected as Yes then the details should be filled"
+},
+{
+"n": 12,
+"cat": "A",
+"text": "Donee PAN mentioned in Schedule 80G cannot be the same as the assessee PAN or the verification PAN"
+},
+{
+"n": 13,
+"cat": "A",
+"text": "In Part A General information, if Assessee is liable for audit u/s 44AB and Yes is selected for accounts have been audited by an accountant, information relating to auditor and audit"
+},
+{
+"n": 14,
+"cat": "A",
+"text": "report should be furnished In Part A General information, answer to \"Whether assessee is declaring income only under section 44AE/44B/44BB/44AD/44ADA/44BBA/44BBB/44BBC/44BBD\" is"
+},
+{
+"n": 15,
+"cat": "A",
+"text": "mandatory If Assessee selects option \"More than Rs. 1 crore and up to Rs. 10 crores\" in field , a2i (Please select the range of whether during the year Total sales/turnover/gross receipts of business) of Part A general, then a2ii cannot be left blank"
+},
+{
+"n": 16,
+"cat": "A",
+"text": "If Assessee selects option \"More than Rs. 1 crore and up to Rs. 10 crores\" in field , a2i (Please select the range of whether during the year Total sales/turnover/gross receipts of business) of Part A general, then a2iii cannot be left blank 4"
+},
+{
+"n": 17,
+"cat": "A",
+"text": "In Part A General information, Date of audit report cannot be after system date"
+},
+{
+"n": 18,
+"cat": "A",
+"text": "TAN number should be valid."
+},
+{
+"n": 19,
+"cat": "A",
+"text": "Once a proceeding is initiated u/s 148, 153A or 153C, no other return can be filed u/s 139(8A)"
+},
+{
+"n": 20,
+"cat": "A",
+"text": "HUF & Non Resident Individual cannot claim relief from taxation u/s 89A"
+},
+{
+"n": 21,
+"cat": "A",
+"text": "In Part A General, \"Are you required to file return of income under clause (iv) of the Seventh proviso to Section 139(1) \" is selected as Yes and drop-down is selected then the"
+},
+{
+"n": 22,
+"cat": "A",
+"text": "respective amounts should be filled. In Filing status, \"Are you governed by Portuguese Civil Code as per section 5A?\" is selected as 'No' then Schedule Governed by Portuguese Civil Code should not be filed."
+},
+{
+"n": 23,
+"cat": "A",
+"text": "In Part A general, if filed in response to a notice u/s 139(9)/142(1)/148 or order under section 119(2)(b) then unique number /Document Identification Number (DIN) and date"
+},
+{
+"n": 24,
+"cat": "A",
+"text": "of such notice/Order are mandatory Taxpayer is required to select the condition by virtue of which he is liable for audit u/s. 44AB"
+},
+{
+"n": 25,
+"cat": "A",
+"text": "Taxpayer is required to select applicable due date for filing the return of income in Part A General"
+},
+{
+"n": 26,
+"cat": "A",
+"text": "If Due date 31st October is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen"
+},
+{
+"n": 27,
+"cat": "A",
+"text": "If Due date 30th November is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen"
+},
+{
+"n": 28,
+"cat": "A",
+"text": "You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as \"More than 5%\" in Part A General."
+},
+{
+"n": 29,
+"cat": "A",
+"text": "You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as \"More than 5%\" in Part A General."
+},
+{
+"n": 30,
+"cat": "A",
+"text": "Since you have selected a2i as \"More than Rs. 1 crore and up to Rs. 10 crores\" and either of a2ii or a2iii is entered as \"More than 5%\" in Part A General, then you are liable to audit"
+},
+{
+"n": 31,
+"cat": "A",
+"text": "u/s 44AB. Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile"
+},
+{
+"n": 32,
+"cat": "A",
+"text": "Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile"
+},
+{
+"n": 33,
+"cat": "A",
+"text": "The date of Birth/ Formation should be before 01/04/20XX of AY for which ITR is being filled."
+},
+{
+"n": 34,
+"cat": "A",
+"text": "The date of Birth/ Formation should be before 01/04/20XX of AY for which ITR is being filled."
+},
+{
+"n": 35,
+"cat": "A",
+"text": "Please choose the same tax regime that taxpayer selected in the return for which the response to the defective notice is being filed 5"
+},
+{
+"n": 36,
+"cat": "A",
+"text": "Tax Regime should not be changed in the revised return if the revised return is filed after the due date of filing of original return"
+},
+{
+"n": 37,
+"cat": "A",
+"text": "If status of the taxpayer is other than Non-Resident, DTAA benefit is not available in rate of taxation (i.e. Sl no B12 or A9 of Sch CG or Sl no 2f of Sch OS or Sl no 4 of Sch EI),"
+},
+{
+"n": 38,
+"cat": "A",
+"text": "and the claim may not be allowed. Exempt Allowance u/s 10(13A) in schedule Salary should match with the \"Eligible exempt allowance u/s 10(13A)\" as per Table 10(13A) of Schedule Salary"
+},
+{
+"n": 39,
+"cat": "A",
+"text": "In case of business income, it is mandatory to answer Sl. No. A19(b)(I) in Schedule Part A General"
+},
+{
+"n": 40,
+"cat": "A",
+"text": "In case of no business income, it is mandatory to answer Sl. No. A19(b)(II) in Schedule Part A General"
+},
+{
+"n": 41,
+"cat": "A",
+"text": "Details of Form 10IEA shall be mentioned if \"Yes\" is selected at \"Have you filed form10IEA within due date for any earlier assessment year for choosing old tax regime?\""
+},
+{
+"n": 42,
+"cat": "A",
+"text": "in Schedule Part A General Details of the Form 10IEA is mandatory if Form 10IEA is filed to re-enter to the New tax regime in earlier year in Schedule Part A General"
+},
+{
+"n": 43,
+"cat": "A",
+"text": "If Form 10IEA is not filed with re-enter option for earlier assessment year, then answer to questions in \"Have you furnished Form 1010IEA for re-entering in new tax regime in"
+},
+{
+"n": 44,
+"cat": "A",
+"text": "current assessment year? is mandatory in Schedule Part A General Information. Form 10IEA details are mandatory for re-entering to New Tax Regime in Current AY"
+},
+{
+"n": 45,
+"cat": "A",
+"text": "Form 10IEA details are mandatory for opting for Old Tax Regime in Current AY"
+},
+{
+"n": 46,
+"cat": "A",
+"text": "Business Income is mandatory if any option is selected at Sl. no. A19b of Schedule Part A General Information"
+},
+{
+"n": 47,
+"cat": "A",
+"text": "In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary) and contact no (primary) of taxpayer."
+},
+{
+"n": 48,
+"cat": "A",
+"text": "In Part A General, \"Whether you are FPI?\" should be selected \"Yes\" for offering income under Section 115AD(1)(i) in Schedule OS"
+},
+{
+"n": 49,
+"cat": "A",
+"text": "Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income"
+},
+{
+"n": 50,
+"cat": "A",
+"text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information"
+}
+]

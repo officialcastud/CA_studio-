@@ -1,0 +1,252 @@
+[
+{
+"n": 401,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B7a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)"
+},
+{
+"n": 402,
+"cat": "A",
+"text": "In Schedule CG Sl.No. B7c of LTCG should be equal to B(7a-7b)"
+},
+{
+"n": 403,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B8c LTCG on share or debenture should be equal to B(8a-8b)."
+},
+{
+"n": 404,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B9 (a)(ic) should be higher of B9 (a)(ia) or B9 (a)(ib)"
+},
+{
+"n": 405,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B9 (aiii) Total should be equal to sum of B9 (a)(ic+ii)"
+},
+{
+"n": 406,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B9biv Total should be equal to sum of B9 (bi+bii+biii)"
+},
+{
+"n": 407,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B9c Balance should be equal to B(9aiii-biv)"
+},
+{
+"n": 408,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B9e should be equal to B(9c-9d)"
+},
+{
+"n": 409,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B10 should be equal to B10 (aXi + aXii +aXn+ b)"
+},
+{
+"n": 410,
+"cat": "A",
+"text": "In Schedule CG, Sl. No. B11 should be equal to (B11a1+B11a2)"
+},
+{
+"n": 411,
+"cat": "A",
+"text": "If resident has not exercised option under 115H then ax benefits against the sections mentioned therein will not be allowed in Schedule CG"
+},
+{
+"n": 412,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. D1i should be equal to sum of D(1a + 1b + 1c + 1d + 1e + 1f+1g+1h)"
+},
+{
+"n": 413,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. Eviii should be equal to the sum of sl no (ii + iii + iv + v + vi + vii)"
+},
+{
+"n": 414,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. Eix should be equal Ei-Eviii"
+},
+{
+"n": 415,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. Ei3 should be equal to sum of Sl.No. (A5e+ A8b +A(A) for 30%)]) Note: This rule will be applicable only if the sum of Sl.No. (A5e+ A8b +A(A) for 30%)] is negative 25"
+},
+{
+"n": 416,
+"cat": "A",
+"text": "Schedule CG sl no Ei4 should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+A(A) for App rate) Note: This rule will be applicable only if the sum of Sl.No."
+},
+{
+"n": 417,
+"cat": "A",
+"text": "(A1e+A2c+A4b+A6g+A7+A8c+A(A) for App rate) is negative In Schedule CG, Sl.No. Ei5 should be equal to Sl.No. 9b Note: This rule will be applicable only if Sl.No. A9b is negative"
+},
+{
+"n": 418,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. Ei7 should be equal to Sl.No. B12b."
+},
+{
+"n": 419,
+"cat": "A",
+"text": "Note: This rule will be applicable only if Sl.No. B12bis negative In Schedule CG, Sl.No.Eiii should be equal to sum of Sl.No. (A5e+A8b+A(A))"
+},
+{
+"n": 420,
+"cat": "A",
+"text": "Note: This rule will be applicable only if the (A5e+A8b+A(A)) is positive In Schedule CG, Sl.No. Eiv should be equal to sum of Sl.No. (A1e+A2c+A4b+A6g +A7+A8c+A(A))"
+},
+{
+"n": 421,
+"cat": "A",
+"text": "Note: This rule will be applicable only if the (A1e+A2c+A4b+A6g +A7+A8c+A(A)) is positive In Schedule CG, Sl.No. Ev should be equal to Sl.No. A9b. Note: This rule will be applicable only if Sl.No. A9b is positive"
+},
+{
+"n": 422,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. Evii should be equal to Sl.No. B12b. Note: This rule will be applicable only if Sl.No. B12b is positive"
+},
+{
+"n": 423,
+"cat": "A",
+"text": "In Schedule CG, Deductions claimed under respective section in STCG and LTCG should match with deduction reported in Table D."
+},
+{
+"n": 424,
+"cat": "A",
+"text": "In Sch CG, value at field E8 is not equal to the Col no (1-2-3-4-5-6-7)"
+},
+{
+"n": 425,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No. 2 the breakup of all the quarters should be equal to the value from item 5vii of schedule BFLA"
+},
+{
+"n": 426,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No. 3 the breakup of all the quarters should be equal to the value from item 5viii of schedule BFLA"
+},
+{
+"n": 427,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No. 4 the breakup of all the quarters should be equal to the value from item 5ix of schedule BFLA"
+},
+{
+"n": 428,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No.6 the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA"
+},
+{
+"n": 429,
+"cat": "A",
+"text": "In Schedule CG ,In case A1(aii) does not exceed 1.10 times A1(ai), value at A1(aiii) will be equal to A1(ai), or else value at A1(aiii) will"
+},
+{
+"n": 430,
+"cat": "A",
+"text": "be equal to A1(aii) In Schedule CG ,In case B1(aii) does not exceed 1.10 times B1(ai), value at B1(aiii) will be equal to B1(ai), or else value at B1(aiii) will"
+},
+{
+"n": 431,
+"cat": "A",
+"text": "be equal to B1(aii) In Schedule CG, Sl. No. A2aiii should be higher of 2ai and 2aii 26"
+},
+{
+"n": 432,
+"cat": "A",
+"text": "In Schedule CG, Sl. No. B2aiii should be higher of 2ai and 2aii"
+},
+{
+"n": 433,
+"cat": "A",
+"text": "If any one row is filled in Schedule 112A, then Schedule 115AD(1)(b)(iii) proviso is not allowed to fill by the taxpayer"
+},
+{
+"n": 434,
+"cat": "A",
+"text": "If any one row is filled in Schedule 115AD(1)(b)(iii) proviso, then Schedule 112A is not allowed to fill by the taxpayer"
+},
+{
+"n": 435,
+"cat": "A",
+"text": "Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biia) is more than Zero"
+},
+{
+"n": 436,
+"cat": "A",
+"text": "Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biib) is more than Zero"
+},
+{
+"n": 437,
+"cat": "A",
+"text": "In Schedule CG, SL. No. C3 Income chargeable under the head \u201cCAPITAL GAINS\u201d should be equal to the sum of \"Sum of Capital Gain Incomes\" and \"Income from transfer"
+},
+{
+"n": 438,
+"cat": "A",
+"text": "of Virtual Digital Assets\" In Schedule CG, SL. No. C2 Income from transfer of Virtual Digital Assets should be equal to Sl. No. B of Schedule VDA"
+},
+{
+"n": 439,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl. No.7 the breakup of all the quarters should be equal to the value of 'Income under the head Capital Gain' of schedule SI"
+},
+{
+"n": 440,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl. No. 7 the breakup of all the quarters should be equal to the value at Sl. No. C2"
+},
+{
+"n": 441,
+"cat": "A",
+"text": "If Total Cost of improvement with Indexation is filled, its mandatory to provide Cost of Improvement, Cost of Improvement with Indexation and Year of Improvement. Also, Total Cost of Improvement with Indexation should match with sum of its individual"
+},
+{
+"n": 442,
+"cat": "A",
+"text": "values. In Schedule CG, Table D, Sl. No. 1aiv,1civ and 1div is more than zero but details of iva, ivb and ivc are blank"
+},
+{
+"n": 443,
+"cat": "A",
+"text": "In Schedule CG, STCG @ 20% - 111A & 115AD(1)(b)(ii) can only be entered once."
+},
+{
+"n": 444,
+"cat": "A",
+"text": "In Schedule CG, the beneficial rate of LTCG on sale of land or building or both is applicable only if the acquisition is before 23 July 2024"
+},
+{
+"n": 445,
+"cat": "A",
+"text": "In Schedule CG, Indexation should not be allowed in case of Non Residents."
+},
+{
+"n": 446,
+"cat": "A",
+"text": "In Schedule CG, for residents, tax on LTCG from sale of land or building or both should be 20% in case of transfer is before 23 July and 12.5% in case of transfer on or after 23"
+},
+{
+"n": 447,
+"cat": "A",
+"text": "July 2024 Value at field Ei2 should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A) @20%)"
+},
+{
+"n": 448,
+"cat": "A",
+"text": "Value at field Eii should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A)@20%)"
+},
+{
+"n": 449,
+"cat": "A",
+"text": "Value at field Ei6 should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A)"
+},
+{
+"n": 450,
+"cat": "A",
+"text": "Value at field Evi should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A) 27"
+}
+]
