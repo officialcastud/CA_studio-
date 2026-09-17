@@ -50,6 +50,35 @@ const BBLT=[["LTL125","Loss from buy back of 'shares taxable at 12.5%'"]];      
 const DEEM_ST_PY=[["2022-23","2022-23"],["2023-24","2023-24"],["2024-25","2024-25"]];
 const DEEM_ST_SEC=[["54B","54B"],["54G","54G"],["54GA","54GA"]];
 const DEEM_LT_SEC=[["54","54"],["54B","54B"],["54D","54D"],["54F","54F"],["54G","54G"],["54GA","54GA"],["54GB","54GB"]];
+/* State-code list for the 194-IA property/buyer detail (TrnsfImmblPrprtyDtls.StateCode,
+   enum List-1 — the same 37 states + Foreign the other sections carry). */
+const CG_STATE=[["01","Andaman and Nicobar Islands"],["02","Andhra Pradesh"],["03","Arunachal Pradesh"],
+  ["04","Assam"],["05","Bihar"],["06","Chandigarh"],["07","Dadra Nagar and Haveli"],["08","Daman and Diu"],
+  ["09","Delhi"],["10","Goa"],["11","Gujarat"],["12","Haryana"],["13","Himachal Pradesh"],
+  ["14","Jammu and Kashmir"],["15","Karnataka"],["16","Kerala"],["17","Lakshadweep"],["18","Madhya Pradesh"],
+  ["19","Maharashtra"],["20","Manipur"],["21","Meghalaya"],["22","Mizoram"],["23","Nagaland"],["24","Odisha"],
+  ["25","Puducherry"],["26","Punjab"],["27","Rajasthan"],["28","Sikkim"],["29","Tamil Nadu"],["30","Tripura"],
+  ["31","Uttar Pradesh"],["32","West Bengal"],["33","Chhattisgarh"],["34","Uttarakhand"],["35","Jharkhand"],
+  ["36","Telangana"],["37","Ladakh"],["99","Foreign"]];
+const CG_STATE_SET={};CG_STATE.forEach(x=>CG_STATE_SET[x[0]]=1);
+/* B6 (NRIOnSec112and115) section-code list (enums.json SectionCode) */
+const B6SEC=[["21ciii","112(1)(c) — unlisted securities"],
+  ["5AC1c","115AC — bonds or GDR"],["5ADiii","115AD — securities by FII"]];
+/* Yes/No for the DTAA "Tax Residency Certificate obtained?" column */
+const TRCYN=[["Y","Yes"],["N","No"]];
+/* Part D — DeducClaimInfo detail tables (schema ScheduleCGFor23.DeducClaimInfo).
+   Each entry drives the entry grid, the export sub-array and the import read.
+   `invest` = 4-column bond/investment shape (54EC/115F); otherwise the 8-column
+   CGAS/new-asset shape; `acq` uses DateofAcquisition instead of DateofTransfer (54D). */
+const DCLAIM=[
+  {ns:"us54",  sec:"54",  key:"DeducClaimDtlsUs54",  lbl:"Sec 54 — new residential house",       cost:"CostofNewResHouse",    costH:"Cost of new residential house"},
+  {ns:"us54B", sec:"54B", key:"DeducClaimDtlsUs54B", lbl:"Sec 54B — new agricultural land",       cost:"CostofNewAgriLand",    costH:"Cost of new agricultural land"},
+  {ns:"us54D", sec:"54D", key:"DeducClaimDtlsUs54D", lbl:"Sec 54D — new land / building",         cost:"CostofNewLandBuilding",costH:"Cost of new land/building",acq:true},
+  {ns:"us54EC",sec:"54EC",key:"DeducClaimDtlsUs54EC",lbl:"Sec 54EC — investment in specified bonds",invest:true},
+  {ns:"us54F", sec:"54F", key:"DeducClaimDtlsUs54F", lbl:"Sec 54F — new residential house",       cost:"CostofNewResHouse",    costH:"Cost of new residential house"},
+  {ns:"us54G", sec:"54G", key:"DeducClaimDtlsUs54G", lbl:"Sec 54G — new asset (urban → non-urban)",cost:"CostofNewAsset",      costH:"Cost of new asset"},
+  {ns:"us54GA",sec:"54GA",key:"DeducClaimDtlsUs54GA",lbl:"Sec 54GA — new asset (SEZ)",            cost:"CostofNewAsset",       costH:"Cost of new asset"},
+  {ns:"us115F",sec:"115F",key:"DeducClaimDtlsUs115F",lbl:"Sec 115F — new NRI specified asset",    invest:true}];
 
 /* ---- state (S.cg) ------------------------------------------------- */
 /* field paths match the shell's baked-in cg handlers (commit/add/data-addland). */
@@ -57,28 +86,35 @@ S.cg = S.cg || {
   on:false,
   land:[],   /* {buy,sale,lt:"Short"|"Long",cons,sdv,cost,exp,improve:[{amt,yr}],
                 ded:{s54,s54B,s54D,s54EC,s54F,s54G,s54GA},
-                buyers:[{name,pan,aadhaar,share,amt}],paddr,pstate,ppin} */
+                buyers:[{name,pan,aadhaar,share,amt}],paddr,pstate,ppin,pcountry} */
   a2:{},     /* A2 slump-sale STCG  {fmv2,fmv3,networth} */
   a3i:{},    /* A3(i) 111A equity/EOMF STT  {cons,cost,improve,exp,loss94} */
   a6:{},     /* A6 other STCG assets */
+  a4:{},     /* A4 111A/other STCG for NR {sttPaid,sttNot} → NRITransacSec48Dtl (NRI only) */
+  a5:{},     /* A5 FII 115AD STCG {unqCons,unqFmv,othCons,cost,improve,exp,loss94} → NRISecur115AD (NRI only) */
   a7:{deem:[],other:0},   /* A7 deemed STCG */
   a8:{},     /* A8 pass-through STCG {r20,r30,rApp} */
-  a9:[],     /* A9 DTAA STCG {amt,rate,...} */
+  a9:[],     /* A9 DTAA STCG {amt,itemno,country,ccode,article,treaty,trc,secit,itact} (NRI only) */
   aA:[],     /* A(A) buy-back STCL {rate,amt} */
   b2:{},     /* B2 slump-sale LTCG {fmv2,fmv3,networth,ded:{s54EC,s54F}} */
   b3i:{},    /* B3(i) listed securities/ZCB 112(1)  {cons,cost,improve,exp,ded:{s54F}} */
   b3ii:{},   /* B3(ii) GDR 115ACA */
+  b5:{},     /* B5 unlisted shares/listed deb NR {gain,ded:{s54F}} → NRIProvisoSec48 (NRI only) */
+  b6:[],     /* B6 112(1)(c)/115AC/115AD NR {sec,unqCons,unqFmv,othCons,cost,improve,exp,ded:{s54F}} → NRIOnSec112and115 (NRI only) */
+  b8:{},     /* B8 115F foreign-exchange asset NRI {sale,ded115} → NRISaleofForeignAsset (NRI only) */
   b9:{},     /* B9 other LTCG assets */
   b10:{deem:[],other:0},  /* B10 deemed LTCG */
   b11:{},    /* B11 pass-through LTCG {r125a,r125o} */
-  b12:[],    /* B12 DTAA LTCG */
+  b12:[],    /* B12 DTAA LTCG (NRI only) */
   bA:[],     /* B(A) buy-back LTCL */
   s112a:[],  /* Schedule 112A scrips */
   s115ad:[], /* Schedule 115AD scrips (NRI FII only) */
   b4:{},     /* B4 112A deduction {s54F} */
   b7:{},     /* B7 115AD-route deduction {s54F} */
   vda:[],    /* Schedule VDA transfers */
-  dedD:{},   /* Part D particulars keyed by section code */
+  /* Part D · DeducClaimInfo entry tables — the taxpayer enters the claim detail here
+     (CGAS / new-asset particulars); this feeds ONLY DeducClaimInfo, never the gain. */
+  dclaim:{us54:[],us54B:[],us54D:[],us54EC:[],us54F:[],us54G:[],us54GA:[],us115F:[]},
   editE:false, Eover:null,
   editF:false, Fover:null
 };
@@ -186,6 +222,18 @@ function engVDA(rows){let bi=0,cg=0;
     if(r.head==="BI")bi+=inc; else if(r.head==="CG")cg+=inc;});
   return {bi:R(bi),cg:R(cg)};}
 
+/* A9 / B12 DTAA relief (CG book §6): per row the applicable rate is the lower of the
+   treaty rate and the I.T.-Act rate; a row the treaty makes fully exempt (applicable
+   rate 0) is "not chargeable to tax", the rest is taxable at the special DTAA rate. */
+function engDTAA(rows){let notTax=0,special=0;
+  (rows||[]).forEach(r=>{const amt=N(r.amt);
+    const tr=(r.treaty===""||r.treaty==null)?null:N(r.treaty);
+    const it=(r.itact===""||r.itact==null)?null:N(r.itact);
+    let appl; if(tr!=null&&it!=null)appl=Math.min(tr,it); else appl=(tr!=null?tr:(it!=null?it:0));
+    r._appl=appl;
+    if(appl<=0)notTax+=amt; else special+=amt;});
+  return {notTax:R(notTax),special:R(special)};}
+
 /* the toggle is stored as a string "true"/"false" by the <select>, or a
    boolean by import — normalise both */
 function cgOn(){const v=(S.cg||{}).on;return v===true||v==="true"||v==="Yes";}
@@ -213,15 +261,18 @@ function engCg(){
   A.a1 = R(land.st.reduce((a,p)=>a+p._.gain,0));            /* A1e r21 */
   A.a2 = engSlump(C.a2,false);                             /* A2c r35 */
   A.a3i= engAgg(C.a3i,{loss94:1});                         /* A3ie r45 (111A equity STT) */
+  /* A4 (r57/r60) STCG for NR: A4a=111A (STT), A4b=other shares/debentures — direct amounts */
+  A.a4 = {a:R(N((C.a4||{}).sttPaid)), b:R(N((C.a4||{}).sttNot))};
+  A.a4.gain = R(A.a4.a + A.a4.b);
+  A.a5 = engAgg(C.a5,{unq:1,loss94:1});                     /* A5e r75 (FII 115AD STCG securities) */
   A.a6 = engAgg(C.a6,{unq:1,loss94:1,dcg:1,deds:["s54G","s54GA"]}); /* A6g r96 */
   const a7t=(C.a7&&C.a7.deem||[]).reduce((a,x)=>a+N(x.unused),0)+N((C.a7||{}).other);
   A.a7 = {gain:R(a7t)};                                     /* A7 r104 */
   A.a8 = {gain:R(["r20","r30","rApp"].reduce((a,k)=>a+N((C.a8||{})[k]),0))}; /* A8 r106 */
-  const a9a=(C.a9||[]).filter(x=>x.rate==="NIL"||N(x.rate)===0).reduce((a,x)=>a+N(x.amt),0);
-  A.a9 = {notTax:R(a9a), special:R((C.a9||[]).reduce((a,x)=>a+N(x.amt),0)-a9a)}; /* A9a/A9b r120/121 */
+  A.a9 = engDTAA(C.a9);                                     /* A9a/A9b r120/121 (NR DTAA) */
   A.aA = {loss:R((C.aA||[]).reduce((a,x)=>a+N(x.amt),0))};  /* A(A) r135 buy-back STCL */
-  /* A10 r140 = A1e+A2c+A3ie+A6g+A7+A8−A9a + A(A) */
-  A.total=R(A.a1+A.a2.gain+A.a3i.gain+A.a6.gain+A.a7.gain+A.a8.gain-A.a9.notTax-A.aA.loss);
+  /* A10 r140 = A1e+A2c+A3ie+A4a+A4b+A5e+A6g+A7+A8−A9a + A(A) (A4/A5 are 0 for a resident) */
+  A.total=R(A.a1+A.a2.gain+A.a3i.gain+A.a4.gain+A.a5.gain+A.a6.gain+A.a7.gain+A.a8.gain-A.a9.notTax-A.aA.loss);
 
   /* ---- Part B · long-term ----------------------------------------- */
   const B={};
@@ -232,33 +283,42 @@ function engCg(){
   B.b3ii=engAgg(C.b3ii,{deds:["s54F"]});                   /* B3iie r252 (115ACA GDR) */
   const b4ded=N((C.b4||{}).s54F);
   B.b4={a:s112a.bal, ded:R(b4ded), gain:R(s112a.bal-Math.min(b4ded,Math.max(0,s112a.bal)))}; /* B4c r262 (=Col14 112A) */
+  /* B5 (r274) unlisted shares/listed debentures NR: LTCG-without-benefit − 54F */
+  {const b5g=N((C.b5||{}).gain), b5d=N(((C.b5||{}).ded||{}).s54F);
+    B.b5={without:R(b5g), ded:R(b5d), gain:R(b5g-Math.min(b5d,Math.max(0,b5g)))};} /* B5c */
+  /* B6 (r292/309/326) 112(1)(c)/115AC/115AD NR: per-row section-48 aggregate − 54F */
+  B.b6={rows:(C.b6||[]).map(r=>engAgg(r,{unq:1,deds:["s54F"]}))};
+  B.b6.gain=R(B.b6.rows.reduce((a,x)=>a+x.gain,0));         /* B6c */
   B.b7=isNr?{a:s115ad.bal, gain:R(s115ad.bal-Math.min(N((C.b7||{}).s54F),Math.max(0,s115ad.bal)))}:{a:0,gain:0}; /* B7c r336 (=Col14 115AD) */
+  /* B8 (r346) sale of foreign-exchange asset by NRI: sale − 115F deduction */
+  {const b8s=N((C.b8||{}).sale), b8d=N((C.b8||{}).ded115);
+    B.b8={sale:R(b8s), ded:R(b8d), gain:R(b8s-Math.min(b8d,Math.max(0,b8s)))};} /* B8c */
   B.b9=engAgg(C.b9,{unq:1,deds:["s54D","s54F","s54G","s54GA"]}); /* B9e r374 */
   const b10t=(C.b10&&C.b10.deem||[]).reduce((a,x)=>a+N(x.unused),0)+N((C.b10||{}).other);
   B.b10={gain:R(b10t)};                                     /* B10 r397 */
   B.b11={gain:R(["r125a","r125o"].reduce((a,k)=>a+N((C.b11||{})[k]),0))}; /* B11 r400 */
-  const b12a=(C.b12||[]).filter(x=>x.rate==="NIL"||N(x.rate)===0).reduce((a,x)=>a+N(x.amt),0);
-  B.b12={notTax:R(b12a), special:R((C.b12||[]).reduce((a,x)=>a+N(x.amt),0)-b12a)}; /* B12a/B12b r413/414 */
+  B.b12=engDTAA(C.b12);                                     /* B12a/B12b r413/414 (NR DTAA) */
   B.bA={loss:R((C.bA||[]).reduce((a,x)=>a+N(x.amt),0))};    /* B(A) r420 */
-  /* B13 r425 = B1g+B2e+B3ie+B3iie+B4c+B7c+B9e+B10+B11−B12a + B(A) */
-  B.total=R(B.b1+B.b2.gain+B.b3i.gain+B.b3ii.gain+B.b4.gain+B.b7.gain+B.b9.gain
+  /* B13 r425 = B1g+B2e+B3ie+B3iie+B4c+B5c+B6c+B7c+B8c+B9e+B10+B11−B12a + B(A)
+     (B5/B6/B8 are 0 for a resident) */
+  B.total=R(B.b1+B.b2.gain+B.b3i.gain+B.b3ii.gain+B.b4.gain+B.b5.gain+B.b6.gain+B.b7.gain+B.b8.gain+B.b9.gain
     +B.b10.gain+B.b11.gain-B.b12.notTax-B.bA.loss);
 
   /* ---- Part E · set-off matrix on the six rate-slots -------------- */
   /* Composition (CG book Table E rows r539-r547, and the A10/B13 heads):
-     20%   = A3ie (111A equity STT) + A8 r20 (PTI 20%)                   − STL20
-     30%   = A8 r30 (PTI 30%)                                            − STL30
-     app.  = A1e + A2c + A6g + A7 + A8 rApp (PTI applicable)             − STLAR
+     20%   = A3ie (111A equity STT) + A4a (111A NR) + A8 r20 (PTI 20%)            − STL20
+     30%   = A5e (FII 115AD STCG) + A8 r30 (PTI 30%)                              − STL30
+     app.  = A1e + A2c + A4b (other NR STCG) + A6g + A7 + A8 rApp (PTI app.)      − STLAR
      DTAA  = A9b
-     12.5% = B1g + B2e + B3ie + B3iie + B4c + B7c + B9e + B10 + B11      − B(A)
-     LTDTAA= B12b                                                             */
+     12.5% = B1g+B2e+B3ie+B3iie+B4c+B5c+B6c+B7c+B8c+B9e+B10+B11                   − B(A)
+     LTDTAA= B12b   (A4/A5/B5/B6/B8 are 0 for a resident)                              */
   const bbAt=code=>R((C.aA||[]).filter(x=>(x.rate||"STL20")===code).reduce((a,x)=>a+N(x.amt),0));
   const E={
-    st20:R(A.a3i.gain+N((C.a8||{}).r20)-bbAt("STL20")),
-    st30:R(N((C.a8||{}).r30)-bbAt("STL30")),
-    stApp:R(A.a1+A.a2.gain+A.a6.gain+A.a7.gain+N((C.a8||{}).rApp)-bbAt("STLAR")),
+    st20:R(A.a3i.gain+A.a4.a+N((C.a8||{}).r20)-bbAt("STL20")),
+    st30:R(A.a5.gain+N((C.a8||{}).r30)-bbAt("STL30")),
+    stApp:R(A.a1+A.a2.gain+A.a4.b+A.a6.gain+A.a7.gain+N((C.a8||{}).rApp)-bbAt("STLAR")),
     stDTAA:R(A.a9.special),
-    lt125:R(B.b1+B.b2.gain+B.b3i.gain+B.b3ii.gain+B.b4.gain+B.b7.gain+B.b9.gain+B.b10.gain+B.b11.gain-B.bA.loss),
+    lt125:R(B.b1+B.b2.gain+B.b3i.gain+B.b3ii.gain+B.b4.gain+B.b5.gain+B.b6.gain+B.b7.gain+B.b8.gain+B.b9.gain+B.b10.gain+B.b11.gain-B.bA.loss),
     ltDTAA:R(B.b12.special)};
   const gain={},loss={},used={},absorbed={},matrix={};
   KEYS.forEach(k=>{gain[k]=Math.max(0,E[k]);loss[k]=Math.max(0,-E[k]);used[k]=0;absorbed[k]=0;matrix[k]={};});
@@ -346,18 +406,24 @@ function landBlock(p,i,lt){const r=p._||engLand(p);let h="";
     h+=calcRow("ei(B) · Tax for 2nd proviso to 112(1)(a) [1ea × 20%]","B1ei(B)",r.taxB,1);
     h+=calcRow("eii · Excess tax to be ignored (2nd proviso)","B1eii",r.excess,1);
   }
-  /* buyer table (194-IA) */
+  /* buyer table (194-IA) + property location (feeds TrnsfImmblPrprtyDtls) */
+  h+=row("Address of property",inp("cg.land."+i+".paddr"),{ref:"AddressOfProperty"});
+  h+=row("State",sel("cg.land."+i+".pstate",CG_STATE),{ref:"StateCode"});
+  h+=row("Pin code",inp("cg.land."+i+".ppin",{max:6}),{ref:"PinCode"});
+  h+=row("Country code",inp("cg.land."+i+".pcountry",{max:4,ph:"91"}),{ref:"CountryCode"});
   h+=grid("cg.land."+i+".buyers",[
       {h:"Name of buyer",k:"name",t:"txt"},
       {h:"PAN",k:"pan",t:"txt",max:10},
+      {h:"Aadhaar",k:"aadhaar",t:"txt",max:12},
       {h:"% share",k:"share",t:"num"},
       {h:"Amount",k:"amt",t:"num"}
-    ],(p.buyers||[]),{empty:"No buyer detail.",add:"Add a buyer",min:"720px"});
+    ],(p.buyers||[]),{empty:"No buyer detail.",add:"Add a buyer",min:"860px"});
   return blk("cgland"+(lt?"L":"S")+i,(lt?"Long-term property ":"Short-term property ")+(i+1),
     RS(r.gain),h,"cg.land."+i);
 }
 
-function aggBlock(id,title,ref,path,o,r,opts){opts=opts||{};let h="";
+/* the section-48 aggregate body (shared by A3/A6/B3/B9 and the NR B6 rows) */
+function aggBody(path,r,opts,balRef){opts=opts||{};let h="";
   if(opts.unq){
     h+=row("a · Full value — unquoted shares (received/receivable)",inp(path+".unqCons",{n:1}),{ref:"6aia"});
     h+=row("b · Fair market value of unquoted shares (Rule 11UA)",inp(path+".unqFmv",{n:1}),{ref:"aib"});
@@ -370,11 +436,14 @@ function aggBlock(id,title,ref,path,o,r,opts){opts=opts||{};let h="";
   h+=row("bii · Cost of improvement (without indexation)",inp(path+".improve",{n:1}),{ref:"bii",ind:1});
   h+=row("biii · Expenditure w&e on transfer",inp(path+".exp",{n:1}),{ref:"biii",ind:1});
   h+=calcRow("biv · Total deductions u/s 48","biv",r.biv);
-  h+=calcRow("c · Balance",id.charAt(0)==="a"?"c":"3c",r.c);
+  h+=calcRow("c · Balance",balRef||"c",r.c);
   if(opts.loss94)h+=row("d · Loss disallowed u/s 94(7)/94(8)",inp(path+".loss94",{n:1}),{ref:"id"});
   if(opts.dcg)h+=row("e · Deemed STCG on depreciable assets (Sch DCG item 6)",inp(path+".dcg",{n:1}),{ref:"A6e"});
   (opts.deds||[]).forEach(code=>h+=row("d · Deduction u/s "+code,inp(path+".ded.s"+code,{n:1}),{ref:code,ind:1}));
-  h+=calcRow(title+" gain",ref,r.gain);
+  return h;
+}
+function aggBlock(id,title,ref,path,o,r,opts){opts=opts||{};
+  const h=aggBody(path,r,opts,id.charAt(0)==="a"?"c":"3c")+calcRow(title+" gain",ref,r.gain);
   return fold(id,ref,title,RS(r.gain),h,{});
 }
 
@@ -424,6 +493,46 @@ function quartersTable(G){
   return h;
 }
 
+/* Part D — DeducClaimInfo entry tables (one grid per section; DISCLOSURE only). */
+function dclaimBlock(C){
+  const dc=C.dclaim||{};let h="";
+  DCLAIM.forEach(D=>{const rows=dc[D.ns]||[];let cols;
+    if(D.invest)cols=[
+      {h:"Date of transfer of original asset",k:"transfer",t:"date"},
+      {h:"Amount invested",k:"invested",t:"num"},
+      {h:"Date of investment",k:"invdate",t:"date"},
+      {h:"Amount of deduction claimed",k:"amt",t:"num"}];
+    else cols=[
+      {h:(D.acq?"Date of acquisition of original asset":"Date of transfer of original asset"),k:"transfer",t:"date"},
+      {h:D.costH,k:"cost",t:"num"},
+      {h:"Date of purchase / construction",k:"purchase",t:"date"},
+      {h:"Amount deposited in CGAS before due date",k:"deposited",t:"num"},
+      {h:"Date of deposit",k:"depdate",t:"date"},
+      {h:"Account no.",k:"acno",t:"txt",max:20},
+      {h:"IFS code",k:"ifsc",t:"txt",max:11},
+      {h:"Amount of deduction claimed",k:"amt",t:"num"}];
+    h+='<p style="margin:12px 0 2px;font-weight:600;color:var(--ink-2)">'+esc(D.lbl)+'</p>';
+    h+=grid("cg.dclaim."+D.ns,cols,rows,{empty:"No claim detail entered.",add:"Add a claim",min:D.invest?"760px":"1280px"});
+  });
+  return h;
+}
+
+/* A9 / B12 DTAA detail grid (NRICgDTAA.NRIDTAADtls) */
+function dtaaGrid(key,rows){
+  return grid(key,[
+    {h:"Amount of income",k:"amt",t:"num"},
+    {h:"Item (A1–A8 / B1–B9) included",k:"itemno",t:"txt",max:10},
+    {h:"Country name",k:"country",t:"txt"},
+    {h:"Country code",k:"ccode",t:"txt",max:5},
+    {h:"Article of DTAA",k:"article",t:"txt",max:20},
+    {h:"Rate as per Treaty (%)",k:"treaty",t:"num"},
+    {h:"TRC obtained?",k:"trc",t:"sel",opts:TRCYN},
+    {h:"Section of I.T. Act",k:"secit",t:"txt",max:20},
+    {h:"Rate as per I.T. Act (%)",k:"itact",t:"num"},
+    {h:"Applicable rate (lower)",k:"appl",t:"calc",f:r=>(r._appl!=null?r._appl:0)}
+  ],rows,{empty:"No DTAA relief entered.",add:"Add a DTAA row",min:"1360px"});
+}
+
 function secCg(){
   const G=S.C.cg||{on:false};
   if(!G.on){
@@ -450,8 +559,10 @@ function secCg(){
     grid("cg.a7.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_ST_SEC},
+      {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
+      {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"620px"})+
+    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
     row("b · Other amount deemed STCG u/s 54B/54G/54GA",inp("cg.a7.other",{n:1}),{ref:"7b"})+
     calcRow("Total deemed STCG","A7",G.A.a7.gain),{});
   /* A8 PTI */
@@ -464,6 +575,18 @@ function secCg(){
   a+=fold("cgaA","A(A)","A(A) · Capital loss on buy-back of shares (STCL)",RS(-G.A.aA.loss),
     grid("cg.aA",[{h:"Rate",k:"rate",t:"sel",opts:BBST},{h:"Loss amount",k:"amt",t:"num"}],
       C.aA||[],{empty:"No buy-back loss.",add:"Add a row",min:"560px"}),{});
+  /* NON-RESIDENT STCG heads A4/A5 + DTAA A9 — surfaced only for a non-resident */
+  if(G.nri){
+    a+=fold("cga4","A4","A4 · STCG for a non-resident (111A / other shares & debentures)",RS(G.A.a4.gain),
+      row("a · STCG on transactions covered u/s 111A (STT paid)",inp("cg.a4.sttPaid",{n:1}),{ref:"A4a"})+
+      row("b · STCG from shares/debentures not covered at 4a (STT not paid)",inp("cg.a4.sttNot",{n:1}),{ref:"A4b"})+
+      calcRow("Total STCG for non-resident (A4a + A4b)","A4",G.A.a4.gain),{});
+    a+=aggBlock("cga5","A5 · STCG on securities by an FII u/s 115AD","A5e","cg.a5",C.a5,G.A.a5,{unq:1,loss94:1});
+    a+=fold("cga9","A9","A9 · STCG not chargeable / chargeable at special rate per DTAA",RS(G.A.a9.special),
+      dtaaGrid("cg.a9",C.a9||[])+
+      calcRow("a · STCG not chargeable to tax as per DTAA","A9a",G.A.a9.notTax)+
+      calcRow("b · STCG chargeable at special rate as per DTAA","A9b",G.A.a9.special),{});
+  }
   a+=calcRow("A10 · Total short-term capital gain","A10",G.A.total);
   h+=fold("cgA","A · STCG","Short-term capital gains",RS(G.A.total),a,{def:true});
 
@@ -496,8 +619,10 @@ function secCg(){
     grid("cg.b10.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_LT_SEC},
+      {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
+      {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"620px"})+
+    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
     row("b · Other amount deemed LTCG",inp("cg.b10.other",{n:1}),{ref:"10b"})+
     calcRow("Total deemed LTCG","B10",G.B.b10.gain),{});
   /* B11 PTI */
@@ -509,6 +634,30 @@ function secCg(){
   b+=fold("cgbA","B(A)","B(A) · Capital loss on buy-back of shares (LTCL @12.5%)",RS(-G.B.bA.loss),
     grid("cg.bA",[{h:"Rate",k:"rate",t:"sel",opts:BBLT},{h:"Loss amount",k:"amt",t:"num"}],
       C.bA||[],{empty:"No buy-back loss.",add:"Add a row",min:"560px"}),{});
+  /* NON-RESIDENT LTCG heads B5/B6/B8 + DTAA B12 — surfaced only for a non-resident */
+  if(G.nri){
+    b+=fold("cgb5","B5c","B5 · LTCG on unlisted shares / listed debentures (non-resident)",RS(G.B.b5.gain),
+      row("a · LTCG computed without indexation / forex benefit (1st proviso to s.48)",inp("cg.b5.gain",{n:1}),{ref:"5a"})+
+      row("b · Deduction u/s 54F",inp("cg.b5.ded.s54F",{n:1}),{ref:"5b",ind:1})+
+      calcRow("c · LTCG on assets at B5 (5a − 5b)","B5c",G.B.b5.gain),{});
+    let b6="";
+    (C.b6||[]).forEach((r,i)=>{const rr=(G.B.b6.rows||[])[i]||engAgg(r,{unq:1,deds:["s54F"]});
+      b6+=blk("cgb6_"+i,"B6 asset "+(i+1),RS(rr.gain),
+        row("Section",sel("cg.b6."+i+".sec",B6SEC),{ref:"6"})+
+        aggBody("cg.b6."+i,rr,{unq:1,deds:["54F"]},"6c")+
+        calcRow("e · LTCG on assets at B6 (6c − 6d)","B6e",rr.gain),
+        "cg.b6."+i);});
+    b6+='<button class="add" data-add="cg.b6">Add a B6 asset</button>';
+    b+=fold("cgb6","B6c","B6 · LTCG for non-resident u/s 112(1)(c) / 115AC / 115AD",RS(G.B.b6.gain),b6,{});
+    b+=fold("cgb8","B8c","B8 · LTCG on sale of foreign-exchange asset by an NRI (u/s 115F)",RS(G.B.b8.gain),
+      row("a · Sale value of the specified asset",inp("cg.b8.sale",{n:1}),{ref:"8a"})+
+      row("b · Deduction u/s 115F",inp("cg.b8.ded115",{n:1}),{ref:"8b",ind:1})+
+      calcRow("c · Balance LTCG on specified asset (8a − 8b)","B8c",G.B.b8.gain),{});
+    b+=fold("cgb12","B12","B12 · LTCG not chargeable / chargeable at special rate per DTAA",RS(G.B.b12.special),
+      dtaaGrid("cg.b12",C.b12||[])+
+      calcRow("a · LTCG not chargeable to tax as per DTAA","B12a",G.B.b12.notTax)+
+      calcRow("b · LTCG chargeable at special rate as per DTAA","B12b",G.B.b12.special),{});
+  }
   b+=calcRow("B13 · Total long-term capital gain","B13",G.B.total);
   h+=fold("cgB","B · LTCG","Long-term capital gains",RS(G.B.total),b,{def:true});
 
@@ -548,6 +697,13 @@ function secCg(){
   d+=calcRow("1i · Total deduction claimed","1i",G.dedTotal);
   h+=fold("cgD","D","Deductions claimed against capital gains",RS(G.dedTotal),
     (G.dedTotal?"":note("Deductions entered against each head above are totalled here."))+d,{});
+  /* Part D detail — the per-claim CGAS / new-asset particulars (DeducClaimInfo).
+     Disclosure only: these amounts do NOT change the computed capital-gain figures. */
+  let dclaimTot=0;DCLAIM.forEach(D=>((C.dclaim||{})[D.ns]||[]).forEach(r=>dclaimTot+=N(r.amt)));
+  h+=fold("cgDdet","D","Details of deduction claimed (CGAS / new asset)",RS(dclaimTot),
+    note("Enter the proof of each exemption claimed above — date of transfer, cost of the new asset, "+
+      "CGAS deposit and account. This is disclosure detail; it does not alter the computed gain.")+
+    dclaimBlock(C),{});
 
   /* ---- E · set-off ---- */
   h+=fold("cgE","E","Set-off of current-year capital losses",RS(G.C1),
@@ -597,15 +753,27 @@ function expCg(j){
       AaadhaarOfBuyer:AADH.test(st0(x.aadhaar))?st0(x.aadhaar):undefined,
       PercentageShare:N(x.share)||100,Amount:n0(x.amt),
       AddressOfProperty:(sv(p.paddr)||"NA").slice(0,50),
-      StateCode:st0(p.pstate)||"19",CountryCode:"91",
+      StateCode:CG_STATE_SET[st0(p.pstate)]?st0(p.pstate):"19",
+      CountryCode:(st0(p.pcountry)||"91").slice(0,4),
       PinCode:/^[1-9]\d{5}$/.test(st0(p.ppin))?parseInt(p.ppin,10):undefined}))};};
+  /* A9/B12 DTAA detail → NRICgDTAA.NRIDTAADtls[] (emitted only when there are rows) */
+  const dtaaOut=rows=>{const good=(rows||[]).filter(r=>N(r.amt));if(!good.length)return undefined;
+    return {NRIDTAADtls:good.map(r=>{const o={DTAAamt:n0(r.amt),ItemNoincl:st0(r.itemno),
+      CountryName:st0(r.country),CountryCodeExcludingIndia:st0(r.ccode),DTAAarticle:st0(r.article),
+      RateAsPerTreaty:N(r.treaty),SecITAct:st0(r.secit),RateAsPerITAct:N(r.itact)};
+      if(r.trc)o.TaxRescertifiedFlag=r.trc;
+      if(r._appl!=null)o.ApplicableRate=r._appl;
+      return o;})};};
 
   /* ---- Part A ---- */
   const ST={};
-  const stLand=(G.land.st||[]).map(p=>{const r=p._;return {DateofPurchase:ISO(p.buy),DateofSale:ISO(p.sale),
+  const stLand=(G.land.st||[]).map(p=>{const r=p._;const ex=[];
+    [["s54B","54B"],["s54G","54G"],["s54GA","54GA"]]     /* STCG land: 54B/54G/54GA only */
+      .forEach(([k,c])=>{if(N((p.ded||{})[k]))ex.push({ExemptionSecCode:c,ExemptionAmount:n0(p.ded[k])});});
+    return {DateofPurchase:ISO(p.buy),DateofSale:ISO(p.sale),
     FullConsideration:n0(p.cons),PropertyValuation:n0(p.sdv),FullConsideration50C:n0(r.value),
     AquisitCost:n0(p.cost),ImproveCost:n0(r.impNo),ExpOnTrans:n0(p.exp),TotalDedn:n0(r.biv),
-    Balance:sg(r.c),ExemptionOrDednUs54:{ExemptionGrandTotal:n0(r.dedTot)},
+    Balance:sg(r.c),ExemptionOrDednUs54:Object.assign({ExemptionGrandTotal:n0(r.dedTot)},ex.length?{ExemptionOrDednUs54Dtls:ex}:{}),
     CapgainonAssets:sg(r.e),TrnsfImmblPrprty:buyers(p)};});
   if(stLand.length)ST.SaleofLandBuild={SaleofLandBuildDtls:stLand};
   if(N(C.a2&&(C.a2.fmv2||C.a2.fmv3||C.a2.networth)))
@@ -623,15 +791,29 @@ function expCg(j){
       BalanceCG:sg(A.a6.c),LossSec94of7Or94of8:n0(C.a6.loss94),DeemedStcgOnAssets:n0(A.a6.dcg),
       ExemptionOrDednUs54:{ExemptionGrandTotal:n0(A.a6.ded)},CapgainonAssets:sg(A.a6.gain)};
   ST.TotalAmtDeemedStcg=n0(A.a7.gain);
-  const dm=(C.a7&&C.a7.deem||[]).filter(x=>N(x.unused));
-  if(dm.length)ST.UnutilizedCg={UnutilizedCgPrvYrDtls:dm.map(x=>({
-    PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54B",AmtUnutilized:n0(x.unused)}))};
+  const dm=(C.a7&&C.a7.deem||[]).filter(x=>N(x.unused)||N(x.util));
+  if(dm.length)ST.UnutilizedCg={UnutilizedCgPrvYrDtls:dm.map(x=>{const o={
+    PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54B",AmtUnutilized:n0(x.unused)};
+    if(st0(x.yracq))o.YrInWhichAssetAcq=st0(x.yracq);
+    if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.a7||{}).other))ST.AmtDeemedStcg=n0(C.a7.other);
   ST.PassThrIncNatureSTCG=n0(A.a8.gain);
   ST.TotalAmtNotTaxUsDTAAStcg=n0(A.a9.notTax);ST.TotalAmtTaxUsDTAAStcg=n0(A.a9.special);
   const bb=(C.aA||[]).filter(x=>N(x.amt));
   if(bb.length)ST.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(A.aA.loss),
     CapitalLossBuyBackSharesDtls:bb.map(x=>({Rate:x.rate||"STL20",Amount:-n0(x.amt)}))};
+  /* NON-RESIDENT STCG heads A4/A5 + DTAA A9 (assigned before the zero-stub dfl below) */
+  if(G.nri){
+    if(N((C.a4||{}).sttPaid)||N((C.a4||{}).sttNot))
+      ST.NRITransacSec48Dtl={NRItaxSTTPaid:n0((C.a4||{}).sttPaid),NRItaxSTTNotPaid:n0((C.a4||{}).sttNot)};
+    if(N((C.a5||{}).unqCons)||N((C.a5||{}).othCons)||N((C.a5||{}).cost))
+      ST.NRISecur115AD={FullValueConsdRecvUnqshr:n0(C.a5.unqCons),FairMrktValueUnqshr:n0(C.a5.unqFmv),
+        FullValueConsdSec50CA:n0(C.a5._c50ca||Math.max(N(C.a5.unqCons),N(C.a5.unqFmv))),
+        FullValueConsdOthUnqshr:n0(C.a5.othCons),FullConsideration:n0(A.a5.cons),
+        DeductSec48:{AquisitCost:n0(C.a5.cost),ImproveCost:n0(C.a5.improve),ExpOnTrans:n0(C.a5.exp),TotalDedn:n0(A.a5.biv)},
+        BalanceCG:sg(A.a5.c),LossSec94of7Or94of8:n0(C.a5.loss94),CapgainonAssets:sg(A.a5.gain)};
+    const a9d=dtaaOut(C.a9); if(a9d)ST.NRICgDTAA=a9d;
+  }
   ST.TotalSTCG=sg(A.total);
 
   /* ---- Part B ---- */
@@ -663,7 +845,8 @@ function expCg(j){
   if(N((C.b3ii||{}).cons))p112.push(Object.assign({Proviso112SectionCode:"5ACA1b"},pv(C.b3ii,B.b3ii)));
   if(p112.length)LT.Proviso112Applicable=p112;
   LT.SaleOfEquityShareUs112A={BalanceCG:sg(B.b4.a),DeductionUs54F:n0((C.b4||{}).s54F),CapgainonAssets:sg(B.b4.gain)};
-  if(G.nri)LT.NRISecurLTCGProviso={BalanceCG:sg(B.b7.a),DeductionUs54F:n0((C.b7||{}).s54F),CapgainonAssets:sg(B.b7.gain)};
+  /* B7 — FII/FPI 112A route: the schema key is NRISaleOfEquityShareUs112A (assigned before dfl) */
+  if(G.nri)LT.NRISaleOfEquityShareUs112A={BalanceCG:sg(B.b7.a),DeductionUs54F:n0((C.b7||{}).s54F),CapgainonAssets:sg(B.b7.gain)};
   if(N((C.b9||{}).unqCons)||N((C.b9||{}).othCons)||N((C.b9||{}).cost))
     LT.SaleofAssetNADtls={SaleofAssetNA:{FullValueConsdRecvUnqshr:n0(C.b9.unqCons),FairMrktValueUnqshr:n0(C.b9.unqFmv),
       FullValueConsdSec50CA:n0(C.b9._c50ca||Math.max(N(C.b9.unqCons),N(C.b9.unqFmv))),
@@ -671,15 +854,31 @@ function expCg(j){
       DeductSec48:{AquisitCost:n0(C.b9.cost),ImproveCost:n0(C.b9.improve),ExpOnTrans:n0(C.b9.exp),TotalDedn:n0(B.b9.biv)},
       BalanceCG:sg(B.b9.c),ExemptionOrDednUs54:{ExemptionGrandTotal:n0(B.b9.ded)},CapgainonAssets:sg(B.b9.gain)}};
   LT.TotalAmtDeemedLtcg=n0(B.b10.gain);
-  const dml=(C.b10&&C.b10.deem||[]).filter(x=>N(x.unused));
-  if(dml.length)LT.UnutilizedCg={UnutilizedCgPrvYrDtls:dml.map(x=>({
-    PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54",AmtUnutilized:n0(x.unused)}))};
+  const dml=(C.b10&&C.b10.deem||[]).filter(x=>N(x.unused)||N(x.util));
+  if(dml.length)LT.UnutilizedCg={UnutilizedCgPrvYrDtls:dml.map(x=>{const o={
+    PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54",AmtUnutilized:n0(x.unused)};
+    if(st0(x.yracq))o.YrInWhichAssetAcq=st0(x.yracq);
+    if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.b10||{}).other))LT.AmtDeemedLtcg=n0(C.b10.other);
   LT.PassThrIncNatureLTCG=n0(B.b11.gain);
   LT.TotalAmtNotTaxUsDTAALtcg=n0(B.b12.notTax);LT.TotalAmtTaxUsDTAALtcg=n0(B.b12.special);
   const bbl=(C.bA||[]).filter(x=>N(x.amt));
   if(bbl.length)LT.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(B.bA.loss),
     CapitalLossBuyBackSharesDtls:bbl.map(x=>({Rate:x.rate||"LTL125",Amount:-n0(x.amt)}))};
+  /* NON-RESIDENT LTCG heads B5/B6/B8 + DTAA B12 (assigned before the zero-stub dfl below) */
+  if(G.nri){
+    if(N((C.b5||{}).gain)||N(((C.b5||{}).ded||{}).s54F))
+      LT.NRIProvisoSec48={LTCGWithoutBenefit:n0((C.b5||{}).gain),DeductionUs54F:n0(((C.b5||{}).ded||{}).s54F),BalanceCG:sg(B.b5.gain)};
+    const b6=(C.b6||[]).filter(r=>r.sec&&(N(r.unqCons)||N(r.othCons)||N(r.cost)));
+    if(b6.length)LT.NRIOnSec112and115={NRIOnSec112and115Dtls:b6.map(r=>{const rr=engAgg(r,{unq:1,deds:["s54F"]});
+      return {SectionCode:r.sec,FullValueConsdRecvUnqshr:n0(r.unqCons),FairMrktValueUnqshr:n0(r.unqFmv),
+        FullValueConsdSec50CA:n0(r._c50ca||Math.max(N(r.unqCons),N(r.unqFmv))),FullValueConsdOthUnqshr:n0(r.othCons),
+        FullConsideration:n0(rr.cons),DeductSec48:{AquisitCost:n0(r.cost),ImproveCost:n0(r.improve),ExpOnTrans:n0(r.exp),TotalDedn:n0(rr.biv)},
+        BalanceCG:sg(rr.c),DeductionUs54F:n0((r.ded||{}).s54F),CapgainonAssets:sg(rr.gain)};})};
+    if(N((C.b8||{}).sale)||N((C.b8||{}).ded115))
+      LT.NRISaleofForeignAsset={SaleonSpecAsset:n0((C.b8||{}).sale),DednSpecAssetus115:n0((C.b8||{}).ded115),BalonSpeciAsset:sg(B.b8.gain)};
+    const b12d=dtaaOut(C.b12); if(b12d)LT.NRICgDTAA=b12d;
+  }
   LT.TotalLTCG=sg(B.total);
 
   /* schema-required sub-objects that must be present even when the filer has no such
@@ -701,19 +900,29 @@ function expCg(j){
   j.ScheduleCGFor23={ShortTermCapGainFor23:ST,LongTermCapGain23:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),TotScheduleCGFor23:sg(G.C3)};
 
-  /* ---- Part D ---- */
-  const KEY={"54":"DeducClaimDtlsUs54","54B":"DeducClaimDtlsUs54B","54D":"DeducClaimDtlsUs54D",
-    "54EC":"DeducClaimDtlsUs54EC","54F":"DeducClaimDtlsUs54F","54G":"DeducClaimDtlsUs54G",
-    "54GA":"DeducClaimDtlsUs54GA","115F":"DeducClaimDtlsUs115F"};
+  /* ---- Part D ---- DeducClaimInfo, straight from the taxpayer's S.cg.dclaim entry
+     tables (no fabrication).  DeducClaimInfo itself is schema-required, so the block is
+     always emitted with TotDeductClaim; each per-section sub-array is emitted only when it
+     has rows, so a filer with no deduction (empty dclaim) exports {TotDeductClaim:0}. */
   const DED={};let dedTot=0;
-  Object.keys(G.dedD).forEach(sec=>{const key=KEY[sec];if(!key)return;
-    G.dedD[sec].forEach((r,k)=>{const d=((C.dedD||{})[sec]||[])[k]||{};
-      const rowd={DateofTransfer:ISO(d.transfer)||"2025-04-01",AmtDeducted:n0(r.amt)};
-      if(sec==="54EC"||sec==="115F"){rowd.AmtInvested=n0(d.cost);if(ISO(d.purchase))rowd.DateofInvestment=ISO(d.purchase);}
-      else if(sec==="54D"){rowd.DateofAcquisition=ISO(d.transfer)||"2025-04-01";}
-      (DED[key]=DED[key]||[]).push(rowd);dedTot+=r.amt;});});
+  DCLAIM.forEach(D=>{const rows=((C.dclaim||{})[D.ns]||[])
+      .filter(r=>N(r.amt)||N(r.cost)||N(r.invested)||ISO(r.transfer));
+    if(!rows.length)return;
+    DED[D.key]=rows.map(r=>{let o;
+      if(D.invest){o={DateofTransfer:ISO(r.transfer),AmtInvested:n0(r.invested),AmtDeducted:n0(r.amt)};
+        if(ISO(r.invdate))o.DateofInvestment=ISO(r.invdate);}
+      else {o={};
+        if(D.acq)o.DateofAcquisition=ISO(r.transfer); else o.DateofTransfer=ISO(r.transfer);
+        o[D.cost]=n0(r.cost);
+        if(ISO(r.purchase))o.DateofPurchase=ISO(r.purchase);
+        o.AmtDeposited=n0(r.deposited);
+        if(ISO(r.depdate))o.DepositDate=ISO(r.depdate);
+        if(st0(r.acno))o.AccountNo=st0(r.acno);
+        if(st0(r.ifsc))o.IFSC=st0(r.ifsc).toUpperCase();
+        o.AmtDeducted=n0(r.amt);}
+      dedTot+=N(r.amt);return o;});});
   DED.TotDeductClaim=n0(dedTot);
-  j.ScheduleCGFor23.DeducClaimInfo=DED;   /* required even when no deduction is claimed */
+  j.ScheduleCGFor23.DeducClaimInfo=DED;   /* required object even when no deduction is claimed */
 
   /* ---- Part E ---- */
   const SL=[["st20","InStcg20Per","StclSetoff20Per"],["st30","InStcg30Per","StclSetoff30Per"],
@@ -764,12 +973,14 @@ function impCg(I3){
     const bback=x=>{const bs=(g(x,"TrnsfImmblPrprty.TrnsfImmblPrprtyDtls")||[]);
       const out={buyers:bs.map(y=>({name:y.NameOfBuyer||"",pan:y.PANofBuyer||"",aadhaar:y.AaadhaarOfBuyer||"",
         share:nz(y.PercentageShare),amt:nz(y.Amount)}))};
-      if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";}
+      if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";out.pcountry=bs[0].CountryCode||"";}
       return out;};
     const land=[];
-    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
-      lt:"Short",cons:nz(x.FullConsideration),sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
-      improve:[],ded:{s54B:nz(g(x,"ExemptionOrDednUs54.ExemptionGrandTotal"))}},bback(x))));
+    (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
+      (g(x,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls")||[]).forEach(e=>d["s"+e.ExemptionSecCode]=nz(e.ExemptionAmount));
+      land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),
+        lt:"Short",cons:nz(x.FullConsideration),sdv:nz(x.PropertyValuation),cost:nz(x.AquisitCost),exp:nz(x.ExpOnTrans),
+        improve:[],ded:d},bback(x)));});
     (g(LT,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
       (g(x,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls")||[]).forEach(e=>d["s"+e.ExemptionSecCode]=nz(e.ExemptionAmount));
       land.push(Object.assign({buy:dmy(x.DateofPurchase),sale:dmy(x.DateofSale),lt:"Long",cons:nz(x.FullConsideration),
@@ -785,8 +996,49 @@ function impCg(I3){
       improve:nz(g(e3,"EquityMFonSTTDtls.DeductSec48.ImproveCost")),exp:nz(g(e3,"EquityMFonSTTDtls.DeductSec48.ExpOnTrans")),
       loss94:nz(g(e3,"EquityMFonSTTDtls.LossSec94of7Or94of8"))};
     S.cg.a7=S.cg.a7||{deem:[],other:0};
-    S.cg.a7.deem=(g(ST,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,unused:nz(x.AmtUnutilized)}));
+    S.cg.a7.deem=(g(ST,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
+      yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
     S.cg.a7.other=nz(ST.AmtDeemedStcg);
+    S.cg.b10=S.cg.b10||{deem:[],other:0};
+    S.cg.b10.deem=(g(LT,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
+      yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
+    S.cg.b10.other=nz(LT.AmtDeemedLtcg);
+    /* Part D — DeducClaimInfo detail tables back into S.cg.dclaim */
+    const DI=CGb.DeducClaimInfo;
+    if(DI){S.cg.dclaim={us54:[],us54B:[],us54D:[],us54EC:[],us54F:[],us54G:[],us54GA:[],us115F:[]};
+      DCLAIM.forEach(D=>{S.cg.dclaim[D.ns]=(DI[D.key]||[]).map(r=>{
+        if(D.invest)return {transfer:dmy(r.DateofTransfer),invested:nz(r.AmtInvested),
+          invdate:dmy(r.DateofInvestment),amt:nz(r.AmtDeducted)};
+        return {transfer:dmy(D.acq?r.DateofAcquisition:r.DateofTransfer),cost:nz(r[D.cost]),
+          purchase:dmy(r.DateofPurchase),deposited:nz(r.AmtDeposited),depdate:dmy(r.DepositDate),
+          acno:r.AccountNo||"",ifsc:r.IFSC||"",amt:nz(r.AmtDeducted)};});});
+      if(Object.keys(S.cg.dclaim).some(k=>S.cg.dclaim[k].length))read.push("CG deduction detail");}
+    /* ---- non-resident CG heads (imported only when the return carries real data) ---- */
+    const dtaaIn=r=>({amt:nz(r.DTAAamt),itemno:r.ItemNoincl||"",country:r.CountryName||"",
+      ccode:r.CountryCodeExcludingIndia||"",article:r.DTAAarticle||"",
+      treaty:r.RateAsPerTreaty!=null?r.RateAsPerTreaty:"",trc:r.TaxRescertifiedFlag||"",
+      secit:r.SecITAct||"",itact:r.RateAsPerITAct!=null?r.RateAsPerITAct:""});
+    if(ST.NRITransacSec48Dtl&&(N(ST.NRITransacSec48Dtl.NRItaxSTTPaid)||N(ST.NRITransacSec48Dtl.NRItaxSTTNotPaid)))
+      S.cg.a4={sttPaid:nz(ST.NRITransacSec48Dtl.NRItaxSTTPaid),sttNot:nz(ST.NRITransacSec48Dtl.NRItaxSTTNotPaid)};
+    const a5b=ST.NRISecur115AD;
+    if(a5b&&(N(a5b.FullConsideration)||N(a5b.FullValueConsdRecvUnqshr)||N(a5b.FullValueConsdOthUnqshr)||N(g(a5b,"DeductSec48.AquisitCost"))))
+      S.cg.a5={unqCons:nz(a5b.FullValueConsdRecvUnqshr),unqFmv:nz(a5b.FairMrktValueUnqshr),othCons:nz(a5b.FullValueConsdOthUnqshr),
+        cost:nz(g(a5b,"DeductSec48.AquisitCost")),improve:nz(g(a5b,"DeductSec48.ImproveCost")),
+        exp:nz(g(a5b,"DeductSec48.ExpOnTrans")),loss94:nz(a5b.LossSec94of7Or94of8)};
+    S.cg.a9=(g(ST,"NRICgDTAA.NRIDTAADtls")||[]).map(dtaaIn);
+    const b5b=LT.NRIProvisoSec48;
+    if(b5b&&(N(b5b.LTCGWithoutBenefit)||N(b5b.DeductionUs54F)))
+      S.cg.b5={gain:nz(b5b.LTCGWithoutBenefit),ded:{s54F:nz(b5b.DeductionUs54F)}};
+    S.cg.b6=(g(LT,"NRIOnSec112and115.NRIOnSec112and115Dtls")||[]).map(r=>({sec:r.SectionCode,
+      unqCons:nz(r.FullValueConsdRecvUnqshr),unqFmv:nz(r.FairMrktValueUnqshr),othCons:nz(r.FullValueConsdOthUnqshr),
+      cost:nz(g(r,"DeductSec48.AquisitCost")),improve:nz(g(r,"DeductSec48.ImproveCost")),
+      exp:nz(g(r,"DeductSec48.ExpOnTrans")),ded:{s54F:nz(r.DeductionUs54F)}}));
+    const b8b=LT.NRISaleofForeignAsset;
+    if(b8b&&(N(b8b.SaleonSpecAsset)||N(b8b.DednSpecAssetus115)))
+      S.cg.b8={sale:nz(b8b.SaleonSpecAsset),ded115:nz(b8b.DednSpecAssetus115)};
+    const b7b=LT.NRISaleOfEquityShareUs112A;
+    if(b7b&&N(b7b.DeductionUs54F))S.cg.b7={s54F:nz(b7b.DeductionUs54F)};
+    S.cg.b12=(g(LT,"NRICgDTAA.NRIDTAADtls")||[]).map(dtaaIn);
     read.push("capital gains");
   }
   const b112=I3&&I3.Schedule112A;

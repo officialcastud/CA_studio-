@@ -33,6 +33,10 @@ if(S.fs.sec===undefined)    S.fs.sec=11;                   /* FilingStatus.Retur
 if(S.fs.filed===undefined)  S.fs.filed="";
 if(S.fs.incBP===undefined)  S.fs.incBP="Y";               /* FilingStatus.IncFrmBusOrProf (A19(b)) */
 if(S.fs.resStatus===undefined)S.fs.resStatus="RES";        /* FilingStatus.ResidentialStatus */
+S.fs.jur = S.fs.jur || [];                                 /* FilingStatus.JurisdictionResPrevYr.JurisdictionResPrevYrDtls[] (rows 37-40) */
+/* fs.resCond / fs.stayPY / fs.stay4Yr (rows 36,43,44) and the 10-IEA new-regime
+   re-entry flags (fs.f10ieaNew*, rows 63-78) are left UNSEEDED — a resident
+   leaves them empty so expWho emits nothing new and the round-trip is unchanged. */
 if(S.fs.duedate===undefined)S.fs.duedate="2026-10-31";     /* FilingStatus.ItrFilingDueDate */
 if(S.fs.seventh===undefined)S.fs.seventh="N";              /* FilingStatus.SeventhProvisio139 */
 if(S.fs.foreignExch===undefined)S.fs.foreignExch="N";      /* FilingStatus.ForeignExchangeFlag */
@@ -65,6 +69,7 @@ S.nob = S.nob || [];                                       /* NatOfBus.NatureOfB
 /* SEED — default grid rows (per the task contract). The shell's add-row
    handler carries its own seeds for pi.dirco/pi.unlco/pi.firms/decl.c4;
    these cover this section's own grids. */
+SEED["fs.jur"]=SEED["fs.jur"]||{country:"",tin:""};
 SEED["aud.oth"]=SEED["aud.oth"]||{sec:"10AA",flag:"Y"};
 SEED["aud.act"]=SEED["aud.act"]||{act:"6"};
 SEED.nob=SEED.nob||{};
@@ -75,6 +80,31 @@ const RET_SEC=[["11","139(1)- On or Before due date"],["12","139(4)- After due d
   ["18","139(9)"],["19","92CD-Modified return"],["20","119(2)(b)-After condonation of delay"],
   ["21","139(8A)-Updated Return"]];
 const RES_STAT=[["RES","RES - Resident"],["NRI","NRI - NonResident"],["NOR","NOR - Resident but not Ordinarily Resident"]];
+/* Conditions for residential status (row 36 / W36 · ConditionsResStatus, enum 1-9).
+   The utility chooses the option list by the first three letters of the status
+   (W36 = IF(MID(ResidentialStatus1,1,3)="RES",Resident_Dropdown, ...NOR...NRI...)).
+   Codes and full text quoted from DropDownValues cols T (Resident), U (NOR),
+   V (NRI); the codes are the schema enum values. */
+const COND_TXT={
+  "1":"You were in India for 182 days or more during the previous year [section 6(1)(a)]",
+  "2":"You were in India for 60 days or more during the previous year, and have been in India for 365 days or more within the 4 preceding years [section (6)(1)(c)] [where Explanation 1 is not applicable]",
+  "3":"You have been a non-resident in India in 9 out of 10 preceding years [section 6(6)(a)]",
+  "4":"You have been in India for 729 days or less during the 7 preceding years [section 6(6)(a)]",
+  "5":"You were a non-resident during the previous year.",
+  "6":"You are a citizen of India or person of Indian origin, who comes on a visit to India, having total income, other than the income from foreign sources, exceeding Rs. 15 lakh and have been in India for 120 days or more but less than 182 days during the previous year [section 6(6)(c)]",
+  "7":"You are a citizen of India having total income, other than the income from foreign sources, exceeding Rs. 15 lakh during the previous year and not liable to tax in any other country or territory by reason of your domicile or residence or any other criteria of similar nature [section 6(6)(d) read with section 6(1A)]",
+  "8":"You are a citizen of India, who left India, for the purpose of employment, as a member of the crew of an Indian ship and were in India for 182 days or more during the previous year and 365 days or more within the preceding 4 years [Explanation 1(a) of section (6)(1)(c)]",
+  "9":"You are a citizen of India or a person of Indian origin and have come on a visit to India during the previous year and were in India for a) 182 days or more during the previous year and 365 days or more within the preceding 4 years; or b) 120 days or more during the previous year and 365 days or more within the preceding 4 years if the total income, other than income from foreign sources, exceeds Rs. 15 lakh. [Explanation 1(b) of section (6)(1)(c)]"};
+const RES_COND_RES=[["1",COND_TXT["1"]],["2",COND_TXT["2"]],["8",COND_TXT["8"]],["9",COND_TXT["9"]]]; /* col T */
+const RES_COND_NOR=[["3",COND_TXT["3"]],["4",COND_TXT["4"]],["6",COND_TXT["6"]],["7",COND_TXT["7"]]]; /* col U */
+const RES_COND_NRI=[["5",COND_TXT["5"]]];                                                             /* col V */
+const POI_COND=["6","7","8","9"];   /* citizen/POI conditions → days-of-stay rows 43-44 (row 42 header) */
+const NEW_AY=[["2024-25","2024-25"],["2025-26","2025-26"]];  /* AY of an earlier Form 10-IEA */
+/* Jurisdiction(s) of residence (rows 37-40 · JurisdictionResidence, source
+   "Country_NoIndia" — India excluded, plus 9998 "Not Applicable"). Codes are the
+   schema enum values; labels taken from the vetted Schedule-FA country list
+   (the enums.json label column for this leaf is corrupted). */
+const RES_JUR=[["93","AFGHANISTAN"],["1001","ALAND ISLANDS"],["355","ALBANIA"],["213","ALGERIA"],["684","AMERICAN SAMOA"],["376","ANDORRA"],["244","ANGOLA"],["1264","ANGUILLA"],["1010","ANTARCTICA"],["1268","ANTIGUA AND BARBUDA"],["54","ARGENTINA"],["374","ARMENIA"],["297","ARUBA"],["61","AUSTRALIA"],["43","AUSTRIA"],["994","AZERBAIJAN"],["1242","BAHAMAS"],["973","BAHRAIN"],["880","BANGLADESH"],["1246","BARBADOS"],["375","BELARUS"],["32","BELGIUM"],["501","BELIZE"],["229","BENIN"],["1441","BERMUDA"],["975","BHUTAN"],["591","BOLIVIA (PLURINATIONAL STATE OF)"],["1002","BONAIRE, SINT EUSTATIUS AND SABA"],["387","BOSNIA AND HERZEGOVINA"],["267","BOTSWANA"],["1003","BOUVET ISLAND"],["55","BRAZIL"],["1014","BRITISH INDIAN OCEAN TERRITORY"],["673","BRUNEI DARUSSALAM"],["359","BULGARIA"],["226","BURKINA FASO"],["257","BURUNDI"],["238","CABO VERDE"],["855","CAMBODIA"],["237","CAMEROON"],["1","CANADA"],["1345","CAYMAN ISLANDS"],["236","CENTRAL AFRICAN REPUBLIC"],["235","CHAD"],["56","CHILE"],["86","CHINA"],["9","CHRISTMAS ISLAND"],["672","COCOS (KEELING) ISLANDS"],["57","COLOMBIA"],["270","COMOROS"],["242","CONGO"],["243","CONGO (DEMOCRATIC REPUBLIC OF THE)"],["682","COOK ISLANDS"],["506","COSTA RICA"],["225","COTE DIVOIRE"],["385","CROATIA"],["53","CUBA"],["1015","CURACAO"],["357","CYPRUS"],["420","CZECHIA"],["45","DENMARK"],["253","DJIBOUTI"],["1767","DOMINICA"],["1809","DOMINICAN REPUBLIC"],["593","ECUADOR"],["20","EGYPT"],["503","EL SALVADOR"],["240","EQUATORIAL GUINEA"],["291","ERITREA"],["372","ESTONIA"],["251","ETHIOPIA"],["500","FALKLAND ISLANDS (MALVINAS)"],["298","FAROE ISLANDS"],["679","FIJI"],["358","FINLAND"],["33","FRANCE"],["594","FRENCH GUIANA"],["689","FRENCH POLYNESIA"],["1004","FRENCH SOUTHERN TERRITORIES"],["241","GABON"],["220","GAMBIA"],["995","GEORGIA"],["49","GERMANY"],["233","GHANA"],["350","GIBRALTAR"],["30","GREECE"],["299","GREENLAND"],["1473","GRENADA"],["590","GUADELOUPE"],["1671","GUAM"],["502","GUATEMALA"],["1481","GUERNSEY"],["224","GUINEA"],["245","GUINEA-BISSAU"],["592","GUYANA"],["509","HAITI"],["1005","HEARD ISLAND AND MCDONALD ISLANDS"],["6","HOLY SEE"],["504","HONDURAS"],["852","HONG KONG"],["36","HUNGARY"],["354","ICELAND"],["62","INDONESIA"],["98","IRAN (ISLAMIC REPUBLIC OF)"],["964","IRAQ"],["353","IRELAND"],["1624","ISLE OF MAN"],["972","ISRAEL"],["5","ITALY"],["1876","JAMAICA"],["81","JAPAN"],["1534","JERSEY"],["962","JORDAN"],["7","KAZAKHSTAN"],["254","KENYA"],["686","KIRIBATI"],["850","KOREA (DEMOCRATIC PEOPLES REPUBLIC OF)"],["82","KOREA (REPUBLIC OF)"],["965","KUWAIT"],["996","KYRGYZSTAN"],["856","LAO PEOPLES DEMOCRATIC REPUBLIC"],["371","LATVIA"],["961","LEBANON"],["266","LESOTHO"],["231","LIBERIA"],["218","LIBYA"],["423","LIECHTENSTEIN"],["370","LITHUANIA"],["352","LUXEMBOURG"],["853","MACAO"],["389","MACEDONIA (THE FORMER YUGOSLAV REPUBLIC OF)"],["261","MADAGASCAR"],["265","MALAWI"],["60","MALAYSIA"],["960","MALDIVES"],["223","MALI"],["356","MALTA"],["692","MARSHALL ISLANDS"],["596","MARTINIQUE"],["222","MAURITANIA"],["230","MAURITIUS"],["269","MAYOTTE"],["52","MEXICO"],["691","MICRONESIA (FEDERATED STATES OF)"],["373","MOLDOVA (REPUBLIC OF)"],["377","MONACO"],["976","MONGOLIA"],["382","MONTENEGRO"],["1664","MONTSERRAT"],["212","MOROCCO"],["258","MOZAMBIQUE"],["95","MYANMAR"],["264","NAMIBIA"],["674","NAURU"],["977","NEPAL"],["31","NETHERLANDS"],["687","NEW CALEDONIA"],["64","NEW ZEALAND"],["505","NICARAGUA"],["227","NIGER"],["234","NIGERIA"],["683","NIUE"],["15","NORFOLK ISLAND"],["1670","NORTHERN MARIANA ISLANDS"],["47","NORWAY"],["968","OMAN"],["92","PAKISTAN"],["680","PALAU"],["970","PALESTINE, STATE OF"],["507","PANAMA"],["675","PAPUA NEW GUINEA"],["595","PARAGUAY"],["51","PERU"],["63","PHILIPPINES"],["1011","PITCAIRN"],["48","POLAND"],["14","PORTUGAL"],["1787","PUERTO RICO"],["974","QATAR"],["262","REUNION"],["40","ROMANIA"],["8","RUSSIAN FEDERATION"],["250","RWANDA"],["1006","SAINT BARTHELEMY"],["290","SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"],["1869","SAINT KITTS AND NEVIS"],["1758","SAINT LUCIA"],["1007","SAINT MARTIN (FRENCH PART)"],["508","SAINT PIERRE AND MIQUELON"],["1784","SAINT VINCENT AND THE GRENADINES"],["685","SAMOA"],["378","SAN MARINO"],["239","SAO TOME AND PRINCIPE"],["966","SAUDI ARABIA"],["221","SENEGAL"],["381","SERBIA"],["248","SEYCHELLES"],["232","SIERRA LEONE"],["65","SINGAPORE"],["1721","SINT MAARTEN (DUTCH PART)"],["421","SLOVAKIA"],["386","SLOVENIA"],["677","SOLOMON ISLANDS"],["252","SOMALIA"],["28","SOUTH AFRICA"],["1008","SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"],["211","SOUTH SUDAN"],["35","SPAIN"],["94","SRI LANKA"],["249","SUDAN"],["597","SURINAME"],["1012","SVALBARD AND JAN MAYEN"],["268","SWAZILAND"],["46","SWEDEN"],["41","SWITZERLAND"],["963","SYRIAN ARAB REPUBLIC"],["886","TAIWAN, PROVINCE OF CHINA[A]"],["992","TAJIKISTAN"],["255","TANZANIA, UNITED REPUBLIC OF"],["66","THAILAND"],["670","TIMOR-LESTE (EAST TIMOR)"],["228","TOGO"],["690","TOKELAU"],["676","TONGA"],["1868","TRINIDAD AND TOBAGO"],["216","TUNISIA"],["90","TURKEY"],["993","TURKMENISTAN"],["1649","TURKS AND CAICOS ISLANDS"],["688","TUVALU"],["256","UGANDA"],["380","UKRAINE"],["971","UNITED ARAB EMIRATES"],["44","UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND"],["2","UNITED STATES OF AMERICA"],["1009","UNITED STATES MINOR OUTLYING ISLANDS"],["598","URUGUAY"],["998","UZBEKISTAN"],["678","VANUATU"],["58","VENEZUELA (BOLIVARIAN REPUBLIC OF)"],["84","VIET NAM"],["1284","VIRGIN ISLANDS (BRITISH)"],["1340","VIRGIN ISLANDS (U.S.)"],["681","WALLIS AND FUTUNA"],["1013","WESTERN SAHARA"],["967","YEMEN"],["260","ZAMBIA"],["263","ZIMBABWE"],["9999","OTHERS"],["9998","Not Applicable (Not Resident in any Country)"]];
 const DUE_DATES=[["2026-08-31","31/08/2026"],["2026-10-31","31/10/2026"],["2026-11-30","30/11/2026"]];
 const YN=[["Y","Yes"],["N","No"]];
 const YN_NA=[["Y","Yes"],["N","No"],["NA","Not Applicable"]];
@@ -207,7 +237,27 @@ function secRet(){
       sel("fs.f10ieaEarlier",YN),{ind:1,ref:"N63"});
     if(S.fs.f10ieaEarlier==="Y"){
       h+=row("Form 10-IEA acknowledgement number (earlier AY, old regime)",inp("fs.f10ieaEarlierAck",{max:15}),{ind:1,ref:"O66"});
-      h+=row("Assessment Year of that Form 10-IEA",sel("fs.f10ieaEarlierAY",[["2024-25","2024-25"],["2025-26","2025-26"]]),{ind:1,ref:"O65"});
+      h+=row("Assessment Year of that Form 10-IEA",sel("fs.f10ieaEarlierAY",NEW_AY),{ind:1,ref:"O65"});
+    }
+  } else if(S.fs.incBP==="Y"){
+    /* New-regime RE-ENTRY through Form 10-IEA (rows 63-78, paths (I)(A)(ii) and
+       (I)(B)) — the counterpart of the old-regime opt-out above: a business filer
+       who had opted OUT of the new regime in an earlier year and is now re-entering
+       it. All flags default empty, so a filer who never opted out emits nothing. */
+    h+=note("If you had opted out of the new regime in an earlier year and are now "+
+      "re-entering it, the re-entry is exercised through Form 10-IEA — furnish its "+
+      "particulars below (rows 63-78).");
+    h+=row("Have you filed ITR-3/4 in the past and re-entered the new tax regime by filing Form 10-IEA for an earlier AY? [(I)(A)(ii)]",
+      sel("fs.f10ieaNewEarlier",YN),{ind:1,ref:"N67"});
+    if(S.fs.f10ieaNewEarlier==="Y"){
+      h+=row("Assessment Year of that Form 10-IEA (new regime re-entry)",sel("fs.f10ieaNewEarlierAY",NEW_AY),{ind:1,ref:"O69"});
+      h+=row("Form 10-IEA acknowledgement number (earlier AY, new regime re-entry)",inp("fs.f10ieaNewEarlierAck",{max:15}),{ind:1,ref:"O70"});
+    }
+    h+=row("Have you furnished Form 10-IEA to re-enter the new tax regime for the current AY? [(I)(A)(ii)(b)/(I)(B)]",
+      sel("fs.f10ieaNewCurr",YN),{ind:1,ref:"N71 / N75"});
+    if(S.fs.f10ieaNewCurr==="Y"){
+      h+=row("Date of filing of Form 10-IEA for AY 2026-27 (new regime re-entry)",dte("fs.f10ieaNewDate"),{ind:1,ref:"O73 / O77"});
+      h+=row("Acknowledgement Number of Form 10-IEA (current AY, new regime re-entry)",inp("fs.f10ieaNewAck",{max:15}),{ind:1,ref:"O74 / O78"});
     }
   }
   h+=regimeTable();
@@ -217,6 +267,27 @@ function secRet(){
   h+=row("Residential status in India",sel("fs.resStatus",RES_STAT,{blank:false}),{req:1,ref:"FilingStatus.ResidentialStatus"});
   if(ind && S.fs.resStatus==="RES")
     h+=row("Do you want to claim the benefit under section 115H? (resident)",sel("fs.b115H",YN),{ref:"E112"});
+  /* Conditions for residential status (rows 36-44, individuals only). The
+     conditions dropdown is offered for RES/NOR/NRI (its option list is chosen by
+     status — W36); the jurisdiction table opens for a non-resident (NRI/NOR) and
+     the days-of-stay rows for the citizen/POI conditions (row 42). */
+  if(ind){
+    const rs=S.fs.resStatus;
+    const CONDOPTS = rs==="NOR"?RES_COND_NOR : rs==="NRI"?RES_COND_NRI : RES_COND_RES;
+    h+=row("Conditions for residential status (applicable for individuals only)",
+      sel("fs.resCond",CONDOPTS),{ind:1,ref:"W36 · ConditionsResStatus"});
+    if(rs==="NRI"||rs==="NOR"){
+      h+=note("Specify the jurisdiction(s) of residence during the previous year and the Taxpayer Identification Number (TIN) allotted in each (rows 37-40).");
+      h+=grid("fs.jur",[
+        {k:"country",h:"Jurisdiction of residence",t:"sel",w:"340px",req:1,opts:RES_JUR},
+        {k:"tin",h:"Taxpayer Identification Number (TIN)",t:"txt",w:"240px",req:1,max:50}],
+        S.fs.jur||[],{min:"620px",empty:"No jurisdiction added.",add:"Add a jurisdiction"});
+    }
+    if(POI_COND.indexOf(st0(S.fs.resCond))>=0){
+      h+=row("Total period of stay in India during the previous year (in days)",inp("fs.stayPY",{n:1}),{ind:1,ref:"E43 · TotalPrStayIndiaPrevYr"});
+      h+=row("Total period of stay in India during the 4 preceding years (in days)",inp("fs.stay4Yr",{n:1}),{ind:1,ref:"E44 · TotalPrStayIndia4PrecYr"});
+    }
+  }
 
   /* ---- Seventh proviso to 139(1) (rows 101-109) ---- */
   h+=sub("Seventh proviso to section 139(1)");

@@ -196,6 +196,19 @@ function expWho(j){
     put(j,"PartA_GEN1.FilingStatus.Form10IEAAssYear",sv(fs.f10ieaEarlierAY));
     if(fs.f10ieaEarlierAck) put(j,"PartA_GEN1.FilingStatus.Form10IEAEarlierAYAckOldRegime",R(fs.f10ieaEarlierAck));
   }
+  /* Form 10-IEA NEW-regime re-entry (rows 63-78, paths (I)(A)(ii)/(I)(B)) — the
+     counterpart of the old-regime opt-out above. Emitted only when the filer set a
+     re-entry flag, so a filer who never opted out (incl. every resident) writes nothing. */
+  if(fs.f10ieaNewEarlier){
+    put(j,"PartA_GEN1.FilingStatus.F10IEAEarlierAYNewRegime",sv(fs.f10ieaNewEarlier));
+    put(j,"PartA_GEN1.FilingStatus.AssYrF10IEANewTaxReg",sv(fs.f10ieaNewEarlierAY));
+    if(fs.f10ieaNewEarlierAck) put(j,"PartA_GEN1.FilingStatus.Form10IEAEarlierAYAckNewRegime",R(fs.f10ieaNewEarlierAck));
+  }
+  if(fs.f10ieaNewCurr){
+    put(j,"PartA_GEN1.FilingStatus.F10IEACurrAYNewRegime",sv(fs.f10ieaNewCurr));
+    put(j,"PartA_GEN1.FilingStatus.F10IEADateCurrAYNewTax",ISO(fs.f10ieaNewDate));
+    if(fs.f10ieaNewAck) put(j,"PartA_GEN1.FilingStatus.F10IEAAckNoCurrAYNewTax",R(fs.f10ieaNewAck));
+  }
   put(j,"PartA_GEN1.FilingStatus.SeventhProvisio139",sv(decl.flag||"N"));
   if(decl.flag==="Y"){
     put(j,"PartA_GEN1.FilingStatus.DepAmtAggAmtExcd1CrPrYrFlg",sv(decl.dep_f));
@@ -219,6 +232,17 @@ function expWho(j){
   }
   put(j,"PartA_GEN1.FilingStatus.ResidentialStatus",sv(fs.resStatus||"RES"));
   if(S.pi.status!=="H"&&fs.resStatus==="RES") put(j,"PartA_GEN1.FilingStatus.BenefitUs115HFlg",sv(fs.b115H||"N"));
+  /* Residential-status conditions cascade (rows 36-44) — individuals only; every
+     leaf is optional and emitted only when filled, so a resident writes nothing. */
+  if(S.pi.status!=="H"){
+    if(fs.resCond) put(j,"PartA_GEN1.FilingStatus.ConditionsResStatus",sv(fs.resCond));
+    putArr("PartA_GEN1.FilingStatus.JurisdictionResPrevYr.JurisdictionResPrevYrDtls",
+      (S.fs.jur||[]).map(r=>{const o={};
+        oPut(o,"JurisdictionResidence",sv(r.country));
+        oPut(o,"TIN",sv(r.tin)); return o;}));
+    if(fs.stayPY!==undefined&&fs.stayPY!=="") put(j,"PartA_GEN1.FilingStatus.TotalPrStayIndiaPrevYr",R(fs.stayPY));
+    if(fs.stay4Yr!==undefined&&fs.stay4Yr!=="") put(j,"PartA_GEN1.FilingStatus.TotalPrStayIndia4PrecYr",R(fs.stay4Yr));
+  }
   put(j,"PartA_GEN1.FilingStatus.AsseseeRepFlg",sv(fs.rep||"N"));
   if(fs.rep==="Y"){
     put(j,"PartA_GEN1.FilingStatus.AssesseeRep.RepName",sv(fs.repName));
@@ -367,6 +391,12 @@ function impWho(I3){
   if(FS.Form10IEAEarlierAYOldRegime!=null)S.fs.f10ieaEarlier=FS.Form10IEAEarlierAYOldRegime;
   if(FS.Form10IEAAssYear!=null)S.fs.f10ieaEarlierAY=FS.Form10IEAAssYear;
   if(FS.Form10IEAEarlierAYAckOldRegime!=null)S.fs.f10ieaEarlierAck=String(FS.Form10IEAEarlierAYAckOldRegime);
+  if(FS.F10IEAEarlierAYNewRegime!=null)S.fs.f10ieaNewEarlier=FS.F10IEAEarlierAYNewRegime;
+  if(FS.AssYrF10IEANewTaxReg!=null)S.fs.f10ieaNewEarlierAY=FS.AssYrF10IEANewTaxReg;
+  if(FS.Form10IEAEarlierAYAckNewRegime!=null)S.fs.f10ieaNewEarlierAck=String(FS.Form10IEAEarlierAYAckNewRegime);
+  if(FS.F10IEACurrAYNewRegime!=null)S.fs.f10ieaNewCurr=FS.F10IEACurrAYNewRegime;
+  if(FS.F10IEADateCurrAYNewTax)S.fs.f10ieaNewDate=dmy(FS.F10IEADateCurrAYNewTax);
+  if(FS.F10IEAAckNoCurrAYNewTax!=null)S.fs.f10ieaNewAck=String(FS.F10IEAAckNoCurrAYNewTax);
   if(FS.SeventhProvisio139!=null){S.decl.flag=FS.SeventhProvisio139;
     S.decl.dep_f=FS.DepAmtAggAmtExcd1CrPrYrFlg;S.decl.dep=FS.AmtSeventhProvisio139i;
     S.decl.trv_f=FS.IncrExpAggAmt2LkTrvFrgnCntryFlg;S.decl.trv=FS.AmtSeventhProvisio139ii;
@@ -380,6 +410,13 @@ function impWho(I3){
   if(FS.OrigRetFiledDate)S.fs.origdate=dmy(FS.OrigRetFiledDate);
   if(FS.ResidentialStatus!=null){S.fs.resStatus=FS.ResidentialStatus;read.push("residential status");}
   if(FS.BenefitUs115HFlg!=null)S.fs.b115H=FS.BenefitUs115HFlg;
+  if(FS.ConditionsResStatus!=null)S.fs.resCond=String(FS.ConditionsResStatus);
+  if(FS.JurisdictionResPrevYr&&FS.JurisdictionResPrevYr.JurisdictionResPrevYrDtls){
+    S.fs.jur=FS.JurisdictionResPrevYr.JurisdictionResPrevYrDtls.map(r=>({country:r.JurisdictionResidence,tin:r.TIN}));
+    read.push("residential conditions");
+  }
+  if(FS.TotalPrStayIndiaPrevYr!=null)S.fs.stayPY=String(FS.TotalPrStayIndiaPrevYr);
+  if(FS.TotalPrStayIndia4PrecYr!=null)S.fs.stay4Yr=String(FS.TotalPrStayIndia4PrecYr);
   if(FS.PortugeseCC5A!=null)S.pi.s5a=FS.PortugeseCC5A==="Y"?"Yes":"No";  /* restore 5A on-switch for round-trip */
   if(FS.AsseseeRepFlg!=null)S.fs.rep=FS.AsseseeRepFlg;
   if(FS.AssesseeRep){S.fs.repName=FS.AssesseeRep.RepName;S.fs.repEmail=FS.AssesseeRep.RepEmailID;

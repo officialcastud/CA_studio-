@@ -53,3 +53,36 @@ Cndnfor44AB="bii", plus export + import in who.js).
 NRI residential *cascade* (jurisdiction/TIN/days-of-stay capture), 10-IEA new-regime re-entry leaves,
 CG entry-detail tables, 80GGA ₹2,000 cut-off, nature-of-business duplicate writer — see CONSOLIDATED.md
 Tier-2/3. These do not corrupt the resident return.
+
+---
+
+## Tier-2 completion + schema-leaf coverage (this pass)
+
+Built the remaining entry-detail and NRI capability, then verified with a new leaf-by-leaf
+schema-coverage auditor (`tools/coverage.py`): every schema block's every leaf must have a home
+(export path / object-literal key / data-p input). **Result: 0 of 2798 required leaves uncovered.**
+
+- **80GGA cash cut-off** ₹10,000 → ₹2,000 (utility 80GGA sheet S7: cash over ₹2,000 gives no deduction).
+- **CG Part D deduction-claim detail tables** (54/54B/54D/54EC/54F/54G/54GA/115F) — real entry tables
+  with CGAS/date/cost/account/IFSC; removed the fabricated `DateofTransfer:"2025-04-01"`. `DeducClaimInfo`
+  is schema-required so it stays `{TotDeductClaim:0}` for a no-deduction client (round-trip unchanged).
+- **CG 194-IA buyer detail** columns (Aadhaar / Address / State / Pin / Country) now enterable.
+- **CG unutilized-CG** columns (YrInWhichAssetAcq / AmtUtilized) added + exported; LTCG deem import added.
+- **CG impCg s54B** import bug fixed (reads per-section ExemptionSecCode instead of dumping the grand total).
+- **CG non-resident heads** A4 (NRITransacSec48Dtl), A5 (NRISecur115AD), B5 (NRIProvisoSec48),
+  B6 (NRIOnSec112and115[]), B8 (NRISaleofForeignAsset), and the A9/B12 DTAA grids
+  (NRICgDTAA.NRIDTAADtls[], ApplicableRate = lower of treaty & IT-Act) — gated on non-resident.
+  Also fixed B7 export writing an invalid key `NRISecurLTCGProviso` → `NRISaleOfEquityShareUs112A`.
+- **Part A NRI capture** — ConditionsResStatus, JurisdictionResPrevYr (jurisdiction/TIN grid),
+  TotalPrStayIndiaPrevYr / 4PrecYr (days of stay), and the Form 10-IEA new-regime re-entry leaves.
+- **Foreign refund bank** (Refund.BankAccountDtls.ForeignBankDetails[]: SWIFT/BankName/CountryCode/IBAN) —
+  for a non-resident with no Indian account.
+- **80-IC** DeductInNorthEast.TotDeductInNorthEast sub-total now emitted.
+
+Every fix keeps the canonical resident S SUDHIR return byte-identical (all new fields empty ⇒ nothing new).
+All 8 gates GREEN. Data note (flagged, not blocking): `books/ITR-3/enums.json` `JurisdictionResidence`
+labels are shuffled (codes correct) — the jurisdiction UI uses the vetted Schedule-FA country list instead.
+
+Remaining: 25 OPTIONAL leaves without a UI space (secondary mobile; unlisted-share intra-year columns;
+Schedule80DD/80U Form-10IA ack; ScheduleCG UnutilizedStcg/Ltcg flags + PTI pass-through CG nature amounts;
+ScheduleESOP per-year tax-attributed totals). None is mandatory; listed for a follow-up pass.

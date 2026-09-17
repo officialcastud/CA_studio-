@@ -171,7 +171,7 @@ function engDed(){
   const g80=engDed80G(gtiLimit); S.C.g80=g80;
   const et=k=>(S.ded.e80[k]||[]).reduce((s,r)=>s+N(r.interest),0);
   /* 80GGA cash>10,000 gives no deduction; 80GGC in cash gives none */
-  const gga=(S.ded.gga||[]).reduce((s,r)=>s+(r.mode==="CASH"&&N(r.amt)>10000?0:N(r.amt)),0);
+  const gga=(S.ded.gga||[]).reduce((s,r)=>s+(r.mode==="CASH"&&N(r.amt)>2000?0:N(r.amt)),0);   /* 80GGA sheet S7: cash over ₹2,000 gives no deduction */
   const ggc=(S.ded.ggc||[]).reduce((s,r)=>s+(r.mode==="CASH"?0:N(r.amt)),0);
 
   /* claimed amounts per VI-A letter (fed from a sub-schedule where one exists) */
@@ -373,7 +373,7 @@ function secDed(){
       {k:"state",h:"State",t:"sel",w:"140px",req:1,opts:DED_STOPTS},{k:"pin",h:"PIN",t:"txt",w:"80px",max:6,req:1},
       {k:"pan",h:"PAN of the donee",t:"txt",w:"120px",max:10,req:1},{k:"mode",h:"Mode",t:"sel",w:"110px",req:1,opts:[["CASH","Cash"],["OTH","Other"]]},
       {k:"amt",h:"Amount",t:"num",w:"120px",req:1}],S.ded.gga||[],{min:"1600px",empty:"No donation listed.",add:"Add a donee"})+
-    note("A donation in cash above ₹10,000 gives no deduction. 80GGA is not available where there is business income.","warn")+
+    note("A donation in cash above ₹2,000 gives no deduction. 80GGA is not available where there is business income.","warn")+
     sub("Schedule RA — research associations etc. under 35(1)(ii)/(iia)/(iii)/35(2AA)")+
     grid("ded.ra",[{k:"name",h:"Name of the donee",t:"txt",w:"auto",req:1},{k:"addr",h:"Address",t:"txt",w:"auto",req:1},
       {k:"city",h:"City or town or district",t:"txt",w:"140px",req:1},{k:"state",h:"State code",t:"sel",w:"140px",req:1,opts:DED_STOPTS},
@@ -532,7 +532,7 @@ function expDed(j){
       NameOfDonee:(sv(r.name)||"NA").slice(0,125),AddressDetail:{AddrDetail:(sv(r.addr)||"NA").slice(0,200),
         CityOrTownOrDistrict:(sv(r.city)||"NA").slice(0,50),StateCode:st0(r.state)||"99",PinCode:/^\d{6}$/.test(st0(r.pin))?+r.pin:100000},
       DoneePAN:(st0(r.pan)||"NA").toUpperCase(),DonationAmtCash:n0(r.mode==="CASH"?r.amt:0),DonationAmtOtherMode:n0(r.mode!=="CASH"?r.amt:0),
-      DonationAmt:n0(r.amt),EligibleDonationAmt:n0(r.mode==="CASH"&&N(r.amt)>10000?0:N(r.amt))})),
+      DonationAmt:n0(r.amt),EligibleDonationAmt:n0(r.mode==="CASH"&&N(r.amt)>2000?0:N(r.amt))})),
       TotalDonationAmtCash80GGA:n0(cash),TotalDonationAmtOtherMode80GGA:n0(oth),TotalDonationsUs80GGA:n0(cash+oth),
       TotalEligibleDonationAmt80GGA:n0(out.c80gga)};}}
   /* ---- Schedule80RA (35(1) research associations) ---- */
@@ -570,7 +570,7 @@ function expDed(j){
   if(N(S.ded.ie.amt)){const amt=n0(S.ded.ie.amt);const mkU=v=>({Sch80LocOrDescCode:v||"NA",Sch80DeductAmtDtls:v?[{DeductAmountSec80:amt}]:[]});
     j.Schedule80_IC={Sch80SectionCode:st0(S.ded.ie.code)||"80IE",
       DeductInNorthEast:{Assam_Und:mkU(st0(S.ded.ie.code)),ArunachalPradesh_Und:mkU(""),Manipur_Und:mkU(""),Mizoram_Und:mkU(""),
-        Meghalaya_Und:mkU(""),Nagaland_Und:mkU(""),Tripura_Und:mkU(""),Sikkim_Und:mkU("")},TotSchedule80_IC:n0(out.c80ie)};}
+        Meghalaya_Und:mkU(""),Nagaland_Und:mkU(""),Tripura_Und:mkU(""),Sikkim_Und:mkU(""),TotDeductInNorthEast:n0(out.c80ie)},TotSchedule80_IC:n0(out.c80ie)};}
   /* ---- Schedule10AA (SEZ) ---- */
   {const rows=(S.ded.aa10||[]).filter(r=>N(r.amt));
    if(rows.length&&!isNew()){j.Schedule10AA={DeductSEZ:{DedUs10Detail:{

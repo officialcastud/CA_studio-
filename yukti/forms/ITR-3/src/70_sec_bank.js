@@ -35,6 +35,7 @@ const _verToday=()=>{const d=new Date();
   return String(d.getDate()).padStart(2,"0")+"/"+
          String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear();};
 S.bank = S.bank || [];              /* refund accounts → Refund.BankAccountDtls */
+S.fbank = S.fbank || [];            /* foreign refund accounts → Refund.BankAccountDtls.ForeignBankDetails (non-resident, no Indian account) */
 S.ver  = S.ver  || {};
 if(S.ver.cap===undefined)   S.ver.cap="S";     /* Verification.Capacity (I6, default Self) */
 if(S.ver.name===undefined)  S.ver.name="";     /* Declaration.AssesseeVerName (C4) */
@@ -45,6 +46,7 @@ if(S.ver.date===undefined)  S.ver.date=_verToday();  /* Verification.Date (J9/L9
 if(S.ver.nacc===undefined)  S.ver.nacc="";     /* number of accounts held at any time (guidance) */
 S.trp  = S.trp  || {};              /* TaxReturnPreparer (optional block) */
 SEED.bank = SEED.bank || {type:"SB"};
+SEED.fbank = SEED.fbank || {};
 
 /* ---- engine — this head carries NO income; roll-up contribution = 0 --- */
 function engBank(){
@@ -74,6 +76,16 @@ function secBank(){
     {k:"refund",h:"For the refund",t:"chk",w:"120px"}],
     S.bank,{min:"980px",empty:"No account given — a refund cannot be credited.",add:"Add an account"});
   h+=note("Type the IFS code and the name of the bank fills itself.");
+
+  /* --- foreign refund bank (non-resident with no account in India) — Refund.BankAccountDtls.ForeignBankDetails --- */
+  if((S.fs||{}).resStatus!=="RES"){
+    h+=note("A non-resident claiming a refund who does not hold a bank account in India may give a foreign account.","warn");
+    h+=grid("fbank",[{k:"swift",h:"SWIFT code",t:"txt",w:"160px",max:11,req:1},
+      {k:"bank",h:"Name of the bank",t:"txt",w:"auto",max:125,req:1},
+      {k:"country",h:"Country code",t:"txt",w:"140px",max:6,req:1},
+      {k:"iban",h:"IBAN",t:"txt",w:"260px",max:34,req:1}],
+      S.fbank,{min:"820px",empty:"No foreign account.",add:"Add a foreign account"});
+  }
 
   /* --- Verification (Verification.md rows 4–9) --- */
   h+=sub("Verification");
@@ -129,6 +141,18 @@ function expBank(j){
       AccountType:ACCT_B.some(a=>a[0]===b.type)?b.type:"SB",
       UseForRefund:b.refund==="Y"?"true":"false"}));
   }
+  /* foreign refund accounts (non-resident) → Refund.BankAccountDtls.ForeignBankDetails */
+  const fb=(S.fbank||[]).filter(b=>st0(b.swift)&&st0(b.bank)&&st0(b.iban));
+  if(fb.length){
+    if(j.PartB_TTI==null)j.PartB_TTI={};
+    if(j.PartB_TTI.Refund==null)j.PartB_TTI.Refund={};
+    if(j.PartB_TTI.Refund.BankAccountDtls==null)j.PartB_TTI.Refund.BankAccountDtls={};
+    j.PartB_TTI.Refund.BankAccountDtls.ForeignBankDetails=fb.map(b=>({
+      SWIFTCode:st0(b.swift).slice(0,11),
+      BankName:st0(b.bank).slice(0,125),
+      CountryCode:st0(b.country).slice(0,6),
+      IBAN:st0(b.iban).slice(0,34)}));
+  }
 
   /* Verification — required keys always present */
   put(j,"Verification.Declaration.AssesseeVerName",(sv(S.ver.name)||"NA").slice(0,125));
@@ -156,6 +180,11 @@ function impBank(I3){
       type:ACCT_B.some(a=>a[0]===b.AccountType)?b.AccountType:"SB",
       refund:b.UseForRefund==="true"?"Y":"N"}));
     read.push("bank accounts");
+  }
+  const fb=g(I3,"PartB_TTI.Refund.BankAccountDtls.ForeignBankDetails")||[];
+  if(Array.isArray(fb)&&fb.length){
+    S.fbank=fb.map(b=>({swift:b.SWIFTCode||"",bank:b.BankName||"",country:b.CountryCode||"",iban:b.IBAN||""}));
+    read.push("foreign bank accounts");
   }
   const V=I3.Verification;
   if(V){
