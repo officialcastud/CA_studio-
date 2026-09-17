@@ -1,0 +1,59 @@
+[
+{
+"n": 401,
+"cat": "A",
+"text": "[No rule at Category A serial 401: the CBDT source's numbering skips it.]",
+"absent": true
+},
+{
+"n": 402,
+"cat": "A",
+"text": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or",
+"clean": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or 80CCD(1B)"
+},
+{
+"n": 403,
+"cat": "A",
+"text": "80CCD(1B) In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of"
+},
+{
+"n": 404,
+"cat": "A",
+"text": "taxpayer. In case of property is not Co-owned the assessee's share should be equal to 100%"
+},
+{
+"n": 405,
+"cat": "A",
+"text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%"
+},
+{
+"n": 406,
+"cat": "A",
+"text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Assessee\u2019s percentage of share in the Property (%) should be less than 100%"
+},
+{
+"n": 407,
+"cat": "A",
+"text": "If PRAN is entered in chapter VIA but amount entered in 80CCD (1) and 80CCD(1B) is"
+},
+{
+"n": 408,
+"cat": "A",
+"text": "equal to 0 \"The amount of rent which cannot be realized\" cannot be more than Gross rent received/"
+},
+{
+"n": 409,
+"cat": "A",
+"text": "receivable/ lettable during the year If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row"
+},
+{
+"n": 410,
+"cat": "A",
+"text": "and provide details for \"Type of identifier\", \"Identifier No. and \"Amount\" Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income"
+},
+{
+"n": 411,
+"cat": "A",
+"text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information"
+}
+]

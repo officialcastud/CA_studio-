@@ -1,0 +1,72 @@
+[
+{
+"n": 1,
+"cat": "B",
+"text": "B: Publishing Document Income chargeable under business should be equal to sum of income offered under",
+"clean": "1 Income chargeable under business should be equal to sum of income offered under presumptive income under 44AD, 44ADA & 44AE"
+},
+{
+"n": 2,
+"cat": "B",
+"text": "presumptive income under 44AD, 44ADA & 44AE TDS deducted value in schedule TDS 1 CANNOT BE MORE THAN value in",
+"clean": "TDS deducted value in schedule TDS 1 CANNOT BE MORE THAN value in schedule Salary \"sl.no.2. Total Gross salary\""
+},
+{
+"n": 3,
+"cat": "B",
+"text": "schedule Salary \"sl.no.2. Total Gross salary\" Linking of Aadhar and PAN is required to avoid consequences of not linking PAN",
+"clean": "Linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023"
+},
+{
+"n": 4,
+"cat": "B",
+"text": "and Aadhar in eligible cases as per Circular 03/2023 Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking",
+"clean": "Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023"
+},
+{
+"n": 5,
+"cat": "B",
+"text": "PAN and Aadhar in eligible cases as per Circular 03/2023 Taxpayer filing Nil return is requested to check AIS / 26AS before proceeding"
+},
+{
+"n": 6,
+"cat": "B",
+"text": "further TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA,or 194S as is selected under Schedule \"TDS2(i) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\"",
+"clean": "TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA,or 194S as is selected under Schedule \"TDS2(i) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" or Assessee having income under special rate is not eligible to file ITR-4. TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA,or 194S as is selected under Schedule \"TDS2(i) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" or Assessee having income under special rate is not eligible to file ITR-4."
+},
+{
+"n": 7,
+"cat": "B",
+"text": "or Assessee having income under special rate is not eligible to file ITR-4. TDS section code such 194B, 194BB, 194BA, 194IA,194IC,194LA,194R, or 194S as is selected under Schedule \"TDS2(ii) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" or Assessee having income under special rate is not eligible to file ITR-4."
+},
+{
+"n": 8,
+"cat": "B",
+"text": "TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA\u00a9,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS2(i) Details of Tax Deducted at"
+},
+{
+"n": 9,
+"cat": "B",
+"text": "Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA\u00a9,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS2(ii) Details of Tax Deducted at"
+},
+{
+"n": 10,
+"cat": "B",
+"text": "Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" If form 10IEA is available in the DB then the below fields shall be mandatory to be filled for the respective AY and the details entered shall be matching with the DB : Assessment year,"
+},
+{
+"n": 11,
+"cat": "B",
+"text": "Date of filing form 10IEA or Acknowledgement number of form 10-IEA Form 10IEA shall be filed within the due date for opting out or re-entering for the"
+},
+{
+"n": 12,
+"cat": "B",
+"text": "current assessment year Form 10IEA is not filed previously but the details are entered in the ITR."
+},
+{
+"n": 13,
+"cat": "B",
+"text": "Form 10IEA is not filed for the current assessment year but the details are entered in the ITR. D:"
+}
+]

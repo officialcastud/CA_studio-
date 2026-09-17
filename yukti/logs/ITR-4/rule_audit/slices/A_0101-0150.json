@@ -1,0 +1,268 @@
+[
+{
+"n": 101,
+"cat": "A",
+"text": "In Schedule 80G in table (c) \u201cDonations entitled for 100% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered",
+"clean": "In Schedule 80G in table (c) \u201cDonations entitled for 100% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered mandatory."
+},
+{
+"n": 102,
+"cat": "A",
+"text": "mandatory. In Schedule 80G in table (D) \u201cDonations entitled for 50% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered"
+},
+{
+"n": 103,
+"cat": "A",
+"text": "mandatory. In Schedule 80G in table (E) Donations should be equal to the sum of (Donations entitled for 100% deduction without qualifying limit +Donations entitled for 50% deduction without qualifying limit+Donations entitled for 100% deduction subject to qualifying",
+"clean": "In Schedule 80G in table (E) Donations should be equal to the sum of (Donations entitled for 100% deduction without qualifying limit +Donations entitled for 50% deduction without qualifying limit+Donations entitled for 100% deduction subject to qualifying limit+Donations entitled for 50% deduction subject to qualifying limit) In Schedule 80G in table (E) Donations should be equal to the sum of (Donations entitled for 100% deduction without qualifying limit +Donations entitled for 50% deduction without qualifying limit+Donations entitled for 100% deduction subject to qualifying limit+Donations entitled for 50% deduction subject to qualifying limit)"
+},
+{
+"n": 104,
+"cat": "A",
+"text": "limit+Donations entitled for 50% deduction subject to qualifying limit) \"Total Donation\" should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (A)\"Donations entitled for 100% deduction without qualifying"
+},
+{
+"n": 105,
+"cat": "A",
+"text": "limit\" Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (B)\"Donations entitled for 50% deduction without qualifying limit\""
+},
+{
+"n": 106,
+"cat": "A",
+"text": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (C)\"Donations entitled for 100% deduction subject to qualifying",
+"clean": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (C)\"Donations entitled for 100% deduction subject to qualifying limit\""
+},
+{
+"n": 107,
+"cat": "A",
+"text": "limit\" Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (D)\"Donations entitled for 50% deduction subject to qualifying"
+},
+{
+"n": 108,
+"cat": "A",
+"text": "limit\" If Old Tax Regime is selected, and in \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then, if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0",
+"clean": "If Old Tax Regime is selected, and in \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then, if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0 or in case of individual entry is more than Rs. 2000 in cash then also eligible amount of donation shall not be more than 0 If Old Tax Regime is selected, and in \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then, if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0 or in case of individual entry is more than Rs. 2000 in cash then also eligible amount of donation shall not be more than 0"
+},
+{
+"n": 109,
+"cat": "A",
+"text": "or in case of individual entry is more than Rs. 2000 in cash then also eligible amount of donation shall not be more than 0 In schedule 80G, if donation is made, same PAN of Donee cannot appear more than once except the PAN 'AAAAR1077P can be repeated in different blocks' Note: For table D (50% without qualifying limit), above rule will not be applicable if"
+},
+{
+"n": 110,
+"cat": "A",
+"text": "ARN number is unique. Further if ARN is not entered then this note will not be applicable In Schedule IT total of Col 4 Tax Paid should be equal to sum of individual values"
+},
+{
+"n": 111,
+"cat": "A",
+"text": "In Schedule TCS, \u201cThe Amount of TCS claimed this year\u201d is more than \u201cTax collected\u201d"
+},
+{
+"n": 112,
+"cat": "A",
+"text": "In Schedule TCS total of col 5 TCS credit out of (4) being claimed this year should be equal to sum of individual values",
+"clean": "112 In Schedule TCS total of col 5 TCS credit out of (4) being claimed this year should be equal to sum of individual values"
+},
+{
+"n": 113,
+"cat": "A",
+"text": "In Schedule TDS2 (i) & (ii) (Other than salary), \u201cThe Amount of TDS claimed this year\u201d is more than \u201cTax deducted\u201d."
+},
+{
+"n": 114,
+"cat": "A",
+"text": "In Schedule TDS (2), year of tax deduction cannot be '0' / 'null ' if there is a claim of brought forward TDS"
+},
+{
+"n": 115,
+"cat": "A",
+"text": "In Schedule TDS2(i) & TDS2(ii), Unclaimed TDS brought forward & details of TDS of current FY should be provided in different rows in Sch TDS 2"
+},
+{
+"n": 116,
+"cat": "A",
+"text": "In schedule TDS-2(ii), claim of TDS in S. No 6 cannot be more than income disclosed in SR.NO 7"
+},
+{
+"n": 117,
+"cat": "A",
+"text": "In schedule TDS-2(i), claim of TDS in SR.NO 6 cannot be more than income disclosed in SR.NO 7"
+},
+{
+"n": 118,
+"cat": "A",
+"text": "In Schedule TDS1 total of col 4 'Total Tax deducted\" should be equal to sum of individual values of col 4"
+},
+{
+"n": 119,
+"cat": "A",
+"text": "In Schedule TDS2 total of col 6 'TDS Credit out of (5) being claimed this year' should be equal to sum of individual values of col 6"
+},
+{
+"n": 120,
+"cat": "A",
+"text": "In Schedule TDS3 total of col 6' 'TDS Credit out of (5) claimed this year' should be equal to sum of individual values of col 6"
+},
+{
+"n": 121,
+"cat": "A",
+"text": "In schedule \"Tax Details\" in TDS2(i), TDS is claimed in column 6 then Corresponding Receipt /Withdrawals offered - \"Gross Amount (Col 7)\" and \"Head of Income",
+"clean": "In schedule \"Tax Details\" in TDS2(i), TDS is claimed in column 6 then Corresponding Receipt /Withdrawals offered - \"Gross Amount (Col 7)\" and \"Head of Income (Col 8)\" is to be mandatorily filled."
+},
+{
+"n": 122,
+"cat": "A",
+"text": "(Col 8)\" is to be mandatorily filled. In schedule \"Tax Details\" in TDS2(ii), TDS is claimed in column 6 then Corresponding Income offered - \"Gross Amount (Col 7)\" and \"Head of Income (Col 8)\" is to be"
+},
+{
+"n": 123,
+"cat": "A",
+"text": "mandatorily filled. IFSC under \u201cBank Details,\u201d Schedule 80G and in schedule 80GGC should match with the RBI database / GIFT IFSC codes."
+},
+{
+"n": 124,
+"cat": "A",
+"text": "Tax computation has been disclosed but Gross Total Income is zero."
+},
+{
+"n": 125,
+"cat": "A",
+"text": "\"Income details\" and \"Tax computation\" have not been disclosed but details regarding \u201cTaxes Paid\u201d have been disclosed.",
+"clean": "125 \"Income details\" and \"Tax computation\" have not been disclosed but details regarding \u201cTaxes Paid\u201d have been disclosed."
+},
+{
+"n": 126,
+"cat": "A",
+"text": "TDS, TCS or Tax paid claimed in \u201cTax paid and Verification schedule\u201d is inconsistent with details of tax amount paid provided in Schedule IT, Schedule TDS1, Schedule",
+"clean": "TDS, TCS or Tax paid claimed in \u201cTax paid and Verification schedule\u201d is inconsistent with details of tax amount paid provided in Schedule IT, Schedule TDS1, Schedule TDS2 and Schedule TCS. TDS, TCS or Tax paid claimed in \u201cTax paid and Verification schedule\u201d is inconsistent with details of tax amount paid provided in Schedule IT, Schedule TDS1, Schedule TDS2 and Schedule TCS."
+},
+{
+"n": 127,
+"cat": "A",
+"text": "TDS2 and Schedule TCS. The sum of the amounts claimed at TDS, TCS, Advance Tax and Self-Assessment Tax is not equal to the amount claimed at \u201cTotal Taxes Paid.\u201d"
+},
+{
+"n": 128,
+"cat": "A",
+"text": "Amount of Refund claimed is inconsistent with the difference of \u201cTotal Taxes Paid\u201d and \u201cTotal Tax, Fee & Interest\u201d"
+},
+{
+"n": 129,
+"cat": "A",
+"text": "Amount of Tax payable is inconsistent with the difference of \u201cTotal Tax, Fee and Interest\u201d and \u201cTotal Taxes Paid.\u201d"
+},
+{
+"n": 130,
+"cat": "A",
+"text": "Agriculture Income shown as exempt cannot be more than Rs 5,000/- and cannot be selected more than once."
+},
+{
+"n": 131,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total TDS Claimed should be equal to the sum of total TDS claimed in TDS 1, 2(i) & 2(ii)"
+},
+{
+"n": 132,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total TCS Claimed should be equal to the sum of total TCS claimed in TCS schedule"
+},
+{
+"n": 133,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total Advance Tax paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is in the PY for which ITR",
+"clean": "In \"Schedule Taxes Paid and Verification\" Total Advance Tax paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is in the PY for which ITR is being filed. In \"Schedule Taxes Paid and Verification\" Total Advance Tax paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is in the PY for which ITR is being filed."
+},
+{
+"n": 134,
+"cat": "A",
+"text": "is being filed. In \"Schedule Taxes Paid and Verification\" Total Self-Assessment Tax Paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31st Mar",
+"clean": "In \"Schedule Taxes Paid and Verification\" Total Self-Assessment Tax Paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31st Mar of the PY for which ITR is being filed."
+},
+{
+"n": 135,
+"cat": "A",
+"text": "of the PY for which ITR is being filed. The value at field \"E5\" is greater than zero but the Schedule 44AE is not filed."
+},
+{
+"n": 136,
+"cat": "A",
+"text": "Presumptive Income from Goods Carriage under section 44AE is not equal to the amount mentioned in \"Presumptive income u/s 44AE\"",
+"clean": "136 Presumptive Income from Goods Carriage under section 44AE is not equal to the amount mentioned in \"Presumptive income u/s 44AE\""
+},
+{
+"n": 137,
+"cat": "A",
+"text": "In schedule BP if income is declared u/s 44AE then it is mandatory to select \"Business code\" u/s 44AE."
+},
+{
+"n": 138,
+"cat": "A",
+"text": "In schedule BP if \"business code\" u/s 44AE is selected then it is mandatory to declare income u/s 44AE."
+},
+{
+"n": 139,
+"cat": "A",
+"text": "Gross receipts /turnover are mentioned in schedule BP but Financial Particulars such as Sundry creditors, Inventories, Sundry debtors, cash in hand is not filled"
+},
+{
+"n": 140,
+"cat": "A",
+"text": "As per rule 12 (1) (ca), a person deriving income under the head \u201cprofits or gains from business /profession\u201d and such income computed in accordance with special provisions of section 44AD or 44AE or 44ADA, is required to furnished return in ITR-4. The",
+"clean": "As per rule 12 (1) (ca), a person deriving income under the head \u201cprofits or gains from business /profession\u201d and such income computed in accordance with special provisions of section 44AD or 44AE or 44ADA, is required to furnished return in ITR-4. The Return of Income is filed using ITR 4, however, income from business or profession under section 44AD or 44AE or 44ADA is not disclosed. As per rule 12 (1) (ca), a person deriving income under the head \u201cprofits or gains from business /profession\u201d and such income computed in accordance with special provisions of section 44AD or 44AE or 44ADA, is required to furnished return in ITR-4. The Return of Income is filed using ITR 4, however, income from business or profession under section 44AD or 44AE or 44ADA is not disclosed."
+},
+{
+"n": 141,
+"cat": "A",
+"text": "Return of Income is filed using ITR 4, however, income from business or profession under section 44AD or 44AE or 44ADA is not disclosed. Taxpayer has filed ITR 4 and mentioned Number of months for which goods carriage was owned/ leased/hired by assessee by assessee more than 12 months AND / OR total period of holding more than 120 months"
+},
+{
+"n": 142,
+"cat": "A",
+"text": "Credit for TDS has been claimed in return, but the corresponding receipts have been omitted to be offered for taxation."
+},
+{
+"n": 143,
+"cat": "A",
+"text": "Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 50000 in case of old tax regime"
+},
+{
+"n": 144,
+"cat": "A",
+"text": "\u201cThe presumptive income offered u/s 44AE per vehicle is less than Rs.1000 per MT per month (where the tonnage capacity exceeds 12 MT) or Rs. 7500 per month (where the",
+"clean": "\u201cThe presumptive income offered u/s 44AE per vehicle is less than Rs.1000 per MT per month (where the tonnage capacity exceeds 12 MT) or Rs. 7500 per month (where the tonnage capacity does not exceed 12 MT)\". \u201cThe presumptive income offered u/s 44AE per vehicle is less than Rs.1000 per MT per month (where the tonnage capacity exceeds 12 MT) or Rs. 7500 per month (where the tonnage capacity does not exceed 12 MT)\"."
+},
+{
+"n": 145,
+"cat": "A",
+"text": "tonnage capacity does not exceed 12 MT)\". If Old Tax Regime is selected, Deduction u/s 80CCD1(B) is limited to 50000"
+},
+{
+"n": 146,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then fixed amount that can be claimed for category \"Dependent with disability\" u/s 80DD should be equal to its Rs. 75,000",
+"clean": "146 If Old Tax Regime is selected, then fixed amount that can be claimed for category \"Dependent with disability\" u/s 80DD should be equal to its Rs. 75,000"
+},
+{
+"n": 147,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then fixed amount is Rs. 125,000 can be claimed for category \"Dependent with severe disability\" u/s 80DD should be equal to Rs. 125,000"
+},
+{
+"n": 148,
+"cat": "A",
+"text": "If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for self and dependent more than the maximum limit of",
+"clean": "If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for self and dependent more than the maximum limit of Rs.40,000/-"
+},
+{
+"n": 149,
+"cat": "A",
+"text": "Rs.40,000/- If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for Category \"senior citizen self and dependent \"more than the",
+"clean": "If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for Category \"senior citizen self and dependent \"more than the maximum limit of Rs.100,000/- If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for Category \"senior citizen self and dependent \"more than the maximum limit of Rs.100,000/-"
+},
+{
+"n": 150,
+"cat": "A",
+"text": "maximum limit of Rs.100,000/- If Old Tax Regime is selected, and In Schedule Part BTI, assessee has claimed deduction u/s 80EE is more than the maximum limit of Rs.50,000"
+}
+]

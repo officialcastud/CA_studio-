@@ -1,0 +1,266 @@
+[
+{
+"n": 351,
+"cat": "A",
+"text": "In case of co-owned house property, Assessee PAN & Co-owners PAN cannot be same"
+},
+{
+"n": 352,
+"cat": "A",
+"text": "Gross rent received/ receivable/ lettable value during the year is zero or null and \"The amount of rent which cannot be realized\" is more than 0",
+"clean": "352 Gross rent received/ receivable/ lettable value during the year is zero or null and \"The amount of rent which cannot be realized\" is more than 0"
+},
+{
+"n": 353,
+"cat": "A",
+"text": "If A23\" \"Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? \" is selected as \"Yes\u201d then (A)(i) and (A)(ii) shall be mandatory Note: Form 10IEA is required to be filed in case of business income so If you have filed",
+"clean": "If A23\" \"Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? \" is selected as \"Yes\u201d then (A)(i) and (A)(ii) shall be mandatory Note: Form 10IEA is required to be filed in case of business income so If you have filed form 10IEA within due date for any earlier assessment year along with ITR 3/4 then select \"Yes\"."
+},
+{
+"n": 354,
+"cat": "A",
+"text": "form 10IEA within due date for any earlier assessment year along with ITR 3/4 then select \"Yes\". If A23\" \"Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? \" is selected as \"No\u201d then A23(B) shall be mandatory"
+},
+{
+"n": 355,
+"cat": "A",
+"text": "If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\"",
+"clean": "If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\" is selected as \"Yes\" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(a) If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\" is selected as \"Yes\" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(a)"
+},
+{
+"n": 356,
+"cat": "A",
+"text": "is selected as \"Yes\" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(a) If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\" is selected as \"No\" then A23(A)(ii)(b) shall be mandatory"
+},
+{
+"n": 357,
+"cat": "A",
+"text": "If A23(A)(ii)(b) \"Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?\" is selected as \"Yes\"",
+"clean": "If A23(A)(ii)(b) \"Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?\" is selected as \"Yes\" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(b)(i)"
+},
+{
+"n": 358,
+"cat": "A",
+"text": "then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(b)(i) If A23(A)(ii)(b) \"Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?\" is selected as \"No\""
+},
+{
+"n": 359,
+"cat": "A",
+"text": "then A23(A)(ii)(b)(i) asking form filed details shall not be applicable If A23(B) \"Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as \"Yes\""
+},
+{
+"n": 360,
+"cat": "A",
+"text": "then A23(B)(i) shall be mandatory If A23(B) \"Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as \"No\"",
+"clean": "If A23(B) \"Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as \"No\" then A23(B)(i) shall not be applicable"
+},
+{
+"n": 361,
+"cat": "A",
+"text": "then A23(B)(i) shall not be applicable If form 10IEA details are filled in A23(B)(i) then A23(B) cannot be blank"
+},
+{
+"n": 362,
+"cat": "A",
+"text": "If form 10IEA details are filled in A23(A)(ii)(b)(i) then A23(A)(ii)(b) cannot be blank"
+},
+{
+"n": 363,
+"cat": "A",
+"text": "If Details are filled in A23 A(ii)(a) or A(ii)(b) then A23(A)(ii) cannot be blank"
+},
+{
+"n": 364,
+"cat": "A",
+"text": "If Details are filled in A23 A(i) or A(ii) then A23(A) cannot be blank"
+},
+{
+"n": 365,
+"cat": "A",
+"text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" cannot be more than 0 if new",
+"clean": "365 Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" cannot be more than 0 if new tax regime is selected. Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" cannot be more than 0 if new tax regime is selected."
+},
+{
+"n": 366,
+"cat": "A",
+"text": "tax regime is selected. If in 80CCC the sum of individual rows for \"Amount\" is not equal to \u201cTotal of Payments\" as per field 80CCC in Income details."
+},
+{
+"n": 367,
+"cat": "A",
+"text": "\"Sec 10(2) Member\u2019s share from HUF\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 368,
+"cat": "A",
+"text": "\"Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 369,
+"cat": "A",
+"text": "\"Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 370,
+"cat": "A",
+"text": "\"Sec 10(12A) NPS partial withdrawal\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 371,
+"cat": "A",
+"text": "\"Sec 10(12AA) any payment from the National Pension System Trust\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 372,
+"cat": "A",
+"text": "\"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than",
+"clean": "\"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than one time under Exempt Income. \"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 373,
+"cat": "A",
+"text": "one time under Exempt Income. \"Sec 10(12B) NPS lumpsum at exit/closure (portion)\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 374,
+"cat": "A",
+"text": "\"Sec 10(12BA) partial withdrawal made from the National Pension System\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 375,
+"cat": "A",
+"text": "\"Sec 10(12C) Agniveer Corpus Fund income\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 376,
+"cat": "A",
+"text": "\"Sec 10(15) Interest on specified securities/investments\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 377,
+"cat": "A",
+"text": "\"Sec 10(19A) Annual value of one palace in occupation of ex-ruler\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 378,
+"cat": "A",
+"text": "\"Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 379,
+"cat": "A",
+"text": "\"Contributions received from recognized stock exchange\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 380,
+"cat": "A",
+"text": "\"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund\u201d drop-down cannot be selected more than one",
+"clean": "\"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund\u201d drop-down cannot be selected more than one time under Exempt Income. \"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund\u201d drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 381,
+"cat": "A",
+"text": "time under Exempt Income. \"Sec 10(23FD) Unit holder income from Business Trust (certain parts\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 382,
+"cat": "A",
+"text": "\"Sec 10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension fund\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 383,
+"cat": "A",
+"text": "\"Sec 10(25A) any income under Employees' State Insurance Fund\" drops down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 384,
+"cat": "A",
+"text": "\"Sec 10(30) subsidy received from or through the Tea Board\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 385,
+"cat": "A",
+"text": "\"Sec 10(31) Rubber/Coffee/Tea development accounts/funds\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 386,
+"cat": "A",
+"text": "\"Minor child\u2019s income\u2014small exemption\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 387,
+"cat": "A",
+"text": "\"Sec 10(35) Income from specified Mutual Funds\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 388,
+"cat": "A",
+"text": "\"Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust\" drop-down cannot be selected more than one time under Exempt",
+"clean": "\"Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 389,
+"cat": "A",
+"text": "Income. \"Sec 10(43) Reverse mortgage\u2014payments to senior citizens\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 390,
+"cat": "A",
+"text": "\"Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 391,
+"cat": "A",
+"text": "If New tax regime is selected, then exempt income u/s 10(32)-Minor child\u2019s income should not be more than Zero"
+},
+{
+"n": 392,
+"cat": "A",
+"text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs."
+},
+{
+"n": 393,
+"cat": "A",
+"text": "The AY selected in A23(A)(ii)(a) shall not be same or prior to the AY selected in A23(A)(i) For e.g.: AY selected in A23(A)(i) is AY 2024-25",
+"clean": "The AY selected in A23(A)(ii)(a) shall not be same or prior to the AY selected in A23(A)(i) For e.g.: AY selected in A23(A)(i) is AY 2024-25 then AY selected in A23(A)(ii)(a) shall not be same as AY 2024-25 or prior to AY2024-25 but can be any AY greater than AY 2024-25"
+},
+{
+"n": 394,
+"cat": "A",
+"text": "then AY selected in A23(A)(ii)(a) shall not be same as AY 2024-25 or prior to AY2024-25 but can be any AY greater than AY 2024-25 IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number,\u201d in Schedule 80G is mandatory in case of",
+"clean": "IFSC and \"Transaction Reference number for UPI transfer / Cheque _ number/IMPS/NEFT/RTGS reference number,\u201d in Schedule 80G is mandatory in case of donation is in mode other than cash. IFSC and \"Transaction Reference number for UPI transfer / Cheque _ number/IMPS/NEFT/RTGS reference number,\u201d in Schedule 80G is mandatory in case of donation is in mode other than cash."
+},
+{
+"n": 395,
+"cat": "A",
+"text": "donation is in mode other than cash. PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G"
+},
+{
+"n": 396,
+"cat": "A",
+"text": "If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then if sum of such cash donation does not exceed Rs. 2000 then eligible amount",
+"clean": "If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then if sum of such cash donation does not exceed Rs. 2000 then eligible amount of donation shall not exceed minimum of: Rs. 2000 or claimed whichever is lower"
+},
+{
+"n": 397,
+"cat": "A",
+"text": "of donation shall not exceed minimum of: Rs. 2000 or claimed whichever is lower Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs."
+},
+{
+"n": 398,
+"cat": "A",
+"text": "Name and PAN of the political party are necessary to claim deduction u/s 80GGC"
+},
+{
+"n": 399,
+"cat": "A",
+"text": "In Schedule 80G either cash donation or donation in other mode shall be entered under any row; both can\u2019t be entered.",
+"clean": "399 In Schedule 80G either cash donation or donation in other mode shall be entered under any row; both can\u2019t be entered."
+},
+{
+"n": 400,
+"cat": "A",
+"text": "[No rule at Category A serial 400: the CBDT source's numbering skips it.]",
+"absent": true
+}
+]
