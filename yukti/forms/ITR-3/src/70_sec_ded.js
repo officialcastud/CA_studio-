@@ -336,13 +336,15 @@ function secDed(){
     row("Amount of deduction",inp("ded.dd80.amt",{n:1}),{req:1,hint:"₹75,000, or ₹1,25,000 for a severe disability"})+
     row("Dependant",sel("ded.dd80.dep",DED_DEP),{req:1})+row("PAN of the dependant",inp("ded.dd80.pan",{max:10}))+
     row("Aadhaar of the dependant",inp("ded.dd80.aadhaar",{max:12}))+row("Date of filing of Form 10-IA",dte("ded.dd80.f10dt"))+
-    row("Acknowledgement number of Form 10-IA",inp("ded.dd80.f10ack",{max:15}))+row("UDID number",inp("ded.dd80.udid",{max:18}))+
+    row("Acknowledgement number of Form 10-IA",inp("ded.dd80.f10ack",{max:15}))+
+    row("Acknowledgement number of Form 10-IA (11A)",inp("ded.dd80.f10ia",{max:15}))+row("UDID number",inp("ded.dd80.udid",{max:18}))+
     formNote("<b>Form 10-IA</b> has to be filed before the return."));
   /* 80U */
   h+=card("d80u","Schedule 80U — the person has a disability",N((S.ded.u80||{}).amt)?RS(V.out.c80u||0):"",
     row("Nature of the disability",sel("ded.u80.nature",DED_UNAT),{req:1})+row("Type of disability",sel("ded.u80.type",DED_DTYPE),{req:1})+
     row("Amount of deduction",inp("ded.u80.amt",{n:1}),{req:1,hint:"₹75,000, or ₹1,25,000 for a severe disability"})+
     row("Date of filing of Form 10-IA",dte("ded.u80.dt"))+row("Acknowledgement number of Form 10-IA",inp("ded.u80.ack",{max:15}))+
+    row("Acknowledgement number of Form 10-IA (11A)",inp("ded.u80.f10ia",{max:15}))+
     row("UDID number",inp("ded.u80.udid",{max:18}))+formNote("<b>Form 10-IA</b> has to be filed before the return."));
   /* 80E group */
   const e=S.ded.e80||{}; const et=k=>(e[k]||[]).reduce((s,r)=>s+N(r.interest),0);
@@ -483,12 +485,14 @@ function expDed(j){
     if(AADH.test(st0(x.aadhaar)))j.Schedule80DD.DependentAadhaar=st0(x.aadhaar);
     if(ISO(x.f10dt))j.Schedule80DD.Form10IAFilingDate=ISO(x.f10dt);
     if(/^\d{15}$/.test(st0(x.f10ack)))j.Schedule80DD.Form10IAAckNum=st0(x.f10ack);
+    if(sv(x.f10ia))j.Schedule80DD.FormAckNum11A=sv(x.f10ia).slice(0,15);
     if(sv(x.udid))j.Schedule80DD.UDIDNum=sv(x.udid).slice(0,18);}
   /* ---- Schedule80U ---- */
   if(N((S.ded.u80||{}).amt)){const x=S.ded.u80||{};j.Schedule80U={NatureOfDisability:x.nature==="2"?"2":"1",
     TypeOfDisability:x.type==="2"?"2":"1",DeductionAmount:n0(out.c80u)};
     if(ISO(x.dt))j.Schedule80U.Form10IAFilingDate=ISO(x.dt);
     if(/^\d{15}$/.test(st0(x.ack)))j.Schedule80U.Form10IAAckNum=st0(x.ack);
+    if(sv(x.f10ia))j.Schedule80U.FormAckNum11A=sv(x.f10ia).slice(0,15);
     if(sv(x.udid))j.Schedule80U.UDIDNum=sv(x.udid).slice(0,18);}
   /* ---- Schedule80E / 80EE / 80EEA / 80EEB ---- */
   const e=S.ded.e80||{};
@@ -604,9 +608,9 @@ function impDed(I3){
       parIns:ins("Sec80DParentsHIDtls"),parPHC:nz(b.PrevHlthChckUpParents),parSrIns:ins("Sec80DParentsSrCtznHIDtls"),parSrPHC:nz(b.PrevHlthChckUpParentsSrCtzn),parSrMed:nz(b.MedicalExpParentsSrCtzn)};
     got.push("Schedule 80D");}
   if(I3.Schedule80DD){const x=I3.Schedule80DD;S.ded.dd80={nature:x.NatureOfDisability,type:x.TypeOfDisability,amt:x.DeductionAmount,
-    dep:x.DependentType,pan:x.DependentPan||"",aadhaar:x.DependentAadhaar||"",f10dt:dmy(x.Form10IAFilingDate),f10ack:x.Form10IAAckNum||"",udid:x.UDIDNum||""};}
+    dep:x.DependentType,pan:x.DependentPan||"",aadhaar:x.DependentAadhaar||"",f10dt:dmy(x.Form10IAFilingDate),f10ack:x.Form10IAAckNum||"",f10ia:x.FormAckNum11A||"",udid:x.UDIDNum||""};}
   if(I3.Schedule80U){const x=I3.Schedule80U;S.ded.u80={nature:x.NatureOfDisability,type:x.TypeOfDisability,amt:x.DeductionAmount,
-    dt:dmy(x.Form10IAFilingDate),ack:x.Form10IAAckNum||"",udid:x.UDIDNum||""};}
+    dt:dmy(x.Form10IAFilingDate),ack:x.Form10IAAckNum||"",f10ia:x.FormAckNum11A||"",udid:x.UDIDNum||""};}
   {const ln=(blk,dk,ik)=>(g_(I3,blk+"."+dk)||[]).map(r=>({from:r.LoanTknFrom,name:r.BankOrInstnName,acno:r.LoanAccNoOfBankOrInstnRefNo,
       dt:dmy(r.DateofLoan),amt:r.TotalLoanAmt,os:r.LoanOutstndngAmt,reg:r.VehicleRegNo||"",interest:r[ik]}));
     S.ded.e80={e:ln("Schedule80E","Schedule80EDtls","Interest80E"),ee:ln("Schedule80EE","Schedule80EEDtls","Interest80EE"),

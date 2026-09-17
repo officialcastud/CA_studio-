@@ -86,3 +86,22 @@ labels are shuffled (codes correct) — the jurisdiction UI uses the vetted Sche
 Remaining: 25 OPTIONAL leaves without a UI space (secondary mobile; unlisted-share intra-year columns;
 Schedule80DD/80U Form-10IA ack; ScheduleCG UnutilizedStcg/Ltcg flags + PTI pass-through CG nature amounts;
 ScheduleESOP per-year tax-attributed totals). None is mandatory; listed for a follow-up pass.
+
+---
+
+## Optional-leaf completion — 100% schema coverage (0 of 2798 uncovered)
+
+Closed the last 25 optional leaves so every schema particular has a space (input or computed):
+- PartA: secondary mobile (CountryCodeMobileNoSec/MobileNoSec); unlisted-share intra-year columns
+  (DateOfSubscrPurchase/FaceValuePerShare/IssuePricePerShare/PurchasePricePerShare/ShrTrnfNumberOfShares/
+  ShrTrnfSaleConsideration); audit-detail extras (AuditDetails.OthAuditDtls, AuditReportDetails.OtherITActFlag/
+  OthAuditDtlsOthThanITAct).
+- Schedule80DD/80U: FormAckNum11A (Form 10-IA acknowledgement).
+- Schedule CG: UnutilizedStcgFlag/UnutilizedLtcgFlag; pass-through CG-by-rate (PassThrIncNatureSTCG20/30/App,
+  PassThrIncNatureLTCGUs112A12_5/LTCG12_5) wired from the existing A8/B11 inputs + import.
+- ScheduleESOP: per-year TotalTaxAttributedAmt totals — corrected to the sum of the block's per-row
+  tax-attributed amounts (previously computed from the tax-due fallback).
+
+`tools/coverage.py` (concat-aware) now reports **0 required, 0 optional uncovered of 2798 leaves**.
+All 8 gates GREEN; canonical resident S SUDHIR return byte-identical. ITR-3 is a functional replica of
+the utility across resident / NRI / audit / presumptive / new-regime cases.

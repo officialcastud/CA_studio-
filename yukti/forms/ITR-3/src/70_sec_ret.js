@@ -338,9 +338,15 @@ function secRet(){
       {k:"obNo",h:"Opening — no. of shares",t:"num",w:"120px",req:1},
       {k:"obCost",h:"Opening — cost of acquisition",t:"num",w:"140px",req:1},
       {k:"acqNo",h:"Acquired — no. of shares",t:"num",w:"120px"},
+      {k:"subDate",h:"Date of subscription / purchase",t:"date",w:"150px"},
+      {k:"faceVal",h:"Face value per share",t:"num",w:"120px"},
+      {k:"issuePrice",h:"Issue price per share",t:"num",w:"120px"},
+      {k:"purchPrice",h:"Purchase price per share",t:"num",w:"130px"},
+      {k:"trnfNo",h:"Transferred — no. of shares",t:"num",w:"130px"},
+      {k:"trnfCons",h:"Transfer — sale consideration",t:"num",w:"140px"},
       {k:"cbNo",h:"Closing — no. of shares",t:"num",w:"120px",req:1},
       {k:"cbCost",h:"Closing — cost of acquisition",t:"num",w:"140px",req:1}],
-      S.pi.unlco||[],{min:"1180px",empty:"No company added.",add:"Add a company"});
+      S.pi.unlco||[],{min:"1960px",empty:"No company added.",add:"Add a company"});
 
   /* ---- Non-resident PE/SEP, IFSC, FPI, LEI ---- */
   h+=sub("Non-resident, IFSC, FPI and LEI");
@@ -413,17 +419,20 @@ function secRet(){
     grid("aud.oth",[
       {k:"sec",h:"Section code",t:"sel",w:"140px",req:1,opts:AUD_SEC},
       {k:"flag",h:"Furnished?",t:"sel",w:"110px",opts:YN},
+      {k:"othDtls",h:"Other audit details",t:"txt",w:"200px"},
       {k:"date",h:"Date",t:"date",w:"150px"},
       {k:"ack",h:"Acknowledgement number",t:"txt",w:"180px",max:15}],
-      S.aud.oth||[],{min:"640px",empty:"No other audit report.",add:"Add an audit report"}));
+      S.aud.oth||[],{min:"840px",empty:"No other audit report.",add:"Add an audit report"}));
   h+=fold("audact","Other Act","Audits under an Act other than the Income-tax Act",
     (S.aud.act||[]).length?(S.aud.act||[]).length+" rows":"if any",
     grid("aud.act",[
       {k:"act",h:"Act",t:"sel",w:"320px",req:1,opts:AUD_ACT},
       {k:"actOther",h:"If others, specify",t:"txt",w:"180px"},
       {k:"sec",h:"Section",t:"txt",w:"120px"},
+      {k:"othFlag",h:"Audited under an Act other than the IT Act?",t:"sel",w:"140px",opts:YN},
+      {k:"othDtls",h:"Other audit details (other than IT Act)",t:"txt",w:"200px"},
       {k:"date",h:"Date of audit report",t:"date",w:"150px"}],
-      S.aud.act||[],{min:"820px",empty:"No other-Act audit.",add:"Add an audit"}));
+      S.aud.act||[],{min:"1160px",empty:"No other-Act audit.",add:"Add an audit"}));
 
   /* ---- Nature of business ---- */
   h+=sub("Nature of business or profession");

@@ -389,7 +389,10 @@ function expOther(j){
         BalanceTaxCF:n0(r.bal)
       };
       if(Object.keys(ev).length) y.ScheduleESOPEventDtls = ev;
-      y["TotalTaxAttributedAmt"+OTH_ESOP_TTA[r.y]] = n0(r.h);
+      /* block total = Σ of this block's per-row TaxAttributedAmt (col 4(ii)
+         sub-table). Empty block ⇒ 0, exactly as before. */
+      const rowTaxAttr = sl.reduce((a,s)=>a+n0(s.amt),0);
+      y["TotalTaxAttributedAmt"+OTH_ESOP_TTA[r.y]] = n0(rowTaxAttr);
       o["ScheduleESOP"+OTH_ESOP_OBJ[r.y]+"_Type"] = y;
     });
     o.ScheduleESOP2627_Type = {AssessmentYear:"2026-27", BalanceTaxCF:n0(CE.defer2627)};

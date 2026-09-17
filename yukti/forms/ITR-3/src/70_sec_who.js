@@ -40,6 +40,7 @@ S.pi = S.pi || {};
 if(S.pi.status===undefined)   S.pi.status="I";     /* PersonalInfo.Status (I / H) */
 if(S.pi.country===undefined)  S.pi.country="91";   /* Address.CountryCode (91 = India) */
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";  /* PersonalInfo.SecondaryAdd (Y = same) */
+if(S.pi.mobile2Cc===undefined)S.pi.mobile2Cc="91"; /* Address.CountryCodeMobileNoSec (guarded — emitted only with mobile2) */
 
 /* =====================================================================
    ENGINE — engWho(): Part A - General contributes nothing to GTI.
@@ -122,6 +123,9 @@ function secWho(){
   h+=row("Secondary email",inp("pi.email2",{max:125}),{ref:"N27 · EmailAddressSec"});
   h+=row("Primary mobile of the taxpayer",inp("pi.mobile",{max:10}),
     {req:1,ref:"W27 · MobileNo",hint:"ten digits, country code 91"});
+  h+=row("Secondary mobile of the taxpayer",
+    inp("pi.mobile2Cc",{n:1,max:3,ph:"Code"})+' '+inp("pi.mobile2",{n:1,max:10,ph:"Mobile"}),
+    {ref:"MobileNoSec",hint:"country code and number, if a second mobile is given"});
   h+=row("STD / landline area code",inp("pi.std",{max:5}),{ref:"Phone.STDcode"});
   h+=row("Residence / office phone number",inp("pi.phone",{max:10}),{ref:"Phone.PhoneNo"});
 
@@ -162,6 +166,8 @@ function expWho(j){
   put(j,"PartA_GEN1.PersonalInfo.Address.Phone.PhoneNo",sv(S.pi.phone));
   if(S.pi.mobile){ put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobile",91);
                    put(j,"PartA_GEN1.PersonalInfo.Address.MobileNo",R(S.pi.mobile)); }
+  if(S.pi.mobile2){ put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobileNoSec",R(S.pi.mobile2Cc||91));
+                    put(j,"PartA_GEN1.PersonalInfo.Address.MobileNoSec",R(S.pi.mobile2)); }
   put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddress",sv(S.pi.email));
   put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddressSec",sv(S.pi.email2));
   put(j,"PartA_GEN1.PersonalInfo.SecondaryAdd",sv(S.pi.addr2same||"Y"));
@@ -269,6 +275,12 @@ function expWho(j){
       oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
       oPut(o,"OpngBalNumberOfShares",R(r.obNo)); oPut(o,"OpngBalCostOfAcquisition",R(r.obCost));
       if(r.acqNo) oPut(o,"ShrAcqDurYrNumberOfShares",R(r.acqNo));
+      oPut(o,"DateOfSubscrPurchase",ISO(r.subDate));
+      if(r.faceVal) oPut(o,"FaceValuePerShare",n0(r.faceVal));
+      if(r.issuePrice) oPut(o,"IssuePricePerShare",R(r.issuePrice));
+      if(r.purchPrice) oPut(o,"PurchasePricePerShare",n0(r.purchPrice));
+      if(r.trnfNo) oPut(o,"ShrTrnfNumberOfShares",R(r.trnfNo));
+      if(r.trnfCons) oPut(o,"ShrTrnfSaleConsideration",n0(r.trnfCons));
       oPut(o,"ClsngBalNumberOfShares",R(r.cbNo)); oPut(o,"ClsngBalCostOfAcquisition",R(r.cbCost));
       return o;}));
   if(fs.resStatus!=="RES"){
@@ -322,11 +334,14 @@ function expWho(j){
   putArr("PartA_GEN2.AuditInfo.AuditDetails",
     (aud.oth||[]).map(r=>{const o={};
       oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"AuditFlag",sv(r.flag));
+      oPut(o,"OthAuditDtls",sv(r.othDtls));
       oPut(o,"DateOfAudit",ISO(r.date)); if(r.ack) oPut(o,"AckNumOth",R(r.ack)); return o;}));
   putArr("PartA_GEN2.AuditInfo.AuditReportDetails",
     (aud.act||[]).map(r=>{const o={};
       oPut(o,"AuditReportAct",sv(r.act)); oPut(o,"AuditReportActOthers",sv(r.actOther));
-      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
+      oPut(o,"AuditedSection",sv(r.sec));
+      oPut(o,"OtherITActFlag",sv(r.othFlag)); oPut(o,"OthAuditDtlsOthThanITAct",sv(r.othDtls));
+      oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
   /* ---------- PartA_GEN2 · NatOfBus ---------- */
   putArr("PartA_GEN2.NatOfBus.NatureOfBusiness",
     (S.nob||[]).map(r=>{const o={};
@@ -363,6 +378,8 @@ function impWho(I3){
     if(AD.Phone){if(AD.Phone.STDcode!=null)S.pi.std=String(AD.Phone.STDcode);
                  if(AD.Phone.PhoneNo!=null)S.pi.phone=String(AD.Phone.PhoneNo);}
     if(AD.MobileNo!=null)S.pi.mobile=String(AD.MobileNo);
+    if(AD.CountryCodeMobileNoSec!=null)S.pi.mobile2Cc=String(AD.CountryCodeMobileNoSec);
+    if(AD.MobileNoSec!=null)S.pi.mobile2=String(AD.MobileNoSec);
     if(AD.EmailAddress!=null)S.pi.email=AD.EmailAddress;
     if(AD.EmailAddressSec!=null)S.pi.email2=AD.EmailAddressSec;
     read.push("address");
@@ -436,6 +453,9 @@ function impWho(I3){
     S.pi.unlco=FS.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls.map(r=>({
       name:r.NameOfCompany,type:r.CompanyType,pan:r.PAN,obNo:r.OpngBalNumberOfShares,
       obCost:r.OpngBalCostOfAcquisition,acqNo:r.ShrAcqDurYrNumberOfShares,
+      subDate:dmy(r.DateOfSubscrPurchase),faceVal:r.FaceValuePerShare,
+      issuePrice:r.IssuePricePerShare,purchPrice:r.PurchasePricePerShare,
+      trnfNo:r.ShrTrnfNumberOfShares,trnfCons:r.ShrTrnfSaleConsideration,
       cbNo:r.ClsngBalNumberOfShares,cbCost:r.ClsngBalCostOfAcquisition}));
     read.push("unlisted shares");
   }
@@ -468,8 +488,8 @@ function impWho(I3){
     if(AU.AccountAuditFlag!=null)S.aud.acct92E=AU.AccountAuditFlag;
     if(AU.AuditDetails92E){if(AU.AuditDetails92E.DateOfAudit)S.aud.date92E=dmy(AU.AuditDetails92E.DateOfAudit);
       if(AU.AuditDetails92E.AckNum92E!=null)S.aud.ack92E=String(AU.AuditDetails92E.AckNum92E);}
-    if(Array.isArray(AU.AuditDetails))S.aud.oth=AU.AuditDetails.map(r=>({sec:r.AuditedSection,flag:r.AuditFlag,date:dmy(r.DateOfAudit),ack:r.AckNumOth}));
-    if(Array.isArray(AU.AuditReportDetails))S.aud.act=AU.AuditReportDetails.map(r=>({act:r.AuditReportAct,actOther:r.AuditReportActOthers,sec:r.AuditedSection,date:dmy(r.DateOfAudit)}));
+    if(Array.isArray(AU.AuditDetails))S.aud.oth=AU.AuditDetails.map(r=>({sec:r.AuditedSection,flag:r.AuditFlag,othDtls:r.OthAuditDtls,date:dmy(r.DateOfAudit),ack:r.AckNumOth}));
+    if(Array.isArray(AU.AuditReportDetails))S.aud.act=AU.AuditReportDetails.map(r=>({act:r.AuditReportAct,actOther:r.AuditReportActOthers,sec:r.AuditedSection,othFlag:r.OtherITActFlag,othDtls:r.OthAuditDtlsOthThanITAct,date:dmy(r.DateOfAudit)}));
     read.push("audit information");
   }
   if(NB.NatureOfBusiness&&Array.isArray(NB.NatureOfBusiness)){

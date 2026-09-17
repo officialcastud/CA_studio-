@@ -36,12 +36,12 @@ def main():
         if re.search(r'"[^"]*\b' + re.escape(key) + r'\b', src): return True
         if re.search(r'\b' + re.escape(key) + r'\s*:', src): return True
         if re.search(r'\b' + re.escape(key) + r'\b', src): return True
-        # keys built at runtime by concatenation, e.g. b["SaleValue"+suf] with suf="115AD":
-        # a schedule-suffixed key is covered if its stem is emitted as `"<stem>"+`
-        for suf in ("112A", "115AD", "VDA"):
-            if key.endswith(suf):
-                stem = key[:-len(suf)]
-                if stem and re.search(r'"' + re.escape(stem) + r'"\s*\+', src): return True
+        # keys built at runtime by concatenation, e.g. b["SaleValue"+suf] (suf="115AD")
+        # or y["TotalTaxAttributedAmt"+n] (n="21"): covered if a prefix stem is emitted
+        # as a `"<stem>"+` concatenation.
+        for L in range(1, min(7, len(key))):
+            stem = key[:-L]
+            if len(stem) >= 4 and re.search(r'"' + re.escape(stem) + r'"\s*\+', src): return True
         return False
     total = miss_req = miss_opt = 0
     report = {}

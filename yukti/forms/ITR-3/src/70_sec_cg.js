@@ -555,14 +555,19 @@ function secCg(){
   a+=aggBlock("cga3i","A3(i) · 111A equity share / EOMF (STT paid)","A3ie","cg.a3i",C.a3i,G.A.a3i,{loss94:1});
   a+=aggBlock("cga6","A6 · STCG on other assets","A6g","cg.a6",C.a6,G.A.a6,{unq:1,loss94:1,dcg:1,deds:["54G","54GA"]});
   /* A7 deemed */
+  /* A7 unutilised-CG (deemed) — the deem grid is gated by the UnutilizedStcgFlag Yes/No
+     selector; a previously-imported grid stays visible even when the flag is blank */
+  const a7unut=st0((C.a7||{}).unutFlag)==="Y"||(((C.a7||{}).deem||[]).length>0);
   a+=fold("cga7","A7","A7 · Amount deemed to be STCG",RS(G.A.a7.gain),
-    grid("cg.a7.deem",[
+    row("Whether any unutilized capital gain from an earlier year is chargeable now?",
+      sel("cg.a7.unutFlag",[["N","No"],["Y","Yes"]],{blank:true}),{ref:"UnutilizedStcgFlag"})+
+    (a7unut?grid("cg.a7.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_ST_SEC},
       {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
       {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
+    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"}):"")+
     row("b · Other amount deemed STCG u/s 54B/54G/54GA",inp("cg.a7.other",{n:1}),{ref:"7b"})+
     calcRow("Total deemed STCG","A7",G.A.a7.gain),{});
   /* A8 PTI */
@@ -615,14 +620,18 @@ function secCg(){
     calcRow("Total balance (Schedule 112A, Col 14)","Balance112A",(G.s112a||{}).bal||0),{def:true});
   b+=aggBlock("cgb9","B9 · LTCG on other assets","B9e","cg.b9",C.b9,G.B.b9,{unq:1,deds:["54D","54F","54G","54GA"]});
   /* B10 deemed */
+  /* B10 unutilised-CG (deemed) — gated by the UnutilizedLtcgFlag Yes/No selector */
+  const b10unut=st0((C.b10||{}).unutFlag)==="Y"||(((C.b10||{}).deem||[]).length>0);
   b+=fold("cgb10","B10","B10 · Amount deemed to be LTCG",RS(G.B.b10.gain),
-    grid("cg.b10.deem",[
+    row("Whether any unutilized capital gain from an earlier year is chargeable now?",
+      sel("cg.b10.unutFlag",[["N","No"],["Y","Yes"]],{blank:true}),{ref:"UnutilizedLtcgFlag"})+
+    (b10unut?grid("cg.b10.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_LT_SEC},
       {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
       {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
+    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"}):"")+
     row("b · Other amount deemed LTCG",inp("cg.b10.other",{n:1}),{ref:"10b"})+
     calcRow("Total deemed LTCG","B10",G.B.b10.gain),{});
   /* B11 PTI */
@@ -791,6 +800,9 @@ function expCg(j){
       BalanceCG:sg(A.a6.c),LossSec94of7Or94of8:n0(C.a6.loss94),DeemedStcgOnAssets:n0(A.a6.dcg),
       ExemptionOrDednUs54:{ExemptionGrandTotal:n0(A.a6.ded)},CapgainonAssets:sg(A.a6.gain)};
   ST.TotalAmtDeemedStcg=n0(A.a7.gain);
+  /* UnutilizedStcgFlag — free-optional Y/N; emit only when the taxpayer set it
+     (a resident who never touches it stays byte-identical) */
+  if(st0((C.a7||{}).unutFlag))ST.UnutilizedStcgFlag=st0(C.a7.unutFlag);
   const dm=(C.a7&&C.a7.deem||[]).filter(x=>N(x.unused)||N(x.util));
   if(dm.length)ST.UnutilizedCg={UnutilizedCgPrvYrDtls:dm.map(x=>{const o={
     PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54B",AmtUnutilized:n0(x.unused)};
@@ -798,6 +810,11 @@ function expCg(j){
     if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.a7||{}).other))ST.AmtDeemedStcg=n0(C.a7.other);
   ST.PassThrIncNatureSTCG=n0(A.a8.gain);
+  /* pass-through STCG by tax rate (Sch PTI, nature = capital gain) — free-optional;
+     the amounts already roll into E.st20/st30/stApp above. Emit only when non-zero. */
+  if(N((C.a8||{}).r20))ST.PassThrIncNatureSTCG20Per=n0(C.a8.r20);
+  if(N((C.a8||{}).r30))ST.PassThrIncNatureSTCG30Per=n0(C.a8.r30);
+  if(N((C.a8||{}).rApp))ST.PassThrIncNatureSTCGAppRate=n0(C.a8.rApp);
   ST.TotalAmtNotTaxUsDTAAStcg=n0(A.a9.notTax);ST.TotalAmtTaxUsDTAAStcg=n0(A.a9.special);
   const bb=(C.aA||[]).filter(x=>N(x.amt));
   if(bb.length)ST.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(A.aA.loss),
@@ -854,6 +871,8 @@ function expCg(j){
       DeductSec48:{AquisitCost:n0(C.b9.cost),ImproveCost:n0(C.b9.improve),ExpOnTrans:n0(C.b9.exp),TotalDedn:n0(B.b9.biv)},
       BalanceCG:sg(B.b9.c),ExemptionOrDednUs54:{ExemptionGrandTotal:n0(B.b9.ded)},CapgainonAssets:sg(B.b9.gain)}};
   LT.TotalAmtDeemedLtcg=n0(B.b10.gain);
+  /* UnutilizedLtcgFlag — free-optional Y/N; emit only when set (byte-identical resident) */
+  if(st0((C.b10||{}).unutFlag))LT.UnutilizedLtcgFlag=st0(C.b10.unutFlag);
   const dml=(C.b10&&C.b10.deem||[]).filter(x=>N(x.unused)||N(x.util));
   if(dml.length)LT.UnutilizedCg={UnutilizedCgPrvYrDtls:dml.map(x=>{const o={
     PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54",AmtUnutilized:n0(x.unused)};
@@ -861,6 +880,10 @@ function expCg(j){
     if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.b10||{}).other))LT.AmtDeemedLtcg=n0(C.b10.other);
   LT.PassThrIncNatureLTCG=n0(B.b11.gain);
+  /* pass-through LTCG by tax rate (Sch PTI, nature = capital gain) — free-optional;
+     both amounts already roll into E.lt125 (the 12.5% bucket) above. Emit only when non-zero. */
+  if(N((C.b11||{}).r125a))LT.PassThrIncNatureLTCGUs112A12_5Per=n0(C.b11.r125a);
+  if(N((C.b11||{}).r125o))LT.PassThrIncNatureLTCG12_5Per=n0(C.b11.r125o);
   LT.TotalAmtNotTaxUsDTAALtcg=n0(B.b12.notTax);LT.TotalAmtTaxUsDTAALtcg=n0(B.b12.special);
   const bbl=(C.bA||[]).filter(x=>N(x.amt));
   if(bbl.length)LT.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(B.bA.loss),
@@ -999,10 +1022,15 @@ function impCg(I3){
     S.cg.a7.deem=(g(ST,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
       yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
     S.cg.a7.other=nz(ST.AmtDeemedStcg);
+    S.cg.a7.unutFlag=ST.UnutilizedStcgFlag||"";
     S.cg.b10=S.cg.b10||{deem:[],other:0};
     S.cg.b10.deem=(g(LT,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
       yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
     S.cg.b10.other=nz(LT.AmtDeemedLtcg);
+    S.cg.b10.unutFlag=LT.UnutilizedLtcgFlag||"";
+    /* pass-through CG by tax rate (A8 / B11 direct inputs) — restored for round-trip */
+    S.cg.a8={r20:nz(ST.PassThrIncNatureSTCG20Per),r30:nz(ST.PassThrIncNatureSTCG30Per),rApp:nz(ST.PassThrIncNatureSTCGAppRate)};
+    S.cg.b11={r125a:nz(LT.PassThrIncNatureLTCGUs112A12_5Per),r125o:nz(LT.PassThrIncNatureLTCG12_5Per)};
     /* Part D — DeducClaimInfo detail tables back into S.cg.dclaim */
     const DI=CGb.DeducClaimInfo;
     if(DI){S.cg.dclaim={us54:[],us54B:[],us54D:[],us54EC:[],us54F:[],us54G:[],us54GA:[],us115F:[]};

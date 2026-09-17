@@ -6033,14 +6033,19 @@ function secCg(){
   a+=aggBlock("cga3i","A3(i) · 111A equity share / EOMF (STT paid)","A3ie","cg.a3i",C.a3i,G.A.a3i,{loss94:1});
   a+=aggBlock("cga6","A6 · STCG on other assets","A6g","cg.a6",C.a6,G.A.a6,{unq:1,loss94:1,dcg:1,deds:["54G","54GA"]});
   /* A7 deemed */
+  /* A7 unutilised-CG (deemed) — the deem grid is gated by the UnutilizedStcgFlag Yes/No
+     selector; a previously-imported grid stays visible even when the flag is blank */
+  const a7unut=st0((C.a7||{}).unutFlag)==="Y"||(((C.a7||{}).deem||[]).length>0);
   a+=fold("cga7","A7","A7 · Amount deemed to be STCG",RS(G.A.a7.gain),
-    grid("cg.a7.deem",[
+    row("Whether any unutilized capital gain from an earlier year is chargeable now?",
+      sel("cg.a7.unutFlag",[["N","No"],["Y","Yes"]],{blank:true}),{ref:"UnutilizedStcgFlag"})+
+    (a7unut?grid("cg.a7.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_ST_SEC},
       {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
       {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
+    ],(C.a7||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"}):"")+
     row("b · Other amount deemed STCG u/s 54B/54G/54GA",inp("cg.a7.other",{n:1}),{ref:"7b"})+
     calcRow("Total deemed STCG","A7",G.A.a7.gain),{});
   /* A8 PTI */
@@ -6093,14 +6098,18 @@ function secCg(){
     calcRow("Total balance (Schedule 112A, Col 14)","Balance112A",(G.s112a||{}).bal||0),{def:true});
   b+=aggBlock("cgb9","B9 · LTCG on other assets","B9e","cg.b9",C.b9,G.B.b9,{unq:1,deds:["54D","54F","54G","54GA"]});
   /* B10 deemed */
+  /* B10 unutilised-CG (deemed) — gated by the UnutilizedLtcgFlag Yes/No selector */
+  const b10unut=st0((C.b10||{}).unutFlag)==="Y"||(((C.b10||{}).deem||[]).length>0);
   b+=fold("cgb10","B10","B10 · Amount deemed to be LTCG",RS(G.B.b10.gain),
-    grid("cg.b10.deem",[
+    row("Whether any unutilized capital gain from an earlier year is chargeable now?",
+      sel("cg.b10.unutFlag",[["N","No"],["Y","Yes"]],{blank:true}),{ref:"UnutilizedLtcgFlag"})+
+    (b10unut?grid("cg.b10.deem",[
       {h:"PY of transfer",k:"py",t:"sel",opts:DEEM_ST_PY},
       {h:"Section",k:"sec",t:"sel",opts:DEEM_LT_SEC},
       {h:"PY new asset acquired/constructed",k:"yracq",t:"txt",ph:"YYYY-YY"},
       {h:"Amount utilised out of CGAS",k:"util",t:"num"},
       {h:"Amount unutilised",k:"unused",t:"num"}
-    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"})+
+    ],(C.b10||{}).deem||[],{empty:"No unutilised CGAS.",add:"Add a row",min:"940px"}):"")+
     row("b · Other amount deemed LTCG",inp("cg.b10.other",{n:1}),{ref:"10b"})+
     calcRow("Total deemed LTCG","B10",G.B.b10.gain),{});
   /* B11 PTI */
@@ -6269,6 +6278,9 @@ function expCg(j){
       BalanceCG:sg(A.a6.c),LossSec94of7Or94of8:n0(C.a6.loss94),DeemedStcgOnAssets:n0(A.a6.dcg),
       ExemptionOrDednUs54:{ExemptionGrandTotal:n0(A.a6.ded)},CapgainonAssets:sg(A.a6.gain)};
   ST.TotalAmtDeemedStcg=n0(A.a7.gain);
+  /* UnutilizedStcgFlag — free-optional Y/N; emit only when the taxpayer set it
+     (a resident who never touches it stays byte-identical) */
+  if(st0((C.a7||{}).unutFlag))ST.UnutilizedStcgFlag=st0(C.a7.unutFlag);
   const dm=(C.a7&&C.a7.deem||[]).filter(x=>N(x.unused)||N(x.util));
   if(dm.length)ST.UnutilizedCg={UnutilizedCgPrvYrDtls:dm.map(x=>{const o={
     PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54B",AmtUnutilized:n0(x.unused)};
@@ -6276,6 +6288,11 @@ function expCg(j){
     if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.a7||{}).other))ST.AmtDeemedStcg=n0(C.a7.other);
   ST.PassThrIncNatureSTCG=n0(A.a8.gain);
+  /* pass-through STCG by tax rate (Sch PTI, nature = capital gain) — free-optional;
+     the amounts already roll into E.st20/st30/stApp above. Emit only when non-zero. */
+  if(N((C.a8||{}).r20))ST.PassThrIncNatureSTCG20Per=n0(C.a8.r20);
+  if(N((C.a8||{}).r30))ST.PassThrIncNatureSTCG30Per=n0(C.a8.r30);
+  if(N((C.a8||{}).rApp))ST.PassThrIncNatureSTCGAppRate=n0(C.a8.rApp);
   ST.TotalAmtNotTaxUsDTAAStcg=n0(A.a9.notTax);ST.TotalAmtTaxUsDTAAStcg=n0(A.a9.special);
   const bb=(C.aA||[]).filter(x=>N(x.amt));
   if(bb.length)ST.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(A.aA.loss),
@@ -6332,6 +6349,8 @@ function expCg(j){
       DeductSec48:{AquisitCost:n0(C.b9.cost),ImproveCost:n0(C.b9.improve),ExpOnTrans:n0(C.b9.exp),TotalDedn:n0(B.b9.biv)},
       BalanceCG:sg(B.b9.c),ExemptionOrDednUs54:{ExemptionGrandTotal:n0(B.b9.ded)},CapgainonAssets:sg(B.b9.gain)}};
   LT.TotalAmtDeemedLtcg=n0(B.b10.gain);
+  /* UnutilizedLtcgFlag — free-optional Y/N; emit only when set (byte-identical resident) */
+  if(st0((C.b10||{}).unutFlag))LT.UnutilizedLtcgFlag=st0(C.b10.unutFlag);
   const dml=(C.b10&&C.b10.deem||[]).filter(x=>N(x.unused)||N(x.util));
   if(dml.length)LT.UnutilizedCg={UnutilizedCgPrvYrDtls:dml.map(x=>{const o={
     PrvYrInWhichAsstTrnsfrd:x.py||"2024-25",SectionClmd:x.sec||"54",AmtUnutilized:n0(x.unused)};
@@ -6339,6 +6358,10 @@ function expCg(j){
     if(N(x.util))o.AmtUtilized=n0(x.util);return o;})};
   if(N((C.b10||{}).other))LT.AmtDeemedLtcg=n0(C.b10.other);
   LT.PassThrIncNatureLTCG=n0(B.b11.gain);
+  /* pass-through LTCG by tax rate (Sch PTI, nature = capital gain) — free-optional;
+     both amounts already roll into E.lt125 (the 12.5% bucket) above. Emit only when non-zero. */
+  if(N((C.b11||{}).r125a))LT.PassThrIncNatureLTCGUs112A12_5Per=n0(C.b11.r125a);
+  if(N((C.b11||{}).r125o))LT.PassThrIncNatureLTCG12_5Per=n0(C.b11.r125o);
   LT.TotalAmtNotTaxUsDTAALtcg=n0(B.b12.notTax);LT.TotalAmtTaxUsDTAALtcg=n0(B.b12.special);
   const bbl=(C.bA||[]).filter(x=>N(x.amt));
   if(bbl.length)LT.CapitalLossBuyBackShares={TotalCapitalLossBuyBackShares:-n0(B.bA.loss),
@@ -6477,10 +6500,15 @@ function impCg(I3){
     S.cg.a7.deem=(g(ST,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
       yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
     S.cg.a7.other=nz(ST.AmtDeemedStcg);
+    S.cg.a7.unutFlag=ST.UnutilizedStcgFlag||"";
     S.cg.b10=S.cg.b10||{deem:[],other:0};
     S.cg.b10.deem=(g(LT,"UnutilizedCg.UnutilizedCgPrvYrDtls")||[]).map(x=>({py:x.PrvYrInWhichAsstTrnsfrd,sec:x.SectionClmd,
       yracq:x.YrInWhichAssetAcq||"",util:nz(x.AmtUtilized),unused:nz(x.AmtUnutilized)}));
     S.cg.b10.other=nz(LT.AmtDeemedLtcg);
+    S.cg.b10.unutFlag=LT.UnutilizedLtcgFlag||"";
+    /* pass-through CG by tax rate (A8 / B11 direct inputs) — restored for round-trip */
+    S.cg.a8={r20:nz(ST.PassThrIncNatureSTCG20Per),r30:nz(ST.PassThrIncNatureSTCG30Per),rApp:nz(ST.PassThrIncNatureSTCGAppRate)};
+    S.cg.b11={r125a:nz(LT.PassThrIncNatureLTCGUs112A12_5Per),r125o:nz(LT.PassThrIncNatureLTCG12_5Per)};
     /* Part D — DeducClaimInfo detail tables back into S.cg.dclaim */
     const DI=CGb.DeducClaimInfo;
     if(DI){S.cg.dclaim={us54:[],us54B:[],us54D:[],us54EC:[],us54F:[],us54G:[],us54GA:[],us115F:[]};
@@ -6915,13 +6943,15 @@ function secDed(){
     row("Amount of deduction",inp("ded.dd80.amt",{n:1}),{req:1,hint:"₹75,000, or ₹1,25,000 for a severe disability"})+
     row("Dependant",sel("ded.dd80.dep",DED_DEP),{req:1})+row("PAN of the dependant",inp("ded.dd80.pan",{max:10}))+
     row("Aadhaar of the dependant",inp("ded.dd80.aadhaar",{max:12}))+row("Date of filing of Form 10-IA",dte("ded.dd80.f10dt"))+
-    row("Acknowledgement number of Form 10-IA",inp("ded.dd80.f10ack",{max:15}))+row("UDID number",inp("ded.dd80.udid",{max:18}))+
+    row("Acknowledgement number of Form 10-IA",inp("ded.dd80.f10ack",{max:15}))+
+    row("Acknowledgement number of Form 10-IA (11A)",inp("ded.dd80.f10ia",{max:15}))+row("UDID number",inp("ded.dd80.udid",{max:18}))+
     formNote("<b>Form 10-IA</b> has to be filed before the return."));
   /* 80U */
   h+=card("d80u","Schedule 80U — the person has a disability",N((S.ded.u80||{}).amt)?RS(V.out.c80u||0):"",
     row("Nature of the disability",sel("ded.u80.nature",DED_UNAT),{req:1})+row("Type of disability",sel("ded.u80.type",DED_DTYPE),{req:1})+
     row("Amount of deduction",inp("ded.u80.amt",{n:1}),{req:1,hint:"₹75,000, or ₹1,25,000 for a severe disability"})+
     row("Date of filing of Form 10-IA",dte("ded.u80.dt"))+row("Acknowledgement number of Form 10-IA",inp("ded.u80.ack",{max:15}))+
+    row("Acknowledgement number of Form 10-IA (11A)",inp("ded.u80.f10ia",{max:15}))+
     row("UDID number",inp("ded.u80.udid",{max:18}))+formNote("<b>Form 10-IA</b> has to be filed before the return."));
   /* 80E group */
   const e=S.ded.e80||{}; const et=k=>(e[k]||[]).reduce((s,r)=>s+N(r.interest),0);
@@ -7062,12 +7092,14 @@ function expDed(j){
     if(AADH.test(st0(x.aadhaar)))j.Schedule80DD.DependentAadhaar=st0(x.aadhaar);
     if(ISO(x.f10dt))j.Schedule80DD.Form10IAFilingDate=ISO(x.f10dt);
     if(/^\d{15}$/.test(st0(x.f10ack)))j.Schedule80DD.Form10IAAckNum=st0(x.f10ack);
+    if(sv(x.f10ia))j.Schedule80DD.FormAckNum11A=sv(x.f10ia).slice(0,15);
     if(sv(x.udid))j.Schedule80DD.UDIDNum=sv(x.udid).slice(0,18);}
   /* ---- Schedule80U ---- */
   if(N((S.ded.u80||{}).amt)){const x=S.ded.u80||{};j.Schedule80U={NatureOfDisability:x.nature==="2"?"2":"1",
     TypeOfDisability:x.type==="2"?"2":"1",DeductionAmount:n0(out.c80u)};
     if(ISO(x.dt))j.Schedule80U.Form10IAFilingDate=ISO(x.dt);
     if(/^\d{15}$/.test(st0(x.ack)))j.Schedule80U.Form10IAAckNum=st0(x.ack);
+    if(sv(x.f10ia))j.Schedule80U.FormAckNum11A=sv(x.f10ia).slice(0,15);
     if(sv(x.udid))j.Schedule80U.UDIDNum=sv(x.udid).slice(0,18);}
   /* ---- Schedule80E / 80EE / 80EEA / 80EEB ---- */
   const e=S.ded.e80||{};
@@ -7183,9 +7215,9 @@ function impDed(I3){
       parIns:ins("Sec80DParentsHIDtls"),parPHC:nz(b.PrevHlthChckUpParents),parSrIns:ins("Sec80DParentsSrCtznHIDtls"),parSrPHC:nz(b.PrevHlthChckUpParentsSrCtzn),parSrMed:nz(b.MedicalExpParentsSrCtzn)};
     got.push("Schedule 80D");}
   if(I3.Schedule80DD){const x=I3.Schedule80DD;S.ded.dd80={nature:x.NatureOfDisability,type:x.TypeOfDisability,amt:x.DeductionAmount,
-    dep:x.DependentType,pan:x.DependentPan||"",aadhaar:x.DependentAadhaar||"",f10dt:dmy(x.Form10IAFilingDate),f10ack:x.Form10IAAckNum||"",udid:x.UDIDNum||""};}
+    dep:x.DependentType,pan:x.DependentPan||"",aadhaar:x.DependentAadhaar||"",f10dt:dmy(x.Form10IAFilingDate),f10ack:x.Form10IAAckNum||"",f10ia:x.FormAckNum11A||"",udid:x.UDIDNum||""};}
   if(I3.Schedule80U){const x=I3.Schedule80U;S.ded.u80={nature:x.NatureOfDisability,type:x.TypeOfDisability,amt:x.DeductionAmount,
-    dt:dmy(x.Form10IAFilingDate),ack:x.Form10IAAckNum||"",udid:x.UDIDNum||""};}
+    dt:dmy(x.Form10IAFilingDate),ack:x.Form10IAAckNum||"",f10ia:x.FormAckNum11A||"",udid:x.UDIDNum||""};}
   {const ln=(blk,dk,ik)=>(g_(I3,blk+"."+dk)||[]).map(r=>({from:r.LoanTknFrom,name:r.BankOrInstnName,acno:r.LoanAccNoOfBankOrInstnRefNo,
       dt:dmy(r.DateofLoan),amt:r.TotalLoanAmt,os:r.LoanOutstndngAmt,reg:r.VehicleRegNo||"",interest:r[ik]}));
     S.ded.e80={e:ln("Schedule80E","Schedule80EDtls","Interest80E"),ee:ln("Schedule80EE","Schedule80EEDtls","Interest80EE"),
@@ -10329,7 +10361,10 @@ function expOther(j){
         BalanceTaxCF:n0(r.bal)
       };
       if(Object.keys(ev).length) y.ScheduleESOPEventDtls = ev;
-      y["TotalTaxAttributedAmt"+OTH_ESOP_TTA[r.y]] = n0(r.h);
+      /* block total = Σ of this block's per-row TaxAttributedAmt (col 4(ii)
+         sub-table). Empty block ⇒ 0, exactly as before. */
+      const rowTaxAttr = sl.reduce((a,s)=>a+n0(s.amt),0);
+      y["TotalTaxAttributedAmt"+OTH_ESOP_TTA[r.y]] = n0(rowTaxAttr);
       o["ScheduleESOP"+OTH_ESOP_OBJ[r.y]+"_Type"] = y;
     });
     o.ScheduleESOP2627_Type = {AssessmentYear:"2026-27", BalanceTaxCF:n0(CE.defer2627)};
@@ -11106,9 +11141,15 @@ function secRet(){
       {k:"obNo",h:"Opening — no. of shares",t:"num",w:"120px",req:1},
       {k:"obCost",h:"Opening — cost of acquisition",t:"num",w:"140px",req:1},
       {k:"acqNo",h:"Acquired — no. of shares",t:"num",w:"120px"},
+      {k:"subDate",h:"Date of subscription / purchase",t:"date",w:"150px"},
+      {k:"faceVal",h:"Face value per share",t:"num",w:"120px"},
+      {k:"issuePrice",h:"Issue price per share",t:"num",w:"120px"},
+      {k:"purchPrice",h:"Purchase price per share",t:"num",w:"130px"},
+      {k:"trnfNo",h:"Transferred — no. of shares",t:"num",w:"130px"},
+      {k:"trnfCons",h:"Transfer — sale consideration",t:"num",w:"140px"},
       {k:"cbNo",h:"Closing — no. of shares",t:"num",w:"120px",req:1},
       {k:"cbCost",h:"Closing — cost of acquisition",t:"num",w:"140px",req:1}],
-      S.pi.unlco||[],{min:"1180px",empty:"No company added.",add:"Add a company"});
+      S.pi.unlco||[],{min:"1960px",empty:"No company added.",add:"Add a company"});
 
   /* ---- Non-resident PE/SEP, IFSC, FPI, LEI ---- */
   h+=sub("Non-resident, IFSC, FPI and LEI");
@@ -11181,17 +11222,20 @@ function secRet(){
     grid("aud.oth",[
       {k:"sec",h:"Section code",t:"sel",w:"140px",req:1,opts:AUD_SEC},
       {k:"flag",h:"Furnished?",t:"sel",w:"110px",opts:YN},
+      {k:"othDtls",h:"Other audit details",t:"txt",w:"200px"},
       {k:"date",h:"Date",t:"date",w:"150px"},
       {k:"ack",h:"Acknowledgement number",t:"txt",w:"180px",max:15}],
-      S.aud.oth||[],{min:"640px",empty:"No other audit report.",add:"Add an audit report"}));
+      S.aud.oth||[],{min:"840px",empty:"No other audit report.",add:"Add an audit report"}));
   h+=fold("audact","Other Act","Audits under an Act other than the Income-tax Act",
     (S.aud.act||[]).length?(S.aud.act||[]).length+" rows":"if any",
     grid("aud.act",[
       {k:"act",h:"Act",t:"sel",w:"320px",req:1,opts:AUD_ACT},
       {k:"actOther",h:"If others, specify",t:"txt",w:"180px"},
       {k:"sec",h:"Section",t:"txt",w:"120px"},
+      {k:"othFlag",h:"Audited under an Act other than the IT Act?",t:"sel",w:"140px",opts:YN},
+      {k:"othDtls",h:"Other audit details (other than IT Act)",t:"txt",w:"200px"},
       {k:"date",h:"Date of audit report",t:"date",w:"150px"}],
-      S.aud.act||[],{min:"820px",empty:"No other-Act audit.",add:"Add an audit"}));
+      S.aud.act||[],{min:"1160px",empty:"No other-Act audit.",add:"Add an audit"}));
 
   /* ---- Nature of business ---- */
   h+=sub("Nature of business or profession");
@@ -12946,6 +12990,7 @@ S.pi = S.pi || {};
 if(S.pi.status===undefined)   S.pi.status="I";     /* PersonalInfo.Status (I / H) */
 if(S.pi.country===undefined)  S.pi.country="91";   /* Address.CountryCode (91 = India) */
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";  /* PersonalInfo.SecondaryAdd (Y = same) */
+if(S.pi.mobile2Cc===undefined)S.pi.mobile2Cc="91"; /* Address.CountryCodeMobileNoSec (guarded — emitted only with mobile2) */
 
 /* =====================================================================
    ENGINE — engWho(): Part A - General contributes nothing to GTI.
@@ -13028,6 +13073,9 @@ function secWho(){
   h+=row("Secondary email",inp("pi.email2",{max:125}),{ref:"N27 · EmailAddressSec"});
   h+=row("Primary mobile of the taxpayer",inp("pi.mobile",{max:10}),
     {req:1,ref:"W27 · MobileNo",hint:"ten digits, country code 91"});
+  h+=row("Secondary mobile of the taxpayer",
+    inp("pi.mobile2Cc",{n:1,max:3,ph:"Code"})+' '+inp("pi.mobile2",{n:1,max:10,ph:"Mobile"}),
+    {ref:"MobileNoSec",hint:"country code and number, if a second mobile is given"});
   h+=row("STD / landline area code",inp("pi.std",{max:5}),{ref:"Phone.STDcode"});
   h+=row("Residence / office phone number",inp("pi.phone",{max:10}),{ref:"Phone.PhoneNo"});
 
@@ -13068,6 +13116,8 @@ function expWho(j){
   put(j,"PartA_GEN1.PersonalInfo.Address.Phone.PhoneNo",sv(S.pi.phone));
   if(S.pi.mobile){ put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobile",91);
                    put(j,"PartA_GEN1.PersonalInfo.Address.MobileNo",R(S.pi.mobile)); }
+  if(S.pi.mobile2){ put(j,"PartA_GEN1.PersonalInfo.Address.CountryCodeMobileNoSec",R(S.pi.mobile2Cc||91));
+                    put(j,"PartA_GEN1.PersonalInfo.Address.MobileNoSec",R(S.pi.mobile2)); }
   put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddress",sv(S.pi.email));
   put(j,"PartA_GEN1.PersonalInfo.Address.EmailAddressSec",sv(S.pi.email2));
   put(j,"PartA_GEN1.PersonalInfo.SecondaryAdd",sv(S.pi.addr2same||"Y"));
@@ -13175,6 +13225,12 @@ function expWho(j){
       oPut(o,"PAN",sv(r.pan&&String(r.pan).toUpperCase()));
       oPut(o,"OpngBalNumberOfShares",R(r.obNo)); oPut(o,"OpngBalCostOfAcquisition",R(r.obCost));
       if(r.acqNo) oPut(o,"ShrAcqDurYrNumberOfShares",R(r.acqNo));
+      oPut(o,"DateOfSubscrPurchase",ISO(r.subDate));
+      if(r.faceVal) oPut(o,"FaceValuePerShare",n0(r.faceVal));
+      if(r.issuePrice) oPut(o,"IssuePricePerShare",R(r.issuePrice));
+      if(r.purchPrice) oPut(o,"PurchasePricePerShare",n0(r.purchPrice));
+      if(r.trnfNo) oPut(o,"ShrTrnfNumberOfShares",R(r.trnfNo));
+      if(r.trnfCons) oPut(o,"ShrTrnfSaleConsideration",n0(r.trnfCons));
       oPut(o,"ClsngBalNumberOfShares",R(r.cbNo)); oPut(o,"ClsngBalCostOfAcquisition",R(r.cbCost));
       return o;}));
   if(fs.resStatus!=="RES"){
@@ -13228,11 +13284,14 @@ function expWho(j){
   putArr("PartA_GEN2.AuditInfo.AuditDetails",
     (aud.oth||[]).map(r=>{const o={};
       oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"AuditFlag",sv(r.flag));
+      oPut(o,"OthAuditDtls",sv(r.othDtls));
       oPut(o,"DateOfAudit",ISO(r.date)); if(r.ack) oPut(o,"AckNumOth",R(r.ack)); return o;}));
   putArr("PartA_GEN2.AuditInfo.AuditReportDetails",
     (aud.act||[]).map(r=>{const o={};
       oPut(o,"AuditReportAct",sv(r.act)); oPut(o,"AuditReportActOthers",sv(r.actOther));
-      oPut(o,"AuditedSection",sv(r.sec)); oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
+      oPut(o,"AuditedSection",sv(r.sec));
+      oPut(o,"OtherITActFlag",sv(r.othFlag)); oPut(o,"OthAuditDtlsOthThanITAct",sv(r.othDtls));
+      oPut(o,"DateOfAudit",ISO(r.date)); return o;}));
   /* ---------- PartA_GEN2 · NatOfBus ---------- */
   putArr("PartA_GEN2.NatOfBus.NatureOfBusiness",
     (S.nob||[]).map(r=>{const o={};
@@ -13269,6 +13328,8 @@ function impWho(I3){
     if(AD.Phone){if(AD.Phone.STDcode!=null)S.pi.std=String(AD.Phone.STDcode);
                  if(AD.Phone.PhoneNo!=null)S.pi.phone=String(AD.Phone.PhoneNo);}
     if(AD.MobileNo!=null)S.pi.mobile=String(AD.MobileNo);
+    if(AD.CountryCodeMobileNoSec!=null)S.pi.mobile2Cc=String(AD.CountryCodeMobileNoSec);
+    if(AD.MobileNoSec!=null)S.pi.mobile2=String(AD.MobileNoSec);
     if(AD.EmailAddress!=null)S.pi.email=AD.EmailAddress;
     if(AD.EmailAddressSec!=null)S.pi.email2=AD.EmailAddressSec;
     read.push("address");
@@ -13342,6 +13403,9 @@ function impWho(I3){
     S.pi.unlco=FS.HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls.map(r=>({
       name:r.NameOfCompany,type:r.CompanyType,pan:r.PAN,obNo:r.OpngBalNumberOfShares,
       obCost:r.OpngBalCostOfAcquisition,acqNo:r.ShrAcqDurYrNumberOfShares,
+      subDate:dmy(r.DateOfSubscrPurchase),faceVal:r.FaceValuePerShare,
+      issuePrice:r.IssuePricePerShare,purchPrice:r.PurchasePricePerShare,
+      trnfNo:r.ShrTrnfNumberOfShares,trnfCons:r.ShrTrnfSaleConsideration,
       cbNo:r.ClsngBalNumberOfShares,cbCost:r.ClsngBalCostOfAcquisition}));
     read.push("unlisted shares");
   }
@@ -13374,8 +13438,8 @@ function impWho(I3){
     if(AU.AccountAuditFlag!=null)S.aud.acct92E=AU.AccountAuditFlag;
     if(AU.AuditDetails92E){if(AU.AuditDetails92E.DateOfAudit)S.aud.date92E=dmy(AU.AuditDetails92E.DateOfAudit);
       if(AU.AuditDetails92E.AckNum92E!=null)S.aud.ack92E=String(AU.AuditDetails92E.AckNum92E);}
-    if(Array.isArray(AU.AuditDetails))S.aud.oth=AU.AuditDetails.map(r=>({sec:r.AuditedSection,flag:r.AuditFlag,date:dmy(r.DateOfAudit),ack:r.AckNumOth}));
-    if(Array.isArray(AU.AuditReportDetails))S.aud.act=AU.AuditReportDetails.map(r=>({act:r.AuditReportAct,actOther:r.AuditReportActOthers,sec:r.AuditedSection,date:dmy(r.DateOfAudit)}));
+    if(Array.isArray(AU.AuditDetails))S.aud.oth=AU.AuditDetails.map(r=>({sec:r.AuditedSection,flag:r.AuditFlag,othDtls:r.OthAuditDtls,date:dmy(r.DateOfAudit),ack:r.AckNumOth}));
+    if(Array.isArray(AU.AuditReportDetails))S.aud.act=AU.AuditReportDetails.map(r=>({act:r.AuditReportAct,actOther:r.AuditReportActOthers,sec:r.AuditedSection,othFlag:r.OtherITActFlag,othDtls:r.OthAuditDtlsOthThanITAct,date:dmy(r.DateOfAudit)}));
     read.push("audit information");
   }
   if(NB.NatureOfBusiness&&Array.isArray(NB.NatureOfBusiness)){
