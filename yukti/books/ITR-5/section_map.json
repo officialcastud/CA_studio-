@@ -1,0 +1,354 @@
+{
+ "HOME": {
+  "section": "gen",
+  "blocks": []
+ },
+ "PART A - GENERAL": {
+  "section": "gen",
+  "blocks": [
+   "PartA_GEN1"
+  ]
+ },
+ "PART A - GENERAL(2)": {
+  "section": "gen",
+  "blocks": [
+   "PartA_GEN2"
+  ]
+ },
+ "BALANCE_SHEET": {
+  "section": "bs",
+  "blocks": [
+   "PARTA_BS"
+  ]
+ },
+ "MANUFACTURING ACCOUNT": {
+  "section": "pl",
+  "blocks": [
+   "ManufacturingAccount"
+  ]
+ },
+ "TRADING ACCOUNT": {
+  "section": "pl",
+  "blocks": [
+   "TradingAccount"
+  ]
+ },
+ "PROFIT_LOSS": {
+  "section": "pl",
+  "blocks": [
+   "PARTA_PL"
+  ]
+ },
+ "PART - A OI": {
+  "section": "oi",
+  "blocks": [
+   "PARTA_OI"
+  ]
+ },
+ "QUANTITATIVE_DETAILS": {
+  "section": "oi",
+  "blocks": [
+   "PARTA_QD"
+  ]
+ },
+ "BP": {
+  "section": "bp",
+  "blocks": [
+   "CorpScheduleBP"
+  ]
+ },
+ "DPM_DOA": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDPM",
+   "ScheduleDOA"
+  ]
+ },
+ "DEP_DCG": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDEP",
+   "ScheduleDCG"
+  ]
+ },
+ "ESR": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleESR"
+  ]
+ },
+ "Schedule ICDS": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleICDS"
+  ]
+ },
+ "HOUSE_PROPERTY": {
+  "section": "hp",
+  "blocks": [
+   "ScheduleHP"
+  ]
+ },
+ "CG": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleCG"
+  ]
+ },
+ "Schedule 112A": {
+  "section": "cg",
+  "blocks": [
+   "Schedule112A"
+  ]
+ },
+ "Schedule 115AD(1)(iii)(p)": {
+  "section": "cg",
+  "blocks": [
+   "Schedule115AD"
+  ]
+ },
+ "VDA": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleVDA"
+  ]
+ },
+ "OS": {
+  "section": "os",
+  "blocks": [
+   "ScheduleOS"
+  ]
+ },
+ "CYLA-BFLA": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCYLA",
+   "ScheduleBFLA"
+  ]
+ },
+ "CFL": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCFL"
+  ]
+ },
+ "Unabsorbed Depreciation": {
+  "section": "loss",
+  "blocks": [
+   "ITRScheduleUD"
+  ]
+ },
+ "VI-A": {
+  "section": "ded",
+  "blocks": [
+   "ScheduleVIA"
+  ]
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80G"
+  ]
+ },
+ "80GGA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGA"
+  ]
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGC"
+  ]
+ },
+ "RA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80RA"
+  ]
+ },
+ "80": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80_IA",
+   "Schedule80_IB",
+   "Schedule80_IC"
+  ]
+ },
+ "80IAC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80IAC"
+  ]
+ },
+ "80LA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80LA"
+  ]
+ },
+ "80P": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80P"
+  ]
+ },
+ "10AA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule10AA"
+  ]
+ },
+ "SI": {
+  "section": "si",
+  "blocks": [
+   "ScheduleSI"
+  ]
+ },
+ "AMT": {
+  "section": "amt",
+  "blocks": [
+   "ScheduleAMT"
+  ]
+ },
+ "AMTC": {
+  "section": "amt",
+  "blocks": [
+   "ScheduleAMTC"
+  ]
+ },
+ "EI": {
+  "section": "ei",
+  "blocks": [
+   "ScheduleEI"
+  ]
+ },
+ "Schedule PTI": {
+  "section": "other",
+  "blocks": [
+   "SchedulePTI"
+  ]
+ },
+ "IF": {
+  "section": "other",
+  "blocks": [
+   "ScheduleIF"
+  ]
+ },
+ "Schedule TPSA": {
+  "section": "other",
+  "blocks": [
+   "ScheduleTPSA"
+  ]
+ },
+ "GST": {
+  "section": "other",
+  "blocks": [
+   "ScheduleGST"
+  ]
+ },
+ "115TD": {
+  "section": "other",
+  "blocks": [
+   "Schedule115TD"
+  ]
+ },
+ "FSI": {
+  "section": "foreign",
+  "blocks": [
+   "ScheduleFSI"
+  ]
+ },
+ "TR_FA": {
+  "section": "foreign",
+  "blocks": [
+   "ScheduleTR1",
+   "ScheduleFA"
+  ]
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTDS2",
+   "ScheduleTDS3",
+   "ScheduleTCS"
+  ]
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "PARTB - TI - TTI": {
+  "section": "tax",
+  "blocks": [
+   "PartB-TI",
+   "PartB_TTI"
+  ]
+ },
+ "VERIFICATION": {
+  "section": "verify",
+  "blocks": [
+   "Verification"
+  ]
+ },
+ "Tax": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "Hidden tax-computation sheet — the method behind Part B-TTI (referenced by 123 defined names incl. TaxPayableOnTotInc, SurchargeOnTaxPayable, EducationCess). Read to derive the tax engine; never displayed."
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "ITR-U updated-return (section 139(8A)) Part A General — a separate return type (ITR-U), not used by the standard AY 2026-27 ITR-5 return."
+ },
+ "PDTCAse": {
+  "section": "excluded",
+  "reason": "Reference case-flag lookup table (Q1-Q4 tax-determination cases) feeding the hidden Tax computation sheet; not a fillable screen and has no schema block."
+ },
+ "Instructions": {
+  "section": "excluded",
+  "reason": "Help/instructions page for the Schedule 112A/115AD CSV import; not part of the return."
+ },
+ "HelpCSV": {
+  "section": "excluded",
+  "reason": "Help page describing how to fill Schedule 112A/115AD via CSV; not part of the return."
+ },
+ "Tax(N)": {
+  "section": "excluded",
+  "reason": "Superseded/unused alternate tax-computation sheet — 0 defined-name references; the live computation is the 'Tax' sheet (123 references)."
+ },
+ "DB": {
+  "section": "excluded",
+  "reason": "Master dropdown/enum database backing every (Select) list (124k rows of state/country/NOB/unit codes); a data source, not a screen — enums live in enums.json."
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "Part B-ATI computation for the ITR-U updated return (section 139(8A)); belongs to the ITR-U flow, not the standard return."
+ },
+ "FD": {
+  "section": "excluded",
+  "reason": "Schedule FD (foreign-currency payments/receipts break-up) has no schema block in ITR-5 blocks.json (no ScheduleFD) — cannot be filed; excluded per rule 3."
+ },
+ "CG Pop up_prefill": {
+  "section": "excluded",
+  "reason": "AIS prefill pop-up staging table for capital-gains property data; an import helper, not a screen."
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "Print/summary display view computed from the other sheets; no input and no schema block of its own."
+ },
+ "Help": {
+  "section": "excluded",
+  "reason": "General 'How to use this Excel Utility' help page; not part of the return."
+ },
+ "112": {
+  "section": "excluded",
+  "reason": "CSV import staging table (ISIN rows) for Schedule 112A; a data-entry helper, not a filed schedule."
+ },
+ "115": {
+  "section": "excluded",
+  "reason": "CSV import staging table (ISIN rows) for Schedule 115AD(1)(b)(iii); a data-entry helper, not a filed schedule."
+ }
+}
