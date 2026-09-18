@@ -469,6 +469,756 @@ function runRules(I,S_){
 }
 function auditRules(b){return [];}
 
+/* ITR-4 (Sugam) · AY 2026-27 — validation-rule FIX batch 01 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials (logs/ITR-4/rule_audit/fix_slices/fix_01.json): 10, 15, 30, 37, 51, 67, 68, 72, 80, 81,
+   83, 84, 86, 87, 89, 90, 92, 93, 99, 100. Schema paths copied from 70_sec_inccore.js /
+   70_sec_ded.js exporters and 61_rules_g*.js; code enums from books/ITR-4/enums.json. */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var USR    = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};   /* claimed (user-enterable) */
+  var ALW    = RG(I,"IncomeDeductions.DeductUndChapVIA",{})||{};      /* allowed (post-cap, post-regime) */
+  var empcat = RG(I,"PersonalInfo.EmployerCategory","OTH");
+  var g = function(p){ return N(RG(I,p)); };                            /* numeric read, default 0 */
+
+  /* exempt-income (D20) rows and salary exempt-allowance rows — same readers as 61_rules_g0.js */
+  var exRows  = RG(I,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",[])||[];
+  var alwRows = RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var cntSub  = function(code){ return exRows.filter(function(r){return r&&r.SubCategory===code;}).length; };
+  var alwAmt  = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+
+  var sal171  = g("IncomeDeductions.Salary");                          /* salary as per section 17(1) */
+  var grossSal= g("IncomeDeductions.GrossSalary");
+
+  /* ---------------- Schedule BP — 44AD / 44ADA eligibility by business code ---------------- */
+  /* NatOfBus44ADA[].CodeADA enum (books/ITR-4/enums.json) — the 44AA(1) profession codes. */
+  var ADA_CODES=["14001","14002","14003","14004","14006","14008","16001","16002","16003","16004","16005",
+    "16007","16008","16009","16013","16018","16019_1","16020","16021","18001","18002","18003","18004","18005",
+    "18010","18011","18012","18013","18014","18015","18016","18017","18018","18019","18020","20010","20011","20012"];
+  /* codes barred from 44AD: general commission agents (09005), business brokerage (16011) and every
+     44AA(1) profession code above — none of these is in the NatOfBus44AD[].CodeAD enum. */
+  var AD_BARRED=["09005","16011"].concat(ADA_CODES);
+  var nad =RG(I,"ScheduleBP.NatOfBus44AD",[])||[];
+  var nada=RG(I,"ScheduleBP.NatOfBus44ADA",[])||[];
+  A(10, nad.every(function(r){ var c=String((r||{}).CodeAD||"").trim(); return !c || AD_BARRED.indexOf(c)<0; }),
+    "Schedule BP: section 44AD is not applicable to general commission agents or to a profession referred to in section 44AA(1) — the 44AD business code is not eligible.");
+  A(15, nada.every(function(r){ var c=String((r||{}).CodeADA||"").trim(); return !c || ADA_CODES.indexOf(c)>=0; }),
+    "Schedule BP: section 44ADA is not applicable to a person carrying on business — the 44ADA code must be a profession code.");
+
+  /* ---------------- Chapter VI-A (old regime) ---------------- */
+  /* 30: 80DDB claimed in the old regime → the eligible category (Self/Dependent · Senior) and the
+     specified-disease description are mandatory (UsrDeductUndChapVIA qualifiers written by 70_sec_ded.js). */
+  A(30, isNew() || !(N(USR.Section80DDB)>0) ||
+        (!!String(USR.Section80DDBUsrType||"").trim() && !!String(USR.NameOfSpecDisease80DDB||"").trim()),
+    "Old regime: the eligible category and the specified-disease description are required for the deduction u/s 80DDB.");
+
+  /* 37 (WEAK → companion): 80GG is the least of Rs 60,000, 25% of adjusted total income (GTI excluding
+     LTCG 112A, less every other Chapter VI-A deduction). The 60k leg lives in 61_rules_g0.js; this adds the 25% leg. */
+  var adjTI = Math.max(0, g("IncomeDeductions.GrossTotIncome") - Math.max(0, N(ALW.TotalChapVIADeductions)-N(ALW.Section80GG)));
+  A(37, isNew() || !(N(ALW.Section80GG)>0) || N(ALW.Section80GG) <= Math.min(60000, R(0.25*adjTI))+1,
+    "Old regime: deduction u/s 80GG cannot exceed Rs. 60,000 or 25% of the adjusted total income, whichever is lower.");
+
+  /* ---------------- Rebate u/s 87A (old regime) ---------------- */
+  /* 51 (WEAK → companion): under the old regime the rebate is available only when TOTAL income —
+     including LTCG u/s 112A — does not exceed Rs 5,00,000 (TotalIncome is GTI incl. 112A less VI-A). */
+  A(51, isNew() || !(g("TaxComputation.Rebate87A")>0) || g("IncomeDeductions.TotalIncome") <= 500000,
+    "Old regime: rebate u/s 87A cannot be claimed when total income (including LTCG u/s 112A) exceeds Rs. 5,00,000.");
+
+  /* ---------------- Salary — entertainment allowance u/s 16(ii) ---------------- */
+  /* Central / State Government / PSU employees only (EmployerCategory enum in 70_sec_inccore.js). */
+  var ENT_OK=["CGOV","SGOV","PSU"];
+  var ent=g("IncomeDeductions.EntertainmntalwncUs16ii");
+  /* 67 (WEAK → companion): lower of Rs 5,000 and 1/5th of salary; the form carries no separate basic-salary
+     box, so salary u/s 17(1) is the base (basic ≤ 17(1) salary, so this never fires on a lawful return). */
+  A(67, isNew() || !(ent>0) || ENT_OK.indexOf(empcat)<0 || ent <= Math.min(5000, Math.floor(sal171/5))+1,
+    "Old regime: entertainment allowance u/s 16(ii) is allowed only up to Rs. 5,000 or 1/5th of salary, whichever is lower.");
+  A(68, !(ent>0) || ENT_OK.indexOf(empcat)>=0,
+    "Entertainment allowance u/s 16(ii) is allowed only to Central Government, State Government and PSU employees.");
+
+  /* ---------------- Salary — exempt-allowance caps ---------------- */
+  A(72, !(alwAmt("10(7)")>0) || alwAmt("10(7)") <= grossSal+1,
+    "Exempt allowance u/s 10(7) cannot exceed the gross salary.");
+  A(80, isNew() || !(alwAmt("10(14)(i)")>0) || alwAmt("10(14)(i)") <= sal171+1,
+    "Old regime: prescribed allowances exempt u/s 10(14)(i) cannot exceed salary as per section 17(1).");
+  A(81, isNew() || !(alwAmt("10(14)(ii)")>0) || alwAmt("10(14)(ii)") <= sal171+1,
+    "Old regime: prescribed allowances exempt u/s 10(14)(ii) cannot exceed salary as per section 17(1).");
+
+  /* ---------------- Exempt income (D20) — 'cannot be selected more than once' ---------------- */
+  /* SubCategory values are the schema enum strings (books/ITR-4/enums.json OthersIncDtls[].SubCategory). */
+  A(83, cntSub("10(10D)") <= 1, "Exempt income u/s 10(10D) (sum received under a life insurance policy) cannot be selected more than once.");
+  A(84, cntSub("10(11)")  <= 1, "Exempt income u/s 10(11) (Statutory Provident Fund) cannot be selected more than once.");
+  A(86, cntSub("10(13)")  <= 1, "Exempt income u/s 10(13) (approved superannuation fund) cannot be selected more than once.");
+  A(87, cntSub("10(16)")  <= 1, "Exempt income u/s 10(16) (scholarships) cannot be selected more than once.");
+  A(89, cntSub("10(17A)") <= 1, "Exempt income u/s 10(17A) (award instituted by Government) cannot be selected more than once.");
+  A(90, cntSub("10(18)")  <= 1, "Exempt income u/s 10(18) (gallantry-award pension) cannot be selected more than once.");
+  A(92, cntSub("10(19)")  <= 1, "Exempt income u/s 10(19) (armed-forces family pension) cannot be selected more than once.");
+  A(93, cntSub("10(26)")  <= 1, "Exempt income u/s 10(26) cannot be selected more than once.");
+
+  /* ---------------- Schedule 80G — tables (A) and (B): cash or other-mode amount mandatory per donee ---------------- */
+  var hasMode=function(d){ return !d || N(d.DonationAmtCash)>0 || N(d.DonationAmtOtherMode)>0; };
+  A(99,  (RG(I,"Schedule80G.Don100Percent.DoneeWithPan",[])||[]).every(hasMode),
+    "Schedule 80G table (A): donation in cash or donation in other mode must be entered for every donee.");
+  A(100, (RG(I,"Schedule80G.Don50PercentNoApprReqd.DoneeWithPan",[])||[]).every(hasMode),
+    "Schedule 80G table (B): donation in cash or donation in other mode must be entered for every donee.");
+});
+
+/* ITR-4 (Sugam) · AY 2026-27 — validation-rule FIX batch 02 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials: 101 102 104 105 107 108 109 115 117 123 139 140 142 143 151 155 161 162 164 165.
+   Every cond is TRUE when the schedule/field is absent, and only FALSE when the data is present
+   and actually breaks the CBDT rule. Schema paths are the exact keys 70_sec_ded.js /
+   70_sec_inccore.js / 70_sec_paidbank.js export (see 61_rules_g0/g1/g2 for the same paths). */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var USR    = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};   /* claimed (user-enterable) */
+  var ALW    = RG(I,"IncomeDeductions.DeductUndChapVIA",{})||{};      /* allowed (post-cap, post-regime) */
+  var status = RG(I,"PersonalInfo.Status","I");                       /* I individual, H HUF, F firm */
+  var empcat = RG(I,"PersonalInfo.EmployerCategory","OTH");
+  var oldR   = (typeof isNew==="function") ? !isNew() : true;         /* old regime (10-IEA opt-out) */
+  var g      = function(p){ return N(RG(I,p)); };                     /* numeric read, default 0 */
+  var arr    = function(p){ var a=RG(I,p,[]); return Array.isArray(a)?a:[]; };
+  var ifscRe = (typeof IFSC_RE!=="undefined") ? IFSC_RE : /^[A-Z]{4}0[A-Z0-9]{6}$/;
+
+  /* salary exempt-allowance rows (10(13A) = HRA) and other-source rows (FAP = family pension) */
+  var alwRows = arr("IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls");
+  var alwAmt  = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+  var osRows  = arr("IncomeDeductions.OthersInc.OthersIncDtlsOthSrc");
+  var famPen  = RSUM(osRows.filter(function(r){return r&&r.OthSrcNatureDesc==="FAP";}),"OthSrcOthAmount");
+
+  /* ---------------- Schedule 80G — the four donee tables ---------------- */
+  /* bucket key → [array block, cash total, other-mode total, total, label] (exact keys of expDed) */
+  var G80 = {
+    A:["Don100Percent",        "TotDon100PercentCash",        "TotDon100PercentOtherMode",        "TotDon100Percent",        "(A) 100% without qualifying limit"],
+    B:["Don50PercentNoApprReqd","TotDon50PercentNoApprReqdCash","TotDon50PercentNoApprReqdOtherMode","TotDon50PercentNoApprReqd","(B) 50% without qualifying limit"],
+    C:["Don100PercentApprReqd", "TotDon100PercentApprReqdCash", "TotDon100PercentApprReqdOtherMode", "TotDon100PercentApprReqd", "(C) 100% subject to qualifying limit"],
+    D:["Don50PercentApprReqd",  "TotDon50PercentApprReqdCash",  "TotDon50PercentApprReqdOtherMode",  "TotDon50PercentApprReqd",  "(D) 50% subject to qualifying limit"]};
+  var gRows = function(b){ return arr("Schedule80G."+G80[b][0]+".DoneeWithPan").filter(function(r){return !!r;}); };
+  var gBlk  = function(b){ return RG(I,"Schedule80G."+G80[b][0],null); };
+  /* row: cash or other mode must be entered (tables C and D) */
+  var cashOrOther = function(b){ return gRows(b).every(function(r){ return N(r.DonationAmtCash)>0 || N(r.DonationAmtOtherMode)>0; }); };
+  /* row total = cash + other, and table total = table cash + table other */
+  var totEqSplit = function(b){ var blk=gBlk(b); if(!blk) return true;
+    return gRows(b).every(function(r){ return REQ(N(r.DonationAmt), N(r.DonationAmtCash)+N(r.DonationAmtOtherMode)); })
+        && REQ(N(blk[G80[b][3]]), N(blk[G80[b][1]])+N(blk[G80[b][2]])); };
+
+  A(101, cashOrOther("C"),
+    "Schedule 80G table (C): donation in cash or donation in other mode must be entered for every donee.");
+  A(102, cashOrOther("D"),
+    "Schedule 80G table (D): donation in cash or donation in other mode must be entered for every donee.");
+  A(104, totEqSplit("A"),
+    "Schedule 80G table (A): total donation must equal donation in cash plus donation in other mode.");
+  A(105, totEqSplit("B"),
+    "Schedule 80G table (B): total donation must equal donation in cash plus donation in other mode.");
+  A(107, totEqSplit("D"),
+    "Schedule 80G table (D): total donation must equal donation in cash plus donation in other mode.");
+
+  /* every donee row across the four tables, tagged with its table */
+  var allDonees = [];
+  ["A","B","C","D"].forEach(function(b){ gRows(b).forEach(function(r){ allDonees.push({b:b,r:r}); }); });
+  var panOf = function(r){ var p=String((r||{}).DoneePAN||"").toUpperCase(); return (p&&p!=="NA")?p:""; };
+
+  /* 108: old regime — cash donations aggregated by donee PAN above Rs. 2,000 (or a single cash entry
+     above Rs. 2,000) earn no deduction: the row's eligible amount can be no more than its other-mode part */
+  var cashByPan = {};
+  allDonees.forEach(function(d){ var p=panOf(d.r); if(p) cashByPan[p]=(cashByPan[p]||0)+N(d.r.DonationAmtCash); });
+  A(108, !oldR || allDonees.every(function(d){ var r=d.r, p=panOf(r);
+        var over = N(r.DonationAmtCash)>2000 || (p && cashByPan[p]>2000);
+        return !over || N(r.EligibleDonationAmt) <= N(r.DonationAmtOtherMode)+1; }),
+    "Schedule 80G: where cash donations to the same donee PAN exceed Rs. 2,000 in aggregate (or a single cash entry exceeds Rs. 2,000), the eligible amount of those cash donations must be nil.");
+
+  /* 109: a donee PAN cannot appear more than once in Schedule 80G; PAN AAAAR1077P may repeat across
+     tables; within table (D) the same PAN may repeat only with distinct ARNs */
+  A(109, (function(){ var n=allDonees.length;
+      for(var i=0;i<n;i++){ var pi=panOf(allDonees[i].r); if(!pi||pi==="AAAAR1077P") continue;
+        for(var j=i+1;j<n;j++){ if(panOf(allDonees[j].r)!==pi) continue;
+          var di=allDonees[i], dj=allDonees[j];
+          var ai=String(di.r.ArnNbr||""), aj=String(dj.r.ArnNbr||"");
+          if(di.b==="D" && dj.b==="D" && ai && aj && ai!==aj) continue;
+          return false; } }
+      return true; })(),
+    "Schedule 80G: the same donee PAN cannot appear more than once (only PAN AAAAR1077P may be repeated in different tables).");
+
+  /* ---------------- Schedule TDS2(i) / TDS2(ii) ---------------- */
+  var tds2 = arr("TDSonOthThanSals.TDSonOthThanSalDtls").filter(function(r){return !!r;});
+  var tds3 = arr("ScheduleTDS3Dtls.TDS3Details").filter(function(r){return !!r;});
+  /* 115: unclaimed TDS brought forward and TDS of the current FY must sit in different rows */
+  var bfAndCurr = function(r){ return N(r.BroughtFwdTDSAmt)>0 && N(r.TDSDeducted)>0; };
+  A(115, !tds2.some(bfAndCurr) && !tds3.some(bfAndCurr),
+    "Schedule TDS2: unclaimed TDS brought forward and TDS deducted in the current FY must be provided in different rows.");
+  /* 117 (was a non-blocking warn): TDS2(i) claim (col 6) cannot exceed the income offered (col 7); 194N (head NA) rows excluded */
+  A(117, tds2.every(function(r){ if(r.HeadOfIncome==="NA") return true;
+        return !(N(r.TDSClaimed)>0) || N(r.TDSClaimed) <= N(r.GrossAmount)+1; }),
+    "Schedule TDS2(i): the TDS claimed (col 6) cannot be more than the corresponding income/receipt offered (col 7).");
+
+  /* 142: TDS credit claimed but the corresponding receipt is not offered under the stated head */
+  var headOffered = function(h){
+    if(h==="BP") return g("IncomeDeductions.IncomeFromBusinessProf")>0 || g("ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver")>0
+                     || g("ScheduleBP.PersumptiveInc44ADA.GrsReceipt")>0 || g("ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE")>0;
+    if(h==="HP") return arr("IncomeDeductions.PropertyDetails").length>0 || g("IncomeDeductions.TotalIncomeChargeableUnHP")!==0;
+    if(h==="OS") return g("IncomeDeductions.IncomeOthSrc")>0 || osRows.length>0;
+    if(h==="EI") return arr("TaxExmpIntIncDtls.OthersInc.OthersIncDtls").length>0 || g("TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe")>0;
+    return true; };                                                   /* NA (194N) / unknown head: no income head to test */
+  A(142, (!(g("TDSonSalaries.TotalTDSonSalaries")>0) || g("IncomeDeductions.GrossSalary")>0)
+      && tds2.concat(tds3).every(function(r){ return !(N(r.TDSClaimed)>0) || headOffered(String(r.HeadOfIncome||"")); }),
+    "Credit for TDS is claimed but the corresponding receipt has not been offered to tax under the head of income stated against it.");
+
+  /* 165: a HUF / Firm cannot have TDS on salary (Schedule TDS1) */
+  A(165, status==="I" || (N(RG(I,"TDSonSalaries.TotalTDSonSalaries"))===0 && arr("TDSonSalaries.TDSonSalary").length===0),
+    "A HUF or Firm (other than LLP) cannot report tax deducted on salary in Schedule TDS1.");
+
+  /* ---------------- IFSC format (123 — partial) ---------------- */
+  /* 123: matching against the RBI / GIFT IFSC database is not possible offline; what can be enforced is
+     the RBI IFSC structure (4 letters, 0, 6 alphanumerics) wherever an IFSC is filed */
+  var ifscOK = function(r){ var c=(r||{}).IFSCCode; return !c || ifscRe.test(String(c).toUpperCase()); };
+  A(123, arr("Refund.BankAccountDtls.AddtnlBankDetails").every(ifscOK)
+      && allDonees.every(function(d){ return ifscOK(d.r); })
+      && arr("Schedule80GGC.Schedule80GGCDetails").every(ifscOK),
+    "IFSC under Bank Details, Schedule 80G and Schedule 80GGC must be a valid RBI IFSC (four letters, a zero, six characters).");
+
+  /* ---------------- Schedule BP ---------------- */
+  /* 139: gross receipts / turnover are declared, so the financial particulars (E15/E19/E20/E22 …) must be filled */
+  var turnover = g("ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver") + g("ScheduleBP.PersumptiveInc44ADA.GrsReceipt");
+  var finP = RG(I,"ScheduleBP.FinanclPartclrOfBusiness",null);
+  A(139, !(turnover>0) || (!!finP && typeof finP==="object" && Object.keys(finP).length>0),
+    "Gross receipts / turnover are declared in Schedule BP but the financial particulars (sundry creditors, inventories, sundry debtors, cash in hand) are not filled.");
+  /* 140: ITR-4 is the return for income computed u/s 44AD / 44ADA / 44AE — a return with income but no presumptive business income is not an ITR-4 case */
+  A(140, !(g("IncomeDeductions.GrossTotIncomeIncLTCG112A")>0)
+      || g("IncomeDeductions.IncomeFromBusinessProf")>0
+      || g("ScheduleBP.PersumptiveInc44AD.TotPersumptiveInc44AD")>0
+      || g("ScheduleBP.PersumptiveInc44ADA.TotPersumptiveInc44ADA")>0
+      || g("ScheduleBP.PersumptiveInc44AE.TotalPersumptiveInc")>0,
+    "ITR-4 can be furnished only where income from business/profession is computed u/s 44AD, 44ADA or 44AE; no such income is disclosed.");
+
+  /* ---------------- Salary / relief ---------------- */
+  /* 143: not coded live — ENGINE CONFLICT. The CBDT rule caps the old-regime standard deduction u/s 16(ia) at
+     Rs. 50,000; 70_sec_inccore.js:208 computes stdDed = min(75000, netSal) in BOTH regimes and the lawful
+     test client (old regime, DeductionUs16ia = 75000) therefore breaks the rule today. A live assertion
+     (old regime → IncomeDeductions.DeductionUs16ia <= 50000) turns Gate 6 red until the engine is corrected
+     to min(50000,netSal) under the old regime and the client figure is re-derived. Enable then:
+       old regime  =>  N(RG(I,"IncomeDeductions.DeductionUs16ia")) <= 50000
+       "Old regime: standard deduction u/s 16(ia) cannot exceed Rs. 50,000." */
+
+  /* 162: relief u/s 89 needs salary or family pension */
+  A(162, !(g("TaxComputation.Section89")>0) || g("IncomeDeductions.GrossSalary")>0 || famPen>0,
+    "Relief u/s 89 cannot be claimed when salary and family pension are both zero / blank.");
+
+  /* ---------------- Chapter VI-A ---------------- */
+  /* 151: HRA u/s 10(13A) is claimed, so 80GG above Rs. 55,000 is not allowed */
+  A(151, !oldR || !(alwAmt("10(13A)")>0) || (N(USR.Section80GG)<=55000 && N(ALW.Section80GG)<=55000),
+    "House rent allowance u/s 10(13A) is claimed, hence deduction u/s 80GG above Rs. 55,000 is not allowed.");
+  /* 155: old regime, employee (employer category other than a pensioner category / not applicable) — 80CCD(1) ≤ 10% of salary */
+  var PENS_NA = ["PE","PESG","PEPS","PEO","NA"];
+  var grossSal = g("IncomeDeductions.GrossSalary");
+  A(155, !oldR || PENS_NA.indexOf(empcat)>=0 || !(grossSal>0)
+      || (N(USR.Section80CCDEmployeeOrSE) <= R(0.10*grossSal)+1 && N(ALW.Section80CCDEmployeeOrSE) <= R(0.10*grossSal)+1),
+    "Old regime: for an employee, deduction u/s 80CCD(1) cannot exceed 10% of salary.");
+  /* 161 (weak in g1: omitted the 'not applicable' category) — 80CCD(2) barred for pensioners and NA */
+  A(161, PENS_NA.indexOf(empcat)<0 || (N(USR.Section80CCDEmployer)===0 && N(ALW.Section80CCDEmployer)===0),
+    "Deduction u/s 80CCD(2) cannot be claimed when the employer category is a pensioner category or 'not applicable'.");
+  /* 164: a HUF / Firm cannot claim 80EEB */
+  A(164, status==="I" || (N(USR.Section80EEB)===0 && N(ALW.Section80EEB)===0 && !I.Schedule80EEB),
+    "Deduction u/s 80EEB cannot be claimed by a HUF or Firm (other than LLP).");
+});
+
+/* ITR-4 · AY 2026-27 — validation-rule FIX batch 03 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials: 167 186 187 188 212 213 215 222 224 225 235 238 247 249 252 253 254 259 261 263.
+   Schema paths are the exact keys the ITR-4 exporters write (70_sec_inccore.js / 70_sec_ded.js /
+   70_sec_paidbank.js) and that 61_rules_g0/g1/g2.js already read. Regime: isNew() (shell). */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var USR    = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};   /* claimed (user-enterable) */
+  var ALW    = RG(I,"IncomeDeductions.DeductUndChapVIA",{})||{};      /* allowed (post-cap, post-regime) */
+  var status = RG(I,"PersonalInfo.Status","I");
+  var empcat = RG(I,"PersonalInfo.EmployerCategory","OTH");
+  var g      = function(p){ return N(RG(I,p)); };                     /* numeric read, default 0 */
+  var nw     = (typeof isNew==="function") ? isNew() : true;          /* new regime unless opted out */
+
+  var alwRows = RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var alwAmt  = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+  var exRows  = RG(I,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",[])||[];
+  var osRows  = RG(I,"IncomeDeductions.OthersInc.OthersIncDtlsOthSrc",[])||[];
+  var gcv     = RG(I,"ScheduleBP.GoodsDtlsUs44AE",[])||[];
+  var ggcRows = RG(I,"Schedule80GGC.Schedule80GGCDetails",[])||[];
+  /* salary u/s 17(1); the exporter writes IncomeDeductions.Salary only when non-zero, so fall back to gross */
+  var sal171  = g("IncomeDeductions.Salary") || g("IncomeDeductions.GrossSalary");
+
+  /* ---------------- Filing status: revised return over a 142(1) / 148 original ---------------- */
+  /* 167: not mappable — the section under which the ORIGINAL return was filed is not captured by this
+     form (FilingStatus carries only ReceiptNo and OrigRetFiledDate for a 139(5) return); no key exists. */
+  /* 188 (second half, 148 proceeding bars revising the 139 return): not mappable — no filing-history /
+     notice-history key exists in the ITR-4 schema for the original return; only NoticeNo of THIS return. */
+
+  /* ---------------- Salary exempt allowances u/s 10(14) — 115BAC sub-codes ---------------- */
+  /* 186: transport allowance to a physically handicapped assessee (10(14)(ii)(115BAC)) ≤ Rs. 3,200 × 12 */
+  A(186, alwAmt("10(14)(ii)(115BAC)") <= 38400,
+    "Exempt transport allowance u/s 10(14)(ii) granted to a physically handicapped assessee cannot exceed Rs. 38,400.");
+  /* 187: the 115BAC-only 10(14)(i) sub-clause (a)-(c) code is closed under the OLD regime */
+  A(187, nw || alwAmt("10(14)(i)(115BAC)")===0,
+    "Old regime: exempt allowance u/s 10(14)(i) — allowances referred in sub-clauses (a) to (c) of Rule 2BB(1) (115BAC code) must be zero.");
+  /* 188 (first half): the 115BAC-only 10(14)(ii) transport-handicapped code is closed under the OLD regime */
+  A(188, nw || alwAmt("10(14)(ii)(115BAC)")===0,
+    "Old regime: exempt transport allowance u/s 10(14)(ii) to a physically handicapped assessee (115BAC code) must be zero.");
+
+  /* ---------------- Schedule BP ---------------- */
+  /* 212: a HUF cannot declare presumptive income u/s 44ADA */
+  A(212, status!=="H" || (N(RG(I,"ScheduleBP.PersumptiveInc44ADA.TotPersumptiveInc44ADA"))===0
+                       && N(RG(I,"ScheduleBP.PersumptiveInc44ADA.GrsReceipt"))===0
+                       && (RG(I,"ScheduleBP.NatOfBus44ADA",[])||[]).length===0),
+    "A HUF is not eligible to claim presumptive income u/s 44ADA.");
+  /* 213: goods-carriage registration numbers must not repeat within Schedule 44AE */
+  A(213, (function(){ var seen={}; return gcv.every(function(v){ var k=String((v&&v.RegNumberGoodsCarriage)||"").toUpperCase().replace(/\s+/g,"");
+      if(!k) return true; if(seen[k]) return false; seen[k]=1; return true; }); })(),
+    "Schedule BP: the registration number of a goods carriage cannot be repeated in Schedule 44AE.");
+  /* 238 (corrected): 44ADA receipts above Rs. 50 lakh are allowed only up to Rs. 75 lakh when cash receipts are ≤ 5% */
+  (function(){ var e3=g("ScheduleBP.PersumptiveInc44ADA.GrsReceipt"), e3b=g("ScheduleBP.PersumptiveInc44ADA.GrsTotalTrnOverInCash44ADA");
+    A(238, e3 <= 5000000 || (e3 <= 7500000 && e3b <= 0.05*e3),
+      "Schedule BP: gross receipts u/s 44ADA above Rs. 50 lakh (up to Rs. 75 lakh only when cash receipts are 5% or less) need a tax audit u/s 44AB — use ITR-3/ITR-5.");
+  })();
+
+  /* ---------------- Salary: 10(10CC) vs TDS u/s 192 ---------------- */
+  /* 215: tax paid by the employer on a non-monetary perquisite cannot exceed the TDS u/s 192 claimed in Schedule TDS1 */
+  A(215, alwAmt("10(10CC)") <= g("TDSonSalaries.TotalTDSonSalaries")+1,
+    "Exempt allowance u/s 10(10CC) cannot be more than the TDS claimed u/s 192 in Schedule TDS1.");
+
+  /* ---------------- Exempt income (D20): no sub-category more than once (all codes) ---------------- */
+  A(222, (function(){ var seen={}; return exRows.every(function(r){ var k=r&&r.SubCategory; if(!k) return true;
+      if(seen[k]) return false; seen[k]=1; return true; }); })(),
+    "Under exempt income, a nature-of-income dropdown cannot be selected more than once.");
+
+  /* ---------------- 80CCH (Agnipath) ---------------- */
+  var cch = Math.max(N(USR.AnyOthSec80CCH), N(ALW.AnyOthSec80CCH));
+  /* 224 (corrected): 80CCH ≤ 46.2% of salary u/s 17(1), and never above Rs. 2,88,000 */
+  A(224, !(cch>0) || cch <= Math.min(R(0.462*sal171), 288000)+1,
+    "Deduction u/s 80CCH cannot exceed 46.2% of salary u/s 17(1), to a maximum of Rs. 2,88,000.");
+  /* 225: 80CCH only when the nature of employment is Central Government (the joining-age 17-27 test is not
+     mappable — the date of joining the armed forces is not captured by this form). */
+  A(225, !(cch>0) || empcat==="CGOV",
+    "Deduction u/s 80CCH can be claimed only when the nature of employment is 'Central Government'.");
+
+  /* ---------------- Firm: tax regime (A23 / 115BAC) not applicable ---------------- */
+  A(235, status!=="F" || (RG(I,"FilingStatus.Form10IEAEarlierAYOldRegime","NA")==="NA"
+                       && RG(I,"FilingStatus.F10IEACurrAYOldRegime","")!=="Y"
+                       && !RG(I,"FilingStatus.Form10IEAAssYear","")
+                       && !RG(I,"FilingStatus.F10IEADateCurrAYOldTax","")),
+    "For a Firm the tax regime (115BAC) is not applicable — Form 10-IEA fields must be 'Not applicable' and left blank.");
+
+  /* ---------------- Schedule 80GGC: other-mode donations need transaction details ---------------- */
+  A(247, ggcRows.every(function(r){ if(!r||!(N(r.DonationAmtOtherMode)>0)) return true;
+      return !!r.TransactionRefNum && !!r.IFSCCode; }),
+    "Schedule 80GGC: for a donation made in a mode other than cash, the transaction reference number and IFSC code are required.");
+
+  /* ---------------- Schedule 80U / 80DD ---------------- */
+  /* 249: VIA Section 80U (user and system) = Schedule 80U sl. ii */
+  A(249, REQ(N(ALW.Section80U), N(RG(I,"Schedule80U.DeductionAmount"))) && REQ(N(USR.Section80U), N(RG(I,"Schedule80U.DeductionAmount"))),
+    "In Schedule VIA, the value at Section 80U (both user and system) must equal the deduction amount in Schedule 80U.");
+  /* 252 / 253: Form 10-IA acknowledgement is required when a deduction is claimed */
+  A(252, !(N(RG(I,"Schedule80DD.DeductionAmount"))>0) || /^\d{15}$/.test(String(RG(I,"Schedule80DD.Form10IAAckNum",""))),
+    "Schedule 80DD: when a deduction is claimed, the 15-digit acknowledgement number of Form 10-IA is required.");
+  A(253, !(N(RG(I,"Schedule80U.DeductionAmount"))>0) || /^\d{15}$/.test(String(RG(I,"Schedule80U.Form10IAAckNum",""))),
+    "Schedule 80U: when a deduction is claimed, the 15-digit acknowledgement number of Form 10-IA is required.");
+  /* 254: dependent 'Member of the HUF' (code 8) is for a HUF only, and a HUF's dependent must be a member of the HUF */
+  A(254, !I.Schedule80DD || (status==="H" ? RG(I,"Schedule80DD.DependentType","")==="8"
+                                          : RG(I,"Schedule80DD.DependentType","")!=="8"),
+    "Schedule 80DD: the dependent type 'Member of the HUF' applies only to a HUF, and a HUF can claim 80DD only for a member of the HUF.");
+
+  /* ---------------- Personal info: valid mobile number ---------------- */
+  (function(){ var m=RG(I,"PersonalInfo.Address.MobileNo",""); var cc=String(RG(I,"PersonalInfo.Address.CountryCodeMobile","91")||"91");
+    if(m===""||m==null) return;                                     /* presence is enforced by the required-key skeleton */
+    var s=String(m).replace(/\D/g,"");
+    A(259, cc==="91" ? /^[6-9]\d{9}$/.test(s) : (s.length>=4 && s.length<=15),
+      "Enter a valid mobile number (10 digits starting with 6-9 for an Indian number).");
+  })();
+
+  /* ---------------- 57(iia) family-pension deduction (both regimes) ---------------- */
+  (function(){ var fap=RSUM(osRows.filter(function(r){return r&&r.OthSrcNatureDesc==="FAP";}),"OthSrcOthAmount");
+    var ded=g("IncomeDeductions.DeductionUs57iia");
+    A(261, !(ded>0) || ded <= Math.min(Math.round(fap/3), nw?25000:15000)+1,
+      "Deduction u/s 57(iia) cannot exceed one-third of the family pension, subject to Rs. 25,000 (new regime) / Rs. 15,000 (old regime).");
+  })();
+
+  /* ---------------- 80CCD(2) — new regime: 14% of salary u/s 17(1) for CG/SG/PSU/Others ---------------- */
+  A(263, !nw || ["CGOV","SGOV","PSU","OTH"].indexOf(empcat)<0 || sal171===0
+        || N(USR.Section80CCDEmployer) <= R(0.14*sal171)+1,
+    "New regime: deduction u/s 80CCD(2) cannot exceed 14% of salary u/s 17(1) for an employer category of Central Govt, State Govt, PSU or Others.");
+});
+
+/* ITR-4 (Sugam) · AY 2026-27 — validation-rule FIX batch 04 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials: 264 267 270 271 272 273 279 282 287 288 301 303 305 306 307 308 309 315 316 318.
+   Schema keys are the flat ITR-4 build (PersonalInfo / FilingStatus / IncomeDeductions +
+   Schedule* siblings) exactly as 70_sec_inccore.js / 70_sec_ded.js write them. */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var status = RG(I,"PersonalInfo.Status","I");
+  var dob    = String(RG(I,"PersonalInfo.DOB","")||"");
+  var FS     = RG(I,"FilingStatus",{})||{};
+  var USR    = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};   /* claimed (user-enterable) */
+  var ALW    = RG(I,"IncomeDeductions.DeductUndChapVIA",{})||{};      /* allowed (post-cap, post-regime) */
+  var g      = function(p){ return N(RG(I,p)); };
+  var nz     = function(v){ return String(v==null?"":v).trim(); };
+  var filled = function(v){ var s=nz(v).toUpperCase(); return s!=="" && s!=="NA"; };
+  var key    = function(v){ return nz(v).toUpperCase().replace(/[^A-Z0-9]/g,""); };
+  var HP     = RG(I,"IncomeDeductions.PropertyDetails",[])||[];
+  var alwRows= RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var alwAmt = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+  var E80EE  = RG(I,"Schedule80EE.Schedule80EEDtls",[])||[];
+  var E80EEA = RG(I,"Schedule80EEA.Schedule80EEADtls",[])||[];
+  /* every 24(b) loan row across all house properties (bank name / account keys) */
+  var S24=[]; HP.forEach(function(p){ if(!p) return; (RG(p,"Rentdetails.Section24B.Section24BDtls",[])||[]).forEach(function(l){ if(l) S24.push(l); }); });
+  var s24Names = S24.map(function(l){ return key(l.BankOrInstnName); }).filter(function(s){ return s && s!=="NA"; });
+  var s24Accts = S24.map(function(l){ return key(l.LoanAccNoOfBankOrInstnRefNo); }).filter(function(s){ return s && s!=="NA"; });
+  var inS24 = function(r){ if(!r) return true;
+    var nm=key(r.BankOrInstnName), ac=key(r.LoanAccNoOfBankOrInstnRefNo);
+    return (!!nm && s24Names.indexOf(nm)>=0) || (!!ac && s24Accts.indexOf(ac)>=0); };
+  var sumInt24 = HP.reduce(function(s,p){ return s + (p?N(RG(p,"Rentdetails.IntOnBorwCap")):0); }, 0);
+
+  /* ---------------- Part A — status / regime / formation ---------------- */
+  /* 264: a Firm is outside 115BAC — A23 (Form 10-IEA opt-out) must carry no value */
+  A(264, status!=="F" || (
+        !nz(FS.F10IEACurrAYOldRegime) && !nz(FS.F10IEADateCurrAYOldTax) && !(N(FS.F10IEAAckNoCurrAYOldTax)>0)
+     && ["","N","NA"].indexOf(nz(FS.Form10IEAEarlierAYOldRegime).toUpperCase())>=0
+     && !nz(FS.Form10IEAAssYear) && !(N(FS.Form10IEAEarlierAYAckOldRegime)>0)),
+    "For a Firm (other than LLP) the option u/s 115BAC(6) / Form 10-IEA fields in A23 are not applicable and must not carry any value.");
+  /* 318: Firm/HUF formed on or after 01/04/2026 cannot file for AY 2026-27 */
+  A(318, status==="I" || !dob || dob < "2026-04-01",
+    "A Firm or HUF with date of formation on or after 01/04/2026 cannot file a return for AY 2026-27.");
+
+  /* ---------------- ITR-4 eligibility ceiling ---------------- */
+  /* 267: total income excluding LTCG u/s 112A must be within Rs. 50 lakh */
+  A(267, Math.max(0, g("IncomeDeductions.TotalIncome") - g("LTCG112A.LongCap112A")) <= 5000000,
+    "Total income excluding LTCG u/s 112A cannot exceed Rs. 50 lakh — ITR-4 cannot be used.");
+
+  /* ---------------- 80EE / 80EEA vs Schedule 24(b) ---------------- */
+  /* 270: 80EE/80EEA only after the 24(b) limit (Rs. 2,00,000) is exhausted */
+  A(270, !(N(ALW.Section80EE)>0 || N(ALW.Section80EEA)>0) || sumInt24 >= 200000,
+    "Deduction u/s 80EE / 80EEA can be claimed only when the limit of interest u/s 24(b) (Rs. 2,00,000) is exhausted.");
+  /* 271: the 80EE bank must be among the banks disclosed in schedule 24(b) */
+  A(271, !(N(ALW.Section80EE)>0) || E80EE.length===0 || E80EE.every(inS24),
+    "Schedule 80EE: the bank/institution from which the loan is taken must be one disclosed in the 24(b) details of house property.");
+  /* 272 (companion to 61_rules_g1.js A272): rows must exist AND cross-match schedule 24(b) */
+  A(272, !(N(ALW.Section80EEA)>0) || (E80EEA.length>0 && E80EEA.every(inS24)),
+    "Schedule 80EEA: the bank/institution from which the loan is taken must be disclosed and must match the 24(b) details of house property.");
+  /* 279: 80EEA loan sanctioned between 01.04.2019 and 31.03.2022 */
+  E80EEA.forEach(function(r,i){ if(!r) return;
+    A(279, !r.DateofLoan || (r.DateofLoan>="2019-04-01" && r.DateofLoan<="2022-03-31"),
+      "Schedule 80EEA row "+(i+1)+": the date of sanction of the loan must fall between 01.04.2019 and 31.03.2022."); });
+  /* 301: 80EE loan sanctioned between 01.04.2016 and 31.03.2017 */
+  E80EE.forEach(function(r,i){ if(!r) return;
+    A(301, !r.DateofLoan || (r.DateofLoan>="2016-04-01" && r.DateofLoan<="2017-03-31"),
+      "Schedule 80EE row "+(i+1)+": the date of sanction of the loan must fall between 01.04.2016 and 31.03.2017."); });
+
+  /* ---------------- Schedule 80C ---------------- */
+  /* 273: each 80C payment row needs its policy / document identification number
+     (nature-of-payment is not a Schedule80CDtls key in the ITR-4 schema — only Amount + IdentificationNo) */
+  A(273, (RG(I,"Schedule80C.Schedule80CDtls",[])||[]).every(function(r){ return !r || !(N(r.Amount)>0) || filled(r.IdentificationNo); }),
+    "Schedule 80C: the policy number / document identification number of the supporting document is required for every payment claimed.");
+
+  /* ---------------- Supporting-form / detail prerequisites ---------------- */
+  /* 282: Form 10BA acknowledgement (15 digits) for 80GG */
+  A(282, !(N(USR.Section80GG)>0 || N(ALW.Section80GG)>0) || /^\d{15}$/.test(nz(USR.Form10BAAckNum)),
+    "Details of Form 10BA (15-digit acknowledgement number) are required to claim deduction u/s 80GG.");
+  /* 287: Form 10-IA filed separately for 80U and 80DD */
+  A(287, (!(N(RG(I,"Schedule80U.DeductionAmount"))>0)  || /^\d{15}$/.test(nz(RG(I,"Schedule80U.Form10IAAckNum",""))))
+      && (!(N(RG(I,"Schedule80DD.DeductionAmount"))>0) || /^\d{15}$/.test(nz(RG(I,"Schedule80DD.Form10IAAckNum","")))),
+    "Form 10-IA (15-digit acknowledgement number) must be filed separately for the deduction u/s 80U and u/s 80DD respectively.");
+  /* 288: specified disease for 80DDB */
+  A(288, !(N(USR.Section80DDB)>0 || N(ALW.Section80DDB)>0) || filled(USR.NameOfSpecDisease80DDB),
+    "Details of the specified disease are required to claim deduction u/s 80DDB.");
+
+  /* ---------------- Status / regime vs sub-schedules ---------------- */
+  /* 303: a Firm cannot fill 80C / 80E / 80EE / 80EEA / 80EEB / 10(13A) schedules */
+  A(303, status!=="F" || (!I.Schedule80C && !I.Schedule80E && !I.Schedule80EE && !I.Schedule80EEA && !I.Schedule80EEB && !I.ScheduleEA10_13A),
+    "A Firm is not eligible to fill Schedule 80C, 80E, 80EE, 80EEA, 80EEB or 10(13A).");
+  /* 305 (companion to 61_rules_g1.js A305): Individual + new regime — also 80EEB and 10(13A) */
+  A(305, status!=="I" || !isNew() || (!I.Schedule80C && !I.Schedule80E && !I.Schedule80EE && !I.Schedule80EEA && !I.Schedule80EEB && !I.ScheduleEA10_13A),
+    "New regime: an Individual cannot fill Schedule 80C, 80E, 80EE, 80EEA, 80EEB or 10(13A).");
+
+  /* ---------------- Schedule 80D — insurer / policy details per premium line ---------------- */
+  var sd = RG(I,"Schedule80D.Sec80DSelfFamSrCtznHealth",{})||{};
+  var ins80D = function(premKey, blockKey){
+    if(!I.Schedule80D || !(N(sd[premKey])>0)) return true;                 /* nothing claimed on that line */
+    var rows = RG(sd, blockKey+".Sch80DInsDtls", [])||[];
+    if(rows.length===0) return false;                                       /* premium claimed, no insurer rows */
+    return rows.every(function(r){ return !r || !(N(r.HealthInsAmt)>0) || (filled(r.InsurerName) && filled(r.PolicyNo)); });
+  };
+  A(306, ins80D("HealthInsPremSlfFam","Sec80DSelfFamHIDtls"),
+    "Schedule 80D: name of the insurer and policy number are required for the health-insurance premium at Sl. No. 1a(i).");
+  A(307, ins80D("HlthInsPremSlfFamSrCtzn","Sec80DSelfFamSrCtznHIDtls"),
+    "Schedule 80D: name of the insurer and policy number are required for the health-insurance premium at Sl. No. 1b(i).");
+  /* 308: receipt/document number of the premium is not a Sch80DInsDtls key in the ITR-4 schema
+     (InsurerName / PolicyNo / HealthInsAmt only) — insurer and policy number are enforced */
+  A(308, ins80D("HlthInsPremParents","Sec80DParentsHIDtls"),
+    "Schedule 80D: name of the insurer and policy number are required for the health-insurance premium at Sl. No. 2a(i).");
+  A(309, ins80D("HlthInsPremParentsSrCtzn","Sec80DParentsSrCtznHIDtls"),
+    "Schedule 80D: name of the insurer and policy number are required for the health-insurance premium at Sl. No. 2b(i).");
+
+  /* ---------------- Schedule 10(13A) — HRA ---------------- */
+  /* 315: the exempt allowance u/s 10(13A) needs Schedule 10(13A) */
+  A(315, !(alwAmt("10(13A)")>0) || !!I.ScheduleEA10_13A,
+    "Schedule 10(13A) must be filled to claim the exempt allowance u/s 10(13A).");
+  /* 316: basic + DA (schedule) + HRA received cannot exceed salary as per 17(1) */
+  if(I.ScheduleEA10_13A){ var H=I.ScheduleEA10_13A;
+    A(316, N(H.BasicSalary)+N(H.DearnessAllwnc)+N(H.ActlHRARecv) <= g("IncomeDeductions.Salary")+1,
+      "Schedule 10(13A): basic salary + dearness allowance + actual HRA received cannot exceed salary as per section 17(1) in Income details.");
+  }
+});
+
+/* ITR-4 (Sugam) · AY 2026-27 — validation-rule FIX batch 05 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials: 319 320 321 348 353 355 356 357 359 368 369 371 372 374 375 377 378 379 380 381.
+   Schema paths are the exact keys the ITR-4 exporter (70_sec_inccore.js / 70_sec_ded.js) writes,
+   plus the FilingStatus A23(A)(ii) keys from the CBDT schema (definitions/FilingStatus). Every
+   assertion is TRUE when the relevant data is absent, so a lawful / empty return never fires. */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var FS     = RG(I,"FilingStatus",{})||{};
+  var status = RG(I,"PersonalInfo.Status","I");
+  var dob    = String(RG(I,"PersonalInfo.DOB","")||"");                 /* ISO YYYY-MM-DD */
+  var HP     = RG(I,"IncomeDeductions.PropertyDetails",[])||[];
+  var alwRows= RG(I,"IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls",[])||[];
+  var exRows = RG(I,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",[])||[];
+  var alwAmt = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
+  var subKey = function(r){ return String((r&&r.SubCategory)||"").replace(/\s+/g,"").toUpperCase(); };
+  var cntSub = function(code){ var k=code.toUpperCase(); return exRows.filter(function(r){return subKey(r)===k;}).length; };
+  var has    = function(k){ var v=FS[k]; return v!=null && String(v)!==""; };   /* key present & non-blank */
+
+  /* ---------------- Personal info ---------------- */
+  /* 319: Individual with DOB on/after 01/04/2008 cannot file (per the rule text's floor). */
+  A(319, status!=="I" || !dob || dob < "2008-04-01",
+    "An Individual born on or after 01/04/2008 is not allowed to file this return.");
+
+  /* ---------------- Salary · HRA 10(13A) ---------------- */
+  /* 320: the 10(13A) row in the salary exempt-allowance table must equal the eligible exemption
+     computed in Schedule 10(13A). Both absent → 0 = 0. */
+  A(320, REQ(alwAmt("10(13A)"), N(RG(I,"ScheduleEA10_13A.EligbleExmpAllwncUs13A",0))),
+    "Exempt allowance u/s 10(13A) in the salary schedule must match the eligible allowance u/s 10(13A) as per Schedule 10(13A).");
+
+  /* ---------------- Filing status · Form 10-IEA (A23 tree) ---------------- */
+  var E   = String(RG(I,"FilingStatus.Form10IEAEarlierAYOldRegime","NA")||"NA");   /* A23     Y/N/NA */
+  var RE  = String(RG(I,"FilingStatus.F10IEAEarlierAYNewRegime","")||"");          /* A23(A)(ii) Y/N */
+  var CB  = String(RG(I,"FilingStatus.F10IEACurrAYNewRegime","")||"");             /* A23(A)(ii)(b) Y/N */
+  var CUR = String(RG(I,"FilingStatus.F10IEACurrAYOldRegime","")||"");             /* A23(B)  Y/N */
+  var hasA = has("Form10IEAAssYear") || has("Form10IEAEarlierAYAckOldRegime") || has("F10IEAEarlierAYNewRegime")
+          || has("AssYrF10IEANewTaxReg") || has("Form10IEAEarlierAYAckNewRegime") || has("F10IEACurrAYNewRegime")
+          || has("F10IEADateCurrAYNewTax") || has("F10IEAAckNoCurrAYNewTax");
+  var hasB = has("F10IEACurrAYOldRegime") || has("F10IEADateCurrAYOldTax") || has("F10IEAAckNoCurrAYOldTax");
+
+  /* 321: A23 = Yes → answer A23(A) only; otherwise → answer A23(B) only. */
+  A(321, E==="Y" ? !hasB : !hasA,
+    "Based on the response to A23, only one of A23(A) (earlier-AY Form 10-IEA details) or A23(B) (current-AY Form 10-IEA) may be answered.");
+
+  /* 353 (companion, stricter): A23 = Yes → A23(A)(i) (AY + acknowledgement) AND A23(A)(ii) (re-entry question) mandatory. */
+  A(353, E!=="Y" || (has("Form10IEAAssYear") && has("Form10IEAEarlierAYAckOldRegime") && (RE==="Y"||RE==="N")),
+    "When Form 10-IEA was filed for an earlier AY (A23 = Yes), the AY and acknowledgement in A23(A)(i) and the re-entry question in A23(A)(ii) are mandatory.");
+
+  /* 355: A23(A)(ii) = Yes → Form 10-IEA re-entry details in A23(A)(ii)(a) mandatory. */
+  A(355, RE!=="Y" || (has("AssYrF10IEANewTaxReg") && has("Form10IEAEarlierAYAckNewRegime")),
+    "When A23(A)(ii) is Yes, the AY and acknowledgement of Form 10-IEA for re-entering the new regime (A23(A)(ii)(a)) are mandatory.");
+
+  /* 356: A23(A)(ii) = No → A23(A)(ii)(b) (re-entered in the current AY?) mandatory. */
+  A(356, RE!=="N" || (CB==="Y"||CB==="N"),
+    "When A23(A)(ii) is No, the question in A23(A)(ii)(b) (Form 10-IEA furnished for re-entering the new regime in the current AY) is mandatory.");
+
+  /* 357: A23(A)(ii)(b) = Yes → Form 10-IEA date and acknowledgement in A23(A)(ii)(b)(i) mandatory. */
+  A(357, CB!=="Y" || (has("F10IEADateCurrAYNewTax") && has("F10IEAAckNoCurrAYNewTax")),
+    "When A23(A)(ii)(b) is Yes, the date and acknowledgement of Form 10-IEA in A23(A)(ii)(b)(i) are mandatory.");
+
+  /* 359 (companion, corrected): the schema/export value is "Y", not "Yes". A23(A)(ii)(b) = No → no
+     (b)(i) details; A23(B) = Yes → A23(B)(i) date and acknowledgement mandatory. */
+  A(359, (CB!=="N" || (!has("F10IEADateCurrAYNewTax") && !has("F10IEAAckNoCurrAYNewTax")))
+      && (CUR!=="Y" || (has("F10IEADateCurrAYOldTax") && has("F10IEAAckNoCurrAYOldTax"))),
+    "When Form 10-IEA is furnished for the current AY (A23(B) = Yes), its date and acknowledgement number are mandatory; A23(A)(ii)(b)(i) details apply only when A23(A)(ii)(b) is Yes.");
+
+  /* ---------------- House property ---------------- */
+  /* 348: co-owned property with the assessee's share = 0 → interest on borrowed capital must be 0. */
+  A(348, HP.every(function(p){ if(!p) return true;
+      var co=/^Y/i.test(String(p.PropCoOwnedFlg||""));
+      if(!co || p.AsseseeShareProperty==null || String(p.AsseseeShareProperty)==="" || N(p.AsseseeShareProperty)!==0) return true;
+      return N(RG(p,"Rentdetails.IntOnBorwCap",0))===0; }),
+    "When the assessee's share in a co-owned property is zero, interest on borrowed capital cannot be more than zero.");
+
+  /* ---------------- Exempt income (D20) — 'cannot be selected more than once' ---------------- */
+  A(368, cntSub("10(10BB)") <= 1, "Exempt income u/s 10(10BB) (Bhopal Gas Leak Disaster payments) cannot be selected more than once.");
+  A(369, cntSub("10(11A)")  <= 1, "Exempt income u/s 10(11A) (Sukanya Samriddhi Yojana) cannot be selected more than once.");
+  A(371, cntSub("10(12AA)") <= 1, "Exempt income u/s 10(12AA) (payment from the National Pension System Trust) cannot be selected more than once.");
+  A(372, cntSub("10(12AB)") <= 1, "Exempt income u/s 10(12AB) (lump sum under notification FX-1/3/2024-PR) cannot be selected more than once.");
+  A(374, cntSub("10(12BA)") <= 1, "Exempt income u/s 10(12BA) (partial withdrawal from NPS) cannot be selected more than once.");
+  A(375, cntSub("10(12C)")  <= 1, "Exempt income u/s 10(12C) (Agniveer Corpus Fund) cannot be selected more than once.");
+  A(377, cntSub("10(19A)")  <= 1, "Exempt income u/s 10(19A) (annual value of one palace of an ex-ruler) cannot be selected more than once.");
+  A(378, cntSub("10(23AA)") <= 1, "Exempt income u/s 10(23AA) (fund established by the armed forces) cannot be selected more than once.");
+  /* 379: not mappable — the ITR-4 schema's TaxExmpIntIncDtls SubCategory enum has no "Contributions received
+     from recognized stock exchange" code (10(23EE) is not an option in this form), so there is no key to count. */
+  A(380, cntSub("10(23FBB)")<= 1, "Exempt income u/s 10(23FBB) (unit holder of an investment fund, s.115UB) cannot be selected more than once.");
+  A(381, cntSub("10(23FD)") <= 1, "Exempt income u/s 10(23FD) (unit holder income from a Business Trust) cannot be selected more than once.");
+});
+
+/* ITR-4 · AY 2026-27 — validation-rule FIX batch 06 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials: 383 384 386 387 389 390 (exempt-income dedup), 392 397 (fee 234-I), 394 399 (80G row),
+   402 (PRAN for 80CCD(1)), 403 (representative contact), 404 405 (HP co-ownership), 409 (80CCC rows),
+   411 (secondary address), and Category-B 2 (TDS1 vs gross salary), 4 (Aadhaar u/s 139AA),
+   6 7 (special-rate TDS section codes in TDS2(i)/TDS2(ii)). Schema paths are the exact keys the
+   ITR-4 exporters write (70_sec_inccore.js / 70_sec_ded.js / 70_sec_paidbank.js). */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  var USR = RG(I,"IncomeDeductions.UsrDeductUndChapVIA",{})||{};   /* claimed (user-enterable) */
+  var PI  = RG(I,"PersonalInfo",{})||{};
+  var ADR = RG(I,"PersonalInfo.Address",{})||{};
+  var status = RG(I,"PersonalInfo.Status","I");
+  var str = function(v){ return (v==null)?"":String(v).trim(); };
+  var lc  = function(v){ return str(v).toLowerCase(); };
+
+  /* ---------------- Exempt income (D20) — 'cannot be selected more than once' ---------------- */
+  /* TaxExmpIntIncDtls.OthersInc.OthersIncDtls[].SubCategory (70_sec_inccore.js:929) */
+  var exRows = RG(I,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",[])||[];
+  var cntSub = function(code){ return exRows.filter(function(r){ return r && str(r.SubCategory)===code; }).length; };
+  /* 383: 10(25A) is not in this form's SubCategory enum (books/ITR-4/enums.json lists 10(25) only);
+     the sub-category box is free text, so the check is kept live on the written value. */
+  A(383, cntSub("10(25A)") <= 1, "Exempt income u/s 10(25A) (Employees' State Insurance Fund) cannot be selected more than once.");
+  A(384, cntSub("10(30)")  <= 1, "Exempt income u/s 10(30) (subsidy from the Tea Board) cannot be selected more than once.");
+  A(386, cntSub("10(32)")  <= 1, "Exempt income u/s 10(32) (minor child's income — small exemption) cannot be selected more than once.");
+  A(387, cntSub("10(35)")  <= 1, "Exempt income u/s 10(35) (income from specified Mutual Funds) cannot be selected more than once.");
+  A(389, cntSub("10(43)")  <= 1, "Exempt income u/s 10(43) (reverse mortgage — payments to senior citizens) cannot be selected more than once.");
+  A(390, cntSub("10(44)")  <= 1, "Exempt income u/s 10(44) (New Pension System Trust) cannot be selected more than once.");
+
+  /* ---------------- Fee u/s 234-I for a revised return (D11a) ---------------- */
+  /* FilingStatus.ReturnFileSec 17 = 139(5) revised return (70_sec_inccore.js:110,747);
+     IncomeDeductions.TotalIncome (:868); TaxComputation.IntrstPay.FeeFurnish234I (:918).
+     The form carries no date-of-filing field; "filed after 31/12/2026" is judged on the day the
+     return is validated (the same day it is uploaded from this file). */
+  var fsec  = N(RG(I,"FilingStatus.ReturnFileSec",11));
+  var ti    = N(RG(I,"IncomeDeductions.TotalIncome",0));
+  var f234i = N(RG(I,"TaxComputation.IntrstPay.FeeFurnish234I",0));
+  var late234i = (function(){ try{ return new Date() > new Date("2026-12-31T23:59:59"); }catch(e){ return false; } })();
+  A(392, fsec!==17 ? f234i===0 : (ti>500000 || f234i===(late234i?1000:0)),
+    "Fee u/s 234-I for a revised return (139(5)) filed after 31/12/2026 must be Rs. 1,000 when total income does not exceed Rs. 5,00,000 (nil before that date; nil for any other filing section).");
+  A(397, fsec!==17 || ti<=500000 || f234i===(late234i?5000:0),
+    "Fee u/s 234-I for a revised return (139(5)) filed after 31/12/2026 must be Rs. 5,000 when total income exceeds Rs. 5,00,000 (nil before that date).");
+
+  /* ---------------- Schedule 80G — per-donee rows ---------------- */
+  /* Schedule80G.<bucket>.DoneeWithPan[] with DonationAmtCash / DonationAmtOtherMode /
+     TransactionRefNum / IFSCCode (70_sec_ded.js:486-501) */
+  var G80B = ["Don100Percent","Don50PercentNoApprReqd","Don100PercentApprReqd","Don50PercentApprReqd"];
+  var g80rows = [];
+  G80B.forEach(function(b){ (RG(I,"Schedule80G."+b+".DoneeWithPan",[])||[]).forEach(function(d){ if(d) g80rows.push(d); }); });
+  A(394, !I.Schedule80G || g80rows.every(function(d){
+        return !(N(d.DonationAmtOtherMode)>0) || (!!str(d.TransactionRefNum) && !!str(d.IFSCCode)); }),
+    "Schedule 80G: for a donation in a mode other than cash, the transaction reference number (UPI / cheque / IMPS / NEFT / RTGS) and the IFSC are mandatory.");
+  A(399, !I.Schedule80G || g80rows.every(function(d){
+        return !(N(d.DonationAmtCash)>0 && N(d.DonationAmtOtherMode)>0); }),
+    "Schedule 80G: in any one row either a donation in cash or a donation in other mode can be entered, not both.");
+
+  /* ---------------- 80CCD(1) — PRAN (WEAK: 70_sec_ded.js:589 covers only 80CCD(1B)) ---------------- */
+  /* IncomeDeductions.UsrDeductUndChapVIA.Section80CCDEmployeeOrSE and .PRANDtls[].PRANNum (70_sec_ded.js:267) */
+  var pranOK = (RG(I,"IncomeDeductions.UsrDeductUndChapVIA.PRANDtls",[])||[]).some(function(p){ return p && /^\d{12}$/.test(str(p.PRANNum)); });
+  A(402, !(N(USR.Section80CCDEmployeeOrSE)>0) || pranOK,
+    "A 12-digit PRAN must be provided in Schedule VIA to claim the deduction u/s 80CCD(1).");
+
+  /* ---------------- Representative assessee — contact must not match the taxpayer's (WEAK: g1:233 omits Phone.PhoneNo) ---------------- */
+  var repFlg = RG(I,"FilingStatus.AsseseeRepFlg","N");
+  var repEm  = lc(RG(I,"FilingStatus.AssesseeRep.RepEmailID",""));
+  var repMob = str(N(RG(I,"FilingStatus.AssesseeRep.RepMobileNo",0)));
+  var tpEm1  = lc(ADR.EmailAddress), tpEm2 = lc(ADR.EmailAddressSec);
+  var tpMob  = str(N(ADR.MobileNo)), tpPh = str(N(RG(I,"PersonalInfo.Address.Phone.PhoneNo","")));
+  A(403, repFlg!=="Y" || (
+        (!repEm || (repEm!==tpEm1 && repEm!==tpEm2)) &&
+        (repMob==="0" || (repMob!==tpMob && (tpPh==="0" || repMob!==tpPh))) ),
+    "Part A General: the e-mail ID and contact number of the representative assessee must not match the taxpayer's primary or secondary e-mail ID, mobile number or phone number.");
+
+  /* ---------------- House property — co-ownership (PropCoOwnedFlg enum is YES/NO, 70_sec_inccore.js:820) ---------------- */
+  (RG(I,"IncomeDeductions.PropertyDetails",[])||[]).forEach(function(p,i){ if(!p) return; var L="House property "+(i+1)+": ";
+    var co = RG(p,"CoOwners",[])||[];
+    A(404, p.PropCoOwnedFlg==="YES" || p.AsseseeShareProperty==null || N(p.AsseseeShareProperty)===100,
+      L+"when the property is not co-owned the assessee's share must be 100%.");
+    /* 405 (WEAK: g0:142 keys on "Y", the exporter writes "YES", so it never runs) */
+    A(405, p.PropCoOwnedFlg!=="YES" || (co.length>0 && co.every(function(o){ var s=N(o&&o.PercentShareProperty); return s>0 && s<100; })),
+      L+"when the property is co-owned, the percentage share of each other co-owner must be greater than 0 and less than 100%.");
+  });
+
+  /* ---------------- 80CCC — at least one identifier row when claimed ---------------- */
+  /* IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[] (70_sec_ded.js:271-273) */
+  A(409, !(N(USR.Section80CCC)>0) || (RG(I,"IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC",[])||[]).length>0,
+    "When the deduction u/s 80CCC is more than 0, at least one row of identifier details (PRAN / other) must be added.");
+
+  /* ---------------- Secondary address must differ from the primary when SecondaryAdd = N ---------------- */
+  /* PersonalInfo.SecondaryAdd, PersonalInfo.AlternateAddress.{ResidenceNo,LocalityOrArea,CityOrTownOrDistrict,StateCode} (70_sec_inccore.js:734-740) */
+  var ALT = RG(I,"PersonalInfo.AlternateAddress",{})||{};
+  var altFilled = !!(str(ALT.ResidenceNo)||str(ALT.LocalityOrArea)||str(ALT.CityOrTownOrDistrict)||str(ALT.StateCode));
+  var altSame = lc(ALT.ResidenceNo)===lc(ADR.ResidenceNo) && lc(ALT.LocalityOrArea)===lc(ADR.LocalityOrArea)
+             && lc(ALT.CityOrTownOrDistrict)===lc(ADR.CityOrTownOrDistrict) && str(ALT.StateCode)===str(ADR.StateCode);
+  A(411, RG(I,"PersonalInfo.SecondaryAdd","Y")!=="N" || !altFilled || !altSame,
+    "Part A General: the secondary address must not be the same as the primary address when 'Is the secondary address same as primary?' is No.");
+
+  /* ================= Category B (advisory in CBDT's list; offline-checkable, so asserted here) ================= */
+
+  /* 2: TDS1 tax deducted cannot exceed gross salary — TDSonSalaries.TotalTDSonSalaries vs IncomeDeductions.GrossSalary */
+  var tds1 = N(RG(I,"TDSonSalaries.TotalTDSonSalaries",0));
+  A(2, !I.TDSonSalaries || tds1===0 || tds1 <= N(RG(I,"IncomeDeductions.GrossSalary",0))+1,
+    "Schedule TDS1: the tax deducted on salary cannot be more than the gross salary reported in Part B.");
+
+  /* 4: Aadhaar quoting u/s 139AA — PersonalInfo.AadhaarCardNo (70_sec_inccore.js:744), 12 digits, for an
+        individual; exempt: residents of Assam (04), J&K (14), Meghalaya (21) and persons aged 80+ in the PY
+        (Notification 37/2017); an Aadhaar enrolment ID (28 digits), if ever written, also satisfies it. */
+  var aadh = str(PI.AadhaarCardNo), enrol = str(RG(I,"PersonalInfo.AadhaarEnrolmentId",""));
+  var dob  = str(PI.DOB);
+  var aadhExempt = ["04","14","21"].indexOf(str(ADR.StateCode))>=0 || (!!dob && dob < "1946-04-01");
+  A(4, !str(PI.PAN) || status!=="I" || aadhExempt || /^\d{12}$/.test(aadh) || /^\d{28}$/.test(enrol),
+    "Aadhaar number (12 digits) is mandatory for an individual u/s 139AA (Circular 03/2023); it must also be linked to the PAN.");
+
+  /* 6 / 7: special-rate TDS section codes at col 2a — income taxed at special rates is not returnable in ITR-4.
+     Short codes per TDSSEC_P4 (70_sec_paidbank.js:56-115): 194B = 94B / 94B-P, 194BB = 4BB, 194BA = 94BA / 94BA-P,
+     194IA = 4IA (schema code; "4-IA" is 194I(a) rent and is not listed), 194IC = 4IC, 194LA = 4LA,
+     194S = 94S / 94S-P, and for TDS2(ii) additionally 194R = 94R / 94R-P. */
+  var SPEC2 = {"94B":1,"94B-P":1,"4BB":1,"94BA":1,"94BA-P":1,"4IA":1,"4IC":1,"4LA":1,"94S":1,"94S-P":1};
+  var SPEC3 = {"94B":1,"94B-P":1,"4BB":1,"94BA":1,"94BA-P":1,"4IA":1,"4IC":1,"4LA":1,"94R":1,"94R-P":1,"94S":1,"94S-P":1};
+  var firstHit = function(rows,set){ rows=rows||[]; for(var i=0;i<rows.length;i++){ if(rows[i] && set[str(rows[i].TDSSection)]) return i; } return -1; };
+  var t2 = RG(I,"TDSonOthThanSals.TDSonOthThanSalDtls",[])||[], h2 = firstHit(t2,SPEC2);
+  A(6, !I.TDSonOthThanSals || h2<0,
+    "Schedule TDS2(i) row "+(h2+1)+": section "+(h2<0?"":str(t2[h2].TDSSection))+" at col 2a (194B/194BB/194BA/194IA/194IC/194LA/194S) implies income chargeable at a special rate; the assessee is not eligible to file ITR-4.");
+  var t3 = RG(I,"ScheduleTDS3Dtls.TDS3Details",[])||[], h3 = firstHit(t3,SPEC3);
+  A(7, !I.ScheduleTDS3Dtls || h3<0,
+    "Schedule TDS2(ii) row "+(h3+1)+": section "+(h3<0?"":str(t3[h3].TDSSection))+" at col 2a (194B/194BB/194BA/194IA/194IC/194LA/194R/194S) implies income chargeable at a special rate; the assessee is not eligible to file ITR-4.");
+});
+
+/* ITR-4 · AY 2026-27 — validation-rule FIX batch 07 (enforcement gaps/weak fixes).
+   Registered via ruleset(); A(n,cond,msg) fires when cond is FALSE. Reads guarded; nothing throws.
+   Serials 8 and 9 (Category B, GAP): TDS section codes that belong to non-residents / FIIs /
+   business-trust-NR payees (194E, 194LB, 194LC, 194LBA(a)/(b)/(c), 195, 196A, 196B, 196C, 196D,
+   196D(1A)) make the assessee ineligible for ITR-4 when selected at col 2a of TDS2(i) or TDS2(ii).
+   Short codes are the TDSSection enum written by 70_sec_paidbank.js (TDSSEC_P4). */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  /* TDSSection short codes (70_sec_paidbank.js) for the sections the rule names */
+  var NR_CODES={
+    "94E":1,                                   /* 194E   */
+    "4LB":1,                                   /* 194LB  */
+    "4LC1":1,"4LC2":1,"4LC3":1,                /* 194LC (2)(i)/(ia), (ib), (ic) */
+    "4BA1":1,"4BA2":1,                         /* 194LBA(a), 194LBA(b) — resident labels */
+    "LBA1":1,"LBA2":1,"LBA3":1,                /* 194LBA(a), 194LBA(b), 194LBA(c) — NR labels */
+    "195":1,                                   /* 195    */
+    "96A":1,"96B":1,"96C":1,"96D":1,"96DA":1   /* 196A, 196B, 196C, 196D, 196D(1A) */
+  };
+  var secOf=function(r){ return String(((r||{}).TDSSection)==null?"":(r||{}).TDSSection).trim(); };
+  var badRow=function(rows){
+    rows=rows||[]; var hit=-1;
+    for(var i=0;i<rows.length;i++){ if(rows[i]&&NR_CODES[secOf(rows[i])]){ hit=i; break; } }
+    return hit;
+  };
+
+  /* 8: TDS2(i) — TDSonOthThanSals.TDSonOthThanSalDtls[].TDSSection */
+  var t2=RG(I,"TDSonOthThanSals.TDSonOthThanSalDtls",[])||[];
+  var b2=badRow(t2);
+  A(8, !I.TDSonOthThanSals || b2<0,
+    "Schedule TDS2(i) row "+(b2+1)+": section "+(b2<0?"":secOf(t2[b2]))+" (194E/194LB/194LC/194LBA/195/196A-196D/196D(1A)) at col 2a is a non-resident TDS section; the assessee is not eligible to file ITR-4.");
+
+  /* 9: TDS2(ii) — ScheduleTDS3Dtls.TDS3Details[].TDSSection */
+  var t3=RG(I,"ScheduleTDS3Dtls.TDS3Details",[])||[];
+  var b3=badRow(t3);
+  A(9, !I.ScheduleTDS3Dtls || b3<0,
+    "Schedule TDS2(ii) row "+(b3+1)+": section "+(b3<0?"":secOf(t3[b3]))+" (194E/194LB/194LC/194LBA/195/196A-196D/196D(1A)) at col 2a is a non-resident TDS section; the assessee is not eligible to file ITR-4.");
+});
+
 /* =====================================================================
    ITR-4 (Sugam) · AY 2026-27 — Category-A validation rules, batch g0
    (Phase 6, rules-enforcer). Registered via ruleset(fn); runRules()

@@ -1,0 +1,182 @@
+[
+ {
+  "n": 264,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "For assessee Firm (other than LLP), any field in A23 has any value \"Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2026-",
+  "clean": "",
+  "finding": "Firm A23 (115BAC) not greyed/N-A; carries a value"
+ },
+ {
+  "n": 267,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Total income excluding LTCG u/s112A shall not be more than Rs. 50 Lakhs",
+  "clean": "",
+  "finding": "Total-income-excl-LTCG112A <= 50L eligibility ceiling not enforced (UI hint only)"
+ },
+ {
+  "n": 270,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted.",
+  "clean": "",
+  "finding": "no check that 24(b) limit is exhausted before 80EE/80EEA"
+ },
+ {
+  "n": 271,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EE should be part of the details",
+  "clean": "",
+  "finding": "80EE bank details not cross-checked against 24(b)"
+ },
+ {
+  "n": 272,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:150",
+  "text": "disclosed in schedule 24(b) As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EEA should be part of the details",
+  "clean": "",
+  "finding": "A(272) checks 80EEA row presence only, not the 24(b) cross-schedule match"
+ },
+ {
+  "n": 273,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "disclosed in schedule 24(b) Details such as nature of payment, Amount eligible for deduction u/s 80C, Policy no. or Document Identification Number of supporting document are required to provide in",
+  "clean": "",
+  "finding": "80C nature/id detail not validated; exporter defaults id to NA"
+ },
+ {
+  "n": 279,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22",
+  "clean": "",
+  "finding": "80EEA loan date range 1.4.19-31.3.22 not validated; blank defaults to 2025-04-01"
+ },
+ {
+  "n": 282,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Details of Form 10BA are required to provide to claim deduction u/s 80GG",
+  "clean": "",
+  "finding": "80GG Form 10BA ack not enforced"
+ },
+ {
+  "n": 287,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "sl.no.2b Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD, respectively.",
+  "clean": "",
+  "finding": "Form 10-IA for 80U/80DD not enforced (UI note only)"
+ },
+ {
+  "n": 288,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Details of specified decrease are required to be provided to claim deduction u/s 80DDB",
+  "clean": "",
+  "finding": "80DDB specified-disease detail not enforced"
+ },
+ {
+  "n": 301,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "The Date of sanction of loan In schedule 80EE shall be between 1.4.16 and 31.3.17",
+  "clean": "",
+  "finding": "No 80EE loan-sanction date-range (1.4.16-31.3.17) check; date defaults on export"
+ },
+ {
+  "n": 303,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:204-213",
+  "text": "Assessee having status as Firm is not eligible to fill any schedule out of 80C Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule, 80EEB Schedule or 10(13A) schedules",
+  "clean": "",
+  "finding": "Firm block partial: 80E and 80EEB not zeroed for Firm; no A(303)"
+ },
+ {
+  "n": 305,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:124",
+  "text": "claiming respective deduction Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule,",
+  "clean": "",
+  "finding": "Omits Schedule80EEB and 10(13A) from the checked schedule list; no status guard"
+ },
+ {
+  "n": 306,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:444",
+  "text": "80EEB schedule or 10(13A) Details such as name of the Insurer, Policy number, are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)",
+  "clean": "",
+  "finding": "80D 1a(i) insurer/policy not enforced; export defaults NA"
+ },
+ {
+  "n": 307,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:444",
+  "text": "Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1b (i)",
+  "clean": "",
+  "finding": "80D 1b(i) insurer/policy not enforced; export defaults NA"
+ },
+ {
+  "n": 308,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:444",
+  "text": "Details such as name of the Insurer, Policy number, and Receipt/document number of the premium paid are required to be provided in schedule 80D to claim deduction for health",
+  "clean": "",
+  "finding": "80D 2a(i) insurer/policy default NA and receipt/document-no field not captured"
+ },
+ {
+  "n": 309,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:444",
+  "text": "insurance at sl. No. 2a (i) Details such as name of the Insurer, Policy number, are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2b (i)",
+  "clean": "",
+  "finding": "80D 2b(i) insurer/policy not enforced; export defaults NA"
+ },
+ {
+  "n": 315,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Schedule 10(13A) needs to be filled for claiming exempt allowance u/s 10(13A)",
+  "clean": "",
+  "finding": "Salary 10(13A) allowance not tied to ScheduleEA10_13A presence"
+ },
+ {
+  "n": 316,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Sum of Basic salary, dearness allowance as per schedule 10(13A) and actual HRA received shall not be more than salary as per section 17(1) under Income details",
+  "clean": "",
+  "finding": "basic+DA+HRA received <= salary 17(1) not checked"
+ },
+ {
+  "n": 318,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "shell/shell.js:75",
+  "text": "Pensioners\" Firm or HUF having date of formation on or after 01/04/2026 shall not be allowed to file return for AY 26-27",
+  "clean": "",
+  "finding": "Firm/HUF formation on/after 01/04/2026 not blocked; dte has no date bound"
+ }
+]

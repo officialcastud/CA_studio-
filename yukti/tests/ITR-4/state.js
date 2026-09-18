@@ -20,7 +20,7 @@ S.pi = {
   status:"I", res:"RES", resName:"Brigade Gardens", road:"3rd Cross, Richmond Town",
   locality:"Richmond Town", city:"Bengaluru", state:"15", pin:"560025", country:"91",
   first:"S", mid:"", last:"SUDHIR", pan:"TVOPS4373C", aadhaar:"734519826041",
-  dob:"05/11/2006", empcat:"OTH",
+  dob:"05/11/2006", empcat:"CGOV",
   mobile:"9845012345", mobcc:"91", std:"080", phone:"25551234",
   email:"s.sudhir.test@example.in", emailSec:"sudhir.alt@example.in",
   secAdd:"Y"

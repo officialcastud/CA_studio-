@@ -1,0 +1,182 @@
+[
+ {
+  "n": 383,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(25A) any income under Employees' State Insurance Fund\" drops down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(25A) ESI"
+ },
+ {
+  "n": 384,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(30) subsidy received from or through the Tea Board\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(30) Tea Board"
+ },
+ {
+  "n": 386,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Minor child\u2019s income\u2014small exemption\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(32) minor-child small exemption"
+ },
+ {
+  "n": 387,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(35) Income from specified Mutual Funds\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(35) Mutual Funds"
+ },
+ {
+  "n": 389,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income. \"Sec 10(43) Reverse mortgage\u2014payments to senior citizens\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(43) reverse mortgage"
+ },
+ {
+  "n": 390,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(44) NPS Trust"
+ },
+ {
+  "n": 392,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs.",
+  "clean": "",
+  "finding": "234-I fee (fee234i) free input; not tied to \u20b91000/139(5)/<=5L/date"
+ },
+ {
+  "n": 394,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "then AY selected in A23(A)(ii)(a) shall not be same as AY 2024-25 or prior to AY2024-25 but can be any AY greater than AY 2024-25 IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number,\u201d in Schedule 80G is mandatory in case of",
+  "clean": "",
+  "finding": "80G ref/ifsc not req:1 for non-cash donations; only advisory note"
+ },
+ {
+  "n": 397,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "of donation shall not exceed minimum of: Rs. 2000 or claimed whichever is lower Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs.",
+  "clean": "",
+  "finding": "234-I fee \u20b95000 case (income>5L) not validated; free input"
+ },
+ {
+  "n": 399,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule 80G either cash donation or donation in other mode shall be entered under any row; both can\u2019t be entered.",
+  "clean": "",
+  "finding": "No check preventing both cash and other-mode in one 80G row"
+ },
+ {
+  "n": 402,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "70_sec_ded.js:589",
+  "text": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or",
+  "clean": "",
+  "finding": "PRAN enforced only for 80CCD(1B), not 80CCD(1)"
+ },
+ {
+  "n": 403,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:233",
+  "text": "80CCD(1B) In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of",
+  "clean": "",
+  "finding": "omits taxpayer secondary contact no (Phone.PhoneNo)"
+ },
+ {
+  "n": 404,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:611",
+  "text": "taxpayer. In case of property is not Co-owned the assessee's share should be equal to 100%",
+  "clean": "",
+  "finding": "no check forcing 100% share when not co-owned"
+ },
+ {
+  "n": 405,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:144",
+  "text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%",
+  "clean": "",
+  "finding": "dead: guard uses \"Y\" but enum value is \"YES\", never fires"
+ },
+ {
+  "n": 409,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:328",
+  "text": "receivable/ lettable during the year If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row",
+  "clean": "",
+  "finding": "no min-row check when 80CCC>0 (identifier table optional)"
+ },
+ {
+  "n": 411,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:380",
+  "text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information",
+  "clean": "",
+  "finding": "no check that alt address differs from primary when secAdd=N"
+ },
+ {
+  "n": 2,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "presumptive income under 44AD, 44ADA & 44AE TDS deducted value in schedule TDS 1 CANNOT BE MORE THAN value in",
+  "clean": "",
+  "finding": "TDS1 deducted vs gross salary never compared; only row-sum A(118) exists"
+ },
+ {
+  "n": 4,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "and Aadhar in eligible cases as per Circular 03/2023 Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking",
+  "clean": "",
+  "finding": "Aadhaar quoting (139AA) captured but never required; linking half portal-side"
+ },
+ {
+  "n": 6,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "further TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA,or 194S as is selected under Schedule \"TDS2(i) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\"",
+  "clean": "",
+  "finding": "Special-rate TDS codes selectable in TDS2(i) with no eligibility warning"
+ },
+ {
+  "n": 7,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "or Assessee having income under special rate is not eligible to file ITR-4. TDS section code such 194B, 194BB, 194BA, 194IA,194IC,194LA,194R, or 194S as is selected under Schedule \"TDS2(ii) Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" or Assessee having income under special rate is not eligible to file ITR-4.",
+  "clean": "",
+  "finding": "Special-rate TDS codes (incl 194R) in TDS2(ii) with no eligibility warning"
+ }
+]

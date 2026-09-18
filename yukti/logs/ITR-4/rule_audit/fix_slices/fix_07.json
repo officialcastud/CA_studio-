@@ -1,0 +1,20 @@
+[
+ {
+  "n": 8,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA\u00a9,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS2(i) Details of Tax Deducted at",
+  "clean": "",
+  "finding": "194E/LB/LC/195/196x codes in TDS2(i) selectable, no defect warning"
+ },
+ {
+  "n": 9,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA\u00a9,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS2(ii) Details of Tax Deducted at",
+  "clean": "",
+  "finding": "194E/LB/LC/195/196x codes in TDS2(ii) selectable, no defect warning"
+ }
+]
