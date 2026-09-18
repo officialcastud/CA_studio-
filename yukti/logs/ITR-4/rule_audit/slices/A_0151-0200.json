@@ -1,0 +1,270 @@
+[
+{
+"n": 151,
+"cat": "A",
+"text": "House rent allowance (HRA u/s.10(13A)) is claimed, hence deduction u/s.80GG above Rs 55,000 not allowed"
+},
+{
+"n": 152,
+"cat": "A",
+"text": "If Old Tax Regime is selected, the maximum deduction allowed under section 80TTA is Rs.10,000/-."
+},
+{
+"n": 153,
+"cat": "A",
+"text": "If Old Tax Regime is selected, the maximum deduction allowed under section 80TTB is Rs.50,000/-."
+},
+{
+"n": 154,
+"cat": "A",
+"text": "If Old Tax Regime is selected and In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied\u201d, then assessee cannot claim interest on borrowed capital",
+"clean": "If Old Tax Regime is selected and In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied\u201d, then assessee cannot claim interest on borrowed capital more than Rs 2,00,000, If Old Tax Regime is selected and In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied\u201d, then assessee cannot claim interest on borrowed capital more than Rs 2,00,000,"
+},
+{
+"n": 155,
+"cat": "A",
+"text": "more than Rs 2,00,000, If Old Tax Regime is selected, then in case employer category is other than CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or \"not applicable\"",
+"clean": "If Old Tax Regime is selected, then in case employer category is other than CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or \"not applicable\" then the Maximum amount that can be claimed for u/s 80CCD (1) is 10% of Salary"
+},
+{
+"n": 156,
+"cat": "A",
+"text": "then the Maximum amount that can be claimed for u/s 80CCD (1) is 10% of Salary If Old Tax Regime is selected, and Assessee is claiming deduction u/s 80EEA more than the maximum limit of Rs 150000/-"
+},
+{
+"n": 157,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Deductions claimed under section 80EEA is greater than \u201cZero\" and Deductions claimed under section 80EE is greater than \u201cZero\""
+},
+{
+"n": 158,
+"cat": "A",
+"text": "If Old Tax Regime is selected, and Assessee claiming deduction u/s 80EEB more than the maximum limit of Rs 150000/-"
+},
+{
+"n": 159,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000"
+},
+{
+"n": 160,
+"cat": "A",
+"text": "In Income details, allowance to extent exempt u/s 10 should be equal to sum of individual values entered."
+},
+{
+"n": 161,
+"cat": "A",
+"text": "Deduction u/s 80CCD (2) cannot be claimed by the taxpayer who has selected employer category as CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or",
+"clean": "Deduction u/s 80CCD (2) cannot be claimed by the taxpayer who has selected employer category as CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or \"not applicable\" Deduction u/s 80CCD (2) cannot be claimed by the taxpayer who has selected employer category as CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or \"not applicable\""
+},
+{
+"n": 162,
+"cat": "A",
+"text": "\"not applicable\" Relief u/s 89 cannot be claimed by taxpayer if details of salary and family pension are \"zero\"/ \"blank\""
+},
+{
+"n": 163,
+"cat": "A",
+"text": "Deduction u/s 80EEA is claimed by HUF or Firm (other than LLP)"
+},
+{
+"n": 164,
+"cat": "A",
+"text": "Deduction u/s 80EEB is claimed by HUF or Firm (other than LLP)"
+},
+{
+"n": 165,
+"cat": "A",
+"text": "Assessee is \"HUF\" or Firm (other than LLP) and amount in schedule TDS 1 is more than zero",
+"clean": "165 Assessee is \"HUF\" or Firm (other than LLP) and amount in schedule TDS 1 is more than zero"
+},
+{
+"n": 166,
+"cat": "A",
+"text": "Assessee is \"HUF\" or Firm (other than LLP) and amount in details of salary is more than zero"
+},
+{
+"n": 167,
+"cat": "A",
+"text": "If the original return is filed under section 142(1) then taxpayer cannot file revised return"
+},
+{
+"n": 168,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a \"Self and Family\" will be allowed to the extent of Rs. 25000",
+"clean": "168 If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a \"Self and Family\" will be allowed to the extent of Rs. 25000"
+},
+{
+"n": 169,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii)",
+"clean": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii) Note: This validation is to be checked if value of (i+ii) of Sl. No. 1a is less than Rs.25000"
+},
+{
+"n": 170,
+"cat": "A",
+"text": "Note: This validation is to be checked if value of (i+ii) of Sl. No. 1a is less than Rs.25000 If Old Tax Regime is selected, then In Schedule 80D, the amount of preventive health checkup of all the fields combined should not exceed Rs. 5000"
+},
+{
+"n": 171,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b Self and Family (Senior Citizen) will be allowed to the extent of Rs.50000"
+},
+{
+"n": 172,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii)",
+"clean": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii) Note: This validation to be checked if value of (i+ii+iii) of Sl. No. 1b is less than Rs.50000"
+},
+{
+"n": 173,
+"cat": "A",
+"text": "Note: This validation to be checked if value of (i+ii+iii) of Sl. No. 1b is less than Rs.50000 If Old Tax Regime is selected, In Schedule 80D, Deduction at Sl. No. 2a Parents will be allowed to the extent of Rs. 25000"
+},
+{
+"n": 174,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) Note: This validation is to be checked if value of (i+ii) of Sl.",
+"clean": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) Note: This validation is to be checked if value of (i+ii) of Sl. No. 2a is less than RS.25000 If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) Note: This validation is to be checked if value of (i+ii) of Sl. No. 2a is less than RS.25000"
+},
+{
+"n": 175,
+"cat": "A",
+"text": "No. 2a is less than RS.25000 If Old Tax Regime is selected, In Schedule 80D, Deduction at Sl. No. 2b Parents (Senior Citizen) will be allowed to the extent of Rs.50000"
+},
+{
+"n": 176,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii) Note: This validation is to be checked if value of",
+"clean": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii) Note: This validation is to be checked if value of (i+ii+iii) of Sl. No. 2b is less than Rs.50000 If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii) Note: This validation is to be checked if value of (i+ii+iii) of Sl. No. 2b is less than Rs.50000"
+},
+{
+"n": 177,
+"cat": "A",
+"text": "(i+ii+iii) of Sl. No. 2b is less than Rs.50000 If Old Tax Regime is selected, In Schedule 80D, Sl. No. 3 Eligible amount of deduction will be allowed to the extent of Rs.100000"
+},
+{
+"n": 178,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b) subject to GTI Note: This validation to be checked, if value of Sl. No. (1a+1b+2a+2b) is less than or equal to",
+"clean": "If Old Tax Regime is selected, then In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b) subject to GTI Note: This validation to be checked, if value of Sl. No. (1a+1b+2a+2b) is less than or equal to Rs.100000"
+},
+{
+"n": 179,
+"cat": "A",
+"text": "Rs.100000 If Old Tax Regime is selected, and Deduction u/s 80D is claimed but details not provided in Schedule 80D"
+},
+{
+"n": 180,
+"cat": "A",
+"text": "Income from Family Pension cannot be claimed by \"Firm (Other than LLP)\" and \"HUF\""
+},
+{
+"n": 181,
+"cat": "A",
+"text": "If exempt allowance is claimed u/s. 10(10AA) above Rs. 25 Lakh for employer category other \"Central and state government, CG-Pensioners or SG-Pensioner\"",
+"clean": "181 If exempt allowance is claimed u/s. 10(10AA) above Rs. 25 Lakh for employer category other \"Central and state government, CG-Pensioners or SG-Pensioner\""
+},
+{
+"n": 182,
+"cat": "A",
+"text": "If Old Tax Regime is selected, The fixed amount of Rs. 125,000 can be claimed u/s 80U for category \"Self-severe with disability\""
+},
+{
+"n": 183,
+"cat": "A",
+"text": "If New Tax regime is selected, then Part C \u2013 Deductions and Taxable Total Income, all the deductions should not be more than \"0\" other than 80CCD (2) and 80CCH"
+},
+{
+"n": 184,
+"cat": "A",
+"text": "If New Tax regime is selected, Then Exempt allowances under Sec 10(5)-Leave Travel concession/assistance Sec 10(13A)-Allowance to meet expenditure incurred on house rent Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living should not be more than \"0\"",
+"clean": "If New Tax regime is selected, Then Exempt allowances under Sec 10(5)-Leave Travel concession/assistance Sec 10(13A)-Allowance to meet expenditure incurred on house rent Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living should not be more than \"0\" If New Tax regime is selected, Then Exempt allowances under Sec 10(5)-Leave Travel concession/assistance Sec 10(13A)-Allowance to meet expenditure incurred on house rent Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living should not be more than \"0\""
+},
+{
+"n": 185,
+"cat": "A",
+"text": "In income details, total of Dividend income should be equal to sum of \u201cQuarterly breakup of Dividend Income\""
+},
+{
+"n": 186,
+"cat": "A",
+"text": "Exempt allowance under Section 10(14)(ii) - \u201cTransport allowance granted to certain physically handicapped assessee\" should not exceed Rs 38,400"
+},
+{
+"n": 187,
+"cat": "A",
+"text": "If Old Tax Regime is selected, Then Exempt allowances under Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB",
+"clean": "If Old Tax Regime is selected, Then Exempt allowances under Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee should not be more than \"0\""
+},
+{
+"n": 188,
+"cat": "A",
+"text": "Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee should not be more than \"0\" Once a proceeding is initiated u/s148, the original return filed u/s 139 cannot be revised"
+},
+{
+"n": 189,
+"cat": "A",
+"text": "If New Tax Regime is selected, then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than zero.",
+"clean": "189 If New Tax Regime is selected, then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than zero."
+},
+{
+"n": 190,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80G cannot be claimed and details should not be provided in schedule 80G"
+},
+{
+"n": 191,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80GG cannot be claimed and details should not be provided in schedule 80GG"
+},
+{
+"n": 192,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80TTA should not be more than zero."
+},
+{
+"n": 193,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80TTB should not be more than zero."
+},
+{
+"n": 194,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80U should not be more than zero."
+},
+{
+"n": 195,
+"cat": "A",
+"text": "If New Tax Regime is selected, then Professional tax u/s 16(iii) should not be more than zero.",
+"clean": "195 If New Tax Regime is selected, then Professional tax u/s 16(iii) should not be more than zero."
+},
+{
+"n": 196,
+"cat": "A",
+"text": "If new tax regime is selected, then Gross Total Income should be equal to the Total of Incomes from Business & profession, Salary, House Property, & Other Sources & LTCG",
+"clean": "If new tax regime is selected, then Gross Total Income should be equal to the Total of Incomes from Business & profession, Salary, House Property, & Other Sources & LTCG u/s 112A. If new tax regime is selected, then Gross Total Income should be equal to the Total of Incomes from Business & profession, Salary, House Property, & Other Sources & LTCG u/s 112A."
+},
+{
+"n": 197,
+"cat": "A",
+"text": "u/s 112A. If new tax regime is selected and Income from one House Property is negative, then Gross Total Income should be equal to the Total of Incomes from Business & profession,",
+"clean": "If new tax regime is selected and Income from one House Property is negative, then Gross Total Income should be equal to the Total of Incomes from Business & profession, Salary & Other Sources, LTCG u/s 112A."
+},
+{
+"n": 198,
+"cat": "A",
+"text": "Salary & Other Sources, LTCG u/s 112A. If New tax regime is selected, then Sec 10(5)-Leave Travel concession/assistance received should not be more than zero."
+},
+{
+"n": 199,
+"cat": "A",
+"text": "If New tax regime is selected, then Sec 10(13A)-Allowance to meet expenditure incurred on house rent should not be more than zero."
+},
+{
+"n": 200,
+"cat": "A",
+"text": "If New tax regime is selected, then Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or",
+"clean": "If New tax regime is selected, then Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment should not be more than zero. If New tax regime is selected, then Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment should not be more than zero."
+}
+]

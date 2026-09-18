@@ -1,0 +1,269 @@
+{
+ "coded": [
+  1,
+  7,
+  13,
+  16,
+  19,
+  28,
+  31,
+  34,
+  37,
+  40,
+  43,
+  46,
+  49,
+  52,
+  55,
+  58,
+  61,
+  64,
+  67,
+  70,
+  73,
+  76,
+  79,
+  82,
+  85,
+  88,
+  91,
+  94,
+  97,
+  103,
+  106,
+  112,
+  118,
+  124,
+  127,
+  130,
+  136,
+  145,
+  148,
+  154,
+  157,
+  160,
+  163,
+  166,
+  181,
+  184,
+  190,
+  193,
+  196,
+  199,
+  202,
+  205,
+  208,
+  211,
+  214,
+  217,
+  220,
+  223,
+  226,
+  229,
+  232,
+  238,
+  241,
+  244,
+  250,
+  256,
+  262,
+  283,
+  286,
+  289,
+  298,
+  304,
+  310,
+  313,
+  322,
+  325,
+  328,
+  331,
+  334,
+  337,
+  340,
+  343,
+  346,
+  349,
+  352,
+  367,
+  370,
+  373,
+  376,
+  382,
+  385,
+  388,
+  391,
+  405,
+  408
+ ],
+ "excluded": [
+  {
+   "n": 4,
+   "reason": "E25 TotalAssets sums asset lines (FixedAssets/Investments/LoansAndAdvances/OtherAssets) that the ITR-4 build does not export; cannot reconstruct the total from exported keys."
+  },
+  {
+   "n": 10,
+   "reason": "Requires the excluded-business-code database (commission agents / 44AA(1) professionals) \u2014 not checkable offline."
+  },
+  {
+   "n": 22,
+   "reason": "Rule text truncated/ambiguous (80CCD(1) for pensioner employer categories); no clear assertion."
+  },
+  {
+   "n": 25,
+   "reason": "Needs the salary base (basic+DA) to cap 80CCD(2) at 10%; ITR-4 SUGAM has no such breakup exported."
+  },
+  {
+   "n": 100,
+   "reason": "80G table(B) cash/other-mode mandatory \u2014 the build may emit an amount-only donation row, so the assertion would false-fire on our own valid output."
+  },
+  {
+   "n": 109,
+   "reason": "Same-PAN-once / cash>Rs.2000 eligibility needs cross-row PAN uniqueness and cash rules \u2014 not cleanly checkable / DB-like."
+  },
+  {
+   "n": 115,
+   "reason": "Unclaimed b/f vs current-FY TDS in different rows \u2014 structural, not derivable from exported schema."
+  },
+  {
+   "n": 121,
+   "reason": "TDS2(i) corresponding GrossAmount/HeadOfIncome are optional exports; presence check would false-fire."
+  },
+  {
+   "n": 133,
+   "reason": "Advance tax = sum of Schedule IT challans dated in the PY \u2014 needs per-challan date filtering not exposed as a schema key."
+  },
+  {
+   "n": 139,
+   "reason": "Financial particulars mandatory when turnover present \u2014 those fields are optional in the ITR-4 build, so the assertion would false-fire."
+  },
+  {
+   "n": 142,
+   "reason": "TDS credit vs corresponding-receipt-offered cross-check \u2014 needs income/TDS correlation not encodable offline."
+  },
+  {
+   "n": 151,
+   "reason": "Ambiguous/overlapping with rule 37 (HRA-vs-80GG interaction, Rs.55,000 figure unclear)."
+  },
+  {
+   "n": 169,
+   "reason": "80D Sl.1a = i+ii breakup \u2014 the exported figure is capped (SelfAndFamily=min(cap,...)); raw sub-line keys not available."
+  },
+  {
+   "n": 172,
+   "reason": "80D Sl.1b = i+ii+iii breakup \u2014 capped exported figure, sub-lines not mappable to schema keys."
+  },
+  {
+   "n": 175,
+   "reason": "80D Sl.2b senior-parents cap \u2014 the internal sub-line/cap structure is not exposed as distinct schema keys."
+  },
+  {
+   "n": 178,
+   "reason": "80D Sl.3 = 1a+1b+2a+2b subject to GTI \u2014 the capped EligibleAmountOfDedn is not a plain sum of exported keys."
+  },
+  {
+   "n": 187,
+   "reason": "Rule text truncated (old-regime 10(14)(i) Rule 2BB allowances); no clear assertion."
+  },
+  {
+   "n": 235,
+   "reason": "Firm-only regime default (not applicable) \u2014 not applicable to a resident individual return."
+  },
+  {
+   "n": 247,
+   "reason": "80GGC other-mode donation details (ref/IFSC) are optional exports; presence check would false-fire."
+  },
+  {
+   "n": 253,
+   "reason": "80U Form 10-IA acknowledgement is only conditionally required and optionally exported; presence check would false-fire."
+  },
+  {
+   "n": 259,
+   "reason": "Valid mobile number \u2014 format/validity check, not an offline arithmetic/consistency rule."
+  },
+  {
+   "n": 265,
+   "reason": "Rule text truncated (Schedule EI LTCG 112A threshold); no clear assertion."
+  },
+  {
+   "n": 268,
+   "reason": "139(9) filing A23-response matching against the original return \u2014 needs external prior-return data."
+  },
+  {
+   "n": 271,
+   "reason": "80EE bank details auto-default to \"NA\" in the build, so a presence assertion is non-meaningful."
+  },
+  {
+   "n": 274,
+   "reason": "80E bank details auto-default to \"NA\"; presence assertion non-meaningful."
+  },
+  {
+   "n": 277,
+   "reason": "80EEA bank details auto-default to \"NA\"; presence assertion non-meaningful."
+  },
+  {
+   "n": 280,
+   "reason": "80EEB bank details auto-default to \"NA\"; presence assertion non-meaningful."
+  },
+  {
+   "n": 292,
+   "reason": "80EE allowed deduction is capped (min with limit) so it need not equal the schedule interest total \u2014 would false-fire."
+  },
+  {
+   "n": 295,
+   "reason": "Schedule 24(b) row-sum vs total \u2014 the build caps TotalInterestUs24B (self-occupied/new regime) below the row sum, so this would false-fire."
+  },
+  {
+   "n": 301,
+   "reason": "80EE loan-sanction date must be FY2016-17 but the build defaults DateofLoan to 2025-04-01, which would false-fire."
+  },
+  {
+   "n": 307,
+   "reason": "Insurer name/policy number auto-default to \"NA\" in the build; presence assertion non-meaningful."
+  },
+  {
+   "n": 316,
+   "reason": "Basic+DA+HRA <= salary(17(1)) is not a build-guaranteed identity; risk of false-fire on valid data."
+  },
+  {
+   "n": 319,
+   "reason": "Date-of-formation eligibility applies to entities, not a resident individual; not applicable."
+  },
+  {
+   "n": 355,
+   "reason": "Form 10-IEA re-entry A23(A)(ii) conditional presence \u2014 intricate regime-option logic, high false-fire risk."
+  },
+  {
+   "n": 358,
+   "reason": "Form 10-IEA A23(A)(ii)(b) conditional \u2014 intricate regime-option logic, not safely checkable."
+  },
+  {
+   "n": 361,
+   "reason": "Form 10-IEA A23(B)(i)/A23(B) conditional presence \u2014 intricate, not safely checkable."
+  },
+  {
+   "n": 364,
+   "reason": "A23(A) conditional presence on A(i)/A(ii) \u2014 intricate regime-option logic, not safely checkable."
+  },
+  {
+   "n": 379,
+   "reason": "\"Contributions received from recognized stock exchange\" has no matching SubCategory enum in the ITR-4 exempt-income list."
+  },
+  {
+   "n": 394,
+   "reason": "IFSC/transaction-reference mandatory in 80G plus AY comparison \u2014 format/DB and garbled text."
+  },
+  {
+   "n": 397,
+   "reason": "Rule text garbled (cash>Rs.2000 eligibility cap merged with 234-I fee); no clear single assertion."
+  },
+  {
+   "n": 402,
+   "reason": "PRAN mandatory to claim 80CCD(1)/(1B) \u2014 PRAN is an optional export, so a presence assertion would false-fire."
+  },
+  {
+   "n": 411,
+   "reason": "Secondary vs primary address equality check \u2014 needs full multi-field address comparison; alternate address only conditionally built."
+  }
+ ]
+}

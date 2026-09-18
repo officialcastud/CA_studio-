@@ -1,0 +1,182 @@
+[
+ {
+  "n": 167,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:399",
+  "text": "If the original return is filed under section 142(1) then taxpayer cannot file revised return",
+  "clean": "",
+  "finding": "revised return over 142(1) original not blocked; original section not captured"
+ },
+ {
+  "n": 186,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:131",
+  "text": "Exempt allowance under Section 10(14)(ii) - \u201cTransport allowance granted to certain physically handicapped assessee\" should not exceed Rs 38,400",
+  "clean": "",
+  "finding": "10(14)(ii) transport-handicapped 38400 cap not enforced (sub-type not distinguished)"
+ },
+ {
+  "n": 187,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:130",
+  "text": "If Old Tax Regime is selected, Then Exempt allowances under Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB",
+  "clean": "",
+  "finding": "old-regime 10(14)(i)(a-c)/handicapped sub-clause restriction not enforced (generic codes; text truncated)"
+ },
+ {
+  "n": 188,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:110",
+  "text": "Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee should not be more than \"0\" Once a proceeding is initiated u/s148, the original return filed u/s 139 cannot be revised",
+  "clean": "",
+  "finding": "148-proceeding revised-return bar not enforced (no filing-history capture)"
+ },
+ {
+  "n": 212,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "HUF is not eligible to claim presumptive income u/s 44ADA.",
+  "clean": "",
+  "finding": "HUF-not-eligible-44ADA not enforced; no status guard on 44ADA"
+ },
+ {
+  "n": 213,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule BP, Registration No. of goods carriage should not be repeated in section",
+  "clean": "",
+  "finding": "44AE goods-carriage reg no uniqueness not enforced (note only)"
+ },
+ {
+  "n": 215,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exempt allowance u/s 10(10CC) cannot be more than the TDS claimed u/s 192 in schedule TDS1",
+  "clean": "",
+  "finding": "10(10CC) not capped to TDS u/s 192 in TDS1 (only vs perquisites)"
+ },
+ {
+  "n": 222,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:115",
+  "text": "Any drop-down of nature of income cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Exempt-income no-duplicate only for 12 enumerated codes"
+ },
+ {
+  "n": 224,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "70_sec_ded.js:262",
+  "text": "PSU-Pensioners, and Others-Pensioners Deduction u/s 80CCH should not exceed 46.2% of Salary u/s 17(1) to the extent of Rs.2,88,000",
+  "clean": "",
+  "finding": "80CCH capped at 288000 only; 46.2%-of-salary ceiling missing"
+ },
+ {
+  "n": 225,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on date of joining of armed forces",
+  "clean": "",
+  "finding": "80CCH eligibility (CG, joining age 17-27) not enforced"
+ },
+ {
+  "n": 235,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:389",
+  "text": "Tax regimes are not applicable for Firm and by default \"not applicable\" shall be selected and all other fields of A23 should be greyed off for them.",
+  "clean": "",
+  "finding": "Regime not forced to N/A nor greyed for Firm"
+ },
+ {
+  "n": 238,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:45",
+  "text": "applicable If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are",
+  "clean": "",
+  "finding": "44ADA capped at 50L unconditionally; ignores cash<=5% to 75L"
+ },
+ {
+  "n": 247,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Details of Donation made in other mode are required in schedule 80GGC",
+  "clean": "",
+  "finding": "Other-mode 80GGC transaction details not required/checked"
+ },
+ {
+  "n": 249,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In schedule VIA, value at field \"Section 80U\" both user value and system value should be equal to value at slno. ii in schedule 80U",
+  "clean": "",
+  "finding": "VIA 80U user+system vs Schedule 80U not checked (80DD has it, 80U missing)"
+ },
+ {
+  "n": 252,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In schedule 80DD, if deduction is > 0, then details of Form 10IA of such donation are",
+  "clean": "",
+  "finding": "80DD Form 10-IA ack not enforced; exporter omits silently"
+ },
+ {
+  "n": 253,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "required In schedule 80U, if deduction is > 0, then details of Form 10IA of such donation are",
+  "clean": "",
+  "finding": "80U Form 10-IA ack not enforced; exporter omits silently"
+ },
+ {
+  "n": 254,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "required HUF can claim deductions u/s 80DD for dependent being \"Member of HUF\"",
+  "clean": "",
+  "finding": "Member-of-HUF dependent (code 8) not tied to status=H"
+ },
+ {
+  "n": 259,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Assessee should enter valid Mobile Number",
+  "clean": "",
+  "finding": "mobile required but no 10-digit/validity check"
+ },
+ {
+  "n": 261,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "70_sec_inccore.js:272",
+  "text": "In case of new tax regime, deduction u/s 57(iia) can be availed up to 1/3rd of Family pension maximum of Rs. 25,000",
+  "clean": "",
+  "finding": "new-regime 57(iia) hard-zeroed; rule allows up to Rs.25,000"
+ },
+ {
+  "n": 263,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:115",
+  "text": "Rs 75000. In case of new tax regime deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as PSU\u201d, \u201cOthers\", \"Central Govt\" or \"State Govt\"",
+  "clean": "",
+  "finding": "engine caps 80CCD(2) at 10% for PSU/Others in new regime (rule says 14%); A(263) uses GrossSalary"
+ }
+]

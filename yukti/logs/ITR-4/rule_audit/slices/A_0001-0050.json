@@ -1,0 +1,268 @@
+[
+{
+"n": 1,
+"cat": "A",
+"text": "Appropriate notices/ communications will be issued from CPC. Return data will be allowed to be uploaded but the taxpayer uploading the return will be informed of the possibility of some of the deduction or claim not to be allowed or entertained unless the return is accompanied by the respective claim forms or particulars. A: Publishing Document Income u/s 44AD, 44ADA, 44AE is disclosed in the Part B- Gross Total Income but \"schedule BP\" is not filled."
+},
+{
+"n": 2,
+"cat": "A",
+"text": "Business Income mentioned in Part B- Gross Total Income is not consistent with the amount mentioned in Schedule BP"
+},
+{
+"n": 3,
+"cat": "A",
+"text": "In \"Schedule BP\" in E17 of Total capital and liabilities should be equal to the value entered in (Partners/ members own capital+Secured loans+Unsecured loans+Advances+Sundry creditors+Other liabilities)",
+"clean": "In \"Schedule BP\" in E17 of Total capital and liabilities should be equal to the value entered in (Partners/ members own capital+Secured loans+Unsecured loans+Advances+Sundry creditors+Other liabilities) In \"Schedule BP\" in E17 of Total capital and liabilities should be equal to the value entered in (Partners/ members own capital+Secured loans+Unsecured loans+Advances+Sundry creditors+Other liabilities)"
+},
+{
+"n": 4,
+"cat": "A",
+"text": "In \"Schedule BP\" in E25 of Total assets should be equal to the value entered in (Fixed assets+Investments+Inventories +Sundry debtors+Balance with banks+Cash-in-",
+"clean": "In \"Schedule BP\" in E25 of Total assets should be equal to the value entered in (Fixed assets+Investments+Inventories +Sundry debtors+Balance with banks+Cash-in- hand+Loans and advances+Other Assets)"
+},
+{
+"n": 5,
+"cat": "A",
+"text": "hand+Loans and advances+Other Assets) Presumptive income u/s 44AD should be more than or equal to 6% of Gross Turnover or Gross Receipts received a/c payee cheque or a/c payee bank draft or bank electronic",
+"clean": "Presumptive income u/s 44AD should be more than or equal to 6% of Gross Turnover or Gross Receipts received a/c payee cheque or a/c payee bank draft or bank electronic clearing system or prescribed electronic modes received before specified date"
+},
+{
+"n": 6,
+"cat": "A",
+"text": "clearing system or prescribed electronic modes received before specified date Presumptive income u/s 44AD should be more than or equal to 8% of Gross Turnover or Gross Receipts received in any other mode other than through a/c payee cheque or a/c payee bank draft or bank electronic clearing system or prescribed electronic modes"
+},
+{
+"n": 7,
+"cat": "A",
+"text": "received before specified date Total; Presumptive income u/s 44AD should be the sum of 6% of Gross Turnover through Account payee check, & 8% of Gross turnover in any other mode"
+},
+{
+"n": 8,
+"cat": "A",
+"text": "Income U/S 44AD is more than Gross receipts or Gross turnover"
+},
+{
+"n": 9,
+"cat": "A",
+"text": "In return of income, the taxpayer has filed ITR-4 but the gross receipt/income U/S 44AD is more than Rs 3 crore",
+"clean": "9 In return of income, the taxpayer has filed ITR-4 but the gross receipt/income U/S 44AD is more than Rs 3 crore"
+},
+{
+"n": 10,
+"cat": "A",
+"text": "The provisions of 44AD are not applicable for General commission agents and persons carrying on professions as referred to in section 44AA (1)."
+},
+{
+"n": 11,
+"cat": "A",
+"text": "In schedule BP if income is declared u/s 44AD then it is mandatory to select \"Business code\" u/s 44AD."
+},
+{
+"n": 12,
+"cat": "A",
+"text": "In schedule BP if \"business code\" u/s 44AD is selected then it is mandatory to declare income u/s 44AD."
+},
+{
+"n": 13,
+"cat": "A",
+"text": "Income U/S 44ADA is more than corresponding gross receipts."
+},
+{
+"n": 14,
+"cat": "A",
+"text": "Presumptive Income u/s 44ADA is less than 50% of Gross Turnover or Gross Receipts."
+},
+{
+"n": 15,
+"cat": "A",
+"text": "The provisions of 44ADA are not applicable for persons carrying on business"
+},
+{
+"n": 16,
+"cat": "A",
+"text": "In schedule BP if income is declared u/s 44ADA then it is mandatory to select \"Business code\" u/s 44ADA.",
+"clean": "16 In schedule BP if income is declared u/s 44ADA then it is mandatory to select \"Business code\" u/s 44ADA."
+},
+{
+"n": 17,
+"cat": "A",
+"text": "In schedule BP if \"business code\" u/s 44ADA is selected then it is mandatory to declare income u/s 44ADA."
+},
+{
+"n": 18,
+"cat": "A",
+"text": "Total of chapter VI-A deductions is not consistent with the breakup of individual",
+"clean": "Total of chapter VI-A deductions is not consistent with the breakup of individual deductions."
+},
+{
+"n": 19,
+"cat": "A",
+"text": "deductions. Deductions claimed under Chapter VI-A are greater than \u201cGross Total Income\u201d"
+},
+{
+"n": 20,
+"cat": "A",
+"text": "Assessee being Firm and claiming deduction u/s 80C, 80CCC & 80CCD (1)"
+},
+{
+"n": 21,
+"cat": "A",
+"text": "If Old tax regime is selected then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than 1,50,000.",
+"clean": "21 If Old tax regime is selected then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than 1,50,000."
+},
+{
+"n": 22,
+"cat": "A",
+"text": "If Old tax regime is selected and employer category is CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners, or Not Applicable, then Deduction u/s 80CCD (1)",
+"clean": "If Old tax regime is selected and employer category is CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners, or Not Applicable, then Deduction u/s 80CCD (1) should not be more than 20% of Gross total Income If Old tax regime is selected and employer category is CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners, or Not Applicable, then Deduction u/s 80CCD (1) should not be more than 20% of Gross total Income"
+},
+{
+"n": 23,
+"cat": "A",
+"text": "should not be more than 20% of Gross total Income Assessee not being an individual has claimed deduction u/s 80CCD (1) which is not allowable."
+},
+{
+"n": 24,
+"cat": "A",
+"text": "Taxpayer other than individual and claiming deduction u/s 80CCD(1B)"
+},
+{
+"n": 25,
+"cat": "A",
+"text": "Deduction u/s 80CCD (2) should not be more than 10% of salary by an employer other than Central Government or \"State Govt\" in case of old tax regime.",
+"clean": "25 Deduction u/s 80CCD (2) should not be more than 10% of salary by an employer other than Central Government or \"State Govt\" in case of old tax regime."
+},
+{
+"n": 26,
+"cat": "A",
+"text": "Deduction u/s 80CCD (2) is claimed by HUF or Firm (other than LLP)"
+},
+{
+"n": 27,
+"cat": "A",
+"text": "Assessee being Firm (other than LLP) and claiming deduction u/s 80D"
+},
+{
+"n": 28,
+"cat": "A",
+"text": "Firm has claimed deduction u/s 80DD'"
+},
+{
+"n": 29,
+"cat": "A",
+"text": "If Old tax regime is selected and Assessee is claiming deduction under section 80DD then eligible category description shall be provided",
+"clean": "29 If Old tax regime is selected and Assessee is claiming deduction under section 80DD then eligible category description shall be provided"
+},
+{
+"n": 30,
+"cat": "A",
+"text": "If Old tax regime is selected and Assessee is claiming deduction under section 80DDB then eligible category description shall be provided"
+},
+{
+"n": 31,
+"cat": "A",
+"text": "Assessee being Firm and claiming deduction u/s 80DDB"
+},
+{
+"n": 32,
+"cat": "A",
+"text": "Deduction u/s 80EE is claimed by HUF or Firm (other than LLP)"
+},
+{
+"n": 33,
+"cat": "A",
+"text": "Deduction u/s 80EE is claimed by HUF or Firm (other than LLP)"
+},
+{
+"n": 34,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Deduction u/is 80G claimed but however details are not provided in Schedule 80G",
+"clean": "34 If Old Tax Regime is selected and Deduction u/is 80G claimed but however details are not provided in Schedule 80G"
+},
+{
+"n": 35,
+"cat": "A",
+"text": "If Old Tax Regime is selected and In Schedule 80G, Amount of deduction computed is more than the eligible amount"
+},
+{
+"n": 36,
+"cat": "A",
+"text": "If Old Tax Regime is selected and In Schedule VIA, deduction claimed u/s 80G is shall not be more than the eligible amount of donation mentioned in Schedule 80G"
+},
+{
+"n": 37,
+"cat": "A",
+"text": "If Old Tax Regime is selected, In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or",
+"clean": "If Old Tax Regime is selected, In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or 25% of total income excluding LTCG before allowing deduction of this expenditure If Old Tax Regime is selected, In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or 25% of total income excluding LTCG before allowing deduction of this expenditure"
+},
+{
+"n": 38,
+"cat": "A",
+"text": "25% of total income excluding LTCG before allowing deduction of this expenditure If Old Tax Regime is selected, Deduction u/s 80TTA should be restricted to interest income from a Savings Account under Income from other sources."
+},
+{
+"n": 39,
+"cat": "A",
+"text": "If Old Tax Regime is selected, Deduction under section 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966)"
+},
+{
+"n": 40,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Assessee not being a senior citizen cannot claim deduction under section 80TTB (date of birth is on or after 02.04.1966)"
+},
+{
+"n": 41,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Assessee being a senior citizen claiming deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources",
+"clean": "If Old Tax Regime is selected and Assessee being a senior citizen claiming deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources or maximum limit of Rs. 50,000, whichever is lower. If Old Tax Regime is selected and Assessee being a senior citizen claiming deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources or maximum limit of Rs. 50,000, whichever is lower."
+},
+{
+"n": 42,
+"cat": "A",
+"text": "or maximum limit of Rs. 50,000, whichever is lower. If Old Tax Regime is selected, then the fixed amount of Rs. 75,000 can be claimed u/s 80U for category \"Self with disability,"
+},
+{
+"n": 43,
+"cat": "A",
+"text": "Assessee being HUF/Firm and claiming deduction under section 80U."
+},
+{
+"n": 44,
+"cat": "A",
+"text": "If Old Tax Regime is selected and the assessee is claiming deduction under section 80U, however, the description has not been provided for eligible category.",
+"clean": "44 If Old Tax Regime is selected and the assessee is claiming deduction under section 80U, however, the description has not been provided for eligible category."
+},
+{
+"n": 45,
+"cat": "A",
+"text": "In Part A General \"Name of the representative, are mandatory if in Part- Verification capacity is selected as \"Representative\" from drop down"
+},
+{
+"n": 46,
+"cat": "A",
+"text": "Total income should be the difference between \"Gross total income\" and \"Total deductions\"",
+"clean": "Total income should be the difference between \"Gross total income\" and \"Total deductions\" Note: Gross total income shall include LTCG u/s 112A"
+},
+{
+"n": 47,
+"cat": "A",
+"text": "Note: Gross total income shall include LTCG u/s 112A In case of old tax regime deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as Central Government or State Govt"
+},
+{
+"n": 48,
+"cat": "A",
+"text": "The name as entered by you in the return does not match with the name as per the PAN date base"
+},
+{
+"n": 49,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Gross Total Income is not equal to the Total of Incomes from Business & profession, Salary, House Property & Other Sources & Long-",
+"clean": "If Old Tax Regime is selected and Gross Total Income is not equal to the Total of Incomes from Business & profession, Salary, House Property & Other Sources & Long- term capital gains as per sec 112A. If Old Tax Regime is selected and Gross Total Income is not equal to the Total of Incomes from Business & profession, Salary, House Property & Other Sources & Long- term capital gains as per sec 112A."
+},
+{
+"n": 50,
+"cat": "A",
+"text": "term capital gains as per sec 112A. Assessee being HUF or FIRM and claiming rebate u/s 87A"
+}
+]

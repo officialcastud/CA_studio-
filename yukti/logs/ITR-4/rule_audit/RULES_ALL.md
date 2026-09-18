@@ -1,0 +1,439 @@
+# ITR-4 — every validation rule (from books/ITR-4/rules.json, parsed from the CBDT PDF)
+
+Total 426 rules — A:411, B:13, D:2
+
+
+## Category A
+
+- **A1** — Appropriate notices/ communications will be issued from CPC. Return data will be allowed to be uploaded but the taxpayer uploading the return will be informed of the possibility of some of the deduction or claim not to be allowed or entertained unless the return is accompanied by the respective claim forms or particulars. A: Publishing Document Income u/s 44AD, 44ADA, 44AE is disclosed in the Part B- Gross Total Income but "schedule BP" is not filled.
+- **A2** — Business Income mentioned in Part B- Gross Total Income is not consistent with the amount mentioned in Schedule BP
+- **A3** — In "Schedule BP" in E17 of Total capital and liabilities should be equal to the value entered in (Partners/ members own capital+Secured loans+Unsecured loans+Advances+Sundry creditors+Other liabilities)
+- **A4** — In "Schedule BP" in E25 of Total assets should be equal to the value entered in (Fixed assets+Investments+Inventories +Sundry debtors+Balance with banks+Cash-in-
+- **A5** — hand+Loans and advances+Other Assets) Presumptive income u/s 44AD should be more than or equal to 6% of Gross Turnover or Gross Receipts received a/c payee cheque or a/c payee bank draft or bank electronic
+- **A6** — clearing system or prescribed electronic modes received before specified date Presumptive income u/s 44AD should be more than or equal to 8% of Gross Turnover or Gross Receipts received in any other mode other than through a/c payee cheque or a/c payee bank draft or bank electronic clearing system or prescribed electronic modes
+- **A7** — received before specified date Total; Presumptive income u/s 44AD should be the sum of 6% of Gross Turnover through Account payee check, & 8% of Gross turnover in any other mode
+- **A8** — Income U/S 44AD is more than Gross receipts or Gross turnover
+- **A9** — In return of income, the taxpayer has filed ITR-4 but the gross receipt/income U/S 44AD is more than Rs 3 crore
+- **A10** — The provisions of 44AD are not applicable for General commission agents and persons carrying on professions as referred to in section 44AA (1).
+- **A11** — In schedule BP if income is declared u/s 44AD then it is mandatory to select "Business code" u/s 44AD.
+- **A12** — In schedule BP if "business code" u/s 44AD is selected then it is mandatory to declare income u/s 44AD.
+- **A13** — Income U/S 44ADA is more than corresponding gross receipts.
+- **A14** — Presumptive Income u/s 44ADA is less than 50% of Gross Turnover or Gross Receipts.
+- **A15** — The provisions of 44ADA are not applicable for persons carrying on business
+- **A16** — In schedule BP if income is declared u/s 44ADA then it is mandatory to select "Business code" u/s 44ADA.
+- **A17** — In schedule BP if "business code" u/s 44ADA is selected then it is mandatory to declare income u/s 44ADA.
+- **A18** — Total of chapter VI-A deductions is not consistent with the breakup of individual
+- **A19** — deductions. Deductions claimed under Chapter VI-A are greater than “Gross Total Income”
+- **A20** — Assessee being Firm and claiming deduction u/s 80C, 80CCC & 80CCD (1)
+- **A21** — If Old tax regime is selected then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than 1,50,000.
+- **A22** — If Old tax regime is selected and employer category is CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners, or Not Applicable, then Deduction u/s 80CCD (1)
+- **A23** — should not be more than 20% of Gross total Income Assessee not being an individual has claimed deduction u/s 80CCD (1) which is not allowable.
+- **A24** — Taxpayer other than individual and claiming deduction u/s 80CCD(1B)
+- **A25** — Deduction u/s 80CCD (2) should not be more than 10% of salary by an employer other than Central Government or "State Govt" in case of old tax regime.
+- **A26** — Deduction u/s 80CCD (2) is claimed by HUF or Firm (other than LLP)
+- **A27** — Assessee being Firm (other than LLP) and claiming deduction u/s 80D
+- **A28** — Firm has claimed deduction u/s 80DD'
+- **A29** — If Old tax regime is selected and Assessee is claiming deduction under section 80DD then eligible category description shall be provided
+- **A30** — If Old tax regime is selected and Assessee is claiming deduction under section 80DDB then eligible category description shall be provided
+- **A31** — Assessee being Firm and claiming deduction u/s 80DDB
+- **A32** — Deduction u/s 80EE is claimed by HUF or Firm (other than LLP)
+- **A33** — Deduction u/s 80EE is claimed by HUF or Firm (other than LLP)
+- **A34** — If Old Tax Regime is selected and Deduction u/is 80G claimed but however details are not provided in Schedule 80G
+- **A35** — If Old Tax Regime is selected and In Schedule 80G, Amount of deduction computed is more than the eligible amount
+- **A36** — If Old Tax Regime is selected and In Schedule VIA, deduction claimed u/s 80G is shall not be more than the eligible amount of donation mentioned in Schedule 80G
+- **A37** — If Old Tax Regime is selected, In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or
+- **A38** — 25% of total income excluding LTCG before allowing deduction of this expenditure If Old Tax Regime is selected, Deduction u/s 80TTA should be restricted to interest income from a Savings Account under Income from other sources.
+- **A39** — If Old Tax Regime is selected, Deduction under section 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966)
+- **A40** — If Old Tax Regime is selected and Assessee not being a senior citizen cannot claim deduction under section 80TTB (date of birth is on or after 02.04.1966)
+- **A41** — If Old Tax Regime is selected and Assessee being a senior citizen claiming deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources
+- **A42** — or maximum limit of Rs. 50,000, whichever is lower. If Old Tax Regime is selected, then the fixed amount of Rs. 75,000 can be claimed u/s 80U for category "Self with disability,
+- **A43** — Assessee being HUF/Firm and claiming deduction under section 80U.
+- **A44** — If Old Tax Regime is selected and the assessee is claiming deduction under section 80U, however, the description has not been provided for eligible category.
+- **A45** — In Part A General "Name of the representative, are mandatory if in Part- Verification capacity is selected as "Representative" from drop down
+- **A46** — Total income should be the difference between "Gross total income" and "Total deductions"
+- **A47** — Note: Gross total income shall include LTCG u/s 112A In case of old tax regime deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as Central Government or State Govt
+- **A48** — The name as entered by you in the return does not match with the name as per the PAN date base
+- **A49** — If Old Tax Regime is selected and Gross Total Income is not equal to the Total of Incomes from Business & profession, Salary, House Property & Other Sources & Long-
+- **A50** — term capital gains as per sec 112A. Assessee being HUF or FIRM and claiming rebate u/s 87A
+- **A51** — Rebate u/s 87A is claimed by Resident Individual having Total income (including LTCG u/s 112A) of more than Rs. 5,00,000 under old tax regime
+- **A52** — The amount of "Tax after Rebate " should be equal to "Tax payable on total income" Minus "Rebate u/s 87A"
+- **A53** — Total Tax and Health and Education cess must be equal to the sum of "Tax payable after Rebate" and Health and Education Cess
+- **A54** — Total Tax, Fee, and Interest" must be equal to the sum of "Balance Tax After Relief" and "Interest u/s 234A, 234B, 234C, Fees u/s 234-I & Fee u/s 234F"
+- **A55** — In Schedule Part B- Gross Total Income, Sl.no B3iii. Annual Value should be output of SL.no B3i-B3ii
+- **A56** — In "Schedule Income Details" Balance Tax after relief should be equal to the sum of Total Tax &Cess -Relief u/s 89(1).
+- **A57** — Standard deduction allowed on House property should be equal to 30% of Annual value.
+- **A58** — Gross rent received/ receivable/ lettable value during the year is zero or null and assessee is claiming municipal tax
+- **A59** — Taxpayers have selected type of property as let-out or deemed let out and Gross rent received/ receivable/ lettable value during the year is zero or null
+- **A60** — In Schedule Gross total Income, Sl.no B3k .Income chargeable under the head ‘House Property’(f-i-j) is not equal to sum of B3(f-i-j) or The sum of Individual values under the head of House Property cannot be different from the "Income chargeable under the head
+- **A61** — House Property". In "Schedule Income Details" Tax paid to local authorities shall not be allowed for Type of House Property as "Self-Occupied"
+- **A62** — In "Schedule Income Details" Income from other sources should be equal to amount entered in individual col. of income from other sources
+- **A63** — Gross salary should be total of salary as per section 17(1) and value of perquisites as per section 17(2) and profits in lieu of salary as per section 17(3)
+- **A64** — In the Schedule "Gross total Income", 'Net Salary' should be the difference between 'Gross salary' and ‘Allowances to the extent exempt u/s 10')
+- **A65** — In income details, B2(iv) Deductions u/s 16 should be sum of B2[iva+ivb+ivc]
+- **A66** — In income details, Sl.no B2v Income chargeable under Salaries should be B2(iii)-B2(iv)
+- **A67** — If Old Tax Regime is selected, For Central, State Govt, & PSU employees the Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of
+- **A68** — Basic salary whichever is lower No Entertainment allowance u/s 16(ii) will be allowed to employees other than Central, State Government, and PSU
+- **A69** — Total of all allowances to the extent exempt u/s 10 cannot be more than the sum of B2(i)(a) +B2(i)(b) +B2(i)(c)
+- **A70** — If Old Tax Regime is selected, Sec 10(5)-Leave Travel concession/assistance received cannot be more than Salary as per section 17(1).
+- **A71** — Exempt allowance Sec 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc." cannot be more than Gross Salary
+- **A72** — Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India cannot
+- **A73** — be more than Gross salary Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than 20,00,000 if nature of employment is Public Sector Undertaking, PSU - Pensioners,
+- **A74** — others - Pensioners, Others Sec 10(10A)-Commuted value of pension received cannot be more than Salary as per section 17(1)
+- **A75** — Sec 10(10AA)-Earned leave encashment cannot be more than Salary as per section 17(1)
+- **A76** — Exempt Allowance u/s 10(10C)-Amount received/receivable on voluntary retirement or termination of service cannot exceed Rs. 5,00,000
+- **A77** — In exempt allowances only Sec 10(10B) (i) OR Sec 10(10B) (ii) OR Sec 10(10C) can be selected.
+- **A78** — Exempt Allowance u/s 10(10CC)-Tax paid by employer on non-monetary perquisite cannot be more than Value of perquisites as per section 17(2)
+- **A79** — If Old Tax Regime is selected, Exempt Allowance Sec 10(13A)-Allowance to meet expenditure incurred on house rent cannot be more than 1/3rd 33.33% 50% of Salary as per section 17(1)
+- **A80** — If Old Tax Regime is selected, Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or
+- **A81** — employment cannot be more than Salary as per section 17(1) If Old Tax Regime is selected, Sec 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to
+- **A82** — compensate him for increased cost of living cannot be more than Salary as per section 17(1) "Sec 10(10BC)-Any amount from the Central/State Govt./local authority by way of compensation on account of any disaster" drop-down cannot be selected more than one
+- **A83** — time under Exempt Income. "Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D)" drop-down cannot be selected more than one time under Exempt
+- **A84** — Income. "Sec 10(11)-Statutory Provident Fund received" drop-down cannot be selected more than one time under Exempt Income.
+- **A85** — "Sec 10(12)-Recognized Provident Fund received" drop-down cannot be selected more than one time under Exempt Income.
+- **A86** — "Sec 10(13)-Approved superannuation fund received" drop-down cannot be selected more than one time under Exempt Income.
+- **A87** — "Sec 10(16)-Scholarships granted to meet the cost of education" drop-down cannot be selected more than one time under Exempt Income.
+- **A88** — If Old Tax Regime is selected, "Sec 10(17)-Allowance MP/MLA/MLC" drop-down cannot be selected more than one time under Exempt Allowances under salary schedule.
+- **A89** — "Sec 10(17A)-Award instituted by Government" drop-down cannot be selected more than one time under Exempt Income.
+- **A90** — "Sec 10(18)-Pension received by winner of “Param Vir Chakra" or "Maha Vir Chakra" or "Vir Chakra" or such other gallantry award", drop-down cannot be selected more than
+- **A91** — one time under Exempt Income. "Defense Medical Disability Pension" drop-down cannot be selected more than one time under Exempt Income.
+- **A92** — "Sec 10(19)-Armed Forces Family pension in case of death during operational duty" drop-down cannot be selected more than one time under Exempt Income.
+- **A93** — "Sec 10(26)-Any income as referred to in section 10(26)" drop-down cannot be selected more than one time under Exempt Income.
+- **A94** — "Sec 10(26AAA)-Any income as referred to in section 10(26AAA)" drop-down cannot be selected more than one time under Exempt Income.
+- **A95** — In "Schedule Income Details" Deduction u/s 57(iia) shall be allowed only if "Family pension" is selected from other sources dropdown.
+- **A96** — In case of old tax regime in “Schedule Income Details" Deduction u/s 57(iia) cannot be more than 1/3rd of Family pension or Rs. 15,000 whichever is lower.
+- **A97** — Presumptive income u/s 44AE should be Presumptive Income from Goods Carriage as reduced by Salary and interest paid to partners in respect of taxpayers who have selected
+- **A98** — status as "Firm (other than LLP)" In Sch 80G Donee PAN is same as "Assessee PAN" or "PAN at Verification"
+- **A99** — In Schedule 80G in table (A) "Donations entitled for 100% deduction without qualifying limit" donation in cash or donation in other mode is to be entered mandatory.
+- **A100** — In Schedule 80G in table (B) "Donations entitled for 50% deduction without qualifying limit" donation in cash or donation in other mode is to be entered mandatory.
+- **A101** — In Schedule 80G in table (c) “Donations entitled for 100% deduction Subject to Qualifying Limit" Donation in cash or Donation in other mode is to be entered
+- **A102** — mandatory. In Schedule 80G in table (D) “Donations entitled for 50% deduction Subject to Qualifying Limit" Donation in cash or Donation in other mode is to be entered
+- **A103** — mandatory. In Schedule 80G in table (E) Donations should be equal to the sum of (Donations entitled for 100% deduction without qualifying limit +Donations entitled for 50% deduction without qualifying limit+Donations entitled for 100% deduction subject to qualifying
+- **A104** — limit+Donations entitled for 50% deduction subject to qualifying limit) "Total Donation" should be equal to sum of "Donation in cash" AND "Donation in other mode" in table (80G) (A)"Donations entitled for 100% deduction without qualifying
+- **A105** — limit" Total Donation' should be equal to sum of "Donation in cash" AND "Donation in other mode" in table (80G) (B)"Donations entitled for 50% deduction without qualifying limit"
+- **A106** — Total Donation' should be equal to sum of "Donation in cash" AND "Donation in other mode" in table (80G) (C)"Donations entitled for 100% deduction subject to qualifying
+- **A107** — limit" Total Donation' should be equal to sum of "Donation in cash" AND "Donation in other mode" in table (80G) (D)"Donations entitled for 50% deduction subject to qualifying
+- **A108** — limit" If Old Tax Regime is selected, and in "schedule 80G" if multiple entries are there under donation in cash with same PAN, then, if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0
+- **A109** — or in case of individual entry is more than Rs. 2000 in cash then also eligible amount of donation shall not be more than 0 In schedule 80G, if donation is made, same PAN of Donee cannot appear more than once except the PAN 'AAAAR1077P can be repeated in different blocks' Note: For table D (50% without qualifying limit), above rule will not be applicable if
+- **A110** — ARN number is unique. Further if ARN is not entered then this note will not be applicable In Schedule IT total of Col 4 Tax Paid should be equal to sum of individual values
+- **A111** — In Schedule TCS, “The Amount of TCS claimed this year” is more than “Tax collected”
+- **A112** — In Schedule TCS total of col 5 TCS credit out of (4) being claimed this year should be equal to sum of individual values
+- **A113** — In Schedule TDS2 (i) & (ii) (Other than salary), “The Amount of TDS claimed this year” is more than “Tax deducted”.
+- **A114** — In Schedule TDS (2), year of tax deduction cannot be '0' / 'null ' if there is a claim of brought forward TDS
+- **A115** — In Schedule TDS2(i) & TDS2(ii), Unclaimed TDS brought forward & details of TDS of current FY should be provided in different rows in Sch TDS 2
+- **A116** — In schedule TDS-2(ii), claim of TDS in S. No 6 cannot be more than income disclosed in SR.NO 7
+- **A117** — In schedule TDS-2(i), claim of TDS in SR.NO 6 cannot be more than income disclosed in SR.NO 7
+- **A118** — In Schedule TDS1 total of col 4 'Total Tax deducted" should be equal to sum of individual values of col 4
+- **A119** — In Schedule TDS2 total of col 6 'TDS Credit out of (5) being claimed this year' should be equal to sum of individual values of col 6
+- **A120** — In Schedule TDS3 total of col 6' 'TDS Credit out of (5) claimed this year' should be equal to sum of individual values of col 6
+- **A121** — In schedule "Tax Details" in TDS2(i), TDS is claimed in column 6 then Corresponding Receipt /Withdrawals offered - "Gross Amount (Col 7)" and "Head of Income
+- **A122** — (Col 8)" is to be mandatorily filled. In schedule "Tax Details" in TDS2(ii), TDS is claimed in column 6 then Corresponding Income offered - "Gross Amount (Col 7)" and "Head of Income (Col 8)" is to be
+- **A123** — mandatorily filled. IFSC under “Bank Details,” Schedule 80G and in schedule 80GGC should match with the RBI database / GIFT IFSC codes.
+- **A124** — Tax computation has been disclosed but Gross Total Income is zero.
+- **A125** — "Income details" and "Tax computation" have not been disclosed but details regarding “Taxes Paid” have been disclosed.
+- **A126** — TDS, TCS or Tax paid claimed in “Tax paid and Verification schedule” is inconsistent with details of tax amount paid provided in Schedule IT, Schedule TDS1, Schedule
+- **A127** — TDS2 and Schedule TCS. The sum of the amounts claimed at TDS, TCS, Advance Tax and Self-Assessment Tax is not equal to the amount claimed at “Total Taxes Paid.”
+- **A128** — Amount of Refund claimed is inconsistent with the difference of “Total Taxes Paid” and “Total Tax, Fee & Interest”
+- **A129** — Amount of Tax payable is inconsistent with the difference of “Total Tax, Fee and Interest” and “Total Taxes Paid.”
+- **A130** — Agriculture Income shown as exempt cannot be more than Rs 5,000/- and cannot be selected more than once.
+- **A131** — In "Schedule Taxes Paid and Verification" Total TDS Claimed should be equal to the sum of total TDS claimed in TDS 1, 2(i) & 2(ii)
+- **A132** — In "Schedule Taxes Paid and Verification" Total TCS Claimed should be equal to the sum of total TCS claimed in TCS schedule
+- **A133** — In "Schedule Taxes Paid and Verification" Total Advance Tax paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is in the PY for which ITR
+- **A134** — is being filed. In "Schedule Taxes Paid and Verification" Total Self-Assessment Tax Paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31st Mar
+- **A135** — of the PY for which ITR is being filed. The value at field "E5" is greater than zero but the Schedule 44AE is not filed.
+- **A136** — Presumptive Income from Goods Carriage under section 44AE is not equal to the amount mentioned in "Presumptive income u/s 44AE"
+- **A137** — In schedule BP if income is declared u/s 44AE then it is mandatory to select "Business code" u/s 44AE.
+- **A138** — In schedule BP if "business code" u/s 44AE is selected then it is mandatory to declare income u/s 44AE.
+- **A139** — Gross receipts /turnover are mentioned in schedule BP but Financial Particulars such as Sundry creditors, Inventories, Sundry debtors, cash in hand is not filled
+- **A140** — As per rule 12 (1) (ca), a person deriving income under the head “profits or gains from business /profession” and such income computed in accordance with special provisions of section 44AD or 44AE or 44ADA, is required to furnished return in ITR-4. The
+- **A141** — Return of Income is filed using ITR 4, however, income from business or profession under section 44AD or 44AE or 44ADA is not disclosed. Taxpayer has filed ITR 4 and mentioned Number of months for which goods carriage was owned/ leased/hired by assessee by assessee more than 12 months AND / OR total period of holding more than 120 months
+- **A142** — Credit for TDS has been claimed in return, but the corresponding receipts have been omitted to be offered for taxation.
+- **A143** — Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 50000 in case of old tax regime
+- **A144** — “The presumptive income offered u/s 44AE per vehicle is less than Rs.1000 per MT per month (where the tonnage capacity exceeds 12 MT) or Rs. 7500 per month (where the
+- **A145** — tonnage capacity does not exceed 12 MT)". If Old Tax Regime is selected, Deduction u/s 80CCD1(B) is limited to 50000
+- **A146** — If Old Tax Regime is selected, then fixed amount that can be claimed for category "Dependent with disability" u/s 80DD should be equal to its Rs. 75,000
+- **A147** — If Old Tax Regime is selected, then fixed amount is Rs. 125,000 can be claimed for category "Dependent with severe disability" u/s 80DD should be equal to Rs. 125,000
+- **A148** — If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for self and dependent more than the maximum limit of
+- **A149** — Rs.40,000/- If Old Tax Regime is selected, and In Schedule Part BTI, Assessee has claimed deduction u/s 80DDB for Category "senior citizen self and dependent "more than the
+- **A150** — maximum limit of Rs.100,000/- If Old Tax Regime is selected, and In Schedule Part BTI, assessee has claimed deduction u/s 80EE is more than the maximum limit of Rs.50,000
+- **A151** — House rent allowance (HRA u/s.10(13A)) is claimed, hence deduction u/s.80GG above Rs 55,000 not allowed
+- **A152** — If Old Tax Regime is selected, the maximum deduction allowed under section 80TTA is Rs.10,000/-.
+- **A153** — If Old Tax Regime is selected, the maximum deduction allowed under section 80TTB is Rs.50,000/-.
+- **A154** — If Old Tax Regime is selected and In Schedule HP, if "Type of House Property" is selected as "Self-Occupied”, then assessee cannot claim interest on borrowed capital
+- **A155** — more than Rs 2,00,000, If Old Tax Regime is selected, then in case employer category is other than CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or "not applicable"
+- **A156** — then the Maximum amount that can be claimed for u/s 80CCD (1) is 10% of Salary If Old Tax Regime is selected, and Assessee is claiming deduction u/s 80EEA more than the maximum limit of Rs 150000/-
+- **A157** — If Old Tax Regime is selected and Deductions claimed under section 80EEA is greater than “Zero" and Deductions claimed under section 80EE is greater than “Zero"
+- **A158** — If Old Tax Regime is selected, and Assessee claiming deduction u/s 80EEB more than the maximum limit of Rs 150000/-
+- **A159** — Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000
+- **A160** — In Income details, allowance to extent exempt u/s 10 should be equal to sum of individual values entered.
+- **A161** — Deduction u/s 80CCD (2) cannot be claimed by the taxpayer who has selected employer category as CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or
+- **A162** — "not applicable" Relief u/s 89 cannot be claimed by taxpayer if details of salary and family pension are "zero"/ "blank"
+- **A163** — Deduction u/s 80EEA is claimed by HUF or Firm (other than LLP)
+- **A164** — Deduction u/s 80EEB is claimed by HUF or Firm (other than LLP)
+- **A165** — Assessee is "HUF" or Firm (other than LLP) and amount in schedule TDS 1 is more than zero
+- **A166** — Assessee is "HUF" or Firm (other than LLP) and amount in details of salary is more than zero
+- **A167** — If the original return is filed under section 142(1) then taxpayer cannot file revised return
+- **A168** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a "Self and Family" will be allowed to the extent of Rs. 25000
+- **A169** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii)
+- **A170** — Note: This validation is to be checked if value of (i+ii) of Sl. No. 1a is less than Rs.25000 If Old Tax Regime is selected, then In Schedule 80D, the amount of preventive health checkup of all the fields combined should not exceed Rs. 5000
+- **A171** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b Self and Family (Senior Citizen) will be allowed to the extent of Rs.50000
+- **A172** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii)
+- **A173** — Note: This validation to be checked if value of (i+ii+iii) of Sl. No. 1b is less than Rs.50000 If Old Tax Regime is selected, In Schedule 80D, Deduction at Sl. No. 2a Parents will be allowed to the extent of Rs. 25000
+- **A174** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) Note: This validation is to be checked if value of (i+ii) of Sl.
+- **A175** — No. 2a is less than RS.25000 If Old Tax Regime is selected, In Schedule 80D, Deduction at Sl. No. 2b Parents (Senior Citizen) will be allowed to the extent of Rs.50000
+- **A176** — If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii) Note: This validation is to be checked if value of
+- **A177** — (i+ii+iii) of Sl. No. 2b is less than Rs.50000 If Old Tax Regime is selected, In Schedule 80D, Sl. No. 3 Eligible amount of deduction will be allowed to the extent of Rs.100000
+- **A178** — If Old Tax Regime is selected, then In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b) subject to GTI Note: This validation to be checked, if value of Sl. No. (1a+1b+2a+2b) is less than or equal to
+- **A179** — Rs.100000 If Old Tax Regime is selected, and Deduction u/s 80D is claimed but details not provided in Schedule 80D
+- **A180** — Income from Family Pension cannot be claimed by "Firm (Other than LLP)" and "HUF"
+- **A181** — If exempt allowance is claimed u/s. 10(10AA) above Rs. 25 Lakh for employer category other "Central and state government, CG-Pensioners or SG-Pensioner"
+- **A182** — If Old Tax Regime is selected, The fixed amount of Rs. 125,000 can be claimed u/s 80U for category "Self-severe with disability"
+- **A183** — If New Tax regime is selected, then Part C – Deductions and Taxable Total Income, all the deductions should not be more than "0" other than 80CCD (2) and 80CCH
+- **A184** — If New Tax regime is selected, Then Exempt allowances under Sec 10(5)-Leave Travel concession/assistance Sec 10(13A)-Allowance to meet expenditure incurred on house rent Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living should not be more than "0"
+- **A185** — In income details, total of Dividend income should be equal to sum of “Quarterly breakup of Dividend Income"
+- **A186** — Exempt allowance under Section 10(14)(ii) - “Transport allowance granted to certain physically handicapped assessee" should not exceed Rs 38,400
+- **A187** — If Old Tax Regime is selected, Then Exempt allowances under Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB
+- **A188** — Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee should not be more than "0" Once a proceeding is initiated u/s148, the original return filed u/s 139 cannot be revised
+- **A189** — If New Tax Regime is selected, then Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than zero.
+- **A190** — If New Tax Regime is selected, then deduction u/s 80G cannot be claimed and details should not be provided in schedule 80G
+- **A191** — If New Tax Regime is selected, then deduction u/s 80GG cannot be claimed and details should not be provided in schedule 80GG
+- **A192** — If New Tax Regime is selected, then deduction u/s 80TTA should not be more than zero.
+- **A193** — If New Tax Regime is selected, then deduction u/s 80TTB should not be more than zero.
+- **A194** — If New Tax Regime is selected, then deduction u/s 80U should not be more than zero.
+- **A195** — If New Tax Regime is selected, then Professional tax u/s 16(iii) should not be more than zero.
+- **A196** — If new tax regime is selected, then Gross Total Income should be equal to the Total of Incomes from Business & profession, Salary, House Property, & Other Sources & LTCG
+- **A197** — u/s 112A. If new tax regime is selected and Income from one House Property is negative, then Gross Total Income should be equal to the Total of Incomes from Business & profession,
+- **A198** — Salary & Other Sources, LTCG u/s 112A. If New tax regime is selected, then Sec 10(5)-Leave Travel concession/assistance received should not be more than zero.
+- **A199** — If New tax regime is selected, then Sec 10(13A)-Allowance to meet expenditure incurred on house rent should not be more than zero.
+- **A200** — If New tax regime is selected, then Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or
+- **A201** — employment should not be more than zero. If New tax regime is selected, then Sec 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or
+- **A202** — to compensate him for increased cost of living should not be more than zero. If New tax regime is selected, then exempt allowance u/s 10(17)-Allowance MP/MLA/MLC should not be more than zero
+- **A203** — If New tax regime is selected, then deduction u/s 80CCD(1B) should not be more than zero.
+- **A204** — If New tax regime is selected, then deduction u/s 80DD should not be more than zero.
+- **A205** — If New tax regime is selected, then deduction u/s 80DDB should not be more than zero.
+- **A206** — If New tax regime is selected, then deduction u/s 80EE should not be more than zero.
+- **A207** — If New tax regime is selected, and "Type of House Property" is selected as "Self- Occupied" then interest on borrowed capital should not be more than zero.
+- **A208** — If New tax regime is selected, then deduction u/s 80CCD (1) should not be more than
+- **A209** — zero. If New tax regime is selected, then deduction u/s 80EEA should not be more than zero.
+- **A210** — If New tax regime is selected, then deduction u/s 80EEB should not be more than zero.
+- **A211** — If New tax regime is selected, then deduction u/s 80D cannot be claimed and details should not be provided in schedule 80D
+- **A212** — HUF is not eligible to claim presumptive income u/s 44ADA.
+- **A213** — In Schedule BP, Registration No. of goods carriage should not be repeated in section
+- **A214** — 44AE. Exempt allowance u/s 10(10B)-First proviso, 10(10B)-Second Proviso and 10(10C) cannot be claimed simultaneously
+- **A215** — Exempt allowance u/s 10(10CC) cannot be more than the TDS claimed u/s 192 in schedule TDS1
+- **A216** — In Schedule 80D, Deduction at Sl.no.1a "Self and Family" can be claimed only if dropdown at sl.no.1 is selected as "No"
+- **A217** — In Schedule 80D, Deduction at sl.no.1b "Self & Family including Senior Citizen" can be claimed only if dropdown at sl.no.1 is selected as "Yes"
+- **A218** — In Schedule 80D, Deduction at sl.no.2a "Parents" can be claimed only if dropdown at sl.no.2 is selected as "No"
+- **A219** — In Schedule 80D, Deduction at sl.no.2b "Parents including Senior Citizen" can be claimed only if dropdown at sl.no.2 is selected as "Yes"
+- **A220** — In Schedule 80D, deduction cannot be claimed in sl.no.1a and 1b if dropdown is selected as "Not claiming for Self /Family"
+- **A221** — In Schedule 80D, deduction cannot be claimed in sl.no.2a and 2b if dropdown is selected as "Not claiming for Parents"
+- **A222** — Any drop-down of nature of income cannot be selected more than one time under Exempt Income.
+- **A223** — Exempt Allowance u/s 10(10B) (i) and 10(10B) (ii) Should not be allowed to Central Government employees, state government employees, CG-Pensioners, SG- Pensioners,
+- **A224** — PSU-Pensioners, and Others-Pensioners Deduction u/s 80CCH should not exceed 46.2% of Salary u/s 17(1) to the extent of Rs.2,88,000
+- **A225** — Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on date of joining of armed forces
+- **A226** — Exempt Allowance u/s 10(10B)-Second proviso- Compensation under scheme approved by the Central Government cannot exceed Rs.500,000
+- **A227** — Assessee with total income excluding LTCG exceeding Rs.1200000 subject to marginal rebate (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax
+- **A228** — act, 1961. Details of Form 10IEA are mandatory if "Yes" is selected in field "Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax
+- **A229** — regime? " Rebate u/s 87A can be claimed to the extent of Rs.12500 by Resident Individual having Total income of Rs. 5,00,000 under old tax regime
+- **A230** — Firm is eligible to claim VIA deductions under section 80G and 80GGC
+- **A231** — HUF is eligible to claim VIA deductions under section 80G, 80GGC, 80D, 80C, 80DD, 80DDB, 80TTA
+- **A232** — HUF is not eligible for claiming deduction at sl.no.2 of Schedule 80D
+- **A233** — "Exempt Allowances" in Salary under each section should be disclosed in one dropdown
+- **A234** — Due date of Filing u/s 139(1) 31st August of respective Assessment year unless it is extended.
+- **A235** — Tax regimes are not applicable for Firm and by default "not applicable" shall be selected and all other fields of A23 should be greyed off for them.
+- **A236** — Deduction u/s 80D is not applicable for Firm
+- **A237** — If Gross Receipts u/s 44AD are more than Rs.2 Crore and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are
+- **A238** — applicable If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are
+- **A239** — applicable If Gross Receipts u/s 44ADA at sl.no. E3 should match with sum of E3a+E3b+E3c
+- **A240** — If Gross Receipts u/s 44AD at sl.no. E1 should match with sum of E1a+E1b+E1c
+- **A241** — If 80GGC is claimed in Income Details Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80GGC
+- **A242** — In Schedule 80GGC, 'Eligible amount of Donations' for each row shall be equal to "Donation in other mode" to the extent of Gross total income
+- **A243** — Total Donation' should be equal to sum of "Donation in cash" AND "Donation in other mode" in table (80GGC)
+- **A244** — In schedule 80GGC, Sl no. D "Eligible Amount of donation” should be equal to sum of individual amounts restricted to GTI
+- **A245** — In schedule 80GGC, Values at sl.no. A - total Donation in Cash, B-Donation in other mode and C-Total Donation should be equal to sum of individual amounts entered
+- **A246** — Date of donation is mandatory for donation made under 80GGC
+- **A247** — Details of Donation made in other mode are required in schedule 80GGC
+- **A248** — In schedule VIA, value at field "Section 80DD" both user value and system value should be equal to value at slno. ii in schedule 80DD
+- **A249** — In schedule VIA, value at field "Section 80U" both user value and system value should be equal to value at slno. ii in schedule 80U
+- **A250** — In schedule 80DD, if deduction is > 0, then details of such donation are required
+- **A251** — In schedule 80U, if deduction is > 0, then details of such donation are required
+- **A252** — In schedule 80DD, if deduction is > 0, then details of Form 10IA of such donation are
+- **A253** — required In schedule 80U, if deduction is > 0, then details of Form 10IA of such donation are
+- **A254** — required HUF can claim deductions u/s 80DD for dependent being "Member of HUF"
+- **A255** — Taxpayers having salary income need to provide "Nature of employment"
+- **A256** — Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2025 to 31.03.2026 for AY 2026-27
+- **A257** — Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A258** — Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A259** — Assessee should enter valid Mobile Number
+- **A260** — It is mandatory to select an Option for 115BAC question at sl.no. A23 Note: Applicable in case of Individual and HUF
+- **A261** — In case of new tax regime, deduction u/s 57(iia) can be availed up to 1/3rd of Family pension maximum of Rs. 25,000
+- **A262** — In case of New Tax Regime: Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of
+- **A263** — Rs 75000. In case of new tax regime deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as PSU”, “Others", "Central Govt" or "State Govt"
+- **A264** — For assessee Firm (other than LLP), any field in A23 has any value "Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2026-
+- **A265** — 27? "' Under Schedule EI, Sl. No. iii Long term capital gains as per sec 112A are more than
+- **A266** — 1,25,000 In Schedule EI, Sl. No. iii Long term capital gains as per sec 112A should be output of Sl. No. (i - ii)
+- **A267** — Total income excluding LTCG u/s112A shall not be more than Rs. 50 Lakhs
+- **A268** — In Part A General, Filing section is selected as 139(9) and the responses for A23 in 139(9) do not match with the responses of A23 question in the ITR against which
+- **A269** — defective response is getting submitted. "Details of Bank from which loan is taken" need to be provided for claiming Interest on borrowed capital u/s 24(b) in schedule Interest u/s 24(b)
+- **A270** — Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted.
+- **A271** — As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), "Details of bank from which loan is taken" in schedule 80EE should be part of the details
+- **A272** — disclosed in schedule 24(b) As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), "Details of bank from which loan is taken" in schedule 80EEA should be part of the details
+- **A273** — disclosed in schedule 24(b) Details such as nature of payment, Amount eligible for deduction u/s 80C, Policy no. or Document Identification Number of supporting document are required to provide in
+- **A274** — schedule 80C to claim deduction "Details of Bank from which loan is taken" need to be provided for claiming deduction u/s 80E in schedule 80E
+- **A275** — "Details of Bank from which loan is taken" need to be provided for claiming deduction u/s 80EE in schedule 80EE
+- **A276** — Deduction u/s 80EE can be claimed only if maximum loan taken does not exceed Rs. 35 lakhs against the property
+- **A277** — "Details of Bank from which loan is taken" needs to be provided for claiming deduction u/s 80EEA in schedule 80EEA
+- **A278** — Deduction u/s 80EEA can be claimed only on the residential house property having stamp value up to Rs.45 Lakhs
+- **A279** — The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22
+- **A280** — "Details of Bank from which loan is taken" need to be provided for claiming deduction u/s 80EEB in schedule 80EEB
+- **A281** — The Date of sanction of loan under schedule 80EEB shall be between 1.4.19 and 31.3.23
+- **A282** — Details of Form 10BA are required to provide to claim deduction u/s 80GG
+- **A283** — In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A284** — sl.no.1a In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A285** — sl.no.1b In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A286** — sl.no.2a In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A287** — sl.no.2b Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD, respectively.
+- **A288** — Details of specified decrease are required to be provided to claim deduction u/s 80DDB
+- **A289** — In schedule House property, value of “interest on borrowed capital" should be same as the "total of interest paid u/s 24(b)" as per schedule 24(b)
+- **A290** — Deduction u/s 80C claimed under chapter VIA should be same as the “Total of payment made as per schedule 80C "
+- **A291** — Deduction u/s 80E in schedule VIA should match with the "Total of interest paid" as per schedule 80E
+- **A292** — Deduction u/s 80EE in schedule VIA should match with the "Total of interest paid" as per schedule 80EE
+- **A293** — Deduction u/s 80EEA in schedule VIA should match with the "Total of interest paid" as per schedule 80EEA
+- **A294** — Deduction u/s 80EEB in schedule VIA should match with the "Total of interest paid" as per schedule 80EEB
+- **A295** — In schedule 24(b) the sum of individual rows for "Interest paid during the year" (x) shall match with the "Total of Payments" as per the schedule 24(b)
+- **A296** — In schedule 80C the sum of individual rows for "Amount of payment" (ii) shall match with the "Total of Payments" as per the schedule 80C
+- **A297** — In schedule 80E the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80E
+- **A298** — In schedule 80EE the sum of individual rows for "Interest paid during the year" (x) shall match the "Total of Payments" as per the schedule 80EE
+- **A299** — In schedule 80EEA the sum of individual rows for "Amount of interest paid" (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+- **A300** — In schedule 80EEB the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80EEB
+- **A301** — The Date of sanction of loan In schedule 80EE shall be between 1.4.16 and 31.3.17
+- **A302** — Interest on borrowed capital cannot be claimed in case of Self occupied house property under new tax regime
+- **A303** — Assessee having status as Firm is not eligible to fill any schedule out of 80C Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule, 80EEB Schedule or 10(13A) schedules
+- **A304** — for claiming respective deduction Assessee having status as HUF is not eligible to fill any schedule out of 80CCC Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule for
+- **A305** — claiming respective deduction Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule,
+- **A306** — 80EEB schedule or 10(13A) Details such as name of the Insurer, Policy number, are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)
+- **A307** — Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1b (i)
+- **A308** — Details such as name of the Insurer, Policy number, and Receipt/document number of the premium paid are required to be provided in schedule 80D to claim deduction for health
+- **A309** — insurance at sl. No. 2a (i) Details such as name of the Insurer, Policy number, are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2b (i)
+- **A310** — Section 192 applicable to Tax deducted on salary income is selected as the dropdown under schedule TDS 2(i), or 2(ii) which are for details of TDS on other than salary
+- **A311** — income. HRA u/s 10(13A) shall not be more than Actual rent paid after deducting 10% of basic salary and DA
+- **A312** — HRA u/s 10(13A) shall not be more than 50% of basic salary and DA
+- **A313** — In schedule 10(13A) the lowest of the following amounts shall be claimed as HRA exemption: A) Actual HRA received
+- **A314** — B) Actual rent paid 10% of (salary+DA) C) 40% or 50% of (salary+DA) Taxpayers having salary income and exempt allowances need to provide "Nature of employment"
+- **A315** — "Schedule 10(13A) needs to be filled for claiming exempt allowance u/s 10(13A)
+- **A316** — Sum of Basic salary, dearness allowance as per schedule 10(13A) and actual HRA received shall not be more than salary as per section 17(1) under Income details
+- **A317** — Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than 25,00,000 if nature of employment is "CG", "CG-Pensioners", "Sg" or "SG-
+- **A318** — Pensioners" Firm or HUF having date of formation on or after 01/04/2026 shall not be allowed to file return for AY 26-27
+- **A319** — Status selected is Individual and having date of formation on or after 01/04/2008 shall not be allowed to file return for AY 25-26
+- **A320** — Exempt Allowance u/s 10(13A) in schedule Salary should match with the "Eligible allowance u/s 10(13A)" as per schedule 10(13A)
+- **A321** — Based on Response provided in A23, taxpayer shall response to the only one applicable question A23A or A23B.
+- **A322** — Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" can be claimed only by CG/SG
+- **A323** — employees. "Type of house property" shall be mandatory if interest on borrowed capital u/s 24(b) is claimed.
+- **A324** — Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount
+- **A325** — Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount
+- **A326** — Eligible amount of deduction claimed u/s 80CCD (1) should not be more than user enterable amount
+- **A327** — Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount
+- **A328** — Eligible amount of deduction claimed u/s 80CCD (2) should not be more than user enterable amount
+- **A329** — Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount
+- **A330** — Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount
+- **A331** — Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount
+- **A332** — Eligible amount of deduction claimed u/s 80E should not be more than user enterable
+- **A333** — amount Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount
+- **A334** — Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount
+- **A335** — Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount
+- **A336** — Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount
+- **A337** — Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount
+- **A338** — Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount
+- **A339** — Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount
+- **A340** — Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount
+- **A341** — Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount
+- **A342** — Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount
+- **A343** — LTCG u/s 112A shall be equal to difference between GTI including LTCG and GTI excluding LTCG
+- **A344** — In Part A General "Name of the representative, e-mail ID of the representative, Contact number of the representative" are mandatory if in Part- Verification capacity is selected
+- **A345** — as "Representative" from drop down Whether this return is being filed by a representative assessee? Flag is Y then details should be provided
+- **A346** — In case of Co-owned property, the total of assessee’ s share and co-owner's share should be equal to 100%
+- **A347** — In Schedule HP, In case of co-owned property Annual value of the property owned should be own percentage share *Annual value.
+- **A348** — Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero',
+- **A349** — In Schedule HP, Sl.no 1d -Total should be output of SL.no (1b+1c)
+- **A350** — In Schedule HP, Sl.no 1i -Total should be output of SL.no (1g+1h)
+- **A351** — In case of co-owned house property, Assessee PAN & Co-owners PAN cannot be same
+- **A352** — Gross rent received/ receivable/ lettable value during the year is zero or null and "The amount of rent which cannot be realized" is more than 0
+- **A353** — If A23" "Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? " is selected as "Yes” then (A)(i) and (A)(ii) shall be mandatory Note: Form 10IEA is required to be filed in case of business income so If you have filed
+- **A354** — form 10IEA within due date for any earlier assessment year along with ITR 3/4 then select "Yes". If A23" "Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? " is selected as "No” then A23(B) shall be mandatory
+- **A355** — If A23(A)(ii) "Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?"
+- **A356** — is selected as "Yes" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(a) If A23(A)(ii) "Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?" is selected as "No" then A23(A)(ii)(b) shall be mandatory
+- **A357** — If A23(A)(ii)(b) "Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?" is selected as "Yes"
+- **A358** — then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(b)(i) If A23(A)(ii)(b) "Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?" is selected as "No"
+- **A359** — then A23(A)(ii)(b)(i) asking form filed details shall not be applicable If A23(B) "Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as "Yes"
+- **A360** — then A23(B)(i) shall be mandatory If A23(B) "Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as "No"
+- **A361** — then A23(B)(i) shall not be applicable If form 10IEA details are filled in A23(B)(i) then A23(B) cannot be blank
+- **A362** — If form 10IEA details are filled in A23(A)(ii)(b)(i) then A23(A)(ii)(b) cannot be blank
+- **A363** — If Details are filled in A23 A(ii)(a) or A(ii)(b) then A23(A)(ii) cannot be blank
+- **A364** — If Details are filled in A23 A(i) or A(ii) then A23(A) cannot be blank
+- **A365** — Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" cannot be more than 0 if new
+- **A366** — tax regime is selected. If in 80CCC the sum of individual rows for "Amount" is not equal to “Total of Payments" as per field 80CCC in Income details.
+- **A367** — "Sec 10(2) Member’s share from HUF" drop-down cannot be selected more than one time under Exempt Income.
+- **A368** — "Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster" drop-down cannot be selected more than one time under Exempt Income.
+- **A369** — "Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan" drop-down cannot be selected more than one time under Exempt Income.
+- **A370** — "Sec 10(12A) NPS partial withdrawal" drop-down cannot be selected more than one time under Exempt Income.
+- **A371** — "Sec 10(12AA) any payment from the National Pension System Trust" drop-down cannot be selected more than one time under Exempt Income.
+- **A372** — "Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR" drop-down cannot be selected more than
+- **A373** — one time under Exempt Income. "Sec 10(12B) NPS lumpsum at exit/closure (portion)" drop-down cannot be selected more than one time under Exempt Income.
+- **A374** — "Sec 10(12BA) partial withdrawal made from the National Pension System" drop-down cannot be selected more than one time under Exempt Income.
+- **A375** — "Sec 10(12C) Agniveer Corpus Fund income" drop-down cannot be selected more than one time under Exempt Income.
+- **A376** — "Sec 10(15) Interest on specified securities/investments" drop-down cannot be selected more than one time under Exempt Income.
+- **A377** — "Sec 10(19A) Annual value of one palace in occupation of ex-ruler" drop-down cannot be selected more than one time under Exempt Income.
+- **A378** — "Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force" drop-down cannot be selected more than one time under Exempt Income.
+- **A379** — "Contributions received from recognized stock exchange" drop-down cannot be selected more than one time under Exempt Income.
+- **A380** — "Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund” drop-down cannot be selected more than one
+- **A381** — time under Exempt Income. "Sec 10(23FD) Unit holder income from Business Trust (certain parts" drop-down cannot be selected more than one time under Exempt Income.
+- **A382** — "Sec 10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension fund" drop-down cannot be selected more than one time under Exempt Income.
+- **A383** — "Sec 10(25A) any income under Employees' State Insurance Fund" drops down cannot be selected more than one time under Exempt Income.
+- **A384** — "Sec 10(30) subsidy received from or through the Tea Board" drop-down cannot be selected more than one time under Exempt Income.
+- **A385** — "Sec 10(31) Rubber/Coffee/Tea development accounts/funds" drop-down cannot be selected more than one time under Exempt Income.
+- **A386** — "Minor child’s income—small exemption" drop-down cannot be selected more than one time under Exempt Income.
+- **A387** — "Sec 10(35) Income from specified Mutual Funds" drop-down cannot be selected more than one time under Exempt Income.
+- **A388** — "Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust" drop-down cannot be selected more than one time under Exempt
+- **A389** — Income. "Sec 10(43) Reverse mortgage—payments to senior citizens" drop-down cannot be selected more than one time under Exempt Income.
+- **A390** — "Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts" drop-down cannot be selected more than one time under Exempt Income.
+- **A391** — If New tax regime is selected, then exempt income u/s 10(32)-Minor child’s income should not be more than Zero
+- **A392** — Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs.
+- **A393** — The AY selected in A23(A)(ii)(a) shall not be same or prior to the AY selected in A23(A)(i) For e.g.: AY selected in A23(A)(i) is AY 2024-25
+- **A394** — then AY selected in A23(A)(ii)(a) shall not be same as AY 2024-25 or prior to AY2024-25 but can be any AY greater than AY 2024-25 IFSC and "Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number,” in Schedule 80G is mandatory in case of
+- **A395** — donation is in mode other than cash. PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G
+- **A396** — If Old Tax Regime is selected, and In "schedule 80G" if multiple entries are there under donation in cash with same PAN, then if sum of such cash donation does not exceed Rs. 2000 then eligible amount
+- **A397** — of donation shall not exceed minimum of: Rs. 2000 or claimed whichever is lower Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs.
+- **A398** — Name and PAN of the political party are necessary to claim deduction u/s 80GGC
+- **A399** — In Schedule 80G either cash donation or donation in other mode shall be entered under any row; both can’t be entered.
+- **A400** — [No rule at Category A serial 400: the CBDT source's numbering skips it.]
+- **A401** — [No rule at Category A serial 401: the CBDT source's numbering skips it.]
+- **A402** — PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or
+- **A403** — 80CCD(1B) In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of
+- **A404** — taxpayer. In case of property is not Co-owned the assessee's share should be equal to 100%
+- **A405** — In Schedule HP, if "Is property co-owned" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%
+- **A406** — In Schedule HP, if "Is property co-owned" is selected as Yes, then Assessee’s percentage of share in the Property (%) should be less than 100%
+- **A407** — If PRAN is entered in chapter VIA but amount entered in 80CCD (1) and 80CCD(1B) is
+- **A408** — equal to 0 "The amount of rent which cannot be realized" cannot be more than Gross rent received/
+- **A409** — receivable/ lettable during the year If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row
+- **A410** — and provide details for "Type of identifier", "Identifier No. and "Amount" Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income
+- **A411** — Secondary address should not be same as Primary address if "No" is mentioned for "Is the secondary address same as primary address?" in Schedule Part A General Information
+
+## Category B
+
+- **B1** — B: Publishing Document Income chargeable under business should be equal to sum of income offered under
+- **B2** — presumptive income under 44AD, 44ADA & 44AE TDS deducted value in schedule TDS 1 CANNOT BE MORE THAN value in
+- **B3** — schedule Salary "sl.no.2. Total Gross salary" Linking of Aadhar and PAN is required to avoid consequences of not linking PAN
+- **B4** — and Aadhar in eligible cases as per Circular 03/2023 Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking
+- **B5** — PAN and Aadhar in eligible cases as per Circular 03/2023 Taxpayer filing Nil return is requested to check AIS / 26AS before proceeding
+- **B6** — further TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA,or 194S as is selected under Schedule "TDS2(i) Details of Tax Deducted at Source on Income Other than Salary" at field 2a "Section under which TDS deducted"
+- **B7** — or Assessee having income under special rate is not eligible to file ITR-4. TDS section code such 194B, 194BB, 194BA, 194IA,194IC,194LA,194R, or 194S as is selected under Schedule "TDS2(ii) Details of Tax Deducted at Source on Income Other than Salary" at field 2a "Section under which TDS deducted" or Assessee having income under special rate is not eligible to file ITR-4.
+- **B8** — TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA©,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule "TDS2(i) Details of Tax Deducted at
+- **B9** — Source on Income Other than Salary" at field 2a "Section under which TDS deducted" TDS section code such as 194E,194LB,194LC,194LBA(a),194LBA(b),194LBA©,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule "TDS2(ii) Details of Tax Deducted at
+- **B10** — Source on Income Other than Salary" at field 2a "Section under which TDS deducted" If form 10IEA is available in the DB then the below fields shall be mandatory to be filled for the respective AY and the details entered shall be matching with the DB : Assessment year,
+- **B11** — Date of filing form 10IEA or Acknowledgement number of form 10-IEA Form 10IEA shall be filed within the due date for opting out or re-entering for the
+- **B12** — current assessment year Form 10IEA is not filed previously but the details are entered in the ITR.
+- **B13** — Form 10IEA is not filed for the current assessment year but the details are entered in the ITR. D:
+
+## Category D
+
+- **D1** — Publishing Document The assessee has claimed relief u/s 89(1) without furnishing of Form 10E
+- **D2** — Deduction u/s 80GG can be claimed only upto 5000 per month (maximum 12 months) or the rent actually paid, whichever is lower."

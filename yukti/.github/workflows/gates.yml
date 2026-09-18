@@ -1,0 +1,63 @@
+name: Yukti gates
+# Runs every gate on GitHub's own machines whenever a claude/* branch is pushed — the laptop is not involved.
+# A red gate fails the check on the branch and opens (or updates) an issue with the failing items.
+on:
+  push:
+    branches: ["claude/**", "main"]
+  workflow_dispatch:
+    inputs:
+      form:
+        description: "Form to gate (e.g. ITR-3)"
+        required: true
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install
+        run: |
+          pip install -q jsonschema playwright pymupdf
+          python -m playwright install --with-deps chromium
+      - name: Which form
+        id: form
+        run: |
+          F="${{ github.event.inputs.form }}"
+          if [ -z "$F" ]; then F=$(echo "${{ github.ref_name }}" | grep -oE 'itr-?[0-9]+' | head -1 | tr 'a-z' 'A-Z' | sed 's/ITR-\?/ITR-/'); fi
+          if [ -z "$F" ]; then F=$(ls logs 2>/dev/null | grep -E '^ITR-' | head -1); fi
+          echo "form=$F" >> $GITHUB_OUTPUT; echo "gating $F"
+      - name: Run every gate
+        id: gates
+        continue-on-error: true
+        run: |
+          python tools/gates/gate.py --form "${{ steps.form.outputs.form }}" --gate all 2>&1 | tee logs/gate_output.txt
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-logs-${{ steps.form.outputs.form }}
+          path: logs/
+      - name: Open or update the issue on red
+        if: steps.gates.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');const form='${{ steps.form.outputs.form }}';
+            const out=fs.readFileSync('logs/gate_output.txt','utf8');const red=out.split('\n').filter(l=>/RED|^    /.test(l)).slice(0,80).join('\n');
+            const title=`${form}: gates red on ${context.ref.replace('refs/heads/','')}`;
+            const {data:issues}=await github.rest.issues.listForRepo({owner:context.repo.owner,repo:context.repo.repo,state:'open',labels:'gates'});
+            const body=`Commit ${context.sha.slice(0,7)}\n\n\`\`\`\n${red}\n\`\`\`\nFull logs are in the workflow artifact.`;
+            const found=issues.find(i=>i.title===title);
+            if(found)await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:found.number,body});
+            else await github.rest.issues.create({owner:context.repo.owner,repo:context.repo.repo,title,body,labels:['gates']});
+      - name: Fail the check on red
+        if: steps.gates.outcome == 'failure'
+        run: exit 1

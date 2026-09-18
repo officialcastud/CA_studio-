@@ -1,0 +1,15 @@
+{
+ "gate": 6,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "category_A_coded": 664,
+  "category_A_total": 999,
+  "D_notices": [
+   "D1 AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory.",
+   "D12 Liable to pay AMT u/s 115JC \u2014 Form 29C should be filed.",
+   "D3 Deduction u/s 80JJAA is claimed \u2014 Form 10DA is required.",
+   "D6 Deduction u/s 10AA is claimed \u2014 Form 56F should be filed."
+  ]
+ }
+}

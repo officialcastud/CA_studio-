@@ -1,0 +1,15 @@
+{
+ "gate": 1,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "sections": [
+   "bank",
+   "ded",
+   "hp",
+   "inc",
+   "paid",
+   "tax"
+  ]
+ }
+}

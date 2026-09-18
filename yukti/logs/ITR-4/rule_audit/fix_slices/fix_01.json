@@ -1,0 +1,182 @@
+[
+ {
+  "n": 10,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "The provisions of 44AD are not applicable for General commission agents and persons carrying on professions as referred to in section 44AA (1).",
+  "clean": "",
+  "finding": "44AD ineligibility for commission agents/44AA(1) not enforced; code is free text"
+ },
+ {
+  "n": 15,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "The provisions of 44ADA are not applicable for persons carrying on business",
+  "clean": "",
+  "finding": "44ADA ineligibility for business persons not cross-checked"
+ },
+ {
+  "n": 30,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If Old tax regime is selected and Assessee is claiming deduction under section 80DDB then eligible category description shall be provided",
+  "clean": "",
+  "finding": "80DDB eligible-category description not enforced unlike 80DD/80U"
+ },
+ {
+  "n": 37,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:156",
+  "text": "If Old Tax Regime is selected, In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or",
+  "clean": "",
+  "finding": "Only 60k ceiling enforced; 25%-of-income leg of 80GG missing"
+ },
+ {
+  "n": 51,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "70_sec_inccore.js:323",
+  "text": "Rebate u/s 87A is claimed by Resident Individual having Total income (including LTCG u/s 112A) of more than Rs. 5,00,000 under old tax regime",
+  "clean": "",
+  "finding": "87A rebate auto-computed but old-regime 5L threshold uses base=ti-ltcg, excludes LTCG112A required by rule"
+ },
+ {
+  "n": 67,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:72",
+  "text": "If Old Tax Regime is selected, For Central, State Govt, & PSU employees the Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of",
+  "clean": "",
+  "finding": "only flat Rs5000 cap on 16(ii); missing 1/5th-basic alternative and govt-only scope"
+ },
+ {
+  "n": 68,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Basic salary whichever is lower No Entertainment allowance u/s 16(ii) will be allowed to employees other than Central, State Government, and PSU",
+  "clean": "",
+  "finding": "non-govt entertainment allowance 16(ii) not zeroed (inccore:209 allows <=5000 all empcat)"
+ },
+ {
+  "n": 72,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India cannot",
+  "clean": "",
+  "finding": "no cap 10(7) <= gross salary; dropdown live but no A(72)"
+ },
+ {
+  "n": 80,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If Old Tax Regime is selected, Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or",
+  "clean": "",
+  "finding": "no old-regime cap 10(14)(i) <= salary 17(1); no A(80)"
+ },
+ {
+  "n": 81,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "employment cannot be more than Salary as per section 17(1) If Old Tax Regime is selected, Sec 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to",
+  "clean": "",
+  "finding": "no old-regime cap 10(14)(ii) <= salary 17(1); no A(81)"
+ },
+ {
+  "n": 83,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "time under Exempt Income. \"Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D)\" drop-down cannot be selected more than one time under Exempt",
+  "clean": "",
+  "finding": "10(10D) once-only missing; D20 sub free-text, no A(83)"
+ },
+ {
+  "n": 84,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income. \"Sec 10(11)-Statutory Provident Fund received\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(11) once-only missing; no A(84)"
+ },
+ {
+  "n": 86,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(13)-Approved superannuation fund received\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(13) once-only missing; no A(86)"
+ },
+ {
+  "n": 87,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(16)-Scholarships granted to meet the cost of education\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(16) once-only missing; no A(87)"
+ },
+ {
+  "n": 89,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(17A)-Award instituted by Government\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(17A) once-only missing; no A(89)"
+ },
+ {
+  "n": 90,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(18)-Pension received by winner of \u201cParam Vir Chakra\" or \"Maha Vir Chakra\" or \"Vir Chakra\" or such other gallantry award\", drop-down cannot be selected more than",
+  "clean": "",
+  "finding": "10(18) once-only missing; no A(90)"
+ },
+ {
+  "n": 92,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(19)-Armed Forces Family pension in case of death during operational duty\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(19) once-only missing; no A(92)"
+ },
+ {
+  "n": 93,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(26)-Any income as referred to in section 10(26)\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "10(26) once-only missing; no A(93)"
+ },
+ {
+  "n": 99,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule 80G in table (A) \"Donations entitled for 100% deduction without qualifying limit\" donation in cash or donation in other mode is to be entered mandatory.",
+  "clean": "",
+  "finding": "80G table(A) cash-or-other mandatory not enforced; grid cols not req, no A(99)"
+ },
+ {
+  "n": 100,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule 80G in table (B) \"Donations entitled for 50% deduction without qualifying limit\" donation in cash or donation in other mode is to be entered mandatory.",
+  "clean": "",
+  "finding": "80G table(B) cash-or-other mandatory not enforced; no A(100)"
+ }
+]

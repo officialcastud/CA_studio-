@@ -1,0 +1,350 @@
+{
+ "ISIN List": {
+  "section": "excluded",
+  "reason": "reference list of ISINs \u2014 data, not a schedule"
+ },
+ "Home": {
+  "section": "excluded",
+  "reason": "the utility's index page \u2014 navigation, not a schedule"
+ },
+ "PART A - General": {
+  "section": "who",
+  "blocks": [
+   "PartA_GEN1"
+  ]
+ },
+ "Nature Of Business": {
+  "section": "excluded",
+  "reason": "business income \u2014 ITR-3, not on ITR-2"
+ },
+ "Part A - BS": {
+  "section": "excluded",
+  "reason": "business income \u2014 ITR-3, not on ITR-2"
+ },
+ "Manufacturing Account": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Trading Account": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Profit and Loss": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Part A - OI": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Quantitative Details": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Sheet1": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "ITold": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Schedule S": {
+  "section": "sal",
+  "blocks": [
+   "ScheduleS"
+  ]
+ },
+ "House Property": {
+  "section": "hp",
+  "blocks": [
+   "ScheduleHP"
+  ]
+ },
+ "BP": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "DPM - DOA": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "DEP_DCG": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "ESR": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "CG": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleCGFor23"
+  ]
+ },
+ "Schedule 112A": {
+  "section": "cg",
+  "blocks": [
+   "Schedule112A"
+  ]
+ },
+ "HelpCSV": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Schedule 115AD(1)(iii) proviso": {
+  "section": "cg",
+  "blocks": [
+   "Schedule115AD"
+  ]
+ },
+ "VDA": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleVDA"
+  ]
+ },
+ "OS": {
+  "section": "os",
+  "blocks": [
+   "ScheduleOS"
+  ]
+ },
+ "CYLA - BFLA": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCYLA",
+   "ScheduleBFLA"
+  ]
+ },
+ "CFL": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCFL"
+  ]
+ },
+ "Unabsorbed Depreciation": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "ICDS": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "10AA": {
+  "section": "excluded",
+  "reason": "hidden \u2014 section 10AA is a business deduction, not on ITR-2"
+ },
+ "80C": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80C"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80G"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80D": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80D"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "RA": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80GGA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGA"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "80E_80EE_80EEA_80EEB": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80E",
+   "Schedule80EE",
+   "Schedule80EEA",
+   "Schedule80EEB"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "VI-A": {
+  "section": "ded",
+  "blocks": [
+   "ScheduleVIA"
+  ]
+ },
+ "Temporary Values": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "80U-80DD": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80U",
+   "Schedule80DD"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGC"
+  ],
+  "why_built": "hidden until the deduction is claimed \u2014 the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "AMT": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "SPI - SI": {
+  "section": "si",
+  "blocks": [
+   "ScheduleSPI",
+   "ScheduleSI"
+  ]
+ },
+ "AMTC": {
+  "section": "tax",
+  "blocks": [
+   "ScheduleAMTC"
+  ]
+ },
+ "EI": {
+  "section": "ei",
+  "blocks": [
+   "ScheduleEI"
+  ]
+ },
+ "FSI1": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "PTI": {
+  "section": "other",
+  "blocks": [
+   "SchedulePTI"
+  ]
+ },
+ "TPSA": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "FSI": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleFSI"
+  ]
+ },
+ "Sch 5A": {
+  "section": "other",
+  "blocks": [
+   "Schedule5A2014"
+  ]
+ },
+ "TR_FA": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleTR1",
+   "ScheduleFA"
+  ]
+ },
+ "AL": {
+  "section": "al",
+  "blocks": [
+   "ScheduleAL"
+  ]
+ },
+ "GST": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Tax Calculated": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden computation sheet \u2014 the method behind Part B-TTI and the interest; read, not shown"
+ },
+ "Part B - TI TTI": {
+  "section": "tax",
+  "blocks": [
+   "PartB-TI",
+   "PartB_TTI",
+   "Verification"
+  ]
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "ESOP": {
+  "section": "other",
+  "blocks": [
+   "ScheduleESOP"
+  ]
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTDS1",
+   "ScheduleTDS2",
+   "ScheduleTDS3",
+   "ScheduleTCS"
+  ]
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Verification": {
+  "section": "bank",
+  "blocks": [
+   "Verification",
+   "TaxReturnPreparer"
+  ]
+ },
+ "CG Pop up_prefill": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "OLDAL": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "DropDownValues": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "BA": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Instructions": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ }
+}

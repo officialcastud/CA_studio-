@@ -1,0 +1,264 @@
+[
+{
+"n": 251,
+"cat": "A",
+"text": "In schedule 80U, if deduction is > 0, then details of such donation are required"
+},
+{
+"n": 252,
+"cat": "A",
+"text": "In schedule 80DD, if deduction is > 0, then details of Form 10IA of such donation are",
+"clean": "252 In schedule 80DD, if deduction is > 0, then details of Form 10IA of such donation are required"
+},
+{
+"n": 253,
+"cat": "A",
+"text": "required In schedule 80U, if deduction is > 0, then details of Form 10IA of such donation are"
+},
+{
+"n": 254,
+"cat": "A",
+"text": "required HUF can claim deductions u/s 80DD for dependent being \"Member of HUF\""
+},
+{
+"n": 255,
+"cat": "A",
+"text": "Taxpayers having salary income need to provide \"Nature of employment\""
+},
+{
+"n": 256,
+"cat": "A",
+"text": "Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2025 to 31.03.2026 for AY 2026-27",
+"clean": "256 Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2025 to 31.03.2026 for AY 2026-27"
+},
+{
+"n": 257,
+"cat": "A",
+"text": "Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile"
+},
+{
+"n": 258,
+"cat": "A",
+"text": "Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile"
+},
+{
+"n": 259,
+"cat": "A",
+"text": "Assessee should enter valid Mobile Number"
+},
+{
+"n": 260,
+"cat": "A",
+"text": "It is mandatory to select an Option for 115BAC question at sl.no. A23 Note: Applicable in case of Individual and HUF",
+"clean": "260 It is mandatory to select an Option for 115BAC question at sl.no. A23 Note: Applicable in case of Individual and HUF"
+},
+{
+"n": 261,
+"cat": "A",
+"text": "In case of new tax regime, deduction u/s 57(iia) can be availed up to 1/3rd of Family pension maximum of Rs. 25,000"
+},
+{
+"n": 262,
+"cat": "A",
+"text": "In case of New Tax Regime: Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of",
+"clean": "In case of New Tax Regime: Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 75000. In case of New Tax Regime: Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 75000."
+},
+{
+"n": 263,
+"cat": "A",
+"text": "Rs 75000. In case of new tax regime deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as PSU\u201d, \u201cOthers\", \"Central Govt\" or \"State Govt\""
+},
+{
+"n": 264,
+"cat": "A",
+"text": "For assessee Firm (other than LLP), any field in A23 has any value \"Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2026-",
+"clean": "For assessee Firm (other than LLP), any field in A23 has any value \"Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2026- 27? \"'"
+},
+{
+"n": 265,
+"cat": "A",
+"text": "27? \"' Under Schedule EI, Sl. No. iii Long term capital gains as per sec 112A are more than",
+"clean": "Under Schedule EI, Sl. No. iii Long term capital gains as per sec 112A are more than 1,25,000"
+},
+{
+"n": 266,
+"cat": "A",
+"text": "1,25,000 In Schedule EI, Sl. No. iii Long term capital gains as per sec 112A should be output of Sl. No. (i - ii)"
+},
+{
+"n": 267,
+"cat": "A",
+"text": "Total income excluding LTCG u/s112A shall not be more than Rs. 50 Lakhs"
+},
+{
+"n": 268,
+"cat": "A",
+"text": "In Part A General, Filing section is selected as 139(9) and the responses for A23 in 139(9) do not match with the responses of A23 question in the ITR against which",
+"clean": "268 In Part A General, Filing section is selected as 139(9) and the responses for A23 in 139(9) do not match with the responses of A23 question in the ITR against which defective response is getting submitted. In Part A General, Filing section is selected as 139(9) and the responses for A23 in 139(9) do not match with the responses of A23 question in the ITR against which defective response is getting submitted."
+},
+{
+"n": 269,
+"cat": "A",
+"text": "defective response is getting submitted. \"Details of Bank from which loan is taken\" need to be provided for claiming Interest on borrowed capital u/s 24(b) in schedule Interest u/s 24(b)"
+},
+{
+"n": 270,
+"cat": "A",
+"text": "Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted."
+},
+{
+"n": 271,
+"cat": "A",
+"text": "As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EE should be part of the details",
+"clean": "271 As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EE should be part of the details disclosed in schedule 24(b) As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EE should be part of the details disclosed in schedule 24(b)"
+},
+{
+"n": 272,
+"cat": "A",
+"text": "disclosed in schedule 24(b) As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EEA should be part of the details"
+},
+{
+"n": 273,
+"cat": "A",
+"text": "disclosed in schedule 24(b) Details such as nature of payment, Amount eligible for deduction u/s 80C, Policy no. or Document Identification Number of supporting document are required to provide in",
+"clean": "Details such as nature of payment, Amount eligible for deduction u/s 80C, Policy no. or Document Identification Number of supporting document are required to provide in schedule 80C to claim deduction"
+},
+{
+"n": 274,
+"cat": "A",
+"text": "schedule 80C to claim deduction \"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80E in schedule 80E"
+},
+{
+"n": 275,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80EE in schedule 80EE"
+},
+{
+"n": 276,
+"cat": "A",
+"text": "Deduction u/s 80EE can be claimed only if maximum loan taken does not exceed Rs. 35 lakhs against the property"
+},
+{
+"n": 277,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" needs to be provided for claiming deduction u/s 80EEA in schedule 80EEA"
+},
+{
+"n": 278,
+"cat": "A",
+"text": "Deduction u/s 80EEA can be claimed only on the residential house property having stamp value up to Rs.45 Lakhs"
+},
+{
+"n": 279,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22"
+},
+{
+"n": 280,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80EEB in schedule 80EEB",
+"clean": "280 \"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80EEB in schedule 80EEB"
+},
+{
+"n": 281,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEB shall be between 1.4.19 and 31.3.23"
+},
+{
+"n": 282,
+"cat": "A",
+"text": "Details of Form 10BA are required to provide to claim deduction u/s 80GG"
+},
+{
+"n": 283,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at",
+"clean": "283 In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.1a"
+},
+{
+"n": 284,
+"cat": "A",
+"text": "sl.no.1a In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 285,
+"cat": "A",
+"text": "sl.no.1b In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 286,
+"cat": "A",
+"text": "sl.no.2a In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at"
+},
+{
+"n": 287,
+"cat": "A",
+"text": "sl.no.2b Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD, respectively."
+},
+{
+"n": 288,
+"cat": "A",
+"text": "Details of specified decrease are required to be provided to claim deduction u/s 80DDB"
+},
+{
+"n": 289,
+"cat": "A",
+"text": "In schedule House property, value of \u201cinterest on borrowed capital\" should be same as the \"total of interest paid u/s 24(b)\" as per schedule 24(b)",
+"clean": "289 In schedule House property, value of \u201cinterest on borrowed capital\" should be same as the \"total of interest paid u/s 24(b)\" as per schedule 24(b)"
+},
+{
+"n": 290,
+"cat": "A",
+"text": "Deduction u/s 80C claimed under chapter VIA should be same as the \u201cTotal of payment made as per schedule 80C \""
+},
+{
+"n": 291,
+"cat": "A",
+"text": "Deduction u/s 80E in schedule VIA should match with the \"Total of interest paid\" as per schedule 80E"
+},
+{
+"n": 292,
+"cat": "A",
+"text": "Deduction u/s 80EE in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EE"
+},
+{
+"n": 293,
+"cat": "A",
+"text": "Deduction u/s 80EEA in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEA"
+},
+{
+"n": 294,
+"cat": "A",
+"text": "Deduction u/s 80EEB in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEB"
+},
+{
+"n": 295,
+"cat": "A",
+"text": "In schedule 24(b) the sum of individual rows for \"Interest paid during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 24(b)"
+},
+{
+"n": 296,
+"cat": "A",
+"text": "In schedule 80C the sum of individual rows for \"Amount of payment\" (ii) shall match with the \"Total of Payments\" as per the schedule 80C"
+},
+{
+"n": 297,
+"cat": "A",
+"text": "In schedule 80E the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80E"
+},
+{
+"n": 298,
+"cat": "A",
+"text": "In schedule 80EE the sum of individual rows for \"Interest paid during the year\" (x) shall match the \"Total of Payments\" as per the schedule 80EE"
+},
+{
+"n": 299,
+"cat": "A",
+"text": "In schedule 80EEA the sum of individual rows for \"Amount of interest paid\" (ix) shall match with the \"Total of Payments\" as per the schedule 80EEA"
+},
+{
+"n": 300,
+"cat": "A",
+"text": "In schedule 80EEB the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80EEB"
+}
+]

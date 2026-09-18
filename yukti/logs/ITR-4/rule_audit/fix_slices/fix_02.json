@@ -1,0 +1,182 @@
+[
+ {
+  "n": 101,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:389",
+  "text": "In Schedule 80G in table (c) \u201cDonations entitled for 100% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered",
+  "clean": "",
+  "finding": "80G table C cash-or-other mandatory not enforced; Total is a free input"
+ },
+ {
+  "n": 102,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:389",
+  "text": "mandatory. In Schedule 80G in table (D) \u201cDonations entitled for 50% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered",
+  "clean": "",
+  "finding": "80G table D cash-or-other mandatory not enforced"
+ },
+ {
+  "n": 104,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:391",
+  "text": "limit+Donations entitled for 50% deduction subject to qualifying limit) \"Total Donation\" should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (A)\"Donations entitled for 100% deduction without qualifying",
+  "clean": "",
+  "finding": "80G (A) Total=cash+other not validated; only bucket C encoded"
+ },
+ {
+  "n": 105,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:391",
+  "text": "limit\" Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (B)\"Donations entitled for 50% deduction without qualifying limit\"",
+  "clean": "",
+  "finding": "80G (B) Total=cash+other not validated"
+ },
+ {
+  "n": 107,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:391",
+  "text": "limit\" Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (D)\"Donations entitled for 50% deduction subject to qualifying",
+  "clean": "",
+  "finding": "80G (D) Total=cash+other not validated"
+ },
+ {
+  "n": 108,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:132",
+  "text": "limit\" If Old Tax Regime is selected, and in \"schedule 80G\" if multiple entries are there under donation in cash with same PAN, then, if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0",
+  "clean": "",
+  "finding": "individual cash>2000 struct-handled but same-PAN cash aggregation missing"
+ },
+ {
+  "n": 109,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "or in case of individual entry is more than Rs. 2000 in cash then also eligible amount of donation shall not be more than 0 In schedule 80G, if donation is made, same PAN of Donee cannot appear more than once except the PAN 'AAAAR1077P can be repeated in different blocks' Note: For table D (50% without qualifying limit), above rule will not be applicable if",
+  "clean": "",
+  "finding": "duplicate donee PAN not checked"
+ },
+ {
+  "n": 115,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule TDS2(i) & TDS2(ii), Unclaimed TDS brought forward & details of TDS of current FY should be provided in different rows in Sch TDS 2",
+  "clean": "",
+  "finding": "b/f and current-FY TDS can share one row; not separated"
+ },
+ {
+  "n": 117,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "70_sec_paidbank.js:386",
+  "text": "In schedule TDS-2(i), claim of TDS in SR.NO 6 cannot be more than income disclosed in SR.NO 7",
+  "clean": "",
+  "finding": "TDS2(i) claim>gross only a warn, not a blocking Category-A check"
+ },
+ {
+  "n": 123,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:493",
+  "text": "mandatorily filled. IFSC under \u201cBank Details,\u201d Schedule 80G and in schedule 80GGC should match with the RBI database / GIFT IFSC codes.",
+  "clean": "",
+  "finding": "IFSC not matched against RBI database (external DB, offline unenforceable)"
+ },
+ {
+  "n": 139,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:539",
+  "text": "Gross receipts /turnover are mentioned in schedule BP but Financial Particulars such as Sundry creditors, Inventories, Sundry debtors, cash in hand is not filled",
+  "clean": "",
+  "finding": "financial particulars req:1 label only; not enforced when turnover present"
+ },
+ {
+  "n": 140,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "As per rule 12 (1) (ca), a person deriving income under the head \u201cprofits or gains from business /profession\u201d and such income computed in accordance with special provisions of section 44AD or 44AE or 44ADA, is required to furnished return in ITR-4. The",
+  "clean": "",
+  "finding": "no check that ITR-4 discloses 44AD/44AE/44ADA income"
+ },
+ {
+  "n": 142,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_paidbank.js:374",
+  "text": "Credit for TDS has been claimed in return, but the corresponding receipts have been omitted to be offered for taxation.",
+  "clean": "",
+  "finding": "no cross-check that TDS receipts are offered to tax"
+ },
+ {
+  "n": 143,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:208",
+  "text": "Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 50000 in case of old tax regime",
+  "clean": "",
+  "finding": "std deduction min(75000,netSal) both regimes; old-regime 50000 cap unenforced/contradicted"
+ },
+ {
+  "n": 151,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:76",
+  "text": "House rent allowance (HRA u/s.10(13A)) is claimed, hence deduction u/s.80GG above Rs 55,000 not allowed",
+  "clean": "",
+  "finding": "HRA+80GG 55k interaction not enforced; engine caps 80GG at 60k only"
+ },
+ {
+  "n": 155,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:226",
+  "text": "more than Rs 2,00,000, If Old Tax Regime is selected, then in case employer category is other than CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or \"not applicable\"",
+  "clean": "",
+  "finding": "80CCD(1) 10% of salary cap absent; only 20% GTI applied"
+ },
+ {
+  "n": 161,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:109",
+  "text": "Deduction u/s 80CCD (2) cannot be claimed by the taxpayer who has selected employer category as CG - Pensioners SG - Pensioners, PSU - Pensioners, others - Pensioners or",
+  "clean": "",
+  "finding": "80CCD(2) pensioner bar omits the not-applicable (NA) employer category"
+ },
+ {
+  "n": 162,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:692",
+  "text": "\"not applicable\" Relief u/s 89 cannot be claimed by taxpayer if details of salary and family pension are \"zero\"/ \"blank\"",
+  "clean": "",
+  "finding": "relief u/s 89 is user input; not checked against zero salary/family pension"
+ },
+ {
+  "n": 164,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:211",
+  "text": "Deduction u/s 80EEB is claimed by HUF or Firm (other than LLP)",
+  "clean": "",
+  "finding": "HUF/Firm 80EEB not blocked (80EE is, 80EEB is not; no A rule)"
+ },
+ {
+  "n": 165,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_paidbank.js:280",
+  "text": "Assessee is \"HUF\" or Firm (other than LLP) and amount in schedule TDS 1 is more than zero",
+  "clean": "",
+  "finding": "Sch TDS1 not status-gated; HUF/Firm salary-TDS unchecked"
+ }
+]

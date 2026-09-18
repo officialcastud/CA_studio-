@@ -1,0 +1,182 @@
+[
+ {
+  "n": 319,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "shell/shell.js:75",
+  "text": "Status selected is Individual and having date of formation on or after 01/04/2008 shall not be allowed to file return for AY 25-26",
+  "clean": "",
+  "finding": "Individual minor DOB floor (01/04/2008) not enforced"
+ },
+ {
+  "n": 320,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exempt Allowance u/s 10(13A) in schedule Salary should match with the \"Eligible allowance u/s 10(13A)\" as per schedule 10(13A)",
+  "clean": "",
+  "finding": "Salary 10(13A) not forced to equal schedule eligible; independent inputs"
+ },
+ {
+  "n": 321,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:407-426",
+  "text": "Based on Response provided in A23, taxpayer shall response to the only one applicable question A23A or A23B.",
+  "clean": "",
+  "finding": "A23A/A23B one-only mutual exclusion not enforced (flattened regime UI)"
+ },
+ {
+  "n": 348,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_inccore.js:247",
+  "text": "Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero',",
+  "clean": "",
+  "finding": "Interest not tied to share; share 0 -> interest 0 not enforced"
+ },
+ {
+  "n": 353,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:238",
+  "text": "If A23\" \"Have you filed form 10IEA within due date for any earlier assessment year for choosing old tax regime? \" is selected as \"Yes\u201d then (A)(i) and (A)(ii) shall be mandatory Note: Form 10IEA is required to be filed in case of business income so If you have filed",
+  "clean": "",
+  "finding": "Enforces A(i) AY only; A23(A)(ii) re-entry mandate not modeled"
+ },
+ {
+  "n": 355,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\"",
+  "clean": "",
+  "finding": "A23(A)(ii) re-entry sub-tree not modeled; (ii)(a) mandate unenforced"
+ },
+ {
+  "n": 356,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "is selected as \"Yes\" then it shall be mandatory to provide form 10IEA details under A23(A)(ii)(a) If A23(A)(ii) \"Have you filed ITR 3/4 in past and have re-entered new tax regime by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\" is selected as \"No\" then A23(A)(ii)(b) shall be mandatory",
+  "clean": "",
+  "finding": "A23(A)(ii) not modeled; (ii)(b) mandate unenforced"
+ },
+ {
+  "n": 357,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If A23(A)(ii)(b) \"Have you furnished form 10IEA for re-entering in new tax regime in current assessment year?\" is selected as \"Yes\"",
+  "clean": "",
+  "finding": "A23(A)(ii)(b) not modeled; (ii)(b)(i) mandate unenforced"
+ },
+ {
+  "n": 359,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g1.js:240",
+  "text": "then A23(A)(ii)(b)(i) asking form filed details shall not be applicable If A23(B) \"Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime? is selected as \"Yes\"",
+  "clean": "",
+  "finding": "Guard tests \"Yes\" but export writes \"Y\" (inccore:754); A() dead, date backstopped by req:1/checks"
+ },
+ {
+  "n": 368,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(10BB); sub is free text"
+ },
+ {
+  "n": 369,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(11A)"
+ },
+ {
+  "n": 371,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(12AA) any payment from the National Pension System Trust\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(12AA)"
+ },
+ {
+  "n": 372,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than",
+  "clean": "",
+  "finding": "Missing dedup for 10(12AB)"
+ },
+ {
+  "n": 374,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(12BA) partial withdrawal made from the National Pension System\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(12BA)"
+ },
+ {
+  "n": 375,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(12C) Agniveer Corpus Fund income\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(12C) Agniveer"
+ },
+ {
+  "n": 377,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(19A) Annual value of one palace in occupation of ex-ruler\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(19A)"
+ },
+ {
+  "n": 378,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(23AA)"
+ },
+ {
+  "n": 379,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Contributions received from recognized stock exchange\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for recognized stock exchange contribution code"
+ },
+ {
+  "n": 380,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund\u201d drop-down cannot be selected more than one",
+  "clean": "",
+  "finding": "Missing dedup for 10(23FBB)"
+ },
+ {
+  "n": 381,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "time under Exempt Income. \"Sec 10(23FD) Unit holder income from Business Trust (certain parts\" drop-down cannot be selected more than one time under Exempt Income.",
+  "clean": "",
+  "finding": "Missing dedup for 10(23FD)"
+ }
+]
