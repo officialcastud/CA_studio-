@@ -123,7 +123,7 @@ function secForeign(){
   /* ---------- Schedule FSI ---------- */
   let fsiInner=note("Details of income from outside India and tax relief (available only in case of resident). The amounts in (b) are already included in Part B-TI — this schedule identifies that slice and computes the foreign-tax relief. Column (e) = lower of (c) tax paid outside India and (d) tax payable in India. If no Country Code is entered, the row is not considered.");
   const HEADS=[["hp","i","House Property"],["bus","ii","Business or Profession"],["cg","iii","Capital Gains"],["os","iv","Other Sources"]];
-  (S.fa.fsi||[]).forEach((blk,i)=>{
+  (S.fa.fsi||[]).forEach((fb,i)=>{
     const cr=(C.fsi||[])[i]||{heads:{},tot:{b:0,c:0,d:0,e:0}};
     let t='<div class="full"><table class="gt" style="min-width:920px"><thead><tr>'+
       '<th class="l">Head of income (a)</th>'+
@@ -147,7 +147,7 @@ function secForeign(){
     const head=row("Country Code",sel("fa.fsi."+i+".code",FA_CO),{req:1})+
       row("Taxpayer Identification Number",inp("fa.fsi."+i+".tin",{max:75}),{req:1})+
       row("Section under which relief claimed",sel("fa.fsi."+i+".sec",FA_RELSEC),{hint:"90 / 90A (DTAA) or 91 (no DTAA) — carried to Schedule TR"});
-    const nm=blk.code?(FA_CONM[blk.code]||blk.code):"New country";
+    const nm=fb.code?(FA_CONM[fb.code]||fb.code):"New country";
     fsiInner+=blk("fsi"+i, "Country "+(i+1)+" — "+esc(nm), tt.e?RS(tt.e)+" relief":"—", head+t, "fa.fsi."+i);
   });
   fsiInner+='<button class="add" data-add="fa.fsi">Add a country</button>';
