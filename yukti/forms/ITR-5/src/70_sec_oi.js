@@ -367,14 +367,16 @@ function expOi(j){
     /* 9  (9e / 40A(13) intentionally not written — no schema leaf) */
     OI_40A.forEach(k=>put(o,"AmtDisallUs40A."+k, g("AmtDisallUs40A."+k)));
     put(o,"AmtDisallUs40A.TotAmtDisallUs40A", g("AmtDisallUs40A.TotAmtDisallUs40A"));
-    /* 10 */
-    OI_43B.forEach(k=>put(o,"AmtDisallUs43BPyNowAll.AmtUs43B."+k, g("AmtDisallUs43BPyNowAll.AmtUs43B."+k)));
-    OI_43BO.forEach(k=>{const v=g("AmtDisallUs43BPyNowAll.AmtUs43B."+k); if(v)put(o,"AmtDisallUs43BPyNowAll.AmtUs43B."+k, v);});
-    put(o,"AmtDisallUs43BPyNowAll.AmtUs43B.TotAmtUs43b", g("AmtDisallUs43BPyNowAll.AmtUs43B.TotAmtUs43b"));
+    /* 10 — one writer per path: the mandatory keys (OI_43B) always, the optional
+       ones (OI_43BO) only when non-zero. Built from a single put() so no path has
+       two source writers. */
+    {const P="AmtDisallUs43BPyNowAll.AmtUs43B.";
+     OI_43B.concat(OI_43BO).forEach(k=>{const key=P+k,v=g(key); if(OI_43B.indexOf(k)>=0||v)put(o,key,v);});
+     put(o,P+"TotAmtUs43b", g(P+"TotAmtUs43b"));}
     /* 11 */
-    OI_43B.forEach(k=>put(o,"AmtDisall43B.AmtUs43B."+k, g("AmtDisall43B.AmtUs43B."+k)));
-    OI_43BO.forEach(k=>{const v=g("AmtDisall43B.AmtUs43B."+k); if(v)put(o,"AmtDisall43B.AmtUs43B."+k, v);});
-    put(o,"AmtDisall43B.AmtUs43B.TotAmtUs43b", g("AmtDisall43B.AmtUs43B.TotAmtUs43b"));
+    {const P="AmtDisall43B.AmtUs43B.";
+     OI_43B.concat(OI_43BO).forEach(k=>{const key=P+k,v=g(key); if(OI_43B.indexOf(k)>=0||v)put(o,key,v);});
+     put(o,P+"TotAmtUs43b", g(P+"TotAmtUs43b"));}
     /* 12 */
     OI_12.forEach(k=>put(o,"AmtExciseCustomsVATOutstanding.ExciseCustomsVAT."+k, g("AmtExciseCustomsVATOutstanding.ExciseCustomsVAT."+k)));
     put(o,"AmtExciseCustomsVATOutstanding.ExciseCustomsVAT.TotExciseCustomsVAT", g("AmtExciseCustomsVATOutstanding.ExciseCustomsVAT.TotExciseCustomsVAT"));

@@ -347,7 +347,8 @@ function engBp(){
     income:D,               /* head's contribution to Gross Total Income (loss/BFLA, tax) */
     curDep:dep.total,       /* current-year depreciation allowable (Sch DEP 6) */
     dcg:dcg.total,          /* deemed capital gains u/s 50 (Sch DCG 6 -> Sch CG) */
-    ded35AD:_47             /* 35AD(1) deduction claimed (-> AMT add-back) */
+    ded35AD:_47,            /* 35AD(1) deduction claimed (-> AMT add-back) */
+    a3d:R(nb("a3d")), a3e:R(nb("a3e")), a3f:R(nb("a3f"))  /* A3d/e/f 115BBF/BBG/BBH income credited to P&L (-> Schedule SI) */
   };
 }
 

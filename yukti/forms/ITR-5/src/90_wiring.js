@@ -25,9 +25,26 @@ const SECS = SCREEN_ORDER.map(id=>_SECREG.filter(r=>r.id===id).pop()).filter(Boo
   .map(r=>({id:r.id,t:r.t,ref:r.ref,f:r.f,s:r.s||(()=>"")}));
 
 function compute(){
-  S.C={};                                   /* rebuilt every pass */
+  /* Two-pass (fixpoint) compute. The section engines form a DAG when sorted by
+     corder, except for a few forward dependencies where a producer sits AFTER a
+     consumer: `other` (28) publishes S.C.other.pti consumed by hp (6) / cg (26) /
+     os (27); `bp` (25) publishes S.C.icds consumed by oi (6). A single pass would
+     feed those consumers a stale (empty) value. Every engine assigns a FRESH
+     object to its own S.C namespace and never accumulates into S.C (no += / push),
+     so re-running the whole set is idempotent: pass 1 populates every producer,
+     pass 2 lets each consumer read the resolved value, and a further pass would be
+     identical. We loop to a fixpoint (max 3 passes) and stop as soon as S.C is
+     stable, which both proves and guarantees idempotence for this DAG. */
+  S.C={};
   const engs=_SECREG.filter(r=>r.eng).sort((a,b)=>((a.corder||a.order||50)-(b.corder||b.order||50))); /* corder = compute order (defaults to screen order) */
-  for(const r of engs){ try{ r.eng(); }catch(e){ (S.C._errs=S.C._errs||[]).push(r.id+": "+e.message); } }
+  const runPass=()=>{ delete S.C._errs; for(const r of engs){ try{ r.eng(); }catch(e){ (S.C._errs=S.C._errs||[]).push(r.id+": "+e.message); } } };
+  let prev=null;
+  for(let pass=0; pass<3; pass++){
+    runPass();
+    let snap; try{ snap=JSON.stringify(S.C); }catch(e){ snap=null; }
+    if(snap!=null && snap===prev) break;   /* reached the fixpoint — further passes are identical */
+    prev=snap;
+  }
   /* footer contract — a section (usually tax) sets these; default to 0 so the shell paints */
   S.C.gti = S.C.gti||0;
   S.C.ti  = S.C.ti ||0;

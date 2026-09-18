@@ -46,6 +46,21 @@ const GEN_SUBSTATUS={
  "14":[["1a-Primary Agricultural Credit Society","1a-Primary Agricultural Credit Society"],["1b-Primary Co-operative Agricultural and Rural Development bank","1b-Primary Co-operative Agricultural and Rural Development bank"],["1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank","1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank"],["2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ","2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State "],["3-Other Cooperative Society","3-Other Cooperative Society"],["4-Business Trust","4-Business Trust"],["5-Investment Fund","5-Investment Fund"],["6-Trust other than trust eligible to file return in ITR-7","6-Trust other than trust eligible to file return in ITR-7"],["7-Any other AOP/BOI","7-Any other AOP/BOI"]],
  "9":[["1-Estate of the deceased","1-Estate of the deceased"],["2-Estate of the insolvent","2-Estate of the insolvent"],["3-Other AJP","3-Other AJP"]]
 };
+/* OrgFirmInfo.SubStatus is a schema CODE (pattern 4|5|8|10|…|21), while the
+   engines (tax subC / amt / ded) parse the utility label above, so the label is
+   the internal value and only the export/import cross the boundary. Local
+   Authority has no schema code and SubStatus is not schema-required, so it is
+   simply omitted from the return for that status. */
+const GEN_SUBSTATUS_CODE={
+ "1-Partnership Firm":"10", "2-LLP (Limited Liability Partnership)":"5",
+ "1a-Primary Agricultural Credit Society":"15",
+ "1b-Primary Co-operative Agricultural and Rural Development bank":"16",
+ "1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank":"17",
+ "2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ":"11",
+ "3-Other Cooperative Society":"4", "4-Business Trust":"20", "5-Investment Fund":"21",
+ "6-Trust other than trust eligible to file return in ITR-7":"13", "7-Any other AOP/BOI":"8",
+ "1-Estate of the deceased":"12", "2-Estate of the insolvent":"18", "3-Other AJP":"19"};
+const GEN_SUBSTATUS_LABEL=(()=>{const m={};Object.keys(GEN_SUBSTATUS_CODE).forEach(k=>m[GEN_SUBSTATUS_CODE[k]]=k);return m;})();
 const GEN_YN=[["Y","Yes"],["N","No"]];                                    /* the many Y/N flags */
 const GEN_SEP=[["Y","Yes"],["N","No"],["NA","Not Applicable"]];           /* FilingStatus.NriSEPinIndia */
 const GEN_SEC=[["11","139(1)-On or before due date"],["12","139(4)-Belated"],["13","142(1)"],["14","148"],["16","153C"],["17","139(5)-Revised"],["18","139(9)"],["19","92CD - Modified return"],["20","119(2)(b)- after condonation of delay"]]; /* FilingStatus.ReturnFileSec.IncomeTaxSec (AF27) */
@@ -499,7 +514,7 @@ function expGen(j){
   put(j,"PartA_GEN1.OrgFirmInfo.DateOFFormOrIncorp",ISO(S.pi.formed));
   if(S.pi.bizStart)put(j,"PartA_GEN1.OrgFirmInfo.DateofBusCommencement",ISO(S.pi.bizStart));
   put(j,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType",sv(S.pi.status||"1"));
-  put(j,"PartA_GEN1.OrgFirmInfo.SubStatus",sv(S.pi.substatus));
+  {const _sc=GEN_SUBSTATUS_CODE[st0(S.pi.substatus)]; if(_sc)put(j,"PartA_GEN1.OrgFirmInfo.SubStatus",sv(_sc));}  /* util label -> schema code; omitted where no code exists (e.g. Local Authority) */
 
   /* ---------- PartA_GEN1 · FilingStatus ---------- */
   put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.IncomeTaxSec",R(sec||11));
@@ -524,12 +539,16 @@ function expGen(j){
     if(S.fs.f10ieaCurrNew==="Y"){put(j,"PartA_GEN1.FilingStatus.F10IEADateCurrAYNewTax",ISO(S.fs.f10ieaDateNew));
       if(S.fs.f10ieaAckNew)put(j,"PartA_GEN1.FilingStatus.F10IEAAckNoCurrAYNewTax",R(S.fs.f10ieaAckNew));}}
   if(S.fs.newTaxRegime){put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.NewTaxRegime",sv(S.fs.newTaxRegime));
+    /* Form 10-IF (§115BAD/BAE) date+ack is written from a SINGLE place so no
+       schema path has two source writers: it applies when opting new via Y, or
+       when NewTaxRegime=N and OptingNewTaxRegime=1 (Yes). */
+    let want10IF=false;
     if(S.fs.newTaxRegime==="Y"){put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Section115BADAY",sv(S.fs.bad115AY));
-      put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFDate",ISO(S.fs.form10IFDate));
-      if(S.fs.form10IFAck)put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFAckNo",R(S.fs.form10IFAck));}
+      want10IF=true;}
     else if(S.fs.newTaxRegime==="N"&&S.fs.optNew){put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.OptingNewTaxRegime",R(S.fs.optNew));
-      if(String(S.fs.optNew)==="1"){put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFDate",ISO(S.fs.form10IFDate));
-        if(S.fs.form10IFAck)put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFAckNo",R(S.fs.form10IFAck));}}}
+      if(String(S.fs.optNew)==="1")want10IF=true;}
+    if(want10IF){put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFDate",ISO(S.fs.form10IFDate));
+      if(S.fs.form10IFAck)put(j,"PartA_GEN1.FilingStatus.ReturnFileSec.Form10IFAckNo",R(S.fs.form10IFAck));}}
   if(S.fs.baeReturn){put(j,"PartA_GEN1.FilingStatus.115BAEReturnFiling_24_25",sv(S.fs.baeReturn));
     if(S.fs.baeReturn==="Y"&&S.fs.baeYes)put(j,"PartA_GEN1.FilingStatus.OptingTaxation115BAEYes",sv(S.fs.baeYes));
     if(S.fs.baeReturn==="N"&&S.fs.baeNo)put(j,"PartA_GEN1.FilingStatus.OptingTaxation115BAENo",sv(S.fs.baeNo));
@@ -673,7 +692,7 @@ function impGen(I5){
   if(OI.DateOFFormOrIncorp)S.pi.formed=dmy(OI.DateOFFormOrIncorp)||S.pi.formed;
   if(OI.DateofBusCommencement)S.pi.bizStart=dmy(OI.DateofBusCommencement);
   if(OI.StatusOrCompanyType!=null)S.pi.status=OI.StatusOrCompanyType;
-  if(OI.SubStatus!=null)S.pi.substatus=OI.SubStatus;
+  if(OI.SubStatus!=null)S.pi.substatus=GEN_SUBSTATUS_LABEL[String(OI.SubStatus)]||OI.SubStatus;  /* schema code -> util label the engines parse */
 
   if(FS.ReturnFileSec){const R2=FS.ReturnFileSec;
     if(R2.IncomeTaxSec!=null){S.fs.sec=R2.IncomeTaxSec;read.push("filing section");}

@@ -157,8 +157,10 @@ function engTax(){
   const balAfterCYLA=Math.max(0,totalTI-cyla);                                   /* 7 (L35) */
   const bfla=R(L.bfla!=null?L.bfla:(L.bfSetoff!=null?L.bfSetoff:
     ((L.totBFset||0)+(L.totUnabsDep||0)+(L.tot35_4||0))));                       /* 8 BroughtFwdLossesSetoff (L36) */
-  /* 9 Gross total income — read the loss section's post-BFLA total LIVE where present, else derive (L37) */
-  const gti=Math.max(0,R(L.afterB!=null?L.afterB:(balAfterCYLA-bfla)));
+  /* 9 Gross total income — read the loss section's post-BFLA scalar total LIVE
+     where present, else derive (L37). NB: L.afterB is the BY-HEAD object (col 5),
+     not a scalar; the scalar post-BFLA GTI the loss engine publishes is L.gti. */
+  const gti=Math.max(0,R(L.gti!=null?L.gti:(balAfterCYLA-bfla)));
 
   /* 10 — special-rate income under 111A/112/112A etc. included in GTI (S.C.si) (L38) */
   const SI=(S.C.si||{});
@@ -170,7 +172,7 @@ function engTax(){
   const viaPartC=Math.max(0,R(DED.partC!=null?DED.partC:(DED.TotPartCchapterVIA||0)));   /* 11b (J41) */
   const viaCap=Math.max(0,gti-splInc);                                          /* capped at (9 − 10) */
   const viaTot=Math.max(0,Math.min(viaPartB+viaPartC,viaCap));                  /* 11c (L42) */
-  const us10AA=Math.max(0,Math.min(R(DED.us10AA!=null?DED.us10AA:(DED.ded10AA||0)),Math.max(0,gti-splInc-viaTot))); /* 12 (L43) */
+  const us10AA=Math.max(0,Math.min(R(DED.ded10AA!=null?DED.ded10AA:(DED.us10AA||0)),Math.max(0,gti-splInc-viaTot))); /* 12 (L43) — ded publishes ded10AA */
 
   /* 13 — total income = round-to-ten of MAX(0, GTI − 11c − 12) (L47) */
   const ti=Math.max(0,Math.round((gti-viaTot-us10AA)/10)*10);
@@ -232,8 +234,12 @@ function engTax(){
 
   /* 3 — gross tax payable = higher of 1d and 2g (L75) */
   const grossTaxPayable=Math.max(grossTaxLiability,amtTotal);
-  /* 4 — §115JD credit, only when 2g > 1d (L76) */
-  const credit=(grossTaxLiability>amtTotal)?R(AM.credit!=null?AM.credit:(AM.amtcUsed||0)):0;
+  /* 4 — §115JD credit, only when 2g > 1d (L76), and never in the new regime
+     (A696). amt publishes the available pool as S.C.amt.creditAvail (Σ B3); the
+     credit set off is capped at item 3 = MAX(0, 2i − 1d) = grossTaxLiability −
+     amtTotal, mirroring amtcTable() so this item and Schedule AMTC agree. */
+  const credit=(!isNew()&&grossTaxLiability>amtTotal)
+    ?Math.min(R(AM.creditAvail!=null?AM.creditAvail:0),Math.max(0,grossTaxLiability-amtTotal)):0;
   const afterCredit=Math.max(0,grossTaxPayable-credit);                         /* 5 (L77) */
 
   /* 6 — tax relief §90/90A (6a) and §91 (6b), read LIVE from the FA engine (never a dead field) */

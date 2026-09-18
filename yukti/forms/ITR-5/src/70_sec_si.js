@@ -153,6 +153,9 @@ const SI_112A_B=["5ADiiiP"];
    basic-exemption slack (P/Q/R/S/T/U spreading), set off highest rate first */
 const SI_CG_WALK=["1","21","2A","21ciii","5AC1c","5AB1b","5ADiii","5ADiiiP",
   "5ADii","5AD1biip","PTI_STCG20P","PTI_STCG30P","PTI_LTCG12_5P112A","PTI_LTCG12_5P"];
+/* DTAA-rate rows (SI.md rows 7-9) whose tax carries NO health-&-education cess
+   (Tax(N) AE25 = NoCess_CR = SI!J95:J98, subtracted from the cess base). */
+const SI_NOCESS=["DTAAOS","DTAASTCG","DTAALTCG"];
 /* CG + dividend codes whose tax is surcharge-capped at 15% (→ tax section) */
 const SI_CGDIV=["1","21","2A","21ciii","5AC1c","5AB1b","5ADiii","5ADiiiP","5ADii",
   "5AD1biip","PTI_STCG20P","PTI_STCG30P","PTI_LTCG12_5P112A","PTI_LTCG12_5P",
@@ -165,7 +168,7 @@ const SI_CG_AUTO=["1","21","2A","5BBH","DTAASTCG","DTAALTCG"];
 /* ---- engine --------------------------------------------------------- */
 function engSi(){
   const cg=(S.C.cg||{}), cgB=(cg.buckets||{});
-  const os=(S.C.os||{}), bp=(S.bp||{});
+  const os=(S.C.os||{}), bp=(S.C.bp||{});   /* bp (corder 25) < si (52): read the published S.C.bp.{a3d,a3e,a3f} */
   const Lb=(S.C.loss||{}).afterB||{};
   const resident=S.fs&&S.fs.resStatus==="RES";
   const isAopBoi=S.pi&&String(S.pi.status)==="14";     /* AOP/BOI — the only ITR-5 status with a basic-exemption limit */
@@ -258,21 +261,22 @@ function engSi(){
   const exBasic=Math.max(0,basic-normalRateInc)-slack;
 
   /* ----- tax thereon (SI.md: J = ROUND(I×G/100,0); DTAA rows keep taxFix) - */
-  let totInc=0,totCalc=0,totTax=0,tax112A=0,bbeTax=0,cgDivTax=0;
+  let totInc=0,totCalc=0,totTax=0,tax112A=0,bbeTax=0,cgDivTax=0,noCess=0;
   live.forEach((r,i)=>{const h=Math.max(0,R(taxable[i]));
     const tax=(r.taxFix!=null&&r.src!=="edit")?r.taxFix:R(h*N(r.rate)/100);
     r.taxable=h;r.tax=tax;
     totInc+=r.inc;totCalc+=h;totTax+=tax;
     if(SI_112A_A.indexOf(r.code)>=0||SI_112A_B.indexOf(r.code)>=0)tax112A+=tax;
     if(r.code==="5BBE")bbeTax+=tax;
-    if(SI_CGDIV.indexOf(r.code)>=0)cgDivTax+=tax;});
+    if(SI_CGDIV.indexOf(r.code)>=0)cgDivTax+=tax;
+    if(SI_NOCESS.indexOf(r.code)>=0)noCess+=tax;});   /* AE25 = tax on the DTAA-rate rows; cess is not levied on it */
 
   S.C.si={
     on:live.length>0,
     rows:live,
     totInc:R(totInc), totCalc:R(totCalc), totTax:R(totTax),
     TotSplRateInc:R(totInc), TotSplRateIncTax:R(totTax),      /* schema-named for the tax section */
-    tax112A:R(tax112A), bbeTax:R(bbeTax), cgDivTax:R(cgDivTax),
+    tax112A:R(tax112A), bbeTax:R(bbeTax), cgDivTax:R(cgDivTax), noCess:R(noCess),
     exemption112A:R(ex112A), exemptionBasic:R(exBasic),
     income:0};                                                /* re-presents CG/OS/BP income — adds nothing to GTI */
   return S.C.si;
@@ -372,7 +376,7 @@ function impSi(I5){
 function chkSi(){
   const out=[]; const G=S.C.si||engSi()||S.C.si||{};
   const add=(lvl,t,m)=>out.push({lvl,t,m,sec:"si"});
-  const cg=(S.C.cg||{}), cgB=(cg.buckets||{}), os=(S.C.os||{}), bp=(S.bp||{});
+  const cg=(S.C.cg||{}), cgB=(cg.buckets||{}), os=(S.C.os||{}), bp=(S.C.bp||{});   /* published S.C.bp.{a3d,a3e,a3f} */
   const Lb=(S.C.loss||{}).afterB||{};
   const rowInc=code=>{const r=(G.rows||[]).find(x=>x.code===code);return r?R(r.inc):0;};
 

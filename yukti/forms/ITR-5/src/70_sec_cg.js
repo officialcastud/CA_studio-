@@ -371,6 +371,7 @@ function engCg(){
     si115bbh:C2};                                                    /* VDA @30 u/s 115BBH */
 
   S.C.cg={on:true,nri:nri,land,A,B,E,gain,loss,used,absorbed,matrix,after,F,Fauto,
+    buyBackLoss:R(-(N((A.aA||{}).loss)+N((B.bA||{}).loss))),   /* STCL+LTCL buy-back, signed negative (os chk rule 446 / 2(22)(f)) */
     s112a,s115ad,vda,buckets,dedD,dedTotal:R(dedTotal),cflSTCL,cflLTCL,
     dtaaStcgRate:"",dtaaLtcgRate:"",
     C1:R(C1),C2:R(C2),C3:R(C3),
