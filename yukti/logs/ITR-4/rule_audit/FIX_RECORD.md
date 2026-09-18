@@ -24,6 +24,16 @@ schema errors, round-trips byte-identical, hand figures match to the rupee.
 - 167 (original-return section for a 142(1) revision), 188 second half (148-proceeding bar), 225 age-17–27
   limb (date of joining armed forces), 379 (10(23EE) — no such SubCategory enum in ITR-4).
 
+## Census follow-up — dead-code defect found and FIXED
+- **A346** (co-owned property: assessee's share + co-owners' shares must total 100%). The full-census
+  re-count found the live `A(346)` at `61_rules_g0.js:143` was **dead**: its guard `PropCoOwnedFlg==="Y"`
+  never matches the exporter's `"YES"` enum, so it never fired, and no STRUCT covered the 100% sum
+  (A404 covers only the non-co-owned case; A405/A406 constrain individual shares, not the total).
+  Counter-example that passed every live check: co-owned, assessee 50% + one co-owner 20% = 70%.
+  **Fixed:** re-added in `61_rules_fix_06.js` with the correct `PropCoOwnedFlg!=="YES"` guard, beside
+  the already-corrected A404/A405. Rebuilt; G0–G7 green; lawful client (properties `co:"NO"`) unaffected.
+  This closed the last MISSING serial — census Missing is now **0**. See `CENSUS_SUMMARY.md`.
+
 ## Coverage
 105 GAP + 17 WEAK addressed. Live checks cover the salary 10-exemption caps, presumptive thresholds
 (44AD/44ADA/44AE), 80G cash-vs-other-mode splits, Chapter VI-A caps and acknowledgements, TDS special-rate

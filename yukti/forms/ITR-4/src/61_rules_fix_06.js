@@ -79,6 +79,9 @@ ruleset(function(I,S_,A,Dd){
     /* 405 (WEAK: g0:142 keys on "Y", the exporter writes "YES", so it never runs) */
     A(405, p.PropCoOwnedFlg!=="YES" || (co.length>0 && co.every(function(o){ var s=N(o&&o.PercentShareProperty); return s>0 && s<100; })),
       L+"when the property is co-owned, the percentage share of each other co-owner must be greater than 0 and less than 100%.");
+    /* 346 (dead in g0:142 — same "Y" vs "YES" guard bug as 405; re-added here with the correct enum) */
+    A(346, p.PropCoOwnedFlg!=="YES" || REQ(N(p.AsseseeShareProperty)+RSUM(co,"PercentShareProperty"), 100),
+      L+"for a co-owned property the assessee's own percentage share and the co-owners' shares must total 100%.");
   });
 
   /* ---------------- 80CCC — at least one identifier row when claimed ---------------- */
