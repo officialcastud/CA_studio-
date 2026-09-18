@@ -191,8 +191,8 @@ function engTax(){
   const taxInc17=Math.max(0,grossTaxPayable-esopDef);                   /* 3a (L80) */
   const afterCredit=Math.max(0,taxInc17+esopDue-credit);               /* item 5 (L84) */
   const rel89=Math.max(0,R(N(S.tax.s89)));                              /* 6a */
-  const rel90=R((S.C.trDTAA!=null?S.C.trDTAA:(S.C.fsi||{}).dtaaRel)||0);/* 6b Section 90/90A (2 of TR) */
-  const rel91=R((S.C.trNoDTAA!=null?S.C.trNoDTAA:(S.C.fsi||{}).noDtaaRel)||0);/* 6c Section 91 (3 of TR) */
+  const rel90=R((S.C.fa||{}).dtaa||0);   /* 6b Section 90/90A (2 of TR) — from the FA engine (ScheduleTR feed) */
+  const rel91=R((S.C.fa||{}).notDtaa||0);/* 6c Section 91 (3 of TR) — from the FA engine (ScheduleTR feed) */
   const relief=R(rel89+rel90+rel91);                                    /* 6e (L90) */
   const net=Math.max(0,R(afterCredit-relief));                          /* item 7 net tax liability (L91) */
 
