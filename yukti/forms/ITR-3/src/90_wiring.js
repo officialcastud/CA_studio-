@@ -11,7 +11,7 @@ const SECS = SCREEN_ORDER.map(id=>_SECREG.filter(r=>r.id===id).pop()).filter(Boo
 
 function compute(){
   S.C={};                                   /* rebuilt every pass */
-  const engs=_SECREG.filter(r=>r.eng).sort((a,b)=>(a.order||50)-(b.order||50));
+  const engs=_SECREG.filter(r=>r.eng).sort((a,b)=>((a.corder||a.order||50)-(b.corder||b.order||50))); /* corder = compute order (defaults to screen order); lets SI compute after BFLA */
   for(const r of engs){ try{ r.eng(); }catch(e){ (S.C._errs=S.C._errs||[]).push(r.id+": "+e.message); } }
   /* footer contract — a section (usually tax) sets these; default to 0 so the shell paints */
   S.C.gti = S.C.gti||0;

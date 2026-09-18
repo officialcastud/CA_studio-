@@ -47,10 +47,9 @@ ruleset(function(I,S_,A,Dd){
       "Schedule SI: income from other sources chargeable at special rates as per DTAA must equal Sl.No. 5(xiv) of Schedule BFLA"+(isNRI?" (non-resident: DTAA income counts only where the TRC flag is Yes)":"")+".");
     A(859, REQ(siSum(["5ADii","PTI_STCG30P"]), bf5("STCG30Per")),
       "Schedule SI: income u/s 115AD(1)(ii) (STCG of FII, STT not paid) plus pass-through STCG chargeable @30% must equal Sl.No. 5(vii) of Schedule BFLA.");
-    /* HELD (engine defect, see FIX_RECORD.md): Schedule SI 2A (112A) is built from the pre-BFLA CG bucket
-       (300,000) instead of the post-BFLA figure (BFLA 5x = 220,000). Re-enable once engSi reads post-BFLA.
+    /* FIXED (engSi now scales the special-rate CG heads to post-BFLA, S.C.loss.afterB). */
     A(870, REQ(siSum(["21","22","21ciii","5AC1c","5ACA1b","5ADiii","5Eb","2A","5ADiiiP","PTI_LTCG12_5P112A","PTI_LTCG12_5P"]), bf5("LTCG12_5Per")),
-      "Schedule SI: the sum of the long-term capital gain heads (112(1), 112(1)(c)(iii), 115AC, 115ACA, 115AD, 115E, 112A, 115AD(1)(iii) proviso, PTI LTCG @12.5%) must equal Sl.No. 5(x) of Schedule BFLA."); */
+      "Schedule SI: the sum of the long-term capital gain heads (112(1), 112(1)(c)(iii), 115AC, 115ACA, 115AD, 115E, 112A, 115AD(1)(iii) proviso, PTI LTCG @12.5%) must equal Sl.No. 5(x) of Schedule BFLA.");
     A(871, REQ(siSum(["1A","5AD1biip","PTI_STCG20P"]), bf5("STCG20Per")),
       "Schedule SI: income u/s 111A / 115AD(1)(b)(ii) proviso plus pass-through STCG chargeable @20% must equal Sl.No. 5(vi) of Schedule BFLA.");
     A(872, REQ(siSum(["DTAASTCG"]), bf5("STCGDTAARate")),
@@ -133,10 +132,9 @@ ruleset(function(I,S_,A,Dd){
       N(osIO.GrossIncChrgblTaxAtAppRate)+N(osIO.IncChargeableSpecialRates)+N(RG(I,"ScheduleOS.IncFromOwnHorse.Receipts")),
       N(RG(I,"ScheduleOS.TotOthSrcNoRaceHorse")),N(RG(I,"ScheduleOS.IncChargeable")),N(RG(ti,"IncFromOS.TotIncFromOS")));
     fsi.forEach(function(b,i){b=b||{};var L="Schedule FSI country "+(i+1)+": ";
-      /* HELD (test-data defect, see FIX_RECORD.md): the client's FSI UK row claims HP relief on foreign HP
-         income (300,000) while Schedule HP 1k+2 is negative (-214,000). Re-enable once the FSI row is lawful.
+      /* FIXED: the client's FSI-UK foreign income moved from HP (net HP is a loss) to CG (has headroom). */
       A(891, !N(RG(b,"IncFromHP.TaxReliefinInd"))||hpShown>=N(RG(b,"IncFromHP.IncFrmOutsideInd"))-1,
-        L+"tax relief is claimed against house property — the income at Sl.No. 1k + 2 of Schedule HP cannot be less than the house-property income shown in Schedule FSI."); */
+        L+"tax relief is claimed against house property — the income at Sl.No. 1k + 2 of Schedule HP cannot be less than the house-property income shown in Schedule FSI.");
       A(892, !N(RG(b,"IncFromBusiness.TaxReliefinInd"))||busShown>=N(RG(b,"IncFromBusiness.IncFrmOutsideInd"))-1,
         L+"tax relief is claimed against business or profession — the business income shown (Trading Account gross profit + positive P&L net profit / no-books profit) cannot be less than the business income shown in Schedule FSI.");
       A(893, !N(RG(b,"IncCapGain.TaxReliefinInd"))||cgShown>=N(RG(b,"IncCapGain.IncFrmOutsideInd"))-1,

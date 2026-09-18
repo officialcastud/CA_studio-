@@ -176,14 +176,25 @@ function engSi(){
   const rows=[];
   const push=(code,rate,inc,src)=>{if(R(inc)===0)return;
     rows.push({code,rate:st0(rate),inc:R(inc),src});};
-  /* auto-populate the capital-gains special heads from cg buckets.
-     (book Part 2 note: "SI is a computed table … auto-populated".)        */
-  push("2A","12.5",cgB.si112a,"cg");        /* 112A @12.5 — ₹1.25L exemption applied below */
-  push("22","12.5",cgB.si112,"cg");         /* 112(1) other LTCG @12.5 */
-  push("1A","20",cgB.si111a20,"cg");        /* 111A STCG @20 */
-  push("5BBH","30",cgB.si115bbh,"cg");      /* 115BBH VDA (capital gains) @30 */
-  push("DTAASTCG",(cg.dtaaStcgRate||""),cgB.stDTAA,"cg");  /* STCG at DTAA rate */
-  push("DTAALTCG",(cg.dtaaLtcgRate||""),cgB.ltDTAA,"cg");  /* LTCG at DTAA rate */
+  /* auto-populate the capital-gains special heads from cg buckets, scaled to the
+     POST-BFLA income (Schedule BFLA column 5 = S.C.loss.afterB) so the special-rate
+     income and its tax reflect brought-forward-loss set-off — rules A870/A871/A872/
+     A873 require SI heads to equal BFLA col 5. Proportional split across sub-heads of
+     the same loss row (112A vs other 112 both sit under afterB.lt125). Scale defaults
+     to 1 when the loss engine has not run (no regression). VDA (115BBH) has no set-off. */
+  const _Lb=(S.C.loss||{}).afterB||{};
+  const _scl=(pre,post)=>{pre=N(pre);return pre>0?(N(post)/pre):1;};
+  const _lt125pre=N(cgB.si112a)+N(cgB.si112);
+  const _ltS =_scl(_lt125pre, _Lb.lt125!=null?_Lb.lt125:_lt125pre);
+  const _st20S=_scl(cgB.si111a20, _Lb.st20 !=null?_Lb.st20 :cgB.si111a20);
+  const _stDs =_scl(cgB.stDTAA,   _Lb.stDTAA!=null?_Lb.stDTAA:cgB.stDTAA);
+  const _ltDs =_scl(cgB.ltDTAA,   _Lb.ltDTAA!=null?_Lb.ltDTAA:cgB.ltDTAA);
+  push("2A","12.5",R(N(cgB.si112a)*_ltS),"cg");   /* 112A @12.5 — ₹1.25L exemption applied below */
+  push("22","12.5",R(N(cgB.si112)*_ltS),"cg");    /* 112(1) other LTCG @12.5 */
+  push("1A","20",R(N(cgB.si111a20)*_st20S),"cg"); /* 111A STCG @20 */
+  push("5BBH","30",cgB.si115bbh,"cg");            /* 115BBH VDA (capital gains) @30 — no BFLA set-off */
+  push("DTAASTCG",(cg.dtaaStcgRate||""),R(N(cgB.stDTAA)*_stDs),"cg");  /* STCG at DTAA rate */
+  push("DTAALTCG",(cg.dtaaLtcgRate||""),R(N(cgB.ltDTAA)*_ltDs),"cg");  /* LTCG at DTAA rate */
   /* the manually disclosed heads (the sheet's edit override) */
   (S.si.rows||[]).forEach(r=>{if(!r||!r.code)return;
     push(r.code,r.rate||SI_RATE_DEF[r.code]||"",N(r.inc),"man");});
@@ -474,4 +485,4 @@ function chkSi(){
 reg({id:"si", t:"Specified persons, special rates & firms", ref:"SPI · SI · IF",
   f:secSi, s:()=>{const G=S.C.si||{};
     return (G.totTax?RS(G.totTax)+" special-rate tax":((G.spiTotal||(G.ifTot||{}).profit)?"disclosed":""));},
-  eng:engSi, exp:expSi, imp:impSi, chk:chkSi, order:28});
+  eng:engSi, exp:expSi, imp:impSi, chk:chkSi, order:28, corder:46});

@@ -4,7 +4,7 @@
   "form": "ITR-3",
   "ay": "2026-27",
   "ver": 1,
-  "saved": "2026-09-18T03:53:03.413Z"
+  "saved": "2026-09-18T05:14:42.334Z"
  },
  "pi": {
   "status": "I",
@@ -356,7 +356,7 @@
    },
    "ClsngStckOfFinishedStcks": 200000,
    "OpngStckOfFinishedStcks": 150000,
-   "Purchases": 6000000,
+   "Purchases": 8815000,
    "CarriageInward": 20000,
    "PowerAndFuel": 10000,
    "OtherIncDtls": [
@@ -392,7 +392,7 @@
    "DirectExpensesTotal": 5000,
    "DirectExpenses": 35000,
    "GoodsCostPrdcdFrmMA": 0,
-   "GrossProfitFrmBusProf": 4065000
+   "GrossProfitFrmBusProf": 1250000
   },
   "pl": {
    "CreditsToPL": {
@@ -414,8 +414,8 @@
      "MiscOthIncome": 0,
      "TotOthIncome": 30000
     },
-    "GrossProfitTrnsfFrmTrdAcc": 4065000,
-    "TotCreditsToPL": 4095000
+    "GrossProfitTrnsfFrmTrdAcc": 1250000,
+    "TotCreditsToPL": 1280000
    },
    "DebitsToPL": {
     "Freight": 10000,
@@ -507,19 +507,19 @@
      "Others": 0,
      "InterestExpdr": 0
     },
-    "DepreciationAmort": 25000,
+    "DepreciationAmort": 80000,
     "OtherExpenses": 0,
-    "PBIDTA": 4005000,
-    "PBT": 3980000
+    "PBIDTA": 1190000,
+    "PBT": 1110000
    },
    "TaxProvAppr": {
     "ProvForCurrTax": 0,
     "ProvDefTax": 0,
     "BalBFPrevYr": 0,
     "TrfToReserves": 0,
-    "ProfitAfterTax": 3980000,
-    "AmtAvlAppr": 3980000,
-    "ProprietorAccBalTrf": 3980000
+    "ProfitAfterTax": 1110000,
+    "AmtAvlAppr": 1110000,
+    "ProprietorAccBalTrf": 1110000
    },
    "PersumptiveInc44AD": {
     "GrsTrnOverBank": 0,
@@ -1065,7 +1065,7 @@
     "name": "UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND",
     "tin": "UK-777-88",
     "sec": "91",
-    "hp": {
+    "cg": {
      "b": 300000,
      "c": 30000,
      "d": 25000,

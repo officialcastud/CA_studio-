@@ -83,10 +83,8 @@ ruleset(function(I,S_,A,Dd){
         +noAcc
         +N(RG(pl,"NetIncomeFrmSpecActivity"))
         +RSUM(RG(pl,"NonResidentPLDetails",[])||[],"NetProfit");
-      /* HELD (test-data defect, see logs/ITR-3/rule_audit/FIX_RECORD.md): the canonical client's
-         S.bp.pbt (1,110,000) is inconsistent with its P&L PBT (3,980,000). Re-enable once the test
-         client is reconciled or the P&L→BP item-1 feed is corrected.
-      A(237,REQ(P.ProfBfrTaxPL,pbtPL),"Schedule BP: item 1 (profit before tax as per P&L) must equal P&L item 53 plus the presumptive income (61ii, 62ii, 63ii, 66ii), the no-account net profit (64iii) and speculative income (65iv)."); */
+      /* FIXED: the test client's Trading account was reconciled so P&L PBT (item 53) = BP item 1 (1,110,000). */
+      A(237,REQ(P.ProfBfrTaxPL,pbtPL),"Schedule BP: item 1 (profit before tax as per P&L) must equal P&L item 53 plus the presumptive income (61ii, 62ii, 63ii, 66ii), the no-account net profit (64iii) and speculative income (65iv).");
     }
     /* 242 / 243 — A3c / A3d cannot exceed the income offered in Schedule CG / Schedule OS (analogues of A241) */
     A(242,N(RG(P,"IncRecCredPLOthHeadDtls.CapitalGains"))<=Math.max(0,N(RG(I,"ScheduleCGFor23.TotScheduleCGFor23")))+1,"Schedule BP: the amount reduced at A3c (capital gains) cannot exceed the income offered in Schedule CG.");

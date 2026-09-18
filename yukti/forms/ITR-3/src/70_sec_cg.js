@@ -967,7 +967,16 @@ function expCg(j){
   const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
   const FN={st20:"ShortTermUnder20Per",st30:"ShortTermUnder30Per",stApp:"ShortTermUnderAppRate",
     stDTAA:"ShortTermUnderDTAARate",lt125:"LongTermUnder12_5Per",ltDTAA:"LongTermUnderDTAARate"};
-  const AF={};SL.forEach(x=>{const dr={};QK.forEach((q,i)=>dr[q]=n0((G.F[x[0]]||[])[i]));AF[FN[x[0]]]={DateRange:dr};});
+  /* quarters scaled to post-BFLA (Schedule BFLA col 5 = S.C.loss.afterB) so the break-up totals
+     the after-brought-forward-set-off gain — rules A425/426/427/428/451/452. Proportional across
+     quarters; rounding remainder into the last quarter so the sum is exact. Falls back to the raw
+     Fauto when the loss engine has not run (no regression). */
+  const _Lb=(S.C.loss||{}).afterB||{};
+  const AF={};SL.forEach(x=>{const k=x[0];const src=(G.F[k]||[]);
+    const pre=src.reduce((a,v)=>a+N(v),0);const tgt=N(_Lb[k]!=null?_Lb[k]:pre);const dr={};
+    if(pre>0){const f=tgt/pre;let acc=0;QK.forEach((q,i)=>{if(i<4){dr[q]=n0(N(src[i])*f);acc+=dr[q];}});dr[QK[4]]=n0(tgt-acc);}
+    else {QK.forEach(q=>dr[q]=0);if(tgt>0)dr[QK[4]]=n0(tgt);}
+    AF[FN[k]]={DateRange:dr};});
   {const vq=[0,0,0,0,0];if(G.C2)(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
     const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}  /* required key */
   j.ScheduleCGFor23.AccruOrRecOfCG=AF;

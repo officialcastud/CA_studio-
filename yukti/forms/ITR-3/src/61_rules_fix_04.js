@@ -78,11 +78,10 @@ ruleset(function(I,S_,A,Dd){
     const FQ=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
     const fSum=fk=>{const dr=RG(cg,"AccruOrRecOfCG."+fk+".DateRange",{})||{};return FQ.reduce((a,q)=>a+N(dr[q]),0);};
     const bf5=bk=>N(RG(I,"ScheduleBFLA."+bk+".IncBFLA.IncOfCurYrAfterSetOffBFLosses"));
-    /* 426 (STCGAppRate/5viii) & 452 (LTCG12_5Per/5x) HELD: the engine builds Table F from pre-set-off
-       land-sale rows, not BFLA col 5, so they fire on the canonical client — see FIX_RECORD.md. */
+    /* FIXED: expCg now scales Table F quarters to post-BFLA (S.C.loss.afterB = BFLA col 5). */
     [[451,"ShortTermUnder20Per","STCG20Per","1","5vi"],[425,"ShortTermUnder30Per","STCG30Per","2","5vii"],
-     [427,"ShortTermUnderDTAARate","STCGDTAARate","4","5ix"],
-     [428,"LongTermUnderDTAARate","LTCGDTAARate","6","5xi"]]
+     [426,"ShortTermUnderAppRate","STCGAppRate","3","5viii"],[427,"ShortTermUnderDTAARate","STCGDTAARate","4","5ix"],
+     [452,"LongTermUnder12_5Per","LTCG12_5Per","5","5x"],[428,"LongTermUnderDTAARate","LTCGDTAARate","6","5xi"]]
       .forEach(([n,fk,bk,sl,it])=>{A(n,!I.ScheduleBFLA||REQ(fSum(fk),bf5(bk)),
         "Schedule CG Table F Sl.No. "+sl+": the break-up of all the quarters must equal item "+it+" of Schedule BFLA.");});
   }

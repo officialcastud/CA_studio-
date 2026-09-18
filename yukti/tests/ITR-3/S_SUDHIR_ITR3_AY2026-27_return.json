@@ -298,8 +298,8 @@
       "AmtofInterest": 0,
       "AmtofRem": 0
      },
-     "TotCreditsToPL": 4095000,
-     "GrossProfitTrnsfFrmTrdAcc": 4065000
+     "TotCreditsToPL": 1280000,
+     "GrossProfitTrnsfFrmTrdAcc": 1250000
     },
     "DebitsToPL": {
      "Freight": 10000,
@@ -384,23 +384,23 @@
      },
      "ProvForBadDoubtDebt": 0,
      "OthProvisionsExpdr": 0,
-     "PBIDTA": 4005000,
+     "PBIDTA": 1190000,
      "InterestExpdrtDtls": {
       "NonResOtherCompany": 0,
       "Others": 0,
       "InterestExpdr": 0
      },
-     "DepreciationAmort": 25000,
-     "PBT": 3980000
+     "DepreciationAmort": 80000,
+     "PBT": 1110000
     },
     "TaxProvAppr": {
      "ProvForCurrTax": 0,
      "ProvDefTax": 0,
-     "ProfitAfterTax": 3980000,
+     "ProfitAfterTax": 1110000,
      "BalBFPrevYr": 0,
-     "AmtAvlAppr": 3980000,
+     "AmtAvlAppr": 1110000,
      "TrfToReserves": 0,
-     "ProprietorAccBalTrf": 3980000
+     "ProprietorAccBalTrf": 1110000
     },
     "NoBooksOfAccPL": {
      "GrossReceipt": 0,
@@ -819,7 +819,7 @@
     "BalanceAfterSetoffLosses": 3503500,
     "BroughtFwdLossesSetoff": 230000,
     "GrossTotalIncome": 3273500,
-    "IncChargeTaxSplRate111A112": 500000,
+    "IncChargeTaxSplRate111A112": 420000,
     "DeductionsUndSchVIADtl": {
      "PartBchapterVIA": 1107000,
      "PartCchapterVIA": 180000,
@@ -827,9 +827,9 @@
     },
     "DeductionsUnder10Aor10AA": 200000,
     "TotalIncome": 1786500,
-    "AggregateIncome": 1806500,
+    "AggregateIncome": 1886500,
     "DeemedIncomeUs115JC": 2166500,
-    "IncChargeableTaxSplRates": 500000,
+    "IncChargeableTaxSplRates": 420000,
     "NetAgricultureIncomeOrOtherIncomeForRate": 520000,
     "LossesOfCurrentYearCarriedFwd": 169000
    },
@@ -842,19 +842,19 @@
       "TotalTax": 416835
      },
      "TaxPayableOnTI": {
-      "TaxAtNormalRatesOnAggrInc": 354450,
+      "TaxAtNormalRatesOnAggrInc": 378450,
       "TaxAtSpecialRates": 60000,
       "RebateOnAgriInc": 66500,
-      "TaxPayableOnTotInc": 347950,
+      "TaxPayableOnTotInc": 371950,
       "Rebate87A": 0,
-      "TaxPayableOnRebate": 347950,
+      "TaxPayableOnRebate": 371950,
       "Surcharge25ofSI": 0,
       "SurchargeOnAboveCrore": 0,
       "Surcharge25ofSIBeforeMarginal": 0,
       "SurchargeOnAboveCroreBeforeMarginal": 0,
       "TotalSurcharge": 0,
-      "EducationCess": 13918,
-      "GrossTaxLiability": 361868
+      "EducationCess": 14878,
+      "GrossTaxLiability": 386828
      },
      "GrossTaxPayable": 416835,
      "CreditUS115JD": 0,
@@ -1234,7 +1234,7 @@
     },
     "ClsngStckOfFinishedStcks": 200000,
     "OpngStckOfFinishedStcks": 150000,
-    "Purchases": 6000000,
+    "Purchases": 8815000,
     "CarriageInward": 20000,
     "PowerAndFuel": 10000,
     "OtherIncDtls": [
@@ -1270,7 +1270,7 @@
     "DirectExpensesTotal": 5000,
     "DirectExpenses": 35000,
     "GoodsCostPrdcdFrmMA": 0,
-    "GrossProfitFrmBusProf": 4065000
+    "GrossProfitFrmBusProf": 1250000
    },
    "ScheduleCGFor23": {
     "ShortTermCapGainFor23": {
@@ -1485,7 +1485,7 @@
      "ShortTermUnderAppRate": {
       "DateRange": {
        "Upto15Of6": 0,
-       "Upto15Of9": 450000,
+       "Upto15Of9": 400000,
        "Up16Of9To15Of12": 0,
        "Up16Of12To15Of3": 0,
        "Up16Of3To31Of3": 0
@@ -1506,7 +1506,7 @@
        "Upto15Of9": 0,
        "Up16Of9To15Of12": 0,
        "Up16Of12To15Of3": 0,
-       "Up16Of3To31Of3": 0
+       "Up16Of3To31Of3": 220000
       }
      },
      "LongTermUnderDTAARate": {
@@ -1976,10 +1976,10 @@
        "TaxReliefinInd": 0
       },
       "IncFromHP": {
-       "IncFrmOutsideInd": 300000,
-       "TaxPaidOutsideInd": 30000,
-       "TaxPayableinInd": 25000,
-       "TaxReliefinInd": 25000
+       "IncFrmOutsideInd": 0,
+       "TaxPaidOutsideInd": 0,
+       "TaxPayableinInd": 0,
+       "TaxReliefinInd": 0
       },
       "IncFromBusiness": {
        "IncFrmOutsideInd": 0,
@@ -1988,10 +1988,10 @@
        "TaxReliefinInd": 0
       },
       "IncCapGain": {
-       "IncFrmOutsideInd": 0,
-       "TaxPaidOutsideInd": 0,
-       "TaxPayableinInd": 0,
-       "TaxReliefinInd": 0
+       "IncFrmOutsideInd": 300000,
+       "TaxPaidOutsideInd": 30000,
+       "TaxPayableinInd": 25000,
+       "TaxReliefinInd": 25000
       },
       "IncOthSrc": {
        "IncFrmOutsideInd": 0,
@@ -3018,13 +3018,13 @@
     ]
    },
    "ScheduleSI": {
-    "TotSplRateInc": 500000,
+    "TotSplRateInc": 420000,
     "TotSplRateIncTax": 60000,
     "SplCodeRateTax": [
      {
       "SecCode": "2A",
       "SplRatePercent": 12.5,
-      "SplRateInc": 300000,
+      "SplRateInc": 220000,
       "SplRateIncTax": 0
      },
      {
@@ -3070,18 +3070,18 @@
    },
    "ScheduleAMTC": {
     "TaxSection115JC": 416835,
-    "TaxOthProvisions": 361868,
+    "TaxOthProvisions": 386828,
     "AmtTaxCreditAvailable": 0,
     "CurrAssYr": "2026-27",
-    "CurrYrAmtCreditFwd": 54967,
-    "CurrYrCreditCarryFwd": 54967,
-    "TotAMTGross": 329967,
+    "CurrYrAmtCreditFwd": 30007,
+    "CurrYrCreditCarryFwd": 30007,
+    "TotAMTGross": 305007,
     "TotSetOffEys": 60000,
     "TotBalBF": 215000,
     "TotAmtCreditUtilisedCY": 0,
-    "TotBalAMTCreditCF": 269967,
+    "TotBalAMTCreditCF": 245007,
     "TaxSection115JD": 0,
-    "AmtLiabilityAvailable": 269967,
+    "AmtLiabilityAvailable": 245007,
     "ScheduleAMTCDtls": [
      {
       "AssYr": "2022-23",

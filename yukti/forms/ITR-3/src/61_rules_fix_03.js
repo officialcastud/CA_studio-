@@ -25,11 +25,10 @@ ruleset(function(I,S_,A,Dd){
     const s44AD=N(RG(P,"DeemedProfitBusUs.Section44AD"));
 
     /* 271 — item 11 = Manufacturing 1Evi (depreciation of factory machinery) + P&L item 52 */
-    /* HELD (test-data defect, see FIX_RECORD.md): client S.bp.depDebPL (80,000) != P&L DepreciationAmort
-       (25,000) + Mfg 1Evi (0). Re-enable once the client's BP item-11 depreciation is reconciled.
+    /* FIXED: test client's P&L DepreciationAmort reconciled to BP item 11 (both 80,000). */
     A(271,REQ(P.DepreciationDebPLCosAct,
       N(RG(I,"ManufacturingAccount.OpeningInventory.DeprctnOfFactoryMachinery"))+N(RG(pl,"DebitsToPL.DepreciationAmort"))),
-      "Schedule BP: item 11 (depreciation and amortization debited to P&L) must equal 1Evi of the Manufacturing Account plus item 52 of Part A-P&L."); */
+      "Schedule BP: item 11 (depreciation and amortization debited to P&L) must equal 1Evi of the Manufacturing Account plus item 52 of Part A-P&L.");
 
     /* 281 — income reduced at 3 and 5 cannot exceed what was credited to the P&L */
     const credPL=N(RG(pl,"CreditsToPL.TotCreditsToPL"))+N(RG(pl,"NoBooksOfAccPL.GrossReceipt"))+N(RG(pl,"NoBooksOfAccPL.GrossReceiptPrf"))

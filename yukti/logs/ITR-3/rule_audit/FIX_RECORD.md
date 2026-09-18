@@ -16,17 +16,22 @@ Category-A firings on the lawful client; only the two non-blocking D1 advisories
   ₹1,25,000**. Fixed to read `S.C.fa.dtaa` / `S.C.fa.notDtaa` (the same FA-engine values Schedule TR exports).
   Relief now applied; A966/A967 reconcile and pass. GTI/TI unaffected (relief is post-tax).
 
-## HELD — 6 checks written but commented (they expose deeper defects; re-enable after the fix). See in-file `HELD` notes.
-| Rule | Kind | Defect |
+## Engine-correctness pass — all 6 held checks FIXED and re-enabled (Gates 5/6/7 green; GTI/TI & net tax unchanged)
+| Rule | Kind | Fix |
 |---|---|---|
-| A237 | test-data | client `S.bp.pbt` (11,10,000) ≠ P&L PBT (39,80,000) — BP item 1 inconsistency |
-| A271 | test-data | client `S.bp.depDebPL` (80,000) ≠ P&L depreciation (25,000) — BP item 11 inconsistency |
-| A426, A452 | **engine** | Schedule CG Table F quarterly break-up is built from pre-set-off land-sale rows, not BFLA col 5 (`70_sec_cg.js` `Fauto`). The 112A gain never reaches Table F; brought-forward losses aren't netted |
-| A870 | **engine** | Schedule SI 2A (112A) uses the pre-BFLA CG bucket (3,00,000) instead of the post-BFLA figure (BFLA 5x = 2,20,000) — `70_sec_si.js` should read post-BFLA |
-| A891 | test-data | client's FSI (UK) row claims HP relief on 3,00,000 foreign HP income while Schedule HP 1k+2 is −2,14,000 |
+| A870 | **engine** | Schedule SI special-rate CG heads now scaled to post-BFLA (`S.C.loss.afterB` = BFLA col 5). SI computes after the loss engine via a decoupled compute order (`corder:46` in the registry; `90_wiring.js` sorts by `corder||order`), so the special-rate income **and its tax** reflect brought-forward-loss set-off. SI 2A: 3,00,000 → 2,20,000 = BFLA 5x. |
+| A426, A452 | **engine** | `expCg` now scales Table F quarters to post-BFLA (BFLA col 5), remainder into the last quarter so each rate row sums exactly. STCGAppRate 4,50,000 → 4,00,000; LTCG12.5 3,00,000 → 2,20,000. All 6 heads live. |
+| A237 | test-data | Trading account reconciled (`Purchases` 60,00,000 → 88,15,000) so P&L PBT (item 53) = BP item 1 = 11,10,000. Business income is driven by `bp.pbt`, so GTI is unchanged. |
+| A271 | test-data | P&L `DepreciationAmort` 25,000 → 80,000 to match BP item 11; business income unaffected. |
+| A891 | test-data | FSI-UK foreign income moved from HP (Schedule HP is a net loss → no headroom) to CG (headroom 9,50,000). Non-DTAA (sec 91) ₹25,000 relief preserved, so net tax is unchanged. |
 
-These change either the canonical client's business income / CG-schedule presentation or need test-data
-reconciliation, so they were held rather than guessed. The other 4 Table-F heads (451/425/427/428) stay live.
+**Impact of the two engine bugs on real returns:** any return with brought-forward capital losses previously
+showed/taxed special-rate income pre-set-off. Now Schedule SI, CG Table F and the special-rate tax all use the
+post-BFLA figure (BFLA col 5), matching the portal. For S SUDHIR the *payable* tax is AMT-driven (unchanged at
+net ₹2,91,835); the normal-tax line rose correctly as the 80k moved out of the 12.5% bucket, but AMT > normal so
+the payable did not change.
+
+Only A972 remains not-live (IFSC vs the external RBI master — format already enforced by `IFSC_RE`).
 
 ## Not mappable (no schema key / offline-uncheckable — documented in-file)
 - A972 — IFSC vs the RBI master database (external; the IFSC *format* is already enforced by `IFSC_RE`).

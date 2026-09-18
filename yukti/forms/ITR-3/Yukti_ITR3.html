@@ -1895,10 +1895,8 @@ ruleset(function(I,S_,A,Dd){
         +noAcc
         +N(RG(pl,"NetIncomeFrmSpecActivity"))
         +RSUM(RG(pl,"NonResidentPLDetails",[])||[],"NetProfit");
-      /* HELD (test-data defect, see logs/ITR-3/rule_audit/FIX_RECORD.md): the canonical client's
-         S.bp.pbt (1,110,000) is inconsistent with its P&L PBT (3,980,000). Re-enable once the test
-         client is reconciled or the P&L→BP item-1 feed is corrected.
-      A(237,REQ(P.ProfBfrTaxPL,pbtPL),"Schedule BP: item 1 (profit before tax as per P&L) must equal P&L item 53 plus the presumptive income (61ii, 62ii, 63ii, 66ii), the no-account net profit (64iii) and speculative income (65iv)."); */
+      /* FIXED: the test client's Trading account was reconciled so P&L PBT (item 53) = BP item 1 (1,110,000). */
+      A(237,REQ(P.ProfBfrTaxPL,pbtPL),"Schedule BP: item 1 (profit before tax as per P&L) must equal P&L item 53 plus the presumptive income (61ii, 62ii, 63ii, 66ii), the no-account net profit (64iii) and speculative income (65iv).");
     }
     /* 242 / 243 — A3c / A3d cannot exceed the income offered in Schedule CG / Schedule OS (analogues of A241) */
     A(242,N(RG(P,"IncRecCredPLOthHeadDtls.CapitalGains"))<=Math.max(0,N(RG(I,"ScheduleCGFor23.TotScheduleCGFor23")))+1,"Schedule BP: the amount reduced at A3c (capital gains) cannot exceed the income offered in Schedule CG.");
@@ -1942,11 +1940,10 @@ ruleset(function(I,S_,A,Dd){
     const s44AD=N(RG(P,"DeemedProfitBusUs.Section44AD"));
 
     /* 271 — item 11 = Manufacturing 1Evi (depreciation of factory machinery) + P&L item 52 */
-    /* HELD (test-data defect, see FIX_RECORD.md): client S.bp.depDebPL (80,000) != P&L DepreciationAmort
-       (25,000) + Mfg 1Evi (0). Re-enable once the client's BP item-11 depreciation is reconciled.
+    /* FIXED: test client's P&L DepreciationAmort reconciled to BP item 11 (both 80,000). */
     A(271,REQ(P.DepreciationDebPLCosAct,
       N(RG(I,"ManufacturingAccount.OpeningInventory.DeprctnOfFactoryMachinery"))+N(RG(pl,"DebitsToPL.DepreciationAmort"))),
-      "Schedule BP: item 11 (depreciation and amortization debited to P&L) must equal 1Evi of the Manufacturing Account plus item 52 of Part A-P&L."); */
+      "Schedule BP: item 11 (depreciation and amortization debited to P&L) must equal 1Evi of the Manufacturing Account plus item 52 of Part A-P&L.");
 
     /* 281 — income reduced at 3 and 5 cannot exceed what was credited to the P&L */
     const credPL=N(RG(pl,"CreditsToPL.TotCreditsToPL"))+N(RG(pl,"NoBooksOfAccPL.GrossReceipt"))+N(RG(pl,"NoBooksOfAccPL.GrossReceiptPrf"))
@@ -2157,11 +2154,10 @@ ruleset(function(I,S_,A,Dd){
     const FQ=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
     const fSum=fk=>{const dr=RG(cg,"AccruOrRecOfCG."+fk+".DateRange",{})||{};return FQ.reduce((a,q)=>a+N(dr[q]),0);};
     const bf5=bk=>N(RG(I,"ScheduleBFLA."+bk+".IncBFLA.IncOfCurYrAfterSetOffBFLosses"));
-    /* 426 (STCGAppRate/5viii) & 452 (LTCG12_5Per/5x) HELD: the engine builds Table F from pre-set-off
-       land-sale rows, not BFLA col 5, so they fire on the canonical client — see FIX_RECORD.md. */
+    /* FIXED: expCg now scales Table F quarters to post-BFLA (S.C.loss.afterB = BFLA col 5). */
     [[451,"ShortTermUnder20Per","STCG20Per","1","5vi"],[425,"ShortTermUnder30Per","STCG30Per","2","5vii"],
-     [427,"ShortTermUnderDTAARate","STCGDTAARate","4","5ix"],
-     [428,"LongTermUnderDTAARate","LTCGDTAARate","6","5xi"]]
+     [426,"ShortTermUnderAppRate","STCGAppRate","3","5viii"],[427,"ShortTermUnderDTAARate","STCGDTAARate","4","5ix"],
+     [452,"LongTermUnder12_5Per","LTCG12_5Per","5","5x"],[428,"LongTermUnderDTAARate","LTCGDTAARate","6","5xi"]]
       .forEach(([n,fk,bk,sl,it])=>{A(n,!I.ScheduleBFLA||REQ(fSum(fk),bf5(bk)),
         "Schedule CG Table F Sl.No. "+sl+": the break-up of all the quarters must equal item "+it+" of Schedule BFLA.");});
   }
@@ -2503,10 +2499,9 @@ ruleset(function(I,S_,A,Dd){
       "Schedule SI: income from other sources chargeable at special rates as per DTAA must equal Sl.No. 5(xiv) of Schedule BFLA"+(isNRI?" (non-resident: DTAA income counts only where the TRC flag is Yes)":"")+".");
     A(859, REQ(siSum(["5ADii","PTI_STCG30P"]), bf5("STCG30Per")),
       "Schedule SI: income u/s 115AD(1)(ii) (STCG of FII, STT not paid) plus pass-through STCG chargeable @30% must equal Sl.No. 5(vii) of Schedule BFLA.");
-    /* HELD (engine defect, see FIX_RECORD.md): Schedule SI 2A (112A) is built from the pre-BFLA CG bucket
-       (300,000) instead of the post-BFLA figure (BFLA 5x = 220,000). Re-enable once engSi reads post-BFLA.
+    /* FIXED (engSi now scales the special-rate CG heads to post-BFLA, S.C.loss.afterB). */
     A(870, REQ(siSum(["21","22","21ciii","5AC1c","5ACA1b","5ADiii","5Eb","2A","5ADiiiP","PTI_LTCG12_5P112A","PTI_LTCG12_5P"]), bf5("LTCG12_5Per")),
-      "Schedule SI: the sum of the long-term capital gain heads (112(1), 112(1)(c)(iii), 115AC, 115ACA, 115AD, 115E, 112A, 115AD(1)(iii) proviso, PTI LTCG @12.5%) must equal Sl.No. 5(x) of Schedule BFLA."); */
+      "Schedule SI: the sum of the long-term capital gain heads (112(1), 112(1)(c)(iii), 115AC, 115ACA, 115AD, 115E, 112A, 115AD(1)(iii) proviso, PTI LTCG @12.5%) must equal Sl.No. 5(x) of Schedule BFLA.");
     A(871, REQ(siSum(["1A","5AD1biip","PTI_STCG20P"]), bf5("STCG20Per")),
       "Schedule SI: income u/s 111A / 115AD(1)(b)(ii) proviso plus pass-through STCG chargeable @20% must equal Sl.No. 5(vi) of Schedule BFLA.");
     A(872, REQ(siSum(["DTAASTCG"]), bf5("STCGDTAARate")),
@@ -2589,10 +2584,9 @@ ruleset(function(I,S_,A,Dd){
       N(osIO.GrossIncChrgblTaxAtAppRate)+N(osIO.IncChargeableSpecialRates)+N(RG(I,"ScheduleOS.IncFromOwnHorse.Receipts")),
       N(RG(I,"ScheduleOS.TotOthSrcNoRaceHorse")),N(RG(I,"ScheduleOS.IncChargeable")),N(RG(ti,"IncFromOS.TotIncFromOS")));
     fsi.forEach(function(b,i){b=b||{};var L="Schedule FSI country "+(i+1)+": ";
-      /* HELD (test-data defect, see FIX_RECORD.md): the client's FSI UK row claims HP relief on foreign HP
-         income (300,000) while Schedule HP 1k+2 is negative (-214,000). Re-enable once the FSI row is lawful.
+      /* FIXED: the client's FSI-UK foreign income moved from HP (net HP is a loss) to CG (has headroom). */
       A(891, !N(RG(b,"IncFromHP.TaxReliefinInd"))||hpShown>=N(RG(b,"IncFromHP.IncFrmOutsideInd"))-1,
-        L+"tax relief is claimed against house property — the income at Sl.No. 1k + 2 of Schedule HP cannot be less than the house-property income shown in Schedule FSI."); */
+        L+"tax relief is claimed against house property — the income at Sl.No. 1k + 2 of Schedule HP cannot be less than the house-property income shown in Schedule FSI.");
       A(892, !N(RG(b,"IncFromBusiness.TaxReliefinInd"))||busShown>=N(RG(b,"IncFromBusiness.IncFrmOutsideInd"))-1,
         L+"tax relief is claimed against business or profession — the business income shown (Trading Account gross profit + positive P&L net profit / no-books profit) cannot be less than the business income shown in Schedule FSI.");
       A(893, !N(RG(b,"IncCapGain.TaxReliefinInd"))||cgShown>=N(RG(b,"IncCapGain.IncFrmOutsideInd"))-1,
@@ -7667,7 +7661,16 @@ function expCg(j){
   const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
   const FN={st20:"ShortTermUnder20Per",st30:"ShortTermUnder30Per",stApp:"ShortTermUnderAppRate",
     stDTAA:"ShortTermUnderDTAARate",lt125:"LongTermUnder12_5Per",ltDTAA:"LongTermUnderDTAARate"};
-  const AF={};SL.forEach(x=>{const dr={};QK.forEach((q,i)=>dr[q]=n0((G.F[x[0]]||[])[i]));AF[FN[x[0]]]={DateRange:dr};});
+  /* quarters scaled to post-BFLA (Schedule BFLA col 5 = S.C.loss.afterB) so the break-up totals
+     the after-brought-forward-set-off gain — rules A425/426/427/428/451/452. Proportional across
+     quarters; rounding remainder into the last quarter so the sum is exact. Falls back to the raw
+     Fauto when the loss engine has not run (no regression). */
+  const _Lb=(S.C.loss||{}).afterB||{};
+  const AF={};SL.forEach(x=>{const k=x[0];const src=(G.F[k]||[]);
+    const pre=src.reduce((a,v)=>a+N(v),0);const tgt=N(_Lb[k]!=null?_Lb[k]:pre);const dr={};
+    if(pre>0){const f=tgt/pre;let acc=0;QK.forEach((q,i)=>{if(i<4){dr[q]=n0(N(src[i])*f);acc+=dr[q];}});dr[QK[4]]=n0(tgt-acc);}
+    else {QK.forEach(q=>dr[q]=0);if(tgt>0)dr[QK[4]]=n0(tgt);}
+    AF[FN[k]]={DateRange:dr};});
   {const vq=[0,0,0,0,0];if(G.C2)(C.vda||[]).forEach(r=>{if(r._&&r._.inc&&r.head==="CG")vq[r._.q]+=r._.inc;});
     const dr={};QK.forEach((q,i)=>dr[q]=n0(vq[i]));AF.VDATrnsfGainsUnder30Per={DateRange:dr};}  /* required key */
   j.ScheduleCGFor23.AccruOrRecOfCG=AF;
@@ -13212,14 +13215,25 @@ function engSi(){
   const rows=[];
   const push=(code,rate,inc,src)=>{if(R(inc)===0)return;
     rows.push({code,rate:st0(rate),inc:R(inc),src});};
-  /* auto-populate the capital-gains special heads from cg buckets.
-     (book Part 2 note: "SI is a computed table … auto-populated".)        */
-  push("2A","12.5",cgB.si112a,"cg");        /* 112A @12.5 — ₹1.25L exemption applied below */
-  push("22","12.5",cgB.si112,"cg");         /* 112(1) other LTCG @12.5 */
-  push("1A","20",cgB.si111a20,"cg");        /* 111A STCG @20 */
-  push("5BBH","30",cgB.si115bbh,"cg");      /* 115BBH VDA (capital gains) @30 */
-  push("DTAASTCG",(cg.dtaaStcgRate||""),cgB.stDTAA,"cg");  /* STCG at DTAA rate */
-  push("DTAALTCG",(cg.dtaaLtcgRate||""),cgB.ltDTAA,"cg");  /* LTCG at DTAA rate */
+  /* auto-populate the capital-gains special heads from cg buckets, scaled to the
+     POST-BFLA income (Schedule BFLA column 5 = S.C.loss.afterB) so the special-rate
+     income and its tax reflect brought-forward-loss set-off — rules A870/A871/A872/
+     A873 require SI heads to equal BFLA col 5. Proportional split across sub-heads of
+     the same loss row (112A vs other 112 both sit under afterB.lt125). Scale defaults
+     to 1 when the loss engine has not run (no regression). VDA (115BBH) has no set-off. */
+  const _Lb=(S.C.loss||{}).afterB||{};
+  const _scl=(pre,post)=>{pre=N(pre);return pre>0?(N(post)/pre):1;};
+  const _lt125pre=N(cgB.si112a)+N(cgB.si112);
+  const _ltS =_scl(_lt125pre, _Lb.lt125!=null?_Lb.lt125:_lt125pre);
+  const _st20S=_scl(cgB.si111a20, _Lb.st20 !=null?_Lb.st20 :cgB.si111a20);
+  const _stDs =_scl(cgB.stDTAA,   _Lb.stDTAA!=null?_Lb.stDTAA:cgB.stDTAA);
+  const _ltDs =_scl(cgB.ltDTAA,   _Lb.ltDTAA!=null?_Lb.ltDTAA:cgB.ltDTAA);
+  push("2A","12.5",R(N(cgB.si112a)*_ltS),"cg");   /* 112A @12.5 — ₹1.25L exemption applied below */
+  push("22","12.5",R(N(cgB.si112)*_ltS),"cg");    /* 112(1) other LTCG @12.5 */
+  push("1A","20",R(N(cgB.si111a20)*_st20S),"cg"); /* 111A STCG @20 */
+  push("5BBH","30",cgB.si115bbh,"cg");            /* 115BBH VDA (capital gains) @30 — no BFLA set-off */
+  push("DTAASTCG",(cg.dtaaStcgRate||""),R(N(cgB.stDTAA)*_stDs),"cg");  /* STCG at DTAA rate */
+  push("DTAALTCG",(cg.dtaaLtcgRate||""),R(N(cgB.ltDTAA)*_ltDs),"cg");  /* LTCG at DTAA rate */
   /* the manually disclosed heads (the sheet's edit override) */
   (S.si.rows||[]).forEach(r=>{if(!r||!r.code)return;
     push(r.code,r.rate||SI_RATE_DEF[r.code]||"",N(r.inc),"man");});
@@ -13510,7 +13524,7 @@ function chkSi(){
 reg({id:"si", t:"Specified persons, special rates & firms", ref:"SPI · SI · IF",
   f:secSi, s:()=>{const G=S.C.si||{};
     return (G.totTax?RS(G.totTax)+" special-rate tax":((G.spiTotal||(G.ifTot||{}).profit)?"disclosed":""));},
-  eng:engSi, exp:expSi, imp:impSi, chk:chkSi, order:28});
+  eng:engSi, exp:expSi, imp:impSi, chk:chkSi, order:28, corder:46});
 
 /* =====================================================================
    ITR-3 · Section "tax" (order 90) — Part B roll-up.
@@ -14736,7 +14750,7 @@ const SECS = SCREEN_ORDER.map(id=>_SECREG.filter(r=>r.id===id).pop()).filter(Boo
 
 function compute(){
   S.C={};                                   /* rebuilt every pass */
-  const engs=_SECREG.filter(r=>r.eng).sort((a,b)=>(a.order||50)-(b.order||50));
+  const engs=_SECREG.filter(r=>r.eng).sort((a,b)=>((a.corder||a.order||50)-(b.corder||b.order||50))); /* corder = compute order (defaults to screen order); lets SI compute after BFLA */
   for(const r of engs){ try{ r.eng(); }catch(e){ (S.C._errs=S.C._errs||[]).push(r.id+": "+e.message); } }
   /* footer contract — a section (usually tax) sets these; default to 0 so the shell paints */
   S.C.gti = S.C.gti||0;
