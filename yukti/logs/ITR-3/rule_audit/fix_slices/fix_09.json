@@ -1,0 +1,83 @@
+[
+ {
+  "n": 34,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Current year losses should not be more than ZERO if return is filed under 139(4)",
+  "clean": "",
+  "finding": "CY losses must be 0 if 139(4); belated var unused; not enforced (same hole as serial 2)"
+ },
+ {
+  "n": 35,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:452",
+  "text": "Deduction u/s 80G shall be claimed against valid Donee PANs only.",
+  "clean": "",
+  "finding": "80G donee PAN mandatory (A648), not assessee's (A12), unique (A645); DB validity external"
+ },
+ {
+  "n": 39,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "a. Temporary calculated value at 5xii of BFLA (i.e., 5xii+ eligible amount of interest in Sl No 3Ci of schedule OS) b. 1a (1ai +1aii) of Schedule OS c. Temporary calculated values of (Sl.no.13 - sl.no.14) of Part BTI (i.e., 14-15 of Part BTI + eligible amount of interest in Sl No 3Ci of schedule OS) In \"Schedule IF\", Total of Col \"Amount of interest due or received\" should be equal to Sl. No. 14xi",
+  "clean": "",
+  "finding": "Schedule IF interest total = P&L 14xi(b) not enforced (no cross-total rule)"
+ },
+ {
+  "n": 40,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In \"Schedule IF\", Total of Col \"Amount of remuneration due or received\" should be equal to Sl. No. 14xi(c) of Schedule Profit & Loss Account 64",
+  "clean": "",
+  "finding": "Schedule IF remuneration total = P&L 14xi(c) not enforced (no cross-total rule)"
+ },
+ {
+  "n": 1,
+  "cat": "D",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:635",
+  "text": "It is mandatory to file Form 29C- Report under section 115JC of the Income-tax Act, 1961 if AMT tax is more than Normal Tax if not opting for New Tax Regime",
+  "clean": "",
+  "finding": "Form 29C AMT notice compares base 115JC tax vs gross normal (with cess) - mismatched basis, may under-fire"
+ },
+ {
+  "n": 4,
+  "cat": "D",
+  "verdict": "GAP",
+  "ref": "60_rules.js",
+  "text": "In Schedule VIA - Part C - Deduction can be claimed only if the original return is filed or being filed on or before the due date specified u/s 139(1).",
+  "clean": "",
+  "finding": "No advisory tying Chapter VI-A Part C deductions to on-time 139(1) filing"
+ },
+ {
+  "n": 7,
+  "cat": "D",
+  "verdict": "GAP",
+  "ref": "60_rules.js",
+  "text": "Deduction u/s 10AA shall be allowed only if return is filed within due date allowed u/s 139(1)",
+  "clean": "",
+  "finding": "No check that 10AA deduction requires return filed within 139(1) due date"
+ },
+ {
+  "n": 16,
+  "cat": "D",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:348",
+  "text": "Amount can be reduced from schedule BP at Sl.No. A4b i.e. Profit from activities covered under rule 7A, 7B(1), 7B(1A) and 8 only if business code is selected as 1003 , 1002, 1001 respectively",
+  "clean": "",
+  "finding": "BP 4b rule-7A/7B/8 reduction not gated on business code 1001/1002/1003"
+ },
+ {
+  "n": 17,
+  "cat": "D",
+  "verdict": "GAP",
+  "ref": "70_sec_si.js:94",
+  "text": "For Resident taxpayers, DTAA benefit is not available, and the claim may not be allowed. Please re-check the claims made. 65",
+  "clean": "",
+  "finding": "Resident claiming DTAA special-rate heads not warned/blocked"
+ }
+]

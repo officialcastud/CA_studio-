@@ -1,0 +1,182 @@
+[
+ {
+  "n": 271,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:254",
+  "text": "In Schedule BP, Sl.No. 11 Depreciation and amortization debited to profit and loss account should be equal to Sl.No. 1Evi of Manufacturing account+ Sl.No. 52 of PART-A-P&L",
+  "clean": "",
+  "finding": "item 11 depDebPL free-typed; no Manuf 1Evi + P&L 52 check"
+ },
+ {
+  "n": 281,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "included in Profit before tax as per profit and loss account \" In Schedule BP, The Income/receipts reduced at Sl.No.3 and/or Sl.No.5 should not be higher than the Income/receipts that have been credited to the P and L A/c",
+  "clean": "",
+  "finding": "general cap on 3/5 reduced vs credited to P&L not encoded"
+ },
+ {
+  "n": 284,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Total value of \"S.No. 4D of Part A Trading account + Gross receipts at Sl.No. 61(i) +62(i) +64(i) +64(ii) of Schedule P&L\" should be greater than or Equal to Sum of amount entered",
+  "clean": "",
+  "finding": "Trading 4D + P&L receipts >= 44AD (35i) not encoded"
+ },
+ {
+  "n": 285,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "in \"Sl.No 35 (i) (Sec 44AD) \" of Schedule BP The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1)",
+  "clean": "",
+  "finding": "44AD bar for agents/44AA(1) professions not encoded"
+ },
+ {
+  "n": 286,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:261",
+  "text": "Schedule BP, sl no 24(e) should be minimum of Absolute value of total of negative values of \"col 3 - col 2\" of all fields in Schedule ESR",
+  "clean": "",
+  "finding": "24(e) ESR-shortfall only a fallback; typed i24e overrides, unchecked"
+ },
+ {
+  "n": 289,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule BP, Income reduced from Row no A3d(i) \"Dividend Income\" plus 5c- Dividend income\" and income offered under schedule OS should not be more than",
+  "clean": "",
+  "finding": "3d(i)+5c-div+OS <= P&L 14(iii) cross-cap not encoded"
+ },
+ {
+  "n": 290,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "dividend income offered in Sl. No. 14(iii) of Part A-P&L In Schedule BP, sum of values entered from 35(iv) to 35(vii) should match with sum of values declared at Sl.No.4a(iv) to 4a(vii)",
+  "clean": "",
+  "finding": "35(iv)..(vii) = 4a(iv)..(vii) not encoded"
+ },
+ {
+  "n": 292,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In schedule BP amount of exempt income reduced from Profits and Gains of Business and Profession does not tally with income offered in schedule EI & Column Amount of share",
+  "clean": "",
+  "finding": "exempt reduced tally with EI & IF share not encoded"
+ },
+ {
+  "n": 294,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In schedule BP value mentioned at the Sl. No. 37a \"Income Chargeable under Rule 7\" does not tally with the amount mentioned at the Sl. No. 4b(i) \"Profit from activities",
+  "clean": "",
+  "finding": "37a Rule-7 = 4b(i) tally not encoded"
+ },
+ {
+  "n": 295,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "covered under rule 7\". In schedule BP value mentioned at the Sl. No. 37b \"Deemed income chargeable under Rule 7A\" Should be minimum 35% of the amount mentioned at the Sl. No. 4b(ii) \"Profit",
+  "clean": "",
+  "finding": "37b Rule-7A >= 35% of 4b(ii) not encoded"
+ },
+ {
+  "n": 297,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:61",
+  "text": "\"Profit from activities covered under rule 7B(1)\". In schedule BP value mentioned at the Sl. No. 37d \"Deemed income chargeable under Rule 7B(1A)\" Should be minimum 40% of the amount mentioned at the Sl. No. 4b(iv)",
+  "clean": "",
+  "finding": "37d checked vs 4b(iii) field (Rule7B1) not 4b(iv) (Rule7B1A)"
+ },
+ {
+  "n": 301,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:183",
+  "text": "In Schedule BP, at Sl.No. 5c \"Dividend income\" amount cannot be more than Zero.",
+  "clean": "",
+  "finding": "BP 5c dividend asserts <=3d(i) not <=0; positive 5c passes when 3d(i)>0"
+ },
+ {
+  "n": 303,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exceptions: 1. If NOB has business code as 00001 and Schedule IF is filled. 2. If \"Yes\" is selected for \"Are you liable for Audit u/s 92E?\" in Schedule Part A General Information. 3. If \"Yes\" is selected for \"Whether books of account of spouse is audited u/s 92E? or",
+  "clean": "",
+  "finding": "ITR-3 no-business-income filing bar with 5 exceptions not encoded, not structural"
+ },
+ {
+  "n": 351,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_cg.js:441",
+  "text": "In Schedule CG, STCG on depreciable assets at Sl.No. A6e should be equal to Sl.No. 6 of Schedule DCG",
+  "clean": "",
+  "finding": "A6e deemed-depreciable manual input, not tied to Schedule DCG Sl.6; no A(351)"
+ },
+ {
+  "n": 355,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:246",
+  "text": "Total of STCG in Schedule CG should be equal to the individual breakup of STCG in Schedule CG",
+  "clean": "",
+  "finding": "Breakup sum omits A2 slump (resident) plus A4/A5; false mismatch when used"
+ },
+ {
+  "n": 356,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:247",
+  "text": "Total of LTCG in Schedule CG should be equal to the individual breakup of LTCG in Schedule CG",
+  "clean": "",
+  "finding": "Breakup sum omits B2 slump, B3i/B3ii proviso-112, NR B5-B8; false mismatch"
+ },
+ {
+  "n": 360,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_cg.js:830",
+  "text": "In Schedule CG, Full Value of Consideration(Sl.No. A5aiii) is zero than expenses (Sl.No. A5b(iv) cannot be claimed",
+  "clean": "",
+  "finding": "A5 nil-FVC-vs-expenses check missing (NR head)"
+ },
+ {
+  "n": 361,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_cg.js:799",
+  "text": "In Schedule CG, Full Value of Consideration(Sl.No. A6aiii) is zero than expenses (Sl.No. A6b(iv) cannot be claimed",
+  "clean": "",
+  "finding": "A6 nil-FVC-vs-expenses check missing (resident head)"
+ },
+ {
+  "n": 363,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_cg.js:858",
+  "text": "In Schedule CG, Full Value of Consideration(Sl.No. B3ia) is zero than expenses (Sl.No. B3ib(iv) cannot be claimed",
+  "clean": "",
+  "finding": "B3 nil-FVC-vs-expenses check missing (resident head)"
+ },
+ {
+  "n": 364,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_cg.js:896",
+  "text": "In Schedule CG, Full Value of Consideration(Sl.No. B6a) is zero than expenses (Sl.No.B6b(iv) cannot be claimed",
+  "clean": "",
+  "finding": "B6 nil-FVC-vs-expenses check missing (NR head)"
+ }
+]

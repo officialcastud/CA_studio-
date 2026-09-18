@@ -1,0 +1,182 @@
+[
+ {
+  "n": 625,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "\u2014",
+  "text": "In Schedule UD, value at Sl.No. 4 cannot be more than Sl.No. 3- Sl.No.3a in any of the row",
+  "clean": "",
+  "finding": "No check UD col4 (AmtDeprSOCY) <= col3 - col3a; free input, only col5 clamped"
+ },
+ {
+  "n": 631,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:222",
+  "text": "In Schedule ICDS, Sl.No. 5 - \"Net Effect\" should be equal to Sl.No. 3 (Increase in profit) Less Sl.No. 4 (Decrease in profit).",
+  "clean": "",
+  "finding": "Tautological REQ(x,x); net-effect field never actually checked"
+ },
+ {
+  "n": 659,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g4.js:124",
+  "text": "If Gross Total Income in Part B TI is negative, Sl. No. D \"Eligible amount of Donation\" can not be more than 0",
+  "clean": "",
+  "finding": "rule targets 80GGC D but code guards/checks Schedule80G"
+ },
+ {
+  "n": 662,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:463",
+  "text": "In Schedule 80GGC, if Sl. No. iii is greater than '0', then Sl. No. iv to viii are not required to be filled",
+  "clean": "",
+  "finding": "rule makes iv-viii optional; code forbids them"
+ },
+ {
+  "n": 673,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule 80DD SL. No i to iii and either from iv or v are mandatory if any one or multiple rows of SL. No i to viii is filled",
+  "clean": "",
+  "finding": "mandatory i-iii and iv/v when any row filled not enforced"
+ },
+ {
+  "n": 682,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively.",
+  "clean": "",
+  "finding": "Form10IA ack captured but never required for 80U/80DD"
+ },
+ {
+  "n": 693,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:410",
+  "text": "Details such as Amount eligible for deduction u/s 80C, Policy number or Document Identification number are required to provide in schedule 80C to claim deduction",
+  "clean": "",
+  "finding": "only schedule presence checked, not per-row policy/doc-ID"
+ },
+ {
+  "n": 696,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:412",
+  "text": "Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule, 80EEB",
+  "clean": "",
+  "finding": "omits Table 10(13A) from new-regime individual block"
+ },
+ {
+  "n": 751,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:189",
+  "text": "Deduction is available only if option \"Old Tax Regime\" is selected If employer category is Pensioners - CG,\" \"Pensioner - SG,\" Pensioner - PSU, \"Pensioner - Other, then Deduction u/s 80CCD(1) should not be more than 20% of Gross total Income.",
+  "clean": "",
+  "finding": "80CCD(1) pensioner 20%-of-GTI cap not enforced (only combined 1.5L)"
+ },
+ {
+  "n": 761,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:77",
+  "text": "Maximum amount u/s 80GG can be claimed lower of 25% of Adjusted gross total income or Rs. 60,000.",
+  "clean": "",
+  "finding": "80GG 25%-of-AGTI limb not enforced (only flat 60000)"
+ },
+ {
+  "n": 773,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:189",
+  "text": "In case of multiple employer category if all the employer category is other than pensioners then deduction u/s 80CCD(1) cannot be claimed more than 10% of Salary.",
+  "clean": "",
+  "finding": "80CCD(1) 10%-of-salary cap not enforced"
+ },
+ {
+  "n": 788,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:428",
+  "text": "In Schedule VIA, deduction u/s 80RRB plus 80QQB cannot be claimed more than the sum of Sl.No. 15 of Schedule P&L account and Sl.No. 1e of Schedule OS",
+  "clean": "",
+  "finding": "condition ends with ||true so never fires"
+ },
+ {
+  "n": 795,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_ded.js:189",
+  "text": "Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on date of joining of armed forces",
+  "clean": "",
+  "finding": "80CCH nature=CG and age 17-27 not checked"
+ },
+ {
+  "n": 796,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:397",
+  "text": "Deduction u/s 80CCH in Schedule VIA to be limited to 60% of salary u/s 17(1) other than the contributions made by central government as referred u/s 80CCH in Sl. No 17.",
+  "clean": "",
+  "finding": "only flat 288000 checked not 60% of actual salary"
+ },
+ {
+  "n": 829,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "60_rules.js:518",
+  "text": "Total Income at Schedule AMT is Negative. But the loss in Total Income can only arise because of the Specified business.",
+  "clean": "",
+  "finding": "dead code A(829?0:846)=A(0); negative AMT-TI vs specified-business unchecked"
+ },
+ {
+  "n": 835,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:509",
+  "text": "In Schedule AMT, Sl.No. 4 \"Tax payable under section 115JC\" shall be computed if Adjusted Total Income under section 115JC is more than Rs. 20 Lakh and Adjustment as",
+  "clean": "",
+  "finding": "only >20L half enforced; missing 2d>0 condition"
+ },
+ {
+  "n": 849,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_si.js:181",
+  "text": "In Schedule SI, Column Income (i) for Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2ciii (Income Benefit) of Schedule OS",
+  "clean": "",
+  "finding": "SI code-1 PF income not fed from OS 2ciii; no A(849)"
+ },
+ {
+  "n": 850,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_si.js:181",
+  "text": "In schedule SI, Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2civ (tax benefit) of Schedule OS 49",
+  "clean": "",
+  "finding": "SI code-1 PF tax not fed from OS 2civ; no A(850)"
+ },
+ {
+  "n": 851,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule SI, Income u/s 115BB (Winnings from lotteries, puzzles, races, card games etc.) should be equal to Sl.No. 2a(i) after reducing corresponding DTAA income in Schedule OS Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as",
+  "clean": "",
+  "finding": "SI 115BB not reconciled to OS 2a(i); manual 5BB row, no A() check"
+ },
+ {
+  "n": 853,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule SI, Income u/s 115BBF (income from patent)-Income under head business or profession should be equal to Sl.No. 3e in schedule BP",
+  "clean": "",
+  "finding": "SI 115BBF(BP) 5BBF_BP not reconciled to BP 3e"
+ }
+]
