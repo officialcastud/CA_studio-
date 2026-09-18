@@ -297,7 +297,7 @@
  "Tax": {
   "section": "tax",
   "blocks": [],
-  "why_built": "Hidden tax-computation sheet — the method behind Part B-TTI (referenced by 123 defined names incl. TaxPayableOnTotInc, SurchargeOnTaxPayable, EducationCess). Read to derive the tax engine; never displayed."
+  "why_built": "Legacy/parallel tax-computation sheet (sheet11): 123 defined names (TaxPayableOnTotInc, SurchargeOnTaxPayable, EducationCess) anchor here, but it uses stale 3% cess — kept for named-range tracing only; the authoritative current-year method is Tax(N). Read, never displayed."
  },
  "Part A Gen_139(8A)": {
   "section": "excluded",
@@ -316,8 +316,8 @@
   "reason": "Help page describing how to fill Schedule 112A/115AD via CSV; not part of the return."
  },
  "Tax(N)": {
-  "section": "excluded",
-  "reason": "Superseded/unused alternate tax-computation sheet — 0 defined-name references; the live computation is the 'Tax' sheet (123 references)."
+  "section": "tax",
+  "why_built": "LIVE AY2026-27 tax-computation engine (sheet41): 4% health-and-education cess (matches Part B-TTI) and hosts the 234A/B/C interest outputs Part B-TTI consumes. Read to build the tax engine."
  },
  "DB": {
   "section": "excluded",
