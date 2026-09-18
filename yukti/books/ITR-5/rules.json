@@ -1,0 +1,4617 @@
+[
+{
+"n": 1,
+"cat": "A",
+"text": "Part A- General If Assessee is liable for audit u/s 92E, then Part A BS and Part A P&L can not be blank"
+},
+{
+"n": 2,
+"cat": "A",
+"text": "Part A- General If Assessee is liable for audit u/s 44AB, then Part A BS and Part A P&L can not be blank"
+},
+{
+"n": 3,
+"cat": "A",
+"text": "Part A- General Assessee should enter valid Mobile Number in Part A General"
+},
+{
+"n": 4,
+"cat": "A",
+"text": "Part A- General If \"Yes\" is selected to \"Whether you have held unlisted equity shares at any time during the previous year\" in Part A"
+},
+{
+"n": 5,
+"cat": "A",
+"text": "General, then details of same should be provided Part A- General If in verification part representative is selected from dropdown of capacity then Yes should be selected in \"Whether this return is being filed by a representative"
+},
+{
+"n": 6,
+"cat": "A",
+"text": "assessee\" & details of representative assessee in part -A general must be filled Part A- General In part A General, dropdown at field \"whether assessee is declaring income only under section 44AD/ 44ADA/ 44AE/"
+},
+{
+"n": 7,
+"cat": "A",
+"text": "44B/ 44BB/ 44BBA/ 44BBC/ 44BBD\" should be selected Part A- General In Part A General information, If Assessee selects 'More than Rs. 1 crore and up to Rs. 10 crores' in field a2i 'Please select the range of whether during the year Total"
+},
+{
+"n": 8,
+"cat": "A",
+"text": "sales/turnover/gross receipts of business', then Sl.No. a2ii cannot be left blank. Part A- General In Part A General information, If Assessee selects 'More than Rs. 1 crore and up to Rs. 10 crores' in field a2i 'Please select the range of whether during the year Total"
+},
+{
+"n": 9,
+"cat": "A",
+"text": "sales/turnover/gross receipts of business', then Sl.No. a2iii cannot be left blank. Part A- General In part A general, Date of furnishing of audit report cannot be greater than system date"
+},
+{
+"n": 10,
+"cat": "A",
+"text": "Part A- General Assessee are required to fill in No books of accounts in Balance sheet and P&L if \"whether you have maintained the"
+},
+{
+"n": 11,
+"cat": "A",
+"text": "accounts as per section 44AA\" is selected as \"No\" Part A- General Disclosure of \"Nature of business or profession\" is mandatory in ITR"
+},
+{
+"n": 12,
+"cat": "A",
+"text": "Part A- General In case of Firm, Cooperative Bank, Other Cooperative Society, LLP, Private Discretionary Trust, Any other AOP/BOI,"
+},
+{
+"n": 13,
+"cat": "A",
+"text": "PAN entered at \"Verification\" should match with any PAN entered at \"PARTNERS/ MEMBERS/TRUST INFORMATION\" Part A- General If Assessee is liable to maintain accounts as per section 44AA, then Part A BS and Part A P&L should be filled"
+},
+{
+"n": 14,
+"cat": "A",
+"text": "Part A- General Assessee selects \"Status\" as Firm then \"Sub status\" should be either \"Limited Liability Partnership\" or \"Partnership"
+},
+{
+"n": 15,
+"cat": "A",
+"text": "Firm\" and \"Sub status\" cant be left blank. Part A- General If Assessee selects \"Status\" as \"AOP / BOI\" then \"Sub status\" should be one of Primary Agricultural Credit Society, Co-operative bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank, Primary Co-operative Agricultural and Rural Development"
+},
+{
+"n": 16,
+"cat": "A",
+"text": "Any other AOP/BO and so \"Sub status\" code can't be blank Part A- General If Assessee selects \"Status\" as artificial juridical person then sub-status should be Estate of the deceased,"
+},
+{
+"n": 17,
+"cat": "A",
+"text": "Estate of the insolvent, Other AJP and so \"Sub status\" cannot be blank Part A- General If assessee selects status as Local Authority in schedule \"Part A General\" then sub status field should be Null"
+},
+{
+"n": 18,
+"cat": "A",
+"text": "Part A- General Deductions u/s (i) schedule 10AA or (ii) Schedule 80 or (iii) Part C deductions under chapter VI-A except 80JJAA &"
+},
+{
+"n": 19,
+"cat": "A",
+"text": "80LA(1A) cannot be claimed by assessee opting for 115BAD / 115BAE / 115BAC(1A). Part A- General 115BAD / 115BAE can be opted only by Resident Co operative society\"."
+},
+{
+"n": 20,
+"cat": "A",
+"text": "Part A- General SL.no.2v in Part BTI cannot be declared if assessee selects \"sl.no.2\" in table F in Part A Gen 2 is \"No\""
+},
+{
+"n": 21,
+"cat": "A",
+"text": "Part A- General In Part A Gen, Table F, sl.no.1 is selected as \"Yes\" then sum of \"Percentage of share (if determinate)\" should be equal to100"
+},
+{
+"n": 22,
+"cat": "A",
+"text": "Part A- General If option \"Opting it Now\" is selected for \"If No, option for current assessment year\", then \"Date of filing of Form 10IF\""
+},
+{
+"n": 23,
+"cat": "A",
+"text": "and \"Acknowedgement number\" are mandatory in Part A Gen Part A- General If option \"Yes\" is selected for \"Have you opted for new tax regime u/s 115BAD in earlier years within due date ?\" then"
+},
+{
+"n": 24,
+"cat": "A",
+"text": "\"Date of filing of Form 10IF\" and \"Acknowedgement number\" are mandatory in Part A Gen Part A- General \"Date of filing of Form 10IF\" and \"Acknowedgement number\" filled in ITR should match with Date and"
+},
+{
+"n": 25,
+"cat": "A",
+"text": "Acknowledgement of Form 10IF Part A- General In Part A General, \"Whether you are FII / FPI?\" should be selected \"Yes\" for enabling the schedule 115AD"
+},
+{
+"n": 26,
+"cat": "A",
+"text": "Part A- General In Part A general, if filed in response to a notice u/s 139(9)/142(1)/148/153C or order under section 119(2)(b)/92CD is selected then unique number /Document Identification Number (DIN) and date of such notice/Order are mandatory"
+},
+{
+"n": 27,
+"cat": "A",
+"text": "Part A- General In Part A- General Status is selected as AOP and substatus is selected either of Primary agricultural and Rural co-op society or Co-op bank or other co-op society but appropriate"
+},
+{
+"n": 28,
+"cat": "A",
+"text": "option is not selected as answer in question \"Have you opted for new tax regime u/s 115BAD\"? Part A- General In Part A general, Sl. No. A6 - Date of commencement of business should not be before date of incorporation and"
+},
+{
+"n": 29,
+"cat": "A",
+"text": "should not be after end of financial year Part A- General If assessee selects sub status field \"Limited Liability Partnership or Partnership Firm\" in schedule Part A General"
+},
+{
+"n": 30,
+"cat": "A",
+"text": "and Table A in Part A general 2 is blank Part A- General If assessee selects sub status field \"Trust filing ITR other than"
+},
+{
+"n": 31,
+"cat": "A",
+"text": "Table F is blank in Part A general 2 Part A- General If \"No\" is selected in Sl.No. 1 and Sl.No. 2 in Table F and Sl.No. 4 of Table F is blank"
+},
+{
+"n": 32,
+"cat": "A",
+"text": "Part A- General Assessee selects sub status \" Society registered under society registration Act, 1860 or any other Law corresponding to that state, Business Trust, Investment Fund, any other"
+},
+{
+"n": 33,
+"cat": "A",
+"text": "AOP/BOI\" in schedule Part A General and Table A, Sl.No. B and Sl.No.D in Part A general 2 is blank Part A- General If \"Yes\" is selected in Sl.No. 2 \" Is any member of AOP/BOI or AJP is foreign company? Then Sl.No. C cannot be Zero"
+},
+{
+"n": 34,
+"cat": "A",
+"text": "Part A- General If option \"Yes\" is selected for d(iv)a or d(iv)b, then \"Date of filing of Form 10IFA\" and \"Acknowedgement number\" are"
+},
+{
+"n": 35,
+"cat": "A",
+"text": "mandatory in Part A Gen Part A- General \"Date of filing of Form 10IFA\" and \"Acknowedgement number\" filled in ITR should match with Date and"
+},
+{
+"n": 36,
+"cat": "A",
+"text": "Acknowledgement of Form 10IFA Part A- General If taxpayer has selected \"Yes\" in option for \"Are you opting for new tax regime u/s. 115BAE?\" then date of formation /"
+},
+{
+"n": 37,
+"cat": "A",
+"text": "incorporation should be on & after 01st April 2023 Part A- General In Part A- General Status is selected as AOP and substatus is selected either of Primary agricultural and Rural co-op society or Co-op bank or other co-op society & date of"
+},
+{
+"n": 38,
+"cat": "A",
+"text": "incorporation is on or after 01/04/2023 but Either of the options is not selected in A19(div) Part A- General Taxpayer cannot select both the new tax regime u/s. 115BAD and u/s. 115BAE at the same time"
+},
+{
+"n": 39,
+"cat": "A",
+"text": "Part A- General If Assessee has selected any of the sub status \" Society registered under society registration Act, 1860 or any other Law corresponding to that state, Business Trust, Investment Fund, any other AOP/BOI, EOI, EOD, other AJP \" in schedule"
+},
+{
+"n": 40,
+"cat": "A",
+"text": "Part A General then the field A19d(i) Method of Opting out of New Tax Regime in current Year u/s 115BAC cannot be blank Part A- General Assessee selects sub status \" Firm, LLP, Local authority, Cooperative society \" in schedule Part A General then the field A19(di) for selecting the option u/s 115BAC(6) should be disabled"
+},
+{
+"n": 41,
+"cat": "A",
+"text": "Part A- General Taxpayer has selected \"Yes\" in the question \" whether you are recognized as MSME?\" then details of registration are"
+},
+{
+"n": 42,
+"cat": "A",
+"text": "mandatory to be filled up Part A- General Taxpayer is required to select the condition by virtue of which he is liable for audit u/s. 44AB"
+},
+{
+"n": 43,
+"cat": "A",
+"text": "Part A- General Taxpayer is required to select applicable due date for filing the return of income in Part A General"
+},
+{
+"n": 44,
+"cat": "A",
+"text": "Part A- General Form 10IFA is filed within due date then it is mandatory to opt for new tax regime u/s.115BAE"
+},
+{
+"n": 45,
+"cat": "A",
+"text": "Part A- General You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as \"more than 5%\" in Part A General."
+},
+{
+"n": 46,
+"cat": "A",
+"text": "Part A- General You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as \"More than 5%\" in Part A General."
+},
+{
+"n": 47,
+"cat": "A",
+"text": "Part A- General In Part A general, to claim the benefit of section 115BAE the date of incorporation (DOI) and date of"
+},
+{
+"n": 48,
+"cat": "A",
+"text": "commencement(DOC) should be on or after 01/04/2023. Part A- General If option \"Yes\" is selected for \"Do you wish to exercise the option u/s 115BAE of Opting of New Tax regime in AY 2026- 27\" at A19 div(b), then \"Date of filing of Form 10IFA\" and"
+},
+{
+"n": 49,
+"cat": "A",
+"text": "\"Acknowedgement number\" at A19 div(c) are mandatory in Part A Gen Part A- General If \"yes\" is selected in sl.no.A19d(i)(I), then it is mandatory to enter A19d(i)(I)(i) and A19d(i)(I)(ii) in Schedule Part A"
+},
+{
+"n": 50,
+"cat": "A",
+"text": "General Information. Part A- General If Form 10IEA is filed then details of the form are required to be mentioned in the return"
+},
+{
+"n": 51,
+"cat": "A",
+"text": "Part A- General New tax regime can be Opted out or withrawn only if Form 10IEA is filed"
+},
+{
+"n": 52,
+"cat": "A",
+"text": "Part A- General If Business Incomes is declared in the ITR, Do you have income from business or profession for current Assessment"
+},
+{
+"n": 53,
+"cat": "A",
+"text": "Year? cannot be selected as \"No\" in Part A General. Part A- General If manufacturing cooperative society was not required to file a return in AY 24-25 and AY 2025-26, and option for 115BAE"
+},
+{
+"n": 54,
+"cat": "A",
+"text": "at A19d(iv)a is not filled Part A- General If manufacturing cooperative society was required to file a return in AY 24-25 or AY 2025-26, and option for 115BAE at"
+},
+{
+"n": 55,
+"cat": "A",
+"text": "d(iv)b is not filled Part A- General Return cannot be submitted u/s 139(1) after the due date"
+},
+{
+"n": 56,
+"cat": "A",
+"text": "Part A- General If Due date 31st October is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen"
+},
+{
+"n": 57,
+"cat": "A",
+"text": "Part A- General If Due date 30th November is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen"
+},
+{
+"n": 58,
+"cat": "A",
+"text": "Part A- General Due date can be selected as 31st August only if you have Income from Business or Profession."
+},
+{
+"n": 59,
+"cat": "A",
+"text": "Part A- General Tax Regime should not be changed in the revised return if the revised return is filed after the due date of filing of"
+},
+{
+"n": 60,
+"cat": "A",
+"text": "original return Part A- General Tax Regime cannot be changed after due date of filing of return of Income."
+},
+{
+"n": 61,
+"cat": "A",
+"text": "Part A- General In case of business income, it is mandatory to answer Sl. No. A19(b)(I) in Schedule Part A General"
+},
+{
+"n": 62,
+"cat": "A",
+"text": "Part A- General In case of no business income, it is mandatory to answer Sl. No. A19(di)(II) in Schedule Part A General"
+},
+{
+"n": 63,
+"cat": "A",
+"text": "Part A- General Details of Form 10IEA shall be mentioned if \"Yes\" is selected at \"Have you filed form10IEA within due date for any earlier"
+},
+{
+"n": 64,
+"cat": "A",
+"text": "assessment year for choosing old tax regime?\" in Schedule Part A General Part A- General Details of the Form 10IEA is mandatory if Form 10IEA is filed to re-enter to the New tax regime in earlier year in Schedule"
+},
+{
+"n": 65,
+"cat": "A",
+"text": "Part A General Part A- General If Form 10IEA is not filed with re-enter option for earlier assessment year, then answer to questions in \"Have you furnihsed Form 1010IEA for re-entering in new tax regime in"
+},
+{
+"n": 66,
+"cat": "A",
+"text": "current assessment year? is mandatory in Schedule Part A General Information. Part A- General Form 10IEA details are mandatory for re-entering to New Tax Regime in Current AY"
+},
+{
+"n": 67,
+"cat": "A",
+"text": "Part A- General Form 10IEA is not filed in current AY to re-enter to the New tax regime, but details provided in Schedule Part A General"
+},
+{
+"n": 68,
+"cat": "A",
+"text": "Part A- General Answer to \"Have you furnished form 10IEA within due date for current assessment year for choosing old tax regime?\" is"
+},
+{
+"n": 69,
+"cat": "A",
+"text": "not proovided in Schedule Part A General Part A- General Form 10IEA details are mandatory for opting for Old Tax Regime in Current AY"
+},
+{
+"n": 70,
+"cat": "A",
+"text": "Part A- General Form 10IEA details should not be provided if not filed in Schedule Part A General"
+},
+{
+"n": 71,
+"cat": "A",
+"text": "Part A- General Details of Form 10IEA for earlier years to be provided only if \"Yes\" is selected at \"Have you filed form10IEA within due"
+},
+{
+"n": 72,
+"cat": "A",
+"text": "date for any earlier assessment year for choosing old tax regime?\" Part A- General Details of Form 10IEA for re-entering to New Tax Regime in earlier years to be provided only if \"Yes\" is selected at \"Have you filed ITR 3/4 in past and have re-entered new tax regime"
+},
+{
+"n": 73,
+"cat": "A",
+"text": "by filing form 10IEA for any assessment year subsequent to assessment year in which first form 10IEA was filed for choosing old tax regime?\" Part A- General Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income"
+},
+{
+"n": 74,
+"cat": "A",
+"text": "Part A- General Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information"
+},
+{
+"n": 75,
+"cat": "A",
+"text": "Part A- General Business Income is mandatory if any option is selected at Sl. no. A19(di) of Schedule Part A General Information"
+},
+{
+"n": 76,
+"cat": "A",
+"text": "Part A- General Details in respect of admitted / retired partners should be provided if answer to question \"Whether there was any change during the previous year in the partners/members of"
+},
+{
+"n": 77,
+"cat": "A",
+"text": "the firm/AOP/BOI\" in Schedule Part A General Information is \"Yes\" Part A- General Answer to Sl. No. F(3) is mandatory if \"Yes\" is selected at Sl. No. F(2) in Schedule Part A General Information"
+},
+{
+"n": 78,
+"cat": "A",
+"text": "Part A- General Sl. No. F(3) should be blank or null if \"No\" is selected at Sl. No. F(2) in Schedule Part A General Information"
+},
+{
+"n": 79,
+"cat": "A",
+"text": "Part A- General Answer to items (i) to (iv) of Sl. No. F(4) is mandatory if F(1) and F(2) is selected as \"No\" in Schedule Part A General"
+},
+{
+"n": 80,
+"cat": "A",
+"text": "Information Part A- General Answer to items (i) to (iv) of Sl. No. F(4) should be blank if F(1) or F(2) is selected as \"Yes\" in Schedule Part A General"
+},
+{
+"n": 81,
+"cat": "A",
+"text": "Information Schedule Balance \"Sources of funds\" should match with \"Total application of Sheet funds\" in Balance sheet"
+},
+{
+"n": 82,
+"cat": "A",
+"text": "Schedule Balance If sl no 1c should be equal to sum of sl no 1a + 1bvi in Sch Sheet Balance Sheet"
+},
+{
+"n": 83,
+"cat": "A",
+"text": "Schedule Balance If sl no 2c should be equal to sum of sl no 2 (aiii + biii) in Sheet Sch Balance Sheet"
+},
+{
+"n": 84,
+"cat": "A",
+"text": "Schedule Balance If sl no 5 should be equal to sum of sl no (1c + 2c +3+4iii) in Sheet Sch Balance Sheet"
+},
+{
+"n": 85,
+"cat": "A",
+"text": "Schedule Balance If sl no 2c should be equal to sum of sl no 2 (aviii + bvii) in Sheet Sch Balance Sheet"
+},
+{
+"n": 86,
+"cat": "A",
+"text": "Schedule Balance In \"Schedule Part A-BS\" Total current assets at sl.no.3av Sheet should be equal to the sum of 3a(iH + iiC + iiiD + aiv)"
+},
+{
+"n": 87,
+"cat": "A",
+"text": "Schedule Balance In \"Schedule Part A-BS\" Net current assets at sl.no.3e should Sheet be equal to value of (3c – 3diii)"
+},
+{
+"n": 88,
+"cat": "A",
+"text": "Schedule Balance In \"Schedule Part A-BS\" Total, application of funds at sl.no.5 Sheet should be equal to the sum of (1e + 2c + 3e + 4d)"
+},
+{
+"n": 89,
+"cat": "A",
+"text": "Part A- In \"Schedule Manufacturing Account\" Total of Opening Manufacturing Inventory Sl no 1Aiii should be equal to 1Ai+1Aii"
+},
+{
+"n": 90,
+"cat": "A",
+"text": "Account Part A- In \"Schedule Manufacturing Account\" at sl.no. 1Div Total Manufacturing Direct expenses should be equal to the sum of values at"
+},
+{
+"n": 91,
+"cat": "A",
+"text": "Account 1Di+1Dii+1Diii Part A- In \"Schedule Manufacturing Account\" Total Factory Manufacturing Overheads at sl.no.1Evii should be equal to the sum of"
+},
+{
+"n": 92,
+"cat": "A",
+"text": "Account values at sl no (Ei+Eii+Eiii+Eiv+Ev+Evi) Part A- In \"Schedule Manufacturing Account\" Total of Debits to Manufacturing Manufacturing Account at sl.no.1F should be equal to the Account sum of (Aiii + B + C + D + Evii)"
+},
+{
+"n": 93,
+"cat": "A",
+"text": "Part A- In \"Schedule Manufacturing Account\", Total Closing Stock at Manufacturing sl.no.2 should be equal to the sum of values at sl.no.2i + 2ii"
+},
+{
+"n": 94,
+"cat": "A",
+"text": "Account Part A- In Manufacturing Account, value at Sl no 3 should be equal Manufacturing to 1F-2"
+},
+{
+"n": 95,
+"cat": "A",
+"text": "Account Part A- In Manufacturing Account, Negative values are not allowed Manufacturing in sl.no.1 and sl.no.2"
+},
+{
+"n": 96,
+"cat": "A",
+"text": "Account Part A- Trading In Trading Account, value at sl.no.4Aiii( c ) should be equal Account to 4Aiii(a) + 4Aiii(b)"
+},
+{
+"n": 97,
+"cat": "A",
+"text": "Part A- Trading In Part A-Trading Account, SI.No. 4A(iv) \"total (i + ii + iiic)\" is Account not equal to sum of SI. No.4A(i)+4A(ii)+4A(iiic)."
+},
+{
+"n": 98,
+"cat": "A",
+"text": "Part A- Trading In Part A-Trading Account, SI.No. 4A(Cix) should be equal to Account total of sl no 4Ci+4Cii+4Ciii+4Civ+4Cv+4Cvi+4Cvii+4Cviii"
+},
+{
+"n": 99,
+"cat": "A",
+"text": "Part A- Trading In Part A-Trading Account , SI.No 4D-Total Revenue from Account operations (Aiv + B + Cix) should be equal to the sum of"
+},
+{
+"n": 100,
+"cat": "A",
+"text": "(Aiv + B + Cix) Part A- Trading In \"Schedule Trading Account\" Total of Direct Expenses at Account sl.no.9 should be equal to the sum of 9i+9ii+9iii"
+},
+{
+"n": 101,
+"cat": "A",
+"text": "Part A- Trading In \"Schedule Trading Account\" '10' Total should be equal to Account the sum of (10i + 10ii + 10iii + 10iv + 10v + 10vi + 10vii"
+},
+{
+"n": 102,
+"cat": "A",
+"text": "+ 10viii + 10ix + 10x + 10xi) Part A- Trading In Trading Account, value at Sl no 12 should be equal to Sl no Account sum of Sl. no (6-7-8-9-10xii-11)"
+},
+{
+"n": 103,
+"cat": "A",
+"text": "Part A- Trading Part A Trading Account, Negative values are not allowed Account other than in sl no 11 and/or 12"
+},
+{
+"n": 104,
+"cat": "A",
+"text": "Part A- Trading Value at \"Sl no 11\" of Part A trading Account should be Account equal to Sl no. 3 of Part A Manufacturing Account"
+},
+{
+"n": 105,
+"cat": "A",
+"text": "Part A- Trading In Part A Trading account, Sl. No. 6 - Total of credits to Account Trading Account (4D + 5 ) should be equal to sum of Sl. No."
+},
+{
+"n": 106,
+"cat": "A",
+"text": "4D + Sl. No. 5 Part A- Trading In Schedule Trading account, \"Income from Intraday Trading - Account transferred to Statement of Profit and Loss\" at Sl.No. 12b"
+},
+{
+"n": 107,
+"cat": "A",
+"text": "should not be more than Turnover from Intraday Trading at Sl. No. 12a. Part A- Trading In Schedule Trading account, \"Income from Futures & Account Options Trading - transferred to Statement of Profit and"
+},
+{
+"n": 108,
+"cat": "A",
+"text": "Loss\" at Sl.No. 12d should not be more than Turnover from Futures & Options Trading at Sl. No. 12c. Part A- P&L Account Sl no 13 in Part A P&L should be equal to Sl no 12 + 12b+12d of Part A trading account"
+},
+{
+"n": 109,
+"cat": "A",
+"text": "Part A- P&L Account Sl.No. 14.xic should be equal to sum of Sl.No. 14.x.(ia + ib) in Profit and Loss A/c"
+},
+{
+"n": 110,
+"cat": "A",
+"text": "Part A- P&L Account In schedule Part A-P & L, sl.no.14 should be equal to sum of values at 14(i + ii + iii + iv + v + vi + vii + viii + ix + x+xic)"
+},
+{
+"n": 111,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule A-P&L\" sl no. 15 should be equal to sum of 13+14xii"
+},
+{
+"n": 112,
+"cat": "A",
+"text": "Part A- P&L Account Part A P&L, If Si no 22xiia is yes then Sl no 22xiib cannot be Zero or null or blank"
+},
+{
+"n": 113,
+"cat": "A",
+"text": "Part A- P&L Account In Part A-P&L, value at sr no.22i to 22x should be equal to SR.NO 22xi."
+},
+{
+"n": 114,
+"cat": "A",
+"text": "Part A- P&L Account In schedule Profit and Loss Account, value at Sr.no 23i to 23iv should be equal to Sr.no 23v"
+},
+{
+"n": 115,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\", Sl no 30iii commission should be equal to sl no 30i+30ii"
+},
+{
+"n": 116,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\", Sl no 31iii Royalty should be equal to sl no 31i+31ii"
+},
+{
+"n": 117,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\", Sl no 32iii should be equal to sl no 32i+32ii"
+},
+{
+"n": 118,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\", Sl no 44x should be equal to sum of sl no 44i + 44ii +44iii +44iv + 44v + 44vi + 44vii + 44viii"
+},
+{
+"n": 119,
+"cat": "A",
+"text": "+44ix Part A- P&L Account In \"Schedule Part A-P& L\", Sl no 47 Other expenses should be equal to sum of 47i+47ii+47n"
+},
+{
+"n": 120,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\" '48(iv)' Total Bad Debt should be equal to the sum of (48i + 48ii + 48iii)"
+},
+{
+"n": 121,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\" should be equal to the sum of [15 – (16 to 21 + 22xi + 23v + 24 to 29 + 30iii + 31iii + 32iii"
+},
+{
+"n": 122,
+"cat": "A",
+"text": "+ 33 to 43 + 44x + 45 + 46 + 47iii + 48iv + 49 + 50)] Part A- P&L Account In schedule P& L Total Interest at sl.no.52iii should be equal to \"Sl.No. 52.ia+52ib+52iia+52iib\""
+},
+{
+"n": 123,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\", value at sl.no.54 should be equal to the sum of (51 – 52iii – 53)"
+},
+{
+"n": 124,
+"cat": "A",
+"text": "Part A- P&L Account Salary/Remuneration paid to Partners at sl.no.46 in Profit and Loss claimed by other than Firm."
+},
+{
+"n": 125,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\" '57' Profit after tax is not equal to the sum of (54 – 55 – 56)"
+},
+{
+"n": 126,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule Part A-P& L\" , value at sl.no.59 should be equal to 57 +58"
+},
+{
+"n": 127,
+"cat": "A",
+"text": "Part A- P&L Account Part A P&L, sl no 61 Balance carried to balance sheet in proprietor’s account should be equal to sl no 59-60"
+},
+{
+"n": 128,
+"cat": "A",
+"text": "Part A- P&L Account In Part A P&L, Sl no 62(i) Gross Turnover or Gross Receipts should be equal to sum of sl no 62ia + 62ib + 62ic"
+},
+{
+"n": 129,
+"cat": "A",
+"text": "Part A- P&L Account In Part A P&L, Sl no 62(ii) Presumptive Income under section 44AD should be equal to sum of sl no 62iia + 62iib"
+},
+{
+"n": 130,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c field 62(ii)(a) cannot be less than 6% of field 62(i)(a)."
+},
+{
+"n": 131,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c field 62(ii)(b) cannot be less than 8% of field 62(i)(b) & 62(i)(c)."
+},
+{
+"n": 132,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c income claimed u/s 44AD at sl.no.62(iib) can not be more than gross receipts at sl.no.62(ib) & 62(ic)"
+},
+{
+"n": 133,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c income claimed u/s 44AD at sl.no.62(iia) can not be more than gross receipts at sl.no.62(ia)"
+},
+{
+"n": 134,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c , value at field 63(ii) cannot be less than 50% of field 63(i)."
+},
+{
+"n": 135,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c, business code u/s 44AD is to be selected at sl.no.62 for income declared u/s 44AD at"
+},
+{
+"n": 136,
+"cat": "A",
+"text": "sl.no.62(i) and in sl.no.62(ii). Part A- P&L Account Name of business must be filled by the assessee if 62(i) and /or 62(ii) is greater than zero in Profit & Loss A/c"
+},
+{
+"n": 137,
+"cat": "A",
+"text": "Part A- P&L Account Business code u/s 44ADA at sl.no.63 is to be selected for income declared u/s 44ADA at sl.no.63(i) and 63(ii) in Profit"
+},
+{
+"n": 138,
+"cat": "A",
+"text": "& Loss A/c Part A- P&L Account In Profit & Loss A/c, Name of profession at sl.no.63 must be filled by the assessee if 63(i) and /or 63(ii) is greater than"
+},
+{
+"n": 139,
+"cat": "A",
+"text": "zero Part A- P&L Account In Profit & Loss A/c, Business code u/s 44AE at sl.no.64 is to be selected for income declared u/s 44AE."
+},
+{
+"n": 140,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c, Name of business must be filled by the assessee if 64(ii) is greater than zero"
+},
+{
+"n": 141,
+"cat": "A",
+"text": "Part A- P&L Account In Profit & Loss A/c, sl no 63i cannot be more than 63ii"
+},
+{
+"n": 142,
+"cat": "A",
+"text": "Part A- P&L Account If sl no 35(i) should be equal to 62 (ii) of schedule P&L"
+},
+{
+"n": 143,
+"cat": "A",
+"text": "Part A- P&L Account If sl no 35 (ii) should be equal to 63(ii) of schedule P&L"
+},
+{
+"n": 144,
+"cat": "A",
+"text": "Part A- P&L Account If sl no 35 (iii) should be equal to 64 (iv) of schedule P&L"
+},
+{
+"n": 145,
+"cat": "A",
+"text": "Part A- P&L Account The value at filed \"64(ii) Total presumptive income from goods carriage u/s 44AE\" is greater than zero then table"
+},
+{
+"n": 146,
+"cat": "A",
+"text": "64(i) of 44AE in schedule Profit & Loss A/c should be filed. Part A- P&L Account In \"Schedule Profit & Loss A/c\" field 64(ii) \"Total presumptive income from goods carriage u/s 44AE\" should be equal to"
+},
+{
+"n": 147,
+"cat": "A",
+"text": "the value entered in [total of column (5)]. Part A- P&L Account In \"Schedule Profit & Loss A/c\" in table 64(i) of 44AE, total of column 4 \"Number of months for which goods carriage was"
+},
+{
+"n": 148,
+"cat": "A",
+"text": "owned / leased / hired by assessee\" shall not exceed 120. Part A- P&L Account In \"Schedule Part A-P& L\"Total Presumptive Income u/s 44AE at sl.no.64(iv) should be equal to the sum of 64(ii-iii)"
+},
+{
+"n": 149,
+"cat": "A",
+"text": "Part A- P&L Account Tonnage capacity should not exceeds 100MT"
+},
+{
+"n": 150,
+"cat": "A",
+"text": "Part A- P&L Account Income offered under section 44E should be atleast 1. Rs.7500 per month if Tonnage <=12MT"
+},
+{
+"n": 151,
+"cat": "A",
+"text": "2.Rs.1000 per month per tonne if Tonnage >12MT Part A- P&L Account Presumptive Business Income Under Section 44AD and 44ADA can be claimed only by Resident Partnership Firm."
+},
+{
+"n": 152,
+"cat": "A",
+"text": "Part A- P&L Account The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as"
+},
+{
+"n": 153,
+"cat": "A",
+"text": "referred in section 44AA(1) Part A- P&L Account In schedule P&L Net profit at sl.no.65(i)(d) should be equal to difference between Gross profit at sl.no.65(i)(b) and"
+},
+{
+"n": 154,
+"cat": "A",
+"text": "Expenses in point 65(i)(c) Part A- P&L Account In schedule P&L Net profit at sl.no.65(ii)(d) should be equal to difference between Gross profit at sl.no.65(ii)(b) and"
+},
+{
+"n": 155,
+"cat": "A",
+"text": "Expenses in point 65(ii)(c) Part A- P&L Account In Schedule P&L, Si.no 65(i)(b) cannot be more than Si.no65(i)(a)"
+},
+{
+"n": 156,
+"cat": "A",
+"text": "Part A- P&L Account In Schedule P&L, Si.no 65(ii)(b) cannot be more than Si.no 65(ii)(a)"
+},
+{
+"n": 157,
+"cat": "A",
+"text": "Part A- P&L Account In schedule P &L, value at field no 65(i)(a) 'Gross receipts' should be equal to total of [65(i)(a)(i)+65(i)(a)(ii)]"
+},
+{
+"n": 158,
+"cat": "A",
+"text": "Part A- P&L Account In Sch P&L, Sl no 65iia should be equal to sum of sl no 65iia1+65iia2"
+},
+{
+"n": 159,
+"cat": "A",
+"text": "Part A- P&L Account In \"Schedule A-P&L\" Total Profit should be equal to the sum of (65id + 65iid)"
+},
+{
+"n": 160,
+"cat": "A",
+"text": "Part A- P&L Account Part A P&L, Sl no 66iv Net income from speculative activity should be equal to \"Gross profit (66ii) - Expenses 66(iii)\""
+},
+{
+"n": 161,
+"cat": "A",
+"text": "Part A- P&L Account In schedule P&L Salary/Remuneration to Partners of the firm at sl.no.64(iii) cannot be greater than zero if presumptive"
+},
+{
+"n": 162,
+"cat": "A",
+"text": "income declared u/s 44AE in sl no 64(ii) is null/blank/zero Part A- P&L Account PAN / Aadhaar is mandatory in sl.no. 48(i) if \"Bad debts Amount\" is filled in Schedule Profit and loss account."
+},
+{
+"n": 163,
+"cat": "A",
+"text": "Part A- P&L Account Registration number given in at sl.no.64 at 44AE table in P&L account should be unique"
+},
+{
+"n": 164,
+"cat": "A",
+"text": "Part A- P&L Account If Sale / Gross receipts of Business are more than 10 crore or Gross receipts from Profession are more than 50Lakhs then"
+},
+{
+"n": 165,
+"cat": "A",
+"text": "assessee should be liable for audit u/s 44AB.So \" \"Whether liable for audit under section 44AB?\" should be \"Yes\" Part A- P&L Account Sum of amount in sl.no 46 and amount entered in field no 64(iii) of schedule P&l should be equal to total of value in Col 9 (Remuneration paid/ payable) of point E and Col 6"
+},
+{
+"n": 166,
+"cat": "A",
+"text": "(Remuneration paid / payable in case of retiring partner) of point A of Part A General-2. Part A- P&L Account In Sch P&L, breakup of Bad debts shall be consistent with total"
+},
+{
+"n": 167,
+"cat": "A",
+"text": "Part A- P&L Account Gross Receipts u/s 44ADA at sl.no.63(i) should match with sum of 63(i)a+63(i)b+63(i)c"
+},
+{
+"n": 168,
+"cat": "A",
+"text": "Part A- P&L Account If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts and any other mode are more than 5% of"
+},
+{
+"n": 169,
+"cat": "A",
+"text": "total receipts, it is mandatory to have a tax audit under 44AB. Part A- P&L Account If Gross Receipts u/s 44AD are more than Rs.2 Crore and cash receipts and any other mode are more than 5% of"
+},
+{
+"n": 170,
+"cat": "A",
+"text": "total receipts, it is mandatory to have a tax audit under 44AB. Part A- P&L Account If Gross Receipts u/s 44ADA are more than Rs.75,00,000, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 171,
+"cat": "A",
+"text": "Part A- P&L Account If Gross Receipts u/s 44AD are more than Rs.3 Crore, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 172,
+"cat": "A",
+"text": "Part A- P&L Account Schedule P & L, Bad Debts, 48 (i) & (ii) is not equal to the sum of the amount column of those detail tables."
+},
+{
+"n": 173,
+"cat": "A",
+"text": "Part A- P&L Account In Part A P&L, if assesee has opted for taxation u/s 44BBD , sl no 67(ii) \"Net Profit \" cannot be less than 25% of \" Gross"
+},
+{
+"n": 174,
+"cat": "A",
+"text": "receipts /turnover Part A- P&L Account In Schedule P&L, Net Profit at Sl.No. 67(ii) should not be more than Turnover at Sl. No. 67(i)."
+},
+{
+"n": 175,
+"cat": "A",
+"text": "Part A- P&L Account In Part A P&L, if assesee has opted for taxation u/s 44B , sl no 67(ii) \"Net Profit \" cannot be less than 7.5% of \" Gross"
+},
+{
+"n": 176,
+"cat": "A",
+"text": "receipts /turnover Part A- P&L Account In Part A P&L, if assesee has opted for taxation u/s 44BB , sl no 67(ii) \"Net Profit \" cannot be less than 10% of \" Gross"
+},
+{
+"n": 177,
+"cat": "A",
+"text": "receipts /turnover Part A- P&L Account In Part A P&L, if assesee has opted for taxation u/s 44BBA , sl no 67(ii) \"Net Profit \" cannot be less than 5% of \" Gross"
+},
+{
+"n": 178,
+"cat": "A",
+"text": "receipts /turnover Part A- P&L Account In Part A P&L, if assesee has opted for taxation u/s 44BBC, sl no 67(ii) \"Net Profit \" cannot be less than 20% of \" Gross"
+},
+{
+"n": 179,
+"cat": "A",
+"text": "receipts /turnover Part A- P&L Account Name and address of bad debtors should be provided where PAN or Aadhaar is not available and the amount exceeds ₹1"
+},
+{
+"n": 180,
+"cat": "A",
+"text": "lakh. Part A- OI Sl.no 3a of Part A OI should be equal to column XI(3) of schedule ICDS"
+},
+{
+"n": 181,
+"cat": "A",
+"text": "Part A- OI Part A OI sl no 3b should be equal to column XI(4) of schedule ICDS"
+},
+{
+"n": 182,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, sum of Sl.No.5a + 5b + 5c + 5d + 5e should be equal to SI.No. 5f"
+},
+{
+"n": 183,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, sum of Sl.No.6a to 6s should be equal to SI.No. 6t"
+},
+{
+"n": 184,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI Sl.No.7j should be equal to sum of values at 7a to 7i"
+},
+{
+"n": 185,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, Sl.No.8A.j. should be equal to sum of values at Sl.no.8A.a to Sl.No.8A.i"
+},
+{
+"n": 186,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, Sl.No.9.g should be equal to sum of values at Sl.no. Sl.no.9a to Sl.No.9f"
+},
+{
+"n": 187,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, Sl.No.10 I should be equal to sum of values at Sl.no. Sl.no.9a to Sl.No.10 h"
+},
+{
+"n": 188,
+"cat": "A",
+"text": "Part A- OI In Schedule Part A-OI, Sl.No.11I should be equal to sum of values at Sl.no. Sl.no.11a to Sl.No.11h"
+},
+{
+"n": 189,
+"cat": "A",
+"text": "Part A- OI In Schedule OI, Sr.no 12i should be equal to sum of Sr.no 12a to 12h"
+},
+{
+"n": 190,
+"cat": "A",
+"text": "Part A- OI If in Part A-OI, \"Whether assessee is exercising option under subsection 2A of section 92CE\" at sl.no.17 is selected as YES"
+},
+{
+"n": 191,
+"cat": "A",
+"text": "then Schedule TPSA should be filled Part A- OI In Part A Other Information, Sl. No. 13 - Amounts deemed to be profits and gains under section 33AB or 33ABA or 33AC"
+},
+{
+"n": 192,
+"cat": "A",
+"text": "should be equal to sum of (a+b+c). Schedule HP Schedule HP - Value at field \"1g\" should be equals to 30% of Annual value at \"1f \" in schedule HP."
+},
+{
+"n": 193,
+"cat": "A",
+"text": "Schedule HP In case of co-owned house property. assessee's share and co-owner(s) share"
+},
+{
+"n": 194,
+"cat": "A",
+"text": "should be equal to 100 %. Schedule HP In case property is co-owned, annual value of the property owned should be equal to own percentage share *annual"
+},
+{
+"n": 195,
+"cat": "A",
+"text": "value. Schedule HP Assessee cannot claim interest on borrowed capital if assessee's share of coowned property is zero."
+},
+{
+"n": 196,
+"cat": "A",
+"text": "Schedule HP If gross rent received/ receivable/ lettable value is zero or null then assessee cannot claim municipal tax"
+},
+{
+"n": 197,
+"cat": "A",
+"text": "Schedule HP Total of House property should match with total of individual values"
+},
+{
+"n": 198,
+"cat": "A",
+"text": "Schedule HP If type of property is let-out or deemed let out then Gross rent received/ receivable/ lettable value cannot be zero or"
+},
+{
+"n": 199,
+"cat": "A",
+"text": "null Schedule HP In \"Schedule HP\" Annual Value of 1(e) should be equal to the sum of (1a – 1d)"
+},
+{
+"n": 200,
+"cat": "A",
+"text": "Schedule HP In Schedule HP, Sl.no 1d Total should be output of SL.no (1b+1c)"
+},
+{
+"n": 201,
+"cat": "A",
+"text": "Schedule HP In \"Schedule HP\" 1(i) total should be equal to the sum of (1g + 1h)"
+},
+{
+"n": 202,
+"cat": "A",
+"text": "Schedule HP In \"Schedule HP\" in 1(k) of Income form HP should be equal to (1f – 1i + 1j)"
+},
+{
+"n": 203,
+"cat": "A",
+"text": "Schedule HP In Schedule HP, Sl.no 2 Pass through income should be equal to the amount of net income/ loss of HP mentioned in"
+},
+{
+"n": 204,
+"cat": "A",
+"text": "Schedule PTI Schedule HP In Schedule HP, PAN of assessee in Part A General cannot be same as Co oweners PAN in HP"
+},
+{
+"n": 205,
+"cat": "A",
+"text": "Schedule HP Sum of Interest on borrowed capital entered in table Section 24(b) - Interest on borrowed capital, is not equal to Interest"
+},
+{
+"n": 206,
+"cat": "A",
+"text": "on borrowed capital for each house property Schedule HP In Schedule HP, Details of Interest on borrowed capital u/s 24(b) is mandatory to claim the deduction."
+},
+{
+"n": 207,
+"cat": "A",
+"text": "Schedule HP In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Percentage share of other co-owner(s) in property"
+},
+{
+"n": 208,
+"cat": "A",
+"text": "should be less than 100%. Schedule HP \"The amount of rent which cannot be realized\" can not be more than Gross rent received/ receivable/ lettable during"
+},
+{
+"n": 209,
+"cat": "A",
+"text": "the year Schedule BP Amount reduced in sl no A3a in schedule BP cannot be more than the income offered in schedule HP"
+},
+{
+"n": 210,
+"cat": "A",
+"text": "Schedule BP Amount reduced in sl no A3c in schedule BP cannot be more than the income offered in schedule OS"
+},
+{
+"n": 211,
+"cat": "A",
+"text": "Schedule BP Amount reduced in sl no A5 in schedule BP cannot be more than the income offered in schedule EI"
+},
+{
+"n": 212,
+"cat": "A",
+"text": "Schedule BP In schedule BP, value at sl.no.A6 should be equal to value of sl.no.A(1– 2a – 2b – 3a - 3b – 3c – 3d – 3e - 3f – 4a – 4b - 4c–"
+},
+{
+"n": 213,
+"cat": "A",
+"text": "5d-5A) of BP Schedule BP In schedule BP, Sl.No.A.9.Total should be equal to value of Sl.No.7a + 7b + 7c + 7d + 7e + 7f 8a + 8b"
+},
+{
+"n": 214,
+"cat": "A",
+"text": "Schedule BP The value at field (A10) of schedule BP should be equal to sum of si No. A(6 + 9)"
+},
+{
+"n": 215,
+"cat": "A",
+"text": "Schedule BP The value at field (A13) of schedule BP should be equal to sum of si No. (10 + 11 – 12iii)."
+},
+{
+"n": 216,
+"cat": "A",
+"text": "Schedule BP The value at field (A26) of schedule BP should be equal to sum of Sl No. A(14 + 15 + 16 + 17 + 18 + 19 + 20 + 21"
+},
+{
+"n": 217,
+"cat": "A",
+"text": "+ 22 + 23 + 24 + 25). Schedule BP The value at field (A33) of schedule BP should be equal to sum of si No. A(27 + 28 + 29 + 30 + 31 + 32)."
+},
+{
+"n": 218,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field (A14) should be equal to the value at SI.No. 6t of schedule Part A OI."
+},
+{
+"n": 219,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" of value at field A15 should be equal to 7j of Part-OI"
+},
+{
+"n": 220,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" of value at field A16 should be equal to 8Aj of Part-OI"
+},
+{
+"n": 221,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" of value at field A17 should be equal to the sum of 9g of Part A-OI"
+},
+{
+"n": 222,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" of value at field A18 should be equal to the 11I of Part-OI"
+},
+{
+"n": 223,
+"cat": "A",
+"text": "Schedule BP In Schedule BP, value at field A21 should be equal to sum of 21(i) to 21(xii)"
+},
+{
+"n": 224,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field A24 should be equal to sum of sl. no 24(a+b+c+d+e)"
+},
+{
+"n": 225,
+"cat": "A",
+"text": "Schedule BP In schedule BP value at field A25 should be equal to sum of fields 3a + 4d of schedule OI."
+},
+{
+"n": 226,
+"cat": "A",
+"text": "Schedule BP In schedule BP value at field A28 should be equal to total of column (4) of Schedule ESR."
+},
+{
+"n": 227,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at filed A29 should be equal to 8B of Part-OI"
+},
+{
+"n": 228,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field A30 should be equal to 10I of Part A-OI"
+},
+{
+"n": 229,
+"cat": "A",
+"text": "Schedule BP In schedule BP value at field A32 should be equal to sum of fields 3b + 4e of schedule OI."
+},
+{
+"n": 230,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field A34 Income shouold be equal to the value (13 + 26-33)"
+},
+{
+"n": 231,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field A35(ix) should be equal to the sum of values at sl.no.35i to 35viii"
+},
+{
+"n": 232,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field A36 should be equal to the sum of values at sl.no. A34 + A35ix"
+},
+{
+"n": 233,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" of valued at A37 should be equal to the sum of values at sl.no. (37a + 37b + 37c + 37d + 37e +"
+},
+{
+"n": 234,
+"cat": "A",
+"text": "37) Schedule BP In schedule BP, Sl.No.42 should be equal to value at Sl.No.B.39+ B 40- B41."
+},
+{
+"n": 235,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at C46 should be equal to the sum of C(43 + 44-45)"
+},
+{
+"n": 236,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" value at field C48 should be equal to the sum of C(46-47)"
+},
+{
+"n": 237,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\", value at field (D) should be equal to sum of Sl No A37 + B42 + C48"
+},
+{
+"n": 238,
+"cat": "A",
+"text": "Schedule BP In schedule BP, values at field A4a should match with value mentioned for respective sections at field A35"
+},
+{
+"n": 239,
+"cat": "A",
+"text": "Schedule BP In schedule BP value at field 11 \"Depreciation and amortization debited to profit and loss account\" should be"
+},
+{
+"n": 240,
+"cat": "A",
+"text": "equal to sl.no.53 of P&L A/c + sl.no.1E(vi) of Manufacturing A/c. Schedule BP In \"Schedule BP\" value at field A39 should be equal to the sum of [4c-(37a + 37b + 37c + 37d + 37e)]"
+},
+{
+"n": 241,
+"cat": "A",
+"text": "Schedule BP In \"Schedule BP\" in A(5d) of Total exempt income should be equal to the sum of (share of income from firm(s) + Share of"
+},
+{
+"n": 242,
+"cat": "A",
+"text": "income from AOP/ BOI + Total (ci + cii + ciii)) Schedule BP In \"Schedule BP\" in Table E Business income remaining after set off should be equal to the value of (Income of current"
+},
+{
+"n": 243,
+"cat": "A",
+"text": "year)-(Business loss set off)) Schedule BP In \"Schedule BP\", value at field Ev should be equal to sum of Sl No Eii+ Eiii+ Eiv"
+},
+{
+"n": 244,
+"cat": "A",
+"text": "Schedule BP In Schedule BP Sl no Evi should be equal to sl no Ei-Ev"
+},
+{
+"n": 245,
+"cat": "A",
+"text": "Schedule BP In schedule BP value at field 8b should be equal to value at field 16 of schedule OI."
+},
+{
+"n": 246,
+"cat": "A",
+"text": "Schedule BP In schedule BP, nature of specified business at sl.no.49 should be selected if income/ loss from specified business at"
+},
+{
+"n": 247,
+"cat": "A",
+"text": "sl.no.C48 is entered Schedule BP In Sch BP sl no B39 should be equal to Pt 2a \"Net profit or loss from speculative business\""
+},
+{
+"n": 248,
+"cat": "A",
+"text": "Schedule BP If Income is declared under section 44AD/44ADA/44AE is greater than \"Zero\" at sl.no.35(i), 35(ii) and 35(iii), then"
+},
+{
+"n": 249,
+"cat": "A",
+"text": "Balance sheet particulars at \"Regular books of accounts\" or at \"No accounts \" ( S.No C ) is mandatory. Schedule BP Income under section 115BBF in schedule OS / in Schedule BP can be claimed only by Resident."
+},
+{
+"n": 250,
+"cat": "A",
+"text": "Schedule BP Only Resident partnership firm can declare presumptive income u/s 44AD & 44ADA"
+},
+{
+"n": 251,
+"cat": "A",
+"text": "Schedule BP In Schedule BP, “Depreciation allowable under section 32(1)(i)”can be claimed where ''Nature of business'' is"
+},
+{
+"n": 252,
+"cat": "A",
+"text": "declared as power sector (Code 05001 and 06008). Schedule BP Amount can be reduced from schedule BP at sl. No A4c i.e. Profit from activities covered under rule 7A, 7B(1), 7B(1A)"
+},
+{
+"n": 253,
+"cat": "A",
+"text": "and 8 only if business code is selected as 1003 , 1002, 1001 respectively Schedule BP In schedule BP, Total depreciation allowable under Income- tax Act at Sl no A12iii should be equal to sum of Sl no"
+},
+{
+"n": 254,
+"cat": "A",
+"text": "A(12i+12ii) Schedule BP In Sch BP, Sl.no.23 should be min of sum of amounts entered at sl.no.5a to 5d of part A OI"
+},
+{
+"n": 255,
+"cat": "A",
+"text": "Schedule BP \"Deductions in accordance with section 35AD(1)\" at sl.no.47 in Schedule BP cannot be claimed by assessee opting for"
+},
+{
+"n": 256,
+"cat": "A",
+"text": "New Tax Regime Schedule BP Value at sl.no.24( e) in Schedule BP should be minimum of Absolute of Sum of negaive values of col 3 - col 2 for all"
+},
+{
+"n": 257,
+"cat": "A",
+"text": "sections in Sch ESR Schedule BP Amount reduced in sl no A3b in schedule BP cannot be more than the income offered in schedule CG"
+},
+{
+"n": 258,
+"cat": "A",
+"text": "Schedule BP The Income/receipts, that have been reduced at Sl.No.3 and/or Sl.No.5 of schedule BP cannot be higher than the"
+},
+{
+"n": 259,
+"cat": "A",
+"text": "Income/receipts that have been credited to the P and L A/c.', Schedule BP If in Schedule BP, sl.no.3c is not equal to 3c(i) + 3c(ii)"
+},
+{
+"n": 260,
+"cat": "A",
+"text": "Schedule BP In Schedule BP, value at sl.no.3ci plus 5c - \"Dividend income\" cannot be more than value entered in sl.no.14iii of Schedule"
+},
+{
+"n": 261,
+"cat": "A",
+"text": "Profit and Loss A/c Schedule BP In Schedule BP, Sl.No. A1 \"Profit before Tax as per Profit & Loss A/c\" is not matching with sum of Sl.No.(54, 62ii, 63ii,"
+},
+{
+"n": 262,
+"cat": "A",
+"text": "64v, 65iii, 66(iv) and 67(ii) of Part A-P&L ) Schedule BP In schedule BP value mentioned at the Sl. No. 37a \"Income Chargeable under Rule 7\" does not tally with the amount"
+},
+{
+"n": 263,
+"cat": "A",
+"text": "Schedule BP In schedule BP value mentioned at the Sl. No. 37b \"Deemed income chargeable under Rule 7A\" Should be minimum 35%"
+},
+{
+"n": 264,
+"cat": "A",
+"text": "of the amount mentioned at the Sl. No. 4c(ii) \"Profit from activities covered under rule 7A\". Schedule BP In schedule BP value mentioned at the Sl. No. 37c \"Deemed income chargeable under Rule 7B(1)\" Should be minimum"
+},
+{
+"n": 265,
+"cat": "A",
+"text": "25% of the amount mentioned at the Sl. No. 4c(iii) \"Profit from activities covered under rule 7B(1)\". Schedule BP In schedule BP value mentioned at the Sl. No. 37d \"Deemed income chargeable under Rule 7B(1A)\" Should be minimum"
+},
+{
+"n": 266,
+"cat": "A",
+"text": "40% of the amount mentioned at the Sl. No. 4c(iv) \"Profit from activities covered under rule 7B(1A)\". Schedule BP In schedule BP value mentioned at the Sl. No. 37e \"Deemed income chargeable under Rule 8\" Should be minimum 40%"
+},
+{
+"n": 267,
+"cat": "A",
+"text": "of the amount mentioned at the Sl. No. 4c(v) \"Profit from activities covered under rule 8\". Schedule BP Amount entered at Sl. No. 3f \"u/s 115BBH (net of Cost of acquisition, if any)\" should match with Sl. No. A \"Total\" of"
+},
+{
+"n": 268,
+"cat": "A",
+"text": "Schedule VDA Schedule BP In Schedule BP, at Sl.No. 5c \"Dividend income\" amount cannot be more than Zero."
+},
+{
+"n": 269,
+"cat": "A",
+"text": "Schedule BP Sl. no. 43 of schedule BP should be equal to sl. no 2b of schedule BP"
+},
+{
+"n": 270,
+"cat": "A",
+"text": "Schedule BP Sum of A3 in Schedule BP cannot be greater than sum of revenues in Schedule P & L / trading Account."
+},
+{
+"n": 271,
+"cat": "A",
+"text": "Schedule BP In schedule BP, Sl.No. 19 should be equal to Sl.No. 17 of schedule Part A-OI"
+},
+{
+"n": 272,
+"cat": "A",
+"text": "Schedule BP Sl No 2a \"Net profit or loss from speculative business included in 1\" of schedule BP should be equal to sum of Sl"
+},
+{
+"n": 273,
+"cat": "A",
+"text": "No 12b of Trading account and 66(iv) of P&L Account Schedule DPM In \"Schedule DPM\" value at Sr. no. 6 in Schedule DPM should be equal to (3+4-5) Or zero if result is negative"
+},
+{
+"n": 274,
+"cat": "A",
+"text": "Schedule DPM Schedule DPM, sl no 9 should be equal to value of sl no 7-8 or 0 if result is negative."
+},
+{
+"n": 275,
+"cat": "A",
+"text": "Schedule DPM In \"Schedule DPM\" Total depreciation at sl.no.15 should be equal to the sum of (10 + 11 + 12 + 13 + 14)"
+},
+{
+"n": 276,
+"cat": "A",
+"text": "Schedule DPM In \"Schedule DPM\" 17 Net aggregate depreciation should should be equal to the sum of (15-16) or \"0\" if result is"
+},
+{
+"n": 277,
+"cat": "A",
+"text": "negative Schedule DPM Additional depreciation at sl.no.12, 13 and 14 cannot be claimed by the assessee opting for new tax regime"
+},
+{
+"n": 278,
+"cat": "A",
+"text": "Schedule DPM Depreciation @45% in Schedule DPM cannot be claimed by assessee opting for 115BAD"
+},
+{
+"n": 279,
+"cat": "A",
+"text": "Schedule DPM Schedule DPM, value at sl.no.20 should be equal to \"5 + 8 -3 - 4 -7 - 19\"."
+},
+{
+"n": 280,
+"cat": "A",
+"text": "Schedule DPM Schedule DPM, Value of depreciation at Sl.No.10 is not matching as per the depreciation rates mentioned in Sl.No.2"
+},
+{
+"n": 281,
+"cat": "A",
+"text": "Schedule DPM Schedule DPM, Value of depreciation at Sl.No.11 is not matching as per the depreciation rates mentioned in Sl.No.2"
+},
+{
+"n": 282,
+"cat": "A",
+"text": "at half rates Schedule DPM Depreciation u/s 32_1_ii (Adjustment as per second proviso to sub-section (3) of section 115BAC (Refer to rule 5)) should"
+},
+{
+"n": 283,
+"cat": "A",
+"text": "not be allowed to firm, LLP and Co-operative society or if New Tax Regime has been opted for. Schedule DPM In Schedule DPM, value at sl.no.3 should match with 3a + 3b"
+},
+{
+"n": 284,
+"cat": "A",
+"text": "Schedule DPM In schedule DPM, Proportionate depreciation at sl.no.18 should be out of Net aggregate depreciation at sl.no.17"
+},
+{
+"n": 285,
+"cat": "A",
+"text": "Schedule DPM Capital gains/ loss under section 50 at Sl. No. 20 of Schedule DPM should not be less than the amount at Sl. No. (5 + 8 -3-"
+},
+{
+"n": 286,
+"cat": "A",
+"text": "4 -7 -19) in case the consideration is more than the opening WDV and additions made during the year Schedule DPM Capital gains/ loss under section 50 at Sl. No. 20 of Schedule DPM is other than 0, then Sl No 10,11,12,13,14,15, 16, 17,18"
+},
+{
+"n": 287,
+"cat": "A",
+"text": "and 21 should be 0 Schedule DPM In schedule DPM, If Sl. No.20 is 0, value at 21 should be equal to (7-8+3+4-5-15)"
+},
+{
+"n": 288,
+"cat": "A",
+"text": "Schedule DOA Sr. no. 6 in Schedule DOA should be equal to (3+4-5) or zero if result is negative"
+},
+{
+"n": 289,
+"cat": "A",
+"text": "Schedule DOA Schedule DOA, sl no 9 should be equal to sl no 7-8 or 0 if result is negative"
+},
+{
+"n": 290,
+"cat": "A",
+"text": "Schedule DOA In \"Schedule DOA\" Total depreciation should be equal to the sum of (10 + 11)"
+},
+{
+"n": 291,
+"cat": "A",
+"text": "Schedule DOA In \"Schedule DOA\" 14 Net aggregate depreciation should should be equal to the sum of (12-13) or \"0\" if result is"
+},
+{
+"n": 292,
+"cat": "A",
+"text": "negative Schedule DOA Schedule DOA, value at sl.no.17 should be equal to \"(5+8-3- 4-7-16)\""
+},
+{
+"n": 293,
+"cat": "A",
+"text": "Schedule DOA Schedule DOA, Value of depreciation at Sl.No.10 is not matching as per the depreciation rates mentioned in Sl.No.2"
+},
+{
+"n": 294,
+"cat": "A",
+"text": "Schedule DOA Schedule DOA, Value of depreciation at Sl.No.11 is not matching as per the depreciation rates mentioned in Sl.No.2"
+},
+{
+"n": 295,
+"cat": "A",
+"text": "at half rates Schedule DOA In schedule DOA, Proportionate depreciation at sl.no.15 should be out of Net aggregate depreciation at sl.no.14"
+},
+{
+"n": 296,
+"cat": "A",
+"text": "Schedule DOA Capital gains/ loss under section 50 at Sl. No. 17 of Schedule DOA should not be less than the amount at Sl. No. 5+8-3-4-"
+},
+{
+"n": 297,
+"cat": "A",
+"text": "7-16 in case the consideration is more than the opening WDV and additions made during the year Schedule DOA Capital gains/ loss under section 50 at Sl. No. 17 of Schedule DOA is other than 0, then Sl No 10,11,12,13,14,15 and 18 should be 0"
+},
+{
+"n": 298,
+"cat": "A",
+"text": "Schedule DOA In schedule DOA, If Sl. No.17 is 0, value at 18 should be equal to (7-8+3+4-5-12 )"
+},
+{
+"n": 299,
+"cat": "A",
+"text": "Schedule DEP Depreciation allowable under section 32(1)(ii) and 32(1)(iia) in Schedule BP should be equal to Point No. 6 of Schedule"
+},
+{
+"n": 300,
+"cat": "A",
+"text": "DEP Schedule DEP In \"Schedule DEP\" 1e Total depreciation on plant and machinery should be equal to the value entered in (1a + 1b +"
+},
+{
+"n": 301,
+"cat": "A",
+"text": "1c+ 1d) Schedule DEP In \"Schedule DEP\" 2d Total depreciation on building should be equal to the sum of (2a + 2b + 2c)"
+},
+{
+"n": 302,
+"cat": "A",
+"text": "Schedule DEP In \"Schedule DEP\" 6 Total depreciation should be equal to the sum of (1d + 2d + 3 + 4 + 5)"
+},
+{
+"n": 303,
+"cat": "A",
+"text": "Schedule DEP In Schedule DEP, value at sl.no.1a \"Plant and machinery entitled for depreciation @ 15%\" should be equal to sl no 17i"
+},
+{
+"n": 304,
+"cat": "A",
+"text": "or 18i of schedule DPM as applicable Schedule DEP Schedule DEP, value at sl.no.1b \"Plant and machinery entitled for depreciation @ 30%\" should be equal to sl no"
+},
+{
+"n": 305,
+"cat": "A",
+"text": "17ii or 18ii of schedule DPM as applicable Schedule DEP Schedule DEP, value at sl.no.1c \"Plant and machinery entitled for depreciation @ 40%\" should be equal to sl no 17iii or"
+},
+{
+"n": 306,
+"cat": "A",
+"text": "18iii of schedule DPM as applicable Schedule DEP Schedule DEP, value at sl.no.1d \"Plant and machinery entitled for depreciation @ 45%\" should be equal to sl no"
+},
+{
+"n": 307,
+"cat": "A",
+"text": "17iv or 18iv of schedule DPM as applicable Schedule DEP Schedule DEP, value at sl.no.2a \"Building entitled for depreciation @ 5%\" should be equal to sl no 14ii or 15ii of"
+},
+{
+"n": 308,
+"cat": "A",
+"text": "schedule DOA as applicable Schedule DEP Schedule DEP, value at sl.no.2b \"Building entitled for depreciation @ 10%\" should be equal to sl no 14iii or 15iii of"
+},
+{
+"n": 309,
+"cat": "A",
+"text": "schedule DOA as applicable Schedule DEP Schedule DEP, value at sl.no.2c of \"Building entitled for depreciation @ 40%\" should be equal to sl no 14iv or 15iv of"
+},
+{
+"n": 310,
+"cat": "A",
+"text": "schedule DOA as applicable Schedule DEP Schedule DEP, value at sl.no.3 \"furniture and fittings\" should be equal to sl no 14v or 15v of schedule DOA as applicable"
+},
+{
+"n": 311,
+"cat": "A",
+"text": "Schedule DEP Schedule DEP, value at sl.no.4 \"intangible assets\" should be equal to sl no 14vi or 15vi of schedule DOA as applicable"
+},
+{
+"n": 312,
+"cat": "A",
+"text": "Schedule DEP Schedule DEP, value at sl.no.5 \"Ships\" should be equal to sl no 14vii or 15vii of schedule DOA as applicable"
+},
+{
+"n": 313,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" 1e Total should be equal to the sum of (1a + 1b + 1c + 1d)"
+},
+{
+"n": 314,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" 2d Total should be equal to value entered in ( 2a + 2b + 2c)"
+},
+{
+"n": 315,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" Total at sl.no.6 should be equal to the sum of 1e + 2d + 3 + 4 + 5"
+},
+{
+"n": 316,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" , value at sl.no.1a Block entitled for depreciation @ 15 per cent should be equal to sl.no.20i of Schedule DPM"
+},
+{
+"n": 317,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" , value at sl.no.1b Block entitled for depreciation @ 30 per cent should be equal to sl.no.20ii of"
+},
+{
+"n": 318,
+"cat": "A",
+"text": "Schedule DPM Schedule DCG In \"Schedule DCG\" , value at sl.no.1c Block entitled for depreciation @ 40 per cent should be equal to sl.no.20iii of"
+},
+{
+"n": 319,
+"cat": "A",
+"text": "Schedule DPM Schedule DCG In \"Schedule DCG\" , value at sl.no.1d Block entitled for depreciation @ 45 per cent should be equal to sl.no.20iv of"
+},
+{
+"n": 320,
+"cat": "A",
+"text": "Schedule DPM Schedule DCG In \"Schedule DCG\" , value at sl.no.2a Block entitled for depreciation @5 per cent should be equal to sl.no.17ii of"
+},
+{
+"n": 321,
+"cat": "A",
+"text": "Schedule DOA Schedule DCG In \"Schedule DCG\" , value at sl.no.2b Block entitled for depreciation @10 per cent should be equal to sl.no.17iii of"
+},
+{
+"n": 322,
+"cat": "A",
+"text": "Schedule DOA Schedule DCG In \"Schedule DCG\" , value at sl.no.2c Block entitled for depreciation @40 per cent should be equal to sl.no.17iv of"
+},
+{
+"n": 323,
+"cat": "A",
+"text": "Schedule DOA Schedule DCG In \"Schedule DCG\" Furniture and fittings at sl.no.3 should be equal to the Schedule DOA- 17v"
+},
+{
+"n": 324,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" Intangible assets at sl.no.4 should be equal to Schedule DOA- 17vi"
+},
+{
+"n": 325,
+"cat": "A",
+"text": "Schedule DCG In \"Schedule DCG\" Ships at sl.no.5 should be equal to Schedule DOA- 17vii"
+},
+{
+"n": 326,
+"cat": "A",
+"text": "Schedule DCG In Schedule CG Sl.no. A6e of STCG should be equal to the sl.no.6 of schedule - DCG"
+},
+{
+"n": 327,
+"cat": "A",
+"text": "Schedule ESR In \"Schedule ESR\", value in col (4) should be equal to the sum of value at col (3)-(2) of schedule ESR if Col 3 >= Col 2"
+},
+{
+"n": 328,
+"cat": "A",
+"text": "Schedule ESR In \"Schedule ESR\" Total should be equal to the sum of value entered in (i + ii + iii + iv + v + vi + vii + viii + ix)"
+},
+{
+"n": 329,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3i - 35(1)(i), should be equal to Sl. No. 2i - 35(1)(i)"
+},
+{
+"n": 330,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3ii - 35(1)(ii), should be equal to Sl. No. 2ii - 35(1)(ii)"
+},
+{
+"n": 331,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3iii - 35(1)(iia), should be equal to Sl. No. 2iii - 35(1)(iia)"
+},
+{
+"n": 332,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3iv - 35(1)(iii), should be equal to Sl. No. 2iv - 35(1)(iii)"
+},
+{
+"n": 333,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3v - 35(1)(iv), should be equal to Sl. No. 2v - 35(1)(iv)"
+},
+{
+"n": 334,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3vi - 35(2AA), should be equal to Sl. No. 2vi - 35(2AA)"
+},
+{
+"n": 335,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3vii - 35(2AB), should be equal to Sl. No. 2vii - 35(2AB)"
+},
+{
+"n": 336,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3viii - 35(CCC), should be equal to Sl. No. 2viii - 35(CCC)"
+},
+{
+"n": 337,
+"cat": "A",
+"text": "Schedule ESR In Schedule ESR, value entered at Sl. No. 3ix - 35(CCD), should be equal to Sl. No. 2ix - 35(CCD)"
+},
+{
+"n": 338,
+"cat": "A",
+"text": "Schedule CG In “Schedule CG\"B12 Total should be equal to sum of B1g + B2e + B3c + B4 + B5 + B6c + B7+ B8e+ B9+B10-B11a+B(A)"
+},
+{
+"n": 339,
+"cat": "A",
+"text": "Schedule CG Value at field \"C1\" in \"Schedule CG\" should be equal to the sum of (8ii + 8iii + 8iv + 8v + 8vi + 8vii of table E ) of Schedule"
+},
+{
+"n": 340,
+"cat": "A",
+"text": "CG. Schedule CG In Schedule CG, if Full Value of Consideration(sr no A1aiii) is zero , then expenses u/s 48 (sr no A1b(v) cannot be claimed"
+},
+{
+"n": 341,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, if Full Value of Consideration(sr no A3a) is zero , then expenses u/s 48 (sr no A3b(v) cannot be claimed."
+},
+{
+"n": 342,
+"cat": "A",
+"text": "Schedule CG In Schedule CG,if Full Value of Consideration(sr no A5aiii) is zero , then , expenses u/s 48 (sr no A5b(v) cannot be"
+},
+{
+"n": 343,
+"cat": "A",
+"text": "claimed Schedule CG In Schedule CG, if Full Value of Consideration(sr no A6aiii) is zero , then expenses u/s 48 (sr no A6b(v) cannot be claimed"
+},
+{
+"n": 344,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, if Full Value of Consideration(sr no B1aiii) is zero , then expenses u/s 48 (sr no B1b(iv) cannot be claimed"
+},
+{
+"n": 345,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, if Full Value of Consideration(sr no B3a) is zero , then expenses u/s 48 (sr no B3b(v) cannot be claimed"
+},
+{
+"n": 346,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, if Full Value of Consideration(sr no B6aiii) is zero , then expenses u/s 48 (sr no B6b(v) cannot be claimed"
+},
+{
+"n": 347,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, if Full Value of Consideration(sr no B8aiii) is zero, then expenses u/s 48(sr no B8b(v) cannot be claimed"
+},
+{
+"n": 348,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. A1 bv of STCG Total should be equal to sum of A1(bi + bii + biii +biv)"
+},
+{
+"n": 349,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. A1c of STCG Balance should be equal to A1(aiii-bv)"
+},
+{
+"n": 350,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A1e of STCG should be equal to A(1c- 1d)"
+},
+{
+"n": 351,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A2(c) should be equal to A(2aiii-2b)"
+},
+{
+"n": 352,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A3ib(v) should be equal to the sum of A3ib (i + ii + iii + iv)"
+},
+{
+"n": 353,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A3i(c) Balance should be equal to the sum of A3i(a –v)"
+},
+{
+"n": 354,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A3ei of STCG should be equal to the sum of A3i(c + d)"
+},
+{
+"n": 355,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A5(a)(ic) should be higher of A5(a)(ia) or A5(a)(ib)"
+},
+{
+"n": 356,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Sl. No. A5(aiii) should be equal to sum of A5[(a)(ic) + (aii)]"
+},
+{
+"n": 357,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A5(bv) Total should be equal to the sum of (i + ii + iii + iv)"
+},
+{
+"n": 358,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. A5c Balance should be equal to A5(aiii-bv)"
+},
+{
+"n": 359,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A5e of STCG should be equal to the sum of A(5c + 5d)"
+},
+{
+"n": 360,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A6(a)(ic) should be higher of A6(a)(ia) or A6(a)(ib)"
+},
+{
+"n": 361,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A6aiii of STCG should be equal to the sum of A6a(ic + ii)"
+},
+{
+"n": 362,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A6(bv) Total should be equal to the sum of (i + ii + iii +biv)"
+},
+{
+"n": 363,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. A6c Balance should be equal to A6(aiii-bv)"
+},
+{
+"n": 364,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A7 should be equal to the sum of A(aXi) + aXii + aXiii Ab + c"
+},
+{
+"n": 365,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A8 of STCG should be equal to the sum of (A8a + A8b + A8c)"
+},
+{
+"n": 366,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1(bi+bii+ biia + biii)"
+},
+{
+"n": 367,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B1c of LTCG Balance should be equal to B1(aiii-biv)"
+},
+{
+"n": 368,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. B1e of LTCG should be equal to B(1c- 1d)"
+},
+{
+"n": 369,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. B2e of LTCG should be equal to B(2c- 2d)"
+},
+{
+"n": 370,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B2c of LTCG Balance should be equal to B2 (aiii-b)"
+},
+{
+"n": 371,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B3(bv) LTCG Total should be equal to sum of B3(bi+bii+biii+biv)"
+},
+{
+"n": 372,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B3c of LTCG Balance should be equal to B(3a-bv)"
+},
+{
+"n": 373,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Sl. No. B4 LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A"
+},
+{
+"n": 374,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. B6 (a)(ic) should be higher of B6 (a)(ia) or B6 (a)(ib)"
+},
+{
+"n": 375,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" B6 (1)a(iii) Total should be equal to the sum of (ic + ii)"
+},
+{
+"n": 376,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B6 bv Total should be equal to sum of B6 (bi + bii + biii+biv)"
+},
+{
+"n": 377,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B6 biv Total should be equal to sum of B6 (bi + bii + biii+biv)"
+},
+{
+"n": 378,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Sl. No. B7 LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)"
+},
+{
+"n": 379,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. B8 (a)(ic) should be higher of B8 (a)(ia) or B8 (a)(ib)"
+},
+{
+"n": 380,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B8 aiii Total should be equal to sum of B8 (a)(ic+ii)"
+},
+{
+"n": 381,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B8 bv Total should be equal to sum of B8 (bi+bii+biii+biv)"
+},
+{
+"n": 382,
+"cat": "A",
+"text": "Schedule CG In schedule CG, Sl. No. B8c LTCG on share or debenture should be equal to B8 (aiii – bv)"
+},
+{
+"n": 383,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. B8e of LTCG should be equal to B(8c- 8d)"
+},
+{
+"n": 384,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Sl. No. B9 should be equal to B9 (aXi + aXii +aXiii+b + c)"
+},
+{
+"n": 385,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" B10 Pass Through Income in the nature of Long Term Capital Gain should be equal to the sum of"
+},
+{
+"n": 386,
+"cat": "A",
+"text": "individual amounts Schedule CG Schedule CG sl no D1e should be equal to sum of D(1a + 1b + 1c + 1d )"
+},
+{
+"n": 387,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Sl.No. Eviii should be equal to the sum of sl no (ii + iii + iv + v + vi + vii)"
+},
+{
+"n": 388,
+"cat": "A",
+"text": "Schedule CG In “Schedule CG\" E(ix) Total should be equal to the sum of Ei(Capital Loss to be set off) - Eviii (Total loss set off)"
+},
+{
+"n": 389,
+"cat": "A",
+"text": "Schedule CG Schedule CG sl no Ei3 should be equal to sum of sl no (A5e+ A8b+A(A) (chargable @30%) )as reduced by the amount of"
+},
+{
+"n": 390,
+"cat": "A",
+"text": "STCG chargable or not chargable to tax at special rates specified in sl. No A9a & A9b , which is included therein Schedule CG Schedule CG sl no Ei4 should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+ A(A) (Chargable at App rate)) as reduced by the amount of STCG chargable or not"
+},
+{
+"n": 391,
+"cat": "A",
+"text": "chargable to tax at special rates specified in sl. No A9a & A9b , which is included therein Schedule CG In Schedule CG, sl no Ei5 should be equal to sl no A9b."
+},
+{
+"n": 392,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, sl no Ei7 should be equal sl no B11b."
+},
+{
+"n": 393,
+"cat": "A",
+"text": "Schedule CG Schedule CG sl no Eiii should be equal to sum of sl no (A5e+A8b+A(A) (chargable @30%))as reduced by the"
+},
+{
+"n": 394,
+"cat": "A",
+"text": "amount of STCG chargable or not chargable to tax at special rates specified in sl. No A9a & A9b , which is included therein Schedule CG Schedule CG sl no Eiv should be equal to sum of sl no (A1e+A2c+A4b+A6g +A7+A8c+ A(A) ( Chargable at App rate))as reduced by the amount of STCG chargable or not"
+},
+{
+"n": 395,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, sl no Ev should be equal to sl no A9b."
+},
+{
+"n": 396,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, sl no Evii should be equal sl no B11b."
+},
+{
+"n": 397,
+"cat": "A",
+"text": "Schedule CG Deductions claimed u/s 54D, 54EC, 54G, 54GA in STCG and LTCG should match with amount mentioned in respective"
+},
+{
+"n": 398,
+"cat": "A",
+"text": "section of Table D . Schedule CG In Sch CG, value at field E8 is not equal to the Col no (1-2-3- 4-5-6-7)"
+},
+{
+"n": 399,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Table F Sl.No. 2 the breakup of all the quarters should be equal to the value from item 5vii of"
+},
+{
+"n": 400,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Schedule CG, Table F Sl.No. 3 the breakup of all the quarters should be equal to the value from item 5viii of"
+},
+{
+"n": 401,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Schedule CG, Table F Sl.No. 4 the breakup of all the quarters should be equal to the value from item 5ix of"
+},
+{
+"n": 402,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Schedule CG, Table F Sl.No. 6 the breakup of all the quarters should be equal to the value from item 5xi of"
+},
+{
+"n": 403,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Schedule CG, Sl. No. A \"DTAA table\" Applicable Rate should be lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate"
+},
+{
+"n": 404,
+"cat": "A",
+"text": "as per IT Act) Schedule CG In Schedule CG, Sl. No. B \"DTAA\" Col. 10 Applicable Rate should be lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate"
+},
+{
+"n": 405,
+"cat": "A",
+"text": "as per IT Act) Schedule CG In Schedule CG ,In case A1(aii) does not exceed 1.10 times A1(ai), value at A1(aiii) should be equal to A1(ai), else value"
+},
+{
+"n": 406,
+"cat": "A",
+"text": "at A1(aiii) should be equal to A1(aii) Schedule CG In Schedule CG ,In case B1(aii) does not exceed 1.10 times B1(ai), value at B1(aiii) should be equal to B1(ai), or else"
+},
+{
+"n": 407,
+"cat": "A",
+"text": "value at B1(aiii) should be equal to B1(aii) Schedule CG In Schedule CG Sl.no. A6g of STCG should be equal to the sum of A(6c+6d+6e-6f)"
+},
+{
+"n": 408,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, value at sl.no.A2iii should be higher of sl.no.A2i or A2ii"
+},
+{
+"n": 409,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, value at sl.no.B2aiii should be higher of sl.no.B2ai or B2aii"
+},
+{
+"n": 410,
+"cat": "A",
+"text": "Schedule CG Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(bii) is more than Zero"
+},
+{
+"n": 411,
+"cat": "A",
+"text": "Schedule CG Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biia) is more than Zero"
+},
+{
+"n": 412,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, SL. No. C3 Income chargeable under the head “CAPITAL GAINS” should be equal to the sum of \"Sum"
+},
+{
+"n": 413,
+"cat": "A",
+"text": "of Capital Gain Incomes\" and \"Income from transfer of Virtual Digital Assets\" Schedule CG In Schedule CG, SL. No. C2 Income from transfer of Virtual Digital Assets should be equal to Sl. No. B of Schedule VDA"
+},
+{
+"n": 414,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Table F Sl. No. 8 the breakup of all the quarters should be equal to the value of 'Income under the"
+},
+{
+"n": 415,
+"cat": "A",
+"text": "head Capital Gain' of schedule SI Schedule CG In Schedule CG, Table F Sl. No. 8 the breakup of all the quarters should be equal to the value at Sl. No. C2"
+},
+{
+"n": 416,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Table D, Sl. No. 1aiv,1civ and 1div is more than zero but details of iva, ivb and ivc are blank"
+},
+{
+"n": 417,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A3iib(v) should be equal to the sum of A3iib (i + ii + iii + iv)"
+},
+{
+"n": 418,
+"cat": "A",
+"text": "Schedule CG In \"Schedule CG\" A3ii(c) Balance should be equal to the sum of (A3iia – A3iibv)"
+},
+{
+"n": 419,
+"cat": "A",
+"text": "Schedule CG In Schedule CG Sl.no. A3iie of STCG should be equal to the sum of A3ii(c + d)"
+},
+{
+"n": 420,
+"cat": "A",
+"text": "Schedule CG For Resident taxpayers, DTAA benefit is not available in rate of taxation, and the claim may not be allowed. Please re-"
+},
+{
+"n": 421,
+"cat": "A",
+"text": "check the claims made. Residents may claim DTAA benefit under Schedule TR and FSI. Schedule CG In Schedule CG, value of capital gains u/s 112A should be equal to the corresponding amount mentioned for the same"
+},
+{
+"n": 422,
+"cat": "A",
+"text": "in Schedule 112A Schedule CG Schedule CG sl no Ei2 should be equal to sum of sl no (A3e+ A4a+ A8a+A(A) @20%)"
+},
+{
+"n": 423,
+"cat": "A",
+"text": "Schedule CG Schedule CG sl no Eii should be equal to sum of sl no (A3e+A4a+A8a+A(A) @20%)"
+},
+{
+"n": 424,
+"cat": "A",
+"text": "Schedule CG Schedule CG sl no Ei6 should be equal to sl no (B1g+ B2e+B3c+ B4+B5+B6c+B7+ B8e*+B9* +B10a1*+B10a2*"
+},
+{
+"n": 425,
+"cat": "A",
+"text": "+B(A)@12.5%) Schedule CG Schedule CG sl no Evi should be equal to sl no (B1g+ B2e+B3c+ B4+B5+B6c+B7+ B8e*+B9* +B10a1*+B10a2*"
+},
+{
+"n": 426,
+"cat": "A",
+"text": "+B(A)@12.5%) Schedule CG In Schedule CG, Table F Sl.No. 1 the breakup of all the quarters should be equal to the value from item 5vi of"
+},
+{
+"n": 427,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Schedule CG, Table F Sl.No. 7 the breakup of all the quarters should be equal to the value from item 5xb of"
+},
+{
+"n": 428,
+"cat": "A",
+"text": "schedule BFLA Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 20%."
+},
+{
+"n": 429,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 30%."
+},
+{
+"n": 430,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG"
+},
+{
+"n": 431,
+"cat": "A",
+"text": "Applicable rates%. Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG dtaa"
+},
+{
+"n": 432,
+"cat": "A",
+"text": "rates. Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 12.5%."
+},
+{
+"n": 433,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG DTAA"
+},
+{
+"n": 434,
+"cat": "A",
+"text": "Rates. Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL20%."
+},
+{
+"n": 435,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL30%."
+},
+{
+"n": 436,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCLApplicable"
+},
+{
+"n": 437,
+"cat": "A",
+"text": "rate%. Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL_DTAA"
+},
+{
+"n": 438,
+"cat": "A",
+"text": "Rates Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 12.5%"
+},
+{
+"n": 439,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL _DTAA"
+},
+{
+"n": 440,
+"cat": "A",
+"text": "Rates Schedule CG In Table E of Schedule CG, Column 8 of each row should be equal to 1-(2+3+4+5+6+7)"
+},
+{
+"n": 441,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Row (viii) 'Total loss set off' of each column should be equal to (ii + iii + iv + v + vi+vii))"
+},
+{
+"n": 442,
+"cat": "A",
+"text": "Schedule CG In Table E of Schedule CG, Row (ix) 'Loss remaining after set off' should be equal to (i - viii)"
+},
+{
+"n": 443,
+"cat": "A",
+"text": "Schedule CG In Schedule Capital Gain, B1(g), Total Long-term Capital Gains on Immovable property (ƩB1e ) - This field should be"
+},
+{
+"n": 444,
+"cat": "A",
+"text": "equal to sum of B1e of all the properties Schedule CG In Schedule CG, Table E, entire loss should be set off with gains available for set off."
+},
+{
+"n": 445,
+"cat": "A",
+"text": "Schedule CG If in Schedule CG, Table D, Sl. No. 1aiv,1biv and 1div \" Amount deposited in Capital Gains Accounts Scheme before due date\" is more than zero then details of Sl. No. iva \" Date"
+},
+{
+"n": 446,
+"cat": "A",
+"text": "of Deposit\", Sl. No. ivb \" Account number\" and Sl. No. ivc \"IFS Code\" should not be blank or null Schedule CG Dividend income u/s 2(22)(f) at sl no. 1aiii of OS is mandatory, if capital loss is shown A(A) or B(A) of Schedule"
+},
+{
+"n": 447,
+"cat": "A",
+"text": "CG Schedule CG In Schedule CG, B4, deduction u/s 48 cannot be claimed if Cost of acquisition is not provided"
+},
+{
+"n": 448,
+"cat": "A",
+"text": "Schedule CG In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of"
+},
+{
+"n": 449,
+"cat": "A",
+"text": "financial year Schedule CG In \"Schedule CG\" A10 STCG should be equal to the sum of (A1e + A2c + A3e + A4a + A4b + A5e + A6g + A7 + A8 –"
+},
+{
+"n": 450,
+"cat": "A",
+"text": "A9a+A(A)) Schedule CG In Schedule CG, Sl. No. B11 Col. 10 Applicable Rate is not equal to lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate as"
+},
+{
+"n": 451,
+"cat": "A",
+"text": "per IT Act) Schedule 112A In Schedule 112A, Col. 7 Cost of acquisition without indexation should be higher of Col. 8 and Col. 9"
+},
+{
+"n": 452,
+"cat": "A",
+"text": "Schedule 112A In Schedule 112A, Col. 9 \"If the long term capital asset was acquired before 01.02.2018\" should be lower of Col. 6 and"
+},
+{
+"n": 453,
+"cat": "A",
+"text": "Col. 11 Schedule 112A In Schedule 112A, Col. 13 Total deductions should be equal to sum of Col. (7+12)"
+},
+{
+"n": 454,
+"cat": "A",
+"text": "Schedule 112A In Schedule 112A, Col. 14 Balance should be equal to the output of Col. 6-Col. 13"
+},
+{
+"n": 455,
+"cat": "A",
+"text": "Schedule 112A In Schedule 112A, Total of Col 6, 7, 8, 9, 11, 12, 13 and 14 should be equal to the sum of Sl. No. (1+2+3+4+…..)"
+},
+{
+"n": 456,
+"cat": "A",
+"text": "Schedule 112A In schedule 112A, Value at Column no. 4,5 & 11 cannot be greater than zero in case drop down is selected as \"After 31s"
+},
+{
+"n": 457,
+"cat": "A",
+"text": "January 2018\" to question \"whether shares are acquired on or before 31.01.2018 or after 31.01.2018?\" Schedule 112A In Schedule 112A, Col. 6 Total Sale Value should be equal to Col. 4*Col. 5 for the shares purchased \"On or Before 31st"
+},
+{
+"n": 458,
+"cat": "A",
+"text": "January 2018\" Schedule 112A In Schedule 112A, Col. 11 \"Total Fair Market Value of capital asset as per section 55(2)(ac)\" should be equal to Col. 4*Col."
+},
+{
+"n": 459,
+"cat": "A",
+"text": "10 for the shares purchased On or Before 31st January 2018 Schedule In Schedule 115AD(1)(iii) proviso, Col. 7 Cost of acquisition 115AD(1)(iii) proviso without indexation should be higher of Col. 8 and Col. 9"
+},
+{
+"n": 460,
+"cat": "A",
+"text": "Schedule In Schedule 115AD(1)(iii) proviso, Col. 9 \"If the long term 115AD(1)(iii) proviso capital asset was acquired before 01.02.2018\" should be"
+},
+{
+"n": 461,
+"cat": "A",
+"text": "lower of Col. 6 and Col. 11 Schedule In Schedule 115AD(1)(iii) proviso, Col. 13 Total deductions 115AD(1)(iii) proviso should be equal to sum of Col. (7+12)"
+},
+{
+"n": 462,
+"cat": "A",
+"text": "Schedule In Schedule 115AD(1)(iii) proviso, Col. 14 Balance should be 115AD(1)(iii) proviso equal to the output of Col. 6-Col. 13"
+},
+{
+"n": 463,
+"cat": "A",
+"text": "Schedule In Schedule 115AD(1)(iii) proviso, Total of Col 6, 7, 8, 9, 11, 115AD(1)(iii) proviso 12, 13 and 14 should be equal to the sum of Sl. No."
+},
+{
+"n": 464,
+"cat": "A",
+"text": "(1+2+3+4+…..) Schedule In schedule 115AD(1)(b)(iii), Value at Column no. 4,5 & 11 115AD(1)(iii) proviso cannot be greater than zero in case drop down is selected as"
+},
+{
+"n": 465,
+"cat": "A",
+"text": "\"After 31s January 2018\" to question \"whether shares are acquired on or before 31.01.2018 or after 31.01.2018?\" Schedule In Schedule 115AD(1)(iii) proviso, Col. 6 \"Total Sale Value\" 115AD(1)(iii) proviso should be equal to Col. 4*Col. 5 for the shares purchased \"On or Before 31st January 2018 \""
+},
+{
+"n": 466,
+"cat": "A",
+"text": "Schedule In Schedule 115AD(1)(iii) proviso, Col. 11 \"Total Fair Market 115AD(1)(iii) proviso Value of capital asset as per section 55(2)(ac)\" should be"
+},
+{
+"n": 467,
+"cat": "A",
+"text": "equal to Col. 4*Col. 10 for the shares purchased \"On or Before 31st January 2018 \" Schedule VDA In Schedule VDA, value at Sl. No. 7 should be equal to Sl. No. 6 - Sl. No. 5"
+},
+{
+"n": 468,
+"cat": "A",
+"text": "Schedule VDA In Schedule VDA, value at Sl. No. A 'Total (Sum of all Positive Incomes of Business Income in Col. 7) should be equal to"
+},
+{
+"n": 469,
+"cat": "A",
+"text": "sum of col. 7 if head of income is selected as Business income in col. 4 Schedule VDA In Schedule VDA, value at Sl. No. B 'Total (Sum of all Positive Incomes of Capital Gain in Col. 7) should be equal to sum of"
+},
+{
+"n": 470,
+"cat": "A",
+"text": "col. 7 if head of income is selected as Capital Gain in col. 4 Schedule VDA In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year."
+},
+{
+"n": 471,
+"cat": "A",
+"text": "Schedule OS In \"Schedule OS\" in (1) of Gross income chargeable to tax at normal applicable rates should be equal to the sum of (1a +"
+},
+{
+"n": 472,
+"cat": "A",
+"text": "1b + 1c + 1d + 1e) Schedule OS In \"Schedule OS\" 3d should be equal to 3a + 3b+3c"
+},
+{
+"n": 473,
+"cat": "A",
+"text": "Schedule OS If in Schedule OS, Sl.no 1c is equal to zero or null then Sl.no. 3b Depreciation deduction is greater than zero or null"
+},
+{
+"n": 474,
+"cat": "A",
+"text": "Schedule OS In “Schedule OS\" 7 Income from other sources (other than from owning and maintaining race horses) should be equal"
+},
+{
+"n": 475,
+"cat": "A",
+"text": "to the sum of (2 + 6) Schedule OS In Schedule OS, Sl.no 8e Balance should be equal to sum of sl.no 8a-8b+8c+8d"
+},
+{
+"n": 476,
+"cat": "A",
+"text": "Schedule OS In “Schedule OS\" in 9 “Income from other sources” should be equal to the sum of 7 + 8e"
+},
+{
+"n": 477,
+"cat": "A",
+"text": "Schedule OS In \"Schedule OS\" amount of \"Pass through income in the nature of income from other sources chargeable at special"
+},
+{
+"n": 478,
+"cat": "A",
+"text": "rates \" should be equal to the sum of of individual values entered in amount col. Schedule OS In “Schedule OS\" in value at field 1(d) should be equal to sum of (di + dii + diii + div + dv)"
+},
+{
+"n": 479,
+"cat": "A",
+"text": "Schedule OS Taxpayer is a non-resident and showing income under section 115BBF"
+},
+{
+"n": 480,
+"cat": "A",
+"text": "Schedule OS In Schedule OS - column 3 of table 2e, the sum of all the dropdown value of Col 2 Amount of income of 1ai should not"
+},
+{
+"n": 481,
+"cat": "A",
+"text": "exceed the field 1ai \"Dividend income\" Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of income of 1b should not exceed"
+},
+{
+"n": 482,
+"cat": "A",
+"text": "the field 1b \"Interest, Gross\" Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of Income of 1c should not exceed the field 1c \"Rental income from machinery, plants, buildings, etc., Gross\""
+},
+{
+"n": 483,
+"cat": "A",
+"text": "Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of income of 1d should not exceed"
+},
+{
+"n": 484,
+"cat": "A",
+"text": "the field 1d \"Income of the nature referred to in section 56(2)(x) which is chargeable to tax \" Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of Income of 2a should not exceed the"
+},
+{
+"n": 485,
+"cat": "A",
+"text": "field 2a \"Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB\" Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of Income of 2c should not exceed the"
+},
+{
+"n": 486,
+"cat": "A",
+"text": "field 2c \"Any other income chargeable at special rate\" above Schedule OS In Schedule OS - column 3 of table 2e, the sum of dropdown value of Col 2 Amount of Income of 2d should not exceed"
+},
+{
+"n": 487,
+"cat": "A",
+"text": "the field 2d \"Pass through income in the nature of income from other sources chargeable at special rates\" above Schedule OS In schedule OS field 6 \"Net Income from other sources chargeable at normal applicable rates \" should equal to (1 – 3 + 4 + 5-DTAA related to 1) i.e \"Gross income chargeable to tax at normal applicable rates (1a + 1b + 1c + 1d + 1e) -"
+},
+{
+"n": 488,
+"cat": "A",
+"text": "Deductions under section 57 + Amounts not deductible u/s 58 + Profits chargeable to tax u/s 59 - DTAA related to 1 in table f\". Schedule OS In \"Schedule OS\" in 2e \"Applicable rate At col 10\" should be lower of col Rate as per Treaty"
+},
+{
+"n": 489,
+"cat": "A",
+"text": "or Rate as per I.T. Act Schedule OS In Schedule OS - Sum of 2ai+2aii+2b+2c+2d+2e elements related to Sl. No. 1 should be equal to SL.no.2"
+},
+{
+"n": 490,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl. No. 1b should be equal to sum of (bi+bii+biii+biv+bv)"
+},
+{
+"n": 491,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"Income by way of winnings from lotteries u/s 115BB\" should be equal"
+},
+{
+"n": 492,
+"cat": "A",
+"text": "to Sl. No. 1\"Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB\" Schedule OS In Schedule OS, deduction at sl.no.3c cannot be claimed only if Dividend is declared in sl.no.1ai and 1aii of Schedule OS"
+},
+{
+"n": 493,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl.no 2c Income from other sources chargeable at special rates should be equal to sum of all the"
+},
+{
+"n": 494,
+"cat": "A",
+"text": "drop downs Schedule OS Interest expenditure on dividend u/s 57(1) at Sl.No.3c of schedule OS should not be more than 20% of such dividend income included in the total income."
+},
+{
+"n": 495,
+"cat": "A",
+"text": "Accordingly Interest expenditure on dividend u/s 57(1) at Sl.No.3c of schedule OS is recomputed and restricted. Schedule OS In Schedule OS, sl.no.1a should be equal to 1a(i) + 1a(ii)+1a(iii)"
+},
+{
+"n": 496,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"\"Dividend Income u/s 115A(1)(a)(i) other than first proviso to section"
+},
+{
+"n": 497,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"Dividend Income u/s 115AC @ 10% (Including PTI Income)\" should"
+},
+{
+"n": 498,
+"cat": "A",
+"text": "be equal to Sl. No. 2c and 2d of Schedule OS Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"Dividend Income (other than units referred to in section 115AB) received by a FII u/s 115AD(1)(i) @ 20% (Including PTI"
+},
+{
+"n": 499,
+"cat": "A",
+"text": "Income) \" should be equal to Sl. No. 2c and 2d of Schedule OS Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"Dividend Income (other than units referred to in section 115AB) received by a specified fund u/s 115AD(1)(i) @ 10%"
+},
+{
+"n": 500,
+"cat": "A",
+"text": "(Including PTI Income) \" should be equal to Sl. No. 2c and 2d of Schedule OS Schedule OS In Schedule OS, Sl. No. 2b Income chargeable u/s 115BBE should be equal to sum of Sl. No. bi + bii + biii + biv+ bv + bvi"
+},
+{
+"n": 501,
+"cat": "A",
+"text": "Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of Income earned by way of winning from any online game chargeable"
+},
+{
+"n": 502,
+"cat": "A",
+"text": "u/s 115BBJ\" should be equal to Sl. No. 1\"Winnings from online games chargeable u/s 115BBJ\" Schedule OS In Schedule OS, Sl. No. 10, quarterly break up of \"Dividend income under proviso to sec 115A(1)(a)(A) @10% (Including"
+},
+{
+"n": 503,
+"cat": "A",
+"text": "PTI Income) \" should be equal to Sl. No. 2c and 2d of Schedule OS Schedule OS In Schedule OS, quarterly break up of Dividend Income at 3b should be equal to \"Dividend Income referred in Sl. No."
+},
+{
+"n": 504,
+"cat": "A",
+"text": "1a(iii) \" in Schedule OS Schedule CYLA In schedule CYLA Sl. No. 2xvi cannot be more than Rs. 200000"
+},
+{
+"n": 505,
+"cat": "A",
+"text": "Schedule CYLA House property loss claimed at Schedule CYLA\" at sl.no.2i should be equal to sl.no \"Schedule HP\" incase of loss"
+},
+{
+"n": 506,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, value at sl.no.3i should be equal to SL.no. 2vi of Table E of Schedule BP"
+},
+{
+"n": 507,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, value at sl.no.4i should be equal to SL.no. 6 Schedule OS incase of loss"
+},
+{
+"n": 508,
+"cat": "A",
+"text": "Schedule CYLA In \"Schedule CYLA, value at 2xvi \"Total Loss Set off\" for House property should be equal to Sum of losses set off in"
+},
+{
+"n": 509,
+"cat": "A",
+"text": "column 2 \"House property loss of the current year set off\" to the maximum of Rs.200000. Schedule CYLA In \"Schedule CYLA, value at 3xvi \"Total Loss Set off\" for Business Losses should be equal to Sum of losses set off in"
+},
+{
+"n": 510,
+"cat": "A",
+"text": "column 3 \"Business Loss (other than speculation or specified business loss) of the current year set off\". Schedule CYLA In \"Schedule CYLA, value at field xvi \"Total loss set-off\" of column 4 should be equal to (ii + iii + iv + v + vi + vii +"
+},
+{
+"n": 511,
+"cat": "A",
+"text": "viii + ix + x + xi + xii + xiii + xv) of column 4. Schedule CYLA In \"Schedule CYLA, value at field (xvii) \"Loss remaining after set-off\" of column 2 should be equal to 2(i) - 2(xvi)."
+},
+{
+"n": 512,
+"cat": "A",
+"text": "Schedule CYLA In \"Schedule CYLA, value at field (xvii) \"Loss remaining after set-off\" of column 3 should be equal to 3(i) - 3(xvi)."
+},
+{
+"n": 513,
+"cat": "A",
+"text": "Schedule CYLA In \"Schedule CYLA, value at field (xvii) \"Loss remaining after set-off\" of column 4 should be equal to 4(i) - 4(xvi)."
+},
+{
+"n": 514,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Col No. 5 \"Current year’s Income remaining after set off\" should be equal to the output of Col"
+},
+{
+"n": 515,
+"cat": "A",
+"text": "No. 1-2-3-4 Schedule CYLA In schedule CYLA, Value in 1iii should be equal to A37 of Schedule BP, only if A 37 is positive"
+},
+{
+"n": 516,
+"cat": "A",
+"text": "Note : only if A37 is +ve. Schedule CYLA In Schedule CYLA, Speculative Income should be equal to SL.no. 3ii of Table E of Schedule BP"
+},
+{
+"n": 517,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Specified business Income should be equal to SL.no. 3iii of Table E of Schedule BP"
+},
+{
+"n": 518,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Short term capital gain @30% should be equal to SL.no. 8ii of item E of Schedule CG"
+},
+{
+"n": 519,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.no. 8iv of item E of"
+},
+{
+"n": 520,
+"cat": "A",
+"text": "Schedule CG Schedule CYLA In Schedule CYLA Short term capital gain, taxable at special rates in India as per DTAA should be equal to SL.no. 8v of"
+},
+{
+"n": 521,
+"cat": "A",
+"text": "item E of Schedule CG Schedule CYLA In Schedule CYLA, Long term capital gain taxable at special rates in India as per DTAA should be equal to SL.no. 8viii of"
+},
+{
+"n": 522,
+"cat": "A",
+"text": "item E of Schedule CG Schedule CYLA In Schedule CYLA, Other Source Income at sl.no.1xiii should be equal to SL.no. 6 of Schedule OS"
+},
+{
+"n": 523,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Profit from owning and maintaining race horses at sl.no.1xiv should be equal to SL.no. 8e of Schedule"
+},
+{
+"n": 524,
+"cat": "A",
+"text": "OS Schedule CYLA In Schedule CYLA, Income from other sources taxable at special rates in India as per DTAA should be equal to SL.no."
+},
+{
+"n": 525,
+"cat": "A",
+"text": "2e of Schedule OS Schedule CYLA In Schedule CYLA, Normal OS loss should be set off first against the (i)Profit from the activity of owning and"
+},
+{
+"n": 526,
+"cat": "A",
+"text": "maintaining race horses & (ii)Income from other sources taxable at special rates in India as per DTAA Schedule CYLA In Schedule CYLA, whole House property loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 527,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1"
+},
+{
+"n": 528,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, house property losses cannot be adjusted against any income in case new tax regime is opted by"
+},
+{
+"n": 529,
+"cat": "A",
+"text": "taxpayer Schedule CYLA In Schedule CYLA, whole business loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 530,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, whole OS loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 531,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. 8ii of item E of Schedule CG"
+},
+{
+"n": 532,
+"cat": "A",
+"text": "Schedule CYLA In Schedule CYLA, Long term capital gain taxable @12.5% should be equal to Sl.No. 8vi of item E of Schedule CG"
+},
+{
+"n": 533,
+"cat": "A",
+"text": "Schedule BFLA In Sch BFLA, value at 4xv Brought forward allowance under section 35(4) set off should be equal to value at total field"
+},
+{
+"n": 534,
+"cat": "A",
+"text": "of Col. 7 of UD Schedule BFLA In Sch BFLA , value at 3xv Brought forward depreciation set off should be equal to value at field total of Col. 4 of UD"
+},
+{
+"n": 535,
+"cat": "A",
+"text": "Schedule BFLA Schedule BFLA Sl no 2(i)\"Brought foward HP Loss\" should be equal to sl no 4 (xviii) \"Adjustment of above losses in"
+},
+{
+"n": 536,
+"cat": "A",
+"text": "Schedule BFLA \" of CFL Schedule BFLA Schedule BFLA Sl no 2(ii+iii+iv+v) should be equal to sl no xvii ( 5+6+7) of CFL"
+},
+{
+"n": 537,
+"cat": "A",
+"text": "Schedule BFLA Schedule BFLA Sl no 2(xiii) should be equal to sl no 11(xviii) of CFL"
+},
+{
+"n": 538,
+"cat": "A",
+"text": "Schedule BFLA If in \"Schedule BFLA, value at field xv \"Total of brought forward loss set off \" of column 2 should be equal to (2i + 2ii"
+},
+{
+"n": 539,
+"cat": "A",
+"text": "+ 2iii + 2iv + 2v + 2vi + 2vii + 2viii + 2ix + 2x + 2xi + 2xii ) of column 2. Schedule BFLA In \"Schedule BFLA\", value at field xvi \"Current year’s income remaining after set off \" of column 5 should be equal to (5i"
+},
+{
+"n": 540,
+"cat": "A",
+"text": "+ 5ii + 5iii + 5iv + 5v + 5vi + 5vii + 5viii + 5ix + 5x + 5xi + 5xii + 5xiii + 5xiv) of column 5. Schedule BFLA If in \"Schedule BFLA, value at field xv \"Total of brought forward loss set off \" of column 3 should be equal to (3i + 3ii"
+},
+{
+"n": 541,
+"cat": "A",
+"text": "+ 3iii + 3iv + 3v + 3vi + 3vii + 3viii + 3ix + 3x + 3xi + 3xii + 3xiii + 3xiv) of column 3. Schedule BFLA If in \"Schedule BFLA, value at field xv \"Total of brought forward loss set off \" of column 4 should be equal to (4ii +"
+},
+{
+"n": 542,
+"cat": "A",
+"text": "4iii + 4iv + 4v + 4vi + 4vii + 4viii + 4ix + 4x + 4xi + 4xii + 4xiv) of column 4. Schedule BFLA In schedule BFLA 1(i) \"House property\" should match with 5(ii) of schedule CYLA"
+},
+{
+"n": 543,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(ii) \"Business (excluding speculation income and income from specified business)\" should match"
+},
+{
+"n": 544,
+"cat": "A",
+"text": "with 5(iii) of schedule CYLA Schedule BFLA In schedule BFLA 1(iv) \"Speculative Income\" should match with 5(v) of schedule CYLA"
+},
+{
+"n": 545,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(v) \"Specified Business Income\" should match with 5(vi) of schedule CYLA"
+},
+{
+"n": 546,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(vii) \"Short-term capital gain taxable at 30%\" should match with 5(viii) of schedule CYLA"
+},
+{
+"n": 547,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(viii) \"Short-term capital gain taxable at applicable rates\" should match with 5(ix) of schedule CYLA"
+},
+{
+"n": 548,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(ix) \"Short-term capital gain taxable at Special Rates in India as per DTAA\" should match with 5(x) of"
+},
+{
+"n": 549,
+"cat": "A",
+"text": "schedule CYLA Schedule BFLA In schedule BFLA 1(xi) \"Long term capital gains taxable at Special Rates in India as per DTAA\" should match with 5(xii)"
+},
+{
+"n": 550,
+"cat": "A",
+"text": "of schedule CYLA Schedule BFLA In schedule BFLA 1(xii) \"Net Income from Other sources chargeable at Normal Applicable rates\" should match with"
+},
+{
+"n": 551,
+"cat": "A",
+"text": "5(xiii) of schedule CYLA Schedule BFLA In schedule BFLA 1(xiii) \"Profit from owning and maintaining race horses\" should match with 5(xiv) of schedule CYLA"
+},
+{
+"n": 552,
+"cat": "A",
+"text": "Schedule BFLA In schedule BFLA 1(xiv) \"Income from other sources income taxable at special rates in India as per DTAA\" should match"
+},
+{
+"n": 553,
+"cat": "A",
+"text": "with 5(xv) of schedule CYLA Schedule BFLA In, Schedule BFLA Sl no 2(vi +vii +viii +ix +x +xi) is not equal to sl no 9(xviii)+10(xviii) of CFL"
+},
+{
+"n": 554,
+"cat": "A",
+"text": "Schedule BFLA In Schedule BFLA, brought forward business loss as per Sl.No. 2(ii) and brought forward depreaciation as per Sl. No."
+},
+{
+"n": 555,
+"cat": "A",
+"text": "3(ii) cannot be set off against the 44BB or 44BBD income Schedule BFLA In Schedule BFLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1"
+},
+{
+"n": 556,
+"cat": "A",
+"text": "Schedule BFLA Schedule BFLA, amonut mentioned at Sl no 2(xv) should not exceed the sum of amount mentioned atAdjustment of"
+},
+{
+"n": 557,
+"cat": "A",
+"text": "above losses in Schedule BFLAof CFL Schedule BFLA In Schedule BFLA, Col No. 5 \"Current year’s Income remaining after set off\" should be equal to the output of Col"
+},
+{
+"n": 558,
+"cat": "A",
+"text": "No. 1-2-3-4 Schedule BFLA In Schedule BFLA, amount mentioned at Sl.No.5 should not exceed the amount mentioned at Sl.No.1"
+},
+{
+"n": 559,
+"cat": "A",
+"text": "Schedule CFL In \"Schedule PART B - TI\", value at sl.no. '17' \"Losses of current year to be carried forward\" should flow from Total of xix of Schedule CFL in case of sub status other than Investment Fund."
+},
+{
+"n": 560,
+"cat": "A",
+"text": "If sub status is Investment Fund then amount should flow from Total of 5cxxi+6xxi+7xxi of Schedule CFL Schedule CFL \"Short Term Capital Loss at Schedule CFL\" should be equal to sum of \"Short Term Capital Losses remaining after set off\" at"
+},
+{
+"n": 561,
+"cat": "A",
+"text": "table E of Schedule CG. Schedule CFL Long Term Capital Loss at Schedule CFL\" should be equal to sum of \"Long Term Capital Losses remaining after set off\" at"
+},
+{
+"n": 562,
+"cat": "A",
+"text": "table E of Schedule CG. Schedule CFL Value in 4xix of Schedule CFL should be equal to 2xvii of Schedule CYLA."
+},
+{
+"n": 563,
+"cat": "A",
+"text": "Schedule CFL Value in 5xix of Schedule CFL should be equal to 3xvii of Schedule CYLA."
+},
+{
+"n": 564,
+"cat": "A",
+"text": "Schedule CFL Speculative Business Loss at Schedule CFL at sl.no.6(xix) isshould be equal to the amount at \"Income/Loss from"
+},
+{
+"n": 565,
+"cat": "A",
+"text": "Speculative Business at Schedule BP\" at sl.no.B 42 in case of loss. Schedule CFL Specified Business Loss at Schedule CFL at sl.no.7xix should be equal to the amount at \"Income/Loss from Specified"
+},
+{
+"n": 566,
+"cat": "A",
+"text": "Business at Schedule BP\" at sl.no.C48 in case of loss Schedule CFL \"Current year loss from owning & maintaining race horces\" at Schedule CFL at sl.no.11xix should be equal to the amount"
+},
+{
+"n": 567,
+"cat": "A",
+"text": "at 8e of Sch OS Schedule CFL In schedule CFL, value at sl. No. 5b should be \"0\" if the assessee opted for 115BAD taxation"
+},
+{
+"n": 568,
+"cat": "A",
+"text": "Schedule CFL In Schedule CFL, value at sl.no.5c should be equal to 5a - 5b"
+},
+{
+"n": 569,
+"cat": "A",
+"text": "Schedule CFL In Schedule CFL, value at sl. no. xxi should be equal to xix-xx. If result is negative, restrict to \"0\"."
+},
+{
+"n": 570,
+"cat": "A",
+"text": "Schedule CFL Total of brought forward losses should be equal to amount provided in individual Ays"
+},
+{
+"n": 571,
+"cat": "A",
+"text": "Schedule CFL In Schedule CFL, value at sl. no. xxii 'Total Loss carried Forward to furture years' should be equal to xvii-xviii+xxi."
+},
+{
+"n": 572,
+"cat": "A",
+"text": "Schedule UD In schedule UD, value at sl. No. 3a should be \"0\" if the assessee opted for New Tax Regime u/s 115BAD /"
+},
+{
+"n": 573,
+"cat": "A",
+"text": "115BAC(1A) Schedule UD In Schedule UD, value at sl.no.4 should not be more than sl.no. 3- sl.no.3a"
+},
+{
+"n": 574,
+"cat": "A",
+"text": "Schedule UD In Schedule UD, value at sl.no.5 should be equal to sl.no. 3- sl.no.3a-4 in all the rows"
+},
+{
+"n": 575,
+"cat": "A",
+"text": "Schedule UD In Schedule UD, value at sl.no.8 should be equal to sl.no. 6 - Sl. No. 7"
+},
+{
+"n": 576,
+"cat": "A",
+"text": "Schedule UD In Schedule UD, sum of individual row should match with value at total fields for all columns i.e. column 3 to 8"
+},
+{
+"n": 577,
+"cat": "A",
+"text": "Schedule UD In Schedule UD, value at Sl. No. 5 for current assesment year should not exceed the value mentioned at Sl. No. 12iii of"
+},
+{
+"n": 578,
+"cat": "A",
+"text": "Schecule BP Schedule ICDS In \"Schedule ICDS\" , value at field in 'XI ' Total effect of ICDS adjustments on profit\" should be equal to sum of (I + II + III +"
+},
+{
+"n": 579,
+"cat": "A",
+"text": "IV + V + VI + VII + VIII + IX + X) Schedule ICDS In Schedule ICDS, Sl.No. 5 - \"Net Effect\" should be equal to Sl. No. 3 (Increase in profit) Less Sl. No. 4 (Decrease in"
+},
+{
+"n": 580,
+"cat": "A",
+"text": "profit). Schedule 10AA In \"Schedule 10AA\", value at field \"Total deduction under section 10AA\" should be equal to the sum of values at all"
+},
+{
+"n": 581,
+"cat": "A",
+"text": "rows. Schedule 80GGC In Part A General, \"If New tax regime is selecte \" then Schedule 80GGC is not required to be filled."
+},
+{
+"n": 582,
+"cat": "A",
+"text": "Schedule 80GGC In Schedule 80GGC, if Sl. No. iii is greater than '0', then Sl. No. iv , Sl. No vii and viii are not required to be filled"
+},
+{
+"n": 583,
+"cat": "A",
+"text": "Schedule 80GGC If deduction under section 80GGC claimed in sl. No (a) of Sch VI A then it’s mandatory to fill details in Schedule 80GGC"
+},
+{
+"n": 584,
+"cat": "A",
+"text": "Schedule 80GGC In Sch 80GGC, Total Contribution should be equal to the sum of Contribution in Cash and Contribution in other mode."
+},
+{
+"n": 585,
+"cat": "A",
+"text": "Schedule 80GGC In Sch 80GGC, Total Contribution should be equal to the sum of (i+ii)"
+},
+{
+"n": 586,
+"cat": "A",
+"text": "Schedule 80GGC In Sch 80GGC, Eligible Amount donated in cash should not be more than Zero"
+},
+{
+"n": 587,
+"cat": "A",
+"text": "Schedule 80GGC In Schedule 80GGC, Sl. No. D \"Total Eligible Amount of Contribution\" is not equal to total of column vi"
+},
+{
+"n": 588,
+"cat": "A",
+"text": "Schedule 80GGC In schedule 80GGC, If \"Donation in other mode\" is > 0, then details of such donation are required"
+},
+{
+"n": 589,
+"cat": "A",
+"text": "Schedule 80GGC In Schedule 80GGC, date of contribution should be within the previous year"
+},
+{
+"n": 590,
+"cat": "A",
+"text": "Schedule 80GGC Name and PAN of the political party is necessary to claim deduction u/s 80GGC"
+},
+{
+"n": 591,
+"cat": "A",
+"text": "Schedule 80GGA In Sch 80GGA, Total Donation should be equal to the sum of Donation in Cash and Donation in other mode."
+},
+{
+"n": 592,
+"cat": "A",
+"text": "Schedule 80GGA In Sch 80GGA, Total Donation should be equal to the sum of (i+ii)"
+},
+{
+"n": 593,
+"cat": "A",
+"text": "Schedule 80GGA In Sch 80GGA, Eligible Amount donated in cash should not exceed Rs. 2000"
+},
+{
+"n": 594,
+"cat": "A",
+"text": "Schedule 80GGA In Sch 80GGA Donee PAN is same as \"Assesse PAN\" or \"PAN at Verification\""
+},
+{
+"n": 595,
+"cat": "A",
+"text": "Schedule 80GGA 80GGA claimed in Sch VI A but details not provided in Schedule 80GGA"
+},
+{
+"n": 596,
+"cat": "A",
+"text": "Schedule 80G Donee PAN in Schedule 80G cannot be same as \"Assesse PAN\" or \"PAN at Verification\""
+},
+{
+"n": 597,
+"cat": "A",
+"text": "Schedule 80G In Schedule 80G, Total amount of deduction computed is more than the eligible amount at sl.no.E"
+},
+{
+"n": 598,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, at Sl No A, Amount donated in cash more than Rs. 2000 will not be eligible for 80G deduction"
+},
+{
+"n": 599,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, at Sl No B, Amount donated in cash more than Rs. 2000 will not be eligible for 80G deduction"
+},
+{
+"n": 600,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, at Sl No C, Amount donated in cash more than Rs. 2000 will not be eligible for 80G deduction"
+},
+{
+"n": 601,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, at Sl No D, Amount donated in cash more than Rs. 2000 will not be eligible for 80G deduction"
+},
+{
+"n": 602,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, Total Donation at point A should be equal to the sum of Donation in Cash and Donation in other mode."
+},
+{
+"n": 603,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, Total Donation at point B should be equal to the sum of Donation in Cash and Donation in other mode."
+},
+{
+"n": 604,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, Total Donation at point C should be equal to the sum of Donation in Cash and Donation in other mode."
+},
+{
+"n": 605,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, Total Donation at point D should be equal to the sum of Donation in Cash and Donation in other mode."
+},
+{
+"n": 606,
+"cat": "A",
+"text": "Schedule 80G In Sch 80G, Total Donation at point E should be equal to the sum of (Aiii+Biii+Ciii+Diii)"
+},
+{
+"n": 607,
+"cat": "A",
+"text": "Schedule 80G If 80G claimed in Sch VI A then donation details should be provided in Schedule 80G"
+},
+{
+"n": 608,
+"cat": "A",
+"text": "Schedule 80G In schedule 80G,PAN of Donee cannot repeat n anyone of the set of blocks (i.e 100%, 50%, with Qualifying limit, without Qualifying limit)except for PAN 'AAAAR1077P'"
+},
+{
+"n": 609,
+"cat": "A",
+"text": "Note: For table D (50% without qualifying limit), above rule will not be applicable if ARN number is unique. Further if ARN is not entered then this note will not be applicable Schedule 80G In Schedule VIA, value at sl.no.1a of system calculated value of 80G should match with value at eligible donation at sl.no."
+},
+{
+"n": 610,
+"cat": "A",
+"text": "E in Schedule 80G Schedule 80G Deduction u/s 80G cannot be claimed if New tax regime is selected (115BAC/ 115BAD or 115BAE)"
+},
+{
+"n": 611,
+"cat": "A",
+"text": "Schedule 80G Transaction Reference number for UPI transfer / Cheque number/ IMPS/ NEFT/ RTGS reference number and/ or IFSC"
+},
+{
+"n": 612,
+"cat": "A",
+"text": "code of Bank should be filled for all entries of \"contribution in other mode\" in Schedule 80G Schedule 80G PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G"
+},
+{
+"n": 613,
+"cat": "A",
+"text": "Schedule 80IAC Schedule 80IAC, Amount of deduction claimed is more than zero but remaining fields are not filled up"
+},
+{
+"n": 614,
+"cat": "A",
+"text": "Schedule 80IAC Schedule 80IAC, Amount of deduction can be claimed by entities whose date of incorporation is after 01st April, 2016"
+},
+{
+"n": 615,
+"cat": "A",
+"text": "Schedule 80IAC Schedule 80IAC will be enabled only when the taxpayer has selected \"Yes\" in the field \"Whether you are recognized as"
+},
+{
+"n": 616,
+"cat": "A",
+"text": "start up by DPIIT\" in Part A general Schedule 80LA Schedule 80LA, Amount of deduction claimed is more than zero but section under which the deduction claimed is not"
+},
+{
+"n": 617,
+"cat": "A",
+"text": "selected Schedule 80LA Schedule 80LA, Amount of deduction claimed at Sl. No. 8 is more than zero but remaining field at Sl. No. 1 to 7 is not"
+},
+{
+"n": 618,
+"cat": "A",
+"text": "filled up Schedule 80LA In schedule 80LA, type of entity should be enabled based on the sub-section under which the deduction is claimed"
+},
+{
+"n": 619,
+"cat": "A",
+"text": "Schedule 80LA In schedule 80LA, type of income of the unit should be enabled based on the sub-section under which the"
+},
+{
+"n": 620,
+"cat": "A",
+"text": "deduction is claimed Schedule RA Schedule RA, total donation should be equal to donation in cash + donation in other mode"
+},
+{
+"n": 621,
+"cat": "A",
+"text": "Schedule RA Schedule RA, total donation in cash should be equal to the bifurcation of donation in cash"
+},
+{
+"n": 622,
+"cat": "A",
+"text": "Schedule RA Schedule RA, total donation in other mode should be equal to the bifurcation of donation in other than cash"
+},
+{
+"n": 623,
+"cat": "A",
+"text": "Schedule RA Schedule RA, Total donation should be equal to bifurcation of total donation"
+},
+{
+"n": 624,
+"cat": "A",
+"text": "Schedule 80 In \"Schedule 80-IA\" Total deductions under section 80-IA should be equal to the value entered in (a + b)"
+},
+{
+"n": 625,
+"cat": "A",
+"text": "Schedule 80 Total of Schedule 80-IB in Sl.No. f should be equal to sum of all individual line items i.e (Total of a to e )"
+},
+{
+"n": 626,
+"cat": "A",
+"text": "Schedule 80 Schedule 80IE Sl.No. b should be equal to. ai"
+},
+{
+"n": 627,
+"cat": "A",
+"text": "Schedule 80 Schedule 80IE sl. no ai should be equal to sum of sl. no. aa to ah"
+},
+{
+"n": 628,
+"cat": "A",
+"text": "Schedule 80 Deduction u/s 80IB in Sl.no.2g cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 629,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule 80 Deduction u/s 80IE in Sl.no.2i cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 630,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule 80P In \"Schedule 80P\" Sl.no.11 - under column \"Amount eligible for deduction\" should not be more than sum of Sl.No. (1a +"
+},
+{
+"n": 631,
+"cat": "A",
+"text": "1bi+ 1bii) of Schedule OS + 5(ii) and 5xiii of bfla subject to interest and dividend declared in P&L Schedule 80P Deduction under section 80P is allowed only to \"Primary Agricultural credit Society, Primary Co - operative Agricultural,Rural Development Bank and"
+},
+{
+"n": 632,
+"cat": "A",
+"text": "Other Cooperative Society\" and Deduction under section 80P cannot be claimed from income offered under section 44AD. Schedule 80P In Schedule 80P, deduction claimed under section Sec.80P(2)(c)(i)-Consumer Cooperative Society other than specified in 80P(2a) or 80P(2b) deduction cannot be more"
+},
+{
+"n": 633,
+"cat": "A",
+"text": "than Rs 100000 or non-speculative and non-specified business income and non presumptive income Schedule 80P In Schedule 80P, deduction claimed under section Sec.80P(2)(c)(ii) at Sl.No.10 cannot be more than Rs 50000"
+},
+{
+"n": 634,
+"cat": "A",
+"text": "Schedule 80P In Schedule 80P, deduction under section section.80P(2)(e) at Sl.No.12 can be claimed on rental income included in"
+},
+{
+"n": 635,
+"cat": "A",
+"text": "gross total income Schedule 80P In Schedule 80P, Deduction under section '80P(2)(f)Others'will be allowed only when Gross total income is less than or equal to Rs 20000 and to the extent of"
+},
+{
+"n": 636,
+"cat": "A",
+"text": "Interest income in Schedhule OS and Sl. No. 4 of Schedule HP Schedule 80P In Schedule 80P, deduction u/s 80P(2)(a)(i) to (vii) cannot be more than non speculative and non specified business income and non presumptive income"
+},
+{
+"n": 637,
+"cat": "A",
+"text": "Schedule 80P In Schedule 80P, deduction u/s 80P(2)(b)cannot be more non speculative and non specified business income and non"
+},
+{
+"n": 638,
+"cat": "A",
+"text": "presumptive income Schedule 80P Business code selected in \"Schedule 80P\" is not matching with the \"Business code\" selected in schedule \"nature of"
+},
+{
+"n": 639,
+"cat": "A",
+"text": "business\". Schedule 80P Total of deduction at Sl.No.14 is not less than or equal to the sum of deductions claimed at Sl.No.1 to Sl.No.13 in the"
+},
+{
+"n": 640,
+"cat": "A",
+"text": "Schedule 80P. Schedule 80P In Schedule 80P, deduction under section 80P(2)(a)(i) can not be claimed for the business code selected Other than 23001 or In Schedule 80P, deduction under section 80P(2)(a)(ii) can not be claimed for the business code selected Other than 23002 or In Schedule 80P, deduction under section 80P(2)(a)(iii) can not be claimed for the business code selected Other than 23003 or In Schedule 80P, deduction under section 80P(2)(a)(iv) can not be claimed for the business code selected Other than 23004 or In Schedule 80P, deduction under section 80P(2)(a)(v) can not be claimed for the business code selected Other than 23005 or In Schedule 80P, deduction under section 80P(2)(a)(vi) can not be claimed for the business code selected Other than 23006 or In Schedule 80P, deduction under section 80P(2)(a)(vii) can"
+},
+{
+"n": 641,
+"cat": "A",
+"text": "not be claimed for the business code selected Other than 23007 or In Schedule 80P, deduction under section 80P(2)(b) can not be claimed for the business code selected Other than 23008 or In Schedule 80P, deduction under section 80P(2)(c)(i) can not be claimed for the business code selected Other than 23009 or In Schedule 80P, deduction under section 80P(2)(c)(ii) can not be claimed for the business code selected Other than 23010 or In Schedule 80P, deduction under section 80P(2)(d) can not be claimed for the business code selected Other than 23011 or In Schedule 80P, deduction under section 80P(2)(e) can not be claimed for the business code selected Other than 23012 or In Schedule 80P, deduction under section 80P(2)(f) can not be claimed for the business code selected Other than 23013 Schedule 80P Deduction u/s 80P cannot claimed if New Tax regime has been opted for"
+},
+{
+"n": 642,
+"cat": "A",
+"text": "Schedule 80P To claim deduction u/s. 80P, it is mandatory to fill schedule 80P & P&L a/c failing which, deduction will not be allowed in the return of income filed"
+},
+{
+"n": 643,
+"cat": "A",
+"text": "Schedule 80P In Schedule 80P, eligible amount of deduction claimed cannot be more than income disclosed in schedule 80P for"
+},
+{
+"n": 644,
+"cat": "A",
+"text": "each row. Schedule VI-A Value claimed in 80-IA field in Schedule VI A at Sl.No. 2d cannot be higher than the value in Schedule 80-IA at Sl.No c."
+},
+{
+"n": 645,
+"cat": "A",
+"text": "Schedule VI-A Deduction u/s 80-IA claimed in \"Schedule VI-A\" at sl.no.2d but \"Schedule 80-IA\" is not filled!"
+},
+{
+"n": 646,
+"cat": "A",
+"text": "Schedule VI-A Value claimed in 80-IB field in Schedule VI A cannot be higher than the value in Schedule 80-IB."
+},
+{
+"n": 647,
+"cat": "A",
+"text": "Schedule VI-A Deduction under section 80-IB is claimed in \"Schedule VI-A\" but \"Schedule 80-IB\" is not filled!"
+},
+{
+"n": 648,
+"cat": "A",
+"text": "Schedule VI-A Value claimed in 80IE field in Schedule VI-A cannot be higher than the value in Schedule 80IE."
+},
+{
+"n": 649,
+"cat": "A",
+"text": "Schedule VI-A Deduction under section 80- IE claimed in \"Schedule VI-A\" but \"Schedule 80- IE\" is not filled!"
+},
+{
+"n": 650,
+"cat": "A",
+"text": "Schedule VI-A In Schedule VIA Sl no 3 should be equal to total of sl no 1&2 subject to sl.no.9 - sl.no.10 of Part BTI"
+},
+{
+"n": 651,
+"cat": "A",
+"text": "Schedule VI-A In Schedule VIA Sl no 1\"Total Deduction under Part B (a + b + c)\" should be equal to sum of sl no. a\"80G\" + sl. No."
+},
+{
+"n": 652,
+"cat": "A",
+"text": "b\"section 80GGA\" + sl. No c \" section 80GGC\" subject to sl.no.9-sl.no.10 of Part BTI Schedule VI-A Deduction u/s 80-IAC can be claimed by only LLP."
+},
+{
+"n": 653,
+"cat": "A",
+"text": "Schedule VI-A 80P can be claimed only by assessee being \"Primary Agricultural Credit Society/ Primary Co-"
+},
+{
+"n": 654,
+"cat": "A",
+"text": "operative Agricultural and Rural Development bank / Other co-operative Society'' Schedule VI-A Deduction u/s 80GGA will be allowed only to assessee having no business income"
+},
+{
+"n": 655,
+"cat": "A",
+"text": "Schedule VI-A Deduction u/s 80IA in Sl.no.2d cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 656,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule VI-A In Schedule VIA Sl no 2\"Part C - Deduction in respect of certain incomes\" should be equal to total of sl no e \"section"
+},
+{
+"n": 657,
+"cat": "A",
+"text": "80-IA \" to sl. No o \"section 80P\" Schedule VI-A Deduction u/s 80JJAA in Sl.no.2k cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 658,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule VI-A Deduction u/s 80IAB in Sl.no.2e cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 659,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule VI-A Deduction u/s 80IBA in Sl.no.2h cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 660,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule VI-A Deduction u/s 80JJA in Sl.no.2j cannot be more than non speculative and non specified business income and non presumptive income in Schedule VIA"
+},
+{
+"n": 661,
+"cat": "A",
+"text": "Schedule VI-A Deduction u/s 80IAC in Sl.no.2f cannot be more than non speculative and non specified business income and non"
+},
+{
+"n": 662,
+"cat": "A",
+"text": "presumptive income in Schedule VIA Schedule VI-A Deduction u/s 80GGC will not be allowed for status \"Local Authority\" and \"AJP\""
+},
+{
+"n": 663,
+"cat": "A",
+"text": "Schedule VI-A In Schedule VIA, both 80LA(1) and 80LA(1A) cannot be claimed together"
+},
+{
+"n": 664,
+"cat": "A",
+"text": "Schedule VI-A In Sch VIA 80LA(1A) can be claimed only if in Part A General, \"Whether any unit of assessee is located in an International"
+},
+{
+"n": 665,
+"cat": "A",
+"text": "Financial Services Centre and derives income solely in convertible foreign exchange? \" is selected as \"Yes\" Schedule VI-A In Sch VIA 80LA(1) can be claimed only if in Part A General, \"Whether any unit of assessee is located in an International"
+},
+{
+"n": 666,
+"cat": "A",
+"text": "Financial Services Centre and derives income solely in convertible foreign exchange? \" is selected as \"No\" Schedule VI-A Deduction u/s 80P claimed in \"Schedule VI-A\" at sl.no.2n but \"Schedule 80P\" is not filled!"
+},
+{
+"n": 667,
+"cat": "A",
+"text": "Schedule VI-A Value claimed in 80-IAC field in Schedule VI A at Sl.No. 2d cannot be higher than the value in Schedule 80-IAC at Sl.No"
+},
+{
+"n": 668,
+"cat": "A",
+"text": "6. Schedule VI-A Deduction u/s 80-IAC claimed in \"Schedule VI-A\" at sl.no.2d but \"Schedule 80-IAC\" is not filled!"
+},
+{
+"n": 669,
+"cat": "A",
+"text": "Schedule VI-A Value claimed in 80-LA(1) field in Schedule VI A at Sl.No. 2d cannot be higher than the value in Schedule 80-LA at Sl.No 8."
+},
+{
+"n": 670,
+"cat": "A",
+"text": "Schedule VI-A Deduction u/s 80LA(1) claimed in \"Schedule VI-A\" at sl.no.2d but \"Schedule 80LA\" is not filled!"
+},
+{
+"n": 671,
+"cat": "A",
+"text": "Schedule VI-A Value claimed in 80-LA(1A) field in Schedule VI A at Sl.No. 2d cannot be higher than the value in Schedule 80-LA at Sl.No 8."
+},
+{
+"n": 672,
+"cat": "A",
+"text": "Schedule VI-A Deduction u/s 80LA(1A) claimed in \"Schedule VI-A\" at sl.no.2d but \"Schedule 80LA\" is not filled!"
+},
+{
+"n": 673,
+"cat": "A",
+"text": "Schedule VI-A Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount"
+},
+{
+"n": 674,
+"cat": "A",
+"text": "Schedule VI-A Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount"
+},
+{
+"n": 675,
+"cat": "A",
+"text": "Schedule VI-A Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount"
+},
+{
+"n": 676,
+"cat": "A",
+"text": "Schedule AMT In Schedule AMT, Sl.no. 4 tax payable under section 115JC should be equal to 9% of Sl.no.3a of AMT where value at"
+},
+{
+"n": 677,
+"cat": "A",
+"text": "Sl.No.sl.no.4 is > 0 in case any unit is located in IFSC. Schedule AMT In \"Schedule AMT\", Value of field sl.no.1 should be equal to value of \"13 of Part B TI\""
+},
+{
+"n": 678,
+"cat": "A",
+"text": "Schedule AMT In Schedule AMT, Sl.no. 2a is not equal to sum of system computed values of sl.no.'d' to sl.no.'m' of Sch VIA subject to"
+},
+{
+"n": 679,
+"cat": "A",
+"text": "sl.no.9-sl.no.10 of Part BTI Schedule AMT In Schedule AMT, Sl.no. 2b is not equal to total deduction under section 10AA at sl.no.12a of Part BTI"
+},
+{
+"n": 680,
+"cat": "A",
+"text": "Schedule AMT In \"Schedule AMT\", Value of field '2d' \"Total Adjustment \" should be equal to the sum of \"2a + 2b + 2c\""
+},
+{
+"n": 681,
+"cat": "A",
+"text": "Schedule AMT In \"Schedule AMT\", Value of field '3' \"Adjusted Total Income under section 115JC(1)\" should be equal to value of \"Sl.no.1"
+},
+{
+"n": 682,
+"cat": "A",
+"text": "+ Sl.no.2d\" Schedule AMT AMT should be computed at sl.no.4 where total income is adjusted u/s 115JC(2) if such adjusted total income exceeds"
+},
+{
+"n": 683,
+"cat": "A",
+"text": "Rs. 20 Lacs for AOP/BOI/AJP Schedule AMT AMT should be computed at sl.no.4 where total income is adjusted under section 115JC(2) for Firm"
+},
+{
+"n": 684,
+"cat": "A",
+"text": "Schedule AMT In \"Schedule Part B-TTI\" Tax payable on deemed total income under section 115JC should be equal to the 4 of"
+},
+{
+"n": 685,
+"cat": "A",
+"text": "schedule AMT. Schedule AMT In \"Schedule AMT\", Value of field '3' \"Adjusted Total Income under section 115JC(1)\" should be equal to difference value"
+},
+{
+"n": 686,
+"cat": "A",
+"text": "of \"Sl.no.3- Sl.no.3a\" Schedule AMT In Schedule AMT, Sl.no. 3 Adjusted Total Income under section 115JC is zero then Sl.no.3a and Sl.no.3b should also"
+},
+{
+"n": 687,
+"cat": "A",
+"text": "be zero Schedule AMTC In \"Schedule AMTC\", Value of field '1' \"Tax under section 115JC in assessment year 2024-25\" should be equal to \"1d of"
+},
+{
+"n": 688,
+"cat": "A",
+"text": "Part-B-TTI\" Schedule AMTC In \"Schedule AMTC\", value at field 2 \"Tax under other provisions of the Act in assessment year 2024-25\" should be"
+},
+{
+"n": 689,
+"cat": "A",
+"text": "equal to \"2g of Part-B-TTI\" Schedule AMTC In \"Schedule AMTC\" , value at field sl.no.3 \"Amount of tax against which credit is available\" should be equal to value of"
+},
+{
+"n": 690,
+"cat": "A",
+"text": "(Sl.no.2 - Sl.no.1) Schedule AMTC In Schedule AMTC, Sl.no. 3 should be equal to Sl.no. 2-1"
+},
+{
+"n": 691,
+"cat": "A",
+"text": "Schedule AMTC In \"Schedule AMTC\", value at sl.no.5 should be equal to value at field '4xvii ' \"Total\" of column \"AMT Credit Utilised"
+},
+{
+"n": 692,
+"cat": "A",
+"text": "during the Current Assessment Year (C)\" Schedule AMTC In \"Schedule AMTC\", value at Sl.no.6 should be equal to value at Sl.no.4xii \"Total\" of column \"Balance AMT Credit"
+},
+{
+"n": 693,
+"cat": "A",
+"text": "Carried Forward (D)\" Schedule AMTC In Schedule AMTC, set off in earlier assessment years at sl. no. B2(xiv) can not be claimed for AY 2026-27"
+},
+{
+"n": 694,
+"cat": "A",
+"text": "Schedule AMTC In \"Schedule AMTC\" Col. D should be equal to the value of Col. B3 - Col. C"
+},
+{
+"n": 695,
+"cat": "A",
+"text": "Schedule AMTC In \"Schedule AMTC\" in field 4 column (B3) Balance brought forward to the current assessment year should be equal to"
+},
+{
+"n": 696,
+"cat": "A",
+"text": "B1-B2 Schedule AMTC In Schedule \"AMTC\", values at Col C and Col D should be \"0\" if New Tax Regime is \"yes\""
+},
+{
+"n": 697,
+"cat": "A",
+"text": "Schedule SI In \"PART B- TTI\", value at Sl.no '2b' should be equal to the value at field \"total\" of col. (ii) \"Tax thereon(ii)\" of Schedule- SI\""
+},
+{
+"n": 698,
+"cat": "A",
+"text": "Schedule SI Income offered in 2c of schedule OS should match with the income offered under corresponding section in schedule SI"
+},
+{
+"n": 699,
+"cat": "A",
+"text": "subject to DTAA Schedule SI Income offered in 2d of schedule OS should match with the income offered under corresponding section in schedule SI"
+},
+{
+"n": 700,
+"cat": "A",
+"text": "subject to DTAA Schedule SI Value at sl.no.2a 115BB in schedule OS should match with corresponding income offered in schedule SI subject to DTAA"
+},
+{
+"n": 701,
+"cat": "A",
+"text": "Schedule SI In schedule SI,115BBE (Income under section 68, 69, 69A, 69B, 69C or 69D) should match with corresponding income"
+},
+{
+"n": 702,
+"cat": "A",
+"text": "offered in sl. No 2b of schedule OS Schedule SI In schedule SI , Amount of special income u/s 115BBF under head business or profession, offered in schedule SI should"
+},
+{
+"n": 703,
+"cat": "A",
+"text": "match with amount offered in sl no 3d of schedule BP Schedule SI In schedule SI , Iincome at \"115BBG should match with amount of income offered in sl no 3e of schedule BP"
+},
+{
+"n": 704,
+"cat": "A",
+"text": "Schedule SI Income from other sources chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(xiv) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA"
+},
+{
+"n": 705,
+"cat": "A",
+"text": "income shall be considered if TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. Schedule SI Tax amount at column (ii) should be equal to taxable income multiply by special rate mentioned aganist that column except excluding OS DTAA, ,112A , PTI-112A or section"
+},
+{
+"n": 706,
+"cat": "A",
+"text": "115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid , STCG -DTAA, LTCG- DTAA fields Schedule SI In Schedule SI tax computed in column (ii) can not be null if income in column (i) is greater than zero"
+},
+{
+"n": 707,
+"cat": "A",
+"text": "Schedule SI Sum of income u/s 115AD (STCG for FIIs on securities where STT not paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30% in Schedule SI should"
+},
+{
+"n": 708,
+"cat": "A",
+"text": "be equal to corresponding income sl no 5vii of schedule BFLA Schedule SI Total of all tax on special incomes at \"Tax Thereon\" (ii) should match with sum of individual line items"
+},
+{
+"n": 709,
+"cat": "A",
+"text": "Schedule SI STCG chargeable at special rates in India as per DTAA should be equal to sl.no.5ix in schedule BFLA"
+},
+{
+"n": 710,
+"cat": "A",
+"text": "Schedule SI LTCG chargeable at special rates in India as per DTAA should be equal to sl.no.5xi in schedule BFLA"
+},
+{
+"n": 711,
+"cat": "A",
+"text": "Schedule SI In schedule SI, value of \"Income u/s 115BBC-Anonymous Donations\" cannot be more than \"0\""
+},
+{
+"n": 712,
+"cat": "A",
+"text": "Schedule SI In schedule SI , Amount of special income u/s 115BBH ( income from transfer of virtal digital asset)-Income under head business or profession, offered in schedule SI should match with amount offered in sl no 3f of schedule BP"
+},
+{
+"n": 713,
+"cat": "A",
+"text": "Schedule SI Sum of income u/s 111A, u/s 115AD(1)(ii)- Proviso & Pass Through Income in the nature of Short Term Capital Gain"
+},
+{
+"n": 714,
+"cat": "A",
+"text": "chargeable @ 20% in schedule SI should be equal to corresponding income in sl no 5vi of schedule BFLA Schedule SI Sum of income u/s >Sale of Land & Building @12.5% >slump sale @12.5% >sale of shares or debenture of Indian company by NR @12.5% > from sale of any other asset , taxable at 12.5% > Amount deemed to be capital gain taxable @12.5% >112(1)(c)(iii) (LTCG for non-resident on unlisted securities), >112A (LTCG on sale of shares on which STT is paid), >115AB(1)(b) (LTCG for non-resident on units referred in section115AB),"
+},
+{
+"n": 715,
+"cat": "A",
+"text": ">115AC(1)(c) (LTCG for non-resident on bonds/GDR), >115AD(b)(iii)-Proviso (LTCG on sale of units on which STT is paid), >115AD (LTCG for FII on securities) >Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5%-u/s 112A, >Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% - u/s other than 112A in schedule SI should be equal to Sl. No. 5xb schedule BFLA ( where sale is on & after 23rd july'24) Schedule SI Amount of special income offered in schedule SI should be equal to amount offered in corresponding dropdown at Sl.No. 2d in schedule OS. Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income"
+},
+{
+"n": 716,
+"cat": "A",
+"text": "as referred to in 2e under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2e under given section irrespective of the TRC flag. Schedule SI Amount of special income offered in schedule SI should be equal to amount offered in corresponding dropdown at Sl.No. 2c in schedule OS. Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2e under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2e under given section irrespective of the TRC flag."
+},
+{
+"n": 717,
+"cat": "A",
+"text": "Schedule SI Income under \"111A-Short term capital gains on equity share or equity oriented fund chargeable to STT\" in schedule SI should not be more than income offered in sch CG at Sl. No.A3ie or A4a after reducing DTAA income if any"
+},
+{
+"n": 718,
+"cat": "A",
+"text": "(Intent of the rule: Income reported in schedule SI should not be more than corresponding income offered in schedule CG) Schedule SI Income under \"115AD(1)(b)(ii)Proviso- Short term capital gains referred to in section 111A- by FII\" in schedule SI"
+},
+{
+"n": 719,
+"cat": "A",
+"text": "should not be more than income offered in sch CG at Sl. No. A3iie after reducing DTAA income if any Schedule SI Income under \"112(1) (LTCG on listed securities/ units)\" in Schedule SI should not be more than income offered in"
+},
+{
+"n": 720,
+"cat": "A",
+"text": "schedule CG at Sl. No. B3c after reducing DTAA income if any Schedule SI Income under \"112(1)(c)(iii) - LTCG for non-resident on unlisted securities or other than Listed debentures\" in"
+},
+{
+"n": 721,
+"cat": "A",
+"text": "Schedule SI should not be more than income offered in schedule CG at Sl. No. B6ic after reducing DTAA income if any Schedule SI Income under \"112A- LTCG on equity shares/units of equity oriented fund/units of business trust on which STT is paid\" in Schedule SI should not be more than income offered in"
+},
+{
+"n": 722,
+"cat": "A",
+"text": "schedule CG at Sl. No. B4 or Col 14 of Schedule 112A after reducing DTAA income if any Schedule SI Income under \"115AB(1)(b)- Income by way of long-term capital gains arising from the transfer of units purchase in foreign currency by an off-shore fund\" in Schedule SI should"
+},
+{
+"n": 723,
+"cat": "A",
+"text": "not be more than income offered in schedule CG at Sl. No. B6iic after reducing DTAA income if any Schedule SI Income under \"115AC(1)(c)- Long term capital gains arising from their transfer of bonds or GDR purchased in foreign currency in case of a non-resident\" in Schedule SI should not"
+},
+{
+"n": 724,
+"cat": "A",
+"text": "be more than income offered in schedule CG at Sl. No. B6iiic after reducing DTAA income if any Schedule SI Income under \"115AD(1)(b)(ii)- Short term capital gains (other than on equity share or equity oriented mutual fund referred to in section 111A) by an FII\" in Schedule SI should"
+},
+{
+"n": 725,
+"cat": "A",
+"text": "not be more than income offered in schedule CG at Sl. No. A5e after reducing DTAA income if any Schedule SI Income under \"115AD(1)(b)(iii)- Long term capital gains (other than on equity share or equity oriented mutual fund referred to in section 112A)by an FII\" in Schedule SI should"
+},
+{
+"n": 726,
+"cat": "A",
+"text": "not be more than income offered in schedule CG at Sl. No. B6ivc after reducing DTAA income if any Schedule SI Income under \"115AD(1)(b)(iii) Proviso- For NON-RESIDENTS from sale of equity share in a company or unit of equity oriented fund or unit of a business trust on which STT is paid under section 112A\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B7 after reducing DTAA income if any"
+},
+{
+"n": 727,
+"cat": "A",
+"text": "Schedule SI Income under \"Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20%\" in Schedule SI should"
+},
+{
+"n": 728,
+"cat": "A",
+"text": "not be more than income offered in schedule CG at Sl. No. A8a after reducing DTAA income if any Schedule SI Income under \"Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30%\" in Schedule SI should"
+},
+{
+"n": 729,
+"cat": "A",
+"text": "not be more than income offered in schedule CG at Sl. No. A8b after reducing DTAA income if any Schedule SI Income under \"Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A\" in Schedule SI should not be more than income offered in"
+},
+{
+"n": 730,
+"cat": "A",
+"text": "schedule CG at Sl. No. B10a1 after reducing DTAA income if any Schedule SI Income under \"Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% other than section 112A\" in Schedule SI should not be more than income"
+},
+{
+"n": 731,
+"cat": "A",
+"text": "offered in schedule CG at Sl. No. B10a2 after reducing DTAA income if any Schedule IF In \"Schedule IF\" the Total of col \"Amount of share in the profit\" should be equal to sum of value entered in individual"
+},
+{
+"n": 732,
+"cat": "A",
+"text": "columns. Schedule EI In Schedule EI, sl.no.5 should be equal to amount in sl.no.1(iv)(a+b+c) of Schedule PTI"
+},
+{
+"n": 733,
+"cat": "A",
+"text": "Schedule EI In \"Schedule EI, Value at '6' \"Total\" should be equal to the value of (1 + 2+ 3 + 4 + 5 )"
+},
+{
+"n": 734,
+"cat": "A",
+"text": "Schedule EI In \"Schedule EI, Value at '2v' \"Net Agricultural income for the year\" should be equal to the value of 2(i – ii – iii + iv)"
+},
+{
+"n": 735,
+"cat": "A",
+"text": "Schedule EI In \"Schedule EI, value at Sl.no '2iv' \"Agricultural income portion relating to Rule 7, 7A, 7B(1), 7B(1A) and 8\" should be"
+},
+{
+"n": 736,
+"cat": "A",
+"text": "equal to \"Sl. No. 38 of Sch. BP\" Schedule EI In \"Schedule EI\" in total of Other exempt income at sl.no.3, should be equal to value entered in individual columns."
+},
+{
+"n": 737,
+"cat": "A",
+"text": "Schedule EI If agricultural income in Schedule EI at sl.no.2(v) > 500000 then details of land should be provided in table at sl.no.2vi"
+},
+{
+"n": 738,
+"cat": "A",
+"text": "Schedule EI In Schedule EI at Sl. No. 3, dropdowns of the same exemption should not be selected more than once."
+},
+{
+"n": 739,
+"cat": "A",
+"text": "Schedule EI Exempt income reported u/s 10(23BBH)-Income of the Prasar Bharati (Broadcasting Corporation of India) cannot be"
+},
+{
+"n": 740,
+"cat": "A",
+"text": "claimed by any PAN other than \"AAAJP0288R\" Schedule EI Exempt income u/s 10(4)(i), 10(4C), 10(4E), 10(4F), 10(4G), 10(6B), 10(6BB), 10(6D), 10(8A) and 10(15A) cannot be"
+},
+{
+"n": 741,
+"cat": "A",
+"text": "reported by Residents in Schedule EI Schedule EI Description is mandatory where amount is more than 0 and sub-categories \"Income exempt as per CBDT Circular\","
+},
+{
+"n": 742,
+"cat": "A",
+"text": "\"Income exempt as per CBDT Notification\" or \"Receipts not in the nature of income\" is selected in Schedule EI Schedule EI Selection of Category and sub-category is mandatory in case amount reported is more than zero in schedule EI"
+},
+{
+"n": 743,
+"cat": "A",
+"text": "Schedule EI Where amount is more than 0 under any sub-categories other than \"Income exempt as per CBDT Circular\", \"Income"
+},
+{
+"n": 744,
+"cat": "A",
+"text": "exempt as per CBDT Notification\" or \"Receipts not in the nature of Income\" then Description is not required. Schedule EI Exempt income fields should be reported only for applicable sections and sub-categories"
+},
+{
+"n": 745,
+"cat": "A",
+"text": "Schedule PTI In Schedule PTI, Col. 9 should be equal to Col. 7-8"
+},
+{
+"n": 746,
+"cat": "A",
+"text": "Schedule PTI In Schedule PTI, Sl. No. iia Short Term should be equal to sum of ai+aii"
+},
+{
+"n": 747,
+"cat": "A",
+"text": "Schedule PTI In Schedule PTI, Sl. No. iib Long Term should be equal to sum of bi+bii"
+},
+{
+"n": 748,
+"cat": "A",
+"text": "Schedule PTI In Schedule PTI, Sl. No. iii Other Sources should be equal to sum of a+b"
+},
+{
+"n": 749,
+"cat": "A",
+"text": "Schedule PTI In Schedule PTI, Sl. No. iv Income claimed to be exempt should be equal to sum of a+b+c"
+},
+{
+"n": 750,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Income tax payable at sl.no.2a should be 18% of amount of primary adjustment sl.no.1"
+},
+{
+"n": 751,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Surcharge should be 12% of amount of Additional income tax payable"
+},
+{
+"n": 752,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Health & Education cess should be 4% of amount of (Additional income tax payable+ Surcharge )"
+},
+{
+"n": 753,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Sr. No. 2d should be equal to sum of (2a +2b+2c)"
+},
+{
+"n": 754,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Sr. No. 3 is should be equal to sum of Tax amount deposited"
+},
+{
+"n": 755,
+"cat": "A",
+"text": "Schedule TPSA In Schedule TPSA, Sr. No. 4 should be equal to (2d-3)"
+},
+{
+"n": 756,
+"cat": "A",
+"text": "Schedule TPSA In schedule TPSA , Date at which tax is deposit cannot be after System Date"
+},
+{
+"n": 757,
+"cat": "A",
+"text": "Schedule 115TD In \"Schedule 115TD\", value at field '3' \"Net value of assets\" should be equal to the value of Sl.no.1 - Sl.no.2"
+},
+{
+"n": 758,
+"cat": "A",
+"text": "Schedule 115TD In \"Schedule 115TD\", value at field '4(iv)' \"Total \" should be equal to sum of values at Sl.no. 4i + 4ii + 4iii"
+},
+{
+"n": 759,
+"cat": "A",
+"text": "Schedule 115TD In \"Schedule 115TD\", value at field '6' \"Accreted income as per section 115TD \" should be equal to values at Sl.no. [3 –"
+},
+{
+"n": 760,
+"cat": "A",
+"text": "(4 – 5)] Schedule 115TD In \"Schedule 115TD\", value at field '12' \"Net payable/refundable \" should be equal to values at Sl.no. [10"
+},
+{
+"n": 761,
+"cat": "A",
+"text": "– 11] Schedule 115TD In Schedule 115TD, assessee has entered Accreted income u/s 115TD and field Sr.no. 9 \"Specified date u/s 115TD\" is blank"
+},
+{
+"n": 762,
+"cat": "A",
+"text": "Schedule 115TD In Schedule Part B-TTI, Sr.no. 12 - \"Net tax payable on 115TD income including interest u/s 115TE \" should match with Sr."
+},
+{
+"n": 763,
+"cat": "A",
+"text": "No. 12 of Schedule 115TD. Schedule 115TD Income entered in return and tax is not computed on the same."
+},
+{
+"n": 764,
+"cat": "A",
+"text": "Schedule FSI In schedule FSI , Tax relief available (Column e) should be lower of tax paid outside India (column c) or Tax payable on"
+},
+{
+"n": 765,
+"cat": "A",
+"text": "such income under normal provisions in India (Column d) Schedule FSI Schedule FSI is not applicable for non residents"
+},
+{
+"n": 766,
+"cat": "A",
+"text": "Schedule FSI In Schedule FSI, Total should be equal to sum of Sl. No. (i+ii+iii+iv) for Column d, c b and e"
+},
+{
+"n": 767,
+"cat": "A",
+"text": "Schedule FSI Income against house property shown in schedule FSI should be minimum amount income shown in Sl.no 1k+3 under"
+},
+{
+"n": 768,
+"cat": "A",
+"text": "income under the head house property Schedule FSI Income against Business or profession shown in schedule FSI should be mimimun income shown in ( Sl.no.D of Trading"
+},
+{
+"n": 769,
+"cat": "A",
+"text": "Account + Positive values of Sl.no. 14 of schedule Profit and loss) Schedule FSI Income against Capital gains shown in schedule FSI cannot be less than income shown under the head under capital"
+},
+{
+"n": 770,
+"cat": "A",
+"text": "gains Schedule FSI Income against other sources shown in schedule FSI cannot be less than income shown under the head under the head"
+},
+{
+"n": 771,
+"cat": "A",
+"text": "other sources Schedule TR In \"Schedule TR\", value at Sl.no.2 \"Total Tax relief available in respect of country where DTAA is applicable\" should be"
+},
+{
+"n": 772,
+"cat": "A",
+"text": "equal to \"Total of values at column 1(d)\" where section is selected as \"90\"/\"90A\" at 'Column 1(e)' Schedule TR In \"Schedule TR\", value at Sl.no.3 \"Total Tax relief available in respect of country where DTAA is not applicable\" should be"
+},
+{
+"n": 773,
+"cat": "A",
+"text": "equal to \"Total of values at column 1(d)\" where section is selected as \"91\" at 'Column 1(e)' Schedule TR In schedule TR, sl no 2+3 should be equal to total of column 1d"
+},
+{
+"n": 774,
+"cat": "A",
+"text": "Schedule TR Schedule TR is not applicable for non resident"
+},
+{
+"n": 775,
+"cat": "A",
+"text": "Schedule TR In Schedule TR, Col c Total taxes paid outside India is not equal to total of Col. C of Schedule FSI in respect of each"
+},
+{
+"n": 776,
+"cat": "A",
+"text": "country Schedule TR In Schedule TR, Col d Total tax relief available should be equal to total of Col. e of Schedule FSI in respect of each"
+},
+{
+"n": 777,
+"cat": "A",
+"text": "country Schedule FA Schedule FA has to be filled if SL.no.17 of Part B-TTI is selected as \"Yes\""
+},
+{
+"n": 778,
+"cat": "A",
+"text": "Schedule FA Complete details of foreign assets should be provided in Schedule FA"
+},
+{
+"n": 779,
+"cat": "A",
+"text": "Schedule GST In schedule GST if GSTIN No(s). is filled then \"Annual value of outward supplies as per the GST return(s) filed\" is"
+},
+{
+"n": 780,
+"cat": "A",
+"text": "mandatory. Schedule GST In schedule GST if \"Annual value of outward supplies as per the GST return(s) filed\" is filled then \"GSTIN No(s).\" is"
+},
+{
+"n": 781,
+"cat": "A",
+"text": "mandatory. Schedule Part B-TI In \"Schedule PART B - TI\", value of '2v' \"Total\" should be equal to the sum of (2i + 2ii + 2iii + 2iv)"
+},
+{
+"n": 782,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\" , value of '3a(v)' \"Total Short-term\" should be equal to the sum of (3ai +3aii+3aiii+3aiv) ."
+},
+{
+"n": 783,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\", value of '3b(iv)' Total Long-term should be equal to the sum of (bi + bii)"
+},
+{
+"n": 784,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\" , value of '3c' \"Total capital gains\" should be equal to the sum of (3av + 3biii)"
+},
+{
+"n": 785,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\", value of '4d' \"Total\" should be equal to the sum of (4a + 4b + 4c)"
+},
+{
+"n": 786,
+"cat": "A",
+"text": "Schedule Part B-TI In schedule -Part B TI the value in pt. 5 should be EQUAL TO total of pt.(1 + 2v + 3e+ 4d)"
+},
+{
+"n": 787,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\" , value of '1' 'Income from house property' should be equal to value at \"Sl.no.3 of Schedule-"
+},
+{
+"n": 788,
+"cat": "A",
+"text": "HP\" Schedule Part B-TI In \"Schedule PART B - TI\" , value of '2i' Profits and gains from business other than speculative business and specified"
+},
+{
+"n": 789,
+"cat": "A",
+"text": "business should be equal to \"A 37 of Schedule-BP\" Schedule Part B-TI In \"Schedule PART B - TI\" , value of '2ii' Profits and gains from speculative business should be equal to \"E3(ii)\" at table \"E of"
+},
+{
+"n": 790,
+"cat": "A",
+"text": "Schedule BP.\" Schedule Part B-TI In \"Schedule PART B - TI\" , value of '2iii' Profits and gains from specified business should be equal to \"E3(iii)\" at table"
+},
+{
+"n": 791,
+"cat": "A",
+"text": "\"E of Schedule BP.\" Schedule Part B-TI Value in Pt 3aii -\"Short term chargeable @30% in Part BTI should be equal to value in \"Field 8iii of item E of Sch CG."
+},
+{
+"n": 792,
+"cat": "A",
+"text": "Schedule Part B-TI Value in Pt 3aiii -\"Short term chargeable @applicable rate in Part BTI should be equal to value in \"Field 8iv of item E of"
+},
+{
+"n": 793,
+"cat": "A",
+"text": "Sch CG Schedule Part B-TI \"Income from sources other than from owning Race Horses & Income chargeable at special rate\" at sl.no.4a of Sch-Part B"
+},
+{
+"n": 794,
+"cat": "A",
+"text": "TI should be equal to sl.no.6 of Sch OS Schedule Part B-TI Value at sl.no.4a of Sch-Part B TI should be equal to sl.no.2 of Sch OS"
+},
+{
+"n": 795,
+"cat": "A",
+"text": "Schedule Part B-TI \"Income from the activity of owning and maintaining race horses\" is claimed at Schedule Part B TI at sl.no.4c should be"
+},
+{
+"n": 796,
+"cat": "A",
+"text": "equal to sl.no.8e of Sch OS Schedule Part B-TI In \"Schedule PART B - TI\" should be equal to the \"total of 2xvi, 3xvi and 4xvi of Schedule CYLA\""
+},
+{
+"n": 797,
+"cat": "A",
+"text": "Schedule Part B-TI The value in Pt 8 of Part B TI should be equal to total value in field 2xv, 3xv and 4xv of Schedule BFLA"
+},
+{
+"n": 798,
+"cat": "A",
+"text": "Schedule Part B-TI In Part B-TI, Gross Total Income at sl.no.9 should be equal to sl.no. (5-6-8)"
+},
+{
+"n": 799,
+"cat": "A",
+"text": "Schedule Part B-TI If Deduction u/s 10AA is claimed in Part B TI at sl.no.12 then Schedule 10AA should be filled"
+},
+{
+"n": 800,
+"cat": "A",
+"text": "Schedule Part B-TI In Part B-TI, Total Income should be equal to the \"Total of (GTI minus Chapter VI-A deductions) after considering"
+},
+{
+"n": 801,
+"cat": "A",
+"text": "rounding-off\" Schedule Part B-TI Income claimed at Sl.No.3(iv) in Part B TI should be equal to the sum of Sl.No.3d, 3e and 3f of Schedule BP."
+},
+{
+"n": 802,
+"cat": "A",
+"text": "Schedule Part B-TI If Deductions claimed at Point No. 11a of \"Part B TI\" then \"Schedule VI-A Part B\" should be filled correctly."
+},
+{
+"n": 803,
+"cat": "A",
+"text": "Schedule Part B-TI If Deductions claimed at Point No. 11b of \"Part B TI\" then \"Schedule VI-A Part C\" should be filled correctly."
+},
+{
+"n": 804,
+"cat": "A",
+"text": "Schedule Part B-TI In schedule part BTI- Deduction u/s 10AA at sl.no.12 cannot be more than deduction claimed in schedule 10AA',"
+},
+{
+"n": 805,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\" value at Sl.no.15' \"Net agricultural income/ any other income for rate purpose\" should be equal"
+},
+{
+"n": 806,
+"cat": "A",
+"text": "to value of Sl.no.2v of Schedule EI if 2v > 5000 Schedule Part B-TI In Schedule part B TI Income chargeable to tax at special rateat sl.no.10 should match with \"total\" of income column"
+},
+{
+"n": 807,
+"cat": "A",
+"text": "of Schedule SI Schedule Part B-TI In schedule part B TI, deduction under chapter VI-A, Part B should be equal to sl. No 1 of schedule VI-A"
+},
+{
+"n": 808,
+"cat": "A",
+"text": "Schedule Part B-TI In schedule part B TI, deduction under chapter VI-A, Part C should be equal to sl. No 2 of schedule VI-A"
+},
+{
+"n": 809,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\" , value at field '11(c)' \"Total (11a + 11b)\" should be equal to \"11a + 11b\" ( limited to 9-10)."
+},
+{
+"n": 810,
+"cat": "A",
+"text": "Schedule Part B-TI In \"Schedule PART B - TI\", value at Sl.no.'18' \"Deemed total income under section 115JC\" should be equal to value at"
+},
+{
+"n": 811,
+"cat": "A",
+"text": "Sl.no. 3 of AMT Schedule Part B-TI In \"Schedule PART B - TI\", value of '3a(iv)' Short-term chargeable at special rates in India as per DTAA should be"
+},
+{
+"n": 812,
+"cat": "A",
+"text": "equal to \"8v of item E\" of \"schedule CG\" Schedule Part B-TI In \"Schedule PART B - TI\" , value of '3b(iii)' \"Long-term chargeable at special rates in India as per DTAA\" should be"
+},
+{
+"n": 813,
+"cat": "A",
+"text": "equal to \"11x\" of item E\" of \"schedule CG\" Schedule Part B-TI In \"Schedule PART B - TI\", value of '7' Balance after set off of current year losses should be equal to the value of 5 – 6"
+},
+{
+"n": 814,
+"cat": "A",
+"text": "Schedule Part B-TI In schedule Part B-TI, Income offered in Capital gain chargeable @ 30% u/s 115BBH, is not matching with Sl. No."
+},
+{
+"n": 815,
+"cat": "A",
+"text": "C2 of Sch CG Schedule Part B-TI Amount of \"Total Capital Gains\" is not equal to sum of Sl. No. 3c 'Sum of Short-term/Long-term capital gains' & 3d 'Capital"
+},
+{
+"n": 816,
+"cat": "A",
+"text": "gain chargeable @ 30% u/s 115BBH'. Schedule Part B-TI In schedule Part B-TTI, Tax payable u/s 115TD after adjustment of refund if any at Sl. No. 14 should be Sl. No. 13 less Sl. No. 12"
+},
+{
+"n": 817,
+"cat": "A",
+"text": "Schedule Part B-TI In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl. no. 8ii of Table E in"
+},
+{
+"n": 818,
+"cat": "A",
+"text": "Schedule CG. Schedule Part B-TI In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl. no. 8vi of Table E"
+},
+{
+"n": 819,
+"cat": "A",
+"text": "in Schedule CG. Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '1a' Tax payable on deemed total income under section 115JC\" should be equal to value"
+},
+{
+"n": 820,
+"cat": "A",
+"text": "at Sl.no. 4 \"Tax payable under section 115JC \" in Schedule AMT Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '4' \"Credit under section 115JD of tax paid in earlier years\" should be equal to value at"
+},
+{
+"n": 821,
+"cat": "A",
+"text": "Sl.no.5 of Schedule AMTC (applicable only when value at 2g of Part B TTI is more than 1d of Part B TTI) Schedule Part B-TTI Tax computation has been disclosed in Part BTTI but Gross Total Income in Part BTI is nil."
+},
+{
+"n": 822,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\" value at Sl. No '10a' \"Advance tax \" and '10d' \"Self Assessment Tax\" should be equal to the sum of total Tax Paid in schedule IT AND In \"PART B- TTI\", value at Sl.no '10b' \"TDS \" should be equal"
+},
+{
+"n": 823,
+"cat": "A",
+"text": "to the value at \"total claimed\" TDS(1) and TDS(2) Schedule. AND In \"PART B- TTI\" of '10c' \"TCS \" should be equal to the value at \"total\" field in TCS Schedule. Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '1d' \"Total Tax Payable on deemed total income\" should be equal to the sum of (1a +"
+},
+{
+"n": 824,
+"cat": "A",
+"text": "1b + 1c) Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '2d' Tax Payable on total income should be equal to the value of 2a + 2b -2c."
+},
+{
+"n": 825,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '2g' Gross tax liability should be equal to the sum of values at Sl.no.2d + 2eiv + 2f"
+},
+{
+"n": 826,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no value at Sl.no. '6a' \"Section 90/90A\" should be equal to value at sl.no.2 in Schedule TR."
+},
+{
+"n": 827,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no value at Sl.no. '6b' \"Section 91\" should be equal to value at sl.no.3 in Schedule TR."
+},
+{
+"n": 828,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no value at Sl.no.6c \"Total\" should be equal to the sum of value at \"Section 90/90A\" at"
+},
+{
+"n": 829,
+"cat": "A",
+"text": "sl.no.6a + \"Section 91\" at sl.no.6b Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '8e' \"Total Interest and Fee Payable\" should be equal to the sum of Interest u/s 234A +"
+},
+{
+"n": 830,
+"cat": "A",
+"text": "Interest u/s 234B + Interest u/s 234C + Fee Interest u/s 234F + Fee u/s 234-I Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no value at Sl.no.9 \"Aggregate liability\" should be equal to the sum of value at Sl.no.7 \"Net"
+},
+{
+"n": 831,
+"cat": "A",
+"text": "tax liability\" + value at sl.no.8e \"Total Interest and Fee Payable\" Schedule Part B-TTI In \"PART B- TTI\" of '10e' Total Taxes Paid should be equal to the sum of 'Advance Tax + TDS + TCS + Self assessment Tax"
+},
+{
+"n": 832,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no.'12' \"Refund\" should be equal to value of Sl.no.10e- Sl.no.9."
+},
+{
+"n": 833,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no.'11' \"Amount payable\" should be equal to value of Sl.no.9- Sl.no.10e."
+},
+{
+"n": 834,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no '3' \"Gross tax payable\" should be equal to higher of value at sl.no.1d \"Total Tax Payable on"
+},
+{
+"n": 835,
+"cat": "A",
+"text": "deemed total income\" or value at sl.no.2g \"Gross tax liability\" Schedule Part B-TTI In \"PART B- TTI\", value at sl.no.'5' \"Tax payable after credit under section 115JD\" should be equal to Sl.no.3 - Sl no.4."
+},
+{
+"n": 836,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"PART B- TTI\", value at Sl.no.'7' \"Net tax liability\" should be equal to value of Sl.no.5 - Sl.no.6c"
+},
+{
+"n": 837,
+"cat": "A",
+"text": "Schedule Part B-TTI In \"Schedule Part B TTI\" point \"Advance Tax\" paid is not equal to the sum of total Tax Paid in schedule IT where date"
+},
+{
+"n": 838,
+"cat": "A",
+"text": "of deposit is between 01/04/ 2025 and 31/03/2026 Schedule Part B-TTI In \"Schedule Part B TTI\" Self-Assessment Tax is not equal to the sum of total Tax Paid in schedule IT where date of"
+},
+{
+"n": 839,
+"cat": "A",
+"text": "deposit is after 31/03/2026 for A.Y 2026-27 Schedule Part B-TTI In schedule Part B-TTI, Sl. No. 15 Net refund after adjustment as per Sl. No. 14 is not equal to Sl. No. 12 less Sl. No. 13"
+},
+{
+"n": 840,
+"cat": "A",
+"text": "Schedule Part B-TTI If sl. no. 17 in Part B-TTI is yes, Schedule FA is mandatory."
+},
+{
+"n": 841,
+"cat": "A",
+"text": "Schedule Part B-TTI Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section"
+},
+{
+"n": 842,
+"cat": "A",
+"text": "is 139(5) and total income does not exceed Rs. 5 lakh. Schedule Part B-TTI Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section"
+},
+{
+"n": 843,
+"cat": "A",
+"text": "is 139(5) and total income exceeds Rs.5 lakh. Schedule IT In \"Schedule IT\" Total of all rows of Column 5 \"Amount\" should be equal to \"Total\" Field."
+},
+{
+"n": 844,
+"cat": "A",
+"text": "Schedule TDS Valid TAN should be entered"
+},
+{
+"n": 845,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS 1, “Amount of TDS claimed” is more than “Tax deducted”."
+},
+{
+"n": 846,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS 2 The Amount of TDS claimed ” is more than “Tax deducted”."
+},
+{
+"n": 847,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS 1 / TDS 2 / TCS, year of tax deduction should be selected if brought forward TDS/TCS is provided"
+},
+{
+"n": 848,
+"cat": "A",
+"text": "Schedule TDS In \"Schedule TDS 1\" , Total of all rows of Column 9 \"Claimed in Own hands\" Should be equal to \"Total\" Field."
+},
+{
+"n": 849,
+"cat": "A",
+"text": "Schedule TDS In \"Schedule TDS 2\" , Total of all rows of Column 9 \"Claimed in Own hands\" Should be equal to \"Total\" Field."
+},
+{
+"n": 850,
+"cat": "A",
+"text": "Schedule TDS If TDS is claimed then corresponding receipts/income should be offered for taxation."
+},
+{
+"n": 851,
+"cat": "A",
+"text": "Schedule TDS In \"Schedule TDS 1\" and In \"Schedule TDS 2\", details of \"Unclaimed TDS brought forward\" and \"details of TDS of"
+},
+{
+"n": 852,
+"cat": "A",
+"text": "current FY\" should be provided in different rows in Sch TDS 1 and in TDS 2\" Schedule TDS In Schedule TDS 1, TDS credit claimed this year in col. No. 9 cannot be more than Gross amount disclosed in col.no.11"
+},
+{
+"n": 853,
+"cat": "A",
+"text": "except for 194N Schedule TDS In schedule \"TDS -1\", TDS is claimed in column 9 then \"Gross Amount (Col 11)\" and \"Head of Income"
+},
+{
+"n": 854,
+"cat": "A",
+"text": "(Col 12)\" should be mandatorily filled except for 194N. Schedule TDS In schedule \"TDS 2\" , TDS is claimed in column 9 then \"Gross Amount (Col 11)\" and \"Head of Income"
+},
+{
+"n": 855,
+"cat": "A",
+"text": "(Col 12)\" should be mandatorily filled. Schedule TDS In Schedule TDS 1 or TDS-2 , if TDS credit relating to other person is selected then PAN of other person is mandatory"
+},
+{
+"n": 856,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS 1 and TDS 2, if TDS credit relating to other person is selected then TAN of the Deductor/ PAN of Tenant/"
+},
+{
+"n": 857,
+"cat": "A",
+"text": "Buyer should be filled Schedule TDS In Schedule TDS, column 13, 'TDS credit being carried forward' should be equal to column 6 + 7 + 8 - 9 - 10"
+},
+{
+"n": 858,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS, applicable dropdown in column 2 should be selected"
+},
+{
+"n": 859,
+"cat": "A",
+"text": "Schedule TDS In Schedule TDS, selection of \"Section under which TDS is deducted\" is mandatory."
+},
+{
+"n": 860,
+"cat": "A",
+"text": "Schedule TCS In Schedule TCS total of col 7(i) \"Claimed in own hands\" should be equal to sum of individual values"
+},
+{
+"n": 861,
+"cat": "A",
+"text": "Schedule TCS In Schedule TCS, Unclaimed TCS brought forward & details of TCS of current FY cannot be entered in same rows"
+},
+{
+"n": 862,
+"cat": "A",
+"text": "Schedule TCS TCS Claimed in own hands & in hands of any other person, shall not exceed TCS brought forward, TCS collected in own"
+},
+{
+"n": 863,
+"cat": "A",
+"text": "hands & TCS collected in hands of any other person in schedule TCS Schedule TCS In Schedule TCS, TCS credit relating to other person is selected but the PAN of other person is not provided or TCS"
+},
+{
+"n": 864,
+"cat": "A",
+"text": "credit is claimed in other person's hand but PAN of other person is not provided Schedule TCS In Schedule TCS, applicable dropdown in column 2(i) should be selected"
+},
+{
+"n": 865,
+"cat": "A",
+"text": "Schedule TCS In schedule TCS, Tax deduction and Tax collection account no. of the collector should be provided"
+},
+{
+"n": 866,
+"cat": "A",
+"text": "Schedule TCS In Schedule TCS, column 8, 'TCS credit being carried forward' should be equal to column 5 + column 6 - column 7"
+},
+{
+"n": 1,
+"cat": "B",
+"text": "If net tax liability is as per AMT (i.e., Sl.No.3 = Sl.No.1d), then Form 29C is required to be filed."
+},
+{
+"n": 2,
+"cat": "B",
+"text": "B-TI In Part BTI , value at sl.no.11b can be claimed if the Original return is filed or being filed on or before the due date specified u/s 139(1)"
+},
+{
+"n": 3,
+"cat": "B",
+"text": "VI-A In Schedule VI-A, deduction u/s 80LA or 80LA (1) will be allowed only if Form 10CCF is filed"
+},
+{
+"n": 4,
+"cat": "B",
+"text": "A- P&L If Income under business and profession is claimed then gross receipts are required to be mentioned in profit and loss account OR"
+},
+{
+"n": 5,
+"cat": "B",
+"text": "Profit shown should be at least 6% / 8% of gross receipts if details of maintenance of the books of accounts and audit report u/s 44AB in Part A-General are not provided A- P&L Taxpayer claiming loss under the head profit and gains of business or profession is required to fill details in Balance sheet and Profit and"
+},
+{
+"n": 6,
+"cat": "B",
+"text": "Loss account A- P&L If Income under business and profession is claimed then gross receipts are required to be mentioned in profit and loss account OR Profit shown should be at least 50% of gross receipts if details of"
+},
+{
+"n": 7,
+"cat": "B",
+"text": "maintenance of the books of accounts and audit report u/s 44AB in Part A-General are not provided A General \"Name\" of the assessee in Part A General should match with the \"Name\" as per the PAN database."
+},
+{
+"n": 8,
+"cat": "B",
+"text": "A General If the original return is filed under section 142(1) then tax payer cannot file revised return"
+},
+{
+"n": 9,
+"cat": "B",
+"text": "A General Assessee Liable to audit u/s 44AB need to file Form 3CA-3CD / Form 3CB-3CD"
+},
+{
+"n": 10,
+"cat": "B",
+"text": "A General Assessee liable for Audit u/s 44DA is required to file Form 3CE"
+},
+{
+"n": 11,
+"cat": "B",
+"text": "A General Assessee liable for Audit u/s 92E is required to file Form 3CEB"
+},
+{
+"n": 12,
+"cat": "B",
+"text": "A General Assessee liable to pay AMT u/s 115JC is required to file Form 29C"
+},
+{
+"n": 13,
+"cat": "B",
+"text": "A General Return u/s 139(1)/139(4)/139(5)/142(1) cannot be filed if assessment u/s 143(3) or 144 is completed"
+},
+{
+"n": 14,
+"cat": "B",
+"text": "B-TTI IFSC under \"Bank Details\" in Schedule Part B-TTI/ Schedule 80G/ Schedule 80GGC is not matching with the RBI database (Primary Bank Account)"
+},
+{
+"n": 15,
+"cat": "B",
+"text": "B-TI Income details and tax computation have not been disclosed left blank or zero by taxpayer in ITR but details regarding taxes paid"
+},
+{
+"n": 16,
+"cat": "B",
+"text": "have been provided disclosed. B-TI Income chargeable to tax at special rate has been shown only in Sch. Part-B –TI, without giving the details of the same in the relevant"
+},
+{
+"n": 17,
+"cat": "B",
+"text": "schedules, viz., Sch. CG/ Sch. OS and Sch.SI. B-TTI Assessee claiming relief u/s 90 & 91 is required to file form 67"
+},
+{
+"n": 18,
+"cat": "B",
+"text": "B-TI Assessee claiming deduction u/s 10AA is required to file ITR within due date"
+},
+{
+"n": 19,
+"cat": "B",
+"text": "OS Income under section 115BBF can be declared only if original return is filed within due date"
+},
+{
+"n": 20,
+"cat": "B",
+"text": "OS Assessee showed income under section 115BBF without furnishing of Form 3CFA for the AY 2025-26 or Form 3CFA is not filed within the"
+},
+{
+"n": 21,
+"cat": "B",
+"text": "due date A General Once a proceeding is initiated u/s148, the original return filed u/s 139 cannot be revised"
+},
+{
+"n": 22,
+"cat": "B",
+"text": "VI-A Deduction u/s 80-I(7) or u/s 80-IA(7) or 80IAB or 80IAC or u/s 80- IB or u/s. 80 IC/80IE can be claimed only if Form 10CCB filed"
+},
+{
+"n": 23,
+"cat": "B",
+"text": "within due date B-TTI Surcharge on AMT can be claimed only if AMT income at sl.no.3 in Schedule AMT is > 1Cr or 50L as the case may be"
+},
+{
+"n": 24,
+"cat": "B",
+"text": "VI-A Form 10DA is required to be filed to claim the deduction u/s 80JJAA for PY 2020-21"
+},
+{
+"n": 25,
+"cat": "B",
+"text": "A- P&L Income from 'Profits and Gains from Business or Profession” is greater than 2.5 lakhs in Sl. no. D of Schedule BP, then"
+},
+{
+"n": 26,
+"cat": "B",
+"text": "Manufacturing A/c or Trading Account or P&L account and Balance sheet should be filled Deduction u/s 10AA is claimed in the Income Tax Return only if Form 56F is filed"
+},
+{
+"n": 27,
+"cat": "B",
+"text": "Total Income at Schedule AMT can be Negative only if the loss in Total Income should arise because of the Specified business."
+},
+{
+"n": 28,
+"cat": "B",
+"text": "OS In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(i) i.e, normal dividend - DTAA for Dividend subject to TRC -Adj Expenditure u/s 57(i) )"
+},
+{
+"n": 29,
+"cat": "B",
+"text": "Adj Expenditure u/s 57(i) = Max(0, exp u/s 57(1) at sl.no.3c - Deemed dividend u/s 2(22e) at sl.no.1a(ii) ) ESR Tax payer is claiming deduction under subsection (2AB) of section 35 of the Act relating to in-house scientific research and development facility but Form 3CLA-Report from an accountant is not filed"
+},
+{
+"n": 30,
+"cat": "B",
+"text": "EI As amount mentioned for section 10(23FF) is more than zero please fill form 10-II"
+},
+{
+"n": 31,
+"cat": "B",
+"text": "A- P&L Audit information is mandatory if profit is less than the 8% of gross turnover."
+},
+{
+"n": 32,
+"cat": "B",
+"text": "A General For assessee being \"1.Primary Agricultural Credit Society (or) 2. Primary Co-operative Agricultural and Rural Development bank (or) 3.Co-operative Bank other than “a primary agricultural credit society” or “a primary co-operative agricultural and rural development bank” (or)"
+},
+{
+"n": 33,
+"cat": "B",
+"text": "4.Other Cooperative Society \" if benefit of new tax regime (115BAD) has been provided in earlier years and If option \"No\" is selected for \"Have you opted for new tax regime u/s 115BAD in earlier years and filed form 10IF within due date?\" A General For assessee being \" For assessee being \"1.Primary Agricultural Credit Society (or) 2. Primary Co-operative Agricultural and Rural Development bank (or) 3.Co-operative Bank other than “a primary agricultural credit society” or “a primary co-operative agricultural and rural development bank” (or)"
+},
+{
+"n": 34,
+"cat": "B",
+"text": "4.Other Cooperative Society \" if benefit of new tax regime (115BAD) has not been provided in earlier years and If option \"Yes\" is selected for \"Have you opted for new tax regime u/s 115BAD in earlier years and filed form 10-IF within due date?\" EI As amount mentioned for section 10(4D) is more than zero please fill form 10-IK or form 10-IG"
+},
+{
+"n": 35,
+"cat": "B",
+"text": "A- In Part A general , Sl. No. Q - \"Legal Entity Identifier (LEI) details\" is mandatory if amount in Part B-TTI at Sl. No. 15 'Refund' is 50"
+},
+{
+"n": 36,
+"cat": "B",
+"text": "crores or more A General Since you have selected a2i as \"Yes\" and either of a2ii or a2iii \"More than 5% \" in Part A General, then you are liable to audit u/s 44AB."
+},
+{
+"n": 37,
+"cat": "B",
+"text": "OS Dividend income mentioned in Schedule OS is more than income reduced from schedule BP"
+},
+{
+"n": 38,
+"cat": "B",
+"text": "BTI Taxpayer filing Nil return is requested to check AIS / 26AS before proceeding further"
+},
+{
+"n": 39,
+"cat": "B",
+"text": "TDS TDS credited in hands of other person will be allowed to taxpayer only if that other person declares the same in schedule TDS of their"
+},
+{
+"n": 40,
+"cat": "B",
+"text": "ITR TCS TCS credited in hands of other person will be allowed to taxpayer only if that other person declares the same in schedule TCS of their ITR"
+},
+{
+"n": 41,
+"cat": "B",
+"text": "OS, EI For Resident taxpayers, DTAA benefit is not available in rate of taxation, and the claim may not be allowed. Please re-check the claims made. Residents may claim DTAA benefit under Schedule TR"
+},
+{
+"n": 42,
+"cat": "B",
+"text": "and FSI. A General For assessee being \"1.Primary Agricultural Credit Society (or) 2. Primary Co-operative Agricultural and Rural Development bank (or) 3.Co-operative Bank other than “a primary agricultural credit society” or “a primary co-operative agricultural and rural development bank” (or) 4.Other Cooperative Society \""
+},
+{
+"n": 43,
+"cat": "B",
+"text": "if benefit of new tax regime (115BAE) has been provided in A.Y 2024-25 or AY 2025-26 and If option \"No\" is selected for \"If the answer to (div) is “Yes”, whether you have exercised the option u/s 115BAE of Opting of new tax regime in A.Y 2024-25 or AY 2025- 26?\" A General For assessee being \"1.Primary Agricultural Credit Society (or) 2. Primary Co-operative Agricultural and Rural Development bank (or) 3.Co-operative Bank other than “a primary agricultural credit society” or “a primary co-operative agricultural and rural development bank” (or) 4.Other Cooperative Society \""
+},
+{
+"n": 44,
+"cat": "B",
+"text": "if benefit of new tax regime (115BAE) has not been provided in A.Y 2024-25 or AY 2025-26 and If option \"Yes\" is selected for \"If the answer to (div) is “Yes”, whether you have exercised the option u/s 115BAE of Opting of new tax regime in A.Y 2024-25 or AY 2025- 26?\" CG In Schedule CG, Table E, entire loss should be set off with gains available for set off."
+},
+{
+"n": 45,
+"cat": "B",
+"text": "OS, EI If DTAA is claimed, Nonresidents are required to file Form 10F."
+},
+{
+"n": 46,
+"cat": "B",
+"text": "The gross receipts shown for income as Virtual Digital Assets in Schedule TDS, on which credit for TDS u/s 194S has been deducted,"
+},
+{
+"n": 47,
+"cat": "B",
+"text": "are higher than the total of the receipts shown under Income from Virtual Digital Assets in the return of income. The gross receipts shown for income as Winnings from lotteries, crossword puzzles, races, card games etc. chargeable u/s 115BB in Schedule TDS, on which TDS u/s 194B has been deducted, are higher"
+},
+{
+"n": 48,
+"cat": "B",
+"text": "than the income shown under Winnings from lotteries, crossword puzzles, races, card games etc. chargeable u/s 115BB in the return of income. The gross receipts shown for income as Income from the activity of owning and maintaining race horses in Schedule TDS, on which TDS u/s 194BB has been deducted, are higher than the income shown under Income from the activity of owning and maintaining race horses in the return of income."
+},
+{
+"n": 49,
+"cat": "B",
+"text": "The gross receipts shown for Income by way of winnings from online games chargeable u/s 115BBJ in Schedule TDS, on which TDS u/s 194BA has been deducted, are higher than the income shown under"
+},
+{
+"n": 50,
+"cat": "B",
+"text": "Income by way of winnings from online games chargeable u/s 115BBJ. Part The details of Form 10IEA should match with the details mentioned General in Schedule Part A General"
+},
+{
+"n": 51,
+"cat": "B",
+"text": "Part The details of Form 10IEA as mentioned in Schedule Part A General General is either not mentioned or not matching with the database"
+},
+{
+"n": 52,
+"cat": "B",
+"text": "CFL Current year losses to be carried forward should not be more than ZERO if return is filed under 139(4)"
+},
+{
+"n": 53,
+"cat": "B",
+"text": "80G Deduction u/s 80G shall be claimed against valid Donee PANs only."
+},
+{
+"n": 54,
+"cat": "B",
+"text": "P&L In Part A P&L, if Turnover is less than Rs.50/ 75 lakhs (as applicable) in case of profession and profit offered is less than 50% then audit"
+},
+{
+"n": 55,
+"cat": "B",
+"text": "information u/s 44AB is mandatory IF In \"Schedule IF\", Total of Col \"Amount of interest due or received\" should be equal to Sl. No. 14xi(b) of Schedule Profit & Loss Account"
+},
+{
+"n": 56,
+"cat": "B",
+"text": "OS Interest expenditure u/s 57(1) at Sl.No. 3Ci should not be more than 20% of the dividend income included in the total income. Amount of dividend for this purpose will be computed by not considering the claim of deduction in Schedule OS. The computation is at the minimum of:"
+},
+{
+"n": 57,
+"cat": "B",
+"text": "a. Temporary calculated value at 5xiii of BFLA (i.e., 5xiii+ eligible amount of interest in Sl No 3Ci of schedule OS) b. 1a (1ai +1aii) of Schedule OS c. Temporary calculated values of (Sl.no.13 - sl.no.14) of Part BTI (i.e., 13-14 of Part BTI + eligible amount of interest in Sl No 3Ci of schedule OS) P&L In Schedule P&L, loss is claimed without maintaining regular books of accounts and audit report u/s 44AB"
+}
+]
