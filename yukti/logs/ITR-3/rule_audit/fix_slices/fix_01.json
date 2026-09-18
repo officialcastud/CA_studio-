@@ -1,0 +1,182 @@
+[
+ {
+  "n": 10,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "of representative assessee in Part-A General and details of representative should be filled In Part A General, Are you filing return of income under Seventh proviso to Section 139(1) is selected as Yes then details should be provided",
+  "clean": "",
+  "finding": "seventh-proviso Yes does not force any condition/amount detail"
+ },
+ {
+  "n": 28,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as \"More than 5%\" in Part A General.",
+  "clean": "",
+  "finding": "a2ii MoreThan5Per not linked to liable 44AB (29/30 are)"
+ },
+ {
+  "n": 37,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If status of the taxpayer is other than Non-Resident, DTAA benefit is not available in rate of taxation (i.e. Sl no B12 or A9 of Sch CG or Sl no 2f of Sch OS or Sl no 4 of Sch EI),",
+  "clean": "",
+  "finding": "DTAA rate for non-resident only not checked (CG/OS/EI)"
+ },
+ {
+  "n": 42,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "in Schedule Part A General Details of the Form 10IEA is mandatory if Form 10IEA is filed to re-enter to the New tax regime in earlier year in Schedule Part A General",
+  "clean": "",
+  "finding": "new-regime earlier-AY 10IEA re-entry details not required"
+ },
+ {
+  "n": 43,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If Form 10IEA is not filed with re-enter option for earlier assessment year, then answer to questions in \"Have you furnished Form 1010IEA for re-entering in new tax regime in",
+  "clean": "",
+  "finding": "current-AY new-regime re-entry answer not mandatory"
+ },
+ {
+  "n": 44,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "current assessment year? is mandatory in Schedule Part A General Information. Form 10IEA details are mandatory for re-entering to New Tax Regime in Current AY",
+  "clean": "",
+  "finding": "new-regime current-AY 10IEA date/ack not enforced (45 is)"
+ },
+ {
+  "n": 46,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Business Income is mandatory if any option is selected at Sl. no. A19b of Schedule Part A General Information",
+  "clean": "",
+  "finding": "A19b Yes does not force business income in Schedule BP"
+ },
+ {
+  "n": 48,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:44",
+  "text": "In Part A General, \"Whether you are FPI?\" should be selected \"Yes\" for offering income under Section 115AD(1)(i) in Schedule OS",
+  "clean": "",
+  "finding": "checks CG Schedule115AD not OS 115AD(1)(i)"
+ },
+ {
+  "n": 67,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Part A Manufacturing Account, Negative signs will not be allowed other than in Sl.No. 3 \"Cost of Goods Produced \u2013 transferred to Trading Account\"",
+  "clean": "",
+  "finding": "No non-negative guard on Mfg fields except Sl.3; not encoded"
+ },
+ {
+  "n": 76,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Part A Trading Account, Negative signs should not be allowed other than in Sl.No. 11 and/or 12",
+  "clean": "",
+  "finding": "No non-negative guard on Trading fields except 11/12; not encoded"
+ },
+ {
+  "n": 119,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Number of months for which goods carriage was owned / leased / hired by assessee\" *7500. In Schedule BP, Sl.No. 2a \"Net profit or loss from speculative business\" should be equal to 65iv of Schedule P&L+Sl.no 12b of Trading account , if books are not maintained for",
+  "clean": "",
+  "finding": "BP 2a not tied to P&L 65iv + Trading 12b; manual input"
+ },
+ {
+  "n": 121,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1).",
+  "clean": "",
+  "finding": "44AD commission-agent bar not enforced; professions only structurally split"
+ },
+ {
+  "n": 134,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB.",
+  "clean": "",
+  "finding": "44ADA >50L and cash>5% audit branch not encoded (only >75L)"
+ },
+ {
+  "n": 141,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule P&L, Net Profit at Sl.No. 66(ii) should not be more than Turnover at Sl. No. 66(i).",
+  "clean": "",
+  "finding": "net profit 66(ii) <= turnover 66(i) not enforced (skipped)"
+ },
+ {
+  "n": 146,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Part A P&L, if assessee has opted for taxation u/s 44BBC, sl no 66(ii) \"Net Profit \" cannot be less than 20% of \" Gross receipts /turnover",
+  "clean": "",
+  "finding": "44BBC net profit >= 20% receipts not encoded (series gap)"
+ },
+ {
+  "n": 149,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Sch BP, Sl.No.23 should be minimum of sum of amounts entered at Sl.No.5a to 5d of Schedule Part A-OI",
+  "clean": "",
+  "finding": "BP 23 >= sum of OI 5a-5d not enforced; manual input"
+ },
+ {
+  "n": 166,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exemption u/s 10(10) for gratuity shall not exceed income offered under the head Salary u/s 17(1) under sub head gratuity receipt and cannot exceed (i) Rs20 lakhs in case of Nature of employment is \"Public Sector Undertaking\", \"PSU- Pensioners\", \"Others-Pensioners\" or \"Others\"",
+  "clean": "",
+  "finding": "10(10) gratuity 20/25L + income-offered cap not enforced"
+ },
+ {
+  "n": 168,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:128",
+  "text": "b) HRA as per drop down of salary as per section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Total of exempt allowances excluding HRA shall not exceed total of Sl.No. 1(a)+1(b)+1(c) as reduced by HRA",
+  "clean": "",
+  "finding": "condition ends ||true, never enforces"
+ },
+ {
+  "n": 173,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g2.js:200",
+  "text": "State Government or PSU) In Schedule Salary, For Central and State Govt and PSU employees, Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of Basic salary,",
+  "clean": "",
+  "finding": "only 5000 cap, misses 1/5-basic limit"
+ },
+ {
+  "n": 179,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule Salary, Exempt allowance u/s 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc.\" can not be more than Gross Salary 13",
+  "clean": "",
+  "finding": "10(6) <= gross salary not enforced"
+ }
+]

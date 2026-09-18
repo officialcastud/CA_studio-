@@ -1,0 +1,189 @@
+{
+ "root": "ITR2",
+ "blocks": [
+  {
+   "name": "CreationInfo",
+   "required": true
+  },
+  {
+   "name": "Form_ITR2",
+   "required": true
+  },
+  {
+   "name": "PartA_GEN1",
+   "required": true
+  },
+  {
+   "name": "ScheduleS",
+   "required": false
+  },
+  {
+   "name": "ScheduleHP",
+   "required": false
+  },
+  {
+   "name": "ScheduleCGFor23",
+   "required": false
+  },
+  {
+   "name": "Schedule112A",
+   "required": false
+  },
+  {
+   "name": "Schedule115AD",
+   "required": false
+  },
+  {
+   "name": "ScheduleVDA",
+   "required": false
+  },
+  {
+   "name": "ScheduleOS",
+   "required": false
+  },
+  {
+   "name": "ScheduleCYLA",
+   "required": true
+  },
+  {
+   "name": "ScheduleBFLA",
+   "required": true
+  },
+  {
+   "name": "ScheduleCFL",
+   "required": false
+  },
+  {
+   "name": "ScheduleVIA",
+   "required": false
+  },
+  {
+   "name": "Schedule80C",
+   "required": false
+  },
+  {
+   "name": "Schedule80D",
+   "required": false
+  },
+  {
+   "name": "Schedule80G",
+   "required": false
+  },
+  {
+   "name": "Schedule80GGC",
+   "required": false
+  },
+  {
+   "name": "Schedule80DD",
+   "required": false
+  },
+  {
+   "name": "Schedule80U",
+   "required": false
+  },
+  {
+   "name": "Schedule80E",
+   "required": false
+  },
+  {
+   "name": "Schedule80EE",
+   "required": false
+  },
+  {
+   "name": "Schedule80EEA",
+   "required": false
+  },
+  {
+   "name": "Schedule80EEB",
+   "required": false
+  },
+  {
+   "name": "Schedule80GGA",
+   "required": false
+  },
+  {
+   "name": "ScheduleAMT",
+   "required": false
+  },
+  {
+   "name": "ScheduleAMTC",
+   "required": false
+  },
+  {
+   "name": "ScheduleSPI",
+   "required": false
+  },
+  {
+   "name": "ScheduleSI",
+   "required": false
+  },
+  {
+   "name": "ScheduleEI",
+   "required": false
+  },
+  {
+   "name": "SchedulePTI",
+   "required": false
+  },
+  {
+   "name": "ScheduleFSI",
+   "required": false
+  },
+  {
+   "name": "ScheduleTR1",
+   "required": false
+  },
+  {
+   "name": "ScheduleFA",
+   "required": false
+  },
+  {
+   "name": "Schedule5A2014",
+   "required": false
+  },
+  {
+   "name": "ScheduleAL",
+   "required": false
+  },
+  {
+   "name": "PartB-TI",
+   "required": true
+  },
+  {
+   "name": "PartB_TTI",
+   "required": true
+  },
+  {
+   "name": "ScheduleIT",
+   "required": false
+  },
+  {
+   "name": "ScheduleTDS1",
+   "required": false
+  },
+  {
+   "name": "ScheduleTDS2",
+   "required": false
+  },
+  {
+   "name": "ScheduleTDS3",
+   "required": false
+  },
+  {
+   "name": "ScheduleTCS",
+   "required": false
+  },
+  {
+   "name": "Verification",
+   "required": true
+  },
+  {
+   "name": "TaxReturnPreparer",
+   "required": false
+  },
+  {
+   "name": "ScheduleESOP",
+   "required": false
+  }
+ ]
+}

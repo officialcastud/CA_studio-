@@ -1,0 +1,396 @@
+{
+ "ISIN List": {
+  "section": "excluded",
+  "reason": "reference list of ISINs — lookup data, not a schedule"
+ },
+ "Home": {
+  "section": "excluded",
+  "reason": "the utility's index/navigation page — Yukti's left index replaces it; no schedule, no schema block"
+ },
+ "PART A - General": {
+  "section": "who",
+  "blocks": [
+   "PartA_GEN1",
+   "PartA_GEN2"
+  ]
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "the 139(8A) updated-return variant of Part A General — not applicable to an original return"
+ },
+ "Nature Of Business": {
+  "section": "bpa",
+  "blocks": [
+   "PartA_GEN2"
+  ]
+ },
+ "Part A - BS": {
+  "section": "bpa",
+  "blocks": [
+   "PARTA_BS"
+  ]
+ },
+ "Manufacturing Account": {
+  "section": "bpa",
+  "blocks": [
+   "ManufacturingAccount"
+  ]
+ },
+ "Trading Account": {
+  "section": "bpa",
+  "blocks": [
+   "TradingAccount"
+  ]
+ },
+ "Profit and Loss": {
+  "section": "bpa",
+  "blocks": [
+   "PARTA_PL"
+  ]
+ },
+ "Part A - OI": {
+  "section": "bpa",
+  "blocks": [
+   "PARTA_OI"
+  ]
+ },
+ "Quantitative Details": {
+  "section": "bpa",
+  "blocks": [
+   "PARTA_QD"
+  ]
+ },
+ "Sheet1": {
+  "section": "excluded",
+  "reason": "utility scratch sheet — no schedule, no schema block"
+ },
+ "ITold": {
+  "section": "excluded",
+  "reason": "veryHidden utility internals (prior-version carryover) — no schedule"
+ },
+ "Schedule S": {
+  "section": "sal",
+  "blocks": [
+   "ScheduleS"
+  ]
+ },
+ "House Property": {
+  "section": "hp",
+  "blocks": [
+   "ScheduleHP"
+  ]
+ },
+ "BP": {
+  "section": "bp",
+  "blocks": [
+   "ITR3ScheduleBP"
+  ]
+ },
+ "DPM - DOA": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDPM",
+   "ScheduleDOA"
+  ]
+ },
+ "DEP_DCG": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDEP",
+   "ScheduleDCG"
+  ]
+ },
+ "ESR": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleESR"
+  ]
+ },
+ "CG": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleCGFor23"
+  ]
+ },
+ "Schedule 112A": {
+  "section": "cg",
+  "blocks": [
+   "Schedule112A"
+  ]
+ },
+ "HelpCSV": {
+  "section": "excluded",
+  "reason": "utility CSV-import helper — data scaffold, not a schedule"
+ },
+ "Schedule 115AD(1)(iii) proviso": {
+  "section": "cg",
+  "blocks": [
+   "Schedule115AD"
+  ]
+ },
+ "OS": {
+  "section": "os",
+  "blocks": [
+   "ScheduleOS"
+  ]
+ },
+ "CYLA - BFLA": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCYLA",
+   "ScheduleBFLA"
+  ]
+ },
+ "CFL": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCFL"
+  ]
+ },
+ "Unabsorbed Depreciation": {
+  "section": "bp",
+  "blocks": [
+   "ITR3ScheduleUD"
+  ]
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGC"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "VDA": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleVDA"
+  ]
+ },
+ "80U-80DD": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80U",
+   "Schedule80DD"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "ICDS": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleICDS"
+  ]
+ },
+ "10AA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule10AA"
+  ],
+  "why_built": "hidden until the SEZ deduction (section 10AA) is claimed — the utility unhides it on demand; Schedule 10AA is a filed block and an AMT trigger on ITR-3"
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80G"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80C": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80C"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80D": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80D"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "RA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80RA"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80GGA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGA"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "80": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80_IA",
+   "Schedule80_IB",
+   "Schedule80_IC"
+  ],
+  "why_built": "hidden until a profit-linked business deduction (80-IA / 80-IB / 80-IE-North-East) is claimed — the utility unhides it on demand; the schema files these as Schedule80_IA/IB/IC and they are AMT triggers"
+ },
+ "80E_80EE_80EEA_80EEB": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80E",
+   "Schedule80EE",
+   "Schedule80EEA",
+   "Schedule80EEB"
+  ],
+  "why_built": "hidden until the deduction is claimed — the utility unhides it on demand; the sub-schedule is filed"
+ },
+ "VI-A": {
+  "section": "ded",
+  "blocks": [
+   "ScheduleVIA"
+  ]
+ },
+ "SPI - SI - IF": {
+  "section": "si",
+  "blocks": [
+   "ScheduleSPI",
+   "ScheduleSI",
+   "ScheduleIF"
+  ]
+ },
+ "AMT": {
+  "section": "tax",
+  "blocks": [
+   "ScheduleAMT"
+  ],
+  "why_built": "the hidden AMT computation sheet — the method behind Schedule AMT and the AMT liability; read, not shown (rule 7)"
+ },
+ "AMTC": {
+  "section": "tax",
+  "blocks": [
+   "ScheduleAMTC"
+  ]
+ },
+ "EI": {
+  "section": "ei",
+  "blocks": [
+   "ScheduleEI"
+  ]
+ },
+ "FSI1": {
+  "section": "excluded",
+  "reason": "hidden helper backing the FSI sheet — FSI is built from the visible FSI sheet; no separate schema block"
+ },
+ "PTI": {
+  "section": "other",
+  "blocks": [
+   "SchedulePTI"
+  ]
+ },
+ "TPSA": {
+  "section": "tax",
+  "blocks": [
+   "ScheduleTPSA"
+  ]
+ },
+ "FSI": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleFSI"
+  ]
+ },
+ "TR_FA": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleTR1",
+   "ScheduleFA"
+  ]
+ },
+ "Sch 5A": {
+  "section": "other",
+  "blocks": [
+   "Schedule5A2014"
+  ]
+ },
+ "AL": {
+  "section": "al",
+  "blocks": [
+   "ScheduleAL"
+  ]
+ },
+ "GST": {
+  "section": "bpa",
+  "blocks": [
+   "ScheduleGST"
+  ]
+ },
+ "Tax Calculated": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden computation sheet — the method behind Part B-TTI and the interest; read, not shown (rule 7)"
+ },
+ "Part B - TI TTI": {
+  "section": "tax",
+  "blocks": [
+   "PartB-TI",
+   "PartB_TTI"
+  ]
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "ESOP": {
+  "section": "other",
+  "blocks": [
+   "ScheduleESOP"
+  ]
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "Part B-ATI is the updated-return (139(8A) / 140B) computation — not applicable to an original return, and no schema block in ITR-3's block list"
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTDS1",
+   "ScheduleTDS2",
+   "ScheduleTDS3",
+   "ScheduleTCS"
+  ]
+ },
+ "Verification": {
+  "section": "bank",
+  "blocks": [
+   "Verification",
+   "TaxReturnPreparer"
+  ]
+ },
+ "OLDAL": {
+  "section": "excluded",
+  "reason": "veryHidden — superseded old Assets & Liabilities table; the current AL sheet is built"
+ },
+ "Temporary Values": {
+  "section": "excluded",
+  "reason": "utility scratch / temporary values — no schedule"
+ },
+ "DropDownValues": {
+  "section": "excluded",
+  "reason": "the utility's dropdown master lists — data, not a schedule"
+ },
+ "CG Pop up_prefill": {
+  "section": "excluded",
+  "reason": "hidden capital-gains prefill pop-up helper — CG is built from the visible CG sheet; no separate schema block"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "hidden internal preview / summary sheet — no schedule, no schema block"
+ },
+ "BA": {
+  "section": "excluded",
+  "reason": "the bank-accounts table (Schedule BA) is filed via PartB_TTI on the visible Part B - TI TTI sheet; this is a superseded helper copy with no schema block of its own"
+ },
+ "Instructions": {
+  "section": "excluded",
+  "reason": "the utility's instructions text — not a schedule"
+ }
+}
