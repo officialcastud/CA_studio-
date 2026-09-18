@@ -13,12 +13,12 @@ schema errors, round-trips byte-identical, hand figures match to the rupee.
   only for Central-Government employment. Fixed the client (`empcat` → `CGOV`); c80ccd2 ₹50,000 stays within
   both the 10% and 14% salary caps, so GTI/TI/tax are unchanged. Acceptance return JSON refreshed.
 
-## Deferred (genuine ENGINE defect — flagged, not yet fixed; the rule is coded but held)
-- **A143** — old-regime standard deduction u/s 16(ia) must be ≤ ₹50,000, but the engine
-  (`70_sec_inccore.js`) computes `min(75000, netSal)` in BOTH regimes, so an old-regime return exports
-  `DeductionUs16ia = 75000` (over-deducts ₹25,000). Encoded as a documented comment (no live `A(143,` token)
-  to keep Gate 6 green; enabling it requires the engine fix (old regime → `min(50000, …)`) and a re-derivation
-  of the client's figures. **This is a real correctness bug the portal would reject — recommended next fix.**
+## ENGINE defect — FIXED (engine-correctness pass)
+- **A143** — old-regime standard deduction u/s 16(ia) must be ≤ ₹50,000, but the engine computed
+  `min(75000, netSal)` in BOTH regimes (over-deducting ₹25,000 old-regime). **Fixed:**
+  `70_sec_inccore.js` now uses `min(isNew()?75000:50000, netSal)`; A143 enabled and live. The client's
+  figures were re-derived to the rupee: income from salary +₹25,000 ⇒ GTI ₹16,96,500, TI ₹7,40,500, tax
+  ₹42,224 (was a ₹4,580 refund, now a ₹620 balance due). Gate 6 & 7 green.
 
 ## Not mappable (no schema key exists in ITR-4 for the rule's field — documented as comments in-file)
 - 167 (original-return section for a 142(1) revision), 188 second half (148-proceeding bar), 225 age-17–27

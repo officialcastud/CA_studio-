@@ -205,7 +205,7 @@ function engInc(){
     exempt+=amt;
   });
   const netSal=Math.max(0, gross-exempt);                          /* H130 (iii) Net Salary = i − ii  [#320] */
-  const stdDed = gross>0 ? Math.min(75000, netSal) : 0;            /* H132 16(ia) std ded, max 75000 (both regimes) */
+  const stdDed = gross>0 ? Math.min(isNew()?75000:50000, netSal) : 0;/* H132 16(ia) std ded — 75000 new regime, 50000 old (rule A143) */
   const ent = isNew()?0:Math.min(5000, N(IC.sal.ent));            /* H133 16(ii) — old regime only, max 5000 */
   const ptax= isNew()?0:Math.min(5000, N(IC.sal.ptax));          /* H134 16(iii) — old regime only, max 5000 */
   const ded16=stdDed+ent+ptax;                                    /* H131 (iv) = iva+ivb+ivc  [#325] */

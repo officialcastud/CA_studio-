@@ -126,13 +126,10 @@ ruleset(function(I,S_,A,Dd){
     "ITR-4 can be furnished only where income from business/profession is computed u/s 44AD, 44ADA or 44AE; no such income is disclosed.");
 
   /* ---------------- Salary / relief ---------------- */
-  /* 143: not coded live — ENGINE CONFLICT. The CBDT rule caps the old-regime standard deduction u/s 16(ia) at
-     Rs. 50,000; 70_sec_inccore.js:208 computes stdDed = min(75000, netSal) in BOTH regimes and the lawful
-     test client (old regime, DeductionUs16ia = 75000) therefore breaks the rule today. A live assertion
-     (old regime → IncomeDeductions.DeductionUs16ia <= 50000) turns Gate 6 red until the engine is corrected
-     to min(50000,netSal) under the old regime and the client figure is re-derived. Enable then:
-       old regime  =>  N(RG(I,"IncomeDeductions.DeductionUs16ia")) <= 50000
-       "Old regime: standard deduction u/s 16(ia) cannot exceed Rs. 50,000." */
+  /* 143: old-regime standard deduction u/s 16(ia) is capped at Rs. 50,000 (75,000 only in the new regime).
+     Engine corrected to min(50000,netSal) under the old regime (70_sec_inccore.js); now enforced live. */
+  A(143, !oldR || g("IncomeDeductions.DeductionUs16ia") <= 50000,
+    "Old regime: standard deduction u/s 16(ia) cannot exceed Rs. 50,000.");
 
   /* 162: relief u/s 89 needs salary or family pension */
   A(162, !(g("TaxComputation.Section89")>0) || g("IncomeDeductions.GrossSalary")>0 || famPen>0,

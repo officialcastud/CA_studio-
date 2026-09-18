@@ -60,12 +60,12 @@
     "IncomeFromBusinessProf": 956000,
     "GrossSalary": 850000,
     "NetSalary": 710000,
-    "DeductionUs16": 77500,
-    "IncomeFromSal": 632500,
+    "DeductionUs16": 52500,
+    "IncomeFromSal": 657500,
     "IncomeOthSrc": 159000,
     "TotalIncomeChargeableUnHP": -176000,
-    "GrossTotIncome": 1571500,
-    "GrossTotIncomeIncLTCG112A": 1671500,
+    "GrossTotIncome": 1596500,
+    "GrossTotIncomeIncLTCG112A": 1696500,
     "UsrDeductUndChapVIA": {
      "Section80C": 90000,
      "Section80CCC": 20000,
@@ -122,7 +122,7 @@
      "Section80EEA": 100000,
      "Section80EEB": 80000
     },
-    "TotalIncome": 715500,
+    "TotalIncome": 740500,
     "Salary": 800000,
     "PerquisitesValue": 50000,
     "AllwncExemptUs10": {
@@ -138,7 +138,7 @@
      ],
      "TotalAllwncExemptUs10": 140000
     },
-    "DeductionUs16ia": 75000,
+    "DeductionUs16ia": 50000,
     "ProfessionalTaxUs16iii": 2500,
     "PropertyDetails": [
      {
@@ -300,19 +300,19 @@
     "DeductionUs57iia": 15000
    },
    "TaxComputation": {
-    "TotalTaxPayable": 35600,
+    "TotalTaxPayable": 40600,
     "Rebate87A": 0,
-    "TaxPayableOnRebate": 35600,
-    "EducationCess": 1424,
-    "GrossTaxLiability": 37024,
-    "NetTaxLiability": 37024,
+    "TaxPayableOnRebate": 40600,
+    "EducationCess": 1624,
+    "GrossTaxLiability": 42224,
+    "NetTaxLiability": 42224,
     "IntrstPay": {
      "IntrstPayUs234A": 0,
      "IntrstPayUs234B": 0,
      "IntrstPayUs234C": 0,
      "LateFilingFee234F": 0
     },
-    "TotTaxPlusIntrstPay": 37024
+    "TotTaxPlusIntrstPay": 42224
    },
    "TaxPaid": {
     "TaxesPaid": {
@@ -322,10 +322,10 @@
      "SelfAssessmentTax": 2000,
      "TotalTaxesPaid": 41600
     },
-    "BalTaxPayable": 0
+    "BalTaxPayable": 620
    },
    "Refund": {
-    "RefundDue": 4580,
+    "RefundDue": 0,
     "BankAccountDtls": {
      "AddtnlBankDetails": [
       {
