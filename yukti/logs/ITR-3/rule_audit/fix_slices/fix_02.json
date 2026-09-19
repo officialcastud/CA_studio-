@@ -1,0 +1,182 @@
+[
+ {
+  "n": 180,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule Salary, Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service",
+  "clean": "",
+  "finding": "10(7) <= gross salary not enforced"
+ },
+ {
+  "n": 181,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "outside India can not be more than Gross salary In Schedule Salary, Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received can not be more than (i) Rs20 lakhs in case of Nature of employment is \"Public Sector Undertaking\", \"PSU- Pensioners\", \"Others-Pensioners\" or \"Others\"",
+  "clean": "",
+  "finding": "10(10) gratuity 20/25L cap not enforced (dup 166)"
+ },
+ {
+  "n": 183,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:117",
+  "text": "In Schedule Salary, Exempt allowance u/s 10(10AA)-Earned leave encashment cannot be more than \"Leave Encashment\" dropdown in Section 17(1)",
+  "clean": "",
+  "finding": "||!natSum(16) bypass disables cap when no leave-encash"
+ },
+ {
+  "n": 189,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule Salary, Exempt allowance u/s 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment cannot be more than the value of Salary under \"Other Allowance\" & \"Others\"",
+  "clean": "",
+  "finding": "10(14)(i) <= Other Allowance & Others 17(1) not enforced"
+ },
+ {
+  "n": 190,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "in Section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Exempt allowance u/s 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living cannot be more than the value of Salary under",
+  "clean": "",
+  "finding": "10(14)(ii) <= Other Allowance & Others 17(1) not enforced"
+ },
+ {
+  "n": 196,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:124",
+  "text": "Exempt allowance u/s 10(14)(ii) \"Transport allowance granted to certain physically handicapped assessee\" cannot exceed Rs 38,400",
+  "clean": "",
+  "finding": "||true and wrong dropdown key, no-op"
+ },
+ {
+  "n": 197,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Only the following allowances can be claimed as exempt u/s 14, if old tax regime is selected \u2022 \"Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB\"",
+  "clean": "",
+  "finding": "old regime 10(14) 115BAC-variant restriction not enforced"
+ },
+ {
+  "n": 202,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:125",
+  "text": "Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000",
+  "clean": "",
+  "finding": "uses non-existent code 10(10B); real enum is 10(10B)(i) so check is vacuous, first-proviso cap unenforced"
+ },
+ {
+  "n": 209,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "60_rules.js",
+  "text": "under Income details In Schedule Salary, Nature of Exempt allowance can be selected as \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court",
+  "clean": "",
+  "finding": "EIC judge allowance not gated to CG/SG employer; selectable for any employer, no A() check"
+ },
+ {
+  "n": 227,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "60_rules.js:305",
+  "text": "Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted. 16",
+  "clean": "",
+  "finding": "A(227) is mislabeled OS-89A check (dup of A954); 80EE/80EEA vs 24(b)-exhaustion link unenforced"
+ },
+ {
+  "n": 228,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EE should be part of the details disclosed in Table 24(b) of",
+  "clean": "",
+  "finding": "80EE loan not cross-checked to be part of Table 24(b) details"
+ },
+ {
+  "n": 229,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Schedule HP As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EEA should be part of the details disclosed in Table 24(b) of",
+  "clean": "",
+  "finding": "80EEA loan not cross-checked to be part of Table 24(b) details"
+ },
+ {
+  "n": 234,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:164",
+  "text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then sum of percentage share of other co-owner(s) in property should be less than 100%",
+  "clean": "",
+  "finding": "checks assessee own share <100 not sum of OTHER co-owners <100; misses assessee-share=0 case"
+ },
+ {
+  "n": 237,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Profit before Tax as per Profit & Loss a/c in Schedule BP should be equal to the \"[Profit before Tax] plus [Net Profit (No Accounts Case)] plus [presumptive income] as per P&L",
+  "clean": "",
+  "finding": "BP item 1 profit-before-tax is manual input, not validated against P&L (PBT + no-account + presumptive)"
+ },
+ {
+  "n": 242,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Amount reduced in Sl.No. A3c in schedule BP cannot be more than the income offered in schedule CG",
+  "clean": "",
+  "finding": "A3c reduced not capped at Schedule CG income; no analogue of A241 for CG"
+ },
+ {
+  "n": 243,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Amount reduced in Sl.No. A3d in schedule BP cannot be more than the income offered in schedule OS",
+  "clean": "",
+  "finding": "A3d reduced not capped at Schedule OS income; no analogue of A241 for OS"
+ },
+ {
+  "n": 256,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:378",
+  "text": "OI In Schedule BP, The value at field (A20) should be equal to the value at Sl.No. 14 of schedule OI",
+  "clean": "",
+  "finding": "A20 deem41 free-typed; no cross-check to OI item 14"
+ },
+ {
+  "n": 257,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:388",
+  "text": "In Schedule BP, Sl. No. A25 Increase in profit or decrease in loss on account of ICDS adjustments and deviation in method of valuation of stock should be equal to sum total of",
+  "clean": "",
+  "finding": "A25 OI-part i25 free-typed; not checked vs OI 3a+4d"
+ },
+ {
+  "n": 261,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:398",
+  "text": "10i of Schedule Part A-OI In Schedule BP, Sl. No. A32 \"Decrease in profit or increase in loss on account of ICDS adjustments and deviation in method of valuation of stock\" should be equal to Column 3b",
+  "clean": "",
+  "finding": "A32 OI-part i32 free-typed; not checked vs OI 3b+4e"
+ },
+ {
+  "n": 270,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bp.js:245",
+  "text": "In Schedule BP, Sl.No. 4a should be equal to Sl.No. 35(i) to 35(vii)",
+  "clean": "",
+  "finding": "4a total not equated to sum of 35(i)..(vii)"
+ }
+]

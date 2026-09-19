@@ -1,0 +1,10 @@
+{
+ "gate": 6,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "category_A_coded": 711,
+  "category_A_total": 866,
+  "D_notices": []
+ }
+}

@@ -1,0 +1,182 @@
+[
+ {
+  "n": 950,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Exempt allowance u/s 10(10B) is claimed by Central Government employees, State government employees, CG-Pensioners, and SG- Pensioners",
+  "clean": "",
+  "finding": "10(10B) allowance not gated to CG/SG employee/pensioner category"
+ },
+ {
+  "n": 966,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_tax.js:194",
+  "text": "In Schedule Part B-TTI, Relief claimed under section 90/90A should be equal to \"Amount entered\" in Schedule TR",
+  "clean": "",
+  "finding": "relief90 fed from dead S.C.trDTAA/fsi.dtaaRel (always 0); no check vs Sch TR DTAA"
+ },
+ {
+  "n": 967,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_tax.js:195",
+  "text": "In Schedule Part B-TTI, Relief claimed under section 91 should be equal to \"Amount entered\" in Schedule TR",
+  "clean": "",
+  "finding": "relief91 fed from dead S.C.trNoDTAA/fsi.noDtaaRel (always 0); no check vs Sch TR notDTAA"
+ },
+ {
+  "n": 972,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_bank.js:55",
+  "text": "IFSC under \u201cBank Details\u201d in Part BTTI and schedule 80G and schedule 80GGC should match with the RBI database",
+  "clean": "",
+  "finding": "only IFSC format regex; no RBI database membership check"
+ },
+ {
+  "n": 982,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:620",
+  "text": "Relief u/s 89 can be claimed only out of Income from salary or family pension 58",
+  "clean": "",
+  "finding": "guard checks ti.Salaries>0 only; omits family-pension income"
+ },
+ {
+  "n": 990,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_tax.js:222",
+  "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5 lakh.",
+  "clean": "",
+  "finding": "234-I fee is free input, not validated to Rs.1000 for TI<=5L 139(5)"
+ },
+ {
+  "n": 991,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_tax.js:222",
+  "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5 lakh.",
+  "clean": "",
+  "finding": "234-I fee is free input, not validated to Rs.5000 for TI>5L 139(5)"
+ },
+ {
+  "n": 1,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Deduction u/s 80-IA or u/s 80-IAB or u/s 80-IB or u/s 80-IBA or u/s 80IE is claimed then Form 10CCB should be filed within due date",
+  "clean": "",
+  "finding": "80-IA/IAB/IB/IBA/IE claimed but no Form 10CCB presence notice; D-notice family missing it"
+ },
+ {
+  "n": 2,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule Part B-TI, Taxpayer cannot carry forward current year loss except HP loss and Specified business loss if return is filed after the due date allowed u/s 139(1)",
+  "clean": "",
+  "finding": "belated (139(4)) CY-loss carry-forward restriction not enforced; belated var defined but unused"
+ },
+ {
+  "n": 4,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:644",
+  "text": "If assessee is liable for audit u/s 92E then Part A BS and Part A P&L should be filled",
+  "clean": "",
+  "finding": "BS/PL only via Dd(9) business-income trigger; no direct 92E flag trigger"
+ },
+ {
+  "n": 5,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Tax payer is claiming deduction under subsection (2AB) of section 35 of the Act relating to in-house scientific research and development facility but Form 3CLA-Report from an",
+  "clean": "",
+  "finding": "35(2AB) R&D -> Form 3CLA presence notice missing"
+ },
+ {
+  "n": 6,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "61_rules_g2.js:62",
+  "text": "accountant is not filed In Part A Trading account, turnover is more than Rs. 10 crores or receipts from profession is more than Rs. 75/50 lakhs then assessee is liable to get books of accounts audited u/s 44AB",
+  "clean": "",
+  "finding": "44AB liability enforced for presumptive (A137/A138) and 1-10cr cash band (A29/A30); no plain >10cr trading trigger"
+ },
+ {
+  "n": 7,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "To check the computation and liability for audit if any u/s 44AB/44AD(5) and fill up the audit information if any. Since Income is claimed less than 8% of Gross Turnover",
+  "clean": "",
+  "finding": "44AD(5) sub-8% declared income -> audit liability not checked"
+ },
+ {
+  "n": 8,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:35",
+  "text": "In Part A P&L, if Turnover is less than Rs.50/ 75 lakhs (as applicable) in case of profession and profit offered is less than 50% then audit information u/s 44AB is mandatory",
+  "clean": "",
+  "finding": "A104 forces presumptive 44ADA >=50%; the <50%-with-audit-info route not modelled"
+ },
+ {
+  "n": 19,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Form 10EE should be filed with the amount of Income claimed for relief from taxation u/s 89A.",
+  "clean": "",
+  "finding": "Form 10EE for 89A relief presence notice missing from D-notice family"
+ },
+ {
+  "n": 20,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No\" if Form 10F is not there.",
+  "clean": "",
+  "finding": "Form 10F / TRC flag for NR treaty rate not enforced"
+ },
+ {
+  "n": 21,
+  "cat": "B",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "(this is as per DGIT Notification) In Schedule OS, the amount of dividend income mentioned cannot be more than the dividend income reduced from Schedule BP.",
+  "clean": "",
+  "finding": "OS dividend vs dividend-reduced-from-BP cross-check not enforced (A301 is BP-internal)"
+ },
+ {
+  "n": 25,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:362",
+  "text": "Deduction u/s 80GG shall be claimed for the period of stay for which the rent is actually paid, i.e., 5000 per month",
+  "clean": "",
+  "finding": "80GG capped to allowed via A816; specific 5000/month period ceiling not independently asserted"
+ },
+ {
+  "n": 32,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:19",
+  "text": "is not offered to tax completely in the return of income filed. The details of Form 10IEA should match with the details mentioned in Schedule Part A General",
+  "clean": "",
+  "finding": "10IEA ack+date presence enforced (A45/A41); database match external"
+ },
+ {
+  "n": 33,
+  "cat": "B",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:19",
+  "text": "The details of Form 10IEA as mentioned in Schedule Part A General is either not mentioned or not matching with the database",
+  "clean": "",
+  "finding": "10IEA presence enforced (A45/A41); DB match external/CPC-side"
+ }
+]

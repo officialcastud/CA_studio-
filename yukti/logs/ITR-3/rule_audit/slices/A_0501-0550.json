@@ -1,0 +1,252 @@
+[
+{
+"n": 501,
+"cat": "A",
+"text": "are acquired on or before 31.01.2018 or after 31.01.2018? In Schedule VDA, value at Sl. No. 7 should be equal to Sl. No. 6 - Sl. No. 5"
+},
+{
+"n": 502,
+"cat": "A",
+"text": "In Schedule VDA, value at Sl. No. A 'Total (Sum of all Positive Incomes of Business Income in Col. 7) should be equal to sum of col. 7 if head of income is selected as Business"
+},
+{
+"n": 503,
+"cat": "A",
+"text": "income in col. 4 In Schedule VDA, value at Sl. No. B 'Total (Sum of all Positive Incomes of Capital Gain in Col. 7) should be equal to sum of col. 7 if head of income is selected as Capital Gain in"
+},
+{
+"n": 504,
+"cat": "A",
+"text": "col. 4 In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year"
+},
+{
+"n": 505,
+"cat": "A",
+"text": "Non-resident is not eligible to disclose Income from Patent u/s 115BBF"
+},
+{
+"n": 506,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 1 \"Gross amount chargeable to tax at normal applicable rates\" should be equal to the sum of Sl.No. (1a+1b+1c+1d+1e)"
+},
+{
+"n": 507,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 3c \"Deduction u/s 57\" should be equal to the sum of Sl.No. (3a(i)+3a(ii)+3b+3ci)"
+},
+{
+"n": 508,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 3b \"Depreciation\" can be claimed only if income is offered at Sl.No. 1c \"Rental income from machinery, plants, building, etc., Gross\" 30"
+},
+{
+"n": 509,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 7 \"Income from other sources (other than from owning race horses)\" should be equal to sum of Sl.No. 2+6"
+},
+{
+"n": 510,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 8e \"Balance\" should be equal to sum of Sl.No. (8a-8b+8c+8d)"
+},
+{
+"n": 511,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 9 \"Income under the head Income from Other Sources\" should be equal to sum of Sl.No. (7 +8e)"
+},
+{
+"n": 512,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 2e \"Pass through income in the nature of income from other sources chargeable at special rates\" should be equal to sum of all the drop downs"
+},
+{
+"n": 513,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 1d \"Income of the nature referred to in section 56(2)(x) which is chargeable to tax\" should be equal to sum of Sl.No. (1di+1dii+1diii+1div+1dv)"
+},
+{
+"n": 514,
+"cat": "A",
+"text": "In Schedule OS, Column 3 of table 2f, the sum of all the dropdown value of Col 2 Amount of income of 1a should not exceed the field 1ai \"Dividend income [other than (ii)]\""
+},
+{
+"n": 515,
+"cat": "A",
+"text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1b should not exceed the field 1b \"Interest, Gross\""
+},
+{
+"n": 516,
+"cat": "A",
+"text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 1c should not exceed the field 1c \"Rental income from machinery, plants,"
+},
+{
+"n": 517,
+"cat": "A",
+"text": "buildings, etc., Gross\" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1d should not exceed the field 1d \"Income of the nature referred to in section"
+},
+{
+"n": 518,
+"cat": "A",
+"text": "56(2)(x) which is chargeable to tax \" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2a should not exceed the field 2a(i) \"Winnings from lotteries, crossword"
+},
+{
+"n": 519,
+"cat": "A",
+"text": "puzzles etc. chargeable u/s 115BB\" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2d should not exceed the field 2d \"Any other income chargeable at special rate\""
+},
+{
+"n": 520,
+"cat": "A",
+"text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2e should not exceed the field 2e \"Pass through income in the nature of income"
+},
+{
+"n": 521,
+"cat": "A",
+"text": "from other sources chargeable at special rates\" In Schedule OS, Sl.no 6 Net Income from other sources chargeable at normal applicable rates should be equal to sum of Sl.No. (1(after reducing income related to DTAA portion)- 3 + 4 + 5-5a) Note: If status in Part A general is Non-resident, DTAA income shall be considered"
+},
+{
+"n": 522,
+"cat": "A",
+"text": "provided TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In schedule OS, Sl.No. 2f , column 10 is should be lower of column 6 and column 9. Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. 31"
+},
+{
+"n": 523,
+"cat": "A",
+"text": "In Schedule OS, Sl.No. 2 \"Income chargeable to tax at special rate should be equal to the sum of Sl.No. (2ai+2aii+2b+2c+2d+2e +2f elements related to Sl. No. 1) Note: If status in Part A general is Non-resident, DTAA income shall be considered"
+},
+{
+"n": 524,
+"cat": "A",
+"text": "provided TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule OS, Deduction u/s 57iia shall be allowed only if income is offered in Family Pension in Sl. No. 1(e)"
+},
+{
+"n": 525,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 1b should be equal to sum of (bi+bii+biii+biv+bv +bvi+bvii+ bviii+bix)"
+},
+{
+"n": 526,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to Sl. No. 1a (Dividend other than 2(22)(e) - DTAA Dividend other than 2(22)(e) - System calculated value Interest expenditure u/s 57 attributable to Dividend other than 2(22)(e)] of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is \"Yes\"."
+},
+{
+"n": 527,
+"cat": "A",
+"text": "If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. (Please refer the instructions for computation of Interest expenditure u/s 57 attributable to Dividend other than 2(22)(e)) In Schedule OS, Sl. No. 10 the quarterly break up of Income by way of winnings from lotteries, crossword puzzles, races, games, gambling, betting etc. referred to in section 2(24)(ix) should be equal to Sl. No. 2a(i) Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB Note: If status in Part A general is Non-resident, DTAA income shall be considered"
+},
+{
+"n": 528,
+"cat": "A",
+"text": "provided TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. If resident has not exercised option under 115H then ax benefits against the sections mentioned therein will not be allowed in Schedule OS"
+},
+{
+"n": 529,
+"cat": "A",
+"text": "In Schedule OS, Interest expenditure on dividend u/s 57(1) should not be more than 20% of Dividend income."
+},
+{
+"n": 530,
+"cat": "A",
+"text": "In Schedule OS, Expenses / deductions (in case of other than family pension), shall be allowed only if income is offered in Sl.No. 1b, 1c, 1d and 1e (except Family pension)."
+},
+{
+"n": 531,
+"cat": "A",
+"text": "Deduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000 incase of Old Tax regime."
+},
+{
+"n": 532,
+"cat": "A",
+"text": "Note : Rounding off +1 and -1 . In Schedule OS, Depreciation, shall be allowed only if income is offered in Sl.No. 1c."
+},
+{
+"n": 533,
+"cat": "A",
+"text": "In Schedule OS, value at Sl.No. 1a should be equal to 1ai + 1aii + 1aiii. 32"
+},
+{
+"n": 534,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend income taxable at DTAA rates should be equal to Dividend income selected at Sl.No. 2f of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is \"Yes\"."
+},
+{
+"n": 535,
+"cat": "A",
+"text": "If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115A(1)(a)(i) @ 20% (Including PTI Income) other than first proviso to section 115A(1)(a)(A) should"
+},
+{
+"n": 536,
+"cat": "A",
+"text": "be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 Dividend Income u/s 115AC @ 10% should be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS"
+},
+{
+"n": 537,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115ACA (1)(a) @ 10% (Including PTI Income) should be equal to Dividend income selected at Sl.No."
+},
+{
+"n": 538,
+"cat": "A",
+"text": "2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income (other than units referred to in section 115AB) u/s 115AD(1)(i) @ 20% (Including PTI Income) should be"
+},
+{
+"n": 539,
+"cat": "A",
+"text": "equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS Income claimed for relief from taxation u/s 89A at Sl.No. 5a of Schedule OS cannot be allowed more than income offered from retirement benefit account maintained in a"
+},
+{
+"n": 540,
+"cat": "A",
+"text": "notified country u/s 89A at Sl.No. 1e of Schedule OS. Quarterly breakup of \"Income from retirement benefit account maintained in a notified country u/s 89A\" must be equal to amount entered in \"Income from retirement benefit account maintained in a notified country u/s 89A \" - \"Income claimed for relief from"
+},
+{
+"n": 541,
+"cat": "A",
+"text": "taxation u/s 89A\" In Schedule OS, Sl no 5a. Income claimed for relief from taxation u/s 89A, shall be allowed only if income is offered at Income from retirement benefit account maintained"
+},
+{
+"n": 542,
+"cat": "A",
+"text": "in a notified country u/s 89A at Sl.No. 1e of Schedule OS In Schedule Income from Other sources, one country cannot be selected more than one time at \"Income from retirement benefit account maintained in a notified country u/s 89A"
+},
+{
+"n": 543,
+"cat": "A",
+"text": "\". In Schedule OS, Sl. No 3ai Expenses / deductions other than \u201caii\u201d (in case of other than family pension) should not be allowed if income is not offered in Sl No 1(b) Interest / Sl No 1(c) Rental Income from Machinery, Plants, Buildings, etc., / Sl No 1(d) Income of"
+},
+{
+"n": 544,
+"cat": "A",
+"text": "the nature referred to in section 56(2)(x) which is chargeable to tax / Sl No 1(e) Any Other Income Other than Family Pension and 89A Income. In Schedule OS - column 3 of table 2f, the sum of dropdown value of 2a should not exceed the field 2a \"Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB\""
+},
+{
+"n": 545,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 10 the quarterly break up of \"Income by way of winnings from online games u/s 115BBJ\" should be equal to Sl. No. 2a(ii) -Income by way of winnings from online games u/s 115BBJ- DTAA 115BBJ respectively 33"
+},
+{
+"n": 546,
+"cat": "A",
+"text": "In Schedule OS, Sl. No. 10 the quarterly break up of \"Dividend Income under proviso to section 115A(1)(a)(A) @ 10% (Including PTI Income) should be equal to dividend"
+},
+{
+"n": 547,
+"cat": "A",
+"text": "income selected at Sl. No. 2d and Sl No 2e in Schedule OS In Schedule OS, quarterly break up of Dividend Income at 3b should be equal to \"Dividend Income referred in Sl. No. 1a(iii) - DTAA of Dividend\" in Schedule OS"
+},
+{
+"n": 548,
+"cat": "A",
+"text": "Under New Tax Regime, deduction u/s 57 for family pension should not exceed INR 25,000 or 1/3 of the family pension, whichever is lower"
+},
+{
+"n": 549,
+"cat": "A",
+"text": "Kindly fill in the details of dividend income u/s 2(22)(f) in Sl.No. 1a(iii) or as per Section 115A, 115AB, 115AC or 115ACA (i, ia, x, xi or xix of sl. no. 2d or 2e) in of schedule OS"
+},
+{
+"n": 550,
+"cat": "A",
+"text": "if buy back loss is claimed in schedule CG Business & Profession loss claimed at Sl.No. 3i in Schedule CYLA should be equal to the amount at Sl.No. 2v of Table E in Schedule BP."
+}
+]

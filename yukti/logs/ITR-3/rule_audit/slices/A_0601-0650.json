@@ -1,0 +1,252 @@
+[
+{
+"n": 601,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1xi should be equal to Sl.No. 5xii of schedule CYLA"
+},
+{
+"n": 602,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1xii should be equal to Sl.No. 5xiii of schedule CYLA"
+},
+{
+"n": 603,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1xiii should be equal to Sl.No. 5xiv of schedule CYLA"
+},
+{
+"n": 604,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1xiv should be equal to Sl.No. 5xv of schedule CYLA"
+},
+{
+"n": 605,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 2xiii should be equal to Sl.No. 10(xviii ) of CFL"
+},
+{
+"n": 606,
+"cat": "A",
+"text": "The amount of adjustment mentioned in CFL is not equal to amount of adjustment in BFLA. 36"
+},
+{
+"n": 607,
+"cat": "A",
+"text": "In Schedule BFLA, brought forward business loss as per Sl.No. 2(iii) and brought forward depreciation as per Sl. No. 3(iii) cannot be set off against the 44BB & 44BBD income"
+},
+{
+"n": 608,
+"cat": "A",
+"text": "In Schedule BFLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1"
+},
+{
+"n": 609,
+"cat": "A",
+"text": "In Schedule BFLA, Col No. 5 \"Current year\u2019s Income remaining after set off\" should be equal to the output of Col No. 1-2-3-4"
+},
+{
+"n": 610,
+"cat": "A",
+"text": "In Schedule BFLA, amount mentioned at Sl.No.5 should not exceed the amount mentioned at Sl.No.1"
+},
+{
+"n": 611,
+"cat": "A",
+"text": "Schedule BFLA, amount mentioned at Sl. No. 2(xvi) should not exceed the sum of amount mentioned at Sl no. 4xviii+5cxviii+6xviii+7xviii+8xviii +9xviii+10xviii+11xviii of CFL"
+},
+{
+"n": 612,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1vi should be equal to Sl.No. 5vii of schedule CYLA"
+},
+{
+"n": 613,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1x should be equal to Sl.No. 5xi of schedule CYLA"
+},
+{
+"n": 614,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1vi should be equal to Sl.No. 5vii of schedule CYLA"
+},
+{
+"n": 615,
+"cat": "A",
+"text": "Short Term Capital Loss at Schedule CFL\" should be equal to sum of \"Short Term Capital Losses remaining after set off\" at table E of Schedule CG."
+},
+{
+"n": 616,
+"cat": "A",
+"text": "Long Term Capital Loss at Schedule CFL should be equal to sum of \"Long Term Capital Losses remaining after set off\" at table E of Schedule CG."
+},
+{
+"n": 617,
+"cat": "A",
+"text": "House Property Loss at Schedule CFL should be equal to the amount at \"House Property Loss remaining after set-off at Schedule CYLA\"."
+},
+{
+"n": 618,
+"cat": "A",
+"text": "Business & Profession Loss (other than loss from speculative business and specified business ) at Schedule CFL should be equal to the amount at \"Business & Profession Loss"
+},
+{
+"n": 619,
+"cat": "A",
+"text": "remaining after set-off at Schedule CYLA\" Other sources loss at Schedule CFL should be equal to the amount at \"Other Sources Loss remaining after set-off at Schedule CYLA\"."
+},
+{
+"n": 620,
+"cat": "A",
+"text": "If \"New Tax Regime\" is not selected and in schedule CFL, Sl. No. 5b Amount as adjusted on account of opting for taxation u/s 115BAC should not be more than zero"
+},
+{
+"n": 621,
+"cat": "A",
+"text": "In Schedule CFL, SL. No. 5c should be equal to 5a - 5b"
+},
+{
+"n": 622,
+"cat": "A",
+"text": "Total of brought forward losses should be equal to amount provided in individual AYs"
+},
+{
+"n": 623,
+"cat": "A",
+"text": "In Schedule CFL, value at sl.no.xx should be equal to xvii-xviii+xix. If result is negative, restrict to \"0\""
+},
+{
+"n": 624,
+"cat": "A",
+"text": "If \"New Tax Regime\" is not selected and In schedule UD, Sl. No. 3a Amount as adjusted on account of opting for taxation u/s 115BAC should not be more than zero"
+},
+{
+"n": 625,
+"cat": "A",
+"text": "In Schedule UD, value at Sl.No. 4 cannot be more than Sl.No. 3- Sl.No.3a in any of the row"
+},
+{
+"n": 626,
+"cat": "A",
+"text": "In Schedule UD, value at Sl.No.5 should be equal to Sl.No. 3- 3a - 4"
+},
+{
+"n": 627,
+"cat": "A",
+"text": "In Schedule UD, value at sl.no.8 should be equal to sl.no. 6 - Sl. No. 7 37"
+},
+{
+"n": 628,
+"cat": "A",
+"text": "In Schedule UD, sum of individual row should match with value at total fields for all columns i.e. column 3 to 8"
+},
+{
+"n": 629,
+"cat": "A",
+"text": "In Schedule UD, value at Sl. No. 5 for current assessment year should not exceed the value mentioned at Sl. No. 12iii of Schedule BP"
+},
+{
+"n": 630,
+"cat": "A",
+"text": "In Schedule ICDS, Sl.No. XI should be equal to the sum of (I+II+III+IV+V+VI+VII+VIII+IX+X)"
+},
+{
+"n": 631,
+"cat": "A",
+"text": "In Schedule ICDS, Sl.No. 5 - \"Net Effect\" should be equal to Sl.No. 3 (Increase in profit) Less Sl.No. 4 (Decrease in profit)."
+},
+{
+"n": 632,
+"cat": "A",
+"text": "In Schedule 10AA, value at field \"Total deduction under section 10AA\" should be equal to sum of column \"Amount of deduction\""
+},
+{
+"n": 633,
+"cat": "A",
+"text": "Schedule 10AA should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 634,
+"cat": "A",
+"text": "In Schedule 80G, amount of deduction computed should not be more than the eligible amount"
+},
+{
+"n": 635,
+"cat": "A",
+"text": "Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. A against one donee PAN."
+},
+{
+"n": 636,
+"cat": "A",
+"text": "Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. B against one donee PAN."
+},
+{
+"n": 637,
+"cat": "A",
+"text": "Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. C against one donee PAN."
+},
+{
+"n": 638,
+"cat": "A",
+"text": "Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. D against one donee PAN."
+},
+{
+"n": 639,
+"cat": "A",
+"text": "in Schedule 80G, Total Donation at point A should be equal to the sum of Donation in Cash and Donation in other mode"
+},
+{
+"n": 640,
+"cat": "A",
+"text": "in Schedule 80G, Total Donation at point B should be equal to the sum of Donation in Cash and Donation in other mode"
+},
+{
+"n": 641,
+"cat": "A",
+"text": "in Schedule 80G, Total Donation at point C should be equal to the sum of Donation in Cash and Donation in other mode"
+},
+{
+"n": 642,
+"cat": "A",
+"text": "in Schedule 80G, Total Donation at point D should be equal to the sum of Donation in Cash and Donation in other mode"
+},
+{
+"n": 643,
+"cat": "A",
+"text": "In Sch 80G, Total Donation at point E should be equal to the sum of (Aix+Bix+Cix+Dx)"
+},
+{
+"n": 644,
+"cat": "A",
+"text": "If deduction u/s 80G is claimed in Sch VIA then details should be provided in Schedule 80G"
+},
+{
+"n": 645,
+"cat": "A",
+"text": "In schedule 80G, If PAN is already entered in anyone of the set of blocks (i.e. 100%, 50%,with Qualifying limit, without Qualifying limit) then same PAN cannot be entered in"
+},
+{
+"n": 646,
+"cat": "A",
+"text": "any other block Schedule 80G should be blank if \"New Tax Regime\" is selected 38"
+},
+{
+"n": 647,
+"cat": "A",
+"text": "Transaction Reference number for UPI transfer / Cheque number/ IMPS/ NEFT/ RTGS reference number and/ or IFSC code of Bank should be filled for all entries of"
+},
+{
+"n": 648,
+"cat": "A",
+"text": "\"contribution in other mode\" in Schedule 80G PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G"
+},
+{
+"n": 649,
+"cat": "A",
+"text": "In Schedule 80GGA, Details of donation for scientific research are rural development \"Total Donation\" should be equal to sum of \"Donation in cash\" AND \"Donation in other"
+},
+{
+"n": 650,
+"cat": "A",
+"text": "mode\" in Schedule 80GGA, Total Donation should be equal to the sum of (i+ii)"
+}
+]
