@@ -19,16 +19,20 @@ def main():
     doc=fitz.open(pick[0]);rules=[];cat=None
     for pno in range(len(doc)):
         page=doc[pno];words=page.get_text("words");txt=page.get_text()
-        # category latches on each table heading (the real table, past the 3-page contents)
+        # category latches on each table heading (the real table, past the 3-page contents).
+        # the contents/index page lists all three headings at once — latch only when exactly
+        # one category heading is on the page, so the contents page never sets cat.
         if pno>=3:
-            if re.search(r"Table\s*2:\s*Category A",txt):cat="A"
-            if re.search(r"Table\s*3:\s*Category B",txt):cat="B"
-            if re.search(r"Table\s*4:\s*Category D",txt):cat="D"
+            heads=[c for c,pat in (("A",r"Table\s*2:\s*Category A"),("B",r"Table\s*3:\s*Category B"),("D",r"Table\s*4:\s*Category D")) if re.search(pat,txt)]
+            if len(heads)==1:cat=heads[0]
         if cat is None:continue
-        # once past Category D, the "Annexure" field-map is not numbered rules — cut it off
+        # once past Category D, the "Annexure" field-map is not numbered rules — cut it off.
+        # "Annexure" also appears inside A/B rule scenario text (right-hand column); the real
+        # annexure only follows Category D, so only honor the cutoff while cat=="D".
         ann_y=None
-        for w in words:
-            if w[4].startswith("Annexure"):ann_y=w[1];break
+        if cat=="D":
+            for w in words:
+                if w[4].startswith("Annexure"):ann_y=w[1];break
         lines={}
         for w in words:lines.setdefault(round(w[1]),[]).append(w)
         ys=sorted(lines);nums=[]
