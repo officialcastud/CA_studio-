@@ -152,15 +152,28 @@ function engTax(){
 
   /* ===== loss set-off (S.C.loss, guarded, LIVE): CYLA current-year (6), BFLA brought-forward (8) ===== */
   const L=(S.C.loss||{});
-  const cyla=R(L.cyla!=null?L.cyla:(L.curYrSetoff!=null?L.curYrSetoff:
-    ((L.totHPset||0)+(L.totBusset||0)+(L.totOSset||0))));                        /* 6 CurrentYearLoss (L34) */
+  /* 6 — current-year losses set off = Schedule CYLA total (2xvi + 3xvi + 4xvi).
+     The loss engine publishes the ready scalar L.cylaTotal (= totHPset + totBusset
+     + totOSset); fall back to the components. This is the figure rule A832's sibling
+     A788 checks against Schedule CYLA. */
+  const cyla=R(L.cylaTotal!=null?L.cylaTotal:
+    ((L.totHPset||0)+(L.totBusset||0)+(L.totOSset||0)));                         /* 6 CurrentYearLoss (L34) */
   const balAfterCYLA=Math.max(0,totalTI-cyla);                                   /* 7 (L35) */
-  const bfla=R(L.bfla!=null?L.bfla:(L.bfSetoff!=null?L.bfSetoff:
-    ((L.totBFset||0)+(L.totUnabsDep||0)+(L.tot35_4||0))));                       /* 8 BroughtFwdLossesSetoff (L36) */
-  /* 9 Gross total income — read the loss section's post-BFLA scalar total LIVE
-     where present, else derive (L37). NB: L.afterB is the BY-HEAD object (col 5),
-     not a scalar; the scalar post-BFLA GTI the loss engine publishes is L.gti. */
-  const gti=Math.max(0,R(L.gti!=null?L.gti:(balAfterCYLA-bfla)));
+  /* 8 — brought-forward losses set off = Schedule BFLA (2xv + 3xv + 4xv), i.e. the
+     brought-forward-loss total PLUS the unabsorbed-depreciation and 35(4) pools.
+     The loss engine publishes the ready scalar L.bflaTotal (= totBFset + totDep +
+     tot35); the components L.totBFset/L.totDep/L.tot35 are the fallback. (The old
+     code read the non-existent L.totUnabsDep/L.tot35_4, dropping the depreciation
+     and 35(4) columns so item 8 understated by the depreciation set-off — A797.) */
+  const bfla=R(L.bflaTotal!=null?L.bflaTotal:
+    ((L.totBFset||0)+(L.totDep||0)+(L.tot35||0)));                               /* 8 BroughtFwdLossesSetoff (L36) */
+  /* 9 Gross total income = item 7 − item 8, nil if negative (the CBDT identity
+     A798). This is derived from the head-wise ladder (item 5 = 1+2v+3e+4d) so it
+     INCLUDES the special-rate incomes that sit outside the CYLA/BFLA loss chain
+     (115BBH VDA, 115BB winnings, 111A/112/112A etc.). The loss engine's scalar
+     L.gti is the BFLA col-5 total, which EXCLUDES those special incomes, so it must
+     NOT be used here (that understated GTI — A798). */
+  const gti=Math.max(0,R(balAfterCYLA-bfla));
 
   /* 10 — special-rate income under 111A/112/112A etc. included in GTI (S.C.si) (L38) */
   const SI=(S.C.si||{});
@@ -299,10 +312,16 @@ function engTax(){
   }
 
   const intTotal=R(i234a+i234b+i234c+f234f+f234i);                              /* 8e (L89) */
-  const aggregate=R(net+intTotal);                                            /* 9 (L90) */
+  /* 9 — aggregate tax and interest liability = 7 + 8e (book L90 = ROUND(...,0), ₹1). */
+  const aggregate=R(net+intTotal);                                           /* 9 (L90) — 7 + 8e, ₹1 */
+  /* 11/12 — amount payable / refund. The utility rounds these to the nearest ₹10
+     (§288B): L97 = ROUND(MAX(0, 9 − 10e), −1), L98 = ROUND(MAX(0, 10e − 9), −1).
+     Reproduce that exactly for replica fidelity; rules A832/A833 (enc_20) compare
+     against the same ₹10-rounded difference, so they hold with no residue. */
+  const r10=x=>Math.round(R(x)/10)*10;
   const bal=aggregate-paidTot;
-  const balance=R(Math.round(Math.max(0,bal)/10)*10);                         /* 11 (L97) */
-  const refund=R(Math.round(Math.max(0,-bal)/10)*10);                         /* 12 (L98) */
+  const balance=r10(Math.max(0,bal));                                        /* 11 (L97) — ROUND(MAX(0, 9 − 10e), −1) */
+  const refund=r10(Math.max(0,-bal));                                        /* 12 (L98) — ROUND(MAX(0, 10e − 9), −1) */
 
   /* ===== the refund bank accounts + the foreign-asset flag ===== */
   const hasFA=!!FA.hasFA;

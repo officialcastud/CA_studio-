@@ -35,11 +35,12 @@
           ceases), so strict equality fires on lawful continuing-block
           returns. The checkable part is encoded as the conditional floor
           285 and the ceased-block consequences 286/287.
-     282  The 2nd-proviso-to-115BAC(3) (Rule 5) adjustment "should not be
-          allowed ... if New Tax Regime has been opted for" — this clause
-          contradicts the engine, which applies AdjustmentSec115BAC ONLY in
-          the new regime; a literal encoding would fire on the engine's own
-          lawful new-regime output. Flagged for engine-vs-rule reconciliation.
+     282  ENCODED (below, in the DPM loop). Full rule text (source PDF, p.21):
+          the 2nd-proviso-to-115BAC(3) (Rule 5) adjustment at 3b "should not be
+          allowed to firm, LLP and Co-operative society or if New Tax Regime has
+          been opted for." The engine (70_sec_bp.js bar115BAC) was corrected to
+          match — it applied the adjustment only in the NEW regime, the reverse of
+          the rule; it now zeros 3b for firm/LLP/co-op or in the new regime.
      292  DOA Sl.17 = 5+8-3-4-7-16 as a STRICT equality — same conditional-
           input issue as 279; checkable part encoded as 296/297/298.
    ===================================================================== */
@@ -151,6 +152,15 @@ ruleset(function(I,S_,A,Dd){
   function ddet(path){const o=RG(I,path+".DepreciationDetail",null);return (o&&typeof o==="object")?o:null;}
   function three(o){const t=N(o.Total);return t||(N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC));}
 
+  /* rule 282: the DPM 3b AdjustmentSec115BAC (2nd proviso to 115BAC(3), Rule 5) is
+     "not allowed to firm, LLP and Co-operative society or if New Tax Regime has been
+     opted for." Firm/LLP = StatusOrCompanyType "1"; co-op = SubStatus schema codes
+     4/15/16/17 (Other Cooperative Society / Primary Agri Credit / Primary Co-op Agri
+     & Rural Dev bank / Co-op Bank). Barred when new regime OR any of those. */
+  const _st282=String(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType",""));
+  const _sub282=String(RG(I,"PartA_GEN1.OrgFirmInfo.SubStatus",""));
+  const barred115BAC = newR || _st282==="1" || ["4","15","16","17"].indexOf(_sub282)>=0;
+
   /* ---- Schedule DPM (four plant & machinery blocks) ---- */
   [["ScheduleDPM.PlantMachinery.Rate15",15,false],
    ["ScheduleDPM.PlantMachinery.Rate30",30,false],
@@ -183,6 +193,10 @@ ruleset(function(I,S_,A,Dd){
     /* 281 — Sl.11 depreciation at half rate = ROUND(9 × rate/200) (no half rate for Rate45) */
     if(!r45)A(281,REQ(o.DepreciationAtHalfRate,blocked?0:Math.round(N(o.HalfRateDeprAmt)*rate/200)),
       "Schedule DPM "+x[0].split(".").pop()+": Sl.No.11 (depreciation at half rate) does not match the depreciation rate at Sl.No.2.");
+    /* 282 — 3b (2nd-proviso-to-115BAC(3) / Rule 5 adjustment) not allowed to a firm,
+       LLP or co-operative society, nor when the new tax regime has been opted for. */
+    A(282,!barred115BAC||N(o.AdjustmentSec115BAC)===0,
+      "Schedule DPM "+x[0].split(".").pop()+": the adjustment as per the second proviso to section 115BAC(3) (Rule 5) at Sl.No.3b cannot be claimed by a firm, LLP or co-operative society, or when the new tax regime has been opted for.");
     /* 283 — Sl.3 total = 3a (WDV on first day) + 3b (115BAC adjustment) */
     if(o.Total!=null)A(283,REQ(o.Total,N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC)),
       "Schedule DPM "+x[0].split(".").pop()+": Sl.No.3 must equal 3a + 3b.");

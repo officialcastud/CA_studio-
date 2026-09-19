@@ -152,6 +152,19 @@ const ESR_ROWS = [
    opts.fullOnly true -> Rate45 reduced path: no additions, no half rate
    opts.blocked true -> Rate45 in new regime: depreciation forced to 0 (115BAD)
    ===================================================================== */
+/* DPM/DOA 3b (AdjustmentSec115BAC, 2nd proviso to 115BAC(3) · Rule 5): rule 282 —
+   "should not be allowed to firm, LLP and Co-operative society or if New Tax Regime
+   has been opted for." So the adjustment is admissible ONLY in the old regime AND
+   only for a non-firm/LLP/co-op assessee (i.e. AOP/BOI/AJP). Status "1" = Firm/LLP;
+   a co-operative society files under status "14" with a co-op sub-status. */
+function bar115BAC(){
+  if(isNew()) return true;                                    /* new regime: barred */
+  const st=String((S.pi&&S.pi.status)||"");
+  if(st==="1") return true;                                   /* Firm or LLP */
+  const sub=String((S.pi&&S.pi.substatus)||"");
+  if(/co-?operative|credit society/i.test(sub)) return true;  /* co-operative society */
+  return false;
+}
 function bpBlock(b,rate,opts){
   b=b||{};opts=opts||{};
   const half     = opts.half!==false;
@@ -159,7 +172,7 @@ function bpBlock(b,rate,opts){
   const fullOnly = !!opts.fullOnly;                 /* Rate45 */
   const blocked  = opts.blocked && isNew();         /* Rate45 no depreciation in new regime */
   const wdv = N(b.WDVFirstDay);                                 /* 3a */
-  const adj = isNew()?N(b.AdjustmentSec115BAC):0;              /* 3b (new regime only) */
+  const adj = bar115BAC()?0:N(b.AdjustmentSec115BAC);          /* 3b — old regime, non-firm/LLP/co-op only (rule 282) */
   const tot3 = wdv + adj;                                       /* [F9] Total (3a+3b) = WDVFirstDay+Adjustment */
   const add180 = fullOnly?0:N(b.AdditionsGrThan180Days);       /* 4 (Rate45 has no additions leaf) */
   const realTot = N(b.RealizationTotalPeriod);                 /* 5 */
@@ -509,7 +522,7 @@ function blockCol(base,blk,opts){
   const full=!opts.fullOnly;
   let h='';
   h+='<tr><td class="l">3a WDV on first day</td>'+iN("WDVFirstDay")+'</tr>';
-  if(isNew())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';
+  if(!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* rule 282: not for firm/LLP/co-op or new regime */
   if(opts.total!==false)h+='<tr><td class="l">3 Total (3a+3b)</td>'+c(blk.tot3)+'</tr>';
   if(full)h+='<tr><td class="l">4 Additions ≥180 days</td>'+iN("AdditionsGrThan180Days")+'</tr>';
   h+='<tr><td class="l">5 Realization out of 3 or 4</td>'+iN("RealizationTotalPeriod")+'</tr>';
@@ -788,7 +801,7 @@ function expBp(j){
     const raw=src||{};
     const D2=root+".DepreciationDetail.";
     put(j,D2+"WDVFirstDay",n0(blk.wdv));
-    if(isNew()&&N(raw.AdjustmentSec115BAC))put(j,D2+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));
+    if(!bar115BAC()&&N(raw.AdjustmentSec115BAC))put(j,D2+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));  /* rule 282: only old-regime non-firm/LLP/co-op */
     if(N(raw.AdjustmentSec115BAC)||blk.tot3)put(j,D2+"Total",n0(blk.tot3));   /* optional computed */
     if(!opts.fullOnly)put(j,D2+"AdditionsGrThan180Days",n0(blk.add180));
     put(j,D2+"RealizationTotalPeriod",n0(blk.realTot));

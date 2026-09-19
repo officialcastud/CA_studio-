@@ -2146,11 +2146,12 @@ ruleset(function(I,S_,A,Dd){
           ceases), so strict equality fires on lawful continuing-block
           returns. The checkable part is encoded as the conditional floor
           285 and the ceased-block consequences 286/287.
-     282  The 2nd-proviso-to-115BAC(3) (Rule 5) adjustment "should not be
-          allowed ... if New Tax Regime has been opted for" — this clause
-          contradicts the engine, which applies AdjustmentSec115BAC ONLY in
-          the new regime; a literal encoding would fire on the engine's own
-          lawful new-regime output. Flagged for engine-vs-rule reconciliation.
+     282  ENCODED (below, in the DPM loop). Full rule text (source PDF, p.21):
+          the 2nd-proviso-to-115BAC(3) (Rule 5) adjustment at 3b "should not be
+          allowed to firm, LLP and Co-operative society or if New Tax Regime has
+          been opted for." The engine (70_sec_bp.js bar115BAC) was corrected to
+          match — it applied the adjustment only in the NEW regime, the reverse of
+          the rule; it now zeros 3b for firm/LLP/co-op or in the new regime.
      292  DOA Sl.17 = 5+8-3-4-7-16 as a STRICT equality — same conditional-
           input issue as 279; checkable part encoded as 296/297/298.
    ===================================================================== */
@@ -2262,6 +2263,15 @@ ruleset(function(I,S_,A,Dd){
   function ddet(path){const o=RG(I,path+".DepreciationDetail",null);return (o&&typeof o==="object")?o:null;}
   function three(o){const t=N(o.Total);return t||(N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC));}
 
+  /* rule 282: the DPM 3b AdjustmentSec115BAC (2nd proviso to 115BAC(3), Rule 5) is
+     "not allowed to firm, LLP and Co-operative society or if New Tax Regime has been
+     opted for." Firm/LLP = StatusOrCompanyType "1"; co-op = SubStatus schema codes
+     4/15/16/17 (Other Cooperative Society / Primary Agri Credit / Primary Co-op Agri
+     & Rural Dev bank / Co-op Bank). Barred when new regime OR any of those. */
+  const _st282=String(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType",""));
+  const _sub282=String(RG(I,"PartA_GEN1.OrgFirmInfo.SubStatus",""));
+  const barred115BAC = newR || _st282==="1" || ["4","15","16","17"].indexOf(_sub282)>=0;
+
   /* ---- Schedule DPM (four plant & machinery blocks) ---- */
   [["ScheduleDPM.PlantMachinery.Rate15",15,false],
    ["ScheduleDPM.PlantMachinery.Rate30",30,false],
@@ -2294,6 +2304,10 @@ ruleset(function(I,S_,A,Dd){
     /* 281 — Sl.11 depreciation at half rate = ROUND(9 × rate/200) (no half rate for Rate45) */
     if(!r45)A(281,REQ(o.DepreciationAtHalfRate,blocked?0:Math.round(N(o.HalfRateDeprAmt)*rate/200)),
       "Schedule DPM "+x[0].split(".").pop()+": Sl.No.11 (depreciation at half rate) does not match the depreciation rate at Sl.No.2.");
+    /* 282 — 3b (2nd-proviso-to-115BAC(3) / Rule 5 adjustment) not allowed to a firm,
+       LLP or co-operative society, nor when the new tax regime has been opted for. */
+    A(282,!barred115BAC||N(o.AdjustmentSec115BAC)===0,
+      "Schedule DPM "+x[0].split(".").pop()+": the adjustment as per the second proviso to section 115BAC(3) (Rule 5) at Sl.No.3b cannot be claimed by a firm, LLP or co-operative society, or when the new tax regime has been opted for.");
     /* 283 — Sl.3 total = 3a (WDV on first day) + 3b (115BAC adjustment) */
     if(o.Total!=null)A(283,REQ(o.Total,N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC)),
       "Schedule DPM "+x[0].split(".").pop()+": Sl.No.3 must equal 3a + 3b.");
@@ -3196,6 +3210,2223 @@ ruleset(function(I,S_,A,Dd){
 });
 
 /* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 11.
+   Serials 501–532 (books/ITR-5/rules.json), covering Schedule OS item-10
+   quarterly reconciliations (501–503) and Schedule CYLA — set-off of the
+   current year's losses (504–532).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})); nothing throws; every block guards
+   to a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_os.js (expOs — ScheduleOS) and
+   forms/ITR-5/src/70_sec_loss.js (expLoss — ScheduleCYLA), with the
+   cross-schedule source figures read (never written) from
+   70_sec_hp.js (ScheduleHP.TotalIncomeChargeableUnHP),
+   70_sec_bp.js (CorpScheduleBP.BusinessIncOthThanSpec / BusSetoffCurrYr)
+   and 70_sec_cg.js (ScheduleCG.CurrYrLosses — item E). Cross-checked
+   against the books.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+
+  /* ===================================================================
+     SCHEDULE OS · item 10 — quarterly break-up reconciliations (501-503)
+     Each item-10 row is exported as ScheduleOS.<Obj>.DateRange with the
+     five standard period leaves; the annual figure it feeds lives in
+     ScheduleOS.IncOthThanOwnRaceHorse. (Rule 491 in batch 10 tied the
+     lottery row to 2a(i); these tie the online-games row to 2a(ii) and
+     the 3b dividend row to 1a(iii).)
+     =================================================================== */
+  if(I.ScheduleOS){
+    const io=RG(I,"ScheduleOS.IncOthThanOwnRaceHorse",{})||{};
+    const qsum=o=>{const dr=RG(I,"ScheduleOS."+o+".DateRange",{})||{};
+      return ["Upto15Of6","Up16Of6To15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"].reduce((a,k)=>a+N(dr[k]),0);};
+    /* 501: quarterly break-up of winnings from online games (item 10) = 2a(ii) u/s 115BBJ */
+    A(501,REQ(qsum("IncFrmOnGames"),N(io.IncChrgblUs115BBJ)),"Schedule OS: the quarterly break-up (item 10) of winnings from any online game chargeable u/s 115BBJ must equal item 2a(ii).");
+    /* 502: not mappable — see the not-mappable note at the foot of this batch. */
+    /* 503: quarterly break-up of dividend at 3b = 1a(iii) dividend u/s 2(22)(f) */
+    A(503,REQ(qsum("DividendIncUs115BBDAaiii"),N(io.Dividend22f)),"Schedule OS: the quarterly break-up (item 10, row 3b) of dividend income referred in Sl. No. 1a(iii) must equal item 1a(iii).");
+  }
+
+  /* ===================================================================
+     SCHEDULE CYLA · set-off of the current year's losses (504-532)
+     Per-head blocks (each {IncCYLA:{...}}) keyed by the schema block name;
+     column meanings: 1 IncOfCurYrUnderThatHead · 2 HPlossCurYrSetoff ·
+     3 BusLossSetoff · 4 OthSrcLossNoRaceHorseSetoff · 5 IncOfCurYrAfterSetOff.
+     Row-i "loss to be set off": TotalCurYr.{TotHPlossCurYr, TotBusLoss,
+     TotOthSrcLossNoRaceHorse}. Row-xvi totals: TotalLossSetOff.*. Row-xvii
+     remaining: LossRemAftSetOff.*.
+     =================================================================== */
+  if(I.ScheduleCYLA){
+    const CY=I.ScheduleCYLA;
+    const blk=k=>RG(CY,k+".IncCYLA",{})||{};
+    /* the thirteen CYLA head-block keys, book row order (70_sec_loss.js LOSS_ROWS[2]) */
+    const KEYS=["HP","BusProfExclSpecProf","SpeculationIncome","SpecifiedBusIncome",
+      "STCG20Per","STCG30Per","STCGAppRate","STCGDTAARate","LTCG12_5Per","LTCGDTAARate",
+      "OthSrcExclRaceHorseLottery","ProfitFrmRaceHorse","IncOSDTAA"];
+
+    const tHP =N(RG(CY,"TotalCurYr.TotHPlossCurYr"));
+    const tBus=N(RG(CY,"TotalCurYr.TotBusLoss"));
+    const tOS =N(RG(CY,"TotalCurYr.TotOthSrcLossNoRaceHorse"));
+    const sHP =N(RG(CY,"TotalLossSetOff.TotHPlossCurYrSetoff"));
+    const sBus=N(RG(CY,"TotalLossSetOff.TotBusLossSetoff"));
+    const sOS =N(RG(CY,"TotalLossSetOff.TotOthSrcLossNoRaceHorseSetoff"));
+    const rHP =N(RG(CY,"LossRemAftSetOff.BalHPlossCurYrAftSetoff"));
+    const rBus=N(RG(CY,"LossRemAftSetOff.BalBusLossAftSetoff"));
+    const rOS =N(RG(CY,"LossRemAftSetOff.BalOthSrcLossNoRaceHorseAftSetoff"));
+    /* per-head sums of each set-off column (blocks without a column read 0) */
+    const sumHP =KEYS.reduce((a,k)=>a+N(blk(k).HPlossCurYrSetoff),0);
+    const sumBus=KEYS.reduce((a,k)=>a+N(blk(k).BusLossSetoff),0);
+    const sumOS =KEYS.reduce((a,k)=>a+N(blk(k).OthSrcLossNoRaceHorseSetoff),0);
+
+    /* --- internal CYLA arithmetic (all within Schedule CYLA) --- */
+    /* 504: total HP loss set off (2xvi) cannot exceed ₹2,00,000 (s.71(3A)) */
+    A(504,sHP<=200001,"Schedule CYLA: the total house-property loss set off at 2xvi cannot exceed ₹2,00,000.");
+    /* 508: 2xvi = Σ column-2 HP loss set off, up to ₹2,00,000 */
+    A(508,REQ(sHP,Math.min(sumHP,200000)),"Schedule CYLA: the total house-property loss set off at 2xvi must equal the sum of the column-2 set-offs, to a maximum of ₹2,00,000.");
+    /* 509: 3xvi = Σ column-3 business loss set off */
+    A(509,REQ(sBus,sumBus),"Schedule CYLA: the total business loss set off at 3xvi must equal the sum of the column-3 set-offs.");
+    /* 510: 4xvi (column 4) = Σ of the per-row column-4 set-offs (ii … xv) */
+    A(510,REQ(sOS,sumOS),"Schedule CYLA: the total loss set off at xvi of column 4 must equal the sum of the per-row column-4 set-offs.");
+    /* 511: 2xvii = 2i − 2xvi */
+    A(511,REQ(rHP,tHP-sHP),"Schedule CYLA: the house-property loss remaining after set-off (2xvii) must equal 2i − 2xvi.");
+    /* 512: 3xvii = 3i − 3xvi */
+    A(512,REQ(rBus,tBus-sBus),"Schedule CYLA: the business loss remaining after set-off (3xvii) must equal 3i − 3xvi.");
+    /* 513: 4xvii = 4i − 4xvi */
+    A(513,REQ(rOS,tOS-sOS),"Schedule CYLA: the loss remaining after set-off (4xvii) of column 4 must equal 4i − 4xvi.");
+    /* 514 & 527: per head, col5 = col1 − col2 − col3 − col4; and col2+col3+col4 ≤ col1 */
+    KEYS.forEach(function(k){const b=blk(k);
+      const c1=N(b.IncOfCurYrUnderThatHead),c2=N(b.HPlossCurYrSetoff),
+            c3=N(b.BusLossSetoff),c4=N(b.OthSrcLossNoRaceHorseSetoff),c5=N(b.IncOfCurYrAfterSetOff);
+      A(514,REQ(c5,c1-c2-c3-c4),"Schedule CYLA ["+k+"]: the current year's income remaining after set-off (col 5) must equal col 1 − col 2 − col 3 − col 4.");
+      A(527,c2+c3+c4<=c1+1,"Schedule CYLA ["+k+"]: the sum of the set-offs (col 2 + col 3 + col 4) cannot exceed the income of the current year (col 1).");
+    });
+    /* 528: under the new tax regime a house-property loss cannot be set off (rule 2640) */
+    const newReg=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",""))==="N";
+    A(528,!newReg||sHP<=1,"Schedule CYLA: under the new tax regime a house-property loss cannot be adjusted against any other head.");
+
+    /* --- CYLA col-1 income / row-i loss = its source schedule figure --- */
+    /* 505: HP loss to be set off (2i) = Schedule HP income when it is a loss */
+    if(I.ScheduleHP)
+      A(505,REQ(tHP,Math.max(0,-N(RG(I,"ScheduleHP.TotalIncomeChargeableUnHP")))),"Schedule CYLA: the house-property loss claimed at 2i must equal the loss shown in Schedule HP.");
+    /* OS-sourced rows (507, 522, 523, 524) */
+    if(I.ScheduleOS){
+      const os6=N(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.BalanceNoRaceHorse"));
+      /* 507: OS loss to be set off (4i) = Sl.No.6 of Schedule OS when it is a loss */
+      A(507,REQ(tOS,Math.max(0,-os6)),"Schedule CYLA: the other-sources loss at 4i must equal Sl. No. 6 of Schedule OS when it is a loss.");
+      /* 522: normal OS income (1xiii) = Sl.No.6 of Schedule OS */
+      A(522,REQ(N(blk("OthSrcExclRaceHorseLottery").IncOfCurYrUnderThatHead),Math.max(0,os6)),"Schedule CYLA: the other-sources income at 1xiii must equal Sl. No. 6 of Schedule OS.");
+      /* 523: race-horse income (1xiv) = Sl.No.8e of Schedule OS */
+      A(523,REQ(N(blk("ProfitFrmRaceHorse").IncOfCurYrUnderThatHead),Math.max(0,N(RG(I,"ScheduleOS.IncFromOwnHorse.BalanceOwnRaceHorse")))),"Schedule CYLA: the profit from owning/maintaining race horses at 1xiv must equal Sl. No. 8e of Schedule OS.");
+      /* 524: OS-DTAA income = Sl.No.2e of Schedule OS */
+      A(524,REQ(N(blk("IncOSDTAA").IncOfCurYrUnderThatHead),Math.max(0,N(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.IncChargblSplRateOS.TotalAmtTaxUsDTAASchOs")))),"Schedule CYLA: the other-sources income taxable at special rates as per DTAA must equal Sl. No. 2e of Schedule OS.");
+    }
+    /* BP-sourced rows (506, 515, 516, 517) */
+    if(I.CorpScheduleBP){
+      /* 506: business loss to be set off (3i) = 2vi of Table E of Schedule BP */
+      A(506,REQ(tBus,N(RG(I,"CorpScheduleBP.BusSetoffCurrYr.LossRemainSetOffOnBus"))),"Schedule CYLA: the business loss at 3i must equal Sl. No. 2vi of Table E of Schedule BP.");
+      /* 515: business income (1iii) = A37 of Schedule BP, only when A37 is positive */
+      A(515,REQ(N(blk("BusProfExclSpecProf").IncOfCurYrUnderThatHead),Math.max(0,N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.NetPLBusOthThanSpec7A7B7C")))),"Schedule CYLA: the business income at 1iii must equal A37 of Schedule BP (only when A37 is positive).");
+      /* 516: speculative income = 3ii of Table E of Schedule BP */
+      A(516,REQ(N(blk("SpeculationIncome").IncOfCurYrUnderThatHead),Math.max(0,N(RG(I,"CorpScheduleBP.BusSetoffCurrYr.SpeculativeInc.IncOfCurYrAfterSetOff")))),"Schedule CYLA: the speculative income must equal Sl. No. 3ii of Table E of Schedule BP.");
+      /* 517: specified-business income = 3iii of Table E of Schedule BP */
+      A(517,REQ(N(blk("SpecifiedBusIncome").IncOfCurYrUnderThatHead),Math.max(0,N(RG(I,"CorpScheduleBP.BusSetoffCurrYr.SpecifiedInc.IncOfCurYrAfterSetOff")))),"Schedule CYLA: the specified-business income must equal Sl. No. 3iii of Table E of Schedule BP.");
+    }
+    /* CG-sourced rows (518, 519, 520, 521, 531, 532) — item E of Schedule CG */
+    if(I.ScheduleCG){
+      const cg=k=>N(RG(I,"ScheduleCG.CurrYrLosses."+k+".CurrYrCapGain"));
+      /* 531: STCG @20% = 8ii of item E */
+      A(531,REQ(N(blk("STCG20Per").IncOfCurYrUnderThatHead),cg("InStcg20Per")),"Schedule CYLA: the short-term capital gain taxable @20% must equal item E of Schedule CG (STCG @20%).");
+      /* 518: STCG @30% = item E */
+      A(518,REQ(N(blk("STCG30Per").IncOfCurYrUnderThatHead),cg("InStcg30Per")),"Schedule CYLA: the short-term capital gain taxable @30% must equal item E of Schedule CG (STCG @30%).");
+      /* 519: STCG at applicable rates = 8iv of item E */
+      A(519,REQ(N(blk("STCGAppRate").IncOfCurYrUnderThatHead),cg("InStcgAppRate")),"Schedule CYLA: the short-term capital gain taxable at applicable rates must equal Sl. No. 8iv of item E of Schedule CG.");
+      /* 520: STCG at DTAA special rate = 8v of item E */
+      A(520,REQ(N(blk("STCGDTAARate").IncOfCurYrUnderThatHead),cg("InStcgDTAARate")),"Schedule CYLA: the short-term capital gain taxable at special rates as per DTAA must equal Sl. No. 8v of item E of Schedule CG.");
+      /* 521: LTCG at DTAA special rate = 8viii of item E */
+      A(521,REQ(N(blk("LTCGDTAARate").IncOfCurYrUnderThatHead),cg("InLtcgDTAARate")),"Schedule CYLA: the long-term capital gain taxable at special rates as per DTAA must equal Sl. No. 8viii of item E of Schedule CG.");
+      /* 532: LTCG @12.5% = 8vi of item E */
+      A(532,REQ(N(blk("LTCG12_5Per").IncOfCurYrUnderThatHead),cg("InLtcg12_5Per")),"Schedule CYLA: the long-term capital gain taxable @12.5% must equal Sl. No. 8vi of item E of Schedule CG.");
+    }
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     502 — item-10 quarterly break-up of "Dividend income under proviso to
+           sec 115A(1)(a)(A) @10% (incl. PTI)" "should be equal to Sl. No.
+           2c and 2d of Schedule OS". As with 496–499 in batch 10, the
+           schema does not link this specific item-10 dividend category to a
+           particular 2c/2d source-code amount (the 2c/2d rows carry OS/PTI
+           section codes with no verifiable enum→category mapping), so a
+           literal encoding would false-fire on lawful returns.
+     525 — "Normal OS loss should be set off first against (i) profit from
+           owning/maintaining race horses & (ii) OS-DTAA income." This is a
+           set-off ORDERING / priority rule of the greedy set-off walk, not
+           a static arithmetic identity; it cannot be asserted from the
+           exported per-head figures without re-deriving the walk, and any
+           proxy would false-fire around the head-priority. Left to the
+           schedule's own engine (CY_ORDER_OS in 70_sec_loss.js).
+     526 — "Whole house-property loss can be set off against any head in
+           case income is more than loss." A completeness rule about the
+           greedy walk; whether the "whole" loss is absorbed also depends on
+           the ₹2,00,000 s.71(3A) cap and the new-regime lapse, so a static
+           equality would false-fire (a lawful return legitimately carries
+           the excess over ₹2,00,000 to CFL). Not offline-checkable as an
+           identity.
+     529 — "Whole business loss can be set off against any head in case
+           income is more than loss." Same completeness/ordering nature as
+           526; not a verifiable static identity without re-deriving the
+           set-off walk.
+     530 — "Whole OS loss can be set off against any head in case income is
+           more than loss." Same completeness/ordering nature as 526/529;
+           not a verifiable static identity (a normal OS loss not set off
+           here lawfully lapses).
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 12.
+   Serials 533–577 (books/ITR-5/rules.json), covering:
+     533–556  Schedule BFLA  (brought-forward loss adjustment)
+     557–571  Schedule CFL   (carry-forward of losses)
+     572–577  Schedule UD    (unabsorbed depreciation & 35(4) allowance)
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Every read is guarded (RG / arr()); nothing throws; every block guards
+   to a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_loss.js exp() (ScheduleCYLA / ScheduleBFLA /
+   ScheduleCFL / ITRScheduleUD), cross-checked with 70_sec_bp.js
+   (CorpScheduleBP), 70_sec_cg.js (ScheduleCG Table-E) and 70_sec_os.js.
+   The rules.json text in this range is stored as offset fragments; each
+   rule was reconstructed by joining the tail of the next serial's text.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+
+  /* new-regime gate: OptOldRegimeCurrAY==="N" means the new regime u/s
+     115BAD / 115BAC(1A) was chosen (same test as 61_rules_enc_16). */
+  const isNewReg=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",""))==="N";
+
+  /* the thirteen BFLA / CYLA head blocks, in item order (the "Life
+     insurance business u/s 115B" display row carries no schema leaf and is
+     excluded). Each entry is [BFLA block key, CYLA block key] — the two
+     differ only for the OS-normal head (OthSrcExclRaceHorse vs
+     OthSrcExclRaceHorseLottery). */
+  const HEADS=[
+    ["HP","HP"],
+    ["BusProfExclSpecProf","BusProfExclSpecProf"],
+    ["SpeculationIncome","SpeculationIncome"],
+    ["SpecifiedBusIncome","SpecifiedBusIncome"],
+    ["STCG20Per","STCG20Per"],
+    ["STCG30Per","STCG30Per"],
+    ["STCGAppRate","STCGAppRate"],
+    ["STCGDTAARate","STCGDTAARate"],
+    ["LTCG12_5Per","LTCG12_5Per"],
+    ["LTCGDTAARate","LTCGDTAARate"],
+    ["OthSrcExclRaceHorse","OthSrcExclRaceHorseLottery"],
+    ["ProfitFrmRaceHorse","ProfitFrmRaceHorse"],
+    ["IncOSDTAA","IncOSDTAA"]];
+  /* the six capital-gain head blocks (BFLA rows vi..xi). */
+  const CGH=["STCG20Per","STCG30Per","STCGAppRate","STCGDTAARate","LTCG12_5Per","LTCGDTAARate"];
+  /* the seven CFL LossSummaryDetail columns (4,5c,6,7,9,10,11). */
+  const CFLCOLS=["TotalHPPTILossCF","BusLossOthThanSpecLossCF","LossFrmSpecBusCF",
+    "LossFrmSpecifiedBusCF","TotalSTCGPTILossCF","TotalLTCGPTILossCF","OthSrcLossRaceHorseCF"];
+
+  /* ===================================================================
+     SCHEDULE BFLA  (533–558)
+     Per head: col-1 IncOfCurYrUndHeadFromCYLA · col-2 BFlossPrevYrUndSame-
+     HeadSetoff · col-3 BFUnabsorbedDeprSetoff · col-4 BFAllUs35Cl4Setoff ·
+     col-5 IncOfCurYrAfterSetOffBFLosses. Totals block TotalBFLossSetOff
+     (TotBFLossSetoff / TotUnabsorbedDeprSetoff / TotAllUs35cl4Setoff) and
+     IncomeOfCurrYrAftCYLABFLA (item xvi).
+     =================================================================== */
+  if(I.ScheduleBFLA){
+    const B=I.ScheduleBFLA;
+    const bfF=(k,leaf)=>N(RG(B,k+".IncBFLA."+leaf,0));
+    const totF=leaf=>N(RG(B,"TotalBFLossSetOff."+leaf,0));
+    const sumBf=leaf=>HEADS.reduce((a,h)=>a+bfF(h[0],leaf),0);
+
+    /* 533/534: the BFLA depreciation / 35(4) set-off totals equal the
+       Schedule UD column totals (col 4 → depreciation, col 7 → allowance). */
+    if(I.ITRScheduleUD){const U=I.ITRScheduleUD;
+      A(533,REQ(totF("TotAllUs35cl4Setoff"),N(RG(U,"TotCurYrAllowSetoffInc",0))),"Schedule BFLA: item 4xv (brought-forward allowance u/s 35(4) set off) must equal the total of Col.7 of Schedule UD.");
+      A(534,REQ(totF("TotUnabsorbedDeprSetoff"),N(RG(U,"TotCurYrdepritSetoffInc",0))),"Schedule BFLA: item 3xv (brought-forward depreciation set off) must equal the total of Col.4 of Schedule UD.");
+    }
+
+    /* 535/536/537/553/556: BFLA col-2 (brought-forward loss set off) must
+       equal the corresponding "Adjustment of above losses in Schedule BFLA"
+       figures (item xviii) of Schedule CFL. (The rules.json fragment for
+       536 prints "xvii"; item xviii is meant — item xvii is the gross
+       brought-forward loss, which exceeds the set off and would false-fire.
+       BFLA col-2 and CFL xviii come from the same set-off computation.) */
+    if(I.ScheduleCFL){
+      const adj=leaf=>N(RG(I,"ScheduleCFL.AdjTotBFLossInBFLA.LossSummaryDetail."+leaf,0));
+      A(535,REQ(bfF("HP","BFlossPrevYrUndSameHeadSetoff"),adj("TotalHPPTILossCF")),"Schedule BFLA: item 2(i) (house-property brought-forward loss set off) must equal item 4(xviii) 'Adjustment of above losses in Schedule BFLA' of Schedule CFL.");
+      A(536,REQ(bfF("BusProfExclSpecProf","BFlossPrevYrUndSameHeadSetoff")+bfF("SpeculationIncome","BFlossPrevYrUndSameHeadSetoff")+bfF("SpecifiedBusIncome","BFlossPrevYrUndSameHeadSetoff"),adj("BusLossOthThanSpecLossCF")+adj("LossFrmSpecBusCF")+adj("LossFrmSpecifiedBusCF")),"Schedule BFLA: item 2(ii+iv+v) (business + speculative + specified brought-forward loss set off) must equal the adjustment (item xviii) of columns 5+6+7 of Schedule CFL.");
+      A(537,REQ(bfF("ProfitFrmRaceHorse","BFlossPrevYrUndSameHeadSetoff"),adj("OthSrcLossRaceHorseCF")),"Schedule BFLA: item 2(xiii) (race-horse brought-forward loss set off) must equal item 11(xviii) of Schedule CFL.");
+      A(553,REQ(CGH.reduce((a,k)=>a+bfF(k,"BFlossPrevYrUndSameHeadSetoff"),0),adj("TotalSTCGPTILossCF")+adj("TotalLTCGPTILossCF")),"Schedule BFLA: item 2(vi..xi) (brought-forward capital loss set off) must equal item 9(xviii)+10(xviii) of Schedule CFL.");
+      const adjSum=CFLCOLS.reduce((a,c)=>a+adj(c),0);
+      A(556,totF("TotBFLossSetoff")<=adjSum+1,"Schedule BFLA: item 2(xv) (total brought-forward loss set off) cannot exceed the sum of the 'Adjustment of above losses in Schedule BFLA' figures (item xviii) of Schedule CFL.");
+    }
+
+    /* 538/540/541: the BFLA col-2 / col-3 / col-4 totals (item xv) equal the
+       sum of the per-head figures in that column. 539: the col-5 total
+       (item xvi, current year's income remaining after set off) equals the
+       sum of the per-head col-5 figures. (Summed over every head carrying
+       the column; the rules.json enumeration of roman items is partial.) */
+    A(538,REQ(totF("TotBFLossSetoff"),sumBf("BFlossPrevYrUndSameHeadSetoff")),"Schedule BFLA: item xv (total brought-forward loss set off, Col.2) must equal the sum of Col.2 over the heads.");
+    A(539,REQ(N(RG(B,"IncomeOfCurrYrAftCYLABFLA",0)),sumBf("IncOfCurYrAfterSetOffBFLosses")),"Schedule BFLA: item xvi (Col.5, current year's income remaining after set off) must equal the sum of Col.5 over the heads.");
+    A(540,REQ(totF("TotUnabsorbedDeprSetoff"),sumBf("BFUnabsorbedDeprSetoff")),"Schedule BFLA: item xv (total brought-forward depreciation set off, Col.3) must equal the sum of Col.3 over the heads.");
+    A(541,REQ(totF("TotAllUs35cl4Setoff"),sumBf("BFAllUs35Cl4Setoff")),"Schedule BFLA: item xv (total brought-forward 35(4) allowance set off, Col.4) must equal the sum of Col.4 over the heads.");
+
+    /* 542–552: BFLA col-1 (income of the current year under the head, from
+       CYLA) must match CYLA col-5 (income after current-year set off) for
+       the head. Only the heads named in rules.json are checked. */
+    if(I.ScheduleCYLA){
+      const MATCH=[
+        [542,"HP","HP","house property (BFLA 1(i) = CYLA 5(ii))"],
+        [543,"BusProfExclSpecProf","BusProfExclSpecProf","business excl. speculation & specified (BFLA 1(ii) = CYLA 5(iii))"],
+        [544,"SpeculationIncome","SpeculationIncome","speculative income (BFLA 1(iv) = CYLA 5(v))"],
+        [545,"SpecifiedBusIncome","SpecifiedBusIncome","specified business income (BFLA 1(v) = CYLA 5(vi))"],
+        [546,"STCG30Per","STCG30Per","short-term capital gain @ 30% (BFLA 1(vii) = CYLA 5(viii))"],
+        [547,"STCGAppRate","STCGAppRate","short-term capital gain at applicable rates (BFLA 1(viii) = CYLA 5(ix))"],
+        [548,"STCGDTAARate","STCGDTAARate","short-term capital gain at special DTAA rate (BFLA 1(ix) = CYLA 5(x))"],
+        [549,"LTCGDTAARate","LTCGDTAARate","long-term capital gain at special DTAA rate (BFLA 1(xi) = CYLA 5(xii))"],
+        [550,"OthSrcExclRaceHorse","OthSrcExclRaceHorseLottery","net other-sources income at normal rates (BFLA 1(xii) = CYLA 5(xiii))"],
+        [551,"ProfitFrmRaceHorse","ProfitFrmRaceHorse","race-horse profit (BFLA 1(xiii) = CYLA 5(xiv))"],
+        [552,"IncOSDTAA","IncOSDTAA","other-sources income at special DTAA rate (BFLA 1(xiv) = CYLA 5(xv))"]];
+      MATCH.forEach(function(m){
+        A(m[0],REQ(bfF(m[1],"IncOfCurYrUndHeadFromCYLA"),N(RG(I,"ScheduleCYLA."+m[2]+".IncCYLA.IncOfCurYrAfterSetOff",0))),"Schedule BFLA: the income after CYLA set off for "+m[3]+" must match Schedule CYLA.");
+      });
+    }
+
+    /* 555/557/558: per head, Col.2+Col.3+Col.4 cannot exceed Col.1; Col.5
+       equals Col.1−Col.2−Col.3−Col.4; and Col.5 cannot exceed Col.1. */
+    HEADS.forEach(function(h){const k=h[0];const L=" ["+k+"]: ";
+      const c1=bfF(k,"IncOfCurYrUndHeadFromCYLA"),c2=bfF(k,"BFlossPrevYrUndSameHeadSetoff"),
+            c3=bfF(k,"BFUnabsorbedDeprSetoff"),c4=bfF(k,"BFAllUs35Cl4Setoff"),c5=bfF(k,"IncOfCurYrAfterSetOffBFLosses");
+      A(555,c2+c3+c4<=c1+1,"Schedule BFLA"+L+"the sum of Col.2 + Col.3 + Col.4 cannot exceed Col.1 (income of the current year under the head).");
+      A(557,REQ(c5,c1-c2-c3-c4),"Schedule BFLA"+L+"Col.5 (current year's income remaining after set off) must equal Col.1 − Col.2 − Col.3 − Col.4.");
+      A(558,c5<=c1+1,"Schedule BFLA"+L+"the amount at Col.5 cannot exceed the amount at Col.1.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE CFL  (560–571)   [items 557/558 belong to BFLA, handled above]
+     Year rows carry CarryFwdLossDetail; the summary rows carry
+     LossSummaryDetail (xvii TotalOfBFLossesEarlierYrs, xviii
+     AdjTotBFLossInBFLA, xix CurrentAYloss, xx CurrentYearDistrUnitHolder,
+     xxi CurrentYearLossCF, xxii TotalLossCFSummary).
+     =================================================================== */
+  if(I.ScheduleCFL){
+    const C=I.ScheduleCFL;
+    const row=r=>RG(C,r+".LossSummaryDetail",{})||{};
+    const xvii=row("TotalOfBFLossesEarlierYrs"),xviii=row("AdjTotBFLossInBFLA"),
+          xix=row("CurrentAYloss"),xx=row("CurrentYearDistrUnitHolder"),
+          xxi=row("CurrentYearLossCF"),xxii=row("TotalLossCFSummary");
+    const years=Object.keys(C).map(k=>RG(C,k+".CarryFwdLossDetail",null)).filter(d=>d&&typeof d==="object");
+
+    /* 560/561: CFL current-year (xix) STCL / LTCL equal the total of the
+       "capital losses remaining after set off" in Table E of Schedule CG. */
+    if(I.ScheduleCG){const lrs=k=>N(RG(I,"ScheduleCG.CurrYrLosses.LossRemainSetOff."+k,0));
+      A(560,REQ(N(xix.TotalSTCGPTILossCF),lrs("StclSetoff20Per")+lrs("StclSetoff30Per")+lrs("StclSetoffAppRate")+lrs("StclSetoffDTAARate")),"Schedule CFL: the current-year short-term capital loss (item xix) must equal the sum of the short-term capital losses remaining after set off in Table E of Schedule CG.");
+      A(561,REQ(N(xix.TotalLTCGPTILossCF),lrs("LtclSetOff12_5Per")+lrs("LtclSetOffDTAARate")),"Schedule CFL: the current-year long-term capital loss (item xix) must equal the sum of the long-term capital losses remaining after set off in Table E of Schedule CG.");
+    }
+    /* 562/563: CFL current-year (xix) HP / business loss equal CYLA item
+       xvii (loss remaining after current-year set off) in the same column. */
+    if(I.ScheduleCYLA){
+      A(562,REQ(N(xix.TotalHPPTILossCF),N(RG(I,"ScheduleCYLA.LossRemAftSetOff.BalHPlossCurYrAftSetoff",0))),"Schedule CFL: item 4(xix) (current-year house-property loss) must equal item 2(xvii) of Schedule CYLA.");
+      A(563,REQ(N(xix.BusLossOthThanSpecLossCF),N(RG(I,"ScheduleCYLA.LossRemAftSetOff.BalBusLossAftSetoff",0))),"Schedule CFL: item 5(xix) (current-year business loss) must equal item 3(xvii) of Schedule CYLA.");
+    }
+    /* 564/565: CFL current-year (xix) speculative / specified business loss
+       equal the loss (if any) at Schedule BP B42 / C48. */
+    if(I.CorpScheduleBP){
+      A(564,REQ(N(xix.LossFrmSpecBusCF),Math.max(0,-N(RG(I,"CorpScheduleBP.SpecBusinessInc.AdjustedPLFrmSpecuBus",0)))),"Schedule CFL: item 6(xix) (current-year speculative business loss) must equal the loss at 'Income/Loss from speculative business' (B42) of Schedule BP.");
+      A(565,REQ(N(xix.LossFrmSpecifiedBusCF),Math.max(0,-N(RG(I,"CorpScheduleBP.IncSpecifiedBusiness.ProfitLossSpecifiedBusFinal",0)))),"Schedule CFL: item 7(xix) (current-year specified business loss) must equal the loss at 'Income/Loss from specified business' (C48) of Schedule BP.");
+    }
+    /* 566: CFL current-year (xix) race-horse loss equals the loss (if any)
+       at item 8e of Schedule OS. */
+    if(I.ScheduleOS){
+      A(566,REQ(N(xix.OthSrcLossRaceHorseCF),Math.max(0,-N(RG(I,"ScheduleOS.IncFromOwnHorse.BalanceOwnRaceHorse",0)))),"Schedule CFL: item 11(xix) (current-year loss from owning & maintaining race horses) must equal the loss at item 8e of Schedule OS.");
+    }
+    /* 567: item 5b (amount adjusted on account of 115BAD / 115BAC(1A)) must
+       be nil unless the new regime was opted. (The schema field
+       AdjustAccTax115BADAmt is the amount adjusted ON ACCOUNT OF opting, so
+       it is legitimately non-zero under the new regime; the rules.json
+       wording drops the "not", per the section engine and chkLoss.) */
+    A(567,isNewReg||years.every(d=>REQ(N(d.AdjustAccTax115BADAmt),0)),"Schedule CFL: item 5b (amount adjusted on account of section 115BAD / 115BAC(1A)) must be nil unless the assessee has opted for that regime.");
+    /* 568: per year, item 5c must equal 5a − 5b. */
+    years.forEach(function(d,i){
+      A(568,REQ(N(d.BusLossOthThanSpecLossCF),N(d.BrtFwdBusLoss)-N(d.AdjustAccTax115BADAmt)),"Schedule CFL (year row "+(i+1)+"): item 5c must equal 5a − 5b.");
+    });
+    /* 569: item xxi (current-year loss carried forward) must equal
+       xix − xx, restricted to nil when negative — checked per column. */
+    CFLCOLS.forEach(function(c){
+      A(569,REQ(N(xxi[c]),Math.max(0,N(xix[c])-N(xx[c]))),"Schedule CFL: item xxi ("+c+") must equal xix − xx, restricted to nil if negative.");
+    });
+    /* 570: item xvii (total brought-forward losses) must equal the sum of
+       the individual assessment-year figures — checked per column. */
+    CFLCOLS.forEach(function(c){
+      A(570,REQ(N(xvii[c]),years.reduce((a,d)=>a+N(d[c]),0)),"Schedule CFL: item xvii ("+c+", total brought-forward loss) must equal the sum of the individual assessment-year figures.");
+    });
+    /* 571: item xxii (total loss carried forward) must equal xvii − xviii +
+       xxi. The section applies the carry-window lapse, so xxii can only be
+       lower than that sum, never higher — encoded as "cannot exceed" so it
+       stays silent on a lawful lapse, catching over-statement only. */
+    CFLCOLS.forEach(function(c){
+      A(571,N(xxii[c])<=N(xvii[c])-N(xviii[c])+N(xxi[c])+1,"Schedule CFL: item xxii ("+c+", total loss carried forward) cannot exceed xvii − xviii + xxi.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE UD  (572–577)
+     Top-level totals TotBFUDepritAmt(3) · TotAdjustAccTax115BADAmt(3a) ·
+     TotCurYrdepritSetoffInc(4) · TotDepritBalCFNY(5) · TotBFUAllowAmt(6) ·
+     TotCurYrAllowSetoffInc(7) · TotalBalCFNY(8); the current-AY balances
+     CurBalCFNY(5) / CurAllowBalCFNY(8); array ScheduleUD[] of earlier-year
+     rows (AmtBFUD · AdjustAccTax115BADAmt · AmtDeprSOCY · BalCFNY ·
+     AmtBFUAllow · AmtAllowSOCY · AllowBalCFNY).
+     =================================================================== */
+  if(I.ITRScheduleUD){
+    const U=I.ITRScheduleUD;
+    const rows=arr(RG(U,"ScheduleUD",[]));
+
+    /* 572: item 3a (amount adjusted on account of 115BAD / 115BAC(1A)) must
+       be nil unless the new regime was opted (same inversion note as 567). */
+    A(572,isNewReg||rows.every(r=>REQ(N((r||{}).AdjustAccTax115BADAmt),0)),"Schedule UD: item 3a (amount adjusted on account of section 115BAD / 115BAC(1A)) must be nil unless the assessee has opted for the new regime.");
+
+    rows.forEach(function(r,i){r=r||{};const ay=String(r.AssYr||("row "+(i+1)));
+      const c3=N(r.AmtBFUD),c3a=N(r.AdjustAccTax115BADAmt),c4=N(r.AmtDeprSOCY),
+            c5=N(r.BalCFNY),c6=N(r.AmtBFUAllow),c7=N(r.AmtAllowSOCY),c8=N(r.AllowBalCFNY);
+      /* 573: col-4 (depreciation set off) cannot exceed col-3 − col-3a. */
+      A(573,c4<=Math.max(0,c3-c3a)+1,"Schedule UD ["+ay+"]: the depreciation set off (Col.4) cannot exceed Col.3 − Col.3a.");
+      /* 574: col-5 (balance carried forward) equals col-3 − col-3a − col-4. */
+      A(574,REQ(c5,Math.max(0,c3-c3a-c4)),"Schedule UD ["+ay+"]: the balance carried forward (Col.5) must equal Col.3 − Col.3a − Col.4.");
+      /* 575: col-8 (allowance balance carried forward) equals col-6 − col-7. */
+      A(575,REQ(c8,Math.max(0,c6-c7)),"Schedule UD ["+ay+"]: the allowance balance carried forward (Col.8) must equal Col.6 − Col.7.");
+    });
+
+    /* 576: the column totals (3 to 8) equal the sum over the rows. The
+       col-5 and col-8 totals additionally include the current-AY balance
+       (CurBalCFNY / CurAllowBalCFNY), which is not held in the row array. */
+    const s=leaf=>rows.reduce((a,r)=>a+N((r||{})[leaf]),0);
+    A(576,
+      REQ(N(RG(U,"TotBFUDepritAmt",0)),s("AmtBFUD"))&&
+      REQ(N(RG(U,"TotAdjustAccTax115BADAmt",0)),s("AdjustAccTax115BADAmt"))&&
+      REQ(N(RG(U,"TotCurYrdepritSetoffInc",0)),s("AmtDeprSOCY"))&&
+      REQ(N(RG(U,"TotDepritBalCFNY",0)),s("BalCFNY")+N(RG(U,"CurBalCFNY",0)))&&
+      REQ(N(RG(U,"TotBFUAllowAmt",0)),s("AmtBFUAllow"))&&
+      REQ(N(RG(U,"TotCurYrAllowSetoffInc",0)),s("AmtAllowSOCY"))&&
+      REQ(N(RG(U,"TotalBalCFNY",0)),s("AllowBalCFNY")+N(RG(U,"CurAllowBalCFNY",0))),
+      "Schedule UD: for columns 3 to 8, the total field must equal the sum of the individual rows (the Col.5 and Col.8 totals also include the current-year balance carried forward).");
+
+    /* 577: the current-AY depreciation balance carried forward (Col.5)
+       cannot exceed item 12iii of Schedule BP (total depreciation allowable
+       u/s 32). (The rules.json fragment is truncated at "...12iii of".) */
+    if(I.CorpScheduleBP){
+      A(577,N(RG(U,"CurBalCFNY",0))<=N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DepreciationAllowITAct32.TotDeprAllowITAct",0))+1,"Schedule UD: the current-assessment-year depreciation balance carried forward (Col.5) cannot exceed item 12iii (total depreciation allowable u/s 32) of Schedule BP.");
+    }
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     554 — "In Schedule BFLA, brought-forward business loss (Sl.No. 2(ii))
+           and brought-forward depreciation (Sl.No. 3(ii)) cannot be set off
+           against 44BB or 44BBD income." The ITR-5 schema carries no flag
+           marking a head's income as 44BB / 44BBD income (the BusProfExcl-
+           SpecProf block holds a single net figure), so whether the set-off
+           lands on 44BB/44BBD income is not offline-checkable. Needs the
+           presumptive-scheme break-up, not present in the return object.
+     559 — "Part B-TI Sl.No. 17 'Losses of current year to be carried
+           forward' should flow from Total of xix of Schedule CFL (or, for an
+           Investment Fund, from 5c+6+7 of xxi)." Cross-schedule to Part
+           B-TI, which is not this batch's schedule, and the section export
+           populates PartB-TI.LossesOfCurrentYearCarriedFwd from the TOTAL
+           carried forward (item xxii), not from item xix; a literal check
+           would false-fire whenever brought-forward losses exist. The
+           Investment-Fund branch further needs the sub-status enum. Left to
+           the Part B-TI owning section's own audit.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 13.
+   Serials 578–611 (books/ITR-5/rules.json): misc deduction cross-checks
+   (Schedule ICDS · Schedule 10AA), Schedule 80GGC, Schedule 80GGA and
+   Schedule 80G (donation buckets A/B/C/D).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})); nothing throws; every block guards
+   to a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_ded.js (expDed: Schedule80G / Schedule80GGA /
+   Schedule80GGC / Schedule10AA), forms/ITR-5/src/70_sec_bp.js (expBp:
+   ScheduleICDS), 70_sec_gen.js (PartA_GEN1 PAN + OptOldRegimeCurrAY) and
+   70_sec_verify.js (Verification PAN), cross-checked against the books.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const FYSTART="2025-04-01", FYEND="2026-03-31";              /* previous year 2025-26 (AY 2026-27) */
+  const isISO=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||""));
+  const upan=v=>String(v||"").trim().toUpperCase();
+  const isPAN=v=>/^[A-Z]{5}\d{4}[A-Z]$/.test(upan(v));
+  const aPAN=upan(RG(I,"PartA_GEN1.OrgFirmInfo.PAN",""));      /* assessee (firm) PAN */
+  const vPAN=upan(RG(I,"Verification.Declaration.AssesseeVerPAN",""));  /* PAN at Verification */
+  /* new (concessional) regime: OptOldRegimeCurrAY is the master switch (Y=old, N=new). Absent → treated as old (no-op). */
+  const newRegime=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY","Y")).toUpperCase()==="N";
+
+  /* ===================================================================
+     SCHEDULE ICDS  (578–579)   — owned by forms/ITR-5/src/70_sec_bp.js
+     Per-row objects I.ScheduleICDS.<key>.{IncreaseInProfit,DecreaseInProfit,
+     NetEffect}; totals in I.ScheduleICDS.TotalNetAmtDetl.{IncreaseInProfit,
+     DecreaseInProfit}.  NetEffect (per row) = Increase − Decrease [H6].
+     =================================================================== */
+  if(I.ScheduleICDS){const IC=I.ScheduleICDS;
+    const ICDS_KEYS=["AccPolicyAmtDetl","InventoriesValueDetl","ConstContractsAmtDetl","RevenueRcgAmtDetl",
+      "TangibleFixedAssetDetl","ForeignExgRatesDetl","GovtGrantsDetl","SecuritiesDetl","BorrowingCostsDetl","ProvAssetsDetl"];
+    let sumInc=0,sumDec=0;
+    ICDS_KEYS.forEach(function(k){const o=RG(IC,k,null);if(o&&typeof o==="object"){
+      sumInc+=N(o.IncreaseInProfit); sumDec+=N(o.DecreaseInProfit);
+      /* 579: for each ICDS row, Net Effect must equal Increase in profit less Decrease in profit */
+      A(579,REQ(N(o.NetEffect),N(o.IncreaseInProfit)-N(o.DecreaseInProfit)),"Schedule ICDS ("+k+"): the Net Effect must equal Increase in profit minus Decrease in profit.");
+    }});
+    /* 578: XI (total effect of ICDS adjustments) must equal the sum of the ten rows (I to X), for both the increase and the decrease side */
+    A(578,REQ(N(RG(IC,"TotalNetAmtDetl.IncreaseInProfit")),sumInc)&&REQ(N(RG(IC,"TotalNetAmtDetl.DecreaseInProfit")),sumDec),
+      "Schedule ICDS: the total effect at XI must equal the sum of the increase (and of the decrease) across ICDS I to X.");
+  }
+
+  /* ===================================================================
+     SCHEDULE 10AA  (580)
+     I.Schedule10AA.DeductSEZ.DedUs10Detail.Undertaking.DedFromUndertakingWithAy[]
+       .DedUs10Sub  and  .TotalDedUs10Sub (total).
+     =================================================================== */
+  if(I.Schedule10AA){const AA=I.Schedule10AA;
+    const aaRows=arr(RG(AA,"DeductSEZ.DedUs10Detail.Undertaking.DedFromUndertakingWithAy",[]));
+    /* 580: total deduction under section 10AA must equal the sum of the per-undertaking amounts */
+    A(580,REQ(N(RG(AA,"DeductSEZ.DedUs10Detail.TotalDedUs10Sub")),RSUM(aaRows,"DedUs10Sub")),
+      "Schedule 10AA: the total deduction under section 10AA must equal the sum of the amounts at all rows.");
+  }
+
+  /* ===================================================================
+     SCHEDULE VI-A cross-checks (581, 583, 595, 607, 610)
+     ScheduleVIA.{UsrDeductUndChapVIA (claimed) , DeductUndChapVIA (allowed)}
+       .{Section80G, Section80GGA, Section80GGC}.
+     =================================================================== */
+  if(I.ScheduleVIA){const usr=RG(I,"ScheduleVIA.UsrDeductUndChapVIA",{})||{},ded=RG(I,"ScheduleVIA.DeductUndChapVIA",{})||{};
+    /* 583: if 80GGC is claimed in Schedule VI-A, Schedule 80GGC must be filled */
+    A(583,!(N(usr.Section80GGC)>0)||!!I.Schedule80GGC,"If a deduction under section 80GGC is claimed in Schedule VI-A, the details must be provided in Schedule 80GGC.");
+    /* 595: if 80GGA is claimed in Schedule VI-A, Schedule 80GGA must be filled */
+    A(595,!(N(usr.Section80GGA)>0)||!!I.Schedule80GGA,"If a deduction under section 80GGA is claimed in Schedule VI-A, the details must be provided in Schedule 80GGA.");
+    /* 607: if 80G is claimed in Schedule VI-A, donation details must be provided in Schedule 80G */
+    A(607,!(N(usr.Section80G)>0)||!!I.Schedule80G,"If a deduction under section 80G is claimed in Schedule VI-A, the donation details must be provided in Schedule 80G.");
+    if(newRegime){
+      /* 581: under the new tax regime, 80GGC is not to be filled — the deduction must be nil */
+      A(581,N(ded.Section80GGC)<=1&&N(usr.Section80GGC)<=1,"Under the new tax regime, a deduction under section 80GGC cannot be claimed (Schedule 80GGC is not required to be filled).");
+      /* 610: 80G cannot be claimed under the new regime (115BAC/115BAD/115BAE) */
+      A(610,N(ded.Section80G)<=1&&N(usr.Section80G)<=1,"A deduction under section 80G cannot be claimed when the new tax regime (115BAC / 115BAD / 115BAE) is selected.");
+    }
+  }
+
+  /* ===================================================================
+     SCHEDULE 80GGC  (584–587, 589–590)   — political-party contribution
+     I.Schedule80GGC.Schedule80GGCDetails[]{DonationDate,DonationAmtCash,
+       DonationAmtOtherMode,DonationAmt,EligibleDonationAmt,PoliticalPartyName,
+       PoliticalPartyPAN} + Total{Cash,OtherMode,Us80GGC,EligibleDonationAmt}.
+     (Cash gives no deduction: EligibleDonationAmt = other mode only.)
+     =================================================================== */
+  if(I.Schedule80GGC){const GC=I.Schedule80GGC,rows=arr(RG(GC,"Schedule80GGCDetails",[]));
+    /* 584: total contribution = total cash + total other mode */
+    A(584,REQ(N(GC.TotalDonationsUs80GGC),N(GC.TotalDonationAmtCash80GGC)+N(GC.TotalDonationAmtOtherMode80GGC)),
+      "Schedule 80GGC: total contribution must equal contribution in cash plus contribution in other mode.");
+    /* 587: D (total eligible amount of contribution) = sum of the per-row eligible amounts (column vi) */
+    A(587,REQ(N(GC.TotalEligibleDonationAmt80GGC),RSUM(rows,"EligibleDonationAmt")),
+      "Schedule 80GGC: D (total eligible amount of contribution) must equal the total of column vi (the per-row eligible amounts).");
+    rows.forEach(function(r,i){r=r||{};const cash=N(r.DonationAmtCash),oth=N(r.DonationAmtOtherMode),L=" row "+(i+1)+": ";
+      /* 585: per row, total contribution = cash (i) + other mode (ii) */
+      A(585,REQ(N(r.DonationAmt),cash+oth),"Schedule 80GGC"+L+"total contribution must equal contribution in cash plus contribution in other mode (i + ii).");
+      /* 586: a cash contribution is not eligible — the eligible amount cannot exceed the other-mode amount */
+      A(586,N(r.EligibleDonationAmt)<=oth+1,"Schedule 80GGC"+L+"a contribution in cash is not eligible, so the eligible amount cannot be more than the other-mode amount.");
+      /* 589: the date of contribution must fall within the previous year */
+      A(589,!isISO(r.DonationDate)||(String(r.DonationDate)>=FYSTART&&String(r.DonationDate)<=FYEND),
+        "Schedule 80GGC"+L+"the date of contribution must fall within the previous year (01-04-2025 to 31-03-2026).");
+      /* 590: name and PAN of the political party are mandatory where a contribution is entered */
+      if(cash||oth)A(590,!!String(r.PoliticalPartyName||"").trim()&&!!String(r.PoliticalPartyPAN||"").trim(),
+        "Schedule 80GGC"+L+"the name and PAN of the political party are necessary to claim the deduction under section 80GGC.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE 80GGA  (591–594)  — scientific research / rural development
+     I.Schedule80GGA.DonationDtlsSciRsrchRuralDev[]{DonationAmtCash,
+       DonationAmtOtherMode,DonationAmt,EligibleDonationAmt,DoneePAN} +
+       Total{Cash,OtherMode,Us80GGA} .  Cash over ₹2,000 is not eligible.
+     =================================================================== */
+  if(I.Schedule80GGA){const GA=I.Schedule80GGA,rows=arr(RG(GA,"DonationDtlsSciRsrchRuralDev",[]));
+    /* 591: total donation = total cash + total other mode */
+    A(591,REQ(N(GA.TotalDonationsUs80GGA),N(GA.TotalDonationAmtCash80GGA)+N(GA.TotalDonationAmtOtherMode80GGA)),
+      "Schedule 80GGA: total donation must equal donation in cash plus donation in other mode.");
+    rows.forEach(function(r,i){r=r||{};const cash=N(r.DonationAmtCash),oth=N(r.DonationAmtOtherMode),L=" row "+(i+1)+": ";
+      /* 592: per row, total donation = cash (i) + other mode (ii) */
+      A(592,REQ(N(r.DonationAmt),cash+oth),"Schedule 80GGA"+L+"total donation must equal donation in cash plus donation in other mode (i + ii).");
+      /* 593: the eligible amount attributable to a cash donation cannot exceed ₹2,000 */
+      A(593,N(r.EligibleDonationAmt)-oth<=2001,"Schedule 80GGA"+L+"the eligible amount donated in cash cannot exceed ₹2,000.");
+      /* 594: donee PAN cannot be the same as the assessee's PAN or the PAN at Verification */
+      const dp=upan(r.DoneePAN);
+      A(594,!(isPAN(dp)&&(dp===aPAN||dp===vPAN)),"Schedule 80GGA"+L+"the PAN of the donee cannot be the same as the assessee's PAN or the PAN at Verification.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE 80G  (596–606, 608–609)   — donation buckets A/B/C/D
+     Per bucket b: I.Schedule80G.<blk>.{DoneeDetail[]{DonationAmtCash,
+       DonationAmtOtherMode,DonationElgAmt,DoneePAN,ArnNbr}, <total>, <cash>,
+       <otherMode>}.  E totals: TotalDonationsUs80G / TotalEligibleDonationsUs80G.
+     Bucket map [code, block, totalKey, cashKey, otherKey, eligKey]:
+     =================================================================== */
+  if(I.Schedule80G){const SG=I.Schedule80G;
+    const G80=[
+      ["A","Don100Percent","TotDon100Percent","TotDon100PercentCash","TotDon100PercentOtherMode","TotElgDon100Percent"],
+      ["B","Don50PercentNoApprReqd","TotDon50PercentNoApprReqd","TotDon50PercentNoApprReqdCash","TotDon50PercentNoApprReqdOtherMode","TotElgDon50PercentNoApprReqd"],
+      ["C","Don100PercentApprReqd","TotDon100Percent","TotDon100PercentApprReqdCash","TotDon100PercentApprReqdOtherMode","TotElgDon100Percent"],
+      ["D","Don50PercentApprReqd","TotDon50PercentApprReqd","TotDon50PercentApprReqdCash","TotDon50PercentApprReqdOtherMode","TotElgDon50PercentApprReqd"]];
+    let totBuckets=0; const allRows=[];
+    G80.forEach(function(g,bi){const blk=RG(SG,g[1],null);if(!blk||typeof blk!=="object")return;
+      const rows=arr(RG(blk,"DoneeDetail",[]));
+      /* 602–605: per bucket, total donation = donation in cash + donation in other mode */
+      A(602+bi,REQ(N(blk[g[2]]),N(blk[g[3]])+N(blk[g[4]])),
+        "Schedule 80G table "+g[0]+": total donation must equal donation in cash plus donation in other mode.");
+      rows.forEach(function(r,ri){r=r||{};const cash=N(r.DonationAmtCash),oth=N(r.DonationAmtOtherMode),L=" row "+(ri+1)+": ";
+        /* 598–601: a donation in cash over ₹2,000 is not eligible, so the eligible amount
+           cannot exceed the other-mode amount plus any cash of ₹2,000 or less */
+        A(598+bi,N(r.DonationElgAmt)<=(cash>2000?0:cash)+oth+1,
+          "Schedule 80G table "+g[0]+L+"a donation in cash over ₹2,000 is not eligible for the 80G deduction.");
+        /* 596: donee PAN cannot be the same as the assessee's PAN or the PAN at Verification */
+        const dp=upan(r.DoneePAN);
+        A(596,!(isPAN(dp)&&(dp===aPAN||dp===vPAN)),
+          "Schedule 80G table "+g[0]+L+"the PAN of the donee cannot be the same as the assessee's PAN or the PAN at Verification.");
+        allRows.push({pan:dp,arn:String(r.ArnNbr||"").trim()});
+      });
+      totBuckets+=N(blk[g[2]]);
+    });
+    /* 606: E (total donation) = Aiii + Biii + Ciii + Diii (the sum of the bucket totals) */
+    A(606,REQ(N(SG.TotalDonationsUs80G),totBuckets),
+      "Schedule 80G: the total donation at E must equal the sum of the bucket totals (Aiii + Biii + Ciii + Diii).");
+    /* 597: the total deduction computed for 80G cannot be more than the eligible amount at E */
+    A(597,N(RG(I,"ScheduleVIA.DeductUndChapVIA.Section80G",0))<=N(SG.TotalEligibleDonationsUs80G)+1,
+      "Schedule 80G: the total amount of deduction computed cannot be more than the eligible amount at sl. no. E.");
+    /* 609: the system-calculated 80G value in Schedule VI-A must match the eligible donation at E */
+    A(609,REQ(N(RG(I,"ScheduleVIA.DeductUndChapVIA.Section80G",0)),N(SG.TotalEligibleDonationsUs80G)),
+      "Schedule VI-A / 80G: the system-calculated value of 80G in Schedule VI-A must match the eligible donation at sl. no. E in Schedule 80G.");
+    /* 608: a donee PAN cannot repeat across the deduction blocks, except PAN 'AAAAR1077P'
+       and (per the note) except a table-D row that carries an ARN (unique/exempt). We check
+       only rows without an ARN, excluding AAAAR1077P, so ARN-differentiated D rows never fire. */
+    const chk=allRows.filter(x=>isPAN(x.pan)&&x.pan!=="AAAAR1077P"&&!x.arn);
+    const seen={};let dup=false;chk.forEach(function(x){if(seen[x.pan])dup=true;seen[x.pan]=1;});
+    A(608,!dup,"Schedule 80G: the PAN of a donee cannot repeat across the blocks (100% / 50% / with or without qualifying limit), except PAN AAAAR1077P and table-D rows carrying a unique ARN.");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     582 — "In Schedule 80GGC, if Sl. No. iii > 0, then Sl. No. iv, vii and
+           viii are not required to be filled." A conditional "not required to
+           be filled" advisory keyed to form sl. nos. iv/vii/viii that have no
+           corresponding fields in the ITR-5 Schedule80GGC schema (which stores
+           only date/name/PAN/cash/other/total/eligible per row plus the four
+           totals); there is no numeric assertion to check.
+     588 — "If 'Donation in other mode' > 0, then details of such donation are
+           required." The export writes the transaction-reference / IFSC fields
+           only when supplied (expDed: `if(sv(r.ref))…` / `if(sv(r.ifsc))…`), so
+           a return produced by this engine may lawfully omit them; a presence
+           assertion would false-fire on such returns — not offline-checkable
+           without false-firing.
+     611 — "Transaction Reference number for UPI transfer / Cheque number /
+           IMPS / NEFT / RTGS reference number and/ or IFSC" — a truncated
+           fragment carrying no checkable assertion.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 14.
+   Serials 612–643 (books/ITR-5/rules.json), covering Schedule 80G (PAN of
+   donee), Schedule 80IAC, Schedule 80LA, Schedule 80RA ("Schedule RA"),
+   the profit-linked Schedule 80 (80-IA / 80-IB / 80-IE) totalling lines,
+   and Schedule 80P.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})); nothing throws; every block guards to
+   a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_ded.js exp() (Schedule80G donee buckets,
+   Schedule80IAC, Schedule80LA / DED_LASUBALLOW enums, Schedule80RA totals,
+   Schedule80_IA / _IB / _IC clause objects, Schedule80P flat matrix
+   DED_80P / DED_80P_KEY) and forms/ITR-5/src/70_sec_gen.js exp()
+   (PartA_GEN1.FilingStatus.StartUpDPIITFlag / OptOldRegimeCurrAY,
+   PartA_GEN2.NatOfBus.NatureOfBusiness[].Code), cross-checked with books.
+   NOTE: the rules.json text is line-shifted (each rule's tail bleeds into
+   the next serial's start); every rule below is encoded from its own
+   reconstructed sentence, not the raw fragment.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const S=s=>String(s==null?"":s).trim();                 /* trimmed string */
+  const has=s=>S(s).length>0;                             /* field present / non-blank */
+  const isISO=s=>/^\d{4}-\d{2}-\d{2}$/.test(S(s));
+
+  /* ===================================================================
+     SCHEDULE 80G  (612)
+     Donee rows live under four buckets, each carrying a DoneeDetail[]:
+       Don100Percent · Don50PercentNoApprReqd ·
+       Don100PercentApprReqd · Don50PercentApprReqd.
+     Each row: DoneeName · DoneePAN · DonationAmtCash · DonationAmtOtherMode
+             · DonationAmt · DonationElgAmt (· IFSCCode · TransactionRefNum).
+     =================================================================== */
+  if(I.Schedule80G){const G=I.Schedule80G;
+    ["Don100Percent","Don50PercentNoApprReqd","Don100PercentApprReqd","Don50PercentApprReqd"].forEach(function(bk){
+      arr(RG(G,bk+".DoneeDetail",[])).forEach(function(r,i){r=r||{};
+        const don=N(r.DonationAmt)||N(r.DonationAmtCash)+N(r.DonationAmtOtherMode);
+        /* 612: PAN of the donee is mandatory when the donation amount is > 0 */
+        A(612,!(don>0)||has(r.DoneePAN),"Schedule 80G ("+bk+") donee "+(i+1)+": the PAN of the donee is mandatory when the donation amount is more than zero.");
+      });
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE 80IAC  (613–615)   — single start-up object
+     Fields: DateIncrpStrup · NatureOfBusiness · InterMnstBoardCertNum ·
+             FstAYDeduction · AmtDedCurAY.  (Emitted only when amt > 0.)
+     =================================================================== */
+  if(I.Schedule80IAC){const X=I.Schedule80IAC||{}; const claimed=N(X.AmtDedCurAY)>0;
+    /* 613: amount of deduction is > 0 but the remaining fields are not filled up */
+    A(613,!claimed||(has(X.DateIncrpStrup)&&has(X.NatureOfBusiness)&&has(X.InterMnstBoardCertNum)&&has(X.FstAYDeduction)),
+      "Schedule 80-IAC: the amount of deduction is more than zero but the remaining fields (date of incorporation, nature of business, board-certificate number, first AY of deduction) are not filled up.");
+    /* 614: deduction can be claimed only by an entity incorporated after 01.04.2016 */
+    A(614,!claimed||(isISO(X.DateIncrpStrup)&&S(X.DateIncrpStrup)>"2016-04-01"),
+      "Schedule 80-IAC: the deduction can be claimed only by an entity whose date of incorporation is after 01st April, 2016.");
+    /* 615: Schedule 80IAC is enabled only when the DPIIT start-up flag is "Yes" */
+    A(615,S(RG(I,"PartA_GEN1.FilingStatus.StartUpDPIITFlag","")).toUpperCase()==="Y",
+      "Schedule 80-IAC can be filled only when \"Recognised as a start-up by DPIIT\" in Part A-General is answered Yes.");
+  }
+
+  /* ===================================================================
+     SCHEDULE 80LA  (616–619)
+     Schedule80LADtls[] rows: SubSecDedClmd (Sl.1) · EntityType (Sl.2) ·
+       IncmTypeUnt (Sl.3) · RegGNTAuth (Sl.4) · RegDate (Sl.5) ·
+       RegNumber (Sl.6) · FstAYDeduction (Sl.7) · AmtDedCurAY (Sl.8).
+     Sub-section → allowed EntityType / IncmTypeUnt (DED_LASUBALLOW):
+       80LA(1)  : ent {SchdBankSEZ, FrgnBankSEZ} ; inc {OffshoreBnkng, Sec10Of1949}
+       80LA(1A) : ent {UntIFSC}                  ; inc {IFSCSplEcoZone, TnfrAsst1949}
+     =================================================================== */
+  if(I.Schedule80LA){
+    const LAENT={"80LA(1)":["SchdBankSEZ","FrgnBankSEZ"],"80LA(1A)":["UntIFSC"]};
+    const LAINC={"80LA(1)":["OffshoreBnkng","Sec10Of1949"],"80LA(1A)":["IFSCSplEcoZone","TnfrAsst1949"]};
+    arr(RG(I,"Schedule80LA.Schedule80LADtls",[])).forEach(function(r,i){r=r||{};
+      const L=" row "+(i+1)+": "; const amt=N(r.AmtDedCurAY)>0; const sub=S(r.SubSecDedClmd);
+      /* 616: amount claimed > 0 but the sub-section is not selected */
+      A(616,!amt||has(r.SubSecDedClmd),"Schedule 80-LA"+L+"the amount of deduction is more than zero but the sub-section under which it is claimed is not selected.");
+      /* 617: amount at Sl.8 > 0 but Sl.1–7 are not all filled up */
+      A(617,!amt||(has(r.SubSecDedClmd)&&has(r.EntityType)&&has(r.IncmTypeUnt)&&has(r.RegGNTAuth)&&has(r.RegDate)&&has(r.RegNumber)&&has(r.FstAYDeduction)),
+        "Schedule 80-LA"+L+"the amount of deduction at Sl. No. 8 is more than zero but one or more of the remaining fields at Sl. No. 1 to 7 is not filled up.");
+      /* 618: type of entity must be one enabled by the chosen sub-section */
+      if(LAENT[sub]&&has(r.EntityType))
+        A(618,LAENT[sub].indexOf(S(r.EntityType))>=0,"Schedule 80-LA"+L+"the type of entity is not one that is enabled for the sub-section under which the deduction is claimed.");
+      /* 619: type of income of the unit must be one enabled by the chosen sub-section */
+      if(LAINC[sub]&&has(r.IncmTypeUnt))
+        A(619,LAINC[sub].indexOf(S(r.IncmTypeUnt))>=0,"Schedule 80-LA"+L+"the type of income of the unit is not one that is enabled for the sub-section under which the deduction is claimed.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE RA  (620–623)   — schema block Schedule80RA (35(1) research assns)
+     Rows (DonationDtlsRsrchAssctn[]): DonationAmtCash · DonationAmtOtherMode
+       · DonationAmt.  Totals: TotalDonationAmtCash80RA · TotalDonationAmt-
+       OtherMode80RA · TotalDonationsUs80RA.
+     =================================================================== */
+  if(I.Schedule80RA){const RA=I.Schedule80RA; const rr=arr(RG(RA,"DonationDtlsRsrchAssctn",[]));
+    /* 620: total donation = donation in cash + donation in other mode */
+    A(620,REQ(N(RA.TotalDonationsUs80RA),N(RA.TotalDonationAmtCash80RA)+N(RA.TotalDonationAmtOtherMode80RA)),
+      "Schedule RA: the total donation must equal donation in cash + donation in other mode.");
+    /* 621: total donation in cash = sum of the per-row cash amounts */
+    A(621,REQ(N(RA.TotalDonationAmtCash80RA),RSUM(rr,"DonationAmtCash")),
+      "Schedule RA: the total donation in cash must equal the sum of the per-row donations in cash.");
+    /* 622: total donation in other mode = sum of the per-row other-mode amounts */
+    A(622,REQ(N(RA.TotalDonationAmtOtherMode80RA),RSUM(rr,"DonationAmtOtherMode")),
+      "Schedule RA: the total donation in other mode must equal the sum of the per-row donations in other than cash.");
+    /* 623: total donation = sum of the per-row total donations */
+    A(623,REQ(N(RA.TotalDonationsUs80RA),RSUM(rr,"DonationAmt")),
+      "Schedule RA: the total donation must equal the sum of the per-row total donations.");
+  }
+
+  /* ===================================================================
+     SCHEDULE 80  (624–627)   — the profit-linked 80-IA / 80-IB / 80-IE
+     Each clause object holds Sch80DeductAmtDtls[] (up to two undertakings,
+     each {DeductAmountSec80}); the clause value is the sum over that array.
+       Schedule80_IA : DeductUs80_IA_4_i (a) · DeductUs80_IA_4_iv (b) ; total TotSchedule80_IA
+       Schedule80_IB : DeductJKLocUs80_IB_4_Und (a) · DeductMinOilUs80_IB_9_Und (b) ·
+                       DeductHousUs80_IB_10_Und (c) · DeductFruitVegUs80_IB_11A_Und (d) ·
+                       DeductFoodGrainUs80_IB_11A_Und (e) ; total TotSchedule80_IB
+       Schedule80_IC : DeductInNorthEast{ 8 state _Und clauses (aa..ah),
+                       TotDeductInNorthEast (ai) } ; total TotSchedule80_IC (b)
+     =================================================================== */
+  const clauseVal=(blk,key)=>RSUM(arr(RG(blk,key+".Sch80DeductAmtDtls",[])),"DeductAmountSec80");
+  /* 624: 80-IA total = a + b */
+  if(I.Schedule80_IA){const IA=I.Schedule80_IA;
+    A(624,REQ(N(IA.TotSchedule80_IA),clauseVal(IA,"DeductUs80_IA_4_i")+clauseVal(IA,"DeductUs80_IA_4_iv")),
+      "Schedule 80-IA: the total deduction under section 80-IA must equal the value entered in (a + b).");
+  }
+  /* 625: 80-IB total (f) = total of a to e */
+  if(I.Schedule80_IB){const IB=I.Schedule80_IB;
+    const sumIB=clauseVal(IB,"DeductJKLocUs80_IB_4_Und")+clauseVal(IB,"DeductMinOilUs80_IB_9_Und")+
+                clauseVal(IB,"DeductHousUs80_IB_10_Und")+clauseVal(IB,"DeductFruitVegUs80_IB_11A_Und")+
+                clauseVal(IB,"DeductFoodGrainUs80_IB_11A_Und");
+    A(625,REQ(N(IB.TotSchedule80_IB),sumIB),
+      "Schedule 80-IB: the total at Sl. No. f must equal the sum of all individual line items (total of a to e).");
+  }
+  /* 626/627: 80-IE North-Eastern-States clauses */
+  if(I.Schedule80_IC){const NE=RG(I,"Schedule80_IC.DeductInNorthEast",{})||{};
+    const states=["Assam_Und","ArunachalPradesh_Und","Manipur_Und","Mizoram_Und","Meghalaya_Und","Nagaland_Und","Tripura_Und","Sikkim_Und"];
+    const sumNE=states.reduce((s,k)=>s+clauseVal(NE,k),0);
+    /* 627: ai (TotDeductInNorthEast) = sum of aa to ah */
+    A(627,REQ(N(NE.TotDeductInNorthEast),sumNE),
+      "Schedule 80-IE: Sl. No. ai must equal the sum of Sl. No. aa to ah.");
+    /* 626: b (TotSchedule80_IC) = ai */
+    A(626,REQ(N(RG(I,"Schedule80_IC.TotSchedule80_IC")),N(NE.TotDeductInNorthEast)),
+      "Schedule 80-IE: Sl. No. b must equal Sl. No. ai.");
+  }
+
+  /* ===================================================================
+     SCHEDULE 80P  (632, 633, 638–643)
+     Flat matrix (Schedule80P). Per activity row there are three leaves:
+       <key>      — income eligible (column "income")   [Sl. 1..13]
+       <key>Amt   — amount of deduction ("Amount eligible for deduction")
+       <key>Code  — the fixed nature-of-business code
+     Totals: Sec80PTotal (income) · Sec80PTotalAmt (deduction = Sl.14).
+     Row order / keys / mandated codes (DED_80P / DED_80P_KEY, 70_sec_ded.js):
+       Sl.1  Sec80P2ai   80P(2)(a)(i)   23001
+       Sl.2  Sec80P2aii  80P(2)(a)(ii)  23002
+       Sl.3  Sec80P2aiii 80P(2)(a)(iii) 23003
+       Sl.4  Sec80P2aiv  80P(2)(a)(iv)  23004
+       Sl.5  Sec80P2av   80P(2)(a)(v)   23005
+       Sl.6  Sec80P2avi  80P(2)(a)(vi)  23006
+       Sl.7  Sec80P2avii 80P(2)(a)(vii) 23007
+       Sl.8  Sec80P2b    80P(2)(b)      23008
+       Sl.9  Sec80P2ci   80P(2)(c)(i)   23009   (deduction cap ₹1,00,000)
+       Sl.10 Sec80P2cii  80P(2)(c)(ii)  23010   (deduction cap ₹50,000)
+       Sl.11 Sec80P2d    80P(2)(d)      23011
+       Sl.12 Sec80P2e    80P(2)(e)      23012
+       Sl.13 Sec80P2f    80P(2)(f)      23013
+     =================================================================== */
+  if(I.Schedule80P){const P=I.Schedule80P||{};
+    const ROWS=[["Sec80P2ai","23001","80P(2)(a)(i)"],["Sec80P2aii","23002","80P(2)(a)(ii)"],
+      ["Sec80P2aiii","23003","80P(2)(a)(iii)"],["Sec80P2aiv","23004","80P(2)(a)(iv)"],
+      ["Sec80P2av","23005","80P(2)(a)(v)"],["Sec80P2avi","23006","80P(2)(a)(vi)"],
+      ["Sec80P2avii","23007","80P(2)(a)(vii)"],["Sec80P2b","23008","80P(2)(b)"],
+      ["Sec80P2ci","23009","80P(2)(c)(i)"],["Sec80P2cii","23010","80P(2)(c)(ii)"],
+      ["Sec80P2d","23011","80P(2)(d)"],["Sec80P2e","23012","80P(2)(e)"],["Sec80P2f","23013","80P(2)(f)"]];
+    const present=k=>P[k]!=null||P[k+"Amt"]!=null||P[k+"Code"]!=null;
+
+    /* 643: for each row, the eligible deduction cannot exceed the income disclosed */
+    ROWS.forEach(function(x){if(present(x[0]))
+      A(643,N(P[x[0]+"Amt"])<=N(P[x[0]])+1,"Schedule 80P ["+x[2]+"]: the eligible amount of deduction claimed cannot be more than the income disclosed for that row.");});
+
+    /* 632: 80P(2)(c)(i) deduction cannot be more than ₹1,00,000
+       (the alternative "or non-speculative business income" operand is a
+       derived business-income pool — see the NOT-MAPPABLE note; the ₹1,00,000
+       ceiling is an absolute upper bound and is always a lawful assertion) */
+    A(632,N(P.Sec80P2ciAmt)<=100000+1,"Schedule 80P [80P(2)(c)(i)]: the deduction cannot be more than ₹1,00,000.");
+    /* 633: 80P(2)(c)(ii) at Sl. No. 10 cannot be more than ₹50,000 */
+    A(633,N(P.Sec80P2ciiAmt)<=50000+1,"Schedule 80P [80P(2)(c)(ii)] at Sl. No. 10: the deduction cannot be more than ₹50,000.");
+
+    /* 638: each row's business code must match a code declared in the
+       Schedule "Nature of business" (guarded to a no-op if that schedule
+       is not filled, so an absent nature-of-business never false-fires) */
+    {const nob=arr(RG(I,"PartA_GEN2.NatOfBus.NatureOfBusiness",[])).map(r=>S((r||{}).Code)).filter(has);
+     if(nob.length) ROWS.forEach(function(x){if(present(x[0]))
+       A(638,nob.indexOf(S(P[x[0]+"Code"]))>=0,"Schedule 80P ["+x[2]+"]: the business code selected does not match any \"Business code\" selected in the Schedule \"Nature of business\".");});
+    }
+
+    /* 640: rows Sl.1–7 [80P(2)(a)(i)–(vii)] carry only their mandated codes */
+    ROWS.slice(0,7).forEach(function(x){if(present(x[0]))
+      A(640,S(P[x[0]+"Code"])===x[1],"Schedule 80P: deduction under "+x[2]+" can be claimed only for business code "+x[1]+".");});
+    /* 641 (part 1): rows Sl.8–13 [80P(2)(b)–(f)] carry only their mandated codes */
+    ROWS.slice(7).forEach(function(x){if(present(x[0]))
+      A(641,S(P[x[0]+"Code"])===x[1],"Schedule 80P: deduction under "+x[2]+" can be claimed only for business code "+x[1]+".");});
+    /* 641 (part 2): 80P cannot be claimed if the new tax regime has been opted for
+       (OptOldRegimeCurrAY = "N" is the new regime; the master switch is always
+       written, so the total deduction must then be nil) */
+    A(641,S(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY","")).toUpperCase()==="Y"||N(P.Sec80PTotalAmt)===0,
+      "Schedule 80P: a deduction u/s 80P cannot be claimed when the new tax regime has been opted for.");
+
+    /* 639: total deduction at Sl.14 cannot exceed the sum of Sl.1–13 deductions */
+    A(639,N(P.Sec80PTotalAmt)<=RSUM(ROWS,x=>N(P[x[0]+"Amt"]))+1,
+      "Schedule 80P: the total deduction at Sl. No. 14 must be less than or equal to the sum of the deductions claimed at Sl. No. 1 to Sl. No. 13.");
+  }
+
+  /* ===================================================================
+     SCHEDULE 80P  (642)   — cross-schedule presence linkage
+     To claim a deduction u/s 80P (allowed amount carried in Schedule VI-A),
+     Schedule 80P and the P&L account (PARTA_PL) must both be filled.
+     =================================================================== */
+  {const claimed80P=N(RG(I,"ScheduleVIA.DeductUndChapVIA.Section80P"))>0||N(RG(I,"ScheduleVIA.UsrDeductUndChapVIA.Section80P"))>0;
+   if(claimed80P)
+     A(642,!!I.Schedule80P&&!!I.PARTA_PL,"Schedule 80P: to claim a deduction u/s 80P it is mandatory to fill Schedule 80P and the Profit & Loss account, failing which the deduction is not allowed.");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     628 — "Deduction u/s 80IB (Sl. 2g) cannot be more than the non-
+           speculative, non-specified-business, non-presumptive income."
+           The cap operand is the derived business-income pool (business
+           income after BFLA less 44AD/44ADA/44AE), not a single schema
+           leaf; reconstructing it from ScheduleBFLA/CorpScheduleBP would
+           false-fire on lawful returns.
+     629 — same derived business-income-pool cap, for 80IE (Sl. 2i).
+     630 — "Schedule 80P Sl. 11 [80P(2)(d)] eligible amount should not be
+           more than (1a + 1bi + 1bii) of Schedule OS + 5(ii) and 5(xiii)
+           of Schedule BFLA, subject to interest/dividend declared in the
+           P&L." The cap operand spans Schedule OS line items and BFLA
+           set-off columns with a P&L condition; there is no single stored
+           field, so a literal encoding would false-fire.
+     631 — "80P is allowed only to a Primary Agricultural Credit Society /
+           Primary Co-op Agri & Rural Development Bank / other co-operative
+           society, and cannot be claimed from income offered u/s 44AD."
+           The first limb needs the filing sub-status enum semantics and
+           the second needs the 44AD presumptive-income figure (a derived
+           pool), neither being a checkable single leaf here (co-op status
+           gate is encoded at the Schedule VI-A level, serial 653/batch 15).
+     634 — "80P(2)(e) at Sl. 12 can be claimed on rental income included in
+           gross total income." The operand (rental income within GTI) is a
+           cross-schedule derived figure (Schedule HP into Part B-TI), not a
+           single schema field.
+     635 — "80P(2)(f) Others is allowed only when gross total income ≤
+           ₹20,000, to the extent of interest income in Schedule OS and
+           Sl. 4 of Schedule HP." GTI is the derived Part B-TI total and the
+           extent operand spans Schedule OS/HP; no single checkable leaf.
+     636 — "80P(2)(a)(i) to (vii) cannot be more than the non-speculative,
+           non-specified-business, non-presumptive income." Same derived
+           business-income-pool cap as 628.
+     637 — "80P(2)(b) cannot be more than the non-speculative, non-
+           specified-business, non-presumptive income." Same derived
+           business-income-pool cap as 628.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 15.
+   Serials 644–675 (books/ITR-5/rules.json), all in Schedule VI-A
+   (Chapter VI-A deduction summary: the Part B / Part C line totals, the
+   per-line "value claimed vs. its own sub-schedule" caps, the schedule-
+   filled cross-checks, the status / IFSC-forex eligibility gates, and the
+   "eligible ≤ user-enterable" per-line lines).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})); nothing throws; every block guards to
+   a no-op when Schedule VI-A is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_ded.js exp() (ScheduleVIA UsrDeductUndChapVIA /
+   DeductUndChapVIA and the Section80* leaves; the sub-schedule totals
+   TotSchedule80_IA / _IB / _IC, Schedule80IAC.AmtDedCurAY, Schedule80LA.
+   Total) and forms/ITR-5/src/70_sec_gen.js exp() (PartA_GEN1.OrgFirmInfo.
+   StatusOrCompanyType / SubStatus, PartA_GEN1.FilingStatus.
+   ForeignExchangeFlag), cross-checked against the books.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+
+  /* ===================================================================
+     SCHEDULE VI-A  (644–675)
+     ScheduleVIA carries two mirrored sub-objects:
+       UsrDeductUndChapVIA  (U) — the amount CLAIMED per line + the three
+                                  part totals (TotPartBchapterVIA,
+                                  TotPartCchapterVIA, TotalChapVIADeductions)
+       DeductUndChapVIA     (D) — the amount ALLOWED / eligible per line +
+                                  the same three (GTI-capped) totals
+     Per-line schema keys (DED_MAP in 70_sec_ded.js):
+       Part B: Section80G · Section80GGA · Section80GGC
+       Part C: Section80IA · Section80IAB · Section80IAC · Section80IB ·
+               Section80IBA · Section80IC · Section80JJA · Section80JJAA ·
+               Section80LA · Section80LA_1A · Section80P
+     =================================================================== */
+  if(I.ScheduleVIA){
+    const VIA=I.ScheduleVIA||{};
+    const U=RG(VIA,"UsrDeductUndChapVIA",{})||{};
+    const D=RG(VIA,"DeductUndChapVIA",{})||{};
+
+    /* sub-schedule totals (each read safely; 0 when the schedule is absent) */
+    const totIA =RG(I,"Schedule80_IA.TotSchedule80_IA",0);
+    const totIB =RG(I,"Schedule80_IB.TotSchedule80_IB",0);
+    const totIC =RG(I,"Schedule80_IC.TotSchedule80_IC",0);
+    const totIAC=RG(I,"Schedule80IAC.AmtDedCurAY",0);
+    const totLA =RG(I,"Schedule80LA.Total",0);
+
+    /* filing status / substatus / IFSC-forex flag (PartA_GEN1) */
+    const stat=String(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType",""));
+    const sub =String(RG(I,"PartA_GEN1.OrgFirmInfo.SubStatus",""));
+    const fx  =String(RG(I,"PartA_GEN1.FilingStatus.ForeignExchangeFlag","N")).charAt(0).toUpperCase()==="Y";
+
+    /* ---- 644/645: 80-IA (VI-A 2d) vs Schedule 80-IA ---- */
+    if(I.Schedule80_IA) A(644,N(U.Section80IA)<=totIA+1,"Schedule VI-A: the 80-IA deduction claimed cannot be higher than the total deduction computed in Schedule 80-IA (Sl. No. c).");
+    A(645,!(N(U.Section80IA)>0)||!!I.Schedule80_IA,"Schedule VI-A: an 80-IA deduction is claimed but Schedule 80-IA is not filled.");
+    /* ---- 646/647: 80-IB vs Schedule 80-IB ---- */
+    if(I.Schedule80_IB) A(646,N(U.Section80IB)<=totIB+1,"Schedule VI-A: the 80-IB deduction claimed cannot be higher than the total deduction computed in Schedule 80-IB.");
+    A(647,!(N(U.Section80IB)>0)||!!I.Schedule80_IB,"Schedule VI-A: an 80-IB deduction is claimed but Schedule 80-IB is not filled.");
+    /* ---- 648/649: 80-IE vs Schedule 80-IE (Schedule80_IC block) ---- */
+    if(I.Schedule80_IC) A(648,N(U.Section80IC)<=totIC+1,"Schedule VI-A: the 80-IE deduction claimed cannot be higher than the total deduction computed in Schedule 80-IE.");
+    A(649,!(N(U.Section80IC)>0)||!!I.Schedule80_IC,"Schedule VI-A: an 80-IE deduction is claimed but Schedule 80-IE is not filled.");
+
+    /* ---- 650: Sl.3 (total) = Sl.1 (Part B) + Sl.2 (Part C), claimed side ---- */
+    A(650,REQ(N(U.TotalChapVIADeductions),N(U.TotPartBchapterVIA)+N(U.TotPartCchapterVIA)),"Schedule VI-A: the total deduction under Chapter VI-A (Sl. 3) must equal Total Part B (Sl. 1) + Total Part C (Sl. 2).");
+    /* ---- 651: Sl.1 Total Part B = 80G + 80GGA + 80GGC, claimed side ---- */
+    A(651,REQ(N(U.TotPartBchapterVIA),N(U.Section80G)+N(U.Section80GGA)+N(U.Section80GGC)),"Schedule VI-A: Total deduction under Part B (Sl. 1) must equal 80G (a) + 80GGA (b) + 80GGC (c).");
+    /* ---- 656: Sl.2 Total Part C = sum of the eleven Part-C lines, claimed side ---- */
+    A(656,REQ(N(U.TotPartCchapterVIA),
+        N(U.Section80IA)+N(U.Section80IAB)+N(U.Section80IAC)+N(U.Section80IB)+N(U.Section80IBA)+
+        N(U.Section80IC)+N(U.Section80JJA)+N(U.Section80JJAA)+N(U.Section80LA)+N(U.Section80LA_1A)+N(U.Section80P)),
+      "Schedule VI-A: Total deduction under Part C (Sl. 2) must equal the sum of the Part-C lines (80-IA to 80P).");
+
+    /* ---- 652: 80-IAC can be claimed only by an LLP ----
+       LLP is Status "1" (Firm) with SubStatus code "5"; a lawful 80-IAC
+       claim must therefore be Status 1 and, where SubStatus is present, "5".
+       (SubStatus omitted → not asserted, so no false-fire.) */
+    A(652,!(N(U.Section80IAC)>0)||(stat==="1"&&(sub===""||sub==="5")),"Schedule VI-A: a deduction u/s 80-IAC can be claimed only by an LLP.");
+
+    /* ---- 653: 80P can be claimed only by a co-operative society ----
+       Co-operative societies file ITR-5 under StatusOrCompanyType "14"
+       (the co-op sub-statuses live under 14). Gate on status 14 — a safe
+       superset of the eligible co-op sub-statuses, so no false-fire. */
+    A(653,!(N(U.Section80P)>0)||stat==="14","Schedule VI-A: 80P can be claimed only by a co-operative society (Primary Agricultural Credit Society / Primary Co-operative Agricultural and Rural Development Bank / other co-operative society).");
+
+    /* ---- 662: 80GGC is not available to a Local Authority or an AJP ----
+       Status "2" = Local Authority, "9" = Artificial Juridical Person. */
+    A(662,!(N(U.Section80GGC)>0)||(stat!=="2"&&stat!=="9"),"Schedule VI-A: a deduction u/s 80GGC is not allowed for status Local Authority or Artificial Juridical Person.");
+
+    /* ---- 663: 80LA(1) and 80LA(1A) cannot be claimed together ---- */
+    A(663,!(N(U.Section80LA)>0&&N(U.Section80LA_1A)>0),"Schedule VI-A: 80LA(1) and 80LA(1A) cannot both be claimed together.");
+    /* ---- 664: 80LA(1A) needs IFSC convertible-forex flag = Yes ---- */
+    A(664,!(N(U.Section80LA_1A)>0)||fx,"Schedule VI-A: 80LA(1A) can be claimed only when the IFSC convertible-foreign-exchange answer in Part A-General is Yes.");
+    /* ---- 665: 80LA(1) needs IFSC convertible-forex flag = No ---- */
+    A(665,!(N(U.Section80LA)>0)||!fx,"Schedule VI-A: 80LA(1) can be claimed only when the IFSC convertible-foreign-exchange answer in Part A-General is No.");
+
+    /* ---- 666: 80P claimed but Schedule 80P not filled ---- */
+    A(666,!(N(U.Section80P)>0)||!!I.Schedule80P,"Schedule VI-A: an 80P deduction is claimed but Schedule 80P is not filled.");
+
+    /* ---- 667/668: 80-IAC vs Schedule 80-IAC (Sl.No 6) ---- */
+    if(I.Schedule80IAC) A(667,N(U.Section80IAC)<=totIAC+1,"Schedule VI-A: the 80-IAC deduction claimed cannot be higher than the amount in Schedule 80-IAC (Sl. No. 6).");
+    A(668,!(N(U.Section80IAC)>0)||!!I.Schedule80IAC,"Schedule VI-A: an 80-IAC deduction is claimed but Schedule 80-IAC is not filled.");
+
+    /* ---- 669/670: 80-LA(1) vs Schedule 80-LA (Sl.No 8 = Total) ---- */
+    if(I.Schedule80LA) A(669,N(U.Section80LA)<=totLA+1,"Schedule VI-A: the 80-LA(1) deduction claimed cannot be higher than the total in Schedule 80-LA (Sl. No. 8).");
+    A(670,!(N(U.Section80LA)>0)||!!I.Schedule80LA,"Schedule VI-A: an 80LA(1) deduction is claimed but Schedule 80LA is not filled.");
+    /* ---- 671/672: 80-LA(1A) vs Schedule 80-LA (Sl.No 8 = Total) ---- */
+    if(I.Schedule80LA) A(671,N(U.Section80LA_1A)<=totLA+1,"Schedule VI-A: the 80-LA(1A) deduction claimed cannot be higher than the total in Schedule 80-LA (Sl. No. 8).");
+    A(672,!(N(U.Section80LA_1A)>0)||!!I.Schedule80LA,"Schedule VI-A: an 80LA(1A) deduction is claimed but Schedule 80LA is not filled.");
+
+    /* ---- 673/674/675: the eligible (allowed) amount cannot exceed the
+       user-enterable (claimed) amount, per line ---- */
+    A(673,N(D.Section80GGA)<=N(U.Section80GGA)+1,"Schedule VI-A: the eligible amount of deduction u/s 80GGA cannot be more than the amount claimed (user-enterable).");
+    A(674,N(D.Section80GGC)<=N(U.Section80GGC)+1,"Schedule VI-A: the eligible amount of deduction u/s 80GGC cannot be more than the amount claimed (user-enterable).");
+    A(675,N(D.Section80G)<=N(U.Section80G)+1,"Schedule VI-A: the eligible amount of deduction u/s 80G cannot be more than the amount claimed (user-enterable).");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     654 — "Deduction u/s 80GGA will be allowed only to an assessee having
+           no business income." Whether business income exists is the
+           post-BFLA business figure (S.C.loss.afterB.bus), a derived
+           quantity of the loss/BP chain with no single schema field; the
+           only near proxy (PartA_GEN1.FilingStatus.IncFrmBusOrProf) is a
+           Y/N flag that is Yes even on a business LOSS, so a literal
+           encoding would false-fire on a lawful firm claiming 80GGA
+           against a business loss. Left to the section's own compute.
+     655 — "Deduction u/s 80-IA (Sl. 2d) cannot be more than the non-
+           speculative, non-specified and non-presumptive business income."
+           The cap operand is the derived business-income pool
+           (business income after BFLA less 44AD/44ADA/44AE), not a single
+           schema leaf; reconstructing it from ScheduleBFLA/CorpScheduleBP
+           across many steps would false-fire on lawful returns.
+     657 — same derived business-income-pool cap, for 80JJAA (Sl. 2k).
+     658 — same derived business-income-pool cap, for 80IAB (Sl. 2e).
+     659 — same derived business-income-pool cap, for 80IBA (Sl. 2h).
+     660 — same derived business-income-pool cap, for 80JJA (Sl. 2j).
+     661 — same derived business-income-pool cap, for 80IAC (Sl. 2f).
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 16.
+   Serials 676–696 (books/ITR-5/rules.json), covering Schedule AMT
+   (§115JC, 676–686) and Schedule AMTC (§115JD credit, 687–696), with
+   the Part B-TI / Part B-TTI cross-links those rules refer to.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / arr()); nothing throws; every block guards to
+   a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_amt.js (expAmt: ScheduleAMT / ScheduleAMTC) and
+   forms/ITR-5/src/70_sec_tax.js (expTax: PartB-TI / PartB_TTI), plus
+   PartA_GEN1.OrgFirmInfo.StatusOrCompanyType and FilingStatus.
+   OptOldRegimeCurrAY from 70_sec_gen.js, cross-checked against the books.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const AMT_FLOOR=2000000;                 /* ₹20 lakh threshold — AOP/BOI (14) & AJP (9) only */
+
+  /* ===================================================================
+     SCHEDULE AMT  (676–686)  — computation of §115JC alternate min. tax
+     Block ScheduleAMT (expAmt):
+       TotalIncItem13 ................. sl.1 (= item 13 of Part B-TI)
+       AdjustmentSec115JC[0]:
+         DeductClaimSec6A ............. 2a (Chapter VI-A Part C, less 80P)
+         DeductClaimSec10AA ........... 2b (§10AA)
+         DeductClaimSec35AD ........... 2c (§35AD net of depreciation)
+         Total ........................ 2d (2a+2b+2c)
+       AdjustedUnderSec115JC ......... sl.3 (adjusted total income = 1+2d)
+       AdjustedUnderSec115JCIFSC ..... 3a (IFSC-unit income, taxed @9%)
+       AdjustedUnderSec115JCOther .... 3b (other units = 3 − 3a)
+       TaxPayableUnderSec115JC ....... sl.4 (9%·3a + 18.5%/15%·3b)
+     =================================================================== */
+  if(I.ScheduleAMT){
+    const M=I.ScheduleAMT;
+    const adj=arr(M.AdjustmentSec115JC)[0]||{};
+    const c2a=N(adj.DeductClaimSec6A), c2b=N(adj.DeductClaimSec10AA),
+          c2c=N(adj.DeductClaimSec35AD), c2d=N(adj.Total);
+    const sl1=N(M.TotalIncItem13), sl3=N(M.AdjustedUnderSec115JC),
+          c3a=N(M.AdjustedUnderSec115JCIFSC), c3b=N(M.AdjustedUnderSec115JCOther),
+          sl4=N(M.TaxPayableUnderSec115JC);
+
+    /* 676: sl.4 tax u/s 115JC = 9% of 3a (IFSC units) + the 3b component.
+       The 3b rate is 18.5% (15% for a co-operative society) and the whole
+       figure is floored to nil for AOP/BOI/AJP within ₹20L, so the exact
+       equality depends on status/floor; the robust, never-false-firing
+       assertion is that sl.4 cannot exceed 9%·3a + 18.5%·3b (its ceiling). */
+    A(676,sl4<=0.09*c3a+0.185*c3b+1,"Schedule AMT: the tax payable under section 115JC (Sl.4) cannot exceed 9% of the IFSC-unit income (3a) plus 18.5% of the other-unit income (3b).");
+
+    /* 680: 2d Total Adjustment = 2a + 2b + 2c */
+    A(680,REQ(c2d,c2a+c2b+c2c),"Schedule AMT: the total adjustment (2d) must equal 2a + 2b + 2c.");
+    /* 681: sl.3 Adjusted Total Income u/s 115JC(1) = sl.1 + 2d */
+    A(681,REQ(sl3,sl1+c2d),"Schedule AMT: the adjusted total income under section 115JC(1) (Sl.3) must equal Sl.1 + 2d.");
+    /* 685: 3b (other units) = sl.3 − 3a.  (rules.json labels the field "3",
+       but the difference "Sl.3 − Sl.3a" is precisely field 3b.) */
+    A(685,REQ(c3b,sl3-c3a),"Schedule AMT: the adjusted total income of other units (3b) must equal Sl.3 − Sl.3a.");
+    /* 686: if sl.3 is zero then 3a and 3b must both be zero */
+    A(686,N(sl3)!==0||(REQ(c3a,0)&&REQ(c3b,0)),"Schedule AMT: when the adjusted total income under section 115JC (Sl.3) is zero, Sl.3a and Sl.3b must also be zero.");
+
+    /* 682: for an AOP/BOI (status 14) or AJP (status 9), AMT (sl.4) is
+       computed only where the adjusted total income exceeds ₹20 lakh; so
+       within ₹20 lakh sl.4 must be nil. (Firms have no such floor — 683.) */
+    const st=String(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType",""));
+    const floorStatus=(st==="14"||st==="9");
+    A(682,!(floorStatus && sl3<=AMT_FLOOR) || N(sl4)<=0,"Schedule AMT: for an AOP/BOI or artificial juridical person, no alternate minimum tax (Sl.4) is payable where the adjusted total income does not exceed ₹20,00,000.");
+
+    /* 677: sl.1 = item 13 of Part B-TI (Total income) */
+    if(I["PartB-TI"])
+      A(677,REQ(sl1,N(RG(I,"PartB-TI.TotalIncome"))),"Schedule AMT: Sl.1 (total income) must equal item 13 of Part B-TI (Total income).");
+    /* 679: 2b = deduction u/s 10AA at sl.12a of Part B-TI */
+    if(I["PartB-TI"])
+      A(679,REQ(c2b,N(RG(I,"PartB-TI.DeductionsUnder10Aor10AA"))),"Schedule AMT: the section 10AA deduction (2b) must equal the section 10AA deduction at item 12a of Part B-TI.");
+    /* 684: Part B-TTI tax payable on deemed total income u/s 115JC = sl.4 */
+    if(I.PartB_TTI)
+      A(684,REQ(N(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnDeemedTI.TaxDeemedTISec115JC")),sl4),"Part B-TTI: the tax payable on deemed total income under section 115JC must equal Sl.4 of Schedule AMT.");
+  }
+
+  /* ===================================================================
+     SCHEDULE AMTC  (687–696)  — computation of §115JD tax credit
+     Block ScheduleAMTC (expAmt):
+       TaxSection115JC ............ item 1 (= 1d of Part B-TTI)
+       TaxOthProvisions ........... item 2 (= 2g of Part B-TTI)
+       AmtTaxCreditAvailable ...... item 3 (= MAX(0, item 2 − item 1))
+       TotAmtCreditUtilisedCY ..... Total of col C (utilised this year)
+       TotBalAMTCreditCF .......... Total of col D (carried forward)
+       TaxSection115JD ............ item 5 (= Total col C)
+       AmtLiabilityAvailable ...... item 6 (= Total col D)
+       ScheduleAMTCDtls[]:
+         AssYr, AmtCreditFwd (B1), AmtCreditSetOfEy (B2),
+         AmtCreditBalBroughtFwd (B3), AmtCreditUtilized (C),
+         BalAmtCreditCarryFwd (D)
+     =================================================================== */
+  if(I.ScheduleAMTC){
+    const C=I.ScheduleAMTC;
+    const i1=N(C.TaxSection115JC), i2=N(C.TaxOthProvisions), i3=N(C.AmtTaxCreditAvailable);
+    const rows=arr(C.ScheduleAMTCDtls);
+
+    /* 689 & 690: item 3 = MAX(0, item 2 − item 1) */
+    A(689,REQ(i3,Math.max(0,i2-i1)),"Schedule AMTC: the amount of tax against which credit is available (Sl.3) must equal Sl.2 − Sl.1 (taken as nil if Sl.1 exceeds Sl.2).");
+    A(690,REQ(i3,Math.max(0,i2-i1)),"Schedule AMTC: Sl.3 must equal Sl.2 − Sl.1.");
+    /* 691: item 5 = Total of col C (AMT credit utilised during the year) */
+    A(691,REQ(N(C.TaxSection115JD),N(C.TotAmtCreditUtilisedCY)),"Schedule AMTC: the tax credit utilised during the year (Sl.5) must equal the total of column C (AMT credit utilised).");
+    /* 692: item 6 = Total of col D (balance AMT credit carried forward) */
+    A(692,REQ(N(C.AmtLiabilityAvailable),N(C.TotBalAMTCreditCF)),"Schedule AMTC: the AMT liability available for credit in later years (Sl.6) must equal the total of column D (balance carried forward).");
+
+    /* 687: item 1 = 1d of Part B-TTI (total tax on deemed total income) */
+    if(I.PartB_TTI)
+      A(687,REQ(i1,N(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnDeemedTI.TotalTax"))),"Schedule AMTC: the tax under section 115JC (Sl.1) must equal item 1d of Part B-TTI (total tax on deemed total income).");
+    /* 688: item 2 = 2g of Part B-TTI (gross tax liability under other provisions) */
+    if(I.PartB_TTI)
+      A(688,REQ(i2,N(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnTI.GrossTaxLiability"))),"Schedule AMTC: the tax under other provisions (Sl.2) must equal item 2g of Part B-TTI (gross tax liability).");
+
+    /* new tax regime? OptOldRegimeCurrAY "Y"=old, "N"=new (blank ⇒ no-op) */
+    const isNewReg=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",""))==="N";
+
+    /* per-row column arithmetic (694/695) and the 2025-26 set-off bar (693) */
+    rows.forEach(function(r,i){r=r||{};const L=" row "+(i+1)+" ("+String(r.AssYr||"")+"): ";
+      const b1=N(r.AmtCreditFwd), b2=N(r.AmtCreditSetOfEy),
+            b3=N(r.AmtCreditBalBroughtFwd), cc=N(r.AmtCreditUtilized), cd=N(r.BalAmtCreditCarryFwd);
+      /* 695: B3 (balance brought forward) = B1 − B2 (holds in either regime) */
+      A(695,REQ(b3,b1-b2),"Schedule AMTC"+L+"the balance brought forward (B3) must equal B1 − B2.");
+      /* 694: D (carried forward) = B3 − C — old regime only; under the new
+         regime col C and col D are forced to nil (rule 696), which overrides
+         this arithmetic, so it is not applied there. */
+      if(!isNewReg)
+        A(694,REQ(cd,b3-cc),"Schedule AMTC"+L+"the balance AMT credit carried forward (col D) must equal B3 − col C.");
+      /* 693: set-off in earlier years (B2) cannot be claimed for the A.Y. 2025-26 row */
+      if(String(r.AssYr||"")==="2025-26")
+        A(693,N(b2)<=0,"Schedule AMTC: set off in earlier assessment years (column B2) cannot be claimed for A.Y. 2025-26.");
+      /* 696: under the new regime, col C and col D must both be zero */
+      if(isNewReg)
+        A(696,REQ(cc,0)&&REQ(cd,0),"Schedule AMTC"+L+"under the new tax regime the AMT credit utilised (col C) and carried forward (col D) must be zero.");
+    });
+    /* 696 (totals): under the new regime the utilised/carried-forward totals are also zero */
+    if(isNewReg)
+      A(696,REQ(N(C.TotAmtCreditUtilisedCY),0)&&REQ(N(C.TotBalAMTCreditCF),0),"Schedule AMTC: under the new tax regime the total of column C (utilised) and column D (carried forward) must be zero.");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     678 — "Sl.no. 2a is not equal to sum of system-computed values of
+           sl.no. 'd' to 'm' of Sch VIA subject to sl.no.9 − sl.no.10 of
+           Part B-TI." The 2a add-back (DeductClaimSec6A) is validated
+           against the item-wise Chapter VI-A Part C deductions (rows d…m
+           of Schedule VIA) capped by a Part B-TI amount — a cross-schedule
+           check needing the VIA d…m enumeration, which the AMT block does
+           not expose. The AMT schema carries only the aggregated 2a, and
+           the "subject to" cap makes it a MIN, so a literal encoding would
+           false-fire on lawful returns. Left to Schedule VIA's own audit.
+     683 — "AMT should be computed at sl.4 … for Firm." This is the Firm
+           companion to 682: it states that the ₹20-lakh floor does NOT
+           apply to a Firm (no threshold). There is no violation condition
+           to assert — a Firm computing AMT below ₹20 lakh is lawful — so
+           there is nothing offline-checkable to encode. (The floor for
+           AOP/BOI/AJP is encoded at 682.)
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 17.
+   Serials 697–744 (books/ITR-5/rules.json), covering Schedule SI
+   (special-rate income, 697–730), Schedule IF (731) and Schedule EI
+   (exempt income, 732–744).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / arr); nothing throws; every block guards to a
+   no-op when its schedule is absent. Schema keys come from
+     forms/ITR-5/src/70_sec_si.js  (expSi → ScheduleSI.SplCodeRateTax rows
+        {SecCode,SplRatePercent,SplRateInc,SplRateIncTax}; TotSplRateInc/
+        TotSplRateIncTax)
+     forms/ITR-5/src/70_sec_ei.js  (expEi → ScheduleEI …)
+   cross-referenced (READ only) for keys named in the rule text:
+     70_sec_tax.js (PartB_TTI…TaxAtSpecialRates), 70_sec_bp.js
+     (CorpScheduleBP.BusinessIncOthThanSpec…), 70_sec_os.js
+     (ScheduleOS.IncOthThanOwnRaceHorse.IncChrgblUs115BBE),
+     70_sec_other.js (ScheduleIF, SchedulePTI), 70_sec_gen.js
+     (PartA_GEN1.OrgFirmInfo.PAN, …FilingStatus.ResidentialStatus).
+   Cross-checked against books/ITR-5/rules.json + structure.md.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const up =s=>String(s==null?"":s).toUpperCase();
+
+  /* ===================================================================
+     SCHEDULE SI  (697–730) — special-rate income roster.
+     Rows: SplCodeRateTax[] {SecCode, SplRatePercent, SplRateInc (col i),
+     SplRateIncTax (col ii)}. Totals: TotSplRateInc (H105), TotSplRateIncTax
+     (J105). SecCode strings are the schema enum (70_sec_si.js SI_CODE_OPTS).
+     =================================================================== */
+  if(I.ScheduleSI){
+    const SI=I.ScheduleSI;
+    const rows=arr(RG(SI,"SplCodeRateTax",[]));
+    const inc=code=>RSUM(rows.filter(r=>r&&String(r.SecCode||"")===code),"SplRateInc");
+
+    /* 697 — Part B-TTI Sl.no 2b (tax at special rates) must equal the total
+       of Col.(ii) "Tax thereon" of Schedule SI (J105). */
+    if(I.PartB_TTI)
+      A(697,REQ(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnTI.TaxAtSpecialRates"),
+                N(RG(SI,"TotSplRateIncTax"))),
+        "Part B-TTI Sl.no 2b (tax at special rates) must equal the total of column (ii) \"Tax thereon\" of Schedule SI.");
+
+    /* 705 — tax at Col.(ii) is income × the special rate, EXCEPT for the OS
+       DTAA, 112A, PTI-112A, 115AD(1)(iii)-Proviso, STCG-DTAA and LTCG-DTAA
+       rows. The post-exemption taxable base (₹1,25,000 / basic-exemption
+       walk) is NOT exported, so only the LAWFUL UPPER BOUND is checkable
+       offline: tax cannot exceed income × rate (equality would false-fire
+       whenever an exemption lawfully reduces the base). */
+    const R705_SKIP={DTAAOS:1,DTAASTCG:1,DTAALTCG:1,"2A":1,PTI_LTCG12_5P112A:1,"5ADiiiP":1};
+    rows.forEach(function(r,i){r=r||{};const code=String(r.SecCode||"");
+      if(R705_SKIP[code])return;
+      A(705,N(r.SplRateIncTax)<=N(r.SplRateInc)*N(r.SplRatePercent)/100+1,
+        "Schedule SI row "+(i+1)+" ("+code+"): the tax at column (ii) cannot exceed the income at column (i) multiplied by the special rate.");
+    });
+
+    /* 706 — tax at Col.(ii) cannot be null when income at Col.(i) > 0. Only
+       enforced for codes that are NEVER reduced by an exemption: the CG
+       "basic-exemption walk" codes (which include 112A / 115AD-proviso / the
+       PTI CG codes) and the DTAA rows can lawfully carry income with nil tax,
+       so they are skipped to stay silent on a lawful return. */
+    const R706_SKIP={"1":1,"21":1,"2A":1,"21ciii":1,"5AC1c":1,"5AB1b":1,"5ADiii":1,
+      "5ADiiiP":1,"5ADii":1,"5AD1biip":1,PTI_STCG20P:1,PTI_STCG30P:1,
+      PTI_LTCG12_5P112A:1,PTI_LTCG12_5P:1,DTAAOS:1,DTAASTCG:1,DTAALTCG:1};
+    rows.forEach(function(r,i){r=r||{};const code=String(r.SecCode||"");
+      if(R706_SKIP[code])return;
+      A(706,!(N(r.SplRateInc)>0)||N(r.SplRateIncTax)>0,
+        "Schedule SI row "+(i+1)+" ("+code+"): the tax at column (ii) cannot be nil when the income at column (i) is greater than zero.");
+    });
+
+    /* 708 — the total of "Tax thereon" (ii) (row 105) must equal the sum of
+       the individual line items. */
+    A(708,REQ(N(RG(SI,"TotSplRateIncTax")),RSUM(rows,"SplRateIncTax")),
+      "Schedule SI: the total tax at special rates (row 105, column (ii)) must equal the sum of the individual line items.");
+
+    /* 701 — SI 115BBE income must equal Schedule OS Sl.no 2b (income u/s
+       115BBE — sections 68/69/69A/69B/69C/69D). */
+    if(I.ScheduleOS)
+      A(701,REQ(inc("5BBE"),N(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.IncChrgblUs115BBE"))),
+        "Schedule SI: the 115BBE income (u/s 68/69/69A/69B/69C/69D) must match Schedule OS Sl.no 2b.");
+
+    /* 702/703/712 — the 115BBF / 115BBG / 115BBH "business or profession"
+       special incomes in Schedule SI must equal Schedule BP Sl.no 3d/3e/3f. */
+    if(I.CorpScheduleBP){
+      const P="CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.";
+      A(702,REQ(inc("5BBF_BP"),N(RG(I,P+"UnderSec115BBF"))),
+        "Schedule SI: the 115BBF (business/profession) income must match Schedule BP Sl.no 3d.");
+      A(703,REQ(inc("5BBG_BP"),N(RG(I,P+"UnderSec115BBG"))),
+        "Schedule SI: the 115BBG (business/profession) income must match Schedule BP Sl.no 3e.");
+      A(712,REQ(inc("5BBH_BP"),N(RG(I,P+"UnderSec115BBH"))),
+        "Schedule SI: the 115BBH virtual-digital-asset (business/profession) income must match Schedule BP Sl.no 3f.");
+    }
+  }
+
+  /* ===================================================================
+     SCHEDULE IF  (731)
+     Rows: PartnerFirmDetails[] {ProfitShareAmt, …}. Total:
+     TotalProfitShareAmt. (Serial 731's rule text is a Schedule IF rule;
+     the batch mapping placed it after the SI block because of the wrapped
+     rules.json layout — encoded here against its true owning schedule.)
+     =================================================================== */
+  if(I.ScheduleIF)
+    A(731,REQ(N(RG(I,"ScheduleIF.TotalProfitShareAmt")),
+              RSUM(arr(RG(I,"ScheduleIF.PartnerFirmDetails",[])),"ProfitShareAmt")),
+      "Schedule IF: the total of \"Amount of share in the profit\" must equal the sum of the amounts entered against the individual firms.");
+
+  /* ===================================================================
+     SCHEDULE EI  (732–744) — exempt income.
+     Line map (70_sec_ei.js): 1 InterestInc · 2i GrossAgriRecpt ·
+     2ii ExpIncAgri · 2iii UnabAgriLossPrev8 · 2iv NetAgriIncRelateToRule7 ·
+     2v NetAgriIncOrOthrIncRule7 · 2vi ExcNetAgriInc.ExcNetAgriIncDtls[] ·
+     3 rows OthersInc.OthersIncDtls[]{Category,SubCategory,Description,
+     OthAmount} + total Others · 4 total IncChrgblAsPerDTAA ·
+     5 PassThrIncNotChrgblTax · 6 TotalExemptInc.
+     =================================================================== */
+  if(I.ScheduleEI){
+    const EI=I.ScheduleEI;
+    const oth=arr(RG(EI,"OthersInc.OthersIncDtls",[]));
+
+    /* 732 — Sl.no 5 (pass-through claimed not chargeable) must equal
+       Schedule PTI Sl.no 1(iv)(a+b+c) — the total exempt income claimed
+       (IncClmdPTI.TotalSec23FBB.NetIncomeLoss) across the PTI rows. */
+    if(I.SchedulePTI)
+      A(732,REQ(N(RG(EI,"PassThrIncNotChrgblTax")),
+                RSUM(arr(RG(I,"SchedulePTI.SchedulePTIDtls",[])),
+                     r=>N(RG(r,"IncClmdPTI.TotalSec23FBB.NetIncomeLoss")))),
+        "Schedule EI: Sl.no 5 (pass-through income claimed as not chargeable) must equal Schedule PTI Sl.no 1(iv)(a+b+c).");
+
+    /* 733 — Sl.no 6 "Total" = 1 + 2(v) + 3 + 4 + 5 (floored at nil). */
+    A(733,REQ(N(RG(EI,"TotalExemptInc")),
+              Math.max(0, N(RG(EI,"InterestInc"))+N(RG(EI,"NetAgriIncOrOthrIncRule7"))
+                          +N(RG(EI,"Others"))+N(RG(EI,"IncChrgblAsPerDTAA"))
+                          +N(RG(EI,"PassThrIncNotChrgblTax")))),
+      "Schedule EI: Sl.no 6 \"Total\" must equal the sum of Sl.no 1 + 2(v) + 3 + 4 + 5.");
+
+    /* 734 — Sl.no 2(v) "Net Agricultural income" = 2(i − ii − iii + iv),
+       taken as nil if the working is a loss. */
+    A(734,REQ(N(RG(EI,"NetAgriIncOrOthrIncRule7")),
+              Math.max(0, N(RG(EI,"GrossAgriRecpt"))-N(RG(EI,"ExpIncAgri"))
+                          -N(RG(EI,"UnabAgriLossPrev8"))+N(RG(EI,"NetAgriIncRelateToRule7")))),
+      "Schedule EI: Sl.no 2(v) net agricultural income must equal 2(i) − 2(ii) − 2(iii) + 2(iv).");
+
+    /* 735 — Sl.no 2(iv) (agri portion under Rule 7/7A/7B(1)/7B(1A)/8) must
+       equal Sl.no 38 of Schedule BP (both floored at nil). */
+    if(I.CorpScheduleBP)
+      A(735,REQ(N(RG(EI,"NetAgriIncRelateToRule7")),
+                N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.BalIncDeemedFrmAgri"))),
+        "Schedule EI: Sl.no 2(iv) (agricultural income under Rule 7/7A/7B(1)/7B(1A)/8) must equal Sl.no 38 of Schedule BP.");
+
+    /* 736 — Sl.no 3 total of "Other exempt income" (Others) must equal the
+       sum of the amounts entered in the individual rows. */
+    A(736,REQ(N(RG(EI,"Others")),RSUM(oth,"OthAmount")),
+      "Schedule EI: the total of other exempt income (Sl.no 3) must equal the sum of the amounts entered in the individual rows.");
+
+    /* 737 — when net agricultural income (Sl.no 2(v)) exceeds ₹5,00,000 the
+       land details must be provided in the table at Sl.no 2(vi). */
+    A(737,!(N(RG(EI,"NetAgriIncOrOthrIncRule7"))>500000)
+          || arr(RG(EI,"ExcNetAgriInc.ExcNetAgriIncDtls",[])).length>0,
+      "Schedule EI: when net agricultural income (Sl.no 2(v)) exceeds ₹5,00,000, the details of each agricultural land (Sl.no 2(vi)) must be provided.");
+
+    /* 738 — in the Sl.no 3 table, the same exemption (sub-category) must not
+       be selected in more than one row. */
+    {const subs=oth.map(r=>String((r&&r.SubCategory)||"")).filter(s=>s!=="");
+     const seen={};let dup=false;
+     subs.forEach(s=>{if(seen[s])dup=true;seen[s]=1;});
+     A(738,!dup,
+       "Schedule EI: the same exempt-income sub-category (Sl.no 3) must not be selected in more than one row.");}
+
+    /* 739 — exempt income u/s 10(23BBH) (Prasar Bharati) may be claimed only
+       by PAN "AAAJP0288R". */
+    {const hasBBH=oth.some(r=>r&&String(r.SubCategory||"")==="10(23BBH)"&&N(r.OthAmount)>0);
+     A(739,!hasBBH || up(RG(I,"PartA_GEN1.OrgFirmInfo.PAN",""))==="AAAJP0288R",
+       "Schedule EI: exempt income u/s 10(23BBH) (Prasar Bharati) can be claimed only by PAN AAAJP0288R.");}
+
+    /* 740 — exempt income u/s 10(4)(i), 10(4C), 10(4E), 10(4F), 10(4G),
+       10(6B), 10(6BB), 10(6D), 10(8A) and 10(15A) cannot be reported by a
+       resident. */
+    {const NR_ONLY={"10(4)(i)":1,"10(4C)":1,"10(4E)":1,"10(4F)":1,"10(4G)":1,
+       "10(6B)":1,"10(6BB)":1,"10(6D)":1,"10(8A)":1,"10(15A)":1};
+     const resident=up(RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus","RES")).slice(0,3)==="RES";
+     oth.forEach(function(r,i){r=r||{};
+       if(!(N(r.OthAmount)>0)||!NR_ONLY[String(r.SubCategory||"")])return;
+       A(740,!resident,
+         "Schedule EI row "+(i+1)+": exempt income u/s "+String(r.SubCategory||"")+" cannot be reported by a resident.");
+     });}
+
+    /* 741 — a Description is mandatory (amount > 0) for the sub-categories
+       "Income exempt as per CBDT Circular" / "…Notification" / "Receipts not
+       in the nature of income". */
+    {const DESC_REQ={Incmexmptcircular:1,Incmexmptnotification:1,Receiptnotincme:1};
+     oth.forEach(function(r,i){r=r||{};
+       if(!(N(r.OthAmount)>0)||!DESC_REQ[String(r.SubCategory||"")])return;
+       A(741,String(r.Description||"").trim()!=="",
+         "Schedule EI row "+(i+1)+": a Description is mandatory for the CBDT Circular / Notification / \"Receipts not in the nature of income\" sub-category when the amount is greater than zero.");
+     });}
+
+    /* 742 — Category and Sub-category are mandatory when the amount reported
+       in a Sl.no 3 row is greater than zero. */
+    oth.forEach(function(r,i){r=r||{};
+      if(!(N(r.OthAmount)>0))return;
+      A(742,String(r.Category||"").trim()!==""&&String(r.SubCategory||"").trim()!=="",
+        "Schedule EI row "+(i+1)+": the Category and Sub-category are mandatory when the amount reported is greater than zero.");
+    });
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     698 / 716 — "income offered in Sl.no 2c of Schedule OS should match the
+           corresponding section in Schedule SI (net of DTAA)". No verifiable
+           OS-2c source-code → SI SecCode crosswalk exists in the exported
+           JSON, and the per-code DTAA reduction (table 2e) is not
+           reconstructable, so a literal match would false-fire.
+     699 / 715 — "income offered in Sl.no 2d (PTI) of Schedule OS should match
+           the corresponding section in Schedule SI (net of DTAA)". Same
+           reason as 698/716 (no verifiable 2d-code → SI-code mapping).
+     700 — "Sl.no 2a 115BB of Schedule OS should match Schedule SI subject to
+           DTAA". The "subject to DTAA" reduction is not reconstructable per
+           code offline; the equality would false-fire whenever DTAA applies.
+     704, 707, 709, 710, 713, 714 — tie a sum of specific SI section codes to
+           a Schedule BFLA column-5 line item (5xiv / 5vii / 5ix / 5xi / 5vi /
+           5xb). These need Schedule BFLA per-line keys (a schedule outside
+           this batch), are gated by residential status + the TRC flag (704's
+           note) and, for 714, by a 23-Jul-2024 sale-date condition, and the
+           SI income is post-BFLA scaled — a raw tie is not offline-verifiable
+           without false-firing.
+     705 — encoded only as the lawful UPPER BOUND (tax ≤ income × rate). The
+           full equality "tax = TAXABLE income × rate" is not offline-checkable
+           because the post-exemption taxable base (the true multiplicand) is
+           not a Schedule SI export field.
+     711 — "Income u/s 115BBC (Anonymous Donations) cannot be more than 0".
+           115BBC has NO SecCode in the ScheduleSI enum (the 115BBC legacy row
+           is not built), so there is no schema field to test; the condition is
+           enforced structurally by the absent enum value.
+     717–730 — each caps an SI section-code income at a specific Schedule CG
+           sub-item "after reducing DTAA income if any" (CG A3ie / A4a / A3iie
+           / B3c / B6ic / B4 / B6iic / B6iiic / A5e / B6ivc / B7 / A8a / A8b /
+           B10a1 / B10a2 / Col.14 of Sch.112A). Those CG sub-items are deeply
+           nested / arrays keyed by section code with no single exported field,
+           and the per-code DTAA reduction is not reconstructable; a mis-keyed
+           read would default to 0 and false-fire. Not safely mappable.
+     743 — states a Description is NOT required for sub-categories other than
+           the three CBDT ones — a relaxation, not an assertion that can be
+           violated; there is nothing to test.
+     744 — "Exempt income fields should be reported only for applicable
+           sections and sub-categories" — a general applicability statement
+           with no single enumerable field mapping beyond what 740 already
+           encodes; too vague to encode without false-firing.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 18.
+   Serials 745–781 (books/ITR-5/rules.json), covering Schedule PTI (745–749),
+   Schedule TPSA (750–756), Schedule 115TD (757–763), Schedule FSI (764–770),
+   Schedule TR (771–776), Schedule FA (777–778), Schedule GST (779–780) and
+   Part B-TI item 2 (781).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / arr / ||{}); nothing throws; every block guards to
+   a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_other.js (expOther: SchedulePTI / ScheduleTPSA /
+   Schedule115TD / ScheduleGST), 70_sec_foreign.js (expForeign: ScheduleFSI /
+   ScheduleTR1 / ScheduleFA), 70_sec_gen.js (ResidentialStatus) and
+   70_sec_tax.js (PartB-TI.ProfBusGain), cross-checked against the books and
+   each schedule's compute engine.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const isISO=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||""));
+  /* system-date proxy for offline validation (challan cannot be future-dated) */
+  const TD=new Date();
+  const TODAY=TD.getFullYear()+"-"+String(TD.getMonth()+1).padStart(2,"0")+"-"+String(TD.getDate()).padStart(2,"0");
+  /* residential status gate: "RES" | "NRI" — Mid(1,2)="NR" ⇒ non-resident */
+  const res=String(RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus","RES"));
+  const nri=res.slice(0,2).toUpperCase()==="NR";
+
+  /* ===================================================================
+     SCHEDULE PTI  (745–749)  — I.SchedulePTI.SchedulePTIDtls[]
+     Columns: 7 AmountOfInc · 8 CurrYrLossShareByInvstFund (HP & CG only) ·
+     9 NetIncomeLoss · 10 TDSAmount.  Sub-blocks:
+       IncFromHP (i) · CapitalGainsPTI.{ShortTermCG(iia)=STCG_Sec111A(ai)+
+       STCG_Others(aii); LongTermCG(iib)=LTCG_Sec112A(bi)+LTCG_Others(bii)} ·
+       {IncOthSrc(iii)=OS_Dividend(a)+OS_Others(b)} ·
+       IncClmdPTI.{TotalSec23FBB(iv)=Sec23FBB(a)+SecB(b)+SecC(c)}.
+     =================================================================== */
+  if(I.SchedulePTI){
+    /* 745: Col.9 (net) = Col.7 (amount) − Col.8 (loss share) on every line */
+    const net9=(blk,lbl)=>{ if(!blk||typeof blk!=="object")return;
+      A(745,REQ(N(blk.NetIncomeLoss),N(blk.AmountOfInc)-N(blk.CurrYrLossShareByInvstFund)),
+        "Schedule PTI"+lbl+"Col.9 (net income/loss) must equal Col.7 (amount of income) − Col.8 (current-year loss share of the investment fund)."); };
+    /* 746/747: a 4-column CG subtotal must equal the sum of its two leaf lines */
+    const sub4=(agg,parts,S,lbl)=>{ const g=agg||{};
+      A(S,REQ(N(g.AmountOfInc),RSUM(parts,"AmountOfInc"))&&
+          REQ(N(g.CurrYrLossShareByInvstFund),RSUM(parts,"CurrYrLossShareByInvstFund"))&&
+          REQ(N(g.NetIncomeLoss),RSUM(parts,"NetIncomeLoss"))&&
+          REQ(N(g.TDSAmount),RSUM(parts,"TDSAmount")),lbl); };
+    /* 748/749: a 3-column subtotal (no loss column) = sum of its leaf lines */
+    const sub3=(agg,parts,S,lbl)=>{ const g=agg||{};
+      A(S,REQ(N(g.AmountOfInc),RSUM(parts,"AmountOfInc"))&&
+          REQ(N(g.NetIncomeLoss),RSUM(parts,"NetIncomeLoss"))&&
+          REQ(N(g.TDSAmount),RSUM(parts,"TDSAmount")),lbl); };
+
+    arr(RG(I,"SchedulePTI.SchedulePTIDtls",[])).forEach(function(b,i){b=b||{};
+      const L=" (block "+(i+1)+"): ";
+      const cg=b.CapitalGainsPTI||{}, x=b.IncClmdPTI||{};
+      /* 745 — over every sub-block carrying the three money columns */
+      net9(b.IncFromHP,L+"[i House property] ");
+      net9(cg.ShortTermCG,L+"[iia Short-term CG] "); net9(cg.STCG_Sec111A,L+"[iia(i) 111A] "); net9(cg.STCG_Others,L+"[iia(ii) Others] ");
+      net9(cg.LongTermCG,L+"[iib Long-term CG] "); net9(cg.LTCG_Sec112A,L+"[iib(i) 112A] "); net9(cg.LTCG_Others,L+"[iib(ii) Others] ");
+      net9(b.IncOthSrc,L+"[iii Other sources] "); net9(b.OS_Dividend,L+"[iii(a) Dividend] "); net9(b.OS_Others,L+"[iii(b) Others] ");
+      net9(x.TotalSec23FBB,L+"[iv Income claimed exempt] "); net9(x.Sec23FBB,L+"[iv(a) 10(23FBB)] ");
+      /* 746: iia Short-term = ai + aii */
+      sub4(cg.ShortTermCG,[cg.STCG_Sec111A,cg.STCG_Others].filter(Boolean),746,
+        "Schedule PTI"+L+"item iia (Short-term capital gains) must equal the sum of ai (u/s 111A) and aii (others).");
+      /* 747: iib Long-term = bi + bii */
+      sub4(cg.LongTermCG,[cg.LTCG_Sec112A,cg.LTCG_Others].filter(Boolean),747,
+        "Schedule PTI"+L+"item iib (Long-term capital gains) must equal the sum of bi (u/s 112A) and bii (others).");
+      /* 748: iii Other sources = a + b */
+      sub3(b.IncOthSrc,[b.OS_Dividend,b.OS_Others].filter(Boolean),748,
+        "Schedule PTI"+L+"item iii (Income from other sources) must equal the sum of a (dividend) and b (others).");
+      /* 749: iv Income claimed exempt = a + b + c */
+      const exParts=[x.Sec23FBB,RG(x,"SecBIncExmptDtl.SecBCIncExmptDtl",null),RG(x,"SecCIncExmptDtl.SecBCIncExmptDtl",null)].filter(Boolean);
+      sub3(x.TotalSec23FBB,exParts,749,
+        "Schedule PTI"+L+"item iv (Income claimed to be exempt) must equal the sum of a + b + c.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE TPSA  (750–756)  — I.ScheduleTPSA
+     1 AmtPrimaryAdjUs92CE_2A · 2a AdditionalIncTax18PercAbove ·
+     2b Surcharge12Perc · 2c HealthEducationCess · 2d TotalAdditionalTax ·
+     3 TaxesPaid · 4 NetTaxPayable · DtlsTaxesPaid[].{Amount,DateDep}.
+     =================================================================== */
+  if(I.ScheduleTPSA){const T=I.ScheduleTPSA;
+    const adj=N(T.AmtPrimaryAdjUs92CE_2A), tax18=N(T.AdditionalIncTax18PercAbove),
+          sur=N(T.Surcharge12Perc), cess=N(T.HealthEducationCess), tot=N(T.TotalAdditionalTax),
+          paid=N(T.TaxesPaid);
+    /* 750: 2a additional income-tax = 18% of the primary adjustment (Sl.1) */
+    A(750,REQ(tax18,0.18*adj),"Schedule TPSA: the additional income-tax at Sl.2a must be 18% of the amount of primary adjustment at Sl.1.");
+    /* 751: 2b surcharge = 12% of the additional income-tax */
+    A(751,REQ(sur,0.12*tax18),"Schedule TPSA: the surcharge at Sl.2b must be 12% of the additional income-tax payable at Sl.2a.");
+    /* 752: 2c health & education cess = 4% of (2a + 2b) */
+    A(752,REQ(cess,0.04*(tax18+sur)),"Schedule TPSA: the health & education cess at Sl.2c must be 4% of (additional income-tax payable + surcharge).");
+    /* 753: 2d = 2a + 2b + 2c */
+    A(753,REQ(tot,tax18+sur+cess),"Schedule TPSA: the total at Sl.2d must equal the sum of 2a + 2b + 2c.");
+    /* 754: 3 (taxes paid) = sum of the amounts deposited by challan */
+    A(754,REQ(paid,RSUM(arr(RG(T,"DtlsTaxesPaid",[])),"Amount")),"Schedule TPSA: the tax deposited at Sl.3 must equal the sum of the challan amounts entered.");
+    /* 755: 4 net tax payable = 2d − 3 (nil if negative) */
+    A(755,REQ(N(T.NetTaxPayable),Math.max(0,tot-paid)),"Schedule TPSA: the net tax payable at Sl.4 must equal Sl.2d − Sl.3.");
+    /* 756: a challan deposit date cannot be after the system date */
+    arr(RG(T,"DtlsTaxesPaid",[])).forEach(function(c,i){c=c||{};
+      A(756,!isISO(c.DateDep)||String(c.DateDep)<=TODAY,"Schedule TPSA challan "+(i+1)+": the date on which tax was deposited cannot be after the current (system) date.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE 115TD  (757–763)  — I.Schedule115TD
+     1 FMVTotTrustInst · 2 LessTotLiaTrustInst · 3 NetValAsst ·
+     4i FMVAsstAcqrdRfrdSec101 · 4ii FMVAsstAcqPeriodFromDateCrtn ·
+     4iii FMVAsstTrnfsrdSec115TD2 · 4iv FMVTotal · 5 LiabilityRespectofAsset4Above ·
+     6 AccretedIncomeSection115TD · 7 AddIncPay115TDMarginalRate ·
+     8 InterestPayable115TE · 9 SpecifiedDateUs115TD · 10 AddIncIntstPayb ·
+     11 TaxIntstPaid · 12 NetPaybleRefble.
+     =================================================================== */
+  if(I.Schedule115TD){const D5=I.Schedule115TD;
+    const netVal=N(D5.NetValAsst), fmvTot=N(D5.FMVTotal), assetLiab=N(D5.LiabilityRespectofAsset4Above),
+          accreted=N(D5.AccretedIncomeSection115TD), tot10=N(D5.AddIncIntstPayb), paid11=N(D5.TaxIntstPaid);
+    /* 757: 3 net value of assets = 1 − 2 (nil if negative) */
+    A(757,REQ(netVal,Math.max(0,N(D5.FMVTotTrustInst)-N(D5.LessTotLiaTrustInst))),"Schedule 115TD: the net value of assets at Sl.3 must equal Sl.1 − Sl.2.");
+    /* 758: 4iv total = 4i + 4ii + 4iii */
+    A(758,REQ(fmvTot,Math.max(0,N(D5.FMVAsstAcqrdRfrdSec101)+N(D5.FMVAsstAcqPeriodFromDateCrtn)+N(D5.FMVAsstTrnfsrdSec115TD2))),"Schedule 115TD: the total at Sl.4(iv) must equal the sum of 4i + 4ii + 4iii.");
+    /* 759: 6 accreted income = 3 − (4iv − 5) (nil if negative) */
+    A(759,REQ(accreted,Math.max(0,netVal-(fmvTot-assetLiab))),"Schedule 115TD: the accreted income at Sl.6 must equal Sl.3 − (Sl.4 − Sl.5).");
+    /* 760: 12 net payable/refundable = 10 − 11 (rounded up to nearest 10, nil if negative) */
+    const d=tot10-paid11, exp12=d>0?Math.ceil(d/10)*10:0;
+    A(760,REQ(N(D5.NetPaybleRefble),exp12),"Schedule 115TD: the net payable/refundable at Sl.12 must equal Sl.10 − Sl.11.");
+    /* 761: accreted income declared ⇒ the specified date u/s 115TD (Sl.9) is mandatory */
+    A(761,accreted<=0||String(RG(D5,"SpecifiedDateUs115TD","")||"")!=="","Schedule 115TD: accreted income u/s 115TD is entered but the specified date u/s 115TD at Sl.9 is blank.");
+    /* 763: accreted income declared ⇒ tax on it must be computed (Sl.7 > 0) */
+    A(763,accreted<=0||N(D5.AddIncPay115TDMarginalRate)>0,"Schedule 115TD: accreted income is entered in the return but the additional income-tax at maximum marginal rate (Sl.7) is not computed on the same.");
+  }
+
+  /* ===================================================================
+     SCHEDULE FSI  (764–770)  — I.ScheduleFSI.ScheduleFSIDtls[]  (resident only)
+     Per country: IncFromHP / IncFromBusiness / IncCapGain / IncOthSrc, each
+     {IncFrmOutsideInd(b), TaxPaidOutsideInd(c), TaxPayableinInd(d),
+      TaxReliefinInd(e)}, plus TotalCountryWise (=SUM of the four heads).
+     =================================================================== */
+  if(I.ScheduleFSI){
+    const fsi=arr(RG(I,"ScheduleFSI.ScheduleFSIDtls",[]));
+    /* 765: FSI is available only to residents */
+    A(765,!nri||fsi.length===0,"Schedule FSI is not applicable to a non-resident, but foreign-income rows are present.");
+    fsi.forEach(function(cr,i){cr=cr||{};
+      const cc=String(cr.CountryCodeExcludingIndia||cr.CountryName||("#"+(i+1)));
+      const heads=[["IncFromHP","House property"],["IncFromBusiness","Business/Profession"],["IncCapGain","Capital gains"],["IncOthSrc","Other sources"]];
+      /* 764: per head, tax relief (e) = lower of tax paid outside India (c) and tax payable in India (d) */
+      heads.forEach(function(h){const o=cr[h[0]]||{};
+        A(764,REQ(N(o.TaxReliefinInd),Math.min(N(o.TaxPaidOutsideInd),N(o.TaxPayableinInd))),"Schedule FSI (country "+cc+", "+h[1]+"): the tax relief available (Col.e) must be the lower of the tax paid outside India (Col.c) and the tax payable on such income in India (Col.d).");
+      });
+      /* 766: Total row (b,c,d,e) = sum of the four head rows (i+ii+iii+iv) */
+      const sumCol=k=>heads.reduce((a,h)=>a+N((cr[h[0]]||{})[k]),0);
+      const t=cr.TotalCountryWise||{};
+      A(766,REQ(N(t.IncFrmOutsideInd),sumCol("IncFrmOutsideInd"))&&
+            REQ(N(t.TaxPaidOutsideInd),sumCol("TaxPaidOutsideInd"))&&
+            REQ(N(t.TaxPayableinInd),sumCol("TaxPayableinInd"))&&
+            REQ(N(t.TaxReliefinInd),sumCol("TaxReliefinInd")),
+        "Schedule FSI (country "+cc+"): the Total row must equal the sum of Sl.(i+ii+iii+iv) for columns b, c, d and e.");
+    });
+  }
+
+  /* ===================================================================
+     SCHEDULE TR  (771–776)  — I.ScheduleTR1  (resident only)
+     ScheduleTR[]: CountryCodeExcludingIndia · TaxPaidOutsideIndia(1c) ·
+       TaxReliefOutsideIndia(1d) · ReliefClaimedUsSection(1e: 90/90A/91).
+     TotalTaxReliefOutsideIndia · TaxReliefOutsideIndiaDTAA(2) ·
+     TaxReliefOutsideIndiaNotDTAA(3).
+     =================================================================== */
+  if(I.ScheduleTR1){const TR=I.ScheduleTR1;
+    const rows=arr(RG(TR,"ScheduleTR",[]));
+    const sec=r=>String((r&&r.ReliefClaimedUsSection)||"");
+    /* 771: Sl.2 (relief where DTAA applies) = Σ Col.1d where section is 90 / 90A */
+    A(771,REQ(N(TR.TaxReliefOutsideIndiaDTAA),rows.filter(r=>sec(r)==="90"||sec(r)==="90A").reduce((a,r)=>a+N(r.TaxReliefOutsideIndia),0)),"Schedule TR: the total tax relief at Sl.2 (country where DTAA applies) must equal the total of Col.1(d) where the section at Col.1(e) is 90 or 90A.");
+    /* 772: Sl.3 (relief where DTAA does not apply) = Σ Col.1d where section is 91 */
+    A(772,REQ(N(TR.TaxReliefOutsideIndiaNotDTAA),rows.filter(r=>sec(r)==="91").reduce((a,r)=>a+N(r.TaxReliefOutsideIndia),0)),"Schedule TR: the total tax relief at Sl.3 (country where DTAA does not apply) must equal the total of Col.1(d) where the section at Col.1(e) is 91.");
+    /* 773: Sl.2 + Sl.3 = total of Col.1d */
+    A(773,REQ(N(TR.TaxReliefOutsideIndiaDTAA)+N(TR.TaxReliefOutsideIndiaNotDTAA),RSUM(rows,"TaxReliefOutsideIndia")),"Schedule TR: Sl.2 + Sl.3 must equal the total of Col.1(d) (tax relief available).");
+    /* 774: TR is available only to residents */
+    A(774,!nri||rows.length===0,"Schedule TR is not applicable to a non-resident, but tax-relief rows are present.");
+    /* 775/776: country-wise, TR Col.c/Col.d must tie to Schedule FSI Col.c/Col.e totals */
+    const fsi=arr(RG(I,"ScheduleFSI.ScheduleFSIDtls",[]));
+    if(I.ScheduleFSI){
+      rows.forEach(function(r,i){r=r||{};
+        const cc=String(r.CountryCodeExcludingIndia||"");
+        if(!cc)return;
+        const f=fsi.find(x=>x&&String(x.CountryCodeExcludingIndia||"")===cc);
+        if(!f)return;   /* no matching FSI country → no-op */
+        const ft=f.TotalCountryWise||{};
+        /* 775: TR Col.c (taxes paid outside India) = FSI Total Col.c for that country */
+        A(775,REQ(N(r.TaxPaidOutsideIndia),N(ft.TaxPaidOutsideInd)),"Schedule TR (country "+cc+"): the total taxes paid outside India (Col.c) must equal the total of Col.c of Schedule FSI for that country.");
+        /* 776: TR Col.d (tax relief available) = FSI Total Col.e for that country */
+        A(776,REQ(N(r.TaxReliefOutsideIndia),N(ft.TaxReliefinInd)),"Schedule TR (country "+cc+"): the total tax relief available (Col.d) must equal the total of Col.e of Schedule FSI for that country.");
+      });
+    }
+  }
+
+  /* ===================================================================
+     SCHEDULE GST  (779–780)  — I.ScheduleGST.TurnoverGrsRcptForGSTIN[]
+     Row: GSTINNo · AmtTurnGrossRcptGSTIN.
+     =================================================================== */
+  if(I.ScheduleGST){
+    arr(RG(I,"ScheduleGST.TurnoverGrsRcptForGSTIN",[])).forEach(function(r,i){r=r||{};
+      const g=String(r.GSTINNo||"");
+      /* 780: an outward-supplies turnover is entered ⇒ the GSTIN is mandatory */
+      A(780,N(r.AmtTurnGrossRcptGSTIN)<=0||(g!==""&&g!=="NA"),"Schedule GST (row "+(i+1)+"): the annual value of outward supplies is filled, so the GSTIN No. is mandatory.");
+    });
+  }
+
+  /* ===================================================================
+     PART B-TI item 2  (781)  — I["PartB-TI"].ProfBusGain
+     2i ProfGainNoSpecBus · 2ii ProfGainSpecBus · 2iii ProfGainSpecifiedBus ·
+     2iv IncChrgblTaxSplRate · 2v TotProfBusGain (=MAX(0, 2i+2ii+2iii+2iv)).
+     =================================================================== */
+  if(I["PartB-TI"]){
+    const P=RG(I,"PartB-TI.ProfBusGain",{})||{};
+    A(781,REQ(N(P.TotProfBusGain),Math.max(0,N(P.ProfGainNoSpecBus)+N(P.ProfGainSpecBus)+N(P.ProfGainSpecifiedBus)+N(P.IncChrgblTaxSplRate))),"Part B-TI: the total at item 2v must equal the sum of 2i + 2ii + 2iii + 2iv (nil if the sum is a loss).");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     762 — "Part B-TTI Sr.12 (Net tax payable on 115TD income incl. interest
+           u/s 115TE) should match Sr.12 of Schedule 115TD." The PartB_TTI
+           schema does carry TaxPaid.NetTaxPayable115TD, but the owning
+           exporter (70_sec_tax.js) never populates it — it writes no 115TD
+           leaf under PartB_TTI. A cross-check would read 0 on the PartB_TTI
+           side and false-fire on every lawful 115TD return of this build.
+     767 — "FSI house-property income should be the minimum amount of income
+           shown in Sl.1k+3 under the head house property." Garbled directional
+           fragment ("minimum amount income shown"); requires reconstructing a
+           cross-schedule head total from ScheduleHP; would false-fire.
+     768 — "FSI business income should be the minimum income shown in (Sl.D of
+           Trading Account + positive Sl.14 of P&L)." Same: garbled fragment,
+           cross-schedule (TradingAccount + PARTA_PL) aggregation not reliably
+           reconstructable offline; would false-fire.
+     769 — "FSI capital-gains income cannot be less than income under the head
+           capital gains." Directionality is reversed/garbled (foreign income
+           is a subset, cannot exceed the head total) and it needs the whole
+           ScheduleCG head figure; not a clean offline assertion.
+     770 — "FSI other-sources income cannot be less than income under the head
+           other sources." Same reversed/garbled fragment; cross-schedule head
+           total; would false-fire.
+     777 — Schedule FA: "must be filled if Sl.17 of Part B-TTI is Yes." Foreign-
+           asset disclosure driven by the PartB-TTI residency question — a
+           portal/AIS-style holding determination; the FA-present test spans ten
+           optional arrays. Left to the portal per batch guidance.
+     778 — Schedule FA: "complete details of foreign assets should be provided."
+           No checkable assertion (completeness of foreign-asset disclosure is
+           an AIS/portal check); no single schema field to test.
+     779 — Schedule GST: "if GSTIN is filled the outward-supplies turnover is
+           mandatory." After export the turnover is a numeric that defaults to
+           0, so a blank turnover is indistinguishable from a genuine nil
+           turnover — the presence check cannot be verified offline and would
+           false-fire on a lawful nil-turnover GSTIN. (The complementary rule
+           780, turnover ⇒ GSTIN, IS encoded, since a blank GSTIN survives as a
+           detectable "NA"/empty placeholder.)
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 19.
+   Serials 782–823 (books/ITR-5/rules.json): the Part B-TI total-income
+   roll-up and the Part B-TTI tax-paid tie-outs, with their cross-links
+   to Schedules HP, BP, CG, OS, CYLA, BFLA, VI-A, SI, EI, AMT, AMTC and
+   IT/TDS/TCS.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Schema keys come from forms/ITR-5/src/70_sec_tax.js exp() — the Part B
+   blocks are keyed "PartB-TI" (hyphen) and "PartB_TTI" — cross-checked
+   against the source schedules' exp() (70_sec_hp / _bp / _cg / _os /
+   _loss / _ded / _si / _ei / _amt / _paid).
+   Every block guards to a no-op when its schedule is absent; nested reads
+   go through RG (default 0) so nothing throws. Part B-TI items that are
+   floored ("nil in case of loss") are compared with MAX(0,·) so the check
+   is silent on a lawful loss return. Equality uses REQ (±1 tolerance).
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const M0=x=>Math.max(0,N(x));                 /* floor at nil (loss → 0) */
+  const rnd10=x=>Math.round(N(x)/10)*10;        /* round to the nearest ten */
+
+  /* ===================================================================
+     PART B-TI — computation of total income (782–815, 821)
+     Block "PartB-TI": read each item via g("path") relative to the block.
+     =================================================================== */
+  if(I["PartB-TI"]){
+    const TI=I["PartB-TI"];
+    const g=(p)=>N(RG(TI,p,0));
+    const CGp="CapGain.", OSp="IncFromOS.", BPp="ProfBusGain.", VIp="DeductionsUndSchVIADtl.";
+
+    /* ---- 782: 3a(v) Total Short-term = 3ai + 3aii + 3aiii + 3aiv ---- */
+    A(782,REQ(g(CGp+"ShortTerm.TotalShortTerm"),
+        g(CGp+"ShortTerm.ShortTerm20Per")+g(CGp+"ShortTerm.ShortTerm30Per")+
+        g(CGp+"ShortTerm.ShortTermAppRate")+g(CGp+"ShortTerm.ShortTermSplRateDTAA")),
+      "Part B-TI: 3a(v) Total short-term capital gains must equal 3a(i) + 3a(ii) + 3a(iii) + 3a(iv).");
+    /* ---- 783: 3b(iv/iii) Total Long-term = bi + bii ---- */
+    A(783,REQ(g(CGp+"LongTerm.TotalLongTerm"),
+        g(CGp+"LongTerm.LongTerm12_5Per")+g(CGp+"LongTerm.LongTermSplRateDTAA")),
+      "Part B-TI: 3b Total long-term capital gains must equal 3b(i) + 3b(ii).");
+    /* ---- 784: 3c Sum of ST & LT = 3a(v) + 3b(iii) (nil if loss) ---- */
+    A(784,REQ(g(CGp+"ShortTermLongTermTotal"),
+        M0(g(CGp+"ShortTerm.TotalShortTerm")+g(CGp+"LongTerm.TotalLongTerm"))),
+      "Part B-TI: 3c (sum of short-term and long-term capital gains) must equal 3a(v) + 3b(iii), taken as nil if a loss.");
+    /* ---- 785: 4d Total other sources = 4a + 4b + 4c (nil if loss) ---- */
+    A(785,REQ(g(OSp+"TotIncFromOS"),
+        M0(g(OSp+"OtherSrcThanOwnRaceHorse")+g(OSp+"IncChargblSplRate")+g(OSp+"FromOwnRaceHorse"))),
+      "Part B-TI: 4d Total income from other sources must equal 4a + 4b + 4c, taken as nil if a loss.");
+    /* ---- 786: 5 Total head-wise income = 1 + 2v + 3e + 4d ---- */
+    A(786,REQ(g("TotalTI"),
+        g("IncomeFromHP")+g(BPp+"TotProfBusGain")+g(CGp+"TotalCapGains")+g(OSp+"TotIncFromOS")),
+      "Part B-TI: item 5 (total of head-wise income) must equal 1 + 2v + 3e + 4d.");
+    /* ---- 798: 9 Gross total income = 7 − 8 (i.e. 5 − 6 − 8), nil if negative ---- */
+    A(798,REQ(g("GrossTotalIncome"),
+        M0(g("BalanceAfterSetoffLosses")-g("BroughtFwdLossesSetoff"))),
+      "Part B-TI: item 9 (gross total income) must equal item 7 minus item 8 (5 − 6 − 8), taken as nil if negative.");
+    /* ---- 800: 13 Total income = round-to-ten of MAX(0, 9 − 11c − 12) ---- */
+    A(800,REQ(g("TotalIncome"),
+        Math.max(0,rnd10(g("GrossTotalIncome")-g(VIp+"TotDeductUndSchVIA")-g("DeductionsUnder10Aor10AA")))),
+      "Part B-TI: item 13 (total income) must equal gross total income minus the Chapter VI-A and 10AA deductions, rounded off to the nearest ten.");
+    /* ---- 809: 11c Total Chapter VI-A = MIN(11a + 11b, MAX(0, 9 − 10)) ---- */
+    A(809,REQ(g(VIp+"TotDeductUndSchVIA"),
+        Math.min(g(VIp+"PartBchapterVIA")+g(VIp+"PartCchapterVIA"),
+                 M0(g("GrossTotalIncome")-g("IncChargeTaxSplRate111A112")))),
+      "Part B-TI: item 11(c) (total Chapter VI-A deduction) must equal 11a + 11b, limited to (9 − 10).");
+    /* ---- 813: 7 Balance after current-year set-off = 5 − 6 (nil if negative) ---- */
+    A(813,REQ(g("BalanceAfterSetoffLosses"),M0(g("TotalTI")-g("CurrentYearLoss"))),
+      "Part B-TI: item 7 (balance after set-off of current-year losses) must equal item 5 minus item 6.");
+    /* ---- 815: 3e Total capital gains = 3c + 3d ---- */
+    A(815,REQ(g(CGp+"TotalCapGains"),
+        g(CGp+"ShortTermLongTermTotal")+g(CGp+"CapGains30Per115BBH")),
+      "Part B-TI: item 3e (total capital gains) must equal 3c (sum of ST/LT gains) + 3d (gain chargeable @30% u/s 115BBH).");
+
+    /* ---- 799: if 10AA claimed at item 12 then Schedule 10AA must be filled ---- */
+    A(799,!(g("DeductionsUnder10Aor10AA")>0)||!!I.Schedule10AA,
+      "Part B-TI: a deduction u/s 10AA is claimed at item 12 but Schedule 10AA is not filled.");
+    /* ---- 802: if Part-B Chapter VI-A claimed at 11a then Schedule VI-A must be filled ---- */
+    A(802,!(g(VIp+"PartBchapterVIA")>0)||!!I.ScheduleVIA,
+      "Part B-TI: a Part-B Chapter VI-A deduction is claimed at item 11a but Schedule VI-A is not filled.");
+    /* ---- 803: if Part-C Chapter VI-A claimed at 11b then Schedule VI-A must be filled ---- */
+    A(803,!(g(VIp+"PartCchapterVIA")>0)||!!I.ScheduleVIA,
+      "Part B-TI: a Part-C Chapter VI-A deduction is claimed at item 11b but Schedule VI-A is not filled.");
+
+    /* ---- 787: 1 House property = Sl.3 of Schedule HP (nil if loss) ---- */
+    if(I.ScheduleHP)
+      A(787,REQ(g("IncomeFromHP"),M0(RG(I,"ScheduleHP.TotalIncomeChargeableUnHP",0))),
+        "Part B-TI: item 1 (income from house property) must equal the income chargeable at Sl.3 of Schedule HP, taken as nil if a loss.");
+
+    /* ---- 788/789/790/801: 2i/2ii/2iii/2iv against Schedule BP ---- */
+    if(I.CorpScheduleBP){
+      A(788,REQ(g(BPp+"ProfGainNoSpecBus"),
+          M0(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.NetPLBusOthThanSpec7A7B7C",0))),
+        "Part B-TI: item 2(i) (business other than speculative/specified) must equal A37 of Schedule BP, taken as nil if a loss.");
+      A(789,REQ(g(BPp+"ProfGainSpecBus"),
+          M0(RG(I,"CorpScheduleBP.BusSetoffCurrYr.SpeculativeInc.IncOfCurYrAfterSetOff",0))),
+        "Part B-TI: item 2(ii) (speculative business) must equal E3(ii) of Table E of Schedule BP, taken as nil if a loss.");
+      A(790,REQ(g(BPp+"ProfGainSpecifiedBus"),
+          M0(RG(I,"CorpScheduleBP.BusSetoffCurrYr.SpecifiedInc.IncOfCurYrAfterSetOff",0))),
+        "Part B-TI: item 2(iii) (specified business) must equal E3(iii) of Table E of Schedule BP, taken as nil if a loss.");
+      A(801,REQ(g(BPp+"IncChrgblTaxSplRate"),
+          M0(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBF",0)+
+             RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBG",0)+
+             RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBH",0))),
+        "Part B-TI: item 2(iv) (business income at special rate) must equal the sum of 3d + 3e + 3f (115BBF/115BBG/115BBH) of Schedule BP.");
+    }
+
+    /* ---- 791/792/811/812/814/817/818: capital-gains rows against Table E of Schedule CG ---- */
+    if(I.ScheduleCG){
+      const E="ScheduleCG.CurrYrLosses.";
+      A(817,REQ(g(CGp+"ShortTerm.ShortTerm20Per"),RG(I,E+"InStcg20Per.CurrYrCapGain",0)),
+        "Part B-TI: 3a(i) short-term chargeable @20% must equal 8(ii) of Table E of Schedule CG.");
+      A(791,REQ(g(CGp+"ShortTerm.ShortTerm30Per"),RG(I,E+"InStcg30Per.CurrYrCapGain",0)),
+        "Part B-TI: 3a(ii) short-term chargeable @30% must equal 8(iii) of Table E of Schedule CG.");
+      A(792,REQ(g(CGp+"ShortTerm.ShortTermAppRate"),RG(I,E+"InStcgAppRate.CurrYrCapGain",0)),
+        "Part B-TI: 3a(iii) short-term chargeable at applicable rate must equal 8(iv) of Table E of Schedule CG.");
+      A(811,REQ(g(CGp+"ShortTerm.ShortTermSplRateDTAA"),RG(I,E+"InStcgDTAARate.CurrYrCapGain",0)),
+        "Part B-TI: 3a(iv) short-term chargeable at special rates as per DTAA must equal 8(v) of Table E of Schedule CG.");
+      A(818,REQ(g(CGp+"LongTerm.LongTerm12_5Per"),RG(I,E+"InLtcg12_5Per.CurrYrCapGain",0)),
+        "Part B-TI: 3b(i) long-term chargeable @12.5% must equal 8(vi) of Table E of Schedule CG.");
+      A(812,REQ(g(CGp+"LongTerm.LongTermSplRateDTAA"),RG(I,E+"InLtcgDTAARate.CurrYrCapGain",0)),
+        "Part B-TI: 3b(ii) long-term chargeable at special rates as per DTAA must equal the DTAA long-term row of Table E of Schedule CG.");
+      A(814,REQ(g(CGp+"CapGains30Per115BBH"),RG(I,"ScheduleCG.IncmFromVDATrnsf",0)),
+        "Part B-TI: 3d (capital gain chargeable @30% u/s 115BBH) must equal C2 (income from transfer of VDA) of Schedule CG.");
+    }
+
+    /* ---- 793/794/795: other-sources rows against Schedule OS ---- */
+    if(I.ScheduleOS){
+      A(793,REQ(g(OSp+"OtherSrcThanOwnRaceHorse"),
+          M0(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.BalanceNoRaceHorse",0))),
+        "Part B-TI: item 4a (income other than from owning race horses) must equal item 6 of Schedule OS, taken as nil if a loss.");
+      A(794,REQ(g(OSp+"IncChargblSplRate"),
+          N(RG(I,"ScheduleOS.IncOthThanOwnRaceHorse.IncChargeableSpecialRates",0))),
+        "Part B-TI: item 4b (income chargeable at special rate) must equal item 2 of Schedule OS.");
+      A(795,REQ(g(OSp+"FromOwnRaceHorse"),
+          M0(RG(I,"ScheduleOS.IncFromOwnHorse.BalanceOwnRaceHorse",0))),
+        "Part B-TI: item 4c (income from owning and maintaining race horses) must equal item 8e of Schedule OS, taken as nil if a loss.");
+    }
+
+    /* ---- 796: 6 Current-year loss set off = 2xvi + 3xvi + 4xvi of Schedule CYLA ---- */
+    if(I.ScheduleCYLA)
+      A(796,REQ(g("CurrentYearLoss"),
+          RG(I,"ScheduleCYLA.TotalLossSetOff.TotHPlossCurYrSetoff",0)+
+          RG(I,"ScheduleCYLA.TotalLossSetOff.TotBusLossSetoff",0)+
+          RG(I,"ScheduleCYLA.TotalLossSetOff.TotOthSrcLossNoRaceHorseSetoff",0)),
+        "Part B-TI: item 6 (current-year losses set off) must equal the total of 2xvi, 3xvi and 4xvi of Schedule CYLA.");
+    /* ---- 797: 8 Brought-forward loss set off = 2xv + 3xv + 4xv of Schedule BFLA ---- */
+    if(I.ScheduleBFLA)
+      A(797,REQ(g("BroughtFwdLossesSetoff"),
+          RG(I,"ScheduleBFLA.TotalBFLossSetOff.TotBFLossSetoff",0)+
+          RG(I,"ScheduleBFLA.TotalBFLossSetOff.TotUnabsorbedDeprSetoff",0)+
+          RG(I,"ScheduleBFLA.TotalBFLossSetOff.TotAllUs35cl4Setoff",0)),
+        "Part B-TI: item 8 (brought-forward losses set off) must equal the total of 2xv, 3xv and 4xv of Schedule BFLA.");
+
+    /* ---- 804: 12 Deduction u/s 10AA cannot exceed the Schedule 10AA total ---- */
+    if(I.Schedule10AA)
+      A(804,g("DeductionsUnder10Aor10AA")<=N(RG(I,"Schedule10AA.DeductSEZ.DedUs10Detail.TotalDedUs10Sub",0))+1,
+        "Part B-TI: the deduction u/s 10AA at item 12 cannot be more than the total deduction claimed in Schedule 10AA.");
+    /* ---- 805: 15 Net agricultural income = 2v of Schedule EI when that exceeds ₹5,000 ---- */
+    if(I.ScheduleEI){const ei2v=N(RG(I,"ScheduleEI.NetAgriIncOrOthrIncRule7",0));
+      A(805,REQ(g("NetAgricultureIncomeOrOtherIncomeForRate"),ei2v>5000?ei2v:0),
+        "Part B-TI: item 15 (net agricultural income for rate purposes) must equal Sl.2v of Schedule EI when that amount exceeds ₹5,000.");}
+    /* ---- 806: 10 Income at special rate included in GTI = total income of Schedule SI ---- */
+    if(I.ScheduleSI)
+      A(806,REQ(g("IncChargeTaxSplRate111A112"),N(RG(I,"ScheduleSI.TotSplRateInc",0))),
+        "Part B-TI: item 10 (income chargeable at special rates) must match the total of the income column of Schedule SI.");
+    /* ---- 807/808: 11a/11b = Sl.1/Sl.2 of Schedule VI-A ---- */
+    if(I.ScheduleVIA){
+      A(807,REQ(g(VIp+"PartBchapterVIA"),N(RG(I,"ScheduleVIA.DeductUndChapVIA.TotPartBchapterVIA",0))),
+        "Part B-TI: item 11a (deduction under Chapter VI-A, Part B) must equal Sl.1 of Schedule VI-A.");
+      A(808,REQ(g(VIp+"PartCchapterVIA"),N(RG(I,"ScheduleVIA.DeductUndChapVIA.TotPartCchapterVIA",0))),
+        "Part B-TI: item 11b (deduction under Chapter VI-A, Part C) must equal Sl.2 of Schedule VI-A.");
+    }
+    /* ---- 810: 18 Deemed total income u/s 115JC = Sl.3 of Schedule AMT ---- */
+    if(I.ScheduleAMT)
+      A(810,REQ(g("DeemedTotIncSec115JC"),N(RG(I,"ScheduleAMT.AdjustedUnderSec115JC",0))),
+        "Part B-TI: item 18 (deemed total income under section 115JC) must equal the adjusted total income at Sl.3 of Schedule AMT.");
+
+    /* ---- 821: tax computed in Part B-TTI but the gross total income is nil ---- */
+    if(I.PartB_TTI)
+      A(821,!(N(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnTI.GrossTaxLiability",0))>0)||g("GrossTotalIncome")>0,
+        "A tax computation is disclosed in Part B-TTI while the gross total income in Part B-TI is nil.");
+  }
+
+  /* ===================================================================
+     PART B-TTI — computation of tax liability (819, 820, 822, 823)
+     Block "PartB_TTI"; the tax ladder sits under ComputationOfTaxLiability.
+     =================================================================== */
+  if(I.PartB_TTI){
+    const c=(p)=>N(RG(I,"PartB_TTI.ComputationOfTaxLiability."+p,0));
+    const paid=(p)=>N(RG(I,"PartB_TTI.TaxPaid.TaxesPaid."+p,0));
+
+    /* ---- 823 (second limb): 1d Total tax on deemed total income = 1a + 1b + 1c ---- */
+    A(823,REQ(c("TaxPayableOnDeemedTI.TotalTax"),
+        c("TaxPayableOnDeemedTI.TaxDeemedTISec115JC")+c("TaxPayableOnDeemedTI.Surcharge")+c("TaxPayableOnDeemedTI.EducationCess")),
+      "Part B-TTI: item 1d (total tax payable on deemed total income) must equal 1a + 1b + 1c.");
+
+    /* ---- 819: 1a Tax on deemed total income u/s 115JC = Sl.4 of Schedule AMT ---- */
+    if(I.ScheduleAMT)
+      A(819,REQ(c("TaxPayableOnDeemedTI.TaxDeemedTISec115JC"),N(RG(I,"ScheduleAMT.TaxPayableUnderSec115JC",0))),
+        "Part B-TTI: item 1a (tax payable on deemed total income under section 115JC) must equal Sl.4 of Schedule AMT.");
+    /* ---- 820: 4 Credit u/s 115JD = Sl.5 of Schedule AMTC (only when 2g > 1d) ---- */
+    if(I.ScheduleAMTC)
+      A(820,!(c("TaxPayableOnTI.GrossTaxLiability")>c("TaxPayableOnDeemedTI.TotalTax"))
+           ||REQ(c("CreditUS115JD"),N(RG(I,"ScheduleAMTC.TaxSection115JD",0))),
+        "Part B-TTI: item 4 (credit u/s 115JD of tax paid in earlier years) must equal Sl.5 of Schedule AMTC when 2g exceeds 1d.");
+
+    /* ---- 822 (first limb): 10a + 10d = total of Schedule IT ---- */
+    if(I.ScheduleIT)
+      A(822,REQ(paid("AdvanceTax")+paid("SelfAssessmentTax"),N(RG(I,"ScheduleIT.TotalTaxPayments",0))),
+        "Part B-TTI: 10a (advance tax) plus 10d (self-assessment tax) must equal the total tax paid in Schedule IT.");
+    /* ---- 822 (second limb): 10b TDS = total claimed of Schedule TDS(1) + TDS(2) ---- */
+    if(I.ScheduleTDS2||I.ScheduleTDS3)
+      A(822,REQ(paid("TDS"),
+          N(RG(I,"ScheduleTDS2.TotalTDSonOthThanSals",0))+N(RG(I,"ScheduleTDS3.TotalTDS3OnOthThanSal",0))),
+        "Part B-TTI: item 10b (TDS) must equal the total claimed in Schedule TDS(1) and Schedule TDS(2).");
+    /* ---- 823 (first limb): 10c TCS = total of Schedule TCS ---- */
+    if(I.ScheduleTCS)
+      A(823,REQ(paid("TCS"),N(RG(I,"ScheduleTCS.TotalSchTCS",0))),
+        "Part B-TTI: item 10c (TCS) must equal the total in Schedule TCS.");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     816 — Part B-TTI, tax payable u/s 115TD after adjustment of refund
+           at Sl.14 = Sl.13 − Sl.12. The Part B-TTI section (70_sec_tax.js)
+           exports no section-115TD tax ladder (accreted-income tax of a
+           trust is Schedule 115TD, owned by the "other" section, and the
+           Part B-TTI 115TD sub-block with Sl.12/13/14 is not represented
+           in this form's schema export). With no schema field to read, the
+           assertion is not offline-checkable. Left to the 115TD schedule's
+           own audit.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 20.
+   Serials 824–866 (books/ITR-5/rules.json), covering Part B-TTI
+   (computation of tax liability + taxes paid / refund), Schedule TDS
+   (schema ScheduleTDS2 = sheet "Schedule TDS 1"; ScheduleTDS3 = sheet
+   "Schedule TDS 2"), Schedule TCS and Schedule IT.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / arr); nothing throws; every block guards to a
+   no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_tax.js  (PartB_TTI.ComputationOfTaxLiability /
+   PartB_TTI.TaxPaid / PartB_TTI.Refund / AssetOutsideIndiaFlg) and
+   forms/ITR-5/src/70_sec_paid.js (ScheduleTDS2 / ScheduleTDS3 /
+   ScheduleTCS / ScheduleIT — expPaid + engPaid), cross-checked against
+   the books.  Note: Part B-TTI is keyed "PartB_TTI" (underscore), NOT
+   "PartB-TTI"; Schedule TR is keyed "ScheduleTR1".
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const FYEND="2026-03-31";                 /* 31 Mar of PY 2025-26 (AY 2026-27) */
+  const has=s=>String(s==null?"":s).trim()!=="";
+  const TANre=/^[A-Z]{4}[0-9]{5}[A-Z]$/;    /* 4 letters · 5 digits · 1 letter */
+  const is194N=s=>["94N","94N-F","94N-C","94N-FT"].indexOf(String(s||""))>=0;
+
+  /* ===================================================================
+     PART B-TTI  (824–841)   block key: I.PartB_TTI
+     CTL = I.PartB_TTI.ComputationOfTaxLiability
+       1d  TaxPayableOnDeemedTI.TotalTax        (tax on deemed total income)
+       2a  TaxPayableOnTI.TaxAtNormalRates
+       2b  TaxPayableOnTI.TaxAtSpecialRates
+       2c  TaxPayableOnTI.RebateOnAgriInc
+       2d  TaxPayableOnTI.TaxPayableOnTotInc
+       2eiv TaxPayableOnTI.TotalSurcharge
+       2f  TaxPayableOnTI.EducationCess
+       2g  TaxPayableOnTI.GrossTaxLiability
+       3   GrossTaxPayable        4  CreditUS115JD     5  TaxPaidUnderCredit
+       6a  TaxRelief.Section90    6b TaxRelief.Section91  6c TaxRelief.TotTaxRelief
+       7   NetTaxLiability
+       8a  IntrstPay.IntrstPayUs234A  8b …234B  8c …234C
+       8d  IntrstPay.LateFilingFee234F   234-I fee: IntrstPay.FeeFurnish234I
+       8e  IntrstPay.TotalIntrstPay
+       9   AggregateTaxInterestLiability
+     TaxPaid.TaxesPaid: AdvanceTax(10a) TDS(10b) TCS(10c) SelfAssessmentTax(10d)
+                        TotalTaxesPaid(10e)     TaxPaid.BalTaxPayable(11)
+     Refund.RefundDue(12)
+     =================================================================== */
+  if(I.PartB_TTI){
+    const B=I.PartB_TTI;
+    const g=(p,d)=>N(RG(B,p,d===undefined?0:d));
+    /* 824: 2d Tax payable on total income = 2a + 2b − 2c */
+    A(824,REQ(g("ComputationOfTaxLiability.TaxPayableOnTI.TaxPayableOnTotInc"),
+      g("ComputationOfTaxLiability.TaxPayableOnTI.TaxAtNormalRates")+
+      g("ComputationOfTaxLiability.TaxPayableOnTI.TaxAtSpecialRates")-
+      g("ComputationOfTaxLiability.TaxPayableOnTI.RebateOnAgriInc")),
+      "Part B-TTI: item 2d (tax payable on total income) must equal 2a + 2b − 2c.");
+    /* 825: 2g Gross tax liability = 2d + 2eiv + 2f */
+    A(825,REQ(g("ComputationOfTaxLiability.TaxPayableOnTI.GrossTaxLiability"),
+      g("ComputationOfTaxLiability.TaxPayableOnTI.TaxPayableOnTotInc")+
+      g("ComputationOfTaxLiability.TaxPayableOnTI.TotalSurcharge")+
+      g("ComputationOfTaxLiability.TaxPayableOnTI.EducationCess")),
+      "Part B-TTI: item 2g (gross tax liability) must equal 2d + 2eiv + 2f.");
+    /* 826/827: relief 6a/6b tie back to Schedule TR (only when Schedule TR present) */
+    if(I.ScheduleTR1){
+      A(826,REQ(g("ComputationOfTaxLiability.TaxRelief.Section90"),
+        N(RG(I,"ScheduleTR1.TaxReliefOutsideIndiaDTAA",0))),
+        "Part B-TTI: item 6a (relief u/s 90/90A) must equal the DTAA tax relief (Sl.no.2) in Schedule TR.");
+      A(827,REQ(g("ComputationOfTaxLiability.TaxRelief.Section91"),
+        N(RG(I,"ScheduleTR1.TaxReliefOutsideIndiaNotDTAA",0))),
+        "Part B-TTI: item 6b (relief u/s 91) must equal the non-DTAA tax relief (Sl.no.3) in Schedule TR.");
+    }
+    /* 828: 6c Total relief = 6a + 6b */
+    A(828,REQ(g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief"),
+      g("ComputationOfTaxLiability.TaxRelief.Section90")+
+      g("ComputationOfTaxLiability.TaxRelief.Section91")),
+      "Part B-TTI: item 6c (total tax relief) must equal 6a (section 90/90A) + 6b (section 91).");
+    /* 829: 8e Total interest and fee = 234A + 234B + 234C + 234F + 234-I */
+    A(829,REQ(g("ComputationOfTaxLiability.IntrstPay.TotalIntrstPay"),
+      g("ComputationOfTaxLiability.IntrstPay.IntrstPayUs234A")+
+      g("ComputationOfTaxLiability.IntrstPay.IntrstPayUs234B")+
+      g("ComputationOfTaxLiability.IntrstPay.IntrstPayUs234C")+
+      g("ComputationOfTaxLiability.IntrstPay.LateFilingFee234F")+
+      g("ComputationOfTaxLiability.IntrstPay.FeeFurnish234I")),
+      "Part B-TTI: item 8e (total interest and fee payable) must equal interest u/s 234A + 234B + 234C + fee u/s 234F + fee u/s 234-I.");
+    /* 830: 9 Aggregate liability = 7 + 8e */
+    A(830,REQ(g("ComputationOfTaxLiability.AggregateTaxInterestLiability"),
+      g("ComputationOfTaxLiability.NetTaxLiability")+
+      g("ComputationOfTaxLiability.IntrstPay.TotalIntrstPay")),
+      "Part B-TTI: item 9 (aggregate liability) must equal item 7 (net tax liability) + item 8e (total interest and fee payable).");
+    /* 831: 10e Total taxes paid = advance + TDS + TCS + self-assessment */
+    A(831,REQ(g("TaxPaid.TaxesPaid.TotalTaxesPaid"),
+      g("TaxPaid.TaxesPaid.AdvanceTax")+g("TaxPaid.TaxesPaid.TDS")+
+      g("TaxPaid.TaxesPaid.TCS")+g("TaxPaid.TaxesPaid.SelfAssessmentTax")),
+      "Part B-TTI: item 10e (total taxes paid) must equal advance tax + TDS + TCS + self-assessment tax.");
+    /* 832: 12 Refund = ROUND(MAX(0, 10e − 9), −1) — the utility rounds refund to the
+       nearest ₹10 (§288B, book L98), so compare against that ₹10-rounded difference. */
+    A(832,REQ(g("Refund.RefundDue"),
+      Math.round(Math.max(0,g("TaxPaid.TaxesPaid.TotalTaxesPaid")-g("ComputationOfTaxLiability.AggregateTaxInterestLiability"))/10)*10,6),
+      "Part B-TTI: item 12 (refund) must equal item 10e (total taxes paid) − item 9 (aggregate liability), rounded to the nearest ₹10.");
+    /* 833: 11 Amount payable = ROUND(MAX(0, 9 − 10e), −1) — nearest ₹10 (§288B, book L97). */
+    A(833,REQ(g("TaxPaid.BalTaxPayable"),
+      Math.round(Math.max(0,g("ComputationOfTaxLiability.AggregateTaxInterestLiability")-g("TaxPaid.TaxesPaid.TotalTaxesPaid"))/10)*10,6),
+      "Part B-TTI: item 11 (amount payable) must equal item 9 (aggregate liability) − item 10e (total taxes paid), rounded to the nearest ₹10.");
+    /* 834: 3 Gross tax payable = higher of 1d (tax on deemed TI) and 2g */
+    A(834,REQ(g("ComputationOfTaxLiability.GrossTaxPayable"),
+      Math.max(g("ComputationOfTaxLiability.TaxPayableOnDeemedTI.TotalTax"),
+               g("ComputationOfTaxLiability.TaxPayableOnTI.GrossTaxLiability"))),
+      "Part B-TTI: item 3 (gross tax payable) must equal the higher of item 1d (tax on deemed total income) and item 2g (gross tax liability).");
+    /* 835: 5 Tax payable after §115JD credit = 3 − 4 */
+    A(835,REQ(g("ComputationOfTaxLiability.TaxPaidUnderCredit"),
+      g("ComputationOfTaxLiability.GrossTaxPayable")-g("ComputationOfTaxLiability.CreditUS115JD")),
+      "Part B-TTI: item 5 (tax payable after credit u/s 115JD) must equal item 3 − item 4.");
+    /* 836: 7 Net tax liability = 5 − 6c */
+    A(836,REQ(g("ComputationOfTaxLiability.NetTaxLiability"),
+      g("ComputationOfTaxLiability.TaxPaidUnderCredit")-g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief")),
+      "Part B-TTI: item 7 (net tax liability) must equal item 5 − item 6c.");
+    /* 837/838: advance vs self-assessment split of Schedule IT by date of deposit.
+       Advance = challans up to 31-03-2026; self-assessment = challans after 31-03-2026. */
+    if(I.ScheduleIT){
+      const it=arr(RG(I,"ScheduleIT.TaxPayment",[]));
+      const adv=RSUM(it.filter(c=>c&&!(String(c.DateDep||"")>FYEND)),"Amt");
+      const sat=RSUM(it.filter(c=>c&&String(c.DateDep||"")>FYEND),"Amt");
+      A(837,REQ(g("TaxPaid.TaxesPaid.AdvanceTax"),adv),
+        "Part B-TTI: advance tax (10a) must equal the total of Schedule IT challans deposited on or before 31 March 2026.");
+      A(838,REQ(g("TaxPaid.TaxesPaid.SelfAssessmentTax"),sat),
+        "Part B-TTI: self-assessment tax (10d) must equal the total of Schedule IT challans deposited after 31 March 2026.");
+    }
+    /* 840: if the foreign-asset flag (item 17) is YES, Schedule FA is mandatory */
+    A(840,String(RG(B,"AssetOutsideIndiaFlg",""))!=="YES"||(I.ScheduleFA&&typeof I.ScheduleFA==="object"),
+      "Part B-TTI: item 17 (asset outside India) is Yes, so Schedule FA is mandatory and must be filled.");
+  }
+
+  /* ===================================================================
+     SCHEDULE IT  (843)   block key: I.ScheduleIT
+     TotalTaxPayments = Σ TaxPayment[].Amt
+     =================================================================== */
+  if(I.ScheduleIT){
+    const it=arr(RG(I,"ScheduleIT.TaxPayment",[]));
+    A(843,REQ(N(RG(I,"ScheduleIT.TotalTaxPayments",0)),RSUM(it,"Amt")),
+      "Schedule IT: the Total field must equal the sum of Column 5 (Amount) over all challan rows.");
+  }
+
+  /* ===================================================================
+     SCHEDULE TDS  (844–859)
+     sheet "Schedule TDS 1" -> block I.ScheduleTDS2 (deductor by TAN)
+        rows: TDSOthThanSalaryDtls   total: TotalTDSonOthThanSals
+     sheet "Schedule TDS 2" -> block I.ScheduleTDS3 (buyer/tenant by PAN)
+        rows: TDS3onOthThanSalDtls   total: TotalTDS3OnOthThanSal
+     Row: TDSCreditName("O"/"S") · PANofOtherPerson · TANOfDeductor |
+          PANOfBuyerTenant · TDSSection · DeductedYr · BroughtFwdTDSAmt ·
+          GrossAmount(col11) · HeadOfIncome(col12) · AmtCarriedFwd(col13) ·
+          TaxDeductCreditDtls{ TaxClaimedOwnHands(col9) · TaxDeductedOwnHands ·
+            TaxDeductedTDS(other hands) · TaxClaimedTDS(other hands) }
+     =================================================================== */
+  function tdsBlock(blk,rowsKey,totKey,isTDS1,sheet,S){
+    if(!blk) return;
+    const rows=arr(RG(blk,rowsKey,[]));
+    /* 848/849: Total = Σ col.9 (claimed in own hands) */
+    A(S.total,REQ(N(RG(blk,totKey,0)),
+      RSUM(rows,r=>N(RG(r,"TaxDeductCreditDtls.TaxClaimedOwnHands",0)))),
+      sheet+": the Total field must equal the sum of Column 9 (claimed in own hands) over all rows.");
+    rows.forEach(function(r,i){r=r||{};const L=" "+sheet+" row "+(i+1)+": ";
+      const c=RG(r,"TaxDeductCreditDtls",{})||{};
+      const claimOwn=N(c.TaxClaimedOwnHands),dedOwn=N(c.TaxDeductedOwnHands),
+            dedTds=N(c.TaxDeductedTDS),claimTds=N(c.TaxClaimedTDS);
+      const bf=N(r.BroughtFwdTDSAmt),gross=N(r.GrossAmount),sec=String(r.TDSSection||"");
+      const other=String(r.TDSCreditName||"")==="O";
+      const dedId=isTDS1?String(r.TANOfDeductor||""):String(r.PANOfBuyerTenant||"");
+      /* 844 (TDS 1 only): a TAN, when present, must be a valid 10-char TAN */
+      if(isTDS1) A(844,!has(r.TANOfDeductor)||TANre.test(String(r.TANOfDeductor||"").toUpperCase()),
+        "Schedule TDS 1"+" row "+(i+1)+": a valid ten-character TAN of the deductor must be entered.");
+      /* 845/846: TDS claimed (own hands) cannot exceed tax deducted (own hands) + b/f */
+      A(S.claimDed,claimOwn<=dedOwn+bf+1,
+        L+"the amount of TDS claimed cannot be more than the tax deducted (plus any brought-forward TDS).");
+      /* 847: if brought-forward TDS is claimed, the year of deduction must be given */
+      A(847,!(bf>0)||N(r.DeductedYr)>0,
+        L+"the financial year of deduction must be selected when brought-forward TDS is claimed.");
+      /* 851: b/f TDS and current-FY TDS cannot be entered in the same row */
+      A(851,!(bf>0&&dedOwn>0),
+        L+"unclaimed TDS brought forward and TDS of the current financial year must be entered in different rows.");
+      /* 852 (TDS 1 only): claimed (col.9) cannot exceed gross (col.11), except for 194N */
+      if(isTDS1&&gross>0) A(852,is194N(sec)||claimOwn<=gross+1,
+        "Schedule TDS 1"+" row "+(i+1)+": TDS credit claimed (Col.9) cannot be more than the gross amount disclosed (Col.11), except for section 194N.");
+      /* 853/854: if TDS is claimed, gross amount (col.11) and head of income (col.12)
+         are mandatory (except section 194N in TDS 1) */
+      if(claimOwn>0&&!(isTDS1&&is194N(sec)))
+        A(S.grossHead,gross>0&&has(r.HeadOfIncome),
+          L+"the gross amount (Col.11) and head of income (Col.12) must be filled when TDS is claimed.");
+      /* 855: if the credit relates to another person, that person's PAN is mandatory */
+      A(855,!other||has(r.PANofOtherPerson)||has(r.AadhaarOfOtherPerson),
+        L+"the PAN (or Aadhaar) of the other person is mandatory when the TDS credit relates to another person.");
+      /* 856: if the credit relates to another person, the deductor's TAN / buyer's PAN must be filled */
+      A(856,!other||has(dedId),
+        L+(isTDS1?"the TAN of the deductor":"the PAN of the tenant/buyer/deductor")+" must be filled when the TDS credit relates to another person.");
+      /* 857: col.13 carried forward = col.6 + col.7 + col.8 − col.9 − col.10, floored at nil
+         = MAX(0, b/f + deducted-own + deducted-other − claimed-own − claimed-other) */
+      A(857,REQ(N(r.AmtCarriedFwd),Math.max(0,bf+dedOwn+dedTds-claimOwn-claimTds)),
+        L+"the TDS credit being carried forward (Col.13) must equal Col.6 + Col.7 + Col.8 − Col.9 − Col.10.");
+      /* 858: column 2 dropdown (TDS credit relating to self/other) must be selected */
+      A(858,String(r.TDSCreditName||"")==="S"||other,
+        L+"the applicable dropdown in Column 2 (TDS credit relating to self / other person) must be selected.");
+      /* 859: the section under which TDS is deducted is mandatory */
+      A(859,has(r.TDSSection),
+        L+"the section under which TDS is deducted must be selected.");
+    });
+  }
+  tdsBlock(I.ScheduleTDS2,"TDSOthThanSalaryDtls","TotalTDSonOthThanSals",true,"Schedule TDS 1",
+    {total:848,claimDed:845,grossHead:853});
+  tdsBlock(I.ScheduleTDS3,"TDS3onOthThanSalDtls","TotalTDS3OnOthThanSal",false,"Schedule TDS 2",
+    {total:849,claimDed:846,grossHead:854});
+
+  /* ===================================================================
+     SCHEDULE TCS  (860–866)   block key: I.ScheduleTCS
+     TotalSchTCS = Σ TCSClaimedThisYearDtls.TCSAmtCollOwnHands (col 7i)
+     Row: EmployerOrDeductorOrCollectDetl{ TCSCreditName("O"/"S") · TAN ·
+            PANofOtherPerson } · DeductedYr · BroughtFwdTCSAmt(col5) ·
+          TCSCurrFYDtls{ TCSAmtCollOwnHands · TCSAmtCollOthrHands }(col6) ·
+          TCSClaimedThisYearDtls{ TCSAmtCollOwnHands ·
+            TCSAmtCollOthrHands{ TaxClaimedTCS · PANOfOthrPrsn } }(col7) ·
+          AmtCarriedFwd(col8)
+     =================================================================== */
+  if(I.ScheduleTCS){
+    const rows=arr(RG(I,"ScheduleTCS.TCSDetails",[]));
+    /* 860: Total col 7(i) = Σ claimed in own hands */
+    A(860,REQ(N(RG(I,"ScheduleTCS.TotalSchTCS",0)),
+      RSUM(rows,r=>N(RG(r,"TCSClaimedThisYearDtls.TCSAmtCollOwnHands",0)))),
+      "Schedule TCS: the Total field must equal the sum of Column 7(i) (claimed in own hands) over all rows.");
+    rows.forEach(function(r,i){r=r||{};const L=" Schedule TCS row "+(i+1)+": ";
+      const bf=N(r.BroughtFwdTCSAmt);
+      const collOwn=N(RG(r,"TCSCurrFYDtls.TCSAmtCollOwnHands",0)),
+            collOth=N(RG(r,"TCSCurrFYDtls.TCSAmtCollOthrHands",0));
+      const claimOwn=N(RG(r,"TCSClaimedThisYearDtls.TCSAmtCollOwnHands",0)),
+            claimOth=N(RG(r,"TCSClaimedThisYearDtls.TCSAmtCollOthrHands.TaxClaimedTCS",0));
+      const cName=String(RG(r,"EmployerOrDeductorOrCollectDetl.TCSCreditName",""));
+      const tan=String(RG(r,"EmployerOrDeductorOrCollectDetl.TAN",""));
+      const othPan=RG(r,"EmployerOrDeductorOrCollectDetl.PANofOtherPerson","");
+      const claimOthPan=RG(r,"TCSClaimedThisYearDtls.TCSAmtCollOthrHands.PANOfOthrPrsn","");
+      /* 861: b/f TCS and current-FY TCS cannot be entered in the same row */
+      A(861,!(bf>0&&(collOwn>0||collOth>0)),
+        L+"unclaimed TCS brought forward and TCS of the current financial year must be entered in different rows.");
+      /* 862: TCS claimed (own + other) cannot exceed b/f + collected (own + other) */
+      A(862,(claimOwn+claimOth)<=bf+collOwn+collOth+1,
+        L+"the TCS claimed in own hands and in the hands of any other person cannot exceed the TCS brought forward plus the TCS collected.");
+      /* 863: if credit relates to / is claimed in another person's hands, that person's PAN is required */
+      A(863,!(cName==="O"||claimOth>0)||has(othPan)||has(claimOthPan),
+        L+"the PAN of the other person is mandatory when the TCS credit relates to, or is claimed in the hands of, another person.");
+      /* 864: column 2(i) dropdown (TCS credit relating to self/other) must be selected */
+      A(864,cName==="S"||cName==="O",
+        L+"the applicable dropdown in Column 2(i) (TCS credit relating to self / other person) must be selected.");
+      /* 865: the collector's TAN must be provided (valid 10-char TAN) */
+      A(865,has(tan)&&TANre.test(tan.toUpperCase()),
+        L+"a valid ten-character Tax deduction and collection account number of the collector must be provided.");
+      /* 866: col.8 carried forward = col.5 + col.6 − col.7, floored at nil
+         = MAX(0, b/f + collected(own+other) − claimed(own+other)) */
+      A(866,REQ(N(r.AmtCarriedFwd),Math.max(0,bf+collOwn+collOth-claimOwn-claimOth)),
+        L+"the TCS credit being carried forward (Col.8) must equal Col.5 + Col.6 − Col.7.");
+    });
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     839 — Part B-TTI Sl.no.15 "Net refund after adjustment as per Sl.no.14"
+           = Sl.no.12 − Sl.no.13.  The refund block exported to the schema
+           carries only RefundDue (item 12); items 13, 14 and 15 (refund
+           adjustments) have no schema field, so the assertion cannot be
+           evaluated offline.
+     841 — 234-I revised-return fee shall be Rs.1000 if the ITR is filed
+           after 31/12/2026 u/s 139(5) and total income ≤ Rs.5 lakh.
+     842 — 234-I revised-return fee shall be Rs.5000 if the ITR is filed
+           after 31/12/2026 u/s 139(5) and total income > Rs.5 lakh.
+           Both depend on the actual date of e-filing ("filed after
+           31/12/2026"), which is a submission-time value set by the portal
+           and is not present in the offline return schema; the fee cannot
+           be recomputed here without it.
+     850 — "If TDS is claimed then the corresponding receipts/income should
+           be offered for taxation."  This requires cross-matching each TDS
+           entry against the income schedules / Form 26AS / AIS-TIS; there
+           is no direct, verifiable schema linkage between a TDS row and the
+           income it relates to, so a literal encoding would false-fire.
+           Left to the portal's 26AS/AIS reconciliation.
+     ------------------------------------------------------------------ */
+});
+
+/* =====================================================================
    ITR-5 · Section "amt" — Alternate Minimum Tax and its credit
    Books: books/ITR-5/AMT.md (Schedule AMT · sheet39 · block ScheduleAMT)
           books/ITR-5/AMTC.md (Schedule AMTC · block ScheduleAMTC)
@@ -3754,6 +5985,19 @@ const ESR_ROWS = [
    opts.fullOnly true -> Rate45 reduced path: no additions, no half rate
    opts.blocked true -> Rate45 in new regime: depreciation forced to 0 (115BAD)
    ===================================================================== */
+/* DPM/DOA 3b (AdjustmentSec115BAC, 2nd proviso to 115BAC(3) · Rule 5): rule 282 —
+   "should not be allowed to firm, LLP and Co-operative society or if New Tax Regime
+   has been opted for." So the adjustment is admissible ONLY in the old regime AND
+   only for a non-firm/LLP/co-op assessee (i.e. AOP/BOI/AJP). Status "1" = Firm/LLP;
+   a co-operative society files under status "14" with a co-op sub-status. */
+function bar115BAC(){
+  if(isNew()) return true;                                    /* new regime: barred */
+  const st=String((S.pi&&S.pi.status)||"");
+  if(st==="1") return true;                                   /* Firm or LLP */
+  const sub=String((S.pi&&S.pi.substatus)||"");
+  if(/co-?operative|credit society/i.test(sub)) return true;  /* co-operative society */
+  return false;
+}
 function bpBlock(b,rate,opts){
   b=b||{};opts=opts||{};
   const half     = opts.half!==false;
@@ -3761,7 +6005,7 @@ function bpBlock(b,rate,opts){
   const fullOnly = !!opts.fullOnly;                 /* Rate45 */
   const blocked  = opts.blocked && isNew();         /* Rate45 no depreciation in new regime */
   const wdv = N(b.WDVFirstDay);                                 /* 3a */
-  const adj = isNew()?N(b.AdjustmentSec115BAC):0;              /* 3b (new regime only) */
+  const adj = bar115BAC()?0:N(b.AdjustmentSec115BAC);          /* 3b — old regime, non-firm/LLP/co-op only (rule 282) */
   const tot3 = wdv + adj;                                       /* [F9] Total (3a+3b) = WDVFirstDay+Adjustment */
   const add180 = fullOnly?0:N(b.AdditionsGrThan180Days);       /* 4 (Rate45 has no additions leaf) */
   const realTot = N(b.RealizationTotalPeriod);                 /* 5 */
@@ -4111,7 +6355,7 @@ function blockCol(base,blk,opts){
   const full=!opts.fullOnly;
   let h='';
   h+='<tr><td class="l">3a WDV on first day</td>'+iN("WDVFirstDay")+'</tr>';
-  if(isNew())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';
+  if(!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* rule 282: not for firm/LLP/co-op or new regime */
   if(opts.total!==false)h+='<tr><td class="l">3 Total (3a+3b)</td>'+c(blk.tot3)+'</tr>';
   if(full)h+='<tr><td class="l">4 Additions ≥180 days</td>'+iN("AdditionsGrThan180Days")+'</tr>';
   h+='<tr><td class="l">5 Realization out of 3 or 4</td>'+iN("RealizationTotalPeriod")+'</tr>';
@@ -4390,7 +6634,7 @@ function expBp(j){
     const raw=src||{};
     const D2=root+".DepreciationDetail.";
     put(j,D2+"WDVFirstDay",n0(blk.wdv));
-    if(isNew()&&N(raw.AdjustmentSec115BAC))put(j,D2+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));
+    if(!bar115BAC()&&N(raw.AdjustmentSec115BAC))put(j,D2+"AdjustmentSec115BAC",n0(raw.AdjustmentSec115BAC));  /* rule 282: only old-regime non-firm/LLP/co-op */
     if(N(raw.AdjustmentSec115BAC)||blk.tot3)put(j,D2+"Total",n0(blk.tot3));   /* optional computed */
     if(!opts.fullOnly)put(j,D2+"AdditionsGrThan180Days",n0(blk.add180));
     put(j,D2+"RealizationTotalPeriod",n0(blk.realTot));
@@ -13597,15 +15841,28 @@ function engTax(){
 
   /* ===== loss set-off (S.C.loss, guarded, LIVE): CYLA current-year (6), BFLA brought-forward (8) ===== */
   const L=(S.C.loss||{});
-  const cyla=R(L.cyla!=null?L.cyla:(L.curYrSetoff!=null?L.curYrSetoff:
-    ((L.totHPset||0)+(L.totBusset||0)+(L.totOSset||0))));                        /* 6 CurrentYearLoss (L34) */
+  /* 6 — current-year losses set off = Schedule CYLA total (2xvi + 3xvi + 4xvi).
+     The loss engine publishes the ready scalar L.cylaTotal (= totHPset + totBusset
+     + totOSset); fall back to the components. This is the figure rule A832's sibling
+     A788 checks against Schedule CYLA. */
+  const cyla=R(L.cylaTotal!=null?L.cylaTotal:
+    ((L.totHPset||0)+(L.totBusset||0)+(L.totOSset||0)));                         /* 6 CurrentYearLoss (L34) */
   const balAfterCYLA=Math.max(0,totalTI-cyla);                                   /* 7 (L35) */
-  const bfla=R(L.bfla!=null?L.bfla:(L.bfSetoff!=null?L.bfSetoff:
-    ((L.totBFset||0)+(L.totUnabsDep||0)+(L.tot35_4||0))));                       /* 8 BroughtFwdLossesSetoff (L36) */
-  /* 9 Gross total income — read the loss section's post-BFLA scalar total LIVE
-     where present, else derive (L37). NB: L.afterB is the BY-HEAD object (col 5),
-     not a scalar; the scalar post-BFLA GTI the loss engine publishes is L.gti. */
-  const gti=Math.max(0,R(L.gti!=null?L.gti:(balAfterCYLA-bfla)));
+  /* 8 — brought-forward losses set off = Schedule BFLA (2xv + 3xv + 4xv), i.e. the
+     brought-forward-loss total PLUS the unabsorbed-depreciation and 35(4) pools.
+     The loss engine publishes the ready scalar L.bflaTotal (= totBFset + totDep +
+     tot35); the components L.totBFset/L.totDep/L.tot35 are the fallback. (The old
+     code read the non-existent L.totUnabsDep/L.tot35_4, dropping the depreciation
+     and 35(4) columns so item 8 understated by the depreciation set-off — A797.) */
+  const bfla=R(L.bflaTotal!=null?L.bflaTotal:
+    ((L.totBFset||0)+(L.totDep||0)+(L.tot35||0)));                               /* 8 BroughtFwdLossesSetoff (L36) */
+  /* 9 Gross total income = item 7 − item 8, nil if negative (the CBDT identity
+     A798). This is derived from the head-wise ladder (item 5 = 1+2v+3e+4d) so it
+     INCLUDES the special-rate incomes that sit outside the CYLA/BFLA loss chain
+     (115BBH VDA, 115BB winnings, 111A/112/112A etc.). The loss engine's scalar
+     L.gti is the BFLA col-5 total, which EXCLUDES those special incomes, so it must
+     NOT be used here (that understated GTI — A798). */
+  const gti=Math.max(0,R(balAfterCYLA-bfla));
 
   /* 10 — special-rate income under 111A/112/112A etc. included in GTI (S.C.si) (L38) */
   const SI=(S.C.si||{});
@@ -13744,10 +16001,16 @@ function engTax(){
   }
 
   const intTotal=R(i234a+i234b+i234c+f234f+f234i);                              /* 8e (L89) */
-  const aggregate=R(net+intTotal);                                            /* 9 (L90) */
+  /* 9 — aggregate tax and interest liability = 7 + 8e (book L90 = ROUND(...,0), ₹1). */
+  const aggregate=R(net+intTotal);                                           /* 9 (L90) — 7 + 8e, ₹1 */
+  /* 11/12 — amount payable / refund. The utility rounds these to the nearest ₹10
+     (§288B): L97 = ROUND(MAX(0, 9 − 10e), −1), L98 = ROUND(MAX(0, 10e − 9), −1).
+     Reproduce that exactly for replica fidelity; rules A832/A833 (enc_20) compare
+     against the same ₹10-rounded difference, so they hold with no residue. */
+  const r10=x=>Math.round(R(x)/10)*10;
   const bal=aggregate-paidTot;
-  const balance=R(Math.round(Math.max(0,bal)/10)*10);                         /* 11 (L97) */
-  const refund=R(Math.round(Math.max(0,-bal)/10)*10);                         /* 12 (L98) */
+  const balance=r10(Math.max(0,bal));                                        /* 11 (L97) — ROUND(MAX(0, 9 − 10e), −1) */
+  const refund=r10(Math.max(0,-bal));                                        /* 12 (L98) — ROUND(MAX(0, 10e − 9), −1) */
 
   /* ===== the refund bank accounts + the foreign-asset flag ===== */
   const hasFA=!!FA.hasFA;
