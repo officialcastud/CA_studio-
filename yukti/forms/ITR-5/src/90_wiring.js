@@ -77,6 +77,4 @@ function importReturn(I){
   return read;
 }
 
-/* Phase 6 fills these; keep the shell contract satisfied until then. */
-if(typeof runRules!=="function"){ function runRules(I,S_){ return []; } }
-if(typeof auditRules!=="function"){ function auditRules(b){ return []; } }
+/* runRules/auditRules are the live driver in 60_rules.js (loads before this file). */

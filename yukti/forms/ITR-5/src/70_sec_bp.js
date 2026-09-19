@@ -205,6 +205,10 @@ function engBp(){
   icds.totInc=Math.max(0,R(icdsInc));   /* [F16] XI Increase = MAX(0,SUM) -> OI 3a */
   icds.totDec=Math.max(0,R(icdsDec));   /* [G16] XI Decrease = MAX(0,SUM) -> OI 3b */
   icds.totNet=R(icdsInc-icdsDec);       /* [H16] XI Net = SUM(H6:H15) */
+  /* names sec_oi reads to fill Part A-OI 3a/3b (ProfDeviatDueAcctMeth / DecProOrIncLossUs145_2);
+     without these the ICDS increase reaches BP A25 but never OI 3a → rule A225/A229 false-fire. */
+  icds.total=icds.totInc;   /* -> OI 3a */
+  icds.deTotal=icds.totDec; /* -> OI 3b */
   icds.filled=ICDS_ROWS.some(r=>{const o=(S.icds||{})[r[0]]||{};return N(o.inc)||N(o.dec);}); /* [K4] FilledFlag */
   S.C.icds=icds;
 

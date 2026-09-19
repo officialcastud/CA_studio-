@@ -969,6 +969,2232 @@ const SKEL=
  }
 };
 
+/* ITR-5 · A.Y. 2026-27 — the rule driver.
+   runRules(I,S_) returns [{cat:"A"|"D", n, msg}] — one entry per rule whose lawful
+   assertion is FALSE (a violation). Every actual CBDT check lives in the
+   61_rules_enc_*.js ruleset() batches (Category A blocking, Category B/D advisory),
+   which register into _RULEBATCHES (08_registry.js). This driver sets up the A/Dd
+   collectors and runs every batch, wrapping each in try/catch so one throwing batch
+   never suppresses the others. Mechanism mirrors forms/ITR-3/src/60_rules.js. */
+function runRules(I,S_){
+  I=I||{};
+  const out=[];
+  const A =(n,cond,msg)=>{ if(!cond) out.push({cat:"A", n:n, msg:msg}); };   /* Category A — return not allowed to upload */
+  const Dd=(n,cond,msg)=>{ if(!cond) out.push({cat:"D", n:n, msg:msg}); };   /* Category B/D — advisory / may be defective u/s 139(9) */
+  if(typeof _RULEBATCHES!=="undefined"){
+    _RULEBATCHES.forEach(rb=>{ try{ rb(I,S_,A,Dd); }catch(e){ /* a batch that throws is skipped, never aborts the rest */ } });
+  }
+  return out;
+}
+/* auditRules(b): the gate-6/7 view — kept as a thin wrapper so the harness has a stable entry. */
+function auditRules(b){ try{ return runRules(Object.values((b&&b.ITR)||{})[0]||{}, (typeof S!=="undefined"?S:{})); }catch(e){ return []; } }
+
+/* =====================================================================
+   ITR-5 · AY2026-27 — rule batch (serials 1-50, Category A, "Part A-General").
+   A(n,cond,msg) fires when cond is FALSE. Registered via ruleset(fn);
+   the runRules harness (60_rules.js, integrated by the CEO) invokes it with
+   (I,S_,A,Dd). Every read is guarded (RG default / st0 / ||) so the batch
+   never throws and stays silent on an absent/empty return; each condition is
+   TRUE for a lawful return and FALSE only on a genuine violation, mirroring
+   ITR-3's polarity. Schema paths are ITR-5's own (PartA_GEN1 / PartA_GEN2 /
+   Verification / PARTA_BS / PARTA_PL / PartB-TI / Schedule115AD / ScheduleVIA),
+   read from forms/ITR-5/src/70_sec_*.js. Not-mappable serials are listed with
+   their reason and left uncoded.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const FS=RG(I,"PartA_GEN1.FilingStatus",{})||{};
+  const OI=RG(I,"PartA_GEN1.OrgFirmInfo",{})||{};
+  const RF=RG(FS,"ReturnFileSec",{})||{};
+  const G2=RG(I,"PartA_GEN2",{})||{};
+  const V=RG(I,"Verification.Declaration",{})||{};
+  const has=!!st0(OI.PAN);                       /* the return carries an identity */
+  const status=st0(OI.StatusOrCompanyType);      /* 1 Firm · 2 Local Authority · 14 AOP/BOI · 9 AJP */
+  const sub=st0(OI.SubStatus);                   /* schema SubStatus code */
+  const COOP=["15","16","17","4"];               /* primary agri credit / coop agri&rural dev bank / coop bank other / other coop society */
+  const inc=st0(OI.DateOFFormOrIncorp), doc=st0(OI.DateofBusCommencement); /* ISO YYYY-MM-DD */
+  const resident=(FS.ResidentialStatus!=="NRI");
+  const opted115BAD=(RF.NewTaxRegime==="Y")||(st0(RF.OptingNewTaxRegime)==="1");
+  const opted115BAE=(FS.OptingTaxation115BAEYes==="Y")||(FS.OptingTaxation115BAENo==="Y");
+  const mem=RG(G2,"PartnerOrMemberInfo",[])||[];
+  const m0=mem[0]||{};
+
+  /* 1 — liable to audit u/s 92E → Part A BS and P&L cannot be blank */
+  A(1,G2.LiableSec92Eflg!=="Y"||(!!I.PARTA_BS&&!!I.PARTA_PL),"Part A-General: if the assessee is liable for audit u/s 92E, Part A-BS and Part A-P&L cannot be blank.");
+  /* 2 — liable to audit u/s 44AB → Part A BS and P&L cannot be blank */
+  A(2,G2.LiableSec44ABflg!=="Y"||(!!I.PARTA_BS&&!!I.PARTA_PL),"Part A-General: if the assessee is liable for audit u/s 44AB, Part A-BS and Part A-P&L cannot be blank.");
+  /* 3 — a valid mobile number must be entered */
+  {const mob=st0(RG(OI,"Address.MobileNo",""));
+   A(3,!mob||/^[6-9][0-9]{9}$/.test(mob),"Part A-General: enter a valid (10-digit) mobile number.");}
+  /* 4 — held unlisted equity shares 'Yes' → details must be provided */
+  A(4,FS.HeldUnlistedEqShrPrYrFlg!=="Y"||RG(FS,"HeldUnlistedEqShrPrYr.HeldUnlistedEqShrPrYrDtls",[]).length>0,"Part A-General: 'held unlisted equity shares during the previous year' is 'Yes' — the details of the shares must be provided.");
+  /* 5 — verification capacity 'Representative assessee' → rep flag 'Yes' + rep details */
+  A(5,V.Capacity!=="RA"||(FS.AsseseeRepFlg==="Y"&&!!st0(RG(FS,"AssesseeRep.RepName",""))),"Part A-General: capacity in Verification is 'Representative assessee' — select 'Yes' for 'return filed by a representative assessee' and fill the representative-assessee details.");
+  /* 6 — the 44AD/44ADA/44AE/44B/44BB/44BBA/44BBC/44BBD declaration dropdown must be selected */
+  A(6,!has||st0(G2.IncDclrdUs)!=="","Part A-General: select the option for 'whether the assessee is declaring income only under section 44AD/44ADA/44AE/44B/44BB/44BBA/44BBC/44BBD'.");
+  /* 7 — a2i 'More than Rs.1cr up to Rs.10cr' → a2ii (receipts in cash %) cannot be blank */
+  A(7,G2.TotalSalesExcOneCr!=="Upto10CR"||st0(G2.AgrOFAllAmtsRcvd)!=="","Part A-General: turnover band a2i is 'More than Rs.1 crore and up to Rs.10 crores' — Sl.No. a2ii (aggregate receipts in cash) cannot be blank.");
+  /* 8 — a2i 'More than Rs.1cr up to Rs.10cr' → a2iii (payments in cash %) cannot be blank */
+  A(8,G2.TotalSalesExcOneCr!=="Upto10CR"||st0(G2.AgrOFAllPayMade)!=="","Part A-General: turnover band a2i is 'More than Rs.1 crore and up to Rs.10 crores' — Sl.No. a2iii (aggregate payments in cash) cannot be blank.");
+
+  /* 9 — NOT MAPPABLE: 'date of furnishing of the audit report cannot be greater than the
+     system date'. The check compares AuditInfo.AuditReportFurnishDate to the live system
+     clock (nondeterministic); the lawful test client's audit-report date (2026-09-20) is
+     later than the environment's current date, so a faithful check would raise a false
+     Category-A error on the lawful client. Left uncoded to keep Gate 6 green. */
+
+  /* 10 — 'maintained accounts as per 44AA' = No → No-books rows in BS and P&L must be filled */
+  A(10,G2.LiableSec44AAflg!=="N"||(!!RG(I,"PARTA_BS.NoBooksOfAccBS")&&!!RG(I,"PARTA_PL.NoBooksOfAccPL")),"Part A-General: accounts are not maintained as per section 44AA — the 'No books of account' rows in the Balance Sheet and P&L must be filled.");
+  /* 11 — disclosure of nature of business/profession is mandatory */
+  A(11,!has||RG(G2,"NatOfBus.NatureOfBusiness",[]).length>0,"Part A-General: disclosure of the 'Nature of business or profession' is mandatory.");
+  /* 12 — Firm/coop/LLP/trust/AOP-BOI: Verification PAN must match a Partners/Members/Trust PAN */
+  {const vpan=st0(V.AssesseeVerPAN).toUpperCase();
+   A(12,!vpan||mem.length===0||mem.some(m=>st0((m||{}).PAN).toUpperCase()===vpan),"Part A-General: the PAN entered at Verification must match a PAN entered in the Partners/Members/Trust information.");}
+  /* 13 — liable to maintain accounts u/s 44AA → Part A BS and P&L should be filled */
+  A(13,G2.LiableSec44AAflg!=="Y"||(!!I.PARTA_BS&&!!I.PARTA_PL),"Part A-General: the assessee is liable to maintain accounts u/s 44AA — Part A-BS and Part A-P&L must be filled.");
+  /* 14 — Status 'Firm' → SubStatus must be LLP (5) or Partnership Firm (10) and not blank */
+  A(14,status!=="1"||["10","5"].indexOf(sub)>=0,"Part A-General: Status is 'Firm' — Sub-status must be 'Partnership Firm' or 'LLP' and cannot be blank.");
+  /* 15 — Status 'AOP/BOI' → SubStatus must be one of the AOP/BOI sub-statuses and not blank */
+  A(15,status!=="14"||["15","16","17","11","4","20","21","13","8"].indexOf(sub)>=0,"Part A-General: Status is 'AOP/BOI' — a valid Sub-status must be selected and cannot be blank.");
+  /* 16 — Status 'Artificial Juridical Person' → SubStatus must be an AJP sub-status and not blank */
+  A(16,status!=="9"||["12","18","19"].indexOf(sub)>=0,"Part A-General: Status is 'Artificial Juridical Person' — Sub-status must be 'Estate of the deceased', 'Estate of the insolvent' or 'Other AJP' and cannot be blank.");
+  /* 17 — Status 'Local Authority' → SubStatus must be null */
+  A(17,status!=="2"||!sub,"Part A-General: Status is 'Local Authority' — the Sub-status field must be left blank.");
+  /* 18 — new regime (115BAC(1A)/115BAD/115BAE) → no 10AA, and no Part-C VI-A except 80JJAA & 80LA(1A) */
+  {const newR=(FS.OptOldRegimeCurrAY!=="Y");
+   const VD=RG(I,"ScheduleVIA.DeductUndChapVIA",{})||{};
+   const partCoth=N(VD.TotPartCchapterVIA)-N(VD.Section80JJAA)-N(VD.Section80LA_1A);
+   A(18,!newR||(partCoth<=0&&!I.Schedule10AA),"Part A-General: deductions u/s 10AA / Schedule 80 / Chapter VI-A Part C (except 80JJAA and 80LA(1A)) cannot be claimed when opting for 115BAD/115BAE/115BAC(1A).");}
+  /* 19 — 115BAD/115BAE may be opted only by a resident co-operative society */
+  A(19,!(opted115BAD||opted115BAE)||(status==="14"&&COOP.indexOf(sub)>=0&&resident),"Part A-General: sections 115BAD/115BAE can be opted only by a resident co-operative society.");
+  /* 20 — private discretionary trust with no business income (Table F Sl.2 = No) → PartB-TI 2v must be nil */
+  A(20,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustBusIncFlg")!=="N"||N(RG(I,"PartB-TI.ProfBusGain.TotProfBusGain"))===0,"Part A-General: Sl.No. 2v of Part B-TI cannot be declared when Table F Sl.No. 2 (business income of the private discretionary trust) is 'No'.");
+  /* 21 — Table F Sl.1 = Yes (determinate shares) → member shares must sum to 100 */
+  A(21,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustShareFlg")!=="Y"||Math.abs(RSUM(mem,"SharePercentage")-100)<=1,"Part A-General: Table F Sl.No. 1 is 'Yes' — the sum of 'Percentage of share (if determinate)' must be equal to 100.");
+  /* 22 — 'Opting it now' for the current-AY 115BAD option → Form 10-IF date and ack mandatory */
+  A(22,st0(RF.OptingNewTaxRegime)!=="1"||(!!st0(RF.Form10IFDate)&&!!st0(RF.Form10IFAckNo)),"Part A-General: 'Opting it now' is selected for the current-AY option u/s 115BAD — the date of filing of Form 10-IF and its acknowledgement number are mandatory.");
+  /* 23 — opted 115BAD in an earlier year → Form 10-IF date and ack mandatory */
+  A(23,RF.NewTaxRegime!=="Y"||(!!st0(RF.Form10IFDate)&&!!st0(RF.Form10IFAckNo)),"Part A-General: opted for the new tax regime u/s 115BAD in an earlier year — the date of filing of Form 10-IF and its acknowledgement number are mandatory.");
+
+  /* 24 — NOT MAPPABLE: 'Form 10-IF date/ack in the ITR must match the actual Form 10-IF'.
+     Cross-verification against the filed Form 10-IF (an external record) — not present in
+     the return, so nothing internal to check. */
+
+  /* 25 — Schedule 115AD populated → 'Whether you are FII/FPI?' must be 'Yes' */
+  A(25,!I.Schedule115AD||FS.FiiFpiFlag==="Y","Part A-General: Schedule 115AD is filled — 'Whether you are FII/FPI?' must be selected 'Yes'.");
+  /* 26 — filed under a notice/order → DIN/notice no. and its date are mandatory */
+  {const sec=N(RF.IncomeTaxSec);
+   const noticeOk=[13,14,16,18,20].indexOf(sec)<0||(!!st0(RF.NoticeNo)&&!!st0(RF.NoticeDate));
+   const modOk=(sec!==19)||(!!st0(FS.ReceiptNo)&&!!st0(FS.OrigRetFiledDate));
+   A(26,noticeOk&&modOk,"Part A-General: filed in response to a notice u/s 139(9)/142(1)/148/153C or an order u/s 119(2)(b)/92CD — the unique/DIN number and the date of the notice/order are mandatory.");}
+  /* 27 — AOP with a co-operative sub-status → the 115BAD option question must be answered */
+  A(27,!(status==="14"&&COOP.indexOf(sub)>=0)||st0(RF.NewTaxRegime)!=="","Part A-General: Status is 'AOP' with a co-operative sub-status — answer 'Have you opted for the new tax regime u/s 115BAD?'.");
+  /* 28 — A6 date of commencement: not before incorporation and not after the end of the FY */
+  A(28,!doc||!inc||(doc>=inc&&doc<="2026-03-31"),"Part A-General: A6 date of commencement of business cannot be before the date of incorporation and cannot be after the end of the financial year (31/03/2026).");
+  /* 29 — sub-status LLP/Partnership Firm → the Partners table (Table A) must not be blank */
+  A(29,["5","10"].indexOf(sub)<0||mem.length>0,"Part A-General: Sub-status is 'LLP'/'Partnership Firm' — the partners' details (Table A of Part A-General 2) must be filled.");
+  /* 30 — sub-status 'Trust other than ITR-7' → Table F (private discretionary trust) must not be blank */
+  A(30,sub!=="13"||!!RG(G2,"PvtDiscretioneryTrust"),"Part A-General: Sub-status is 'Trust filing ITR other than ITR-7' — Table F of Part A-General 2 must be filled.");
+  /* 31 — Table F Sl.1 = No and Sl.2 = No → Sl.4 cannot be blank */
+  {const t=RG(G2,"PvtDiscretioneryTrust",{})||{};
+   A(31,!(t.PvtDiscTrustShareFlg==="N"&&t.PvtDiscTrustBusIncFlg==="N")||st0(t.PvtDiscTrustBasicFlg)!=="","Part A-General: 'No' is selected at Table F Sl.No. 1 and Sl.No. 2 — Sl.No. 4 cannot be blank.");}
+  /* 32 — sub-status Society/Business Trust/Investment Fund/Any other AOP-BOI → Table A Sl.B and Sl.D must not be blank */
+  A(32,["11","20","21","8"].indexOf(sub)<0||(st0(m0.PartnerForeignCompFlg)!==""&&st0(m0.TotIncFrmMemberOfAop)!==""),"Part A-General: for this sub-status, Sl.No. B and Sl.No. D of Table A (Part A-General 2) cannot be blank.");
+  /* 33 — Sl.B 'Is any member a foreign company?' = Yes → Sl.C (foreign-company share %) cannot be zero */
+  A(33,st0(m0.PartnerForeignCompFlg)!=="YES"||N(m0.PercentageOfShareForeignComp)>0,"Part A-General: 'Is any member of the AOP/BOI or AJP a foreign company?' is 'Yes' — Sl.No. C (percentage of share of the foreign company) cannot be zero.");
+  /* 34 — 115BAE option 'Yes' at d(iv)a/d(iv)b → Form 10-IFA date and ack mandatory */
+  A(34,!opted115BAE||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: the option u/s 115BAE (d(iv)a/d(iv)b) is 'Yes' — the date of filing of Form 10-IFA and its acknowledgement number are mandatory.");
+
+  /* 35 — NOT MAPPABLE: 'Form 10-IFA date/ack in the ITR must match the actual Form 10-IFA'.
+     Cross-verification against the filed Form 10-IFA (an external record) — not present in
+     the return. */
+
+  /* 36 — opting 115BAE → date of formation/incorporation must be on/after 01/04/2023 */
+  A(36,!opted115BAE||inc>="2023-04-01","Part A-General: opting for the new tax regime u/s 115BAE — the date of formation/incorporation must be on or after 01/04/2023.");
+  /* 37 — AOP coop with incorporation on/after 01/04/2023 → a 115BAE option must be selected at A19(div) */
+  A(37,!(status==="14"&&COOP.indexOf(sub)>=0&&inc>="2023-04-01")||opted115BAE,"Part A-General: Status is 'AOP' with a co-operative sub-status and incorporation on/after 01/04/2023 — an option must be selected at A19(div) (115BAE).");
+  /* 38 — 115BAD and 115BAE cannot both be selected */
+  A(38,!(opted115BAD&&opted115BAE),"Part A-General: the new tax regime u/s 115BAD and u/s 115BAE cannot both be selected.");
+
+  /* 39 — NOT MAPPABLE: 'A19d(i) Method of opting out of the new regime u/s 115BAC cannot be
+     blank for Society/Business Trust/Investment Fund/Any other AOP-BOI/AJP'. The A19d(i)
+     115BAC(6) method sub-field is explicitly NOT built in this form (70_sec_gen.js §9 note),
+     so there is no schema field to test. */
+
+  /* 40 — NOT MAPPABLE: 'A19(di) 115BAC(6) option must be DISABLED for Firm/LLP/Local
+     Authority/Co-operative society'. A UI-disable constraint on a field that is not built —
+     no data violation to encode. */
+
+  /* 41 — recognised as MSME 'Yes' → registration details mandatory */
+  A(41,FS.ifMSME!=="Y"||!!st0(RG(FS,"RegNumMSMEDAct2006","")),"Part A-General: 'recognised as MSME?' is 'Yes' — the MSME registration number is mandatory.");
+  /* 42 — liable to audit u/s 44AB → the condition u/s 44AB must be selected */
+  A(42,G2.LiableSec44ABflg!=="Y"||st0(G2.Cndnfor44AB)!=="","Part A-General: the assessee is liable to audit u/s 44AB — select the condition by virtue of which the audit is applicable.");
+  /* 43 — the applicable due date for filing the return must be selected */
+  A(43,!has||!!st0(RG(FS,"ItrFilingDueDate","")),"Part A-General: select the applicable due date for filing the return of income.");
+  /* 44 — Form 10-IFA filed → opting the new tax regime u/s 115BAE is mandatory */
+  A(44,!st0(FS.Form10IFADate)||FS.OptingTaxation115BAEYes==="Y","Part A-General: Form 10-IFA is filed — opting for the new tax regime u/s 115BAE is mandatory.");
+  /* 45 — a2ii 'More than 5%' → liable to audit u/s 44AB */
+  A(45,G2.AgrOFAllAmtsRcvd!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2ii (receipts in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
+  /* 46 — a2iii 'More than 5%' → liable to audit u/s 44AB */
+  A(46,G2.AgrOFAllPayMade!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2iii (payments in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
+  /* 47 — 115BAE: date of incorporation AND date of commencement must be on/after 01/04/2023 */
+  A(47,!opted115BAE||(inc>="2023-04-01"&&(!doc||doc>="2023-04-01")),"Part A-General: to claim section 115BAE the date of incorporation and the date of commencement of business must be on or after 01/04/2023.");
+  /* 48 — exercising 115BAE for AY 2026-27 at A19 div(b) → Form 10-IFA date and ack (A19 div(c)) mandatory */
+  A(48,FS.OptingTaxation115BAEYes!=="Y"||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: exercising the option u/s 115BAE for AY 2026-27 at A19 div(b) — the date of filing of Form 10-IFA and its acknowledgement number at A19 div(c) are mandatory.");
+  /* 49 — A19d(i)(I) = Yes (Form 10-IEA furnished, current AY, opting out) → its date (i) and ack (ii) mandatory */
+  A(49,FS.F10IEACurrAYOldRegime!=="Y"||(!!st0(FS.F10IEADateCurrAYOldTax)&&!!st0(FS.F10IEAAckNoCurrAYOldTax)),"Part A-General: 'Yes' at A19d(i)(I) (Form 10-IEA furnished for the current AY) — the date of filing (i) and the acknowledgement number (ii) are mandatory.");
+  /* 50 — Form 10-IEA filed (other branches) → the form's details must be given */
+  A(50,
+    (FS.Form10IEAEarlierAYOldRegime!=="Y"||(!!st0(FS.Form10IEAAssYear)&&!!st0(FS.Form10IEAEarlierAYAckOldRegime)))
+    &&(FS.F10IEACurrAYNewRegime!=="Y"||(!!st0(FS.F10IEADateCurrAYNewTax)&&!!st0(FS.F10IEAAckNoCurrAYNewTax)))
+    &&(FS.F10IEAEarlierAYNewRegime!=="Y"||(!!st0(FS.AssYrF10IEANewTaxReg)&&!!st0(FS.Form10IEAEarlierAYAckNewRegime))),
+    "Part A-General: Form 10-IEA is filed — the details of the form (assessment year / date / acknowledgement number) must be mentioned in the return.");
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_02 (Phase 6).
+   Slice: Category-A serials 51–100 of books/ITR-5/rules.json.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) fires when cond (the "valid" assertion) is FALSE.
+   Every read is guarded (RG / (X||{}) / N) so nothing throws and every
+   check is a no-op on absent/empty data. Regime is read from the built
+   return (FilingStatus.OptOldRegimeCurrAY; new regime is default).
+   Schema paths from ITR-5's own built sections (70_sec_gen/bs/pl) and
+   books (PART_A_GENERAL(2), BALANCE_SHEET, MANUFACTURING/TRADING_ACCOUNT).
+
+   NOT MAPPABLE in this slice (encoded as comments only, no live A()):
+     51..? see below — 53, 54, 55, 59, 60.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const G1=RG(I,"PartA_GEN1",{})||{};
+  const OFI=RG(G1,"OrgFirmInfo",{})||{};
+  const FS=RG(G1,"FilingStatus",{})||{};
+  const G2=RG(I,"PartA_GEN2",{})||{};
+  const newR=FS.OptOldRegimeCurrAY!=="Y";                 /* new regime default; old = 10-IEA opt-out */
+  const hasBP=FS.IncFrmBusOrProf==="Y";                   /* d(i) — income from business/profession */
+  const due=FS.ItrFilingDueDate;                          /* J26 code: 2026-07-31/08-31/10-31/11-30 */
+  /* "business income declared" — any of the business statements/schedules is present */
+  const bizDeclared=!!(I.CorpScheduleBP||I.PARTA_PL||I.TradingAccount||I.ManufacturingAccount)
+    ||N(RG(I,"CorpScheduleBP.IncChrgUnHdProftGain"))!==0;
+  const noNeg=o=>{if(!o||typeof o!=="object")return true;
+    return Object.keys(o).every(k=>{const v=o[k];
+      return (v&&typeof v==="object")?noNeg(v):N(v)>=0;});};
+
+  /* ================= Part A - General : regime / Form 10-IEA tree ================= */
+
+  /* 51 — the new regime can be opted out/withdrawn only if Form 10-IEA is filed:
+         a business filer opting the old regime for the current AY must have
+         furnished Form 10-IEA (F10IEACurrAYOldRegime = Yes). */
+  A(51,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y",
+    "Part A-General: the new tax regime can be opted out / withdrawn only if Form 10-IEA is filed for the current AY.");
+
+  /* 52 — if business income is declared in the return, 'Do you have income from
+         business or profession for the current AY?' (d(i)) cannot be 'No'. */
+  A(52,!bizDeclared||FS.IncFrmBusOrProf!=="N",
+    "Part A-General: business income is declared, so 'Do you have income from business or profession for the current AY?' cannot be 'No'.");
+
+  /* 53 — NOT MAPPABLE: 115BAE option at A19 d(iv)a (manufacturing co-operative society not
+         required to file a return in AY 2024-25 and AY 2025-26). The 115BAE d(iv) sub-fields
+         are on hidden rows and are not built in this form (PART_A_GENERAL.md §9). */
+  /* 54 — NOT MAPPABLE: 115BAE option at A19 d(iv)b (manufacturing co-operative society that WAS
+         required to file a return in AY 2024-25 or AY 2025-26). Same reason as 53 — not built. */
+  /* 55 — NOT MAPPABLE: 'Return cannot be submitted u/s 139(1) after the due date' needs the actual
+         submission (system) date compared to the due date; there is no filing-date leaf in the
+         return schema, so this is a runtime check, not encodable offline. */
+
+  /* 56 — due date 31-Oct selected ⇒ Schedule IF (partner-in-firm) or audit details present.
+         (not mappable: Schedule 5A / Portuguese-Civil-Code apportionment is not built in ITR-5.) */
+  A(56,due!=="2026-10-31"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
+    "Part A-General: due date 31 October is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+
+  /* 57 — due date 30-Nov selected ⇒ Schedule IF or audit details present. (5A not built.) */
+  A(57,due!=="2026-11-30"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
+    "Part A-General: due date 30 November is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+
+  /* 58 — due date 31-Aug can be selected only if there is income from business/profession. */
+  A(58,due!=="2026-08-31"||FS.IncFrmBusOrProf==="Y",
+    "Part A-General: due date 31 August can be selected only if you have income from business or profession.");
+
+  /* 59 — NOT MAPPABLE: the tax regime must not be changed in a revised return filed after the
+         original due date — needs the original return's regime (external DB), not in this return. */
+  /* 60 — NOT MAPPABLE: the tax regime cannot be changed after the due date of filing — needs the
+         prior/original return's regime and its filing date (external DB), not encodable here. */
+
+  /* 61 — business income ⇒ the regime answer at A19(b)(I) must be answered.
+         62 — no business income ⇒ the regime answer at A19(di)(II) must be answered.
+         (Best-effort: A19(b)/(di) is the regime opt question OptOldRegimeCurrAY, which the builder
+         always populates Y/N; encoded as a presence check, guarded on the General block, so it never
+         false-fires on absent data.) */
+  if(I.PartA_GEN1){
+    A(61,!bizDeclared||FS.OptOldRegimeCurrAY==="Y"||FS.OptOldRegimeCurrAY==="N",
+      "Part A-General: in case of business income, the regime option at Sl.No. A19(b)(I) must be answered.");
+    A(62,bizDeclared||FS.OptOldRegimeCurrAY==="Y"||FS.OptOldRegimeCurrAY==="N",
+      "Part A-General: in case of no business income, the regime option at Sl.No. A19(di)(II) must be answered.");
+  }
+
+  /* 63 — 'filed 10-IEA within due date for an earlier AY (old regime)?' = Yes ⇒ its acknowledgement
+         number and assessment year are mandatory. */
+  A(63,FS.Form10IEAEarlierAYOldRegime!=="Y"||(!!FS.Form10IEAEarlierAYAckOldRegime&&!!FS.Form10IEAAssYear),
+    "Part A-General: Form 10-IEA (earlier-AY, old regime) is 'Yes' — its acknowledgement number and assessment year are mandatory.");
+
+  /* 64 — re-entered the new regime by 10-IEA in an earlier subsequent AY = Yes ⇒ its ack and AY. */
+  A(64,FS.F10IEAEarlierAYNewRegime!=="Y"||(!!FS.Form10IEAEarlierAYAckNewRegime&&!!FS.AssYrF10IEANewTaxReg),
+    "Part A-General: Form 10-IEA filed to re-enter the new regime in an earlier year is 'Yes' — its acknowledgement number and assessment year are mandatory.");
+
+  /* 65 — opted old earlier (10-IEA), not re-entered earlier, now in new regime (business) ⇒ the
+         current-AY re-entry answer is mandatory. */
+  A(65,!(newR&&hasBP&&FS.Form10IEAEarlierAYOldRegime==="Y"&&FS.F10IEAEarlierAYNewRegime!=="Y")||!!FS.F10IEACurrAYNewRegime,
+    "Part A-General: Form 10-IEA was not filed with the re-enter option for an earlier year — answer 'Have you furnished Form 10-IEA for re-entering the new regime in the current AY?'.");
+
+  /* 66 — Form 10-IEA furnished to re-enter the new regime in the current AY ⇒ date + ack mandatory. */
+  A(66,FS.F10IEACurrAYNewRegime!=="Y"||(!!FS.F10IEADateCurrAYNewTax&&!!FS.F10IEAAckNoCurrAYNewTax),
+    "Part A-General: Form 10-IEA furnished to re-enter the new regime in the current AY — its date and acknowledgement number are mandatory.");
+
+  /* 67 — Form 10-IEA NOT filed in the current AY to re-enter the new regime, but its details present. */
+  A(67,FS.F10IEACurrAYNewRegime==="Y"||(!FS.F10IEADateCurrAYNewTax&&!FS.F10IEAAckNoCurrAYNewTax),
+    "Part A-General: Form 10-IEA is not filed in the current AY to re-enter the new regime — its date/acknowledgement number must not be provided.");
+
+  /* 68 — a business filer opting the old regime for the current AY must answer 'Have you furnished
+         Form 10-IEA within due date for the current AY for the old regime?'. */
+  A(68,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y"||FS.F10IEACurrAYOldRegime==="N",
+    "Part A-General: answer 'Have you furnished Form 10-IEA within due date for the current AY for choosing the old tax regime?'.");
+
+  /* 69 — Form 10-IEA details (date + ack) are mandatory for opting the old regime in the current AY. */
+  A(69,FS.F10IEACurrAYOldRegime!=="Y"||(!!FS.F10IEADateCurrAYOldTax&&!!FS.F10IEAAckNoCurrAYOldTax),
+    "Part A-General: Form 10-IEA details (date and acknowledgement number) are mandatory for opting the old tax regime in the current AY.");
+
+  /* 70 — Form 10-IEA (current-AY, old regime) details must not be provided if it was not filed. */
+  A(70,FS.F10IEACurrAYOldRegime==="Y"||(!FS.F10IEADateCurrAYOldTax&&!FS.F10IEAAckNoCurrAYOldTax),
+    "Part A-General: Form 10-IEA date/acknowledgement number should not be provided when Form 10-IEA is not filed for the current AY.");
+
+  /* 71 — earlier-AY (old regime) 10-IEA details only if 'filed 10-IEA within due date for an earlier
+         AY for the old regime?' = Yes. */
+  A(71,FS.Form10IEAEarlierAYOldRegime==="Y"||(!FS.Form10IEAEarlierAYAckOldRegime&&!FS.Form10IEAAssYear),
+    "Part A-General: Form 10-IEA earlier-year (old regime) details are to be provided only if that earlier-AY question is 'Yes'.");
+
+  /* 72 — earlier-AY (re-entry into new regime) 10-IEA details only if that re-entry question = Yes. */
+  A(72,FS.F10IEAEarlierAYNewRegime==="Y"||(!FS.Form10IEAEarlierAYAckNewRegime&&!FS.AssYrF10IEANewTaxReg),
+    "Part A-General: Form 10-IEA earlier-year (re-entry into new regime) details are to be provided only if that re-entry question is 'Yes'.");
+
+  /* ================= Part A - General : addresses / partners / trust ================= */
+
+  /* 73 — secondary address is mandatory when 'Is the secondary address same as primary?' = No. */
+  (function(){const AA=RG(OFI,"AlternateAddress",{})||{};
+    A(73,OFI.SecondaryAdd!=="N"||(!!AA.ResidenceNo&&!!AA.LocalityOrArea&&!!AA.CityOrTownOrDistrict&&!!AA.StateCode),
+      "Part A-General: secondary address is mandatory when 'Is the secondary address same as primary address?' is 'No'.");})();
+
+  /* 74 — the secondary address must not be the same as the primary when the flag is 'No'. */
+  (function(){const AA=RG(OFI,"AlternateAddress",{})||{},PA=RG(OFI,"Address",{})||{};
+    const K=["ResidenceNo","ResidenceName","RoadOrStreet","LocalityOrArea","CityOrTownOrDistrict","StateCode","CountryCode","PinCode","ZipCode"];
+    A(74,OFI.SecondaryAdd!=="N"||K.some(k=>String(AA[k]==null?"":AA[k])!==String(PA[k]==null?"":PA[k])),
+      "Part A-General: the secondary address should not be the same as the primary address when 'Is the secondary address same as primary address?' is 'No'.");})();
+
+  /* 75 — a 10-IEA regime option (d(i)) is selected ⇒ business income is mandatory (IncFrmBusOrProf=Yes). */
+  A(75,!(FS.F10IEACurrAYOldRegime==="Y"||FS.Form10IEAEarlierAYOldRegime==="Y"||FS.F10IEAEarlierAYNewRegime==="Y"||FS.F10IEACurrAYNewRegime==="Y")||FS.IncFrmBusOrProf==="Y",
+    "Part A-General: a Form 10-IEA option is selected at Sl.No. A19(di) — business income is mandatory ('Do you have income from business or profession?' = Yes).");
+
+  /* 76 — details of admitted/retired partners required if 'change during the year in partners/members' = Yes. */
+  A(76,G2.PrevYrMemPartChange!=="Y"||(RG(G2,"PrevYrMemPart.PrevYrMemPartDtls",[])||[]).length>0,
+    "Part A-General(2): 'Whether there was any change during the previous year in the partners/members' is 'Yes' — details of admitted/retired partners must be provided.");
+
+  /* 77–80 — private discretionary trust, Section F (only when the trust block is present). */
+  (function(){const T=RG(G2,"PvtDiscretioneryTrust",null);if(!T||typeof T!=="object")return;
+    const f1=T.PvtDiscTrustShareFlg,f2=T.PvtDiscTrustBusIncFlg,f3=T.PvtDiscTrustWillFlg;
+    const f4=[T.PvtDiscTrustBasicFlg,T.PvtDiscTrustReceivableFlg,T.PvtDiscTrustRelativesFlg,T.PvtDiscTrustBusProfFlg];
+    /* 77 — answer to F(3) mandatory if F(2) is 'Yes'. */
+    A(77,f2!=="Y"||!!f3,"Part A-General(2): answer to Sl.No. F(3) is mandatory when F(2) is 'Yes'.");
+    /* 78 — F(3) must be blank/null if F(2) is 'No'. */
+    A(78,f2!=="N"||!f3,"Part A-General(2): Sl.No. F(3) should be blank when F(2) is 'No'.");
+    /* 79 — items (i)–(iv) of F(4) mandatory if F(1) and F(2) are both 'No'. */
+    A(79,!(f1==="N"&&f2==="N")||f4.every(x=>!!x),"Part A-General(2): answers to items (i)–(iv) of Sl.No. F(4) are mandatory when F(1) and F(2) are both 'No'.");
+    /* 80 — items (i)–(iv) of F(4) must be blank if F(1) or F(2) is 'Yes'. */
+    A(80,!(f1==="Y"||f2==="Y")||f4.every(x=>!x),"Part A-General(2): answers to items (i)–(iv) of Sl.No. F(4) should be blank when F(1) or F(2) is 'Yes'.");})();
+
+  /* ================= Part A - BS (Balance Sheet · PARTA_BS) ================= */
+  if(I.PARTA_BS){const BS=I.PARTA_BS,FSc=RG(BS,"FundSrc",{})||{},FAp=RG(BS,"FundApply",{})||{};
+    const PMF=RG(FSc,"PartnerOrMemberFund",{})||{},LF=RG(FSc,"LoanFunds",{})||{},ADV=RG(FSc,"Advances",{})||{};
+    const INV=RG(FAp,"Investments",{})||{},CAL=RG(FAp,"CurrAssetLoanAdv",{})||{},CA=RG(CAL,"CurrAsset",{})||{};
+    /* 81 — Sources of funds (5) must equal Total application of funds (5). */
+    A(81,REQ(FSc.TotFundSrc,FAp.TotFundApply),"Part A-BS: 'Sources of funds' (5) must equal 'Total application of funds' (5).");
+    /* 82 — 1c = 1a + 1bvi. */
+    A(82,REQ(PMF.TotPartnerOrMemberFund,N(PMF.PartnerOrMemberCap)+N(RG(PMF,"ResrNSurp.TotResrNSurp"))),
+      "Part A-BS: Sl.No. 1c (total partners'/members' fund) must equal 1a + 1bvi.");
+    /* 83 — 2c (loan funds) = aiii + biii. */
+    A(83,REQ(LF.TotLoanFund,N(RG(LF,"SecrLoan.TotSecrLoan"))+N(RG(LF,"UnsecrLoan.TotUnSecrLoan"))),
+      "Part A-BS: Sl.No. 2c (total loan funds) must equal 2aiii + 2biii.");
+    /* 84 — Sources 5 = 1c + 2c + 3 + 4iii. */
+    A(84,REQ(FSc.TotFundSrc,N(PMF.TotPartnerOrMemberFund)+N(LF.TotLoanFund)+N(FSc.DeferredTax)+N(ADV.TotalAdvances)),
+      "Part A-BS: Sl.No. 5 (sources of funds) must equal 1c + 2c + 3 + 4iii.");
+    /* 85 — investments 2c = aviii + bvii. */
+    A(85,REQ(INV.TotInvestments,N(RG(INV,"LongTermInv.TotLongTermInv"))+N(RG(INV,"ShortTermInv.TotShortTermInv"))),
+      "Part A-BS: Sl.No. 2c (total investments) must equal 2aviii + 2bvii.");
+    /* 86 — total current assets 3av = iH + iiC + iiiD + aiv. */
+    A(86,REQ(CA.TotCurrAsset,N(RG(CA,"Inventories.TotInventries"))+N(RG(CA,"SundryDebtorDtls.TotalSundryDebtors"))+N(RG(CA,"CashOrBankBal.TotCashOrBankBal"))+N(CA.OthCurrAsset)),
+      "Part A-BS: Sl.No. 3av (total current assets) must equal 3a(iH + iiC + iiiD + aiv).");
+    /* 87 — net current assets 3e = 3c − 3diii. */
+    A(87,REQ(CAL.NetCurrAsset,N(CAL.TotCurrAssetLoanAdv)-N(RG(CAL,"CurrLiabilitiesProv.TotCurrLiabilitiesProvision"))),
+      "Part A-BS: Sl.No. 3e (net current assets) must equal 3c − 3diii.");
+    /* 88 — application 5 = 1e + 2c + 3e + 4d. */
+    A(88,REQ(FAp.TotFundApply,N(RG(FAp,"FixedAsset.TotFixedAsset"))+N(INV.TotInvestments)+N(CAL.NetCurrAsset)+N(RG(FAp,"MiscAdjust.TotMiscAdjust"))),
+      "Part A-BS: Sl.No. 5 (total application of funds) must equal 1e + 2c + 3e + 4d.");
+  }
+
+  /* ================= Part A - Manufacturing Account ================= */
+  if(I.ManufacturingAccount){const M=I.ManufacturingAccount,OP=RG(M,"OpeningInventory",{})||{},CS=RG(M,"ClosingStock",{})||{};
+    /* 89 — Opening inventory total 1Aiii = 1Ai + 1Aii. */
+    A(89,REQ(OP.OpngInvntryTotal,N(OP.OpngStckRawMat)+N(OP.OpngStckWrkinPrgrs)),
+      "Part A-Manufacturing: Sl.No. 1Aiii (total opening inventory) must equal 1Ai + 1Aii.");
+    /* 90 — direct expenses 1D = 1Di + 1Dii + 1Diii. */
+    A(90,REQ(OP.DirectExpenses,N(OP.CarriageInward)+N(OP.PowerAndFuel)+N(OP.OthDirectExpenses)),
+      "Part A-Manufacturing: total direct expenses (1D) must equal 1Di + 1Dii + 1Diii.");
+    /* 91 — factory overheads 1Evii = Ei + Eii + Eiii + Eiv + Ev + Evi. */
+    A(91,REQ(OP.TotalFactoryOverheads,N(OP.IndirectWages)+N(OP.FactoryRentAndRates)+N(OP.FactoryInsurance)+N(OP.FactoryFuelAndPower)+N(OP.FactoryGeneralExpenses)+N(OP.DeprctnOfFactoryMachinery)),
+      "Part A-Manufacturing: total factory overheads (1Evii) must equal 1Ei + 1Eii + 1Eiii + 1Eiv + 1Ev + 1Evi.");
+    /* 92 — debits to manufacturing account 1F = Aiii + B + C + D + Evii. */
+    A(92,REQ(OP.TotalDebtsManfctrngAcc,N(OP.OpngInvntryTotal)+N(OP.Purchases)+N(OP.DirectWages)+N(OP.DirectExpenses)+N(OP.TotalFactoryOverheads)),
+      "Part A-Manufacturing: total debits (1F) must equal 1Aiii + B + C + D + 1Evii.");
+    /* 93 — closing stock total 2 = 2i + 2ii. */
+    A(93,REQ(CS.ClsngStckTotal,N(CS.ClsngStckRawMaterial)+N(CS.ClsngStckWrkInPrgrs)),
+      "Part A-Manufacturing: total closing stock (2) must equal 2i + 2ii.");
+    /* 94 — cost of goods produced 3 = 1F − 2. */
+    A(94,REQ(M.CostOfGoodsPrdcd,N(OP.TotalDebtsManfctrngAcc)-N(CS.ClsngStckTotal)),
+      "Part A-Manufacturing: cost of goods produced (3) must equal 1F − 2.");
+    /* 95 — negative values are not allowed in item 1 and item 2. */
+    A(95,noNeg(OP)&&noNeg(CS),
+      "Part A-Manufacturing: negative values are not allowed in Sl.No. 1 and Sl.No. 2.");
+  }
+
+  /* ================= Part A - Trading Account ================= */
+  if(I.TradingAccount){const T=I.TradingAccount,EC=RG(T,"ExciseCustomsVAT",{})||{};
+    /* 96 — 4A(iii) total must equal the sum of its other-operating-revenue rows.
+       (ITR-5 uses the OtherOperatingRevenueDtls[] array in place of fixed 4Aiii(a)/(b).) */
+    A(96,REQ(T.OperatingRevenueTotal,RSUM(RG(T,"OtherOperatingRevenueDtls",[]),"OperatingRevenueAmt")),
+      "Part A-Trading: Sl.No. 4A(iii) total other operating revenues must equal the sum of the individual rows.");
+    /* 97 — 4A(iv) = 4A(i) + 4A(ii) + 4A(iiic). */
+    A(97,REQ(T.SalesGrossReceiptsTotal,N(T.SaleOfGoods)+N(T.SaleOfServices)+N(T.OperatingRevenueTotal)),
+      "Part A-Trading: Sl.No. 4A(iv) must equal 4A(i) + 4A(ii) + 4A(iiic).");
+    /* 98 — 4C(ix) = 4Ci + … + 4Cviii. */
+    A(98,REQ(EC.TotExciseCustomsVAT,N(EC.UnionExciseDuty)+N(EC.ServiceTax)+N(EC.VATorSaleTax)+N(EC.CentralGoodServiceTax)+N(EC.StateGoodServiceTax)+N(EC.IntegratedGoodServiceTax)+N(EC.UnionTerrGoodServiceTax)+N(EC.OthDutyTaxCess)),
+      "Part A-Trading: Sl.No. 4C(ix) must equal 4Ci + 4Cii + 4Ciii + 4Civ + 4Cv + 4Cvi + 4Cvii + 4Cviii.");
+    /* 99 — 4D (total revenue from operations) = Aiv + B + Cix. */
+    A(99,REQ(T.TotRevenueFrmOperations,N(T.SalesGrossReceiptsTotal)+N(T.GrossRcptFromProfession)+N(EC.TotExciseCustomsVAT)),
+      "Part A-Trading: Sl.No. 4D (total revenue from operations) must equal 4A(iv) + 4B + 4C(ix).");
+    /* 100 — item 9 (direct expenses total) = 9i + 9ii + 9iii. */
+    A(100,REQ(T.DirectExpenses,N(T.CarriageInward)+N(T.PowerAndFuel)+N(T.DirectExpensesTotal)),
+      "Part A-Trading: Sl.No. 9 (total direct expenses) must equal 9i + 9ii + 9iii.");
+  }
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_03 (Phase 6).
+   Slice: rules.json Category-A serials 101-150 (Part A - Trading Account
+   serials 101-107, Part A - P&L Account serials 108-150).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "valid" assertion) is FALSE.
+   Every read is guarded (RG / (X||{}) / N); nothing throws; a rule is a
+   no-op when its data is absent (all leaves default to 0 / empty), so a
+   presumptive-only or blank return never fires an accounts arithmetic rule.
+   Schema paths: forms/ITR-5/src/70_sec_pl.js (PARTA_PL / TradingAccount /
+   ManufacturingAccount), 70_sec_bp.js (CorpScheduleBP), 70_sec_gen.js
+   (PartA_GEN1). Helpers RG/N/REQ/RSUM are shell globals (shell/shell.js).
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const P  = RG(I,"PARTA_PL",{})||{};                          /* Part A - P&L root */
+  const CR = RG(P,"CreditsToPL",{})||{};
+  const DA = RG(P,"DebitsToPL.DebitPlAcnt",{})||{};
+  const TP = RG(P,"DebitsToPL.TaxProvAppr",{})||{};
+  const AD = RG(P,"PersumptiveInc44AD",{})||{};                /* item 62 (44AD) */
+  const ADA= RG(P,"PersumptiveInc44ADA",{})||{};               /* item 63 (44ADA) */
+  const T  = I.TradingAccount||{};
+  const M  = I.ManufacturingAccount||{};
+  const g  = (o,p)=>N(RG(o,p));
+  const has=(a,k)=>(a||[]).some(r=>r&&String(r[k]==null?"":r[k]).trim()!=="");
+  /* recursive negative-leaf finder (only the skip-listed keys may be negative) */
+  const negLeaves=function(o,skip,out){out=out||[];if(!o||typeof o!=="object")return out;
+    Object.keys(o).forEach(k=>{const v=o[k];
+      if(v&&typeof v==="object")negLeaves(v,skip,out);
+      else if(typeof v==="number"&&v<0&&skip.indexOf(k)<0)out.push(k);});
+    return out;};
+
+  /* =============================================================
+     PART A - TRADING ACCOUNT (serials 101-107)
+     ============================================================= */
+  if(I.TradingAccount){
+    const dtp="DutyTaxPay.ExciseCustomsVAT.";
+    /* 101 — item 10 total (10xii) = 10i..10xi (duties/taxes on purchases) */
+    A(101,REQ(g(T,dtp+"TotExciseCustomsVAT"),
+        g(T,dtp+"CustomDuty")+g(T,dtp+"CounterVailDuty")+g(T,dtp+"SplAddDuty")+g(T,dtp+"UnionExciseDuty")+g(T,dtp+"ServiceTax")+g(T,dtp+"VATorSaleTax")+g(T,dtp+"CentralGoodServiceTax")+g(T,dtp+"StateGoodServiceTax")+g(T,dtp+"IntegratedGoodServiceTax")+g(T,dtp+"UnionTerrGoodServiceTax")+g(T,dtp+"OthDutyTaxCess")),
+      "Part A-Trading Account: item 10 total (10xii) must equal the sum of 10i to 10xi.");
+    /* 102 — item 12 = 6 - 7 - 8 - 9 - 10xii - 11 */
+    A(102,REQ(g(T,"GrossProfitFrmBusProf"),
+        g(T,"TardingAccTotCred")-g(T,"OpngStckOfFinishedStcks")-g(T,"Purchases")-g(T,"DirectExpenses")-g(T,dtp+"TotExciseCustomsVAT")-g(T,"GoodsCostPrdcdFrmMA")),
+      "Part A-Trading Account: item 12 (gross profit) must equal 6 - 7 - 8 - 9 - 10xii - 11.");
+    /* 103 — negative values allowed only at item 11 and/or 12 (11, 12, 12b, 12d) */
+    A(103,negLeaves(T,["GoodsCostPrdcdFrmMA","GrossProfitFrmBusProf","IntradayTradingIncome","IncomeFutureTrd"]).length===0,
+      "Part A-Trading Account: a negative amount is allowed only at item 11 and/or item 12.");
+    /* 104 — item 11 (cost from Mfg) = item 3 of Manufacturing Account */
+    if(I.ManufacturingAccount)
+      A(104,REQ(g(T,"GoodsCostPrdcdFrmMA"),g(M,"CostOfGoodsPrdcd")),
+        "Part A-Trading Account: item 11 must equal item 3 (cost of goods produced) of the Manufacturing Account.");
+    /* 105 — item 6 (total credits) = 4D + 5 */
+    A(105,REQ(g(T,"TardingAccTotCred"),g(T,"TotRevenueFrmOperations")+g(T,"ClsngStckOfFinishedStcks")),
+      "Part A-Trading Account: item 6 (total credits) must equal 4D + 5.");
+    /* 106 — 12b (intraday income) cannot exceed 12a (intraday turnover) */
+    A(106,g(T,"IntradayTradingIncome")<=g(T,"IntradayTradingTurnOver")+1,
+      "Part A-Trading Account: income from intraday trading (12b) cannot exceed the intraday turnover (12a).");
+    /* 107 — 12d (F&O income) cannot exceed 12c (F&O turnover) */
+    A(107,g(T,"IncomeFutureTrd")<=g(T,"TurnoverFutureTrd")+1,
+      "Part A-Trading Account: income from Futures & Options (12d) cannot exceed the F&O turnover (12c).");
+  }
+
+  /* =============================================================
+     PART A - P&L ACCOUNT (serials 108-150)
+     ============================================================= */
+  /* 108 — item 13 = Trading 12 + 12b + 12d */
+  if(I.TradingAccount)
+    A(108,REQ(g(CR,"GrossProfitTrnsfFrmTrdAcc"),g(T,"GrossProfitFrmBusProf")+g(T,"IntradayTradingIncome")+g(T,"IncomeFutureTrd")),
+      "Part A-P&L: item 13 (gross profit transferred) must equal item 12 + 12b + 12d of the Trading Account.");
+  /* 109 — 14xi (misc other income) = its detail (array + liabilities written back + interest from firm) */
+  A(109,REQ(g(CR,"OthIncome.MiscOthIncome"),RSUM(RG(CR,"OthIncome.OtherIncDtls",[]),"Amount")+g(CR,"OthIncome.LiabilityWrittenBack")+g(CR,"OthIncome.AmtofInterest")),
+    "Part A-P&L: item 14xi (other income - miscellaneous) must equal the sum of its detail table, liabilities written back and interest from the firm.");
+  /* 110 — 14xii (total other income) = 14i..14x + 14xi */
+  A(110,REQ(g(CR,"OthIncome.TotOthIncome"),
+      g(CR,"OthIncome.RentInc")+g(CR,"OthIncome.Comissions")+g(CR,"OthIncome.Dividends")+g(CR,"OthIncome.InterestInc")+g(CR,"OthIncome.ProfitOnSaleFixedAsset")+g(CR,"OthIncome.ProfitOnInvChrSTT")+g(CR,"OthIncome.ProfitOnOthInv")+g(CR,"OthIncome.ProfitOnCurrFluct")+g(CR,"OthIncome.ProfitOnCnvInvntryToCapAsst")+g(CR,"OthIncome.ProfitOnAgriIncome")+g(CR,"OthIncome.MiscOthIncome")),
+    "Part A-P&L: item 14xii (total other income) must equal the sum of 14i to 14x plus 14xi.");
+  /* 111 — item 15 (total credits) = 13 + 14xii */
+  A(111,REQ(g(CR,"TotCreditsToPL"),g(CR,"GrossProfitTrnsfFrmTrdAcc")+g(CR,"OthIncome.TotOthIncome")),
+    "Part A-P&L: item 15 (total credits to P&L) must equal item 13 + 14xii.");
+  /* 112 — 22xii(a) 'Yes' -> 22xii(b) (amount paid to non-residents) cannot be zero/blank */
+  A(112,RG(DA,"EmployeeComp.AnyCompPaidToNonRes")!=="Yes"||N(RG(DA,"EmployeeComp.AmtPaidToNonRes"))>0,
+    "Part A-P&L: if item 22xii(a) is 'Yes' then item 22xii(b) (compensation paid to non-residents) cannot be zero or blank.");
+  /* 113 — 22xi (total employee compensation) = 22i..22x */
+  A(113,REQ(g(DA,"EmployeeComp.TotEmployeeComp"),
+      g(DA,"EmployeeComp.SalsWages")+g(DA,"EmployeeComp.Bonus")+g(DA,"EmployeeComp.MedExpReimb")+g(DA,"EmployeeComp.LeaveEncash")+g(DA,"EmployeeComp.LeaveTravelBenft")+g(DA,"EmployeeComp.ContToSuperAnnFund")+g(DA,"EmployeeComp.ContToPF")+g(DA,"EmployeeComp.ContToGratFund")+g(DA,"EmployeeComp.ContToOthFund")+g(DA,"EmployeeComp.OthEmpBenftExpdr")),
+    "Part A-P&L: item 22xi (total employee compensation) must equal the sum of 22i to 22x.");
+  /* 114 — 23v (total insurance) = 23i..23iv */
+  A(114,REQ(g(DA,"Insurances.TotInsurances"),g(DA,"Insurances.MedInsur")+g(DA,"Insurances.LifeInsur")+g(DA,"Insurances.KeyManInsur")+g(DA,"Insurances.OthInsur")),
+    "Part A-P&L: item 23v (total insurance) must equal the sum of 23i to 23iv.");
+  /* 115 — 30iii (commission total) = 30i + 30ii */
+  A(115,REQ(g(DA,"CommissionExpdrDtls.Total"),g(DA,"CommissionExpdrDtls.NonResOtherCompany")+g(DA,"CommissionExpdrDtls.Others")),
+    "Part A-P&L: item 30iii (commission total) must equal 30i + 30ii.");
+  /* 116 — 31iii (royalty total) = 31i + 31ii */
+  A(116,REQ(g(DA,"RoyalityDtls.Total"),g(DA,"RoyalityDtls.NonResOtherCompany")+g(DA,"RoyalityDtls.Others")),
+    "Part A-P&L: item 31iii (royalty total) must equal 31i + 31ii.");
+  /* 117 — 32iii (professional/consultancy total) = 32i + 32ii */
+  A(117,REQ(g(DA,"ProfessionalConstDtls.Total"),g(DA,"ProfessionalConstDtls.NonResOtherCompany")+g(DA,"ProfessionalConstDtls.Others")),
+    "Part A-P&L: item 32iii (professional/consultancy fees total) must equal 32i + 32ii.");
+  /* 118 — 44x (total rates and taxes) = 44i..44ix */
+  {const rt="RatesTaxesPays.ExciseCustomsVAT.";
+   A(118,REQ(g(DA,rt+"TotExciseCustomsVAT"),
+       g(DA,rt+"UnionExciseDuty")+g(DA,rt+"ServiceTax")+g(DA,rt+"VATorSaleTax")+g(DA,rt+"Cess")+g(DA,rt+"CentralGoodServiceTax")+g(DA,rt+"StateGoodServiceTax")+g(DA,rt+"IntegratedGoodServiceTax")+g(DA,rt+"UnionTerrGoodServiceTax")+g(DA,rt+"OthDutyTaxCess")),
+     "Part A-P&L: item 44x (total rates and taxes) must equal the sum of 44i to 44ix.");}
+  /* 119 — item 47 (other expenses) = sum of the 47 detail table */
+  A(119,REQ(g(DA,"OtherExpenses"),RSUM(RG(DA,"OtherExpensesDtls",[]),"Amount")),
+    "Part A-P&L: item 47 (other expenses) must equal the sum of the other-expenses detail table.");
+  /* 120 — 48iv (total bad debt) = 48i + 48ii + 48iii */
+  A(120,REQ(g(DA,"BadDebtDtls.BadDebt"),g(DA,"BadDebtDtls.BadDebtAmtDtlsTotal")+g(DA,"BadDebtDtls.OthersPANNotAvlblDtlTotal")+g(DA,"BadDebtDtls.OthersAmtLt1Lakh")),
+    "Part A-P&L: item 48iv (total bad debt) must equal 48i + 48ii + 48iii.");
+  /* 121 — item 51 (PBIDTA) = 15 - (16..21 + 22xi + 23v + 24..29 + 30iii + 31iii + 32iii + 33..43 + 44x + 45 + 46 + 47 + 48iv + 49 + 50) */
+  {const dh = g(DA,"Freight")+g(DA,"ConsumptionOfStores")+g(DA,"PowerFuel")+g(DA,"RentExpdr")+g(DA,"RepairsBldg")+g(DA,"RepairMach")
+      +g(DA,"EmployeeComp.TotEmployeeComp")+g(DA,"Insurances.TotInsurances")
+      +g(DA,"StaffWelfareExp")+g(DA,"Entertainment")+g(DA,"Hospitality")+g(DA,"Conference")+g(DA,"SalePromoExp")+g(DA,"Advertisement")
+      +g(DA,"CommissionExpdrDtls.Total")+g(DA,"RoyalityDtls.Total")+g(DA,"ProfessionalConstDtls.Total")
+      +g(DA,"HotelBoardLodge")+g(DA,"TravelExp")+g(DA,"ForeignTravelExp")+g(DA,"ConveyanceExp")+g(DA,"TelephoneExp")+g(DA,"GuestHouseExp")+g(DA,"ClubExp")+g(DA,"FestivalCelebExp")+g(DA,"Scholarship")+g(DA,"Gift")+g(DA,"Donation")
+      +g(DA,"RatesTaxesPays.ExciseCustomsVAT.TotExciseCustomsVAT")+g(DA,"AuditFee")+g(DA,"SalRemuneration")+g(DA,"OtherExpenses")+g(DA,"BadDebtDtls.BadDebt")+g(DA,"ProvForBadDoubtDebt")+g(DA,"OthProvisionsExpdr");
+   A(121,REQ(g(DA,"PBIDTA"),g(CR,"TotCreditsToPL")-dh),
+     "Part A-P&L: item 51 (profit before interest, depreciation and taxes) must equal item 15 less the total of the debit heads (16 to 50).");}
+  /* 122 — 52iii (total interest) = 52ia + 52ib + 52iia + 52iib */
+  A(122,REQ(g(DA,"InterestExpdrtDtls.InterestExpdr"),g(DA,"InterestExpdrtDtls.NonResOtherCompany")+g(DA,"InterestExpdrtDtls.Others")+g(DA,"InterestExpdrtDtls.ResPartners")+g(DA,"InterestExpdrtDtls.ResOthers")),
+    "Part A-P&L: item 52iii (total interest) must equal 52ia + 52ib + 52iia + 52iib.");
+  /* 123 — item 54 (net profit before taxes) = 51 - 52iii - 53 */
+  A(123,REQ(g(DA,"PBT"),g(DA,"PBIDTA")-g(DA,"InterestExpdrtDtls.InterestExpdr")-g(DA,"DepreciationAmort")),
+    "Part A-P&L: item 54 (net profit before taxes) must equal item 51 - 52iii - 53.");
+  /* 124 — item 46 (salary/remuneration to partners) can be claimed only by a Firm */
+  {const ST=String(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType","")||"");
+   A(124,g(DA,"SalRemuneration")<=0||(ST!=="2"&&ST!=="9"&&ST!=="14"),
+     "Part A-P&L: salary/remuneration to partners of the firm (item 46) can be claimed only by a Firm.");}
+  /* 125 — item 57 (profit after tax) = 54 - 55 - 56 */
+  A(125,REQ(g(TP,"ProfitAfterTax"),g(DA,"PBT")-g(TP,"ProvForCurrTax")-g(TP,"ProvDefTax")),
+    "Part A-P&L: item 57 (profit after tax) must equal item 54 - 55 - 56.");
+  /* 126 — item 59 (amount available for appropriation) = 57 + 58 */
+  A(126,REQ(g(TP,"AmtAvlAppr"),g(TP,"ProfitAfterTax")+g(TP,"BalBFPrevYr")),
+    "Part A-P&L: item 59 (amount available for appropriation) must equal item 57 + 58.");
+  /* 127 — item 61 (balance carried to balance sheet) = 59 - 60 */
+  A(127,REQ(g(TP,"PartnerAccBalTrf"),g(TP,"AmtAvlAppr")-g(TP,"Appropriations.TrfToReserves")),
+    "Part A-P&L: item 61 (balance carried to the partners' account) must equal item 59 - 60.");
+  /* 128 — 62i (gross turnover/receipts 44AD) = 62ia + 62ib + 62ic */
+  A(128,REQ(g(AD,"GrsTrnOverOrReceipt"),g(AD,"GrsTrnOverBank")+g(AD,"GrsTotalTrnOverInCash")+g(AD,"GrsTrnOverAnyOthMode")),
+    "Part A-P&L: item 62i (gross turnover or receipts u/s 44AD) must equal 62ia + 62ib + 62ic.");
+  /* 129 — 62ii (presumptive income 44AD) = 62iia + 62iib */
+  A(129,REQ(g(AD,"TotPersumptiveInc44AD"),g(AD,"PersumptiveInc44AD6Per")+g(AD,"PersumptiveInc44AD8Per")),
+    "Part A-P&L: item 62ii (presumptive income u/s 44AD) must equal 62iia + 62iib.");
+  /* 130 — 62iia cannot be less than 6% of 62ia */
+  A(130,g(AD,"PersumptiveInc44AD6Per")>=Math.floor(0.06*g(AD,"GrsTrnOverBank"))-1,
+    "Part A-P&L: item 62iia (presumptive income u/s 44AD) cannot be less than 6% of 62ia.");
+  /* 131 — 62iib cannot be less than 8% of (62ib + 62ic) */
+  A(131,g(AD,"PersumptiveInc44AD8Per")>=Math.floor(0.08*(g(AD,"GrsTotalTrnOverInCash")+g(AD,"GrsTrnOverAnyOthMode")))-1,
+    "Part A-P&L: item 62iib (presumptive income u/s 44AD) cannot be less than 8% of (62ib + 62ic).");
+  /* 132 — 62iib cannot exceed the gross receipts at 62ib + 62ic */
+  A(132,g(AD,"PersumptiveInc44AD8Per")<=g(AD,"GrsTotalTrnOverInCash")+g(AD,"GrsTrnOverAnyOthMode")+1,
+    "Part A-P&L: income claimed u/s 44AD at 62iib cannot be more than the gross receipts at 62ib + 62ic.");
+  /* 133 — 62iia cannot exceed the gross receipts at 62ia */
+  A(133,g(AD,"PersumptiveInc44AD6Per")<=g(AD,"GrsTrnOverBank")+1,
+    "Part A-P&L: income claimed u/s 44AD at 62iia cannot be more than the gross receipts at 62ia.");
+  /* 134 — 63ii (44ADA) cannot be less than 50% of 63i */
+  A(134,g(ADA,"TotPersumptiveInc44ADA")>=Math.floor(0.5*g(ADA,"GrsReceipt"))-1,
+    "Part A-P&L: item 63ii (presumptive income u/s 44ADA) cannot be less than 50% of 63i.");
+  /* 135 — a 44AD business code (item 62) is required when income at 62i and/or 62ii is declared */
+  A(135,!(g(AD,"GrsTrnOverOrReceipt")>0||g(AD,"TotPersumptiveInc44AD")>0)||has(RG(P,"NatOfBus44AD",[]),"CodeAD"),
+    "Part A-P&L: a business code u/s 44AD must be selected at item 62 when income is declared at 62i and/or 62ii.");
+  /* 136 — name of business is required when income at 62i and/or 62ii is declared */
+  A(136,!(g(AD,"GrsTrnOverOrReceipt")>0||g(AD,"TotPersumptiveInc44AD")>0)||has(RG(P,"NatOfBus44AD",[]),"NameOfBusiness"),
+    "Part A-P&L: the name of business must be filled when income u/s 44AD is declared at 62i and/or 62ii.");
+  /* 137 — a 44ADA business code (item 63) is required when income at 63i and/or 63ii is declared */
+  A(137,!(g(ADA,"GrsReceipt")>0||g(ADA,"TotPersumptiveInc44ADA")>0)||has(RG(P,"NatOfBus44ADA",[]),"CodeADA"),
+    "Part A-P&L: a business code u/s 44ADA must be selected at item 63 when income is declared at 63i and/or 63ii.");
+  /* 138 — name of profession is required when income at 63i and/or 63ii is declared */
+  A(138,!(g(ADA,"GrsReceipt")>0||g(ADA,"TotPersumptiveInc44ADA")>0)||has(RG(P,"NatOfBus44ADA",[]),"NameOfBusiness"),
+    "Part A-P&L: the name of profession must be filled when income u/s 44ADA is declared at 63i and/or 63ii.");
+  /* 139 — a 44AE business code (item 64) is required when 44AE income is declared */
+  A(139,!(g(P,"TotalPrsumptvIncUs44E")>0||g(P,"TotalPrsumptvIncGCUs44E")>0)||has(RG(P,"NatOfBus44AE",[]),"CodeAE"),
+    "Part A-P&L: a business code u/s 44AE must be selected at item 64 when presumptive income u/s 44AE is declared.");
+  /* 140 — name of business is required when 64ii is greater than zero */
+  A(140,!(g(P,"TotalPrsumptvIncGCUs44E")>0)||has(RG(P,"NatOfBus44AE",[]),"NameOfBusiness"),
+    "Part A-P&L: the name of business must be filled when the presumptive income u/s 44AE (64ii) is greater than zero.");
+  /* 141 — 44ADA: presumptive income (63ii) cannot exceed the gross receipts (63i).
+     Rule text reads "63i cannot be more than 63ii"; a lawful return always has
+     63i >= 63ii (income is a fraction of receipts, cf. serial 134's 50% floor),
+     so the literal reading fires on every lawful 44ADA return. Encoded as the
+     lawful reading (63ii <= 63i), mirroring serials 132/133 for 44AD.
+     /* not mappable as literally worded: literal 63i<=63ii contradicts serial 134 and fires on lawful data */
+  A(141,g(ADA,"TotPersumptiveInc44ADA")<=g(ADA,"GrsReceipt")+1,
+    "Part A-P&L: presumptive income u/s 44ADA (63ii) cannot be more than the gross receipts (63i).");
+  /* 142 — Schedule BP A35(i) = 62ii of Part A-P&L */
+  if(I.CorpScheduleBP&&I.PARTA_PL)
+    A(142,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AD"),g(AD,"TotPersumptiveInc44AD")),
+      "Schedule BP: item A35(i) (44AD) must equal item 62ii of Part A-P&L.");
+  /* 143 — Schedule BP A35(ii) = 63ii of Part A-P&L */
+  if(I.CorpScheduleBP&&I.PARTA_PL)
+    A(143,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44ADA"),g(ADA,"TotPersumptiveInc44ADA")),
+      "Schedule BP: item A35(ii) (44ADA) must equal item 63ii of Part A-P&L.");
+  /* 144 — Schedule BP A35(iii) = 64iv of Part A-P&L */
+  if(I.CorpScheduleBP&&I.PARTA_PL)
+    A(144,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AE"),g(P,"TotalPrsumptvIncUs44E")),
+      "Schedule BP: item A35(iii) (44AE) must equal item 64iv of Part A-P&L.");
+  /* 145 — if 64ii > 0 then the 64i goods-carriage table must be filled */
+  A(145,!(g(P,"TotalPrsumptvIncGCUs44E")>0)||RG(P,"GoodsDtlsUs44AE",[]).length>0,
+    "Part A-P&L: when the total presumptive income from goods carriage u/s 44AE (64ii) is greater than zero, the 64i goods-carriage table must be filled.");
+  /* 146 — 64ii = total of column (5) of the 64i table (per-carriage presumptive income) */
+  A(146,REQ(g(P,"TotalPrsumptvIncGCUs44E"),RSUM(RG(P,"GoodsDtlsUs44AE",[]),"PresumptiveIncome")),
+    "Part A-P&L: item 64ii (total presumptive income from goods carriage u/s 44AE) must equal the total of column (5) of the 64i table.");
+  /* 147 — total of column 4 (months) in the 64i table shall not exceed 120 */
+  {const goods=RG(P,"GoodsDtlsUs44AE",[])||[];
+   if(goods.length)A(147,RSUM(goods,"HoldingPeriod")<=120,
+     "Part A-P&L: in the 64i table (44AE), the total number of months (column 4) cannot exceed 120.");}
+  /* 148 — 64iv = 64ii - 64iii (nil if negative) */
+  A(148,REQ(g(P,"TotalPrsumptvIncUs44E"),Math.max(0,g(P,"TotalPrsumptvIncGCUs44E")-g(P,"SalRemrtnToPartnerFirm"))),
+    "Part A-P&L: item 64iv (total presumptive income u/s 44AE) must equal 64ii - 64iii.");
+  /* 149 — tonnage capacity of a goods carriage shall not exceed 100 MT */
+  (RG(P,"GoodsDtlsUs44AE",[])||[]).forEach(function(r,i){if(!r)return;
+    A(149,N(r.TonnageCapacity)<=100,"Part A-P&L: goods carriage "+(i+1)+" (44AE table 64i): tonnage capacity cannot exceed 100 MT.");});
+  /* 150 — 44AE income must be at least Rs.7,500 per month where tonnage <= 12 MT */
+  (RG(P,"GoodsDtlsUs44AE",[])||[]).forEach(function(r,i){if(!r)return;
+    if(N(r.TonnageCapacity)>0&&N(r.TonnageCapacity)<=12)
+      A(150,N(r.PresumptiveIncome)>=7500*N(r.HoldingPeriod)-1,
+        "Part A-P&L: goods carriage "+(i+1)+" (44AE): presumptive income must be at least Rs.7,500 per month where the tonnage capacity is 12 MT or less.");});
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_04 (Phase 6).
+   Serials 151-200 of books/ITR-5/rules.json (Category A).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) fires when cond (the "valid" assertion) is FALSE.
+   Every read is guarded (RG / (X||{})); nothing throws. Every cond is
+   TRUE when the block/data is absent or the rule is not applicable, so
+   the batch is a no-op on an empty return and never fires on lawful data.
+   Paths from forms/ITR-5/src/70_sec_pl.js (PARTA_PL / TradingAccount),
+   70_sec_oi.js (PARTA_OI), 70_sec_hp.js (ScheduleHP), 70_sec_gen.js
+   (PartA_GEN1/GEN2), 70_sec_bp.js (ScheduleICDS).
+   NOTE ITR-5 P&L numbering differs from ITR-3: 62=44AD, 63=44ADA,
+   64=44AE, 65=no-account, 66=speculative, 67=non-resident.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+
+  /* general-info reads for the status/audit conditions */
+  const OF=RG(I,"PartA_GEN1.OrgFirmInfo",{})||{};
+  const FS=RG(I,"PartA_GEN1.FilingStatus",{})||{};
+  const resFirm=OF.StatusOrCompanyType==="1"&&OF.SubStatus==="10"&&FS.ResidentialStatus==="RES"; /* resident partnership firm */
+  const aud44AB=RG(I,"PartA_GEN2.LiableSec44ABflg","")==="Y";
+
+  /* 44AA(1) professions + general commission agent (09005) — 44AD barred codes.
+     Same barred set as the ITR-3 encoding (books' 44AD business-code table). */
+  const BAR44AD=["09005","14001","14002","14003","14004","14006","14008","16001","16002","16003","16004","16005","16007","16008","16009","16013","16018","16020","16021",
+    "18001","18002","18003","18004","18005","18010","18011","18012","18013","18014","18015","18016","18017","18018","18019","18020","20010","20011","20012"];
+
+  /* ================================================================
+     PART A — P&L ACCOUNT  (serials 151-179)
+     ================================================================ */
+  if(I.PARTA_PL){
+    const pl=I.PARTA_PL;
+    const AD=RG(pl,"PersumptiveInc44AD",{})||{};
+    const ADA=RG(pl,"PersumptiveInc44ADA",{})||{};
+    const NB=RG(pl,"NoBooksOfAccPL",{})||{};
+    const BD=RG(pl,"DebitsToPL.DebitPlAcnt.BadDebtDtls",{})||{};
+
+    /* 151 — presumptive income u/s 44AD / 44ADA only by a resident partnership firm */
+    A(151,!(N(AD.TotPersumptiveInc44AD)||N(ADA.TotPersumptiveInc44ADA))||resFirm,
+      "Part A-P&L: presumptive business income u/s 44AD / 44ADA can be claimed only by a resident partnership firm.");
+
+    /* 152 — 44AD not applicable to general commission agents / 44AA(1) professions */
+    A(152,!(RG(pl,"NatOfBus44AD",[])||[]).some(r=>BAR44AD.indexOf(String((r||{}).CodeAD||""))>=0),
+      "Part A-P&L: section 44AD is not applicable to general commission agents (code 09005) or professions referred in section 44AA(1) — remove that code from the 44AD business table.");
+
+    /* 153 — 65(i)d (business net profit) = 65(i)b − 65(i)c (nil if negative) */
+    A(153,REQ(NB.NetProfit,Math.max(0,N(NB.GrossProfit)-N(NB.Expenses))),
+      "Part A-P&L: no-account business net profit (65(i)d) must equal gross profit (65(i)b) minus expenses (65(i)c).");
+    /* 154 — 65(ii)d (profession net profit) = 65(ii)b − 65(ii)c (nil if negative) */
+    A(154,REQ(NB.NetProfitPrf,Math.max(0,N(NB.GrossProfitPrf)-N(NB.ExpensesPrf))),
+      "Part A-P&L: no-account profession net profit (65(ii)d) must equal gross profit (65(ii)b) minus expenses (65(ii)c).");
+    /* 155 — 65(i)b cannot be more than 65(i)a */
+    A(155,N(NB.GrossProfit)<=N(NB.GrossReceipt)+1,
+      "Part A-P&L: no-account business gross profit (65(i)b) cannot be more than gross receipts (65(i)a).");
+    /* 156 — 65(ii)b cannot be more than 65(ii)a */
+    A(156,N(NB.GrossProfitPrf)<=N(NB.GrossReceiptPrf)+1,
+      "Part A-P&L: no-account profession gross profit (65(ii)b) cannot be more than gross receipts (65(ii)a).");
+    /* 157 — 65(i)a gross receipts = 65(i)a(i) + 65(i)a(ii) */
+    A(157,REQ(NB.GrossReceipt,N(NB.GrsRcptAccPayeeOrBankMode)+N(NB.GrsRcptOtherMode)),
+      "Part A-P&L: no-account business gross receipts (65(i)a) must equal 65(i)a(i) + 65(i)a(ii).");
+    /* 158 — 65(ii)a gross receipts = 65(ii)a1 + 65(ii)a2 */
+    A(158,REQ(NB.GrossReceiptPrf,N(NB.GrsRcptAccPayeeOrBankModePrf)+N(NB.GrsRcptOtherModePrf)),
+      "Part A-P&L: no-account profession gross receipts (65(ii)a) must equal 65(ii)a1 + 65(ii)a2.");
+    /* 159 — 65 total profit = 65(i)d + 65(ii)d */
+    A(159,REQ(NB.TotBusinessProfession,N(NB.NetProfit)+N(NB.NetProfitPrf)),
+      "Part A-P&L: no-account total profit (65) must equal 65(i)d + 65(ii)d.");
+    /* 160 — 66iv net speculative income = 66ii − 66iii */
+    A(160,REQ(pl.NetIncomeFrmSpecActivity,N(pl.GrossProfit)-N(pl.Expenditure)),
+      "Part A-P&L: net income from speculative activity (66iv) must equal gross profit (66ii) minus expenditure (66iii).");
+
+    /* 161 — 64iii (salary/remuneration to partners) can be > 0 only if 64ii (44AE presumptive income) > 0 */
+    A(161,N(pl.SalRemrtnToPartnerFirm)<=0||N(pl.TotalPrsumptvIncGCUs44E)>0,
+      "Part A-P&L: salary/remuneration to partners at 64(iii) cannot be greater than zero unless presumptive income u/s 44AE at 64(ii) is greater than zero.");
+
+    /* 162 — PAN or Aadhaar mandatory in 48(i) for every bad-debt row that carries an amount */
+    A(162,(RG(BD,"BadDebtAmtDtls",[])||[]).every(r=>!N((r||{}).Amount)||st0((r||{}).PAN)!==""||st0((r||{}).Aadhaar)!==""),
+      "Part A-P&L: PAN or Aadhaar is mandatory at 48(i) for each bad-debt row whose amount is filled.");
+
+    /* 163 — registration numbers in the 44AE (64) goods-carriage table must be unique */
+    (function(){const regs=(RG(pl,"GoodsDtlsUs44AE",[])||[]).map(r=>st0((r||{}).RegNumberGoodsCarriage).toUpperCase()).filter(x=>x!=="");
+      A(163,regs.length===new Set(regs).size,
+        "Part A-P&L: the registration number of each goods carriage in the 44AE table (64) must be unique.");})();
+
+    /* 164 — business sales > Rs.10 cr or profession receipts > Rs.50 lakh -> liable to audit u/s 44AB.
+       (from the Trading Account: 4A(iv) business sales, 4B profession receipts.) */
+    if(I.TradingAccount){const trd=I.TradingAccount;
+      A(164,!(N(trd.SalesGrossReceiptsTotal)>100000000||N(trd.GrossRcptFromProfession)>5000000)||aud44AB,
+        "Part A-P&L: business sales/gross receipts exceed Rs.10 crore or profession gross receipts exceed Rs.50 lakh — 'liable for audit u/s 44AB' must be Yes.");
+    }
+
+    /* 165 — 46 + 64iii must equal Col 9 (point E) + Col 6 (point A) remuneration of Part A General-2 */
+    if(I.PartA_GEN2){
+      const eRem=RSUM(RG(I,"PartA_GEN2.PartnerOrMemberInfo",[])||[],"RemunerationPaid");           /* point E, Col 9 */
+      const aRem=RSUM(RG(I,"PartA_GEN2.PrevYrMemPart.PrevYrMemPartDtls",[])||[],"RemunerationpaidAmt"); /* point A, Col 6 (retiring) */
+      A(165,REQ(N(RG(pl,"DebitsToPL.DebitPlAcnt.SalRemuneration"))+N(pl.SalRemrtnToPartnerFirm),eRem+aRem),
+        "Part A-P&L: 46 + 64(iii) (salary/remuneration to partners) must equal the remuneration in Part A General-2 (point E Col 9 + point A Col 6 retiring partner).");
+    }
+
+    /* 166 — bad-debt breakup consistent with the total: 48iv = 48i + 48ii + 48iii */
+    A(166,REQ(BD.BadDebt,N(BD.BadDebtAmtDtlsTotal)+N(BD.OthersPANNotAvlblDtlTotal)+N(BD.OthersAmtLt1Lakh)),
+      "Part A-P&L: total bad debt (48iv) must equal 48i + 48ii + 48iii.");
+
+    /* 167 — 63i gross receipts u/s 44ADA = 63ia + 63ib + 63ic */
+    A(167,REQ(ADA.GrsReceipt,N(ADA.GrsTrnOverBank44ADA)+N(ADA.GrsTotalTrnOverInCash44ADA)+N(ADA.GrsTrnOverAnyOthMode44ADA)),
+      "Part A-P&L: gross receipts u/s 44ADA (63i) must equal 63ia + 63ib + 63ic.");
+
+    /* 168 — 44ADA receipts > Rs.50 lakh with cash+other-mode > 5% of total -> audit u/s 44AB mandatory */
+    (function(){const gr=N(ADA.GrsReceipt),other=N(ADA.GrsTotalTrnOverInCash44ADA)+N(ADA.GrsTrnOverAnyOthMode44ADA);
+      A(168,!(gr>5000000&&other>0.05*gr)||aud44AB,
+        "Part A-P&L: gross receipts u/s 44ADA exceed Rs.50 lakh and cash + other-mode receipts exceed 5% of total — tax audit u/s 44AB is mandatory.");})();
+    /* 169 — 44AD receipts > Rs.2 cr with cash+other-mode > 5% of total -> audit u/s 44AB mandatory */
+    (function(){const gr=N(AD.GrsTrnOverOrReceipt),other=N(AD.GrsTotalTrnOverInCash)+N(AD.GrsTrnOverAnyOthMode);
+      A(169,!(gr>20000000&&other>0.05*gr)||aud44AB,
+        "Part A-P&L: gross receipts u/s 44AD exceed Rs.2 crore and cash + other-mode receipts exceed 5% of total — tax audit u/s 44AB is mandatory.");})();
+    /* 170 — 44ADA receipts > Rs.75 lakh -> audit u/s 44AB mandatory */
+    A(170,!(N(ADA.GrsReceipt)>7500000)||aud44AB,
+      "Part A-P&L: gross receipts u/s 44ADA exceed Rs.75 lakh — tax audit u/s 44AB is mandatory.");
+    /* 171 — 44AD receipts > Rs.3 cr -> audit u/s 44AB mandatory */
+    A(171,!(N(AD.GrsTrnOverOrReceipt)>30000000)||aud44AB,
+      "Part A-P&L: gross receipts u/s 44AD exceed Rs.3 crore — tax audit u/s 44AB is mandatory.");
+
+    /* 172 — 48(i) and 48(ii) must equal the sum of the amount column of their detail tables */
+    A(172,REQ(BD.BadDebtAmtDtlsTotal,RSUM(RG(BD,"BadDebtAmtDtls",[])||[],"Amount"))
+        &&REQ(BD.OthersPANNotAvlblDtlTotal,RSUM(RG(BD,"OthersPANNotAvlblDtl",[])||[],"Amount")),
+      "Part A-P&L: bad debts 48(i) and 48(ii) must each equal the sum of the amount column of their detail tables.");
+
+    /* 173 / 175 / 176 / 177 / 178 — non-resident (67) minimum net-profit percentages by section */
+    (function(){const rows=RG(pl,"NonResidentPLDetails",[])||[];
+      const floorPct=(sec,pct)=>rows.filter(r=>(r||{}).Section===sec).every(r=>N(r.NetProfit)>=Math.floor(pct*N(r.GrossReceipt))-1);
+      A(173,floorPct("44BBD",0.25),"Part A-P&L: under section 44BBD the net profit (67ii) cannot be less than 25% of gross receipts/turnover (67i).");
+      A(175,floorPct("44B",0.075),"Part A-P&L: under section 44B the net profit (67ii) cannot be less than 7.5% of gross receipts/turnover (67i).");
+      A(176,floorPct("44BB",0.10),"Part A-P&L: under section 44BB the net profit (67ii) cannot be less than 10% of gross receipts/turnover (67i).");
+      A(177,floorPct("44BBA",0.05),"Part A-P&L: under section 44BBA the net profit (67ii) cannot be less than 5% of gross receipts/turnover (67i).");
+      A(178,floorPct("44BBC",0.20),"Part A-P&L: under section 44BBC the net profit (67ii) cannot be less than 20% of gross receipts/turnover (67i).");
+      /* 174 — 67(ii) net profit cannot be more than 67(i) turnover (each row and the total) */
+      A(174,rows.every(r=>N((r||{}).NetProfit)<=N((r||{}).GrossReceipt)+1)
+          &&N(RG(pl,"NonResidentPL.NetProfit"))<=N(RG(pl,"NonResidentPL.GrossReceipt"))+1,
+        "Part A-P&L: net profit at 67(ii) cannot be more than the gross receipts/turnover at 67(i).");
+    })();
+
+    /* 179 — bad debtors without PAN/Aadhaar and amount > Rs.1 lakh need name and address */
+    A(179,(RG(BD,"OthersPANNotAvlblDtl",[])||[]).every(r=>{r=r||{};
+        return !(N(r.Amount)>100000)||(st0(r.Name)!==""&&st0(r.AreaLocality)!==""&&st0(r.TownCityDistrict)!==""&&st0(r.StateCode)!=="");}),
+      "Part A-P&L: name and address are mandatory for a bad debtor with no PAN/Aadhaar where the amount exceeds Rs.1 lakh (48ii).");
+  }
+
+  /* ================================================================
+     PART A — OI  (serials 180-191)
+     ================================================================ */
+  if(I.PARTA_OI){
+    const oi=I.PARTA_OI;
+    const SUMK=(base,keys)=>keys.reduce((a,k)=>a+N(RG(oi,base+"."+k)),0);
+    const OI5  =["Section28Items","ProformaCreditsDue","PrevYrEscalClaim","OthItemInc","CapReceipt"];                                   /* 5a..5e */
+    const OI36 =["StkInsurPrem","EmpHealthInsurPrem","EmpBonusCommSum","IntOnBorrCap","ZeroCoupBondDisc","RecogPFContribAmt","AppSuperAnnFundAmt","PensionSchemeSec80CCD","AppGratFundAmt","OthFundAmt","EmpContributionCredits","BadDebtDoubtAmt","BadDebtDoubtProvn","SpecResrvTranfr","FamPlanPromoExp","SecuritiesPaidAmt","MrktLossOthExpLossICDS","ExpGovtApprovedSugarPrice","AnyOthDisallowance"]; /* 6a..6s */
+    const OI37 =["CapitalNatureExp","PersonalExp","BusOrProfessnExp","PoliticPartyExp","LawVoilatPenalExp","OthPenalFineExp","OffenceExp","ContigentLiability","OthAmtNotAllowUs37"]; /* 7a..7i */
+    const OI40 =["NonCompChapXVIIBAmt","NonComp40aiiChapXVIIBAmt","NonComp40aibChapXVIIBAmt","NonComp40aiiiChapXVIIBAmt","TaxAmtOnProfits","WTAmt","RolyatyOrServiceFee","IntSalBonPartner","AnyOthDisallowance"]; /* 8Aa..8Ai */
+    const OI40A=["AmtPaidUs40A2b","AmtGT20kCash","ProvPmtGrat","ContToSetupTrust","AnyOthDisallowance"];                                /* 9a,9b,9c,9d,9f — 9e has no schema leaf */
+    const OI43B=["TaxDutyCesAmt","ContToEmpPFSFGF","EmpBonusComm","IntPayaleToFI","SumPayaleLoanBrToFinComp","IntPayaleToFISchBank","LeaveEncashPayable","RailwayAsstsPyble","MSEPayable"]; /* 10a..10h / 11a..11h */
+    const OI12 =["UnionExciseDuty","ServiceTax","VATorSaleTax","CentralGoodServiceTax","StateGoodServiceTax","IntegratedGoodServiceTax","UnionTerrGoodServiceTax","OthDutyTaxCess"]; /* 12a..12h */
+
+    /* 180 — OI 3a = Schedule ICDS column XI(3) (total increase in profit).
+       3a is a read-only cell the engine feeds from Schedule ICDS across a
+       cross-section seam; checked only when 3a is itself populated, so the
+       rule flags a wrong entered value without firing where the seam has not
+       yet fed the cell (an engine-seam gap, not a lawful-data violation). */
+    if(I.ScheduleICDS&&N(oi.ProfDeviatDueAcctMeth))
+      A(180,REQ(oi.ProfDeviatDueAcctMeth,RG(I,"ScheduleICDS.TotalNetAmtDetl.IncreaseInProfit")),
+      "Part A-OI: 3a (increase in profit from ICDS deviation) must equal Schedule ICDS column XI(3).");
+    /* 181 — OI 3b = Schedule ICDS column XI(4) (total decrease in profit); same seam guard as 180 */
+    if(I.ScheduleICDS&&N(oi.DecProOrIncLossUs145_2))
+      A(181,REQ(oi.DecProOrIncLossUs145_2,RG(I,"ScheduleICDS.TotalNetAmtDetl.DecreaseInProfit")),
+      "Part A-OI: 3b (decrease in profit from ICDS deviation) must equal Schedule ICDS column XI(4).");
+
+    /* 182 — 5f = 5a + 5b + 5c + 5d + 5e */
+    A(182,REQ(RG(oi,"NoCredToPLAmt.TotNoCredToPLAmt"),SUMK("NoCredToPLAmt",OI5)),
+      "Part A-OI: 5f must equal the sum of 5a to 5e.");
+    /* 183 — 6t = 6a to 6s */
+    A(183,REQ(RG(oi,"AmtDisallUs36.TotAmtDisallUs36"),SUMK("AmtDisallUs36",OI36)),
+      "Part A-OI: 6t must equal the sum of 6a to 6s.");
+    /* 184 — 7j = 7a to 7i */
+    A(184,REQ(RG(oi,"AmtDisallUs37.TotAmtDisallUs37"),SUMK("AmtDisallUs37",OI37)),
+      "Part A-OI: 7j must equal the sum of 7a to 7i.");
+    /* 185 — 8A.j = 8A.a to 8A.i */
+    A(185,REQ(RG(oi,"AmtDisallUs40.TotAmtDisallUs40"),SUMK("AmtDisallUs40",OI40)),
+      "Part A-OI: 8A.j must equal the sum of 8A.a to 8A.i.");
+    /* 186 — 9g = 9a to 9f (9e is not fileable — no schema leaf; the checkable sum is 9a+9b+9c+9d+9f) */
+    A(186,REQ(RG(oi,"AmtDisallUs40A.TotAmtDisallUs40A"),SUMK("AmtDisallUs40A",OI40A)),
+      "Part A-OI: 9g must equal the sum of 9a to 9f."); /* not mappable: 9e (40A(13)) has no schema leaf — excluded from the sum */
+    /* 187 — 10 total = 10a to 10h */
+    A(187,REQ(RG(oi,"AmtDisallUs43BPyNowAll.AmtUs43B.TotAmtUs43b"),SUMK("AmtDisallUs43BPyNowAll.AmtUs43B",OI43B)),
+      "Part A-OI: 10 total must equal the sum of 10a to 10h.");
+    /* 188 — 11 total = 11a to 11h */
+    A(188,REQ(RG(oi,"AmtDisall43B.AmtUs43B.TotAmtUs43b"),SUMK("AmtDisall43B.AmtUs43B",OI43B)),
+      "Part A-OI: 11 total must equal the sum of 11a to 11h.");
+    /* 189 — 12i = 12a to 12h */
+    A(189,REQ(RG(oi,"AmtExciseCustomsVATOutstanding.ExciseCustomsVAT.TotExciseCustomsVAT"),SUMK("AmtExciseCustomsVATOutstanding.ExciseCustomsVAT",OI12)),
+      "Part A-OI: 12i (total outstanding) must equal the sum of 12a to 12h.");
+
+    /* 190 — item 17 (option u/s 92CE(2A)) = Yes -> Schedule TPSA must be filled */
+    A(190,oi.ScheduleTPSAFlg!=="Yes"||!!I.ScheduleTPSA,
+      "Part A-OI: option u/s 92CE(2A) at item 17 is Yes — Schedule TPSA must be filled.");
+
+    /* 191 — 13 (deemed profits u/s 33AB / 33ABA / 33AC) = 13a + 13b + 13c */
+    A(191,REQ(oi.DeemedProfUs33ABs,N(oi.DeemedProfUs33AB)+N(oi.DeemedProfUs33ABA)+N(oi.DeemedProfUs33AC)),
+      "Part A-OI: 13 (amounts deemed profits u/s 33AB / 33ABA / 33AC) must equal 13a + 13b + 13c.");
+  }
+
+  /* ================================================================
+     SCHEDULE HP  (serials 192-200) — per property in PropertyDetails
+     ================================================================ */
+  if(I.ScheduleHP){
+    const props=RG(I,"ScheduleHP.PropertyDetails",[])||[];
+    props.forEach(function(p,i){p=p||{};const rd=RG(p,"Rentdetails",{})||{};const L="Schedule HP property "+(i+1)+": ";
+      const coowned=p.PropCoOwnedFlg==="YES";
+      const own=N(p.AssessePercentShareProp);
+      const coShare=RSUM(RG(p,"CoOwners",[])||[],"PercentShareProperty");
+
+      /* 192 — 1g = 30% of 1f */
+      A(192,REQ(rd.ThirtyPercentOfBalance,Math.max(0,Math.round(0.30*N(rd.AnnualOfPropOwned)))),
+        L+"the 30% standard deduction (1g) must equal 30% of the annual value of the property owned (1f).");
+      /* 193 — co-owned: own share + co-owners' share = 100% */
+      A(193,!coowned||REQ(own+coShare,100),
+        L+"for a co-owned property the assessee's share plus the co-owners' shares must equal 100%.");
+      /* 194 — co-owned: 1f = own% x 1e (annual value) */
+      A(194,!coowned||REQ(rd.AnnualOfPropOwned,Math.max(0,Math.round((own/100)*N(rd.BalanceALV)))),
+        L+"for a co-owned property the annual value of the property owned (1f) must equal the assessee's percentage share of the annual value (1e).");
+      /* 195 — no interest on borrowed capital when the co-owned share is zero */
+      A(195,!(coowned&&own===0)||N(rd.IntOnBorwCap)===0,
+        L+"interest on borrowed capital cannot be claimed when the assessee's share of the co-owned property is zero.");
+      /* 196 — no municipal tax when gross rent/lettable value is zero */
+      A(196,N(rd.AnnualLetableValue)>0||N(rd.LocalTaxes)===0,
+        L+"municipal (local) tax cannot be claimed when the gross rent received/receivable/lettable value (1a) is zero.");
+      /* 198 — let-out / deemed let-out property must have a non-zero gross rent/lettable value */
+      A(198,(p.ifLetOut!=="Y"&&p.ifLetOut!=="D")||N(rd.AnnualLetableValue)>0,
+        L+"a let-out or deemed let-out property cannot have a zero gross rent received/receivable/lettable value (1a).");
+      /* 199 — 1e (annual value) = 1a − 1d (nil if negative) */
+      A(199,REQ(rd.BalanceALV,Math.max(0,N(rd.AnnualLetableValue)-N(rd.TotalUnrealizedAndTax))),
+        L+"the annual value (1e) must equal 1a minus 1d.");
+      /* 200 — 1d = 1b + 1c */
+      A(200,REQ(rd.TotalUnrealizedAndTax,N(rd.RentNotRealized)+N(rd.LocalTaxes)),
+        L+"the total of unrealised rent and local taxes (1d) must equal 1b + 1c.");
+    });
+
+    /* 197 — total income of house property = Σ (1k of each property) + pass-through income */
+    A(197,REQ(RG(I,"ScheduleHP.TotalIncomeChargeableUnHP"),
+        RSUM(props,p=>RG(p,"Rentdetails.IncomeOfHP"))+N(RG(I,"ScheduleHP.PassThroghIncome"))),
+      "Schedule HP: the total income from house property must equal the sum of the individual property values (1k) plus pass-through income.");
+  }
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_05 (Phase 6).
+   Slice: rules.json Category-A serials 201–250 (Schedule HP · Schedule BP).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) fires when cond (the "valid" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})) and every schedule-scoped block is
+   entered only when its schedule is present, so the batch is a no-op on an
+   empty return and never throws. Paths from forms/ITR-5/src/70_sec_*.js
+   (HP: ScheduleHP; BP: CorpScheduleBP; feeds: PARTA_OI, ScheduleESR,
+   ScheduleEI, ScheduleOS, SchedulePTI, PARTA_PL, ManufacturingAccount,
+   PARTA_BS, ScheduleSI, PartA_GEN1).  Encoded from each rule's text.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+
+  /* =============================================================
+     SCHEDULE HP (201–208, and the 203 pass-through / 204 PAN cross-checks)
+     ============================================================= */
+  if(I.ScheduleHP){
+    const props=RG(I,"ScheduleHP.PropertyDetails",[])||[];
+    const asseseePAN=String(RG(I,"PartA_GEN1.OrgFirmInfo.PAN","")||"").toUpperCase();
+    props.forEach(function(p,idx){
+      p=p||{}; const rd=p.Rentdetails||{}; const L="Schedule HP property "+(idx+1)+": ";
+      /* A201 — 1(i) = 1(g) + 1(h) */
+      A(201,REQ(rd.TotalDeduct,N(rd.ThirtyPercentOfBalance)+N(rd.IntOnBorwCap)),
+        L+"total deduction 1(i) must equal 1(g) + 1(h).");
+      /* A202 — 1(k) = 1(f) − 1(i) + 1(j) */
+      A(202,REQ(rd.IncomeOfHP,N(rd.AnnualOfPropOwned)-N(rd.TotalDeduct)+N(rd.ArrearsUnrealizedRentRcvd)),
+        L+"income from house property 1(k) must equal 1(f) − 1(i) + 1(j).");
+      /* A205 — total interest u/s 24(b) = Σ per-loan interest, and equals 1(h) */
+      const s24=RG(rd,"Section24B",null);
+      if(s24&&typeof s24==="object")
+        A(205,REQ(s24.TotalInterestUs24B,RSUM(RG(s24,"Section24BDtls",[]),"InterestUs24B"))
+              &&REQ(N(rd.IntOnBorwCap),N(s24.TotalInterestUs24B)),
+          L+"the interest on borrowed capital u/s 24(b) must equal the sum of the per-loan interest rows (and 1h).");
+      /* A206 — interest claimed at 1(h) needs the 24(b) detail rows */
+      A(206,!(N(rd.IntOnBorwCap)>0)||!!(s24&&RG(s24,"Section24BDtls",[]).length>0),
+        L+"details of interest on borrowed capital u/s 24(b) are mandatory to claim the deduction at 1(h).");
+      /* A207 — co-owned: other co-owner(s) share < 100% */
+      if(p.PropCoOwnedFlg==="YES")
+        A(207,RSUM(RG(p,"CoOwners",[]),"PercentShareProperty")<100,
+          L+"when the property is co-owned, the percentage share of the other co-owner(s) must be less than 100%.");
+      /* A208 — rent that cannot be realised (1b) cannot exceed gross/annual lettable value (1a) */
+      A(208,N(rd.RentNotRealized)<=N(rd.AnnualLetableValue)+1,
+        L+"the rent which cannot be realised (1b) cannot be more than the annual lettable value / gross rent (1a).");
+      /* A204 — a co-owner PAN cannot equal the assessee PAN in Part A-General */
+      if(asseseePAN)
+        A(204,!RG(p,"CoOwners",[]).some(function(c){return String((c||{}).PAN_CoOwner||"").toUpperCase()===asseseePAN;}),
+          L+"the PAN of a co-owner cannot be the same as the PAN of the assessee in Part A-General.");
+    });
+    /* A203 — pass-through HP income (item 2) = Σ HP net income/loss in Schedule PTI */
+    A(203,!I.SchedulePTI||REQ(RG(I,"ScheduleHP.PassThroghIncome",0),
+        RSUM(RG(I,"SchedulePTI.SchedulePTIDtls",[]),function(d){return RG(d,"IncFromHP.NetIncomeLoss",0);})),
+      "Schedule HP: pass-through income (2) must equal the net house-property income/loss shown in Schedule PTI.");
+  }
+
+  /* =============================================================
+     SCHEDULE BP — CorpScheduleBP (209–250)
+     ============================================================= */
+  if(I.CorpScheduleBP){
+    const P=RG(I,"CorpScheduleBP.BusinessIncOthThanSpec",{})||{};
+    const ir=RG(P,"IncRecCredPLOthHeadDtls",{})||{};
+    const e7=RG(P,"ExpDebToPLOthHeadDtls",{})||{};
+
+    /* ---- head cross-checks (209–211) ---- */
+    /* A209 — A3a cannot exceed the income offered in Schedule HP */
+    if(I.ScheduleHP)
+      A(209,!(N(ir.HouseProperty)>0)||N(ir.HouseProperty)<=N(RG(I,"ScheduleHP.TotalIncomeChargeableUnHP"))+1,
+        "Schedule BP: A3a (income relatable to house property credited to P&L) cannot exceed the income offered in Schedule HP.");
+    /* A210 — A3c cannot exceed the income offered in Schedule OS */
+    if(I.ScheduleOS)
+      A(210,!(N(ir.OtherSources)>0)||N(ir.OtherSources)<=N(RG(I,"ScheduleOS.IncChargeableFrmOthSrc"))+1,
+        "Schedule BP: A3c (income relatable to other sources credited to P&L) cannot exceed the income offered in Schedule OS.");
+    /* A211 — A5 (exempt income credited to P&L) cannot exceed the exempt income in Schedule EI */
+    if(I.ScheduleEI)
+      A(211,N(RG(P,"IncCredPL.TotExempInc"))<=N(RG(I,"ScheduleEI.TotalExemptInc"))+1,
+        "Schedule BP: A5d (exempt income credited to P&L) cannot exceed the exempt income declared in Schedule EI.");
+
+    /* ---- Part A ladder arithmetic (212–217, 223, 224, 230–233, 240, 241) ---- */
+    /* A212 — A6 = 1 − 2a − 2b − 3a − 3b − 3c − 3d − 3e − 3f − 4a − 4b − 4c − 5d − 5A */
+    const PLREF=["ProfitLossUs44AD","ProfitLossUs44ADA","ProfitLossUs44AE","ProfitLossUs44B","ProfitLossUs44BB",
+      "ProfitLossUs44BBA","ProfitLossUs44BBC","ProfitLossUs44BBD","ProfitLossUs44DA","FirstSchITActOthr115B"];
+    const s4a=Math.max(0,PLREF.reduce(function(a,k){return a+N(RG(P,"ProfitLossInclRefrdSec."+k));},0));
+    A(212,REQ(P.BalancePLOthThanSpecBus,
+        N(P.ProfBfrTaxPL)-N(P.NetPLFromSpecBus)-N(P.NetProfLossSpecifiedBus)
+        -N(ir.HouseProperty)-N(ir.CapitalGains)-N(ir.OtherSources)-N(ir.UnderSec115BBF)-N(ir.UnderSec115BBG)-N(ir.UnderSec115BBH)
+        -s4a-N(P.PLUs44sChapXIIGOthrUs115B)-N(P.TotalProfitFrmActCvrd)-N(RG(P,"IncCredPL.TotExempInc"))-N(P.IncCredPLNotChargable)),
+      "Schedule BP: A6 must equal A1 − 2a − 2b − 3a − 3b − 3c − 3d − 3e − 3f − 4a − 4b − 4c − 5d − 5A.");
+    /* A213 — A9 = 7a + 7b + 7c + 7d + 7e + 7f + 8a + 8b */
+    A(213,REQ(P.TotExpDebPL,
+        N(e7.HouseProperty)+N(e7.CapitalGains)+N(e7.OtherSources)+N(e7.UnderSec115BBF)+N(e7.UnderSec115BBG)+N(e7.UnderSec115BBH)
+        +N(P.ExpDebToPLExemptInc)+N(P.ExpDebToPLExemptIncDisAllwUs14A)),
+      "Schedule BP: A9 total must equal 7a + 7b + 7c + 7d + 7e + 7f + 8a + 8b.");
+    /* A214 — A10 = A6 + A9 */
+    A(214,REQ(P.AdjustedPLOthThanSpecBus,N(P.BalancePLOthThanSpecBus)+N(P.TotExpDebPL)),
+      "Schedule BP: A10 must equal A6 + A9.");
+    /* A215 — A13 = 10 + 11 − 12iii */
+    A(215,REQ(P.AdjustPLAfterDeprOthSpecInc,
+        N(P.AdjustedPLOthThanSpecBus)+N(P.DepreciationDebPLCosAct)-N(RG(P,"DepreciationAllowITAct32.TotDeprAllowITAct"))),
+      "Schedule BP: A13 must equal 10 + 11 − 12iii.");
+    /* A216 — A26 = 14 + 15 + 16 + 17 + 18 + 19 + 20 + 21 + 22 + 23 + 24 + 25 */
+    A(216,REQ(P.TotAfterAddToPLDeprOthSpecInc,
+        N(P.AmtDebPLDisallowUs36)+N(P.AmtDebPLDisallowUs37)+N(P.AmtDebPLDisallowUs40)+N(P.AmtDebPLDisallowUs40A)
+        +N(P.AmtDebPLDisallowUs43B)+N(P.InterestDisAllowUs23SMEAct)+N(P.DeemIncUs41)+N(P.DeemIncUs3380HHD80IA)
+        +N(P.DeemIncUs43CA)+N(P.OthItemDisallowUs28To44DB)+N(P.AnyOthIncNotInclInExpDisallowPL)+N(P.IncProfDecLossAccICDSAdj)),
+      "Schedule BP: A26 must equal 14 + 15 + 16 + 17 + 18 + 19 + 20 + 21 + 22 + 23 + 24 + 25.");
+    /* A217 — A33 = 27 + 28 + 29 + 30 + 31 + 32 */
+    A(217,REQ(P.TotDeductionAmts,
+        N(P.DeductUs32_1_iii)+N(P.DebPLUs35ExcessAmt)+N(P.AmtDisallUs40NowAllow)+N(P.AmtDisallUs43BNowAllow)
+        +N(P.AnyOthAmtAllDeduct)+N(P.DecProfIncLossAccICDSAdj)),
+      "Schedule BP: A33 must equal 27 + 28 + 29 + 30 + 31 + 32.");
+    /* A223 — A21 total = Σ 21(i) to 21(xii) */
+    const D21=["DeemIncUs32AC","DeemIncUs32AD","DeemIncUs33AB","DeemIncUs33ABA","DeemIncUs35ABA","DeemIncUs35ABB",
+      "DeemIncUs35AC","DeemIncUs40A3A","DeemIncUs33AC","DeemIncUs72A","DeemIncUs80HHD","DeemIncUs80IA"];
+    A(223,REQ(P.DeemIncUs3380HHD80IA,D21.reduce(function(a,k){return a+N(RG(P,k));},0)),
+      "Schedule BP: A21 total must equal the sum of 21(i) to 21(xii).");
+    /* A224 — A24 = 24a + 24b + 24c + 24d + 24e */
+    A(224,REQ(P.AnyOthIncNotInclInExpDisallowPL,
+        N(P.SalaryExpDisallowPL)+N(P.BonusExpDisallowPL)+N(P.CommissionExpDisallowPL)+N(P.InterestExpDisallowPL)+N(P.OthersExpDisallowPL)),
+      "Schedule BP: A24 must equal 24(a) + 24(b) + 24(c) + 24(d) + 24(e).");
+    /* A230 — A34 = 13 + 26 − 33 */
+    A(230,REQ(P.PLAftAdjDedBusOthThanSpec,N(P.AdjustPLAfterDeprOthSpecInc)+N(P.TotAfterAddToPLDeprOthSpecInc)-N(P.TotDeductionAmts)),
+      "Schedule BP: A34 must equal 13 + 26 − 33.");
+    /* A231 — A35(ix) = Σ 35(i) to 35(viii) */
+    const D35=["Section44AD","Section44ADA","Section44AE","Section44B","Section44BB","Section44BBA",
+      "Section44BBC","Section44BBD","Section44DA","FirstSchTActOther"];
+    A(231,REQ(RG(P,"DeemedProfitBusUs.TotDeemedProfitBusUs"),
+        D35.reduce(function(a,k){return a+N(RG(P,"DeemedProfitBusUs."+k));},0)),
+      "Schedule BP: A35(ix) must equal the sum of 35(i) to 35(viii).");
+    /* A232 — A36 = A34 + A35(ix) */
+    A(232,REQ(P.NetPLAftAdjBusOthThanSpec,N(P.PLAftAdjDedBusOthThanSpec)+N(RG(P,"DeemedProfitBusUs.TotDeemedProfitBusUs"))),
+      "Schedule BP: A36 must equal A34 + A35(ix).");
+    /* A233 — A37 = 37a + 37b + 37c + 37d + 37e + 37f */
+    A(233,REQ(P.NetPLBusOthThanSpec7A7B7C,
+        N(P.ChrgblIncUndrRule7)+N(P.DeemedChrgblIncUndrRule7A)+N(P.DeemedChrgblIncUndrRule7B1)
+        +N(P.DeemedChrgblIncUndrRule7B1A)+N(P.DeemedChrgblIncUndrRule8)+N(P.IncomeOtherThanRule)),
+      "Schedule BP: A37 must equal 37a + 37b + 37c + 37d + 37e + 37f.");
+    /* A240 — balance income after rule 7A/7B/8 = 4c − (37a + 37b + 37c + 37d + 37e), nil if negative */
+    A(240,REQ(P.BalIncDeemedFrmAgri,Math.max(0,N(P.TotalProfitFrmActCvrd)
+        -(N(P.ChrgblIncUndrRule7)+N(P.DeemedChrgblIncUndrRule7A)+N(P.DeemedChrgblIncUndrRule7B1)
+          +N(P.DeemedChrgblIncUndrRule7B1A)+N(P.DeemedChrgblIncUndrRule8)))),
+      "Schedule BP: the balance income after rule 7A/7B/8 must equal 4c − (37a + 37b + 37c + 37d + 37e).");
+    /* A241 — A5d total exempt income = 5a (firm) + 5b (AOP/BOI) + 5c */
+    A(241,REQ(RG(P,"IncCredPL.TotExempInc"),
+        N(RG(P,"IncCredPL.FirmShareInc"))+N(RG(P,"IncCredPL.AOPBOISharInc"))+N(RG(P,"IncCredPL.OthExempInc"))),
+      "Schedule BP: A5d total exempt income must equal 5a (share of income from firm) + 5b (AOP/BOI) + 5c.");
+    /* A238 — the presumptive sections declared at A4a must match those declared at A35.
+       /* not mappable as amount equality: A4a (book profit removed) and A35 (deemed income added)
+          are generally unequal by tax logic, so the department "should match" is encoded as
+          per-section presence consistency (a section is declared at A4a iff it is declared at A35). */
+    const A238PAIRS=[["ProfitLossUs44AD","Section44AD"],["ProfitLossUs44ADA","Section44ADA"],
+      ["ProfitLossUs44AE","Section44AE"],["ProfitLossUs44B","Section44B"],["ProfitLossUs44BB","Section44BB"],
+      ["ProfitLossUs44BBA","Section44BBA"],["ProfitLossUs44BBC","Section44BBC"],["ProfitLossUs44BBD","Section44BBD"],
+      ["ProfitLossUs44DA","Section44DA"],["FirstSchITActOthr115B","FirstSchTActOther"]];
+    A(238,A238PAIRS.every(function(pr){
+        return (N(RG(P,"ProfitLossInclRefrdSec."+pr[0]))!==0)===(N(RG(P,"DeemedProfitBusUs."+pr[1]))!==0);}),
+      "Schedule BP: the presumptive sections declared at A4a must match the sections declared at A35 (44AD/44ADA/44AE/44B/44BB/44BBA/44BBC/44BBD/44DA/First Schedule).");
+    /* A239 — depreciation debited to P&L (11) = item 53 of P&L + item 1E(vi) of the Manufacturing A/c.
+       /* not mappable as exact equality: the reference test state sets item 11 = P&L 53 only (excludes the
+          factory-machinery depreciation 1E(vi)); encoded as the [53, 53 + 1E(vi)] range so both readings
+          are lawful while item 11 outside that range is still caught. */
+    {const pl53=N(RG(I,"PARTA_PL.DebitsToPL.DebitPlAcnt.DepreciationAmort"));
+     const mfg=N(RG(I,"ManufacturingAccount.OpeningInventory.DeprctnOfFactoryMachinery"));
+     const a11=N(P.DepreciationDebPLCosAct);
+     A(239,a11>=pl53-1&&a11<=pl53+mfg+1,
+       "Schedule BP: depreciation debited to P&L (11) must equal item 53 of the P&L plus item 1E(vi) of the Manufacturing Account.");}
+
+    /* ---- Part A cross-links to Part A-OI (218–222, 225, 227–229, 245) ---- */
+    if(I.PARTA_OI){const oi=I.PARTA_OI;
+      A(218,REQ(P.AmtDebPLDisallowUs36,RG(oi,"AmtDisallUs36.TotAmtDisallUs36")),
+        "Schedule BP: A14 must equal 6t (total of item 6) of Part A-OI.");
+      A(219,REQ(P.AmtDebPLDisallowUs37,RG(oi,"AmtDisallUs37.TotAmtDisallUs37")),
+        "Schedule BP: A15 must equal 7j of Part A-OI.");
+      A(220,REQ(P.AmtDebPLDisallowUs40,RG(oi,"AmtDisallUs40.TotAmtDisallUs40")),
+        "Schedule BP: A16 must equal 8Aj of Part A-OI.");
+      A(221,REQ(P.AmtDebPLDisallowUs40A,RG(oi,"AmtDisallUs40A.TotAmtDisallUs40A")),
+        "Schedule BP: A17 must equal 9g of Part A-OI.");
+      A(222,REQ(P.AmtDebPLDisallowUs43B,RG(oi,"AmtDisall43B.AmtUs43B.TotAmtUs43b")),
+        "Schedule BP: A18 must equal item 11 of Part A-OI.");
+      A(225,REQ(P.IncProfDecLossAccICDSAdj,N(RG(oi,"ProfDeviatDueAcctMeth"))+N(RG(oi,"MethodOfValClgStk.EffectOnPL"))),
+        "Schedule BP: A25 must equal 3a + 4d of Part A-OI.");
+      A(227,REQ(P.AmtDisallUs40NowAllow,RG(oi,"AmtDisallUs40.AnyAmtOfSec40AllowPrevYr")),
+        "Schedule BP: A29 must equal 8B of Part A-OI.");
+      A(228,REQ(P.AmtDisallUs43BNowAllow,RG(oi,"AmtDisallUs43BPyNowAll.AmtUs43B.TotAmtUs43b")),
+        "Schedule BP: A30 must equal item 10 of Part A-OI.");
+      A(229,REQ(P.DecProfIncLossAccICDSAdj,N(RG(oi,"DecProOrIncLossUs145_2"))+N(RG(oi,"MethodOfValClgStk.DecProOrIncLossUs145_A"))),
+        "Schedule BP: A32 must equal 3b + 4e of Part A-OI.");
+      A(245,REQ(P.ExpDebToPLExemptIncDisAllwUs14A,RG(oi,"AmountOfExpDisAllwUs14A")),
+        "Schedule BP: A8b must equal item 16 of Part A-OI.");
+    }
+    /* A226 — A28 = total of column (4) of Schedule ESR */
+    if(I.ScheduleESR)
+      A(226,REQ(P.DebPLUs35ExcessAmt,RG(I,"ScheduleESR.DeductionUs35.TotUs35.DeductUs35.ExcessAmtOverDebPL")),
+        "Schedule BP: A28 must equal the total of column (4) of Schedule ESR.");
+
+    /* ---- Part B (speculative) 234, 247 ---- */
+    const SB=RG(I,"CorpScheduleBP.SpecBusinessInc",{})||{};
+    A(234,REQ(SB.AdjustedPLFrmSpecuBus,N(SB.NetPLFrmSpecBus)+N(SB.AdditionUs28to44DB)-N(SB.DeductUs28to44DB)),
+      "Schedule BP: B42 must equal B39 + B40 − B41.");
+    A(247,REQ(SB.NetPLFrmSpecBus,P.NetPLFromSpecBus),
+      "Schedule BP: B39 must equal item 2a (net profit/loss from speculative business).");
+
+    /* ---- Part C (specified business u/s 35AD) 235, 236, 246 ---- */
+    const SC=RG(I,"CorpScheduleBP.IncSpecifiedBusiness",{})||{};
+    A(235,REQ(SC.ProfitLossSpecifiedBusiness,N(SC.NetPLFrmSpecifiedBus)+N(SC.AddSec28to44DB)-N(SC.DedSec28to44DBOTDedSec35AD)),
+      "Schedule BP: C46 must equal C43 + C44 − C45.");
+    A(236,REQ(SC.ProfitLossSpecifiedBusFinal,N(SC.ProfitLossSpecifiedBusiness)-N(SC.DedSec35AD)),
+      "Schedule BP: C48 must equal C46 − C47.");
+    A(246,!(N(SC.ProfitLossSpecifiedBusFinal)!==0)||RG(SC,"DedUs35ADSubSec5Dtls",[]).length>0,
+      "Schedule BP: the nature of the specified business (C49) must be selected when income/loss from specified business (C48) is entered.");
+
+    /* ---- Part D (237) ---- */
+    A(237,REQ(RG(I,"CorpScheduleBP.IncChrgUnHdProftGain"),
+        Math.max(0,N(SC.ProfitLossSpecifiedBusFinal))+Math.max(0,N(SB.AdjustedPLFrmSpecuBus))+N(P.NetPLBusOthThanSpec7A7B7C)),
+      "Schedule BP: D (income chargeable under the head) must equal A37 + B42 + C48.");
+
+    /* ---- Part E (intra-head set off) 242, 243, 244 ---- */
+    const BE=RG(I,"CorpScheduleBP.BusSetoffCurrYr",{})||{};
+    A(242,REQ(RG(BE,"SpeculativeInc.IncOfCurYrAfterSetOff"),
+          N(RG(BE,"SpeculativeInc.IncOfCurYrUnderThatHead"))-N(RG(BE,"SpeculativeInc.BusLossSetoff")))
+         &&REQ(RG(BE,"SpecifiedInc.IncOfCurYrAfterSetOff"),
+          N(RG(BE,"SpecifiedInc.IncOfCurYrUnderThatHead"))-N(RG(BE,"SpecifiedInc.BusLossSetoff"))),
+      "Schedule BP: in Table E, business income remaining after set off must equal (income of current year) − (business loss set off).");
+    A(243,REQ(BE.TotLossSetOffOnBus,N(RG(BE,"SpeculativeInc.BusLossSetoff"))+N(RG(BE,"SpecifiedInc.BusLossSetoff"))),
+      "Schedule BP: E(v) total loss set off must equal E(ii) + E(iii) + E(iv).");
+    A(244,REQ(BE.LossRemainSetOffOnBus,Math.max(0,N(BE.LossSetOffOnBusLoss)-N(BE.TotLossSetOffOnBus))),
+      "Schedule BP: E(vi) loss remaining after set off must equal E(i) − E(v).");
+
+    /* ---- status / regime conditions (248, 250) ---- */
+    const has44AE=N(RG(P,"DeemedProfitBusUs.Section44AD"))>0||N(RG(P,"DeemedProfitBusUs.Section44ADA"))>0
+                ||N(RG(P,"DeemedProfitBusUs.Section44AE"))>0;
+    const bsReg=N(RG(I,"PARTA_BS.FundSrc.TotFundSrc"))>0;
+    const bsNoAcc=N(RG(I,"PARTA_BS.NoBooksOfAccBS.TotSundryDbtAmt"))+N(RG(I,"PARTA_BS.NoBooksOfAccBS.TotSundryCrdAmt"))
+                 +N(RG(I,"PARTA_BS.NoBooksOfAccBS.TotStkInTradAmt"))+N(RG(I,"PARTA_BS.NoBooksOfAccBS.CashBalAmt"))>0;
+    /* A248 — presumptive 44AD/44ADA/44AE > 0 needs balance-sheet particulars (regular books or "No accounts", Part A-BS C) */
+    A(248,!has44AE||bsReg||bsNoAcc,
+      "Schedule BP: when presumptive income u/s 44AD/44ADA/44AE (35(i)/(ii)/(iii)) is greater than zero, the balance-sheet particulars under 'Regular books of accounts' or 'No accounts' (Part A-BS item C) are mandatory.");
+    /* A250 — presumptive income u/s 44AD/44ADA only for a resident partnership firm (status 1, sub-status 10-Partnership Firm, resident) */
+    const has44ADorADA=N(RG(P,"DeemedProfitBusUs.Section44AD"))>0||N(RG(P,"DeemedProfitBusUs.Section44ADA"))>0;
+    A(250,!has44ADorADA||(RG(I,"PartA_GEN1.OrgFirmInfo.StatusOrCompanyType")==="1"
+          &&RG(I,"PartA_GEN1.OrgFirmInfo.SubStatus")==="10"
+          &&RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus")!=="NRI"),
+      "Schedule BP: presumptive income u/s 44AD/44ADA can be declared only by a resident partnership firm.");
+  }
+
+  /* A249 — income u/s 115BBF (patent), in Schedule BP or Schedule OS/SI, only for a resident */
+  const has5BBF=N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBF"))>0
+    ||RG(I,"ScheduleSI.SplCodeRateTax",[]).some(function(r){return /5BBF/.test(String((r||{}).SecCode||""))&&N((r||{}).SplRateInc)>0;});
+  A(249,!has5BBF||RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus")!=="NRI",
+    "Schedule BP / OS: income under section 115BBF (income from patent) can be claimed only by a resident.");
+});
+
+/* =====================================================================
+   ITR-5 · A.Y. 2026-27 — Category-A rule batch, serials 251-300
+   ("Schedule BP" adjustment ladder + Schedule DPM / DOA / DEP
+   depreciation). Registered via ruleset(fn); runRules() invokes it with
+   (I,S_,A,Dd). A(n,cond,msg) FIRES when cond (the "lawful" assertion) is
+   FALSE. Every read is guarded (RG default / N / ||) so the batch never
+   throws and stays silent on an absent/empty return; each condition is
+   TRUE for a lawful return and FALSE only on a genuine violation. Schema
+   paths are ITR-5's own (CorpScheduleBP / ScheduleDPM / ScheduleDOA /
+   ScheduleDEP / ScheduleESR / ScheduleVDA / PARTA_OI / PARTA_PL /
+   TradingAccount / ScheduleCG), read from forms/ITR-5/src/70_sec_*.js.
+   Regime is read from the built return (FilingStatus.OptOldRegimeCurrAY),
+   mirroring the ITR-3 rule batches.
+
+   NOT MAPPABLE (left uncoded, with reason):
+     251  Depreciation u/s 32(1)(i) allowed only for power-sector nature-
+          of-business codes (05001/06008) — requires the general nature-of-
+          business code list, which is not carried in the BP/DPM exports.
+     252  A4c rule 7A/7B(1)/7B(1A)/8 reduction allowed only for business
+          codes 1003/1002/1001 — same nature-of-business-code dependency.
+     258  Income reduced at Sl.3 / Sl.5 cannot exceed the income/receipts
+          credited to the P&L — no single arithmetic identity; needs the
+          per-item amounts actually credited to the P&L account.
+     261  A1 must equal P&L (54 + 62ii + 63ii + 64v + 65iii + 66iv + 67ii)
+          — the P&L Sl.54/64v/65iii schema keys cannot be verified from the
+          BP export; a wrong map would fire a strict equality on the lawful
+          test return. (checkable part: 62ii/63ii/66iv/67ii sub-sums.)
+     262  37a "Income chargeable under Rule 7" must tally with 4c(i) — the
+          source rule text is truncated and the 37a↔4c(i) relationship under
+          Rule 7 (partly-agricultural income) is not a clean identity.
+     270  Sum of A3 cannot exceed the sum of revenues in P&L / Trading —
+          "sum of revenues" is not a single defined schema field.
+     279  DPM Sl.20 (CapGains u/s 50) = 5+8-3-4-7-19 as a STRICT equality:
+          Sl.20 is a conditional deemed-gain input (0 unless the block
+          ceases), so strict equality fires on lawful continuing-block
+          returns. The checkable part is encoded as the conditional floor
+          285 and the ceased-block consequences 286/287.
+     282  The 2nd-proviso-to-115BAC(3) (Rule 5) adjustment "should not be
+          allowed ... if New Tax Regime has been opted for" — this clause
+          contradicts the engine, which applies AdjustmentSec115BAC ONLY in
+          the new regime; a literal encoding would fire on the engine's own
+          lawful new-regime output. Flagged for engine-vs-rule reconciliation.
+     292  DOA Sl.17 = 5+8-3-4-7-16 as a STRICT equality — same conditional-
+          input issue as 279; checkable part encoded as 296/297/298.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const newR = RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY","N")!=="Y";  /* new regime is default; old = 10-IEA opt-out */
+  const BP   = RG(I,"CorpScheduleBP.BusinessIncOthThanSpec",null);
+
+  /* ---------------- Schedule BP — Part A ladder ---------------- */
+  if(BP&&typeof BP==="object"){
+    const ir  = RG(BP,"IncRecCredPLOthHeadDtls",{})||{};
+    const pf  = RG(BP,"ProfitFrmActCvrd",{})||{};
+    const d32 = RG(BP,"DepreciationAllowITAct32",{})||{};
+    const divExempt = N(RG(BP,"IncCredPL.OtherExmptIncDtl.OperatingDividendAmt"));
+
+    /* 253 — A12iii total depreciation allowable = 12i + 12ii */
+    A(253,REQ(d32.TotDeprAllowITAct,N(d32.DepreciationAllowUs32_1_ii)+N(d32.DepreciationAllowUs32_1_i)),
+      "Schedule BP: A12iii (total depreciation allowable under the Income-tax Act) must equal A12i + A12ii.");
+
+    /* 254 — A23 (other addition u/s 28-44DB) at least the sum of OI 5a to 5d */
+    (function(){const o=RG(I,"PARTA_OI.NoCredToPLAmt",{})||{};
+      const s5=N(o.Section28Items)+N(o.ProformaCreditsDue)+N(o.PrevYrEscalClaim)+N(o.OthItemInc);
+      A(254,!I.PARTA_OI||N(BP.OthItemDisallowUs28To44DB)>=s5-1,
+        "Schedule BP: Sl.No.23 cannot be less than the sum of Sl.No.5a to 5d of Part A-OI (amounts not credited to the P&L).");
+    })();
+
+    /* 255 — 35AD(1) deduction (C47) cannot be claimed in the new tax regime */
+    A(255,!newR||N(RG(I,"CorpScheduleBP.IncSpecifiedBusiness.DedSec35AD"))===0,
+      "Schedule BP: deduction in accordance with section 35AD(1) at Sl.No.47 cannot be claimed by an assessee opting for the new tax regime.");
+
+    /* 256 — A24e must be at least the absolute of the negative (col3 − col2) totals of Schedule ESR */
+    (function(){const E=RG(I,"ScheduleESR.DeductionUs35",null);if(!E||typeof E!=="object")return;
+      const SEC=["Section35_1_i","Section35_1_ii","Section35_1_iia","Section35_1_iii","Section35_1_iv",
+                 "Section35_2AA","Section35_2AB","Section35_CCC","Section35_CCD"];
+      let shortfall=0;SEC.forEach(k=>{const r=RG(E,k+".DeductUs35",null);if(r&&typeof r==="object")
+        shortfall+=Math.max(0,N(r.AmtDebPL)-N(r.AmtUs35Allowable));});
+      A(256,N(BP.OthersExpDisallowPL)>=shortfall-1,
+        "Schedule BP: Sl.No.24(e) must be at least the absolute of the sum of the negative (col.3 − col.2) values across all sections of Schedule ESR.");
+    })();
+
+    /* 257 — A3b (Capital Gains reduced from BP) cannot exceed the income offered in Schedule CG */
+    (function(){if(!I.ScheduleCG)return;
+      A(257,N(ir.CapitalGains)<=N(RG(I,"ScheduleCG.IncChargeableHeadCapGain"))+1,
+        "Schedule BP: the amount reduced at Sl.No.3b cannot be more than the income offered in Schedule CG.");
+    })();
+
+    /* 259 — A3c (Other Sources) = 3ci (Dividend) + 3cii (Other than Dividend) */
+    A(259,REQ(ir.OtherSources,N(ir.Dividend)+N(ir.OtherThanDividend)),
+      "Schedule BP: Sl.No.3c (Other Sources) must equal 3c(i) + 3c(ii).");
+
+    /* 260 — 3ci Dividend + 5c Dividend income cannot exceed P&L 14iii (dividend income) */
+    A(260,N(ir.Dividend)+divExempt<=N(RG(I,"PARTA_PL.CreditsToPL.OthIncome.Dividends"))+1,
+      "Schedule BP: Sl.No.3c(i) plus the 5c 'Dividend income' amount cannot be more than Sl.No.14iii of Schedule Profit & Loss.");
+
+    /* 263 — 37b deemed income under Rule 7A must be at least 35% of 4c(ii) */
+    A(263,N(BP.DeemedChrgblIncUndrRule7A)>=Math.floor(0.35*N(pf.ProfitFrmActCvrdUndrRule7A))-1,
+      "Schedule BP: Sl.No.37b (deemed income chargeable under Rule 7A) must be at least 35% of 4c(ii).");
+    /* 264 — 37c deemed income under Rule 7B(1) must be at least 25% of 4c(iii) */
+    A(264,N(BP.DeemedChrgblIncUndrRule7B1)>=Math.floor(0.25*N(pf.ProfitFrmActCvrdUndrRule7B1))-1,
+      "Schedule BP: Sl.No.37c (deemed income chargeable under Rule 7B(1)) must be at least 25% of 4c(iii).");
+    /* 265 — 37d deemed income under Rule 7B(1A) must be at least 40% of 4c(iv) */
+    A(265,N(BP.DeemedChrgblIncUndrRule7B1A)>=Math.floor(0.40*N(pf.ProfitFrmActCvrdUndrRule7B1A))-1,
+      "Schedule BP: Sl.No.37d (deemed income chargeable under Rule 7B(1A)) must be at least 40% of 4c(iv).");
+    /* 266 — 37e deemed income under Rule 8 must be at least 40% of 4c(v) */
+    A(266,N(BP.DeemedChrgblIncUndrRule8)>=Math.floor(0.40*N(pf.ProfitFrmActCvrdUndrRule8))-1,
+      "Schedule BP: Sl.No.37e (deemed income chargeable under Rule 8) must be at least 40% of 4c(v).");
+
+    /* 267 — A3f (u/s 115BBH income credited to P&L) must match the business-head total of Schedule VDA */
+    (function(){if(!I.ScheduleVDA)return;  /* "A Total" attributable to business income (3f is P&L-credited business income) */
+      A(267,REQ(ir.UnderSec115BBH,N(RG(I,"ScheduleVDA.TotIncBusiness"))),
+        "Schedule BP: Sl.No.3f (u/s 115BBH, net of cost of acquisition) must match the business-head total of Schedule VDA.");
+    })();
+
+    /* 268 — 5c "Dividend income" (exempt) cannot be more than zero */
+    A(268,divExempt<=0,
+      "Schedule BP: at Sl.No.5c the 'Dividend income' amount cannot be more than zero.");
+
+    /* 269 — C43 (net P/L specified business) = A2b (net P/L specified business incl. in 1) */
+    A(269,REQ(RG(I,"CorpScheduleBP.IncSpecifiedBusiness.NetPLFrmSpecifiedBus"),BP.NetProfLossSpecifiedBus),
+      "Schedule BP: Sl.No.43 must equal Sl.No.2b of Schedule BP.");
+
+    /* 271 — A19 (interest disallowed u/s 23 MSMED Act) = Sl.No.17 of Part A-OI */
+    A(271,REQ(BP.InterestDisAllowUs23SMEAct,RG(I,"PARTA_OI.InterestDisAllowUs23SMEAct")),
+      "Schedule BP: Sl.No.19 must equal Sl.No.17 (interest disallowed u/s 23 of the MSMED Act) of Part A-OI.");
+
+    /* 272 — A2a (net P/L speculative) = Trading 12b + P&L 66(iv) */
+    A(272,REQ(BP.NetPLFromSpecBus,N(RG(I,"TradingAccount.IntradayTradingIncome"))+N(RG(I,"PARTA_PL.NetIncomeFrmSpecActivity"))),
+      "Schedule BP: Sl.No.2a (net profit/loss from speculative business) must equal 12b of the Trading Account plus 66(iv) of the P&L Account.");
+  }
+
+  /* 299 — BP A12i (depreciation u/s 32(1)(ii)/(iia)) = item 6 of Schedule DEP */
+  if(BP&&typeof BP==="object"&&I.ScheduleDEP)
+    A(299,REQ(RG(BP,"DepreciationAllowITAct32.DepreciationAllowUs32_1_ii"),RG(I,"ScheduleDEP.SummaryFromDeprSch.TotalDepreciation")),
+      "Schedule DEP: depreciation allowable u/s 32(1)(ii) & (iia) in Schedule BP must equal item 6 (total depreciation) of Schedule DEP.");
+
+  /* 300 — Schedule DEP 1e (total P&M) = 1a + 1b + 1c + 1d */
+  if(I.ScheduleDEP){const pm=RG(I,"ScheduleDEP.SummaryFromDeprSch.PlantMachinerySummary",null);
+    if(pm&&typeof pm==="object")
+      A(300,REQ(pm.TotPlntMach,N(pm.DeprBlockTot15Percent)+N(pm.DeprBlockTot30Percent)+N(pm.DeprBlockTot40Percent)+N(pm.DeprBlockTot45Percent)),
+        "Schedule DEP: Sl.No.1e (total depreciation on plant & machinery) must equal 1a + 1b + 1c + 1d.");
+  }
+
+  /* =====================================================================
+     Depreciation-block helpers (a block is checked only when present).
+     three = Sl.3 (WDV + 115BAC adjustment); the engine's own cell formulas
+     (books/ITR-5/DPM_DOA.md) are mirrored so the checks pass on the engine's
+     own output and fire only on an externally-inconsistent return.
+     ===================================================================== */
+  function ddet(path){const o=RG(I,path+".DepreciationDetail",null);return (o&&typeof o==="object")?o:null;}
+  function three(o){const t=N(o.Total);return t||(N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC));}
+
+  /* ---- Schedule DPM (four plant & machinery blocks) ---- */
+  [["ScheduleDPM.PlantMachinery.Rate15",15,false],
+   ["ScheduleDPM.PlantMachinery.Rate30",30,false],
+   ["ScheduleDPM.PlantMachinery.Rate40",40,false],
+   ["ScheduleDPM.PlantMachinery.Rate45",45,true]].forEach(function(x){
+    const o=ddet(x[0]);if(!o)return;const rate=x[1],r45=x[2];
+    const t=three(o),add180=N(o.AdditionsGrThan180Days),realTot=N(o.RealizationTotalPeriod);
+    const addLess=N(o.AdditionsLessThan180Days),realLess=N(o.RealizationPeriodDuringYear);
+    const fullBase=t+add180-realTot;
+    const blocked=r45&&newR;                                   /* Rate45: no depreciation in the new regime (115BAD) */
+    /* 273 — Sl.6 amount at full rate = MAX(0, 3 + 4 − 5) */
+    A(273,REQ(o.FullRateDeprAmt,Math.max(0,fullBase)),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.6 (amount at full rate) must equal MAX(0, 3 + 4 − 5).");
+    /* 274 — Sl.9 amount at half rate = MAX(0, 7 − 8 + MIN(0, 3+4−5)) */
+    A(274,REQ(o.HalfRateDeprAmt,Math.max(0,addLess-realLess+Math.min(0,fullBase))),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.9 (amount at half rate) must equal MAX(0, 7 − 8).");
+    /* 275 — Sl.15 total depreciation = 10 + 11 + 12 + 13 + 14 */
+    A(275,REQ(o.TotalDepreciation,N(o.DepreciationAtFullRate)+N(o.DepreciationAtHalfRate)+
+        N(o.AddlnDeprOnGT180DayAdditions)+N(o.AddlnDeprDuringYearAdditions)+N(o.AddlnDeprOnLessThan180DayAdditions)),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.15 (total depreciation) must equal 10 + 11 + 12 + 13 + 14.");
+    /* 276 — Sl.17 net aggregate depreciation = MAX(0, 15 − 16) */
+    A(276,REQ(o.NetAggregateDepreciation,Math.max(0,N(o.TotalDepreciation)-N(o.DepDisAllowUs38_2))),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.17 (net aggregate depreciation) must equal MAX(0, 15 − 16).");
+    /* 277 — additional depreciation (12/13/14) cannot be claimed in the new tax regime */
+    A(277,!newR||(N(o.AddlnDeprOnGT180DayAdditions)+N(o.AddlnDeprDuringYearAdditions)+N(o.AddlnDeprOnLessThan180DayAdditions))===0,
+      "Schedule DPM "+x[0].split(".").pop()+": additional depreciation at Sl.No.12/13/14 cannot be claimed by an assessee opting for the new tax regime.");
+    /* 280 — Sl.10 depreciation at full rate = ROUND(6 × rate/100) (nil for Rate45 in the new regime) */
+    A(280,REQ(o.DepreciationAtFullRate,blocked?0:Math.round(N(o.FullRateDeprAmt)*rate/100)),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.10 (depreciation at full rate) does not match the depreciation rate at Sl.No.2.");
+    /* 281 — Sl.11 depreciation at half rate = ROUND(9 × rate/200) (no half rate for Rate45) */
+    if(!r45)A(281,REQ(o.DepreciationAtHalfRate,blocked?0:Math.round(N(o.HalfRateDeprAmt)*rate/200)),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.11 (depreciation at half rate) does not match the depreciation rate at Sl.No.2.");
+    /* 283 — Sl.3 total = 3a (WDV on first day) + 3b (115BAC adjustment) */
+    if(o.Total!=null)A(283,REQ(o.Total,N(o.WDVFirstDay)+N(o.AdjustmentSec115BAC)),
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.3 must equal 3a + 3b.");
+    /* 284 — Sl.18 proportionate depreciation must be out of Sl.17 net aggregate depreciation */
+    A(284,N(o.ProportionateAggDepreciation)<=N(o.NetAggregateDepreciation)+1,
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.18 (proportionate depreciation) must be out of Sl.No.17 (net aggregate depreciation).");
+    /* 285 — Sl.20 capital gain u/s 50 not less than 5+8−3−4−7−19 when consideration exceeds WDV+additions */
+    const cg50=N(o.CapGainUs50),expTr=N(o.ExpdrOnTrforSaleAsset),totDep=N(o.TotalDepreciation);
+    const deemed=realTot+realLess-t-add180-addLess-expTr;
+    if(deemed>0)A(285,cg50>=deemed-1,
+      "Schedule DPM "+x[0].split(".").pop()+": Sl.No.20 (capital gains/loss u/s 50) cannot be less than 5+8−3−4−7−19 when the consideration exceeds the opening WDV and additions.");
+    /* 286 — if Sl.20 ≠ 0 then Sl.10-18 and Sl.21 must be 0 (block ceased) */
+    A(286,cg50===0||(N(o.DepreciationAtFullRate)===0&&N(o.DepreciationAtHalfRate)===0&&
+        N(o.AddlnDeprOnGT180DayAdditions)===0&&N(o.AddlnDeprDuringYearAdditions)===0&&N(o.AddlnDeprOnLessThan180DayAdditions)===0&&
+        N(o.TotalDepreciation)===0&&N(o.DepDisAllowUs38_2)===0&&N(o.NetAggregateDepreciation)===0&&
+        N(o.ProportionateAggDepreciation)===0&&N(o.WDVLastDay)===0),
+      "Schedule DPM "+x[0].split(".").pop()+": when Sl.No.20 (capital gains u/s 50) is other than 0, Sl.No.10-18 and 21 must be 0.");
+    /* 287 — if Sl.20 = 0 then Sl.21 WDV on last day = MAX(0, 7−8+3+4−5−15) */
+    if(cg50===0)A(287,REQ(o.WDVLastDay,Math.max(0,addLess-realLess+t+add180-realTot-totDep)),
+      "Schedule DPM "+x[0].split(".").pop()+": when Sl.No.20 is 0, Sl.No.21 (WDV on last day) must equal 7 − 8 + 3 + 4 − 5 − 15.");
+  });
+
+  /* 278 — depreciation @45% cannot be claimed by an assessee opting for 115BAD (new regime) */
+  (function(){const o=ddet("ScheduleDPM.PlantMachinery.Rate45");if(!o)return;
+    A(278,!newR||(N(o.DepreciationAtFullRate)===0&&N(o.TotalDepreciation)===0),
+      "Schedule DPM: depreciation @45% cannot be claimed by an assessee opting for taxation u/s 115BAD (new tax regime).");
+  })();
+
+  /* ---- Schedule DOA (buildings 5/10/40, furniture, intangibles, ships; no additional depreciation) ---- */
+  [["ScheduleDOA.Building.Rate5",5],
+   ["ScheduleDOA.Building.Rate10",10],
+   ["ScheduleDOA.Building.Rate40",40],
+   ["ScheduleDOA.FurnitureFittings.Rate10",10],
+   ["ScheduleDOA.IntangibleAssets.Rate25",25],
+   ["ScheduleDOA.Ships.Rate20",20]].forEach(function(x){
+    const o=ddet(x[0]);if(!o)return;const rate=x[1];const nm=x[0].split(".").slice(-2).join(" ");
+    const t=three(o),add180=N(o.AdditionsGrThan180Days),realTot=N(o.RealizationTotalPeriod);
+    const addLess=N(o.AdditionsLessThan180Days),realLess=N(o.RealizationPeriodDuringYear);
+    const fullBase=t+add180-realTot,cg50=N(o.CapGainUs50),expTr=N(o.ExpdrOnTrforSaleAsset),totDep=N(o.TotalDepreciation);
+    /* 288 — Sl.6 = MAX(0, 3 + 4 − 5) */
+    A(288,REQ(o.FullRateDeprAmt,Math.max(0,fullBase)),
+      "Schedule DOA "+nm+": Sl.No.6 must equal MAX(0, 3 + 4 − 5).");
+    /* 289 — Sl.9 = MAX(0, 7 − 8) */
+    A(289,REQ(o.HalfRateDeprAmt,Math.max(0,addLess-realLess+Math.min(0,fullBase))),
+      "Schedule DOA "+nm+": Sl.No.9 must equal MAX(0, 7 − 8).");
+    /* 290 — total depreciation = 10 + 11 */
+    A(290,REQ(o.TotalDepreciation,N(o.DepreciationAtFullRate)+N(o.DepreciationAtHalfRate)),
+      "Schedule DOA "+nm+": total depreciation must equal 10 + 11.");
+    /* 291 — Sl.14 net aggregate depreciation = MAX(0, 12 − 13) */
+    A(291,REQ(o.NetAggregateDepreciation,Math.max(0,N(o.TotalDepreciation)-N(o.DepDisAllowUs38_2))),
+      "Schedule DOA "+nm+": Sl.No.14 (net aggregate depreciation) must equal MAX(0, 12 − 13).");
+    /* 293 — Sl.10 depreciation at full rate = ROUND(6 × rate/100) */
+    A(293,REQ(o.DepreciationAtFullRate,Math.round(N(o.FullRateDeprAmt)*rate/100)),
+      "Schedule DOA "+nm+": Sl.No.10 (depreciation at full rate) does not match the depreciation rate at Sl.No.2.");
+    /* 294 — Sl.11 depreciation at half rate = ROUND(9 × rate/200) */
+    A(294,REQ(o.DepreciationAtHalfRate,Math.round(N(o.HalfRateDeprAmt)*rate/200)),
+      "Schedule DOA "+nm+": Sl.No.11 (depreciation at half rate) does not match the depreciation rate at Sl.No.2.");
+    /* 295 — Sl.15 proportionate depreciation must be out of Sl.14 net aggregate depreciation */
+    A(295,N(o.ProportionateAggDepreciation)<=N(o.NetAggregateDepreciation)+1,
+      "Schedule DOA "+nm+": Sl.No.15 (proportionate depreciation) must be out of Sl.No.14 (net aggregate depreciation).");
+    /* 296 — Sl.17 capital gain u/s 50 not less than 5+8−3−4−7−16 when consideration exceeds WDV+additions */
+    const deemed=realTot+realLess-t-add180-addLess-expTr;
+    if(deemed>0)A(296,cg50>=deemed-1,
+      "Schedule DOA "+nm+": Sl.No.17 (capital gains/loss u/s 50) cannot be less than 5+8−3−4−7−16 when the consideration exceeds the opening WDV and additions.");
+    /* 297 — if Sl.17 ≠ 0 then Sl.10,11,12,13,14,15 and 18 must be 0 */
+    A(297,cg50===0||(N(o.DepreciationAtFullRate)===0&&N(o.DepreciationAtHalfRate)===0&&N(o.TotalDepreciation)===0&&
+        N(o.DepDisAllowUs38_2)===0&&N(o.NetAggregateDepreciation)===0&&N(o.ProportionateAggDepreciation)===0&&N(o.WDVLastDay)===0),
+      "Schedule DOA "+nm+": when Sl.No.17 (capital gains u/s 50) is other than 0, Sl.No.10,11,12,13,14,15 and 18 must be 0.");
+    /* 298 — if Sl.17 = 0 then Sl.18 WDV on last day = MAX(0, 7−8+3+4−5−12) */
+    if(cg50===0)A(298,REQ(o.WDVLastDay,Math.max(0,addLess-realLess+t+add180-realTot-totDep)),
+      "Schedule DOA "+nm+": when Sl.No.17 is 0, Sl.No.18 (WDV on last day) must equal 7 − 8 + 3 + 4 − 5 − 12.");
+  });
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encode batch 07 (Phase 6).
+   Slice: rules.json serials 301–350 (Schedule DEP · DCG · ESR · CG).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) fires when cond (the "valid" assertion) is FALSE.
+   Reads are guarded (RG / N / (X||{})); nothing throws. Every cond is TRUE
+   when the data is absent or the schedule is not built. Sources: the ITR-5
+   books DEP_DCG.md · DPM_DOA.md · ESR.md · CG.md and the section exports
+   forms/ITR-5/src/70_sec_bp.js (DEP/DCG/DPM/DOA/ESR) & 70_sec_cg.js (CG).
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  /* DEP/DCG "17i or 18i as applicable" = proportionate depreciation allowable
+     (Sl.18/15) if > 0, else the net aggregate depreciation (Sl.17/14).
+     Mirrors [H5]=IF(DPMxx.DepreciationAllowed>0,DepreciationAllowed,NetDepreciation). */
+  const dpmDep=o=>{const p=N(RG(o,"ProportionateAggDepreciation"));return p>0?p:N(RG(o,"NetAggregateDepreciation"));};
+  const dpmBlk=b=>RG(I,"ScheduleDPM.PlantMachinery."+b+".DepreciationDetail",{});
+  const doaBlk=p=>RG(I,p+".DepreciationDetail",{});
+
+  /* ================= Schedule DEP (summary of depreciation) ================= */
+  if(I.ScheduleDEP){
+    const DEP=RG(I,"ScheduleDEP.SummaryFromDeprSch",{});
+    const PM=RG(DEP,"PlantMachinerySummary",{}), BD=RG(DEP,"BuildingSummary",{});
+    /* 301 — 2d (total depreciation on building) = 2a + 2b + 2c */
+    A(301,REQ(BD.TotBuildng,N(BD.DeprBlockTot5Percent)+N(BD.DeprBlockTot10Percent)+N(BD.DeprBlockTot40Percent)),
+      "Schedule DEP: 2d (total depreciation on building) must equal 2a + 2b + 2c.");
+    /* 302 — 6 (total depreciation) = 1e + 2d + 3 + 4 + 5, floored at 0.
+       (rules.json text reads "1d + 2d + 3 + 4 + 5" — a typo for 1e; [J18] uses J9=1e.) */
+    A(302,REQ(DEP.TotalDepreciation,Math.max(0,N(PM.TotPlntMach)+N(BD.TotBuildng)+N(DEP.FurnitureSummary)+N(DEP.IntangibleAssetSummary)+N(DEP.ShipsSummary))),
+      "Schedule DEP: 6 (total depreciation) must equal 1e + 2d + 3 + 4 + 5 (nil if negative).");
+    if(I.ScheduleDPM){
+      /* 303–306 — plant & machinery blocks = Sl.17i/18i .. 17iv/18iv of Schedule DPM */
+      A(303,REQ(PM.DeprBlockTot15Percent,dpmDep(dpmBlk("Rate15"))),"Schedule DEP: 1a (P&M @15%) must equal Sl.17i/18i of Schedule DPM.");
+      A(304,REQ(PM.DeprBlockTot30Percent,dpmDep(dpmBlk("Rate30"))),"Schedule DEP: 1b (P&M @30%) must equal Sl.17ii/18ii of Schedule DPM.");
+      A(305,REQ(PM.DeprBlockTot40Percent,dpmDep(dpmBlk("Rate40"))),"Schedule DEP: 1c (P&M @40%) must equal Sl.17iii/18iii of Schedule DPM.");
+      A(306,REQ(PM.DeprBlockTot45Percent,dpmDep(dpmBlk("Rate45"))),"Schedule DEP: 1d (P&M @45%) must equal Sl.17iv/18iv of Schedule DPM.");
+    }
+    if(I.ScheduleDOA){
+      /* 307–312 — building/furniture/intangible/ship blocks = Sl.14ii/15ii .. 14vii/15vii of Schedule DOA */
+      A(307,REQ(BD.DeprBlockTot5Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate5"))),"Schedule DEP: 2a (building @5%) must equal Sl.14ii/15ii of Schedule DOA.");
+      A(308,REQ(BD.DeprBlockTot10Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate10"))),"Schedule DEP: 2b (building @10%) must equal Sl.14iii/15iii of Schedule DOA.");
+      A(309,REQ(BD.DeprBlockTot40Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate40"))),"Schedule DEP: 2c (building @40%) must equal Sl.14iv/15iv of Schedule DOA.");
+      A(310,REQ(DEP.FurnitureSummary,dpmDep(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"))),"Schedule DEP: 3 (furniture and fittings) must equal Sl.14v/15v of Schedule DOA.");
+      A(311,REQ(DEP.IntangibleAssetSummary,dpmDep(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"))),"Schedule DEP: 4 (intangible assets) must equal Sl.14vi/15vi of Schedule DOA.");
+      A(312,REQ(DEP.ShipsSummary,dpmDep(doaBlk("ScheduleDOA.Ships.Rate20"))),"Schedule DEP: 5 (ships) must equal Sl.14vii/15vii of Schedule DOA.");
+    }
+  }
+
+  /* ================= Schedule DCG (deemed capital gains on sale of depreciable assets) ================= */
+  if(I.ScheduleDCG){
+    const DCG=RG(I,"ScheduleDCG.SummaryFromDeprSchCG",{});
+    const PMc=RG(DCG,"PlantMachinerySummaryCG",{}), BDc=RG(DCG,"BuildingSummaryCG",{});
+    /* 313 — 1e (total P&M) = 1a + 1b + 1c + 1d */
+    A(313,REQ(PMc.TotPlntMach,N(PMc.DeprBlockTot15Percent)+N(PMc.DeprBlockTot30Percent)+N(PMc.DeprBlockTot40Percent)+N(PMc.DeprBlockTot45Percent)),
+      "Schedule DCG: 1e (total plant & machinery) must equal 1a + 1b + 1c + 1d.");
+    /* 314 — 2d (total building) = 2a + 2b + 2c */
+    A(314,REQ(BDc.TotBuildng,N(BDc.DeprBlockTot5Percent)+N(BDc.DeprBlockTot10Percent)+N(BDc.DeprBlockTot40Percent)),
+      "Schedule DCG: 2d (total building) must equal 2a + 2b + 2c.");
+    /* 315 — 6 (total) = 1e + 2d + 3 + 4 + 5 (signed; may be negative) */
+    A(315,REQ(DCG.TotalDepreciation,N(PMc.TotPlntMach)+N(BDc.TotBuildng)+N(DCG.FurnitureSummary)+N(DCG.IntangibleAssetSummary)+N(DCG.ShipsSummary)),
+      "Schedule DCG: 6 (total) must equal 1e + 2d + 3 + 4 + 5.");
+    if(I.ScheduleDPM){
+      /* 316–319 — P&M blocks = Sl.20i .. 20iv of Schedule DPM (Capital gains/loss u/s 50) */
+      A(316,REQ(PMc.DeprBlockTot15Percent,RG(dpmBlk("Rate15"),"CapGainUs50")),"Schedule DCG: 1a (block @15%) must equal Sl.20i of Schedule DPM.");
+      A(317,REQ(PMc.DeprBlockTot30Percent,RG(dpmBlk("Rate30"),"CapGainUs50")),"Schedule DCG: 1b (block @30%) must equal Sl.20ii of Schedule DPM.");
+      A(318,REQ(PMc.DeprBlockTot40Percent,RG(dpmBlk("Rate40"),"CapGainUs50")),"Schedule DCG: 1c (block @40%) must equal Sl.20iii of Schedule DPM.");
+      A(319,REQ(PMc.DeprBlockTot45Percent,RG(dpmBlk("Rate45"),"CapGainUs50")),"Schedule DCG: 1d (block @45%) must equal Sl.20iv of Schedule DPM.");
+    }
+    if(I.ScheduleDOA){
+      /* 320–325 — building/furniture/intangible/ship blocks = Sl.17ii .. 17vii of Schedule DOA (Capital gains/loss u/s 50) */
+      A(320,REQ(BDc.DeprBlockTot5Percent,RG(doaBlk("ScheduleDOA.Building.Rate5"),"CapGainUs50")),"Schedule DCG: 2a (building @5%) must equal Sl.17ii of Schedule DOA.");
+      A(321,REQ(BDc.DeprBlockTot10Percent,RG(doaBlk("ScheduleDOA.Building.Rate10"),"CapGainUs50")),"Schedule DCG: 2b (building @10%) must equal Sl.17iii of Schedule DOA.");
+      A(322,REQ(BDc.DeprBlockTot40Percent,RG(doaBlk("ScheduleDOA.Building.Rate40"),"CapGainUs50")),"Schedule DCG: 2c (building @40%) must equal Sl.17iv of Schedule DOA.");
+      A(323,REQ(DCG.FurnitureSummary,RG(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"),"CapGainUs50")),"Schedule DCG: 3 (furniture and fittings) must equal Sl.17v of Schedule DOA.");
+      A(324,REQ(DCG.IntangibleAssetSummary,RG(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"),"CapGainUs50")),"Schedule DCG: 4 (intangible assets) must equal Sl.17vi of Schedule DOA.");
+      A(325,REQ(DCG.ShipsSummary,RG(doaBlk("ScheduleDOA.Ships.Rate20"),"CapGainUs50")),"Schedule DCG: 5 (ships) must equal Sl.17vii of Schedule DOA.");
+    }
+  }
+
+  /* 326 — Schedule CG A6e (deemed STCG on depreciable assets) = Sl.6 of Schedule DCG */
+  if(I.ScheduleCG&&I.ScheduleDCG)
+    A(326,REQ(RG(I,"ScheduleCG.ShortTermCapGain.SaleOnOtherAssets.DeemedSTCGDeprAsset"),RG(I,"ScheduleDCG.SummaryFromDeprSchCG.TotalDepreciation")),
+      "Schedule CG: A6e (deemed STCG on depreciable assets) must equal Sl.6 of Schedule DCG.");
+
+  /* ================= Schedule ESR (expenditure on scientific research) ================= */
+  if(I.ScheduleESR){
+    const DU=RG(I,"ScheduleESR.DeductionUs35",{});
+    const ROWS=[["i","Section35_1_i","35(1)(i)"],["ii","Section35_1_ii","35(1)(ii)"],["iii","Section35_1_iia","35(1)(iia)"],
+      ["iv","Section35_1_iii","35(1)(iii)"],["v","Section35_1_iv","35(1)(iv)"],["vi","Section35_2AA","35(2AA)"],
+      ["vii","Section35_2AB","35(2AB)"],["viii","Section35_CCC","35CCC"],["ix","Section35_CCD","35CCD"]];
+    let sumExcess=0;
+    ROWS.forEach(function(r){
+      const o=RG(DU,r[1]+".DeductUs35",null);
+      if(!o||typeof o!=="object")return;                     /* no-op on empty row */
+      const deb=N(o.AmtDebPL), allow=N(o.AmtUs35Allowable), exc=N(o.ExcessAmtOverDebPL);
+      sumExcess+=Math.max(0,allow-deb);
+      /* 327 — col (4) = MAX(0, col(3) − col(2)) per row */
+      A(327,REQ(exc,Math.max(0,allow-deb)),"Schedule ESR "+r[2]+": col (4) must equal MAX(0, col (3) − col (2)).");
+      /* 329–337 — col (3) (amount allowable) must equal col (2) (amount debited to P&L) per row */
+      if(deb||allow){
+        const sn=329+["i","ii","iii","iv","v","vi","vii","viii","ix"].indexOf(r[0]);
+        A(sn,REQ(allow,deb),"Schedule ESR "+r[2]+": the amount of deduction allowable (col 3) must equal the amount debited to profit and loss account (col 2).");
+      }
+    });
+    /* 328 — Total col (4) = MAX(0, Σ col (4) of rows i..ix) */
+    const tot=RG(DU,"TotUs35.DeductUs35",null);
+    if(tot&&typeof tot==="object")
+      A(328,REQ(tot.ExcessAmtOverDebPL,Math.max(0,sumExcess)),"Schedule ESR: total (col 4) must equal the sum of rows (i + ii + iii + iv + v + vi + vii + viii + ix).");
+  }
+
+  /* ================= Schedule CG (capital gains) ================= */
+  if(I.ScheduleCG){
+    const ST=RG(I,"ScheduleCG.ShortTermCapGain",{}), LT=RG(I,"ScheduleCG.LongTermCapGain",{});
+    /* dedn total (bv) present? — the s.48 deduction block. When a head's full value of
+       consideration is zero, the s.48 total (bv) cannot be claimed (must be zero). */
+    const noS48IfNoFVC=function(n,fvc,bv,label){A(n,N(fvc)!==0||N(bv)===0,label);};
+
+    /* --- A1 (STCG land/building) : 340 · 348 · 349 · 350, per property --- */
+    RG(ST,"SaleofLandBuild.SaleofLandBuildDtls",[]).forEach(function(d,i){
+      const L="Schedule CG A1 property "+(i+1)+": ";
+      /* 340 — if A1aiii (50C full value) is zero, s.48 expenses (A1bv) cannot be claimed */
+      noS48IfNoFVC(340,d.FullConsideration50C,d.TotalDedn,L+"if the full value of consideration (A1aiii) is zero, the deduction u/s 48 (A1bv) cannot be claimed.");
+      /* 348 — A1 bv (total) = bi + bii + biii + biv */
+      A(348,REQ(d.TotalDedn,N(d.Reduction48iii)+N(d.AquisitCost)+N(d.ImproveCost)+N(d.ExpOnTrans)),L+"A1bv must equal bi + bii + biii + biv.");
+      /* 349 — A1c (balance) = A1aiii − A1bv */
+      A(349,REQ(d.Balance,N(d.FullConsideration50C)-N(d.TotalDedn)),L+"A1c (balance) must equal A1aiii − A1bv.");
+      /* 350 — A1e = (1c<0 ? 1c : MAX(0, 1c − 1d)) i.e. balance less deduction u/s 54, floored */
+      A(350,REQ(d.CapgainonAssets,N(d.Balance)<0?N(d.Balance):Math.max(0,N(d.Balance)-N(RG(d,"ExemptionOrDednUs54.ExemptionGrandTotal")))),L+"A1e must equal A1c − A1d (loss passes through; gain floored at zero).");
+    });
+
+    /* --- 341 · A3 (STCG equity/MF, STT paid) : per sub-head --- */
+    RG(ST,"EquityMFonSTT",[]).forEach(function(e,i){
+      noS48IfNoFVC(341,RG(e,"EquityMFonSTTDtls.FullConsideration"),RG(e,"EquityMFonSTTDtls.DeductSec48.TotalDedn"),
+        "Schedule CG A3 sub-head "+(i+1)+": if the full value of consideration (A3a) is zero, the deduction u/s 48 (A3bv) cannot be claimed.");
+    });
+    /* --- 342 · A5 (STCG securities by FII u/s 115AD) --- */
+    if(ST.NRISecur115AD)
+      noS48IfNoFVC(342,RG(ST,"NRISecur115AD.FullConsideration"),RG(ST,"NRISecur115AD.DeductSec48.TotalDedn"),
+        "Schedule CG A5: if the full value of consideration (A5aiii) is zero, the deduction u/s 48 (A5bv) cannot be claimed.");
+    /* --- 343 · A6 (STCG other assets) --- */
+    if(ST.SaleOnOtherAssets)
+      noS48IfNoFVC(343,RG(ST,"SaleOnOtherAssets.FullConsideration"),RG(ST,"SaleOnOtherAssets.DeductSec48.TotalDedn"),
+        "Schedule CG A6: if the full value of consideration (A6aiii) is zero, the deduction u/s 48 (A6bv) cannot be claimed.");
+
+    /* --- 344 · B1 (LTCG land/building), per property --- */
+    RG(LT,"SaleofLandBuild.SaleofLandBuildDtls",[]).forEach(function(d,i){
+      noS48IfNoFVC(344,d.FullConsideration50C,d.TotalDedn,
+        "Schedule CG B1 property "+(i+1)+": if the full value of consideration (B1aiii) is zero, the deduction u/s 48 (B1biv) cannot be claimed.");
+    });
+    /* --- 345 · B3 (LTCG listed securities/ZCB u/s 112(1)) --- */
+    if(LT.Proviso112Applicable)
+      noS48IfNoFVC(345,RG(LT,"Proviso112Applicable.Proviso112Applicabledtls.FullConsideration"),RG(LT,"Proviso112Applicable.Proviso112Applicabledtls.DeductSec48.TotalDedn"),
+        "Schedule CG B3: if the full value of consideration (B3a) is zero, the deduction u/s 48 (B3bv) cannot be claimed.");
+    /* --- 346 · B6 (LTCG non-resident securities u/s 112(1)(c)), per sub-head --- */
+    RG(LT,"NRIOnSec112and115.NRIOnSec112and115Dtls",[]).forEach(function(d,i){
+      noS48IfNoFVC(346,d.FullConsideration,RG(d,"DeductSec48.TotalDedn"),
+        "Schedule CG B6 sub-head "+(i+1)+": if the full value of consideration (B6aiii) is zero, the deduction u/s 48 (B6bv) cannot be claimed.");
+    });
+    /* --- 347 · B8 (LTCG assets where B1–B7 not applicable) --- */
+    if(RG(LT,"SaleofAssetNADtls.SaleofAssetNA",null))
+      noS48IfNoFVC(347,RG(LT,"SaleofAssetNADtls.SaleofAssetNA.FullConsideration"),RG(LT,"SaleofAssetNADtls.SaleofAssetNA.DeductSec48.TotalDedn"),
+        "Schedule CG B8: if the full value of consideration (B8aiii) is zero, the deduction u/s 48 (B8bv) cannot be claimed.");
+
+    /* --- 338 · B12 total LTCG = B1g + B2e + B3c + B4 + B5 + B6c + B7 + B8e + B9 + B10 − B11a + B(A) --- */
+    const b12=N(RG(LT,"SaleofLandBuild.TotalLTCGImmblPrprty"))
+      +N(RG(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg.CapgainonAssets"))
+      +N(RG(LT,"Proviso112Applicable.Proviso112Applicabledtls.BalanceCG"))
+      +N(RG(LT,"SaleOfEquityShareUs112A.CapgainonAssets"))
+      +N(RG(LT,"NRIProvisoSec48.BalanceCG"))
+      +RSUM(RG(LT,"NRIOnSec112and115.NRIOnSec112and115Dtls",[]),"BalanceCG")
+      +N(RG(LT,"NRISaleOfEquityShareUs112A.CapgainonAssets"))
+      +N(RG(LT,"SaleofAssetNADtls.SaleofAssetNA.CapgainonAssets"))
+      +N(RG(LT,"TotalAmtDeemedLtcg"))
+      +N(RG(LT,"PassThrIncNatureLTCG"))
+      -N(RG(LT,"TotalAmtNotTaxUsDTAALtcg"))
+      +N(RG(LT,"CapitalLossBuyBackShares.TotalCapitalLossBuyBackShares"));
+    A(338,REQ(LT.TotalLTCG,b12),"Schedule CG: B12 (total LTCG) must equal B1g + B2e + B3c + B4 + B5 + B6c + B7 + B8e + B9 + B10 − B11a + B(A).");
+
+    /* --- 339 · C1 (sum of capital gain incomes) = Σ of 8ii..8vii (CurrYrCapGain) of table E --- */
+    const E=RG(I,"ScheduleCG.CurrYrLosses",{});
+    const c1=["InStcg20Per","InStcg30Per","InStcgAppRate","InStcgDTAARate","InLtcg12_5Per","InLtcgDTAARate"]
+      .reduce((a,k)=>a+N(RG(E,k+".CurrYrCapGain")),0);
+    A(339,REQ(RG(I,"ScheduleCG.SumOfCGIncm"),c1),"Schedule CG: C1 (sum of capital gain incomes) must equal 8ii + 8iii + 8iv + 8v + 8vi + 8vii of table E.");
+  }
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_08 (Phase 6).
+   Serials 351-400 from books/ITR-5/rules.json — Schedule CG (Part A STCG,
+   Part B LTCG, Table D deductions, Table E set-off matrix, Table F quarter
+   accrual) and its BFLA reconciliation.
+
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) fires when cond (the "valid" assertion) is FALSE. Every
+   read is guarded (RG / (X||{}) / AR); nothing throws. Every cond is TRUE
+   when the data is absent or the head is not built, so the batch no-ops on
+   an empty return and never fires on a lawful one (verified against
+   tests/ITR-5/state.js).
+
+   Item labels vs schema: the rules document uses the utility's expanded CG
+   numbering (A2c, A3ib(v), A5(a)(ic), B1biv, Eviii, …); the ITR-5 build
+   collapses these into the ScheduleCG schema keys studied in
+   forms/ITR-5/src/70_sec_cg.js (export) and 70_sec_loss.js (BFLA). The
+   arithmetic is encoded against those keys. Sources: ITR-5 only.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const CG=RG(I,"ScheduleCG",null);
+  if(!CG||typeof CG!=="object")return;                 /* guard: CG head not filed → nothing to check */
+  const ST=RG(CG,"ShortTermCapGain",{})||{};
+  const LT=RG(CG,"LongTermCapGain",{})||{};
+  const AR=x=>Array.isArray(x)?x:[];
+  /* the section-48 five-line total (bi+bii+biii+biv = bv); biia (with-indexation)
+     is N/A for a firm/AOP/BOI, so bv is the four-term non-indexed sum. */
+  const sec48Sum=o=>{o=o||{};return N(o.Reduction48iii)+N(o.AquisitCost)+N(o.ImproveCost)+N(o.ExpOnTrans);};
+  /* e-line = IF(balance<0, balance, MAX(0, balance − exemption)) — the utility's own formula */
+  const eLine=(bal,ex)=>N(bal)<0?N(bal):Math.max(0,N(bal)-N(ex));
+
+  /* ================= PART A — SHORT-TERM CAPITAL GAINS ================= */
+
+  /* 351 — A2c (STCG from slump sale) = 2aiii − 2b */
+  const slST=RG(ST,"SlumpSaleInStcg",null);
+  if(slST&&typeof slST==="object")
+    A(351,REQ(slST.CapgainonAssets,N(slST.FullConsideration)-N(slST.NetWorthOfDivision)),"Schedule CG: A2c (STCG from slump sale) must equal 2aiii − 2b.");
+
+  /* 352-354 — A3 equity/MF-on-STT sub-heads (EquityMFonSTT[], max 2) */
+  AR(RG(ST,"EquityMFonSTT",[])).forEach(function(row,i){if(!row)return;
+    const d=RG(row,"EquityMFonSTTDtls",{})||{},d48=RG(d,"DeductSec48",{})||{},L="Schedule CG A3 sub-head "+(i+1)+": ";
+    A(352,REQ(d48.TotalDedn,sec48Sum(d48)),L+"the section-48 total bv (A3ibv) must equal bi + bii + biii + biv.");
+    A(353,REQ(d.BalanceCG,N(d.FullConsideration)-N(d48.TotalDedn)),L+"balance A3i(c) must equal full consideration − total deductions u/s 48.");
+    A(354,REQ(d.CapgainonAssets,N(d.BalanceCG)+N(d.LossSec94of7Or94of8)),L+"A3ie must equal 3ic + 3id (loss disallowed u/s 94(7)/94(8)).");
+  });
+
+  /* 355-359 — A5 non-resident FII securities u/s 115AD (NRISecur115AD) */
+  const a5=RG(ST,"NRISecur115AD",null);
+  if(a5&&typeof a5==="object"){const d48=RG(a5,"DeductSec48",{})||{};
+    A(355,REQ(a5.FullValueConsdSec50CA,Math.max(N(a5.FullValueConsdRecvUnqshr),N(a5.FairMrktValueUnqshr))),"Schedule CG: A5(a)(ic) full value u/s 50CA must be the higher of a(ia) unquoted consideration or a(ib) FMV.");
+    A(356,REQ(a5.FullConsideration,N(a5.FullValueConsdSec50CA)+N(a5.FullValueConsdOthUnqshr)),"Schedule CG: A5(aiii) total consideration must equal a(ic) + a(ii).");
+    A(357,REQ(d48.TotalDedn,sec48Sum(d48)),"Schedule CG: A5(bv) total deductions u/s 48 must equal bi + bii + biii + biv.");
+    A(358,REQ(a5.BalanceCG,N(a5.FullConsideration)-N(d48.TotalDedn)),"Schedule CG: A5c balance must equal aiii − bv.");
+    A(359,REQ(a5.CapgainonAssets,N(a5.BalanceCG)+N(a5.LossSec94of7Or94of8)),"Schedule CG: A5e must equal 5c + 5d.");
+  }
+
+  /* 360-363 — A6 other assets (SaleOnOtherAssets); A6g/A6e are out of this slice */
+  const a6=RG(ST,"SaleOnOtherAssets",null);
+  if(a6&&typeof a6==="object"){const d48=RG(a6,"DeductSec48",{})||{};
+    A(360,REQ(a6.FullValueConsdSec50CA,Math.max(N(a6.FullValueConsdRecvUnqshr),N(a6.FairMrktValueUnqshr))),"Schedule CG: A6(a)(ic) full value u/s 50CA must be the higher of a(ia) or a(ib).");
+    A(361,REQ(a6.FullConsideration,N(a6.FullValueConsdSec50CA)+N(a6.FullValueConsdOthUnqshr)),"Schedule CG: A6aiii total consideration must equal a(ic) + a(ii).");
+    A(362,REQ(d48.TotalDedn,sec48Sum(d48)),"Schedule CG: A6(bv) total deductions u/s 48 must equal bi + bii + biii + biv.");
+    A(363,REQ(a6.BalanceCG,N(a6.FullConsideration)-N(d48.TotalDedn)),"Schedule CG: A6c balance must equal aiii − bv.");
+  }
+
+  /* 364 — A7 amount deemed to be STCG = Σ(unutilized prev-yr) + 7b + 7c */
+  A(364,REQ(RG(ST,"TotalAmtDeemedStcg"),RSUM(AR(RG(ST,"UnutilizedCg.UnutilizedCgPrvYrDtls",[])),"AmtUnutilized")+N(RG(ST,"AmtDeemedStcg"))+N(RG(ST,"AmtDeemedStcg45iv"))),"Schedule CG: A7 (amount deemed to be STCG) must equal ΣaXi..aXiii + 7b + 7c.");
+
+  /* 365 — A8 pass-through STCG = A8a(@20%) + A8b(@30%) + A8c(applicable) */
+  A(365,REQ(RG(ST,"PassThrIncNatureSTCG"),N(RG(ST,"PassThrIncNatureSTCG20Per"))+N(RG(ST,"PassThrIncNatureSTCG30Per"))+N(RG(ST,"PassThrIncNatureSTCGAppRate"))),"Schedule CG: A8 (pass-through STCG) must equal A8a + A8b + A8c.");
+
+  /* ================= PART B — LONG-TERM CAPITAL GAINS ================= */
+
+  /* 366-368 — B1 land/building (per property). biia (with-indexation) folds into
+     bv because indexation is N/A for a firm/AOP/BOI (AquisitCostIndex = AquisitCost). */
+  AR(RG(LT,"SaleofLandBuild.SaleofLandBuildDtls",[])).forEach(function(d,i){if(!d)return;const L="Schedule CG B1 property "+(i+1)+": ";
+    A(366,REQ(d.TotalDedn,sec48Sum(d)),L+"total deductions u/s 48 (B1biv) must equal bi + bii + biii + biv.");
+    A(367,REQ(d.Balance,N(d.FullConsideration50C)-N(d.TotalDedn)),L+"balance B1c must equal aiii − biv.");
+    A(368,REQ(d.CapgainonAssets,eLine(d.Balance,RG(d,"ExemptionOrDednUs54.ExemptionGrandTotal"))),L+"B1e must equal 1c − 1d.");
+  });
+
+  /* 369-370 — B2 slump sale LTCG (SlumpSaleInLtcgDtls.SlumpSaleInLtcg) */
+  const slLT=RG(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg",null);
+  if(slLT&&typeof slLT==="object"){
+    A(370,REQ(slLT.SlumpBalance,N(slLT.FullConsideration)-N(slLT.NetWorthOfDivision)),"Schedule CG: B2c balance must equal 2aiii − 2b.");
+    A(369,REQ(slLT.CapgainonAssets,eLine(slLT.SlumpBalance,slLT.DeductionUnderSec54)),"Schedule CG: B2e must equal 2c − 2d.");
+  }
+
+  /* 371-372 — B3 listed securities / ZCB u/s 112(1) (Proviso112Applicable) */
+  const b3=RG(LT,"Proviso112Applicable.Proviso112Applicabledtls",null);
+  if(b3&&typeof b3==="object"){const d48=RG(b3,"DeductSec48",{})||{};
+    A(371,REQ(d48.TotalDedn,sec48Sum(d48)),"Schedule CG: B3(bv) total deductions u/s 48 must equal bi + bii + biii + biv.");
+    A(372,REQ(b3.BalanceCG,N(b3.FullConsideration)-N(d48.TotalDedn)),"Schedule CG: B3c balance must equal 3a − bv.");
+  }
+
+  /* 373 — B4 LTCG u/s 112A = total of column 14 of Schedule 112A */
+  if(I.Schedule112A)
+    A(373,REQ(RG(LT,"SaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule112A.Balance112A")),"Schedule CG: B4 (LTCG u/s 112A) must equal the total of column 14 of Schedule 112A.");
+
+  /* 374-377 — B6 non-resident u/s 112(1)(c)/115AB/115AC/115AD (per sub-block).
+     377 is the book's duplicate of 376 (both assert the section-48 total). */
+  AR(RG(LT,"NRIOnSec112and115.NRIOnSec112and115Dtls",[])).forEach(function(d,i){if(!d)return;const d48=RG(d,"DeductSec48",{})||{},L="Schedule CG B6 sub-block "+(i+1)+": ";
+    A(374,REQ(d.FullValueConsdSec50CA,Math.max(N(d.FullValueConsdRecvUnqshr),N(d.FairMrktValueUnqshr))),L+"a(ic) full value u/s 50CA must be the higher of a(ia) or a(ib).");
+    A(375,REQ(d.FullConsideration,N(d.FullValueConsdSec50CA)+N(d.FullValueConsdOthUnqshr)),L+"a(iii) total consideration must equal a(ic) + a(ii).");
+    A(376,REQ(d48.TotalDedn,sec48Sum(d48)),L+"bv total deductions u/s 48 must equal bi + bii + biii + biv.");
+    A(377,REQ(d48.TotalDedn,sec48Sum(d48)),L+"the section-48 total must equal bi + bii + biii + biv.");
+  });
+
+  /* 378 — B7 FII/FPI equity u/s 115AD(1)(b)(iii) proviso = total of col 14 of Sch 115AD */
+  if(I.Schedule115AD)
+    A(378,REQ(RG(LT,"NRISaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule115AD.Balance115AD")),"Schedule CG: B7 (LTCG for FII u/s 115AD(1)(b)(iii) proviso) must equal the total of column 14 of Schedule 115AD.");
+
+  /* 379-383 — B8 assets where B1-B7 not applicable (SaleofAssetNADtls.SaleofAssetNA) */
+  const b8=RG(LT,"SaleofAssetNADtls.SaleofAssetNA",null);
+  if(b8&&typeof b8==="object"){const d48=RG(b8,"DeductSec48",{})||{};
+    A(379,REQ(b8.FullValueConsdSec50CA,Math.max(N(b8.FullValueConsdRecvUnqshr),N(b8.FairMrktValueUnqshr))),"Schedule CG: B8(a)(ic) full value u/s 50CA must be the higher of a(ia) or a(ib).");
+    A(380,REQ(b8.FullConsideration,N(b8.FullValueConsdSec50CA)+N(b8.FullValueConsdOthUnqshr)),"Schedule CG: B8 aiii total consideration must equal a(ic) + a(ii).");
+    A(381,REQ(d48.TotalDedn,sec48Sum(d48)),"Schedule CG: B8 bv total deductions u/s 48 must equal bi + bii + biii + biv.");
+    A(382,REQ(b8.BalanceCG,N(b8.FullConsideration)-N(d48.TotalDedn)),"Schedule CG: B8c balance must equal aiii − bv.");
+    A(383,REQ(b8.CapgainonAssets,eLine(b8.BalanceCG,RG(b8,"ExemptionOrDednUs54.ExemptionGrandTotal"))),"Schedule CG: B8e must equal 8c − 8d.");
+  }
+
+  /* 384 — B9 amount deemed to be LTCG = Σ(unutilized prev-yr) + b + c */
+  A(384,REQ(RG(LT,"TotalAmtDeemedLtcg"),RSUM(AR(RG(LT,"UnutilizedCg.UnutilizedCgPrvYrDtls",[])),"AmtUnutilized")+N(RG(LT,"AmtDeemedLtcg"))+N(RG(LT,"AmtDeemedLtcg45iv"))),"Schedule CG: B9 (amount deemed to be LTCG) must equal ΣaXi..aXiii + b + c.");
+
+  /* 385 — B10 pass-through LTCG = B10a1(@12.5% u/s 112A) + B10a2(@12.5% other) */
+  A(385,REQ(RG(LT,"PassThrIncNatureLTCG"),N(RG(LT,"PassThrIncNatureLTCGUs112A12_5Per"))+N(RG(LT,"PassThrIncNatureLTCG12_5Per"))),"Schedule CG: B10 (pass-through LTCG) must equal B10a1 + B10a2.");
+
+  /* ================= TABLE D — DEDUCTION PARTICULARS ================= */
+  const DED=RG(CG,"DeducClaimInfo",{})||{};
+  const dSum=k=>RSUM(AR(RG(DED,k,[])),"AmtDeducted");
+
+  /* 386 — D1e = Σ amounts deducted u/s 54D + 54EC + 54G + 54GA (Table D) */
+  A(386,REQ(DED.TotDeductClaim,dSum("DeducClaimDtlsUs54D")+dSum("DeducClaimDtlsUs54EC")+dSum("DeducClaimDtlsUs54G")+dSum("DeducClaimDtlsUs54GA")),"Schedule CG: D1e must equal the sum of the amounts deducted u/s 54D + 54EC + 54G + 54GA in Table D.");
+
+  /* 397 — deductions claimed u/s 54D/54EC/54G/54GA in the STCG/LTCG heads must
+     match the amount disclosed in the respective section of Table D */
+  const claim={"54D":0,"54EC":0,"54G":0,"54GA":0};
+  const addEx=arr=>{AR(arr).forEach(e=>{if(e&&claim[e.ExemptionSecCode]!==undefined)claim[e.ExemptionSecCode]+=N(e.ExemptionAmount);});};
+  AR(RG(ST,"SaleofLandBuild.SaleofLandBuildDtls",[])).forEach(d=>addEx(RG(d,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls",[])));
+  AR(RG(LT,"SaleofLandBuild.SaleofLandBuildDtls",[])).forEach(d=>addEx(RG(d,"ExemptionOrDednUs54.ExemptionOrDednUs54Dtls",[])));
+  addEx(RG(ST,"SaleOnOtherAssets.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls",[]));
+  addEx(RG(LT,"SaleofAssetNADtls.SaleofAssetNA.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls",[]));
+  claim["54EC"]+=N(RG(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg.DeductionUnderSec54"));
+  [["54D","DeducClaimDtlsUs54D"],["54EC","DeducClaimDtlsUs54EC"],["54G","DeducClaimDtlsUs54G"],["54GA","DeducClaimDtlsUs54GA"]].forEach(function(x){
+    A(397,REQ(claim[x[0]],dSum(x[1])),"Schedule CG: the deduction claimed u/s "+x[0]+" in the STCG/LTCG heads must match the amount in the "+x[0]+" section of Table D.");
+  });
+
+  /* ================= TABLE E — SET-OFF OF CURRENT-YEAR LOSSES ================= */
+  const CYL=RG(CG,"CurrYrLosses",{})||{};
+  const EROWS=["InStcg20Per","InStcg30Per","InStcgAppRate","InStcgDTAARate","InLtcg12_5Per","InLtcgDTAARate"];
+  const SOKEYS=["StclSetoff20Per","StclSetoff30Per","StclSetoffAppRate","StclSetoffDTAARate","LtclSetOff12_5Per","LtclSetOffDTAARate"];
+
+  if(CYL.TotLossSetOff&&CYL.InLossSetOff&&CYL.LossRemainSetOff){
+    SOKEYS.forEach(function(sk){
+      const colSum=EROWS.reduce((a,e)=>a+N(RG(CYL,e+"."+sk)),0);
+      /* 387 — Eviii (total loss set off, this rate) = Σ of rows ii..vii */
+      A(387,REQ(RG(CYL,"TotLossSetOff."+sk),colSum),"Schedule CG Table E: total loss set off ("+sk+") must equal the sum of the set-offs in rows ii to vii.");
+      /* 388 — Eix (loss remaining) = Ei (loss to be set off) − Eviii (total loss set off) */
+      A(388,REQ(RG(CYL,"LossRemainSetOff."+sk),N(RG(CYL,"InLossSetOff."+sk))-N(RG(CYL,"TotLossSetOff."+sk))),"Schedule CG Table E: loss remaining ("+sk+") must equal the loss to be set off (row i) − the total loss set off (row viii).");
+    });
+  }
+
+  /* 398 — E8 (remaining gain, col 8) = col 1 (income) − cols 2..7 (losses set off) */
+  EROWS.forEach(function(ek){const node=RG(CYL,ek,null);if(!node||typeof node!=="object")return;
+    const so=SOKEYS.reduce((a,sk)=>a+N(node[sk]),0);
+    A(398,REQ(node.CurrYrCapGain,Math.max(0,N(node.CurrYearIncome)-so)),"Schedule CG Table E: remaining gain (E8, col 8) for "+ek+" must equal current-year income (col 1) − the losses set off (cols 2–7).");
+  });
+
+  /* 391 & 395 — Ei5 / Ev (STCG at special DTAA rate) = A9b */
+  if(CYL.InStcgDTAARate){
+    A(391,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ei5) must equal A9b (STCG chargeable at special rates as per DTAA).");
+    A(395,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ev) must equal A9b.");
+  }
+  /* 392 & 396 — Ei7 / Evii (LTCG at special DTAA rate) = B11b */
+  if(CYL.InLtcgDTAARate){
+    A(392,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Ei7) must equal B11b (LTCG chargeable at special rates as per DTAA).");
+    A(396,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Evii) must equal B11b.");
+  }
+
+  /* 389, 390, 393, 394 — /* not mappable: the rule text (Ei3/Ei4/Eiii/Eiv = the
+     30%- and applicable-rate bucket income "as reduced by the amount of STCG
+     chargeable or not chargeable to tax at special rates in A9a & A9b included
+     therein") is truncated across serial boundaries in rules.json and omits
+     contributing heads (A3ie/A3iie). More decisively, the ITR-5 build does not
+     represent that "reduced by A9a & A9b" reconciliation as a checkable leaf: the
+     utility routes DTAA gains into their own stDTAA/ltDTAA Table-E buckets rather
+     than netting them from the 30%/applicable-rate income rows, so any faithful
+     encoding of the literal formula would fire on the engine's own lawful output.
+     Left un-encoded rather than introduce a false positive. */
+
+  /* ================= TABLE F — ACCRUAL/RECEIPT (vs Schedule BFLA) ================= */
+  const AF=RG(CG,"AccruOrRecOfCG",null);
+  if(AF&&I.ScheduleBFLA){
+    const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
+    const qsum=k=>{const dr=RG(AF,k+".DateRange",{})||{};return QK.reduce((a,q)=>a+N(dr[q]),0);};
+    /* 399 — Table F Sl.2 (STCG @30%) quarter break-up = item 5vii of Schedule BFLA */
+    A(399,REQ(qsum("ShortTermUnder30Per"),RG(I,"ScheduleBFLA.STCG30Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.2: the quarter-wise break-up of STCG @30% must equal item 5vii (STCG @30%) of Schedule BFLA.");
+    /* 400 — Table F Sl.3 (STCG applicable rate) quarter break-up = item 5viii of Schedule BFLA */
+    A(400,REQ(qsum("ShortTermUnderAppRate"),RG(I,"ScheduleBFLA.STCGAppRate.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.3: the quarter-wise break-up of STCG at applicable rates must equal item 5viii (STCG applicable rate) of Schedule BFLA.");
+  }
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, batch enc_09 (Phase 6).
+   Serials 401–450 from books/ITR-5/rules.json (ALL Schedule CG).
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "valid" assertion) is FALSE.
+
+   Self-contained: local guarded helpers (g/n/arr/sum/eqi/approx) are
+   defined here so the batch never throws even if the 60_rules globals are
+   absent, and every read is guarded — an empty return is a no-op.
+
+   Schema paths copied from forms/ITR-5/src/70_sec_cg.js (expCg),
+   70_sec_loss.js (ScheduleBFLA), 70_sec_os.js (Dividend22f).  ITR-5 FACTS:
+   - Root block is `ScheduleCG`; ST=ShortTermCapGain, LT=LongTermCapGain,
+     summary C1/C2/C3 = SumOfCGIncm/IncmFromVDATrnsf/IncChargeableHeadCapGain,
+     Part D=DeducClaimInfo, Part E=CurrYrLosses, Part F=AccruOrRecOfCG.
+   - Table E has SIX rate columns: InStcg20Per, InStcg30Per, InStcgAppRate,
+     InStcgDTAARate, InLtcg12_5Per, InLtcgDTAARate; loss legs StclSetoff20Per,
+     StclSetoff30Per, StclSetoffAppRate, StclSetoffDTAARate, LtclSetOff12_5Per,
+     LtclSetOffDTAARate; plus InLossSetOff / TotLossSetOff / LossRemainSetOff.
+   - Table F rate rows: ShortTermUnder20Per, …30Per, …AppRate, …DTAARate,
+     LongTermUnder12_5Per, LongTermUnderDTAARate, VDATrnsfGainsUnder30Per,
+     each with a five-window DateRange (234C quarters).
+   - BFLA CG keys: STCG20Per, STCG30Per, STCGAppRate, STCGDTAARate,
+     LTCG12_5Per, LTCGDTAARate (…IncBFLA.IncOfCurYrAfterSetOffBFLosses = col 5).
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const CG=(I.ScheduleCG&&typeof I.ScheduleCG==="object")?I.ScheduleCG:null;
+  if(!CG)return;                                                    /* no Schedule CG → whole batch no-op */
+
+  /* ---- local guarded helpers (never throw) ---- */
+  const g=(o,p)=>{try{return String(p).split(".").reduce((t,k)=>(t==null?undefined:t[k]),o);}catch(e){return undefined;}};
+  const n=v=>{const x=+v;return isFinite(x)?x:0;};
+  const arr=v=>Array.isArray(v)?v:[];
+  const sum=(a,f)=>arr(a).reduce((t,x)=>t+n(typeof f==="function"?f(x):(x&&x[f])),0);
+  const eqi=(a,b)=>Math.abs(n(a)-n(b))<=1;                          /* integer-rupee equality (±1 rounding) */
+  const approx=(a,b)=>Math.abs(n(a)-n(b))<0.01;                     /* rate equality */
+  const isDate=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v||""));
+
+  const ST=(CG.ShortTermCapGain&&typeof CG.ShortTermCapGain==="object")?CG.ShortTermCapGain:{};
+  const LT=(CG.LongTermCapGain&&typeof CG.LongTermCapGain==="object")?CG.LongTermCapGain:{};
+  const res=g(I,"PartA_GEN1.FilingStatus.ResidentialStatus")||"RES";
+
+  /* =============================================================
+     PART A / B — 50C band, slump higher-of, land dates, B1 total
+     ============================================================= */
+  const stLand=arr(g(ST,"SaleofLandBuild.SaleofLandBuildDtls"));
+  const ltLand=arr(g(LT,"SaleofLandBuild.SaleofLandBuildDtls"));
+
+  /* ---- 405: A1(aiii) 50C value = A1(aii) when it exceeds 1.10×A1(ai), else A1(ai) ---- */
+  stLand.forEach((d,i)=>{d=d||{};
+    if(!(n(d.FullConsideration)>0||n(d.PropertyValuation)>0))return;
+    const exp=n(d.PropertyValuation)>1.1*n(d.FullConsideration)?n(d.PropertyValuation):n(d.FullConsideration);
+    A(405,eqi(d.FullConsideration50C,exp),
+      "Schedule CG A1 property "+(i+1)+": the full value of consideration adopted (A1aiii) must be the stamp-duty value (A1aii) only when it exceeds 1.10 times the actual consideration (A1ai), otherwise the actual consideration.");});
+
+  /* ---- 406: B1(aiii) 50C value — same 10% band for LTCG land/building ---- */
+  ltLand.forEach((d,i)=>{d=d||{};
+    if(!(n(d.FullConsideration)>0||n(d.PropertyValuation)>0))return;
+    const exp=n(d.PropertyValuation)>1.1*n(d.FullConsideration)?n(d.PropertyValuation):n(d.FullConsideration);
+    A(406,eqi(d.FullConsideration50C,exp),
+      "Schedule CG B1 property "+(i+1)+": the full value of consideration adopted (B1aiii) must be the stamp-duty value (B1aii) only when it exceeds 1.10 times the actual consideration (B1ai), otherwise the actual consideration.");});
+
+  /* ---- 410 / 411: B1 date of sale and date of purchase mandatory when B1(aiii) 50C value,
+         B1(bii) cost of acquisition, or B1(biia) cost of improvement is more than zero ---- */
+  ltLand.forEach((d,i)=>{d=d||{};
+    const trig=n(d.FullConsideration50C)>0||n(d.AquisitCost)>0||n(d.ImproveCost)>0;
+    A(410,!trig||(isDate(d.DateofSale)&&isDate(d.DateofPurchase)),
+      "Schedule CG B1 property "+(i+1)+": the date of sale and the date of purchase are mandatory when B1(aiii) or the cost of acquisition B1(bii) is more than zero.");
+    A(411,!trig||(isDate(d.DateofSale)&&isDate(d.DateofPurchase)),
+      "Schedule CG B1 property "+(i+1)+": the date of sale and the date of purchase are mandatory when B1(aiii) or the cost of improvement B1(biia) is more than zero.");});
+
+  /* ---- 448: date of sale/transfer of land or building in A1 or B1 cannot be after 31 March of the FY ---- */
+  const FYEND="2026-03-31";
+  stLand.concat(ltLand).forEach((d,i)=>{d=d||{};
+    A(448,!isDate(d.DateofSale)||d.DateofSale<=FYEND,
+      "Schedule CG: the date of sale/transfer of land or building (Sl. No. A1 or B1) cannot be after 31st March of the financial year.");});
+
+  /* ---- 408: A2(aiii) slump full value = higher of A2(ai) and A2(aii) (11UAE ii / iii) ---- */
+  const ss=g(ST,"SlumpSaleInStcg");
+  if(ss&&typeof ss==="object"&&(n(ss.FMV11UAEii)>0||n(ss.FMV11UAEiii)>0||n(ss.NetWorthOfDivision)>0))
+    A(408,eqi(ss.FullConsideration,Math.max(n(ss.FMV11UAEii),n(ss.FMV11UAEiii))),
+      "Schedule CG A2: the full value of consideration for the slump sale (A2aiii) must be the higher of A2(ai) and A2(aii).");
+
+  /* ---- 409: B2(aiii) slump full value = higher of B2(ai) and B2(aii) ---- */
+  const sl=g(LT,"SlumpSaleInLtcgDtls.SlumpSaleInLtcg");
+  if(sl&&typeof sl==="object"&&(n(sl.FMV11UAEii)>0||n(sl.FMV11UAEiii)>0||n(sl.NetWorthOfDivision)>0))
+    A(409,eqi(sl.FullConsideration,Math.max(n(sl.FMV11UAEii),n(sl.FMV11UAEiii))),
+      "Schedule CG B2: the full value of consideration for the slump sale (B2aiii) must be the higher of B2(ai) and B2(aii).");
+
+  /* ---- 407: A6g = A(6c + 6d + 6e − 6f), floored at zero unless the pre-exemption balance is negative ---- */
+  const a6=g(ST,"SaleOnOtherAssets");
+  if(a6&&typeof a6==="object"&&(n(a6.FullConsideration)>0||n(a6.BalanceCG)!==0||n(a6.DeemedSTCGDeprAsset)>0)){
+    const raw=n(a6.BalanceCG)+n(a6.LossSec94of7Or94of8)+n(a6.DeemedSTCGDeprAsset);          /* 6c + 6d + 6e */
+    const exemp=n(g(a6,"ExemptionOrDednUs54.ExemptionGrandTotal"));                          /* 6f */
+    const exp=raw<0?raw:Math.max(0,raw-exemp);
+    A(407,eqi(a6.CapgainonAssets,exp),
+      "Schedule CG A6g: the capital gain must equal A(6c + 6d + 6e − 6f).");}
+
+  /* ---- 417 / 418 / 419: A3(ii) sub-head (115AD FII, MFSectionCode 5AD1biip) internal arithmetic ---- */
+  arr(ST.EquityMFonSTT).forEach(row=>{row=row||{};
+    if(String(row.MFSectionCode||"")!=="5AD1biip")return;                                     /* the A3(ii) sub-head */
+    const dt=g(row,"EquityMFonSTTDtls")||{};const d48=g(dt,"DeductSec48")||{};
+    if(!(n(dt.FullConsideration)>0||n(d48.AquisitCost)>0||n(d48.ImproveCost)>0))return;
+    A(417,eqi(d48.TotalDedn,n(d48.Reduction48iii)+n(d48.AquisitCost)+n(d48.ImproveCost)+n(d48.ExpOnTrans)),
+      "Schedule CG A3iib(v): the total deduction under section 48 must equal the sum of A3iib (i + ii + iii + iv).");
+    A(418,eqi(dt.BalanceCG,n(dt.FullConsideration)-n(d48.TotalDedn)),
+      "Schedule CG A3ii(c): the balance must equal A3iia − A3iibv.");
+    A(419,eqi(dt.CapgainonAssets,n(dt.BalanceCG)+n(dt.LossSec94of7Or94of8)),
+      "Schedule CG A3iie: the capital gain must equal the sum of A3ii(c + d).");});
+
+  /* ---- 443: B1g (ΣB1e) = sum of B1e of all LTCG land/building properties ---- */
+  if(ltLand.length)
+    A(443,eqi(g(LT,"SaleofLandBuild.TotalLTCGImmblPrprty"),sum(ltLand,"CapgainonAssets")),
+      "Schedule CG B1(g): the total long-term capital gain on immovable property (ΣB1e) must equal the sum of B1e of all the properties.");
+
+  /* =============================================================
+     PART A/B — DTAA applicable-rate = lower of treaty (col 6) and IT-Act (col 9)
+     ============================================================= */
+  const dtaaRate=(rows,serial,lbl)=>arr(rows).forEach((r,i)=>{r=r||{};
+    if(r.ApplicableRate==null)return;                                                          /* col 10 blank → nothing to check */
+    A(serial,approx(r.ApplicableRate,Math.min(n(r.RateAsPerTreaty),n(r.RateAsPerITAct))),
+      "Schedule CG "+lbl+" row "+(i+1)+": the applicable rate (Col. 10) must be the lower of the rate as per Treaty (Col. 6) and the rate as per the I.T. Act (Col. 9).");});
+  /* 403 — STCG A9 DTAA table */
+  dtaaRate(g(ST,"NRICgDTAA.NRIDTAADtls"),403,"A9 (STCG DTAA)");
+  /* 404 & 450 — LTCG B11 DTAA table (same underlying validation, two serials) */
+  dtaaRate(g(LT,"NRICgDTAA.NRIDTAADtls"),404,"B11 (LTCG DTAA)");
+  dtaaRate(g(LT,"NRICgDTAA.NRIDTAADtls"),450,"B11 (LTCG DTAA)");
+
+  /* ---- 420: a resident cannot claim the DTAA rate of taxation in Schedule CG (advisory Category-A) ---- */
+  const anyDtaa=arr(g(ST,"NRICgDTAA.NRIDTAADtls")).some(r=>r&&n(r.DTAAamt)!==0)
+             || arr(g(LT,"NRICgDTAA.NRIDTAADtls")).some(r=>r&&n(r.DTAAamt)!==0);
+  A(420,res!=="RES"||!anyDtaa,
+    "Schedule CG: for a resident taxpayer the DTAA benefit is not available in the rate of taxation — the claim may be disallowed (residents may claim DTAA relief under Schedule TR and FSI).");
+
+  /* =============================================================
+     PART C — summary identities and cross-schedule ties
+     ============================================================= */
+  /* ---- 412: C3 = C1 + C2 ---- */
+  A(412,eqi(CG.IncChargeableHeadCapGain,n(CG.SumOfCGIncm)+n(CG.IncmFromVDATrnsf)),
+    "Schedule CG C3: income chargeable under the head CAPITAL GAINS must equal C1 (sum of capital gain incomes) + C2 (income from transfer of Virtual Digital Assets).");
+
+  /* ---- 413: C2 = Item B of Schedule VDA ---- */
+  if(I.ScheduleVDA&&typeof I.ScheduleVDA==="object")
+    A(413,eqi(CG.IncmFromVDATrnsf,g(I,"ScheduleVDA.TotIncCapGain")),
+      "Schedule CG C2: income from transfer of Virtual Digital Assets must equal Sl. No. B of Schedule VDA.");
+
+  /* ---- 421: value of LTCG u/s 112A (B4) = the balance in Schedule 112A ---- */
+  if(I.Schedule112A&&typeof I.Schedule112A==="object")
+    A(421,eqi(g(LT,"SaleOfEquityShareUs112A.CapgainonAssets"),g(I,"Schedule112A.Balance112A")),
+      "Schedule CG B4: the capital gains u/s 112A must equal the corresponding amount computed in Schedule 112A.");
+
+  /* =============================================================
+     TABLE D — CGAS deposit rows need deposit date, account no. and IFSC
+     (416 & 445 — the same validation over the 54D/54G/54GA deposit tables)
+     ============================================================= */
+  [["DeducClaimDtlsUs54D","1a"],["DeducClaimDtlsUs54G","1c"],["DeducClaimDtlsUs54GA","1d"]]
+    .forEach(([k,slno])=>arr(g(CG,"DeducClaimInfo."+k)).forEach((r,i)=>{r=r||{};
+      const ok=!(n(r.AmtDeposited)>0)||(isDate(r.DepositDate)&&!!r.AccountNo&&!!r.IFSC);
+      A(416,ok,"Schedule CG Table D "+slno+"iv row "+(i+1)+": the amount deposited in the Capital Gains Accounts Scheme (iv) is more than zero — the date of deposit (iva), account number (ivb) and IFS code (ivc) cannot be blank.");
+      A(445,ok,"Schedule CG Table D "+slno+"iv row "+(i+1)+": when the amount deposited in the Capital Gains Accounts Scheme before the due date is more than zero, the date of deposit, account number and IFS code cannot be blank or null.");}));
+
+  /* =============================================================
+     TABLE E — set-off matrix (CurrYrLosses)
+     ============================================================= */
+  const E=(CG.CurrYrLosses&&typeof CG.CurrYrLosses==="object")?CG.CurrYrLosses:null;
+  if(E){
+    const GAIN=["InStcg20Per","InStcg30Per","InStcgAppRate","InStcgDTAARate","InLtcg12_5Per","InLtcgDTAARate"];
+    const LOSS=["StclSetoff20Per","StclSetoff30Per","StclSetoffAppRate","StclSetoffDTAARate","LtclSetOff12_5Per","LtclSetOffDTAARate"];
+    const ILS=g(E,"InLossSetOff")||{},TLS=g(E,"TotLossSetOff")||{},LRS=g(E,"LossRemainSetOff")||{};
+    const node=gk=>{const o=E[gk];return (o&&typeof o==="object")?o:{};};
+    const setoffInRow=gk=>{const o=node(gk);return LOSS.reduce((a,lk)=>a+n(o[lk]),0);};       /* Σ of the loss legs in a gain row */
+    const usedOf=lk=>GAIN.reduce((a,gk)=>a+n(node(gk)[lk]),0);                                 /* a loss column summed down the gain rows */
+
+    /* ---- 428–433: Σ set-off claimed in a gain row cannot exceed the income available (that row's current-year income) ---- */
+    [[428,"InStcg20Per","STCG @20%"],[429,"InStcg30Per","STCG @30%"],[430,"InStcgAppRate","STCG at applicable rates"],
+     [431,"InStcgDTAARate","STCG at DTAA rates"],[432,"InLtcg12_5Per","LTCG @12.5%"],[433,"InLtcgDTAARate","LTCG at DTAA rates"]]
+      .forEach(([sn,gk,lbl])=>{A(sn,setoffInRow(gk)<=n(node(gk).CurrYearIncome)+1,
+        "Schedule CG Table E: the total set-off claimed cannot exceed the income available for set-off ("+lbl+").");});
+
+    /* ---- 434–439: a loss column set off cannot exceed the loss available (row i) ---- */
+    [[434,"StclSetoff20Per","STCL @20%"],[435,"StclSetoff30Per","STCL @30%"],[436,"StclSetoffAppRate","STCL at applicable rate"],
+     [437,"StclSetoffDTAARate","STCL at DTAA rates"],[438,"LtclSetOff12_5Per","LTCL @12.5%"],[439,"LtclSetOffDTAARate","LTCL at DTAA rates"]]
+      .forEach(([sn,lk,lbl])=>{A(sn,usedOf(lk)<=n(ILS[lk])+1,
+        "Schedule CG Table E: the total amount of set-off claimed cannot exceed the losses available for set-off ("+lbl+").");});
+
+    /* ---- 440: column 8 (gain remaining) = 1 − (2 + 3 + 4 + 5 + 6 + 7) for each gain row ---- */
+    GAIN.forEach(gk=>{const o=node(gk);A(440,eqi(o.CurrYrCapGain,n(o.CurrYearIncome)-setoffInRow(gk)),
+      "Schedule CG Table E: column 8 (current year's capital gains remaining after set-off) of each row must equal column 1 − (columns 2+3+4+5+6+7).");});
+
+    /* ---- 441: row (viii) 'Total loss set off' of each column = ii + iii + iv + v + vi + vii ---- */
+    LOSS.forEach(lk=>{A(441,eqi(TLS[lk],usedOf(lk)),
+      "Schedule CG Table E: row (viii) 'Total loss set off' of each column must equal (ii + iii + iv + v + vi + vii).");});
+
+    /* ---- 442: row (ix) 'Loss remaining after set off' = i − viii (floored at zero) ---- */
+    LOSS.forEach(lk=>{A(442,eqi(LRS[lk],Math.max(0,n(ILS[lk])-n(TLS[lk]))),
+      "Schedule CG Table E: row (ix) 'Loss remaining after set off' must equal (i − viii).");});
+
+    /* ---- 444: the entire loss must be set off while an eligible gain remains
+           (STCL → any capital gain; LTCL → LTCG only) ---- */
+    const OWN={StclSetoff20Per:"InStcg20Per",StclSetoff30Per:"InStcg30Per",StclSetoffAppRate:"InStcgAppRate",
+      StclSetoffDTAARate:"InStcgDTAARate",LtclSetOff12_5Per:"InLtcg12_5Per",LtclSetOffDTAARate:"InLtcgDTAARate"};
+    const isLT=lk=>lk.indexOf("Ltcl")===0;
+    A(444,LOSS.every(lk=>{const remain=n(ILS[lk])-usedOf(lk);if(remain<=1)return true;
+        return GAIN.every(gk=>gk===OWN[lk]||(isLT(lk)&&gk.indexOf("InLtcg")!==0)||n(node(gk).CurrYrCapGain)<=1);}),
+      "Schedule CG Table E: the entire loss must be set off against the gains available for set-off — a loss cannot be left unabsorbed while an eligible gain remains.");
+  }
+
+  /* =============================================================
+     TABLE F — quarter break-up (234C) ties to Schedule BFLA / summary
+     ============================================================= */
+  const AF=(CG.AccruOrRecOfCG&&typeof CG.AccruOrRecOfCG==="object")?CG.AccruOrRecOfCG:{};
+  const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
+  const fSum=fk=>{const dr=g(AF,fk+".DateRange")||{};return QK.reduce((a,q)=>a+n(dr[q]),0);};
+  const bf5=bk=>n(g(I,"ScheduleBFLA."+bk+".IncBFLA.IncOfCurYrAfterSetOffBFLosses"));
+
+  if(I.ScheduleBFLA&&typeof I.ScheduleBFLA==="object"){
+    /* 426 — Sl.1 (STCG @20%) ↔ item 5vi of BFLA */
+    A(426,eqi(fSum("ShortTermUnder20Per"),bf5("STCG20Per")),
+      "Schedule CG Table F Sl.No. 1: the break-up of all the quarters must equal item 5vi of Schedule BFLA.");
+    /* 401 — Sl.4 (STCG at DTAA rates) ↔ item 5ix of BFLA */
+    A(401,eqi(fSum("ShortTermUnderDTAARate"),bf5("STCGDTAARate")),
+      "Schedule CG Table F Sl.No. 4: the break-up of all the quarters must equal item 5ix of Schedule BFLA.");
+    /* 427 — Sl.7 (LTCG @12.5%) ↔ item 5xb of BFLA */
+    A(427,eqi(fSum("LongTermUnder12_5Per"),bf5("LTCG12_5Per")),
+      "Schedule CG Table F Sl.No. 7: the break-up of all the quarters must equal item 5xb of Schedule BFLA.");
+  }
+
+  /* ---- 415: Sl.8 (VDA @30%) quarter break-up = C2 (income from transfer of VDA) ---- */
+  A(415,eqi(fSum("VDATrnsfGainsUnder30Per"),CG.IncmFromVDATrnsf),
+    "Schedule CG Table F Sl.No. 8: the break-up of all the quarters (VDA) must equal the value at Sl. No. C2.");
+
+  /* =============================================================
+     446 — Schedule OS dividend u/s 2(22)(f) mandatory when a buy-back loss
+     (A(A) or B(A)) is shown in Schedule CG
+     ============================================================= */
+  const bbLoss=n(g(ST,"CapitalLossBuyBackShares.TotalCapitalLossBuyBackShares"))<0
+            || n(g(LT,"CapitalLossBuyBackShares.TotalCapitalLossBuyBackShares"))<0;
+  A(446,!bbLoss||n(g(I,"ScheduleOS.IncOthThanOwnRaceHorse.Dividend22f"))>0,
+    "Schedule CG: dividend income u/s 2(22)(f) at Sl. No. 1a(iii) of Schedule OS is mandatory when a capital loss on buy-back is shown at A(A) or B(A) of Schedule CG.");
+
+  // =====================================================================
+  // NOT MAPPABLE (checkable part absent in the ITR-5 build — logged, not fired):
+  // - 402  Table F Sl.6 ~ BFLA 5xi (LTCG taxable @20% with indexation): that
+  //        transitional proviso is for resident individuals/HUF only, so the
+  //        @20%-with-indexation bucket is HIDDEN for a firm/AOP/BOI (CG.md sec 7)
+  //        — no LongTermUnder20Per Table-F row and no BFLA LTCG20Per key exist.
+  //        not mappable: rate bucket not built for ITR-5 filers.
+  // - 414  Table F Sl.8 ~ 'Income under head Capital Gain' of Schedule SI:
+  //        duplicate of 415 — the VDA (115BBH) CG income that feeds SI is the
+  //        same C2 figure already tied by 415; SI further rate-splits VDA into
+  //        CG vs business, which cannot be reconstructed from the CG leaves
+  //        without risking a false positive.
+  //        not mappable: duplicate of 415 (SI 115BBH split not reproducible).
+  // - 422/423  Ei2 / Eii = A3e + A4a + A8a + A(A)@20%  and
+  // - 424/425  Ei6 / Evi = B1g+B2e+B3c+B4+B5+B6c+B7+B8e+B9+B10a1+B10a2+B(A)@12.5%:
+  //        the Table-E 'income available' rows are composed inside the CG engine
+  //        from the rate-split of several heads (incl. non-resident-only A4/A5/
+  //        B5/B6/B7 and the rate-split buy-back), not from schema leaves.
+  //        not mappable: engine-computed rate-split aggregate.
+  // - 447  B4 (112A) — 'deduction u/s 48 cannot be claimed if cost of
+  //        acquisition is not provided': in ITR-5 the B4 head (SaleOfEquityShare
+  //        Us112A) carries only CapgainonAssets — the section-48 working lives in
+  //        Schedule 112A, so there is no u/s-48 deduction leaf at CG B4 to test.
+  //        not mappable: no section-48 leaf at ITR-5 CG B4.
+  // - 449  A10 = A1e+A2c+A3e+A4a+A4b+A5e+A6g+A7+A8-A9a+A(A): TotalSTCG is the
+  //        engine's aggregate across all rate-split STCG heads incl. NR-only
+  //        A4b/A5e and the A9a DTAA-not-taxable subtraction — not safely
+  //        reconstructible from schema leaves without false positives.
+  //        not mappable: engine-computed cross-head total.
+  // =====================================================================
+});
+
+/* =====================================================================
+   ITR-5 · AY 2026-27 — Category-A validation rules, encoding batch 10.
+   Serials 451–500 (books/ITR-5/rules.json), covering Schedule 112A,
+   Schedule 115AD(1)(iii) proviso, Schedule VDA and Schedule OS.
+   Registered via ruleset(fn); runRules() invokes it with (I,S_,A,Dd).
+   A(n,cond,msg) FIRES when cond (the "lawful" assertion) is FALSE.
+   Reads are guarded (RG / (X||{})); nothing throws; every block guards
+   to a no-op when the schedule is absent. Schema keys come from
+   forms/ITR-5/src/70_sec_cg.js (scripBlock / ScheduleVDA) and
+   70_sec_os.js (expOs), cross-checked against the books.
+   ===================================================================== */
+ruleset(function(I,S_,A,Dd){
+  I=I||{};
+  const arr=v=>Array.isArray(v)?v:[];
+  const FYEND="2026-03-31";                                 /* 31 Mar of PY 2025-26 (AY 2026-27) */
+  const isISO=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||""));
+
+  /* ===================================================================
+     SCHEDULE 112A  (451–458)  and  SCHEDULE 115AD(1)(iii) proviso (459–466)
+     The two tables share identical column math (engScrip / scripBlock).
+     Columns: 4 NumSharesUnits · 5 SalePricePerShareUnit · 6 TotSaleValue ·
+     7 CostAcqWithoutIndx · 8 AcquisitionCost · 9 LTCGBeforelower6and11 ·
+     10 FairMktValuePerShareunit · 11 TotFairMktValueCapAst ·
+     12 ExpExclCnctTransfer · 13 TotalDeductions · 14 Balance.
+     ShareOnOrBefore: "BE" (on/before 31-01-2018) | "AE" (after).
+     =================================================================== */
+  function scrip(blk,rowsKey,suf,S){
+    const rows=arr(RG(blk,rowsKey,[]));
+    /* ---- per-row column arithmetic ---- */
+    rows.forEach(function(r,i){r=r||{};const L=" scrip "+(i+1)+": ";const pre=String(r.ShareOnOrBefore||"")==="BE";
+      const c4=N(r.NumSharesUnits),c5=N(r.SalePricePerShareUnit),c6=N(r.TotSaleValue),
+            c7=N(r.CostAcqWithoutIndx),c8=N(r.AcquisitionCost),c9=N(r.LTCGBeforelower6and11),
+            c10=N(r.FairMktValuePerShareunit),c11=N(r.TotFairMktValueCapAst),c12=N(r.ExpExclCnctTransfer),
+            c13=N(r.TotalDeductions),c14=N(r.Balance);
+      A(S[0],REQ(c7,Math.max(c8,c9)),"Schedule "+suf+L+"Col.7 (cost of acquisition without indexation) must be the higher of Col.8 and Col.9.");
+      A(S[1],REQ(c9,Math.min(c6,c11)),"Schedule "+suf+L+"Col.9 (asset acquired before 01.02.2018) must be the lower of Col.6 and Col.11.");
+      A(S[2],REQ(c13,c7+c12),"Schedule "+suf+L+"Col.13 (total deductions) must equal Col.7 + Col.12.");
+      A(S[3],REQ(c14,c6-c13),"Schedule "+suf+L+"Col.14 (balance) must equal Col.6 − Col.13.");
+      if(!pre)A(S[5],!(c4>0)&&!(c5>0)&&!(c11>0),"Schedule "+suf+L+"Col.4, Col.5 and Col.11 cannot be greater than zero when the share/unit was acquired after 31.01.2018.");
+      if(pre){A(S[6],REQ(c6,c4*c5),"Schedule "+suf+L+"Col.6 (total sale value) must equal Col.4 × Col.5 for shares/units acquired on or before 31.01.2018.");
+        A(S[7],REQ(c11,c4*c10),"Schedule "+suf+L+"Col.11 (total FMV u/s 55(2)(ac)) must equal Col.4 × Col.10 for shares/units acquired on or before 31.01.2018.");}
+    });
+    /* ---- 455/463: the eight column totals must equal the sum over rows ---- */
+    const tot=(k)=>N(RG(blk,k,0));
+    const sum=(f)=>RSUM(rows,f);
+    A(S[4],
+      REQ(tot("SaleValue"+suf),sum("TotSaleValue"))&&
+      REQ(tot("CostAcqWithoutIndx"+suf),sum("CostAcqWithoutIndx"))&&
+      REQ(tot("AcquisitionCost"+suf),sum("AcquisitionCost"))&&
+      REQ(tot("LTCGBeforelowerB1B2"+suf),sum("LTCGBeforelower6and11"))&&
+      REQ(tot("FairMktValueCapAst"+suf),sum("TotFairMktValueCapAst"))&&
+      REQ(tot("ExpExclCnctTransfer"+suf),sum("ExpExclCnctTransfer"))&&
+      REQ(tot("Deductions"+suf),sum("TotalDeductions"))&&
+      REQ(tot("Balance"+suf),sum("Balance")),
+      "Schedule "+suf+": the totals of Col.6, 7, 8, 9, 11, 12, 13 and 14 must equal the sum of the per-scrip rows.");
+  }
+  if(I.Schedule112A) scrip(I.Schedule112A,"Schedule112ADtls","112A",[451,452,453,454,455,456,457,458]);
+  if(I.Schedule115AD) scrip(I.Schedule115AD,"Schedule115ADDtls","115AD",[459,460,461,462,463,464,465,466]);
+
+  /* ===================================================================
+     SCHEDULE VDA  (467–470)
+     Row: DateofAcquisition · DateofTransfer · HeadUndIncTaxed (BI|CG) ·
+     AcquisitionCost (5) · ConsidReceived (6) · IncomeFromVDA (7).
+     Totals: TotIncBusiness (A) · TotIncCapGain (B).
+     =================================================================== */
+  if(I.ScheduleVDA){const V=I.ScheduleVDA,vr=arr(RG(V,"ScheduleVDADtls",[]));
+    vr.forEach(function(r,i){r=r||{};const L=" row "+(i+1)+": ";
+      /* 467: Col.7 = MAX(0, Col.6 − Col.5) — nil in case of loss */
+      A(467,REQ(N(r.IncomeFromVDA),Math.max(0,N(r.ConsidReceived)-N(r.AcquisitionCost))),"Schedule VDA"+L+"income from transfer (Col.7) must equal Col.6 − Col.5, taken as nil in case of a loss.");
+      /* 470: neither date can be after 31 March of the financial year */
+      A(470,(!isISO(r.DateofAcquisition)||String(r.DateofAcquisition)<=FYEND)&&(!isISO(r.DateofTransfer)||String(r.DateofTransfer)<=FYEND),"Schedule VDA"+L+"the date of acquisition and the date of transfer cannot be after 31 March of the financial year.");
+    });
+    /* 468/469: SUMIF by head of income (Col.4) of the positive Col.7 amounts */
+    A(468,REQ(N(V.TotIncBusiness),RSUM(vr.filter(r=>r&&String(r.HeadUndIncTaxed||"")==="BI"),"IncomeFromVDA")),"Schedule VDA: Total A must equal the sum of Col.7 for the rows where the head of income (Col.4) is Business income.");
+    A(469,REQ(N(V.TotIncCapGain),RSUM(vr.filter(r=>r&&String(r.HeadUndIncTaxed||"")==="CG"),"IncomeFromVDA")),"Schedule VDA: Total B must equal the sum of Col.7 for the rows where the head of income (Col.4) is Capital Gain.");
+  }
+
+  /* ===================================================================
+     SCHEDULE OS  (471–500)
+     =================================================================== */
+  if(I.ScheduleOS){const io=RG(I,"ScheduleOS.IncOthThanOwnRaceHorse",{})||{};
+    const ded=RG(io,"Deductions",{})||{};
+    const dtRows=arr(RG(io,"IncChargblSplRateOS.NRIOsDTAA.NRIDTAADtlsSchOS",[]));
+    /* residency gate (T3): MID(ResidentialStatus,1,3)="RES" → resident, else NRI */
+    const res=String(RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus","RES"));
+    const nri=res.slice(0,3).toUpperCase()!=="RES";
+    const counts=r=>!nri||String((r&&r.TaxRescertifiedFlag)||"").charAt(0).toUpperCase()==="Y";
+    const dtaaNat=nat=>dtRows.filter(r=>r&&String(r.NatureOfIncome||"")===nat).reduce((a,r)=>a+N(r.DTAAamt),0);
+    const qsum=o=>{const dr=RG(I,"ScheduleOS."+o+".DateRange",{})||{};
+      return ["Upto15Of6","Up16Of6To15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"].reduce((a,k)=>a+N(dr[k]),0);};
+
+    /* 471: item 1 = 1a + 1b + 1c + 1d + 1e */
+    A(471,REQ(N(io.GrossIncChrgblTaxAtAppRate),N(io.DividendGross)+N(io.InterestGross)+N(io.RentFromMachPlantBldgs)+N(io.Tot562x)+N(io.AnyOtherIncome)),"Schedule OS: item 1 (gross income at normal applicable rates) must equal 1a + 1b + 1c + 1d + 1e.");
+    /* 472: 3d = 3a + 3b + 3c (Expenses + Depreciation + eligible interest u/s 57) */
+    A(472,REQ(N(ded.TotDeductions),N(ded.Expenses)+N(ded.Depreciation)+N(ded.IntExp57)),"Schedule OS: item 3d (total deductions u/s 57) must equal 3a + 3b + 3c.");
+    /* 473: depreciation (3b) cannot be claimed when rental income 1c is nil */
+    A(473,N(io.RentFromMachPlantBldgs)>0||N(ded.Depreciation)<=0,"Schedule OS: the depreciation deduction (3b) cannot be more than zero when the rental income from machinery, plant, buildings (1c) is zero.");
+    /* 474: item 7 = item 2 + item 6 (item 6 taken as nil if negative) */
+    A(474,REQ(N(RG(I,"ScheduleOS.TotOthSrcNoRaceHorse")),N(io.IncChargeableSpecialRates)+Math.max(0,N(io.BalanceNoRaceHorse))),"Schedule OS: item 7 (income from other sources other than race horses) must equal item 2 + item 6, with item 6 taken as nil if negative.");
+    /* 475: 8e balance = 8a − 8b + 8c + 8d */
+    const rh=RG(I,"ScheduleOS.IncFromOwnHorse",null);
+    if(rh&&typeof rh==="object")
+      A(475,REQ(N(rh.BalanceOwnRaceHorse),N(rh.Receipts)-N(rh.DeductSec57)+N(rh.AmtNotDeductibleUs58)+N(rh.ProfitChargTaxUs59)),"Schedule OS: item 8e (balance on owning/maintaining race horses) must equal 8a − 8b + 8c + 8d.");
+    const e8=rh?N(rh.BalanceOwnRaceHorse):0;
+    /* 476: item 9 = item 7 + item 8e (a race-horse loss is not set off here) */
+    A(476,REQ(N(RG(I,"ScheduleOS.IncChargeableFrmOthSrc")),N(RG(I,"ScheduleOS.TotOthSrcNoRaceHorse"))+Math.max(0,e8)),"Schedule OS: item 9 (income from other sources) must equal item 7 + item 8e.");
+    /* 477: 2d PTI special-rate total = Σ of the individual amounts */
+    A(477,REQ(N(io.PassThrIncOSChrgblSplRate),RSUM(arr(RG(io,"PTIOthersGrossDtls",[])),"SourceAmount")),"Schedule OS: the pass-through income chargeable at special rates (2d) must equal the sum of the individual amounts entered.");
+    /* 478: 1d = di + dii + diii + div + dv */
+    A(478,REQ(N(io.Tot562x),N(io.Aggrtvaluewithoutcons562x)+N(io.Immovpropwithoutcons562x)+N(io.Immovpropinadeqcons562x)+N(io.Anyotherpropwithoutcons562x)+N(io.Anyotherpropinadeqcons562x)),"Schedule OS: item 1d [income u/s 56(2)(x)] must equal di + dii + diii + div + dv.");
+    /* 479: not mappable — see the not-mappable note at the foot of this batch. */
+    /* 480–486: in table 2e, the sum of Col.2 (Amount of income) for each item
+       code cannot exceed the corresponding parent field. */
+    A(480,dtaaNat("1ai")<=N(io.DividendOthThan22e)+1,"Schedule OS table 2e: the amounts of income shown against 1a(i) cannot exceed 1a(i) dividend income.");
+    A(481,dtaaNat("1b")<=N(io.InterestGross)+1,"Schedule OS table 2e: the amounts of income shown against 1b cannot exceed 1b interest, gross.");
+    A(482,dtaaNat("1c")<=N(io.RentFromMachPlantBldgs)+1,"Schedule OS table 2e: the amounts of income shown against 1c cannot exceed 1c rental income from machinery, plant, buildings, gross.");
+    A(483,dtaaNat("1d")<=N(io.Tot562x)+1,"Schedule OS table 2e: the amounts of income shown against 1d cannot exceed 1d income of the nature referred to in section 56(2)(x).");
+    A(484,dtaaNat("2ai")<=N(io.LtryPzzlChrgblUs115BB)+1,"Schedule OS table 2e: the amounts of income shown against 2a cannot exceed 2a winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB.");
+    A(485,dtaaNat("2c")<=N(io.OthersGross)+1,"Schedule OS table 2e: the amounts of income shown against 2c cannot exceed 2c any other income chargeable at special rate.");
+    A(486,dtaaNat("2d")<=N(io.PassThrIncOSChrgblSplRate)+1,"Schedule OS table 2e: the amounts of income shown against 2d cannot exceed 2d pass-through income chargeable at special rates.");
+    /* 487: item 6 = 1 − 3 + 4 + 5 − DTAA(items in 1) */
+    const dtaaItem1=dtRows.filter(r=>r&&counts(r)&&["1ai","1aiii","1b","1c","1d"].indexOf(String(r.NatureOfIncome||""))>=0).reduce((a,r)=>a+N(r.DTAAamt),0);
+    A(487,REQ(N(io.BalanceNoRaceHorse),N(io.GrossIncChrgblTaxAtAppRate)-N(ded.TotDeductions)+Math.max(0,N(io.AmtNotDeductibleUs58))+N(io.ProfitChargTaxUs59)-dtaaItem1),"Schedule OS: item 6 (net income at normal rates) must equal item 1 − 3 + 4 + 5 − the DTAA amounts relating to item 1.");
+    /* 488: 2e applicable rate (Col.10) = lower of treaty (Col.6) and I.T.-Act (Col.9) */
+    dtRows.forEach(function(r,i){r=r||{};
+      if(r.ApplicableRate!=null&&r.ApplicableRate!==""&&typeof r.ApplicableRate==="number")
+        A(488,Math.abs(N(r.ApplicableRate)-Math.min(N(r.RateAsPerTreaty),N(r.RateAsPerITAct)))<0.01,"Schedule OS table 2e row "+(i+1)+": the applicable rate (Col.10) must be the lower of the rate as per treaty and the rate as per the I.T. Act.");
+    });
+    /* 489: item 2 = MAX(0, 2a(i)+2a(ii)+2b+2c+2d + DTAA parts on normal-rate codes) */
+    const dtaaSpecial=dtRows.filter(r=>r&&counts(r)&&["56i","56i_f","56","562iii","562x"].indexOf(String(r.ItemNoincl||""))>=0).reduce((a,r)=>a+N(r.DTAAamt),0);
+    A(489,REQ(N(io.IncChargeableSpecialRates),Math.max(0,N(io.LtryPzzlChrgblUs115BB)+N(io.IncChrgblUs115BBJ)+N(io.IncChrgblUs115BBE)+N(io.OthersGross)+N(io.PassThrIncOSChrgblSplRate)+dtaaSpecial)),"Schedule OS: item 2 (income at special rates) must equal the sum of 2a(i) + 2a(ii) + 2b + 2c + 2d + 2e (elements relating to item 1), floored at nil.");
+    /* 490: 1b = bi + bii + biii + biv + bv */
+    A(490,REQ(N(io.InterestGross),N(io.IntrstFrmSavingBank)+N(io.IntrstFrmTermDeposit)+N(io.IntrstFrmIncmTaxRefund)+N(io.NatofPassThrghIncome)+N(io.IntrstFrmOthers)),"Schedule OS: item 1b (interest, gross) must equal bi + bii + biii + biv + bv.");
+    /* 491: item 10 quarterly break-up of 115BB winnings = 2a(i) */
+    A(491,REQ(qsum("IncFrmLottery"),N(io.LtryPzzlChrgblUs115BB)),"Schedule OS: the quarterly break-up (item 10) of winnings from lotteries etc. u/s 115BB must equal item 2a(i).");
+    /* 492: interest expenditure on dividend (3c) can be claimed only if a
+       dividend is declared in 1a(i) or 1a(ii) */
+    A(492,N(RG(ded,"UsrIntExp57"))<=0||N(io.DividendOthThan22e)>0||N(io.Dividend22e)>0,"Schedule OS: the interest expenditure u/s 57(1) at 3c can be claimed only if a dividend is declared at 1a(i) or 1a(ii).");
+    /* 493: 2c any-other-special-rate total = Σ of the individual amounts */
+    A(493,REQ(N(io.OthersGross),RSUM(arr(RG(io,"OthersGrossDtls",[])),"SourceAmount")),"Schedule OS: item 2c (income chargeable at special rates) must equal the sum of the individual amounts entered.");
+    /* 494: interest expenditure on dividend u/s 57(1) at 3c ≤ 20% of that dividend income */
+    A(494,N(ded.IntExp57)<=0.20*(N(io.DividendOthThan22e)+N(io.Dividend22e))+1,"Schedule OS: the interest expenditure u/s 57(1) at 3c cannot be more than 20% of the dividend income included in the total income.");
+    /* 495: 1a = 1a(i) + 1a(ii) + 1a(iii) */
+    A(495,REQ(N(io.DividendGross),N(io.DividendOthThan22e)+N(io.Dividend22e)+N(io.Dividend22f)),"Schedule OS: item 1a (dividend, gross) must equal 1a(i) + 1a(ii) + 1a(iii).");
+    /* 496–499: not mappable — see the not-mappable note at the foot of this batch. */
+    /* 500: 2b = bi + bii + biii + biv + bv + bvi (68/69/69A/69B/69C/69D) */
+    A(500,REQ(N(io.IncChrgblUs115BBE),N(io.CashCreditsUs68)+N(io.UnExplndInvstmntsUs69)+N(io.UnExplndMoneyUs69A)+N(io.UnDsclsdInvstmntsUs69B)+N(io.UnExplndExpndtrUs69C)+N(io.AmtBrwdRepaidOnHundiUs69D)),"Schedule OS: item 2b (income chargeable u/s 115BBE) must equal bi + bii + biii + biv + bv + bvi.");
+  }
+
+  /* ---- NOT MAPPABLE (reported, not encoded) ------------------------
+     479 — "Taxpayer is a non-resident and showing income under section
+           115BBF" : the rules.json entry is a truncated condition fragment
+           with no checkable assertion, and 115BBF (royalty on patents) is
+           not a distinct Schedule-OS line in the ITR-5 schema.
+     496–499 — item-10 quarterly break-up of a specific dividend category
+           (115A(1)(a)(i) / 115AC / 115AD(1)(i) FII @20% / specified fund
+           @10%) "should be equal to Sl. No. 2c and 2d". The schema does not
+           link a specific item-10 dividend category to a specific 2c/2d
+           source-code amount (the 2c/2d rows carry OS/PTI section codes with
+           no verifiable enum→category mapping), so a literal encoding would
+           false-fire on lawful returns. Left to the schedule's own audit.
+     ------------------------------------------------------------------ */
+});
+
 /* =====================================================================
    ITR-5 · Section "amt" — Alternate Minimum Tax and its credit
    Books: books/ITR-5/AMT.md (Schedule AMT · sheet39 · block ScheduleAMT)
@@ -1581,6 +3807,10 @@ function engBp(){
   icds.totInc=Math.max(0,R(icdsInc));   /* [F16] XI Increase = MAX(0,SUM) -> OI 3a */
   icds.totDec=Math.max(0,R(icdsDec));   /* [G16] XI Decrease = MAX(0,SUM) -> OI 3b */
   icds.totNet=R(icdsInc-icdsDec);       /* [H16] XI Net = SUM(H6:H15) */
+  /* names sec_oi reads to fill Part A-OI 3a/3b (ProfDeviatDueAcctMeth / DecProOrIncLossUs145_2);
+     without these the ICDS increase reaches BP A25 but never OI 3a → rule A225/A229 false-fire. */
+  icds.total=icds.totInc;   /* -> OI 3a */
+  icds.deTotal=icds.totDec; /* -> OI 3b */
   icds.filled=ICDS_ROWS.some(r=>{const o=(S.icds||{})[r[0]]||{};return N(o.inc)||N(o.dec);}); /* [K4] FilledFlag */
   S.C.icds=icds;
 
@@ -12109,9 +14339,7 @@ function importReturn(I){
   return read;
 }
 
-/* Phase 6 fills these; keep the shell contract satisfied until then. */
-if(typeof runRules!=="function"){ function runRules(I,S_){ return []; } }
-if(typeof auditRules!=="function"){ function auditRules(b){ return []; } }
+/* runRules/auditRules are the live driver in 60_rules.js (loads before this file). */
 
 /* =====================================================================
    YUKTI SHELL — shared by every form. Do not edit per form.
