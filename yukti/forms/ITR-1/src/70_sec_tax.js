@@ -201,6 +201,17 @@ function expTax(j){
   const f234f=Math.min(5000,n0(I.f234f)), f234i=Math.min(5000,n0(I.f234i));
   const totInt=n0(I.totalIntrstPay!=null?I.totalIntrstPay:(i234a+i234b+i234c+f234f+f234i));
   const net=n0(T.netTaxLiability);
+  /* Income-summary roll-up leaves in ITR1_IncomeDeductions — the tax section is
+     the sole writer of these three (sal/hp/os write the head incomes, ded writes
+     the VI-A leaves; nobody else touches the GTI/TI summary). Without this the
+     schema skeleton (10_state) leaves them at 0, which false-fires the GTI rules
+     (A18/A20/A21/A22) and the 80D GTI-restriction (A137). Mirrors the footer
+     scalars S.C.gti / S.C.ti that gate-7 figures against. */
+  const IDb=j.ITR1_IncomeDeductions=j.ITR1_IncomeDeductions||{};
+  put(IDb,"GrossTotIncome",n0(T.gti));                       /* salary + HP + OS head incomes */
+  put(IDb,"GrossTotIncomeIncLTCG112A",n0(N(T.gti)+N(T.ltcg)));/* + LTCG u/s 112A (<=1.25L) */
+  put(IDb,"TotalIncome",n0(T.ti));                           /* GTI - allowed Chapter-VIA, rounded to Rs.10 */
+
   const TC=j.ITR1_TaxComputation=j.ITR1_TaxComputation||{};
   put(TC,"TotalTaxPayable",n0(T.grossTax));
   put(TC,"Rebate87A",n0(T.rebate));

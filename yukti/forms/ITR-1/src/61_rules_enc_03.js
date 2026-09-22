@@ -245,7 +245,10 @@ ruleset(function(I,S_,A,Dd){
     /* A136 — old: 80D Sl.No 3 eligible amount of deduction <= Rs.1,00,000. */
     A(136, !old || elig80D<=100000+tol,
       "Old regime: Schedule 80D — the eligible amount of deduction at Sl.No 3 cannot exceed Rs.1,00,000.");
-    /* A137 — 80D Sl.No 3 = (1a + 1b + 2a + 2b) restricted to GTI (checked when that sum <= Rs.1,00,000). */
+    /* A137 — 80D Sl.No 3 = (1a + 1b + 2a + 2b) restricted to GTI (checked when that sum <= Rs.1,00,000).
+       The Sl.3 eligible amount is the sum of the sub-totals capped at the gross total income; with the
+       GTI roll-up now wired (ITR1_IncomeDeductions.GrossTotIncome, populated by the tax section) the
+       Math.min(sum4, gti) restriction is faithful and stays silent on a lawful return. */
     A(137, !(sum4<=100000) || REQ(elig80D, Math.min(sum4, gti), 2),
       "Schedule 80D: the eligible amount of deduction at Sl.No 3 must equal the sum of (1a + 1b + 2a + 2b) restricted to gross total income.");
   }
