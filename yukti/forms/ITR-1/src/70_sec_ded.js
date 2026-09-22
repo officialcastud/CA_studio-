@@ -115,9 +115,14 @@ function ded_regOld(){
   return s==="old"||s==="y"||s==="yes"||s==="2";
 }
 function ded_senior(){
-  const w = RG(S.C,"who.senior",null);
-  if(w==null) return (typeof senior==="function") ? senior() : false;
-  return !!w;
+  /* 80TTB is for a resident senior citizen aged 60 or above — this MUST
+     include super-seniors (>=80), so gate on who.seniorAny (age>=60), not
+     who.senior (which is 60-79 only, dropping the super-senior). */
+  const w = RG(S.C,"who.seniorAny",null);
+  if(w!=null) return !!w;
+  const w2 = RG(S.C,"who.senior",null);
+  if(w2!=null) return !!w2;
+  return (typeof senior==="function") ? senior() : false;
 }
 function ded_netSal(){ return N(RG(S.C,"sal.netSalary",0)); }
 function ded_govt(){ const e=st0(RG(S,"pi.empcat","")); return e==="CGOV"||e==="SGOV"; }

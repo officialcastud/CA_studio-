@@ -244,20 +244,27 @@ function expHP(j){
           if(sv(t.tan))o.PANTANofTenant=st0(t.tan).toUpperCase().slice(0,10);
           return o;});
       }
-      /* Section24B loan table */
+      /* Section24B loan table. When 24(b) interest is fully disallowed
+         (self-occupied under the new regime) the allowed interest r.interest
+         is 0 and IntOnBorwCap is emitted as 0 above — so the 24B interest
+         leaves must be 0 too, or rule A253 (self-occ 24(b) barred in the new
+         regime) fires on TotalInterestUs24B. The old-regime self-occupied
+         ceiling is applied in IntOnBorwCap only; the loan table keeps the
+         actual interest. */
+      const intDisallowed = r.self && _hpIsNew();  /* new regime, self-occupied */
       const loans=(p.loans||[]).filter(l=>sv(l.lender)||N(l.int)||N(l.amt));
       if(loans.length){
         node.Rentdetails.Section24B={
           Section24BDtls:loans.map(l=>{
             const o={LoanTknFrom:_HP_LOAN.some(x=>x[0]===st0(l.type))?st0(l.type):"B",
               BankOrInstnName:(sv(l.lender)||"NA").slice(0,75),
-              InterestUs24B:n0(l.int)};
+              InterestUs24B:intDisallowed?0:n0(l.int)};
             if(sv(l.acno))o.LoanAccNoOfBankOrInstnRefNo=st0(l.acno).slice(0,30);
             if(ISO(l.dt))o.DateofLoan=ISO(l.dt);
             if(N(l.amt))o.TotalLoanAmt=n0(l.amt);
             if(N(l.os))o.LoanOutstndngAmt=n0(l.os);
             return o;}),
-          TotalInterestUs24B:n0(r.rawInt)};
+          TotalInterestUs24B:intDisallowed?0:n0(r.rawInt)};
       }
       return node;
     });
