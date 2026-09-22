@@ -166,12 +166,14 @@ ruleset(function(I,S_,A,Dd){
       "Part B-TTI: total taxes paid (9e) must equal advance tax + TDS + TCS + self-assessment tax (9a + 9b + 9c + 9d).");
 
     const agg=NR(CT,"AggregateTaxInterestLiability");
-    const net115TD=NR(I,"PartB_TTI.Refund.NetTaxPyblOn115TDInc");
+    const net115TD=NR(I,"PartB_TTI.Refund.NetTaxPyblOn115TDInc");  /* Sl.12 — its own line (A635) */
     /* A629 — 10 Amount payable = 8 − 9e (if positive, rounded to the nearest ten). */
     A(629, EQ(NR(I,"PartB_TTI.TaxPaid.BalTaxPayable"), roundTen(Math.max(0, agg-p9e)), 10),
       "Part B-TTI: amount payable (10) must equal aggregate liability (8) less total taxes paid (9e).");
-    /* A630 — 11 Refund = 9e − 8 (if positive, rounded to the nearest ten), less the 115TD net payable. */
-    A(630, EQ(NR(I,"PartB_TTI.Refund.RefundDue"), Math.max(0, roundTen(Math.max(0, p9e-agg))-net115TD), 10),
+    /* A630 — 11 Refund = 9e − 8 (if positive, rounded to the nearest ten). The
+       115TD net payable (Sl.12 / NetTaxPyblOn115TDInc) is a self-contained charge
+       with its own challans and does NOT net against the income-tax refund. */
+    A(630, EQ(NR(I,"PartB_TTI.Refund.RefundDue"), roundTen(Math.max(0, p9e-agg)), 10),
       "Part B-TTI: refund (11) must equal total taxes paid (9e) less aggregate liability (8).");
 
     /* A631 — 9a Advance tax = Σ Schedule IT challans deposited 01/04/2025–31/03/2026. */

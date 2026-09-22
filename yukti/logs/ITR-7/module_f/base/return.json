@@ -1,0 +1,640 @@
+{
+ "ITR": {
+  "ITR7": {
+   "CreationInfo": {
+    "SWVersionNo": "1.0",
+    "SWCreatedBy": "SW10000001",
+    "JSONCreatedBy": "SW10000001",
+    "JSONCreationDate": "2026-01-01",
+    "IntermediaryCity": "na",
+    "Digest": "-"
+   },
+   "Form_ITR7": {
+    "FormName": "ITR-7",
+    "Description": "na",
+    "AssessmentYear": "2026",
+    "SchemaVer": "Ver1.0",
+    "FormVer": "Ver1.0"
+   },
+   "PartA_GEN1": {
+    "OrgFirmInfo": {
+     "AssesseeName": {
+      "SurNameOrOrgName": "SUDHIR MEMORIAL CHARITABLE TRUST"
+     },
+     "PAN": "AAATS4373C",
+     "Address": {
+      "ResidenceNo": "No. 42, 3rd Cross",
+      "LocalityOrArea": "Richmond Town",
+      "CityOrTownOrDistrict": "Bengaluru",
+      "StateCode": "15",
+      "CountryCodeMobile": 91,
+      "MobileNo": 9845012345,
+      "EmailAddress": "s.sudhir.test@example.in",
+      "ResidenceName": "Sudhir Bhavan",
+      "RoadOrStreet": "Richmond Road",
+      "CountryCode": "91",
+      "PinCode": 560025,
+      "Phone": {
+       "STDcode": 80,
+       "PhoneNo": 25551234
+      },
+      "CountryCodeMobileNoSec": 91,
+      "MobileNoSec": 9845067890,
+      "EmailAddressSecondary": "accounts.sudhir@example.in"
+     },
+     "DateOFFormOrIncorp": "2006-11-05",
+     "StatusOrCompanyType": "5",
+     "ReturnFurnishedSec": "139-4A",
+     "SecExemptionClaimed": "11",
+     "SecondaryAdd": "Y"
+    },
+    "FilingStatus": {
+     "ReturnFileSec": {
+      "IncomeTaxSec": 11
+     },
+     "ResidentialStatus": "RES",
+     "PartnerInFirmFlg": "N",
+     "HeldUnlistedEqShrPrYrFlg": "N",
+     "AsseseeRepFlg": "N",
+     "ClaimUS9090A91Flg": "NO"
+    },
+    "ProjectOrInstDtlsFlg": "Y",
+    "ProjectOrInstDtls": [
+     {
+      "NameOfProjectOrInst": "Sudhir Vidya Kendra (school)",
+      "ActivityNature": "CHARITABLERELIGIOUS",
+      "ClassificationCode": "iB"
+     },
+     {
+      "NameOfProjectOrInst": "Sudhir Arogya Clinic",
+      "ActivityNature": "CHARITABLERELIGIOUS",
+      "ClassificationCode": "iC"
+     }
+    ],
+    "RegApprUnderITADtls": [
+     {
+      "SectionRegistered": "VI",
+      "RegSecExmpClaimed": "true",
+      "RegApprovalDate": "2021-09-28",
+      "ApprovalRegistrationNo": "AAATS4373CF20211",
+      "ApprovingAuthority": "CIT(E), Bengaluru",
+      "EffectiveDate": "2021-04-01"
+     },
+     {
+      "SectionRegistered": "X",
+      "RegSecExmpClaimed": "false",
+      "RegApprovalDate": "2021-09-28",
+      "ApprovalRegistrationNo": "AAATS4373CF20219",
+      "ApprovingAuthority": "CIT(E), Bengaluru",
+      "EffectiveDate": "2021-04-01"
+     }
+    ]
+   },
+   "PartA_GEN2": {
+    "LiableSec44ABflg": "Y",
+    "LiableAnyOthThnINTActflg": "N",
+    "OtherDetailsFor7": {
+     "OtherDetailsUs2_15": {
+      "CharitablePurposeOfGeneralPublic": "N",
+      "ActivityNature2_15": "N",
+      "ActivityRendering2_15": "N"
+     },
+     "ChangeInActivitiesDuringYr": "N",
+     "FirstReturnFlag": "N",
+     "ProvisionsSec1310Applcbl": "N"
+    },
+    "AuditDetails": [
+     {
+      "AuditedSection": "12A(1)(b)",
+      "AuditFlag": "Y",
+      "AudFrmName": "Rao & Rao, Chartered Accountants",
+      "AudFrmPAN": "AAAFR5566K",
+      "AuditReportFurnishDate": "2026-09-12",
+      "AckNumAudtRpt": 482910375612
+     }
+    ]
+   },
+   "PARTA_BS": {
+    "SourcesOfFund": {
+     "OwnFund": {
+      "Corpus80G": 0,
+      "OtherCorpus": 5000000,
+      "AccumulatedInc": 3000000,
+      "AccumulatedIncUS10_11": 0,
+      "BalDeemedInc": 0,
+      "TotalOtherReserve": 0,
+      "TotalFund": 8000000
+     },
+     "LongTermBorrowings": {
+      "SecuredLoan": 0,
+      "UnSecuredLoan": 1000000,
+      "TotalLoanFund": 1000000
+     },
+     "Advances": 0,
+     "TotSourceFund": 9000000
+    },
+    "ApplicationOfFunds": {
+     "FixedAsset": {
+      "GrossBlock": 6000000,
+      "Depreciation": 1000000,
+      "NetBlock": 5000000
+     },
+     "CurrentAssetsLoanAdv": {
+      "CurrentAssets": {
+       "Inventory": 0,
+       "SundryDebtor": 0,
+       "CashNCashEquivalents": {
+        "BalWithBanks": 2000000,
+        "CashInHand": 100000,
+        "Others": 0,
+        "TotCashNCashEquivalents": 2100000
+       },
+       "OtherCurrAssets": 0,
+       "TotCurrAssets": 2100000
+      },
+      "LoansandAdvances": 0,
+      "Total": 2100000,
+      "CurrLiabilitiesProviosions": {
+       "CurrLiability": {
+        "SundryCreditor": 500000,
+        "OtherPayable": 100000,
+        "TotalCurrLiabilitiesProviosions": 600000
+       },
+       "Provisions": 0,
+       "TotCurrLiabilitiesandprovisions": 600000
+      },
+      "NetCurrAssets": 1500000
+     },
+     "TotalApplicationOfFunds": 9000000,
+     "Investements": 2500000,
+     "AccBalAnyOthRes": 0,
+     "OutOf5InvModesUS11_5": 2500000,
+     "OutOf5InvModesOthUS11_5": 0
+    }
+   },
+   "PartB_TTI": {
+    "ComputationOfTaxLiability": {
+     "TaxPayableOnTI": {
+      "TaxAtNormalRates": 50500,
+      "TaxAtSpecialRates": 0,
+      "DonationUs115BC": 30000,
+      "TaxAtMarginalRate": 0,
+      "TaxPayableOnTotInc": 80500,
+      "TaxIncChargUs115BBI": 0,
+      "RebateOnAgricultureInc": 0
+     },
+     "Surcharge25ofSI": 0,
+     "SurchargeOnTaxPayable": 0,
+     "TotalSurcharge": 0,
+     "EducationCess": 3220,
+     "GrossTaxLiability": 83720,
+     "TaxRelief": {
+      "Section90": 0,
+      "Section91": 0,
+      "TotTaxRelief": 0
+     },
+     "NetTaxLiability": 83720,
+     "IntrstPay": {
+      "IntrstPayUs234A": 0,
+      "IntrstPayUs234B": 0,
+      "IntrstPayUs234C": 0,
+      "LateFilingFee234F": 0,
+      "TotalIntrstPay": 0
+     },
+     "AggregateTaxInterestLiability": 83720
+    },
+    "TaxPaid": {
+     "TaxesPaid": {
+      "AdvanceTax": 40000,
+      "TDS": 50000,
+      "TCS": 0,
+      "SelfAssessmentTax": 0,
+      "TotalTaxesPaid": 90000
+     },
+     "BalTaxPayable": 0
+    },
+    "Refund": {
+     "RefundDue": 6280,
+     "NetTaxPyblOn115TDInc": 0,
+     "BankAccountDtls": {
+      "BankDtlsFlag": "Y",
+      "AddtnlBankDetails": [
+       {
+        "IFSCCode": "SBIN0040011",
+        "BankName": "State Bank of India",
+        "BankAccountNo": "30412345678",
+        "AccountType": "SB",
+        "UseForRefund": "true"
+       }
+      ]
+     }
+    },
+    "AssetOutsideIndiaFlg": "NO"
+   },
+   "Verification": {
+    "Date": "2026-10-15",
+    "Declaration": {
+     "AssesseeVerName": "S SUDHIR",
+     "FatherName": "SUDHIR NARAYANAN",
+     "AssesseeVerPAN": "TVOPS4373C",
+     "Capacity": "PO"
+    },
+    "Place": "Bengaluru"
+   },
+   "ScheduleA": {
+    "AppTowExpTrstInst": {
+     "Educational": {
+      "Revenue": 6000000,
+      "Capital": 0,
+      "Total": 6000000
+     },
+     "MedicalRelief": {
+      "Revenue": 1300000,
+      "Capital": 0,
+      "Total": 1300000
+     },
+     "TotalA1toA11": {
+      "Revenue": 7300000,
+      "Capital": 0,
+      "Total": 7300000
+     }
+    },
+    "ExpNotAllowedApplication": {
+     "TotExpNotAllowedApplication": {
+      "Revenue": 0,
+      "Capital": 0,
+      "Total": 0
+     }
+    },
+    "SrcRevCapApplctn": {
+     "TotSrcRevCapApplctn": {
+      "Revenue": 0,
+      "Capital": 0,
+      "Total": 0
+     }
+    },
+    "TotAmtAppDrngPrevYr": {
+     "Revenue": 7300000,
+     "Capital": 0,
+     "Total": 7300000
+    },
+    "TotAmountAllowedApplication": {
+     "Revenue": 7300000,
+     "Capital": 0,
+     "Total": 7300000
+    }
+   },
+   "ITRScheduleI": {
+    "ScheduleI": [
+     {
+      "AccumlatedYear": 2021,
+      "AmountAccumlated": 1000000,
+      "AccumulationPurpose": "Construction of a school building",
+      "AmountAppliedPreviousYear": 400000,
+      "BalanceAfterPY": 600000,
+      "AmtTxdErlAssYr": 0,
+      "BalAvailApp": 600000,
+      "AmountAppliedDuringYear": 200000,
+      "AmountAppliedDuringYearOtherPurpose": 0,
+      "AmountCreditedTrust": 0,
+      "BalanceAmount": 400000,
+      "AmountInvested": 400000,
+      "AmountInvestedInOtherMode": 0,
+      "AmountNotUtilized": 0,
+      "AmountDeemedUs11": 0
+     }
+    ],
+    "TotAmountAccumlated": 1000000,
+    "TotAmountAppliedPreviousYear": 400000,
+    "TotBalanceAfterPY": 600000,
+    "TotAmtTxdErlAssYr": 0,
+    "TotBalAvailApp": 600000,
+    "TotAmountAppliedDuringYear": 200000,
+    "TotAmountAppliedDuringYearOtherPurpose": 0,
+    "TotAmountCreditedTrust": 0,
+    "TotBalanceAmount": 400000,
+    "TotAmountInvested": 400000,
+    "TotAmountInvestedInOtherMode": 0,
+    "TotAmountNotUtilized": 0,
+    "TotAmountDeemedUs11": 0
+   },
+   "CorpScheduleBP": {
+    "BusinessIncOthThanSpec": {
+     "ProfBfrTaxPL": 0,
+     "NetPLFromSpecBus": 0,
+     "NetProfLossSpecifiedBus": 0,
+     "IncRecCredPLOthHeadDtls": {
+      "HouseProperty": 0,
+      "CapitalGains": 0,
+      "OtherSources": 0,
+      "Dividend": 0,
+      "OtherThanDividend": 0,
+      "UnderSec115BBH": 0
+     },
+     "PLUs44sChapXIIG": 0,
+     "IncCredPL": {
+      "FirmShareInc": 0,
+      "AOPBOISharInc": 0,
+      "OtherExmptIncDtl": {
+       "OperatingDividendName": "Dividend",
+       "OperatingDividendAmt": 0
+      },
+      "OthExempInc": 0,
+      "TotExempInc": 0
+     },
+     "BalancePLOthThanSpecBus": 0,
+     "ExpDebToPLOthHeadsInc": {
+      "HouseProperty": 0,
+      "CapitalGains": 0,
+      "OtherSources": 0,
+      "UnderSec115BBH": 0
+     },
+     "TotExpDebPL": 0,
+     "AdjustedPLOthThanSpecBus": 0,
+     "DepreciationDebPLCosAct": 0,
+     "DepreciationAllowITAct32": {
+      "DepreciationAllowUs32_1_ii": 0,
+      "DepreciationAllowUs32_1_i": 0,
+      "TotDeprAllowITAct": 0
+     },
+     "AdjustPLAfterDeprOthSpecInc": 0,
+     "AmtDebPLDisallowUs36": 0,
+     "AmtDebPLDisallowUs37": 0,
+     "AmtDebPLDisallowUs40": 0,
+     "AmtDebPLDisallowUs40A": 0,
+     "AmtDebPLDisallowUs43B": 0,
+     "InterestDisAllowUs23SMEAct": 0,
+     "DeemIncUs41": 0,
+     "Total33ABto35ABB": 0,
+     "DeemIncUs43CA": 0,
+     "OthItemDisallowUs28To44DA": 0,
+     "AnyOthIncNotInclInExpDisallowPL": 0,
+     "TotAfterAddToPLDeprOthSpecInc": 0,
+     "DeductUs32_1_iii": 0,
+     "Amt32AC": 0,
+     "DebPLUs35ExcessAmt": 0,
+     "AmtDisallUs40NowAllow": 0,
+     "AmtDisallUs43BNowAllow": 0,
+     "AnyOthAmtAllDeduct": 0,
+     "DecProfIncLossAccICDSAdj": 0,
+     "TotDeductionAmts": 0,
+     "PLAftAdjDedBusOthThanSpec": 0,
+     "DeemedProfitBusUs": {
+      "Section44AE": 0,
+      "TotDeemedProfitBusUs": 0
+     },
+     "NetPLAftAdjBusOthThanSpec": 0,
+     "NetPLBusOthThanSpec7A7B7C": 0
+    },
+    "SpecBusinessInc": {
+     "NetPLFrmSpecBus": 0,
+     "AdditionUs28to44DA": 0,
+     "DeductUs28to44DA": 0,
+     "AdjustedPLFrmSpecuBus": 0
+    },
+    "IncSpecifiedBusiness": {
+     "NetPLFrmSpecifiedBus": 0,
+     "AddSec28to44DA": 0,
+     "DedSec28to44DAOTDedSec35AD": 0,
+     "ProfitLossSpecifiedBusiness": 0,
+     "DedSec35AD": 0,
+     "ProfitLossSpecifiedBusFinal": 0
+    },
+    "IncChrgUnHdProftGain": 0,
+    "BusSetoffCurrYr": {
+     "LossSetOffOnBusLoss": 0,
+     "TotLossSetOffOnBus": 0,
+     "LossRemainSetOffOnBus": 0
+    }
+   },
+   "ITRScheduleJ": {
+    "ScheduleJ_A1": {
+     "TotOpeningBlc": 8000000,
+     "TotReceivedCorpus": 0,
+     "TotAppliedPY": 0,
+     "TotAmtDepositedBack": 0,
+     "TotTotAmtDepositedBack": 0,
+     "TotClosingBlc": 8000000,
+     "TotInvestment_11_5": 8000000,
+     "TotAmtTxdAssYr22_23": 0,
+     "TotInvestment_11_5_Other": 0,
+     "ScheduleJ_A1Dtls": [
+      {
+       "CorpusDonation": "OTIA",
+       "OpeningBlc": 5000000,
+       "ReceivedCorpus": 0,
+       "AppliedPY": 0,
+       "AmtDepositedBack": 0,
+       "TotAmtDepositedBack": 0,
+       "ClosingBlc": 5000000,
+       "Investment_11_5": 5000000,
+       "AmtTxdAssYr22_23": 0,
+       "Investment_11_5_Other": 0
+      },
+      {
+       "CorpusDonation": "OTHER",
+       "OpeningBlc": 3000000,
+       "ReceivedCorpus": 0,
+       "AppliedPY": 0,
+       "AmtDepositedBack": 0,
+       "TotAmtDepositedBack": 0,
+       "ClosingBlc": 3000000,
+       "Investment_11_5": 3000000,
+       "AmtTxdAssYr22_23": 0,
+       "Investment_11_5_Other": 0
+      }
+     ]
+    },
+    "ScheduleJ_A2": {
+     "TotOpeningBlc": 0,
+     "TotLoanBorrow": 0,
+     "TotAppliedPY": 0,
+     "TotRepayment": 0,
+     "TotTotRepOfLoan": 0,
+     "TotClosingBlc": 0
+    }
+   },
+   "ITRScheduleR": {
+    "ClosngBalSchJ": {
+     "CorpOutOf80G2b": 0,
+     "OthCorpReceived": 5000000,
+     "CorpOthThan": 3000000
+    },
+    "ReasonsOfDiff": {
+     "TotalReasonsOfDiff": {
+      "CorpOutOf80G2b": 0,
+      "OthCorpReceived": 0,
+      "CorpOthThan": 0
+     }
+    },
+    "ClosngBalBalSheet": {
+     "CorpOutOf80G2b": 0,
+     "OthCorpReceived": 5000000,
+     "CorpOthThan": 3000000
+    }
+   },
+   "ScheduleOA": {
+    "IncUnHeadBPFlag": "N"
+   },
+   "ScheduleTDS2": {
+    "TotalTDSonOthThanSals": 50000,
+    "TDSOthThanSalaryDtls": [
+     {
+      "TDSCreditName": "S",
+      "TANOfDeductor": "BLRD12345E",
+      "TDSSection": "94A",
+      "TaxDeductCreditDtls": {
+       "TaxClaimedOwnHands": 50000,
+       "TaxDeductedOwnHands": 50000
+      },
+      "GrossAmount": 500000,
+      "HeadOfIncome": "AI",
+      "AmtCarriedFwd": 0
+     }
+    ]
+   },
+   "ScheduleTDS3": {
+    "TotalTDS3OnOthThanSal": 0
+   },
+   "ScheduleTCS": {
+    "TotalSchTCS": 0
+   },
+   "ScheduleIT": {
+    "TotalTaxPayments": 40000,
+    "TaxPayment": [
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2025-06-15",
+      "SrlNoOfChaln": 121,
+      "Amt": 7000
+     },
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2025-09-15",
+      "SrlNoOfChaln": 337,
+      "Amt": 13000
+     },
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2025-12-15",
+      "SrlNoOfChaln": 519,
+      "Amt": 12000
+     },
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2026-03-15",
+      "SrlNoOfChaln": 742,
+      "Amt": 8000
+     }
+    ]
+   },
+   "PartB_TI": {
+    "VcCorpusSec11": 100000,
+    "VoluntaryContributions": {
+     "TotIncFromVC": 7500000,
+     "CorpusDonationUS80G": 0,
+     "CorpusOtherThan80G": 2000000
+    },
+    "AggregateIncomeUs1112": 9400000,
+    "AmtForCharitableUs111": 7990000,
+    "IncToBeApplied": 9400000,
+    "TIDeductions": {
+     "AmtAppliedtForCharitablePurpose": 7300000,
+     "AmtAppForCharitablePurposeRepayment": 0,
+     "AmtAppliedSpecifiedMode": 0,
+     "AmtDeemedForCharitable": 0,
+     "AmtAccumulatedForCharitable": 1410000,
+     "AmtFulfilledUs11_2": 0,
+     "TotalDeductions": 8710000
+    },
+    "TIAdditions": {
+     "IncChargeableUs115BBI": 0,
+     "ExemptionUs11_13Dtl": {
+      "AnonymousDonationVC": 100000
+     },
+     "IncChargeableUs12_2": 0,
+     "AmtDsllwblUs111RWS40AIA": 0,
+     "AmtDsllwblUs111RWS40A3": 0,
+     "IncExp3BUS80G": 0,
+     "IncExp1BUS80G": 0,
+     "AnyOthrIncome": 0,
+     "TotalAdditions": 100000
+    },
+    "IncChargeableUs11_4": 0,
+    "IncomeFromHP": 0,
+    "ProfBusGain": {
+     "ProfGainNoSpecBus": 0
+    },
+    "CapGain": {
+     "ShortTerm": {
+      "ShortTerm20Per": 0,
+      "ShortTerm30Per": 0,
+      "ShortTermAppRate": 0,
+      "ShortTermSplRateDTAA": 0,
+      "TotalShortTerm": 0
+     },
+     "LongTerm": {
+      "LongTerm12_5Per": 0,
+      "LongTermSplRateDTAA": 0,
+      "TotalLongTerm": 0
+     },
+     "ShortTermLongTermTotal": 0,
+     "CapGains30Per115BBH": 0,
+     "TotalCapGains": 0
+    },
+    "IncFromOS": {
+     "TotIncFromOS": 0
+    },
+    "TotIncNotPart7And11Abv": 0,
+    "GrossIncome": 790000,
+    "CurrentYearLoss": 0,
+    "TotalIncome": 790000,
+    "TotalTI": 0,
+    "IncChargeableTaxSplRates": 0,
+    "DonationsUs115BBC": 100000,
+    "IncChargUs115BBIIncld13": 0,
+    "AggIncothSpecInc115BBI": 690000
+   },
+   "ScheduleVC": {
+    "Local": {
+     "CorpusFundDonation": 2000000,
+     "CorpusFundDonationUS80G2b": 0,
+     "CorpusFundDonationOther80G2b": 2000000,
+     "GrantsReceivedFormGovt": 0,
+     "GrantsReceivedFromCompanie": 1000000,
+     "OtherSpecificGrants": 0,
+     "OtherDonation": 4500000,
+     "TotalOtherThanCorpusFund": 5500000,
+     "VoluntaryContribution": 7500000
+    },
+    "Foreign": {
+     "CorpusFundDonation": 0,
+     "CorpusFundDonationUS80G2b": 0,
+     "CorpusFundDonationOther80G2b": 0,
+     "OtherThanCorpusFund": 0,
+     "ForeignContribution": 0
+    },
+    "TotalContribution": 7500000,
+    "AnonymousDonations": {
+     "AggregateAnonymousDonations": 500000,
+     "TotalDonationsReceived": 400000,
+     "AnonymousDonations115BBC": 100000,
+     "AnonymousDonationsOthr115BBC": 400000
+    }
+   },
+   "ScheduleAI": {
+    "RecptMainObj": 3000000,
+    "RecptsIncidentalObj": 0,
+    "Rent": 500000,
+    "Commission": 0,
+    "DividendIncome": 0,
+    "InterestIncome": 500000,
+    "AgricultureIncome": 0,
+    "NetConsdrnTrnsfrCapAsst": 0,
+    "PassThroughIncome": 0,
+    "TotalofOtherIncomes": 0,
+    "TotalofAggregateIncomes": 4000000
+   }
+  }
+ }
+}

@@ -132,21 +132,28 @@ function engTax(){
   const grossExempt=A("grossIncomeAfterExemption");   /* Part-B1 item9 (post-application) */
 
   /* ===== the live regime's total income and its rate split ===== */
-  let ti,normalRateInc,mmrInc;
+  let ti,normalRateInc,mmrInc,grossB2Pre=0;
   if(regime==="B3"){
-    /* Part-B3 — income at MMR (lost exemption). Everything is MMR income;
-       heads + additions less loss, less special-rate carve-outs. */
-    const inc=Math.max(0, headsTot - cyla);
+    /* Part-B3 — income at MMR (22nd proviso to 10(23C) / s.13(10); exemption
+       denied). The WHOLE income (Schedule VC non-corpus + Schedule AI) flows
+       through the app B3 ladder (Sl.6 SumTotal); only the Diii anonymous
+       donation is carved out and charged u/s 115BBC @30%, the rest at MMR. */
+    const sumTot=Math.max(0,R(A("b3SumTotal")));
+    const inc=Math.max(0, sumTot + headsTot - cyla);
     ti=inc;
     mmrInc=Math.max(0, inc - splInc - anon115BBC - spec115BBI);
     normalRateInc=0;
   } else if(regime==="B2"){
-    /* Part-B2 — s.13A/13B or 10(21)…10(47). Gross total less exemptions
-       (app stub → 0), plus heads not forming part, less CY loss. Aggregate
-       at normal rates, with the MMR portion (item 14) carved out. */
-    const gti=Math.max(0, grossExempt + headsTot - cyla);
-    ti=gti;
-    mmrInc=Math.max(0,R(A("incMMR")));                 /* item 14 (app stub → 0) */
+    /* Part-B2 — s.13A/13B or 10(21)…10(47). Gross income (Sl.8) = voluntary
+       contributions (Sch VC C) + heads not forming part − 13A/13B exemption
+       + the 11(3) r.w. 10(21) add-back, less CY loss. The 10(21)…10(47) /
+       10(23C)(iiiab)…(iiiae) statement exemptions (Sch IE, Sl.1/2) are a
+       disclosure and do NOT enter the taxable base. */
+    const vcTot=R(taxC("vc.totalVC",0));
+    const ex13A=A("exempt13A"), ex13B=A("exempt13B"), inc11_3=A("incChargeable11_3");
+    grossB2Pre=Math.max(0, vcTot + headsTot - ex13A - ex13B + inc11_3);
+    ti=Math.max(0, grossB2Pre - cyla);
+    mmrInc=Math.max(0,R(A("incMMR")));                 /* item 14 — income at MMR (nil unless a condition fails) */
     normalRateInc=Math.max(0, ti - splInc - anon115BBC - spec115BBI - mmrInc);
   } else {
     /* Part-B1 — ss.11/12 or 10(23C)(iv)-(via). Gross income after exemption
@@ -157,7 +164,7 @@ function engTax(){
     mmrInc=0;
     normalRateInc=Math.max(0, ti - splInc - anon115BBC - spec115BBI);
   }
-  const gti=ti;                                        /* gross total income (post application) */
+  const gti=(regime==="B2")?grossB2Pre:ti;             /* B2: Sl.8 gross income (pre-loss); else GTI */
   ti=Math.max(0, Math.round(ti/10)*10);                /* §288A — round total income to the nearest ten */
 
   /* ===== Part B-TTI 1 — tax payable on total income ===== */
@@ -169,13 +176,17 @@ function engTax(){
   const tax1e=R(mmrInc*TAX_MMR);                       /* 1e — maximum marginal rate */
   const tax1g=Math.max(0, R(tax1a+tax1b+tax1c+tax1d+tax1e-rebateAgri)); /* 1g — tax payable on total income */
 
-  /* ===== 2 — surcharge (AOP/trust ladder + 25% flat on 115BBE) ===== */
-  const surRate = ti>50000000?0.37: ti>20000000?0.25: ti>10000000?0.15: ti>5000000?0.10:0;
+  /* ===== 2 — surcharge (AOP/trust ladder + 25% flat on 115BBE) =====
+     Part-B3 charges the whole income at the maximum marginal rate, so its
+     surcharge is the flat MMR component (12% → 30%×1.12×1.04 = 34.944%),
+     NOT the income-slab ladder, and no marginal relief applies. */
+  const surRate = (regime==="B3") ? 0.12 :
+    (ti>50000000?0.37: ti>20000000?0.25: ti>10000000?0.15: ti>5000000?0.10:0);
   const sur25SI = R(Math.max(0,bbeTax)*0.25);          /* 2i — 25% of 115BBE tax (never marginal-relieved) */
   const restTax = Math.max(0, tax1g - bbeTax);
   let surOnRest = R(restTax*surRate);                  /* 2ii — ladder surcharge on the rest */
   /* marginal relief at the ladder threshold (on the surcharged rest) */
-  if(surRate>0){
+  if(surRate>0 && regime!=="B3"){
     const th = ti>50000000?50000000: ti>20000000?20000000: ti>10000000?10000000:5000000;
     const lower = ti>50000000?0.25: ti>20000000?0.15: ti>10000000?0.10:0;
     const mr = Math.max(0, (restTax+surOnRest) - (restTax + restTax*lower) - (ti-th));
@@ -240,8 +251,11 @@ function engTax(){
   const bal=aggregate-paidTot;
   const balance=Math.round(Math.max(0,bal)/10)*10;     /* 10 — amount payable */
   let refund=Math.round(Math.max(0,-bal)/10)*10;       /* 11 — refund */
-  /* 12 — net tax payable on 115TD income adjusts the refund */
-  const refundDue=Math.max(0, refund - net115TD);
+  /* 12 — net tax payable on 115TD accreted income (Schedule 115TD Sl.12) is a
+     SELF-CONTAINED charge with its own challans (Part B-TTI item 11 /
+     NetTaxPyblOn115TDInc). It does NOT net against the income-tax refund, which
+     stands on its own; the 115TD net payable is surfaced separately. */
+  const refundDue=refund;
 
   /* ===== publish the footer + seam contract ===== */
   S.C.gti=R(gti);
@@ -435,6 +449,15 @@ function expTaxB1(j,T){
   put(j,B+"AmtForCharitableUs111",sg(taxC("app.amtCharitable111",0)));
   put(j,B+"IncToBeApplied",sg(taxC("app.incToApply",0)));
   const D=B+"TIDeductions.";
+  /* Form 9A / Form 10 declarations (optional; written only when furnished, so a
+     standard-accumulation return stays byte-identical). Entered under the
+     Application & accumulation section, published as S.C.app.f9a../f10.. keys. */
+  const f9aNum=sg(taxC("app.f9aNum",0));      if(f9aNum)  put(j,B+"AmtForCharitableUs111Number",f9aNum);
+  const f9aDate=ISO(taxC("app.f9aDate",""));  if(f9aDate) put(j,B+"AmtForCharitableUs111Date",f9aDate);
+  const f9aEx=st0(taxC("app.f9aExercised","")); if(f9aEx)  put(j,D+"ExercisedBfDueDateFlag",f9aEx);
+  const f9aFur=ISO(taxC("app.f9aFurnish",""));  if(f9aFur) put(j,D+"DateOfFurnishing",f9aFur);
+  const f10=st0(taxC("app.f10Furnished",""));   if(f10)    put(j,D+"IsForm10Furnished",f10);
+  const f10Date=ISO(taxC("app.f10Date",""));    if(f10Date)put(j,D+"DateOfFurnishingForm10",f10Date);
   put(j,D+"AmtAppliedtForCharitablePurpose",sg(taxC("app.applied",0)));
   put(j,D+"AmtAppForCharitablePurposeRepayment",sg(taxC("app.loanRepay",0)));
   put(j,D+"AmtAppliedSpecifiedMode",sg(taxC("app.appliedSpecMode",0)));

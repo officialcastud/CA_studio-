@@ -1,0 +1,60 @@
+{
+ "form": "ITR-7",
+ "html": "forms/ITR-7/Yukti_ITR7.html",
+ "boot_errors": [],
+ "checks_err": [
+  "IE statement \u2014 Add at least one institution with its address and receipts."
+ ],
+ "figures": {
+  "gti": 7500000,
+  "ti": 7500000,
+  "tax": 2359500,
+  "net": 2359500,
+  "balance": 2542820,
+  "refund": 0
+ },
+ "rules": [
+  {
+   "cat": "A",
+   "n": 36,
+   "msg": "Part A-General: exemption u/s 10(23C)(iiiab) or 10(23C)(iiiac) requires Schedule IE-3 to be filled mandatorily, but it is not present in the return."
+  },
+  {
+   "cat": "A",
+   "n": 71,
+   "msg": "Schedule I: values can be entered only when the section under which exemption is claimed is Section 11, 10(23C)(iv)/(v)/(vi)/(via), 10(21) or 10(21) read with section 35."
+  },
+  {
+   "cat": "A",
+   "n": 93,
+   "msg": "Schedule J: values can be entered only when the section under which exemption is claimed is Section 11 or 10(23C)(iv)/(v)/(vi)/(via)."
+  },
+  {
+   "cat": "A",
+   "n": 119,
+   "msg": "Schedule R can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 142,
+   "msg": "Schedule AI can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 152,
+   "msg": "Schedule A can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 164,
+   "msg": "Schedule VC: anonymous donations u/s 115BBC can be reported only when exemption is claimed u/s 11 or 10(23C)(iv)/(v)/(vi)/(via)/(iiiad)/(iiiae)."
+  }
+ ],
+ "exported": false,
+ "export_block": "1 thing still to fix:\n\n\u00b7 IE statement \u2014 Add at least one institution with its address and receipts.",
+ "saved": true,
+ "page_errors": [],
+ "alerts": [
+  "1 thing still to fix:\n\n\u00b7 IE statement \u2014 Add at least one institution with its address and receipts."
+ ]
+}

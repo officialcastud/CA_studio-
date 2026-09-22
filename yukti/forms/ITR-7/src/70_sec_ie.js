@@ -113,16 +113,28 @@ function engIE(){
   const heads={hp:S.ie.hp==="Y"?"Y":"N",bp:S.ie.bp==="Y"?"Y":"N",
     cg:S.ie.cg==="Y"?"Y":"N",os:S.ie.os==="Y"?"Y":"N"};
   const sumRcpt=i4.reduce((s,r)=>s+sg(r.rcpt),0);
+  const i3Rcpt=i3.reduce((s,r)=>s+sg(r.rcpt),0);
+  const i3Appl=i3.reduce((s,r)=>s+sg(r.appl),0);
+  const i3Accum=i3.reduce((s,r)=>s+(sg(r.rcpt)-sg(r.appl)),0);
+  const i4Appl=i4.reduce((s,r)=>s+sg(r.appl),0);
   /* IE-3 "substantially financed": Government grant exceeds 50% of total receipts */
   const govtFail=i3.filter(r=>!(sg(r.grants)*2>sg(r.rcpt))).length;
+
+  /* exempt receipts of the ACTIVE statement (a single figure across IE-1/2/3/4):
+     IE-1/2 carry one Row A total, IE-3/4 aggregate the per-institution rows. It
+     is the income the statute exempts, read by the tax section's Part-B2 regime. */
+  const exemptReceipts = active===3 ? i3Rcpt : active===4 ? sumRcpt : rcpt;
+  const exemptApplied  = active===3 ? i3Appl : active===4 ? i4Appl  : appl;
+  const exemptAccum    = active===3 ? i3Accum : accum;
 
   S.C.ie={
     active, ex, regIE,
     receipts:rcpt, applied:appl, accumulation:accum,
+    exemptReceipts, exemptApplied, exemptAccum,
     anyTax:anyTax==="Y"?"Y":"N",
     heads,                              /* IE-2 routing for the tax section */
     i3n:i3.length, i4n:i4.length,
-    sumReceipts:sumRcpt,
+    sumReceipts:sumRcpt, i3Receipts:i3Rcpt,
     govtOK: i3.length?govtFail===0:true,     /* every institution passes the 50% test */
     ceilingOK: sumRcpt<=IE_CEILING           /* IE-4 aggregate <= Rs 5 crore */
   };

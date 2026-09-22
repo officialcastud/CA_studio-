@@ -4366,12 +4366,14 @@ ruleset(function(I,S_,A,Dd){
       "Part B-TTI: total taxes paid (9e) must equal advance tax + TDS + TCS + self-assessment tax (9a + 9b + 9c + 9d).");
 
     const agg=NR(CT,"AggregateTaxInterestLiability");
-    const net115TD=NR(I,"PartB_TTI.Refund.NetTaxPyblOn115TDInc");
+    const net115TD=NR(I,"PartB_TTI.Refund.NetTaxPyblOn115TDInc");  /* Sl.12 — its own line (A635) */
     /* A629 — 10 Amount payable = 8 − 9e (if positive, rounded to the nearest ten). */
     A(629, EQ(NR(I,"PartB_TTI.TaxPaid.BalTaxPayable"), roundTen(Math.max(0, agg-p9e)), 10),
       "Part B-TTI: amount payable (10) must equal aggregate liability (8) less total taxes paid (9e).");
-    /* A630 — 11 Refund = 9e − 8 (if positive, rounded to the nearest ten), less the 115TD net payable. */
-    A(630, EQ(NR(I,"PartB_TTI.Refund.RefundDue"), Math.max(0, roundTen(Math.max(0, p9e-agg))-net115TD), 10),
+    /* A630 — 11 Refund = 9e − 8 (if positive, rounded to the nearest ten). The
+       115TD net payable (Sl.12 / NetTaxPyblOn115TDInc) is a self-contained charge
+       with its own challans and does NOT net against the income-tax refund. */
+    A(630, EQ(NR(I,"PartB_TTI.Refund.RefundDue"), roundTen(Math.max(0, p9e-agg)), 10),
       "Part B-TTI: refund (11) must equal total taxes paid (9e) less aggregate liability (8).");
 
     /* A631 — 9a Advance tax = Σ Schedule IT challans deposited 01/04/2025–31/03/2026. */
@@ -4865,6 +4867,7 @@ const APP_IAYEAR=[["2020-21","2020-21"],["2021-22","2021-22"],
 const APP_DAYEAR=[["PriorToAY","Prior to 2020-21"],["2020-21","2020-21"],
                   ["2021-22","2021-22"],["2022-23","2022-23"],["2023-24","2023-24"]];
 const _inSet=(arr,v)=>{v=st0(v);return arr.some(x=>x[0]===v)?v:"";};
+const APP_YN=[["Y","Yes"],["N","No"]];   /* Form 9A/10 Yes/No flags */
 
 /* ---- state seed (own namespace; not pre-seeded in 10_state.js) ---------- */
 S.app = S.app || {};
@@ -4877,6 +4880,15 @@ S.app.iRows  = S.app.iRows  || [];     /* ScheduleI[]      */
 S.app.iaRows = S.app.iaRows || [];     /* YrOfAccDtls[]    (IA) */
 S.app.dRows  = S.app.dRows  || [];     /* ScheduleD[]      */
 S.app.daRows = S.app.daRows || [];     /* YrOfAccumDtls[]  (DA) */
+/* Form 9A (deemed application u/s Expl.1 to 11(1)) / Form 10 (accumulation u/s
+   11(2)) declarations — optional; empty by default so the standard-accumulation
+   return stays valid. Exported into PartB_TI by the tax section. */
+if(S.app.f9aNum===undefined)       S.app.f9aNum="";        /* Form 9A ack number */
+if(S.app.f9aDate===undefined)      S.app.f9aDate="";       /* Form 9A ack date */
+if(S.app.f9aExercised===undefined) S.app.f9aExercised="";  /* option exercised before due date Y/N */
+if(S.app.f9aFurnish===undefined)   S.app.f9aFurnish="";    /* Form 9A furnishing date */
+if(S.app.f10Furnished===undefined) S.app.f10Furnished="";  /* Form 10 furnished Y/N */
+if(S.app.f10Date===undefined)      S.app.f10Date="";       /* Form 10 furnishing date */
 
 /* ---- small pair helpers -------------------------------------------------- */
 function _pair(o){o=o||{};return {rev:sg(o.rev), cap:sg(o.cap)};}
@@ -5046,6 +5058,74 @@ function engApp(){
   C.netAgri          = 0;                           /* net agricultural income for rate purposes */
   C.incMMR           = 0;                           /* B2 income at maximum marginal rate */
   C.grossIncomeAfterExemption = R(residual + totalAdditions);  /* Part-B1 item 9 → tax section */
+
+  /* ---------- Part B-TI2 (B2) exemption feeds — SEAM to the tax section --------
+     The tax section's Part-B2 regime (s.13A / 13B / 10(21)…10(47) /
+     10(23C)(iiiab)…(iiiae)) reads these app.* keys; the stub published none, so
+     every B2 exemption was zero and a political party / electoral trust / govt-
+     financed institution was wrongly taxed. Routed from S.C.who (the claimed
+     clause), S.C.vc (contributions) and S.C.ie (the IE-statement receipts).
+     All guarded; who (corder 10), vc (25) and ie (28) compute before app (55). */
+  const _W  = (S.C.who||{});
+  const _ie = (S.C.ie||{});
+  const exsec = st0(_W.exsec||_W.exemptionSection||"");
+  const ieReceipts = Math.max(0, R(_ie.exemptReceipts!=null?_ie.exemptReceipts:_ie.receipts));  /* IE-1/2/3/4 total exempt receipts */
+  const b2VC = R(_vc.totalVC);                          /* Sch VC C — voluntary contributions */
+
+  /* Sl.4 / Sl.5 — the income exempt for a 13A political party / 13B electoral
+     trust is its voluntary contributions (business income, if any, stays taxable
+     and is added by the tax section from the heads). */
+  C.exempt13A = (exsec==="13A") ? b2VC : 0;
+  C.exempt13B = (exsec==="13B") ? b2VC : 0;
+  C.incChargeable11_3 = 0;                              /* Sl.3 — 11(3) r.w. 10(21) add-back */
+
+  /* Sl.1 / Sl.2 — the 10(21)…10(47) and 10(23C)(iiiab)…(iiiae) statement
+     exemptions: the IE-statement receipts of the claimed clause (a disclosure of
+     the income the statute exempts). Seed every feed to 0, then set the claimed
+     one and its Sl.1/Sl.2 total. */
+  ["exempt1021","exempt1023A","exempt1023AAA","exempt1023B","exempt1023EC",
+   "exempt1023ED","exempt1023EE","exempt1029A","exempt1023Ciiiab","exempt1023Ciiiac",
+   "exempt1023Ciiiad","exempt1023Ciiiae","exempt1023D","exempt1023DA","exempt1023FB",
+   "exempt1024","exempt1046","exempt1046A","exempt1046B","exempt1047"].forEach(k=>{C[k]=0;});
+  const B2_1021 ={"21":"exempt1021","23AAA":"exempt1023AAA","23B":"exempt1023B",
+    "23EC":"exempt1023EC","23ED":"exempt1023ED","23EE":"exempt1023EE","29A":"exempt1029A",
+    "23D":"exempt1023D","23DA":"exempt1023DA","23FB":"exempt1023FB",
+    "46":"exempt1046","46A":"exempt1046A","46B":"exempt1046B","47":"exempt1047"};
+  const B2_1023C={"23A":"exempt1023A","23CIIIAB":"exempt1023Ciiiab","23CIIIAC":"exempt1023Ciiiac",
+    "23CIIIAD":"exempt1023Ciiiad","23CIIIAE":"exempt1023Ciiiae","24":"exempt1024"};
+  let tot1021=0, tot1023C=0;
+  if(B2_1021[exsec])      { C[B2_1021[exsec]] =R(ieReceipts); tot1021 =ieReceipts; }
+  else if(B2_1023C[exsec]){ C[B2_1023C[exsec]]=R(ieReceipts); tot1023C=ieReceipts; }
+  C.totExempt1021to29    = R(tot1021);                 /* Sl.1 total (A583/A585) */
+  C.totExempt1023Cto1047 = R(tot1023C);                /* Sl.2 total (A584/A586) */
+
+  /* ---------- Part B-TI3 (B3) MMR-income ladder — SEAM to the tax section ------
+     The Part-B3 regime (income at MMR, exemption denied) reads these app.b3*
+     keys; the stub published none, so B3 income was nil and the trust escaped
+     MMR. Sl.1 = non-corpus contributions + aggregate income (Sch VC C − corpus +
+     Sch AI); the Diii anonymous donation is carved to Sl.11 (115BBC @30%) via
+     Sl.2 so it is not also taxed at MMR (Sl.4ii re-adds it per A589, netting
+     SumTotal to the true income). */
+  const b3Income = Math.max(0, vcOtherCorpus + aggInc);
+  C.b3TotInc     = R(b3Income);                         /* Sl.1  (>= (C−Ai−Bi)+AI, A613) */
+  C.b3TotExp     = R(anon115);                          /* Sl.2  — the 115BBC Diii carve-out */
+  C.b3ExpCorpus=0; C.b3ExpLoan=0; C.b3Depr=0; C.b3ExpContri=0; C.b3CapExp=0;
+  C.b3Disall40aia=0; C.b3Disall40A3=0; C.b3Disall40A3A=0; C.b3OthDisall=0;
+  C.b3TotDisall  = 0;                                   /* Sl.3x */
+  C.b3AnonNoExempt = R(anon115);                        /* Sl.4ii — anonymous donation (A589) */
+  C.b3IncUs12_2  = R(C.incUs12_2);                      /* Sl.4iii */
+  C.b3IncExp3B   = 0; C.b3IncExp1B=0; C.b3AnyOtherInc=0;
+  C.b3TotAdditions = R(C.b3AnonNoExempt + C.b3IncUs12_2 + C.b3IncExp3B + C.b3IncExp1B + C.b3AnyOtherInc); /* Sl.4vii */
+  C.b3IncUs11_4  = 0;                                   /* Sl.5 */
+  C.b3SumTotal   = R(C.b3TotInc - C.b3TotExp + C.b3TotDisall + C.b3TotAdditions + C.b3IncUs11_4); /* Sl.6 (A591) */
+
+  /* ---------- Form 9A / Form 10 declarations (→ PartB_TI, exported by tax) ---- */
+  C.f9aNum       = st0(A.f9aNum);
+  C.f9aDate      = st0(A.f9aDate);
+  C.f9aExercised = st0(A.f9aExercised);
+  C.f9aFurnish   = st0(A.f9aFurnish);
+  C.f10Furnished = st0(A.f10Furnished);
+  C.f10Date      = st0(A.f10Date);
 }
 
 /* ---- live-row predicates ------------------------------------------------- */
@@ -5236,6 +5316,27 @@ function secApp(){
         f:r=>sg(r.priorAY)+sg(r.a2223)+sg(r.a2324)+sg(r.a2425)+sg(r.a2526)}],
       S.app.daRows,{min:"1200px",empty:"No taxed deemed application entered.",add:"Add a year"});
   h+=row("Grand total taxed u/s 11(1B)",cell(C.daGrand),{ref:"GrandTotal"});
+
+  /* ================= Form 9A / Form 10 declarations ================= */
+  h+=sub("Form 9A / Form 10 declarations");
+  h+=note("Optional. A trust that claims <b>deemed application</b> under clause (2) of "+
+    "Explanation 1 to section 11(1) exercises the option in <b>Form 9A</b> (record its "+
+    "acknowledgement number and date, and whether the option was exercised on or before the "+
+    "section-139(1) due date); a trust that <b>accumulates</b> income under section 11(2) must "+
+    "furnish <b>Form 10</b> (record whether it was furnished and its date). Leave blank if the "+
+    "trust claims only the standard 15% accumulation. Carried to Part B-TI.");
+  h+=row("Form 9A — approval / acknowledgement number",inp("app.f9aNum",{n:1}),
+    {ref:"PartB_TI.AmtForCharitableUs111Number"});
+  h+=row("Form 9A — date of the acknowledgement",dte("app.f9aDate"),
+    {ref:"PartB_TI.AmtForCharitableUs111Date"});
+  h+=row("Form 9A — option exercised on or before the due date u/s 139(1)?",
+    sel("app.f9aExercised",APP_YN),{ref:"TIDeductions.ExercisedBfDueDateFlag"});
+  h+=row("Form 9A — date of furnishing",dte("app.f9aFurnish"),
+    {ref:"TIDeductions.DateOfFurnishing"});
+  h+=row("Form 10 — furnished for accumulation u/s 11(2)?",
+    sel("app.f10Furnished",APP_YN),{ref:"TIDeductions.IsForm10Furnished"});
+  h+=row("Form 10 — date of furnishing",dte("app.f10Date"),
+    {ref:"TIDeductions.DateOfFurnishingForm10"});
 
   return h;
 }
@@ -5498,6 +5599,22 @@ function impApp(I){
       a2223:nz(r.AssYr22_23), a2324:nz(r.AssYr23_24),
       a2425:nz(r.AssYr24_25), a2526:nz(r.AssYr25_26)}));
     read.push("Schedule DA");
+  }
+
+  /* ---------- Form 9A / Form 10 declarations (PartB_TI — owned by tax) ---------- */
+  const PBTI=I&&I.PartB_TI, TD=PBTI&&PBTI.TIDeductions;
+  if(PBTI&&(PBTI.AmtForCharitableUs111Number!=null||PBTI.AmtForCharitableUs111Date!=null||
+     (TD&&(TD.ExercisedBfDueDateFlag!=null||TD.DateOfFurnishing!=null||
+           TD.IsForm10Furnished!=null||TD.DateOfFurnishingForm10!=null)))){
+    if(PBTI.AmtForCharitableUs111Number!=null) A.f9aNum=PBTI.AmtForCharitableUs111Number;
+    if(PBTI.AmtForCharitableUs111Date!=null)   A.f9aDate=dmy(PBTI.AmtForCharitableUs111Date);
+    if(TD){
+      if(TD.ExercisedBfDueDateFlag!=null) A.f9aExercised=st0(TD.ExercisedBfDueDateFlag);
+      if(TD.DateOfFurnishing!=null)       A.f9aFurnish=dmy(TD.DateOfFurnishing);
+      if(TD.IsForm10Furnished!=null)      A.f10Furnished=st0(TD.IsForm10Furnished);
+      if(TD.DateOfFurnishingForm10!=null) A.f10Date=dmy(TD.DateOfFurnishingForm10);
+    }
+    read.push("Form 9A/10 declarations");
   }
   return read;
 }
@@ -10139,16 +10256,28 @@ function engIE(){
   const heads={hp:S.ie.hp==="Y"?"Y":"N",bp:S.ie.bp==="Y"?"Y":"N",
     cg:S.ie.cg==="Y"?"Y":"N",os:S.ie.os==="Y"?"Y":"N"};
   const sumRcpt=i4.reduce((s,r)=>s+sg(r.rcpt),0);
+  const i3Rcpt=i3.reduce((s,r)=>s+sg(r.rcpt),0);
+  const i3Appl=i3.reduce((s,r)=>s+sg(r.appl),0);
+  const i3Accum=i3.reduce((s,r)=>s+(sg(r.rcpt)-sg(r.appl)),0);
+  const i4Appl=i4.reduce((s,r)=>s+sg(r.appl),0);
   /* IE-3 "substantially financed": Government grant exceeds 50% of total receipts */
   const govtFail=i3.filter(r=>!(sg(r.grants)*2>sg(r.rcpt))).length;
+
+  /* exempt receipts of the ACTIVE statement (a single figure across IE-1/2/3/4):
+     IE-1/2 carry one Row A total, IE-3/4 aggregate the per-institution rows. It
+     is the income the statute exempts, read by the tax section's Part-B2 regime. */
+  const exemptReceipts = active===3 ? i3Rcpt : active===4 ? sumRcpt : rcpt;
+  const exemptApplied  = active===3 ? i3Appl : active===4 ? i4Appl  : appl;
+  const exemptAccum    = active===3 ? i3Accum : accum;
 
   S.C.ie={
     active, ex, regIE,
     receipts:rcpt, applied:appl, accumulation:accum,
+    exemptReceipts, exemptApplied, exemptAccum,
     anyTax:anyTax==="Y"?"Y":"N",
     heads,                              /* IE-2 routing for the tax section */
     i3n:i3.length, i4n:i4.length,
-    sumReceipts:sumRcpt,
+    sumReceipts:sumRcpt, i3Receipts:i3Rcpt,
     govtOK: i3.length?govtFail===0:true,     /* every institution passes the 50% test */
     ceilingOK: sumRcpt<=IE_CEILING           /* IE-4 aggregate <= Rs 5 crore */
   };
@@ -12840,21 +12969,28 @@ function engTax(){
   const grossExempt=A("grossIncomeAfterExemption");   /* Part-B1 item9 (post-application) */
 
   /* ===== the live regime's total income and its rate split ===== */
-  let ti,normalRateInc,mmrInc;
+  let ti,normalRateInc,mmrInc,grossB2Pre=0;
   if(regime==="B3"){
-    /* Part-B3 — income at MMR (lost exemption). Everything is MMR income;
-       heads + additions less loss, less special-rate carve-outs. */
-    const inc=Math.max(0, headsTot - cyla);
+    /* Part-B3 — income at MMR (22nd proviso to 10(23C) / s.13(10); exemption
+       denied). The WHOLE income (Schedule VC non-corpus + Schedule AI) flows
+       through the app B3 ladder (Sl.6 SumTotal); only the Diii anonymous
+       donation is carved out and charged u/s 115BBC @30%, the rest at MMR. */
+    const sumTot=Math.max(0,R(A("b3SumTotal")));
+    const inc=Math.max(0, sumTot + headsTot - cyla);
     ti=inc;
     mmrInc=Math.max(0, inc - splInc - anon115BBC - spec115BBI);
     normalRateInc=0;
   } else if(regime==="B2"){
-    /* Part-B2 — s.13A/13B or 10(21)…10(47). Gross total less exemptions
-       (app stub → 0), plus heads not forming part, less CY loss. Aggregate
-       at normal rates, with the MMR portion (item 14) carved out. */
-    const gti=Math.max(0, grossExempt + headsTot - cyla);
-    ti=gti;
-    mmrInc=Math.max(0,R(A("incMMR")));                 /* item 14 (app stub → 0) */
+    /* Part-B2 — s.13A/13B or 10(21)…10(47). Gross income (Sl.8) = voluntary
+       contributions (Sch VC C) + heads not forming part − 13A/13B exemption
+       + the 11(3) r.w. 10(21) add-back, less CY loss. The 10(21)…10(47) /
+       10(23C)(iiiab)…(iiiae) statement exemptions (Sch IE, Sl.1/2) are a
+       disclosure and do NOT enter the taxable base. */
+    const vcTot=R(taxC("vc.totalVC",0));
+    const ex13A=A("exempt13A"), ex13B=A("exempt13B"), inc11_3=A("incChargeable11_3");
+    grossB2Pre=Math.max(0, vcTot + headsTot - ex13A - ex13B + inc11_3);
+    ti=Math.max(0, grossB2Pre - cyla);
+    mmrInc=Math.max(0,R(A("incMMR")));                 /* item 14 — income at MMR (nil unless a condition fails) */
     normalRateInc=Math.max(0, ti - splInc - anon115BBC - spec115BBI - mmrInc);
   } else {
     /* Part-B1 — ss.11/12 or 10(23C)(iv)-(via). Gross income after exemption
@@ -12865,7 +13001,7 @@ function engTax(){
     mmrInc=0;
     normalRateInc=Math.max(0, ti - splInc - anon115BBC - spec115BBI);
   }
-  const gti=ti;                                        /* gross total income (post application) */
+  const gti=(regime==="B2")?grossB2Pre:ti;             /* B2: Sl.8 gross income (pre-loss); else GTI */
   ti=Math.max(0, Math.round(ti/10)*10);                /* §288A — round total income to the nearest ten */
 
   /* ===== Part B-TTI 1 — tax payable on total income ===== */
@@ -12877,13 +13013,17 @@ function engTax(){
   const tax1e=R(mmrInc*TAX_MMR);                       /* 1e — maximum marginal rate */
   const tax1g=Math.max(0, R(tax1a+tax1b+tax1c+tax1d+tax1e-rebateAgri)); /* 1g — tax payable on total income */
 
-  /* ===== 2 — surcharge (AOP/trust ladder + 25% flat on 115BBE) ===== */
-  const surRate = ti>50000000?0.37: ti>20000000?0.25: ti>10000000?0.15: ti>5000000?0.10:0;
+  /* ===== 2 — surcharge (AOP/trust ladder + 25% flat on 115BBE) =====
+     Part-B3 charges the whole income at the maximum marginal rate, so its
+     surcharge is the flat MMR component (12% → 30%×1.12×1.04 = 34.944%),
+     NOT the income-slab ladder, and no marginal relief applies. */
+  const surRate = (regime==="B3") ? 0.12 :
+    (ti>50000000?0.37: ti>20000000?0.25: ti>10000000?0.15: ti>5000000?0.10:0);
   const sur25SI = R(Math.max(0,bbeTax)*0.25);          /* 2i — 25% of 115BBE tax (never marginal-relieved) */
   const restTax = Math.max(0, tax1g - bbeTax);
   let surOnRest = R(restTax*surRate);                  /* 2ii — ladder surcharge on the rest */
   /* marginal relief at the ladder threshold (on the surcharged rest) */
-  if(surRate>0){
+  if(surRate>0 && regime!=="B3"){
     const th = ti>50000000?50000000: ti>20000000?20000000: ti>10000000?10000000:5000000;
     const lower = ti>50000000?0.25: ti>20000000?0.15: ti>10000000?0.10:0;
     const mr = Math.max(0, (restTax+surOnRest) - (restTax + restTax*lower) - (ti-th));
@@ -12948,8 +13088,11 @@ function engTax(){
   const bal=aggregate-paidTot;
   const balance=Math.round(Math.max(0,bal)/10)*10;     /* 10 — amount payable */
   let refund=Math.round(Math.max(0,-bal)/10)*10;       /* 11 — refund */
-  /* 12 — net tax payable on 115TD income adjusts the refund */
-  const refundDue=Math.max(0, refund - net115TD);
+  /* 12 — net tax payable on 115TD accreted income (Schedule 115TD Sl.12) is a
+     SELF-CONTAINED charge with its own challans (Part B-TTI item 11 /
+     NetTaxPyblOn115TDInc). It does NOT net against the income-tax refund, which
+     stands on its own; the 115TD net payable is surfaced separately. */
+  const refundDue=refund;
 
   /* ===== publish the footer + seam contract ===== */
   S.C.gti=R(gti);
@@ -13143,6 +13286,15 @@ function expTaxB1(j,T){
   put(j,B+"AmtForCharitableUs111",sg(taxC("app.amtCharitable111",0)));
   put(j,B+"IncToBeApplied",sg(taxC("app.incToApply",0)));
   const D=B+"TIDeductions.";
+  /* Form 9A / Form 10 declarations (optional; written only when furnished, so a
+     standard-accumulation return stays byte-identical). Entered under the
+     Application & accumulation section, published as S.C.app.f9a../f10.. keys. */
+  const f9aNum=sg(taxC("app.f9aNum",0));      if(f9aNum)  put(j,B+"AmtForCharitableUs111Number",f9aNum);
+  const f9aDate=ISO(taxC("app.f9aDate",""));  if(f9aDate) put(j,B+"AmtForCharitableUs111Date",f9aDate);
+  const f9aEx=st0(taxC("app.f9aExercised","")); if(f9aEx)  put(j,D+"ExercisedBfDueDateFlag",f9aEx);
+  const f9aFur=ISO(taxC("app.f9aFurnish",""));  if(f9aFur) put(j,D+"DateOfFurnishing",f9aFur);
+  const f10=st0(taxC("app.f10Furnished",""));   if(f10)    put(j,D+"IsForm10Furnished",f10);
+  const f10Date=ISO(taxC("app.f10Date",""));    if(f10Date)put(j,D+"DateOfFurnishingForm10",f10Date);
   put(j,D+"AmtAppliedtForCharitablePurpose",sg(taxC("app.applied",0)));
   put(j,D+"AmtAppForCharitablePurposeRepayment",sg(taxC("app.loanRepay",0)));
   put(j,D+"AmtAppliedSpecifiedMode",sg(taxC("app.appliedSpecMode",0)));

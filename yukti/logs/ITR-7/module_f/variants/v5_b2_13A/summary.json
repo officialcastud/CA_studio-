@@ -1,0 +1,63 @@
+{
+ "form": "ITR-7",
+ "html": "forms/ITR-7/Yukti_ITR7.html",
+ "boot_errors": [],
+ "checks_err": [],
+ "figures": {
+  "gti": 0,
+  "ti": 0,
+  "tax": 31200,
+  "net": 31200,
+  "balance": 0,
+  "refund": 58800
+ },
+ "rules": [
+  {
+   "cat": "A",
+   "n": 71,
+   "msg": "Schedule I: values can be entered only when the section under which exemption is claimed is Section 11, 10(23C)(iv)/(v)/(vi)/(via), 10(21) or 10(21) read with section 35."
+  },
+  {
+   "cat": "A",
+   "n": 93,
+   "msg": "Schedule J: values can be entered only when the section under which exemption is claimed is Section 11 or 10(23C)(iv)/(v)/(vi)/(via)."
+  },
+  {
+   "cat": "A",
+   "n": 119,
+   "msg": "Schedule R can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 120,
+   "msg": "Part A-General: Section 13A is selected as the exemption claimed but Schedule PP is not filled."
+  },
+  {
+   "cat": "A",
+   "n": 127,
+   "msg": "Part A-General: when Section 13A is the exemption claimed, Schedule PP must be filled."
+  },
+  {
+   "cat": "A",
+   "n": 142,
+   "msg": "Schedule AI can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 152,
+   "msg": "Schedule A can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status."
+  },
+  {
+   "cat": "A",
+   "n": 164,
+   "msg": "Schedule VC: anonymous donations u/s 115BBC can be reported only when exemption is claimed u/s 11 or 10(23C)(iv)/(v)/(vi)/(via)/(iiiad)/(iiiae)."
+  }
+ ],
+ "exported": false,
+ "export_block": "The portal would reject this return \u2014 8 Category A rules fail:\n\nA71 \u00b7 Schedule I: values can be entered only when the section under which exemption is claimed is Section 11, 10(23C)(iv)/(v)/(vi)/(via), 10(21) or 10(21) read with section 35.\nA93 \u00b7 Schedule J: values can be entered only when the section under which exemption is claimed is Section 11 or 10(23C)(iv)/(v)/(vi)/(via).\nA119 \u00b7 Schedule R can be filled only when Section 11 or Section 10(23C)(iv)/(v)/(vi)/(via) is the exemption claimed under filing status.\nA120 \u00b7 Part A-General: Section 13A is selected as the exemption claimed but Schedu",
+ "saved": true,
+ "page_errors": [],
+ "alerts": [
+  "The portal would reject this return \u2014 8 Category A rules fail:\n\nA71 \u00b7 Schedule I: values can be entered only when the section under which exemption is claimed is Section 11, 10(23C)(iv)/(v)/(vi)/(via)"
+ ]
+}

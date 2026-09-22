@@ -1,0 +1,106 @@
+ITR-7 · Module-F behavioural verification — three-lens findings (2026-09-22)
+Verifier: subagent. Base client: SUDHIR MEMORIAL CHARITABLE TRUST (AAATS4373C), lawful s.11 golden.
+Scripts in this dir: strict_coverage.py, reconcile.py (LENS1); lens2_rulefire.py (LENS2);
+lens3_run.py + variants/*.js (LENS3). Base harness run: logs/ITR-7/module_f/base/.
+
+========================================================================
+LENS 1 — LEAF COVERAGE  (1686 schema leaves over section_map blocks)
+========================================================================
+Method: dump.py --leaves per section_map block; classified each leaf by an in-CODE writer
+(put/export path literal, object key, o.Key= assignment, or "Stem"+ concat) or data-p reader,
+with comments stripped. reconcile.py cross-checked coverage.py.
+
+RESULT: 6 optional ORPHANs (no writer AND no reader anywhere in src). 0 required orphan.
+0 "soft" orphans (no leaf is covered only by a comment). Every other leaf has a real writer.
+The 6 are the Form 9A / Form 10 acknowledgement leaves in Part B-TI (applicable to the s.11
+regime — NOT NA — but with no UI/export path):
+
+  ORPHAN  opt  PartB_TI.AmtForCharitableUs111Number   (Form 9A ack number)
+  ORPHAN  opt  PartB_TI.AmtForCharitableUs111Date     (Form 9A ack date)
+  ORPHAN  opt  PartB_TI.TIDeductions.ExercisedBfDueDateFlag  (Form 9A option before due date Y/N)
+  ORPHAN  opt  PartB_TI.TIDeductions.DateOfFurnishing        (Form 9A furnishing date)
+  ORPHAN  opt  PartB_TI.TIDeductions.IsForm10Furnished       (Form 10 furnished Y/N)
+  ORPHAN  opt  PartB_TI.TIDeductions.DateOfFurnishingForm10  (Form 10 furnishing date)
+
+Impact: a trust that accumulates u/s 11(2) (Form 10) or claims deemed application u/s Expl.1
+to 11(1) (Form 9A) cannot record those declarations. The golden (15% standard accumulation
+only, no Form 9A/10) is unaffected, so the return still validates. Capability gap, not a
+corrupting bug. Matches VERIFICATION.md "Optional — leaves without a UI space" tier.
+
+========================================================================
+LENS 2 — RULE FIRING  (30-rule sample across schedules)
+========================================================================
+Method: build golden return, deep-clone, apply ONE targeted violation per rule, run runRules.
+EQ/eq rule tolerance is +-1 rupee (shell + per-batch), so violations use delta >= 2.
+
+RESULT: CLEAN. All 30 sampled Category-A rules are SILENT on the lawful golden (baseline 0)
+and FIRE on their targeted violation. No dead/vacuous rule; no false-fire on the lawful client.
+Collateral serials seen on some mutations are legitimate co-violations (roll-up chains, e.g.
+A99->A101 grand total; and correct exemption-gating cascades when the exemption section is
+flipped). Sample (serial: fires): A2,A3,A5,A6,A7 (PI/registration); A94,A98,A99,A100,A109
+(Part A-BS / Sch J); A115 (Sch R); A140,A141 (Sch AI); A143,A146,A147 (Sch A);
+A155,A158,A165,A166,A167 (Sch VC); A93,A119,A152,A473 (regime-presence gates);
+A476,A481,A491,A493,A494 (Part B-TI B1 roll-ups).
+NOTE (context, not a LENS-2 defect): gate6 shows 638/661 Category-A coded; the 23 uncoded are
+logged NA/OFFLINE/target in books/ITR-7/rule_census.md.
+
+========================================================================
+LENS 3 — REGIME / ENTITY MATRIX
+========================================================================
+B1  s.11/12 (golden)                 : CLEAN. GTI/TI 7,90,000; tax 83,720; refund 6,280. 0 Cat A.
+B1b 10(23C)(iv)-(via) [10(23C)(vi)]  : CLEAN. Regime B1; identical machinery; TaxAtNormalRates
+                                       50,500 + anon 115BBC @30% 30,000 = 80,500; cess 3,220;
+                                       83,720. 0 Cat A. Exemption applies. (variants/v1_1023Cvi)
+115BBC anonymous @30%                : CORRECT (proven in B1 and B1b: 1,00,000 @30% = 30,000,
+                                       emitted as DonationUs115BC, + 4% cess).
+115BBI specified income @30%         : RATE CORRECT (5,00,000 @30% = 1,50,000 via tax1d). A lawful
+                                       filing additionally requires Sch-115BBI Sl.1 = Sch I col-15
+                                       (rule A451) and Part B-TI 7(ix) tie (A483); both correctly
+                                       fire when untied. Rate mechanism OK. (variants/v3_115bbi)
+115TD accreted income / exit tax     : SCHEDULE CORRECT but PAYABLE PRESENTATION WRONG (see D3).
+                                       Accreted 80,00,000; MMR @34.944% = 27,95,520; 115TE interest
+                                       55,910; item12 net 18,51,430 — all correct. (variants/v4_115td)
+
+--- REGIME FAILURES (dispatch to CEO) -----------------------------------
+
+D1 · TIER-1 · Part-B3 (income at MMR under 22nd proviso to 10(23C) / s.13(10)) is NON-FUNCTIONAL.
+    Repro: variants/v2_b3_mmr.js (golden + S.g2.od.prov1310="Y").
+    Observed: GTI/TI = 0; tax = 31,200 (ONLY the 1,00,000 anonymous donation @30% + cess);
+    refund 58,800. The trust's 94,00,000 of income (Sch AI + VC) is NOT taxed at MMR.
+    Export BLOCKED by A589 (Sl.4(ii) additions = VC Diii), A611 (Sl.13 = 9-10-11-12),
+    A613 (Sl.1 >= (C-Ai-Bi of VC) + Sch AI Sl.10) — the rules correctly detect the under-statement
+    but the engine can never satisfy them.
+    Root cause: expTaxB3() (70_sec_tax.js ~L514) feeds PartB_TI3.ComputationIncChargeable from
+    taxC("app.b3TotInc"/"app.b3TotDisall"/"app.b3TotAdditions"/"app.b3SumTotal"/"app.b3IncUs11_4"...);
+    the app engine (70_sec_app.js) publishes NONE of these b3-prefixed keys (it publishes the same
+    concepts UNPREFIXED for B1: grossIncomeAfterExemption, totalAdditions, incUs11_4, anonNoExempt,
+    disallow40aia, ...). Key-name mismatch => every B3 income field is 0, and the engine's B3 branch
+    (L136-142) derives MMR income from headsTot (HP/BP/CG/OS) only, which is nil for an ordinary
+    trust. Fix: wire expTaxB3/the app engine so PartB_TI3 income = trust receipts + disallowed exp +
+    additions (the ComputationIncChargeable ladder), and route it into mmrInc.
+
+D2 · TIER-1 · Part-B2 (13A political party / 13B electoral trust / 10(21) / 10(23C)(iiiab..iiiae) /
+    10(23A..47)) applies ZERO exemption.
+    Repro: variants/v5_b2_13A.js, v6_b2_13B.js, v7_b2_1023Ciiiab.js (regime-gating rules also fire
+    because a well-formed B2 client must drop Sch I/J/R/AI/A and add Sch PP/ET/IE — those gates work).
+    Root cause (structural, confirmed by code inspection): expTaxB2() (70_sec_tax.js ~L471) reads
+    every exemption from taxC("app.exempt1021"/"app.exempt13B"/"app.totExempt1023Cto1047"/... ) and
+    the MMR carve-out from taxC("app.incMMR"); the app engine publishes NONE of the exemption feeds
+    and hardcodes C.incMMR = 0. Result: PartB_TI2 shows 0 exemption for every B2 regime — the
+    exemption that makes a political party / electoral trust / govt-financed institution tax-free is
+    never computed. Fix: implement the B2 exemption feeds (from Sch IE-1/2/3/4, Sch PP, Sch ET) and
+    publish them under the app.* keys expTaxB2 reads.
+
+D3 · TIER-2 · 115TD net payable wrongly nets against the income-tax refund.
+    Repro: variants/v4_115td.js. Engine (70_sec_tax.js L244): refundDue = max(0, refund - net115TD).
+    With income-tax refund 6,280 and 115TD net 18,51,430, the return reports BalTaxPayable 0,
+    Refund.RefundDue 0, Refund.NetTaxPyblOn115TDInc 18,51,430 — the legitimate 6,280 income-tax
+    refund is silently extinguished while the full 18,51,430 exit tax is still shown, so the
+    presented position (refund 0 + 115TD payable 18,51,430) overstates the taxpayer's net dues by
+    6,280 and never surfaces a single "amount payable". 115TD is a self-contained charge (its own
+    challans in item 11) and should not net against the income-tax refund. Expected: income-tax
+    refund 6,280 stands independently; 115TD payable 18,51,430 shown as its own line (or a single
+    combined net payable of 18,45,150). 0 Cat A — the arithmetic rules don't cover this cross-charge.
+
+Buckets clean: LENS 1 orphans limited to the 6 Form 9A/10 leaves; LENS 2 fully clean;
+LENS 3 clean on B1/B1b and on the 115BBC & 115TD schedule arithmetic; three regime defects (D1-D3).
