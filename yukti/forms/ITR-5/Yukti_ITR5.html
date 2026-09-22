@@ -16685,7 +16685,11 @@ function engTax(){
   const upto=d=>challans.filter(c=>!isSAT(c)&&D(c.dt)&&D(c.dt)<=d).reduce((a,c)=>a+N(c.amt),0);
   const paidIn5=challans.filter(c=>!isSAT(c)&&D(c.dt)&&D(c.dt)>TAX_Q_CUT[3]&&D(c.dt)<=YREND).reduce((a,c)=>a+N(c.amt),0);
   const amtCase=amtApplies&&amtTotal>grossTaxLiability;
-  const assessed234c=Math.max(0,(amtCase?amtTotal:net)-tds-tcs-relief-credit);  /* AT113 assessed tax */
+  /* s.234C "tax due on the returned income" = tax chargeable less TDS/TCS, s.89/90/91 relief and the
+     s.115JAA/115JD credit. `net` (item 7) is already MAX(normal,AMT) less credit less relief, so the
+     base is net - TDS - TCS — the same basis as 234B below. Subtracting relief/credit again here
+     double-counted them and understated the 234C shortfall. */
+  const assessed234c=Math.max(0,net-tds-tcs);
   const QDEF=[[0.15,0.12,3],[0.45,0.36,3],[0.75,null,3],[1,null,1]];
   const qs=QDEF.map((q,k)=>{const pc=q[0],safe=q[1],mo=q[2];
     const need=R(assessed234c*pc), got=upto(TAX_Q_CUT[k]);
