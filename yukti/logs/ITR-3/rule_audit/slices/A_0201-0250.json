@@ -1,0 +1,252 @@
+[
+{
+"n": 201,
+"cat": "A",
+"text": "In Schedule Salary, one country cannot be selected more than one time at \"Income from retirement benefit account maintained in a notified country u/s 89A \"."
+},
+{
+"n": 202,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000"
+},
+{
+"n": 203,
+"cat": "A",
+"text": "\"Exempt Allowances\" in Salary under each section should be disclosed in one dropdown"
+},
+{
+"n": 204,
+"cat": "A",
+"text": "HRA u/s 10(13A) shall not be more than Actual rent paid after deducting 10% of basic salary and DA"
+},
+{
+"n": 205,
+"cat": "A",
+"text": "HRA u/s 10(13A) shall not be more than 40% of basic salary and DA for those living in non-metro cities or, shall not be more than 50% of basic salary and DA for those living in metro cities"
+},
+{
+"n": 206,
+"cat": "A",
+"text": "(as applicable) In Table 10(13A) of Schedule Salary, the lowest of the following amounts shall be claimed as HRA exemption: A)Actual HRA received"
+},
+{
+"n": 207,
+"cat": "A",
+"text": "B)Actual rent paid-10% of (salary+DA) C) 40% or 50% of (salary+DA) 10(13A) 15"
+},
+{
+"n": 208,
+"cat": "A",
+"text": "Sum of Basic salary, dearness allowance as per Table 10(13A) of Schedule Salary or actual HRA received shall not be more than salary as per section 17(1) of respective fields"
+},
+{
+"n": 209,
+"cat": "A",
+"text": "under Income details In Schedule Salary, Nature of Exempt allowance can be selected as \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court"
+},
+{
+"n": 210,
+"cat": "A",
+"text": "judges Act /Rules\" only if nature of Employer is CG/SG In Schedule HP, Standard deduction allowed on House property should be equal to 30% of Annual value."
+},
+{
+"n": 211,
+"cat": "A",
+"text": "In Schedule HP, Ownership of house is selected as co-owned house property then assessee's share and co-owner(s) share should be equal to 100 %."
+},
+{
+"n": 212,
+"cat": "A",
+"text": "In Schedule HP, In case property is co-owned, annual value of the property owned should be equal to own percentage share *annual value."
+},
+{
+"n": 213,
+"cat": "A",
+"text": "In Schedule HP, Assessee cannot claim interest on borrowed capital if assessee's share of co-owned property is zero"
+},
+{
+"n": 214,
+"cat": "A",
+"text": "In Schedule HP, Municipal tax cannot be claimed if Gross rent received/ receivable/ lettable value is zero or null"
+},
+{
+"n": 215,
+"cat": "A",
+"text": "In Schedule HP, Type of \"House Property\" is selected as \"Self-occupied\" then maximum Interest on borrowed capital cannot be claimed more than Rs. 2,00,000."
+},
+{
+"n": 216,
+"cat": "A",
+"text": "Deduction is available only if Old tax regime is selected In Schedule HP, Sl.No. 3 should be equal to sum of Sl.No. 1k+2"
+},
+{
+"n": 217,
+"cat": "A",
+"text": "In Schedule HP, In case of type of property is let out or deemed let out then Gross rent received/ receivable/ lettable value should be more than zero"
+},
+{
+"n": 218,
+"cat": "A",
+"text": "In Schedule HP, Sl.No. 1e - Annual Value should be equal to Sl.No. (1a- 1d)"
+},
+{
+"n": 219,
+"cat": "A",
+"text": "In Schedule HP, Sl.No. 1d -Total should be equal to Sl.No. (1b+1c)"
+},
+{
+"n": 220,
+"cat": "A",
+"text": "In Schedule HP, Sl.No 1i \"Total\" should be equal to Sl.No. (1g+1h)"
+},
+{
+"n": 221,
+"cat": "A",
+"text": "In Schedule HP, Sl.No. 1k \"Income from House Property (1f \u2013 1i + 1j)\" should be equal to Sl.No. (1f \u2013 1i + 1j)"
+},
+{
+"n": 222,
+"cat": "A",
+"text": "In Schedule HP, Sl.No. 2 \"Pass through income\" should be equal to the amount of net income/ loss of HP mentioned in Schedule PTI"
+},
+{
+"n": 223,
+"cat": "A",
+"text": "In Schedule HP, assessee cannot claim more than two house is claimed to be self occupied"
+},
+{
+"n": 224,
+"cat": "A",
+"text": "If New Tax Regime is selected than Interest on borrowed capital cannot be claimed for \"Self-Occupied\" house property."
+},
+{
+"n": 225,
+"cat": "A",
+"text": "In Schedule HP, in case of co-owned house property, Assessee PAN & Co-owners PAN cannot be same"
+},
+{
+"n": 226,
+"cat": "A",
+"text": "Details of loan taken needs to be provided for claiming Interest on borrowed capital u/s 24(b) in Table 24(b) of Schedule HP"
+},
+{
+"n": 227,
+"cat": "A",
+"text": "Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted. 16"
+},
+{
+"n": 228,
+"cat": "A",
+"text": "As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EE should be part of the details disclosed in Table 24(b) of"
+},
+{
+"n": 229,
+"cat": "A",
+"text": "Schedule HP As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EEA should be part of the details disclosed in Table 24(b) of"
+},
+{
+"n": 230,
+"cat": "A",
+"text": "Schedule HP In schedule House property, value of \"Interest payable on borrowed capital\" should be same as the \"Total Interest on Borrowed capital u/s 24(b)\" as per schedule 24(b)"
+},
+{
+"n": 231,
+"cat": "A",
+"text": "In Table 24(b) of Schedule HP, the sum of individual rows for \"Interest on Borrowed capital u/s 24(b)\" shall match with the \"Total Interest on borrowed capital u/s 24(b)\" as"
+},
+{
+"n": 232,
+"cat": "A",
+"text": "per Table 24(b) Interest on borrowed capital cant be claimed incase of Self occupied house property under new tax regime"
+},
+{
+"n": 233,
+"cat": "A",
+"text": "In Schedule HP, Details of Interest on borrowed capital u/s 24(b) is mandatory to claim the deduction."
+},
+{
+"n": 234,
+"cat": "A",
+"text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then sum of percentage share of other co-owner(s) in property should be less than 100%"
+},
+{
+"n": 235,
+"cat": "A",
+"text": "In case of property is not Co-owned the assessee's share should be equal to 100%"
+},
+{
+"n": 236,
+"cat": "A",
+"text": "\"The amount of rent which cannot be realized\" can not be more than Gross rent received/ receivable/ lettable during the year"
+},
+{
+"n": 237,
+"cat": "A",
+"text": "Profit before Tax as per Profit & Loss a/c in Schedule BP should be equal to the \"[Profit before Tax] plus [Net Profit (No Accounts Case)] plus [presumptive income] as per P&L"
+},
+{
+"n": 238,
+"cat": "A",
+"text": "A/c.\" Current year Speculative loss in CFL should be equal to Sl.No. B42 of Schedule BP"
+},
+{
+"n": 239,
+"cat": "A",
+"text": "Current year Specified loss in CFL should be equal to Sl.No. C48 of Schedule BP"
+},
+{
+"n": 240,
+"cat": "A",
+"text": "Depreciation allowable under section 32(1)(ii) and 32(1)(iia) in Schedule BP should be equal to Sl.No. 6 of Schedule DEP"
+},
+{
+"n": 241,
+"cat": "A",
+"text": "Amount reduced in Sl.No. A3b in schedule BP cannot be more than the income offered in schedule HP"
+},
+{
+"n": 242,
+"cat": "A",
+"text": "Amount reduced in Sl.No. A3c in schedule BP cannot be more than the income offered in schedule CG"
+},
+{
+"n": 243,
+"cat": "A",
+"text": "Amount reduced in Sl.No. A3d in schedule BP cannot be more than the income offered in schedule OS"
+},
+{
+"n": 244,
+"cat": "A",
+"text": "In Schedule BP, A6 should be equal to sum of Sl.No. (1- 2a- 2b - 3a -3b -3c -3d-3e-3f- 4a -4b- 5d-5A)"
+},
+{
+"n": 245,
+"cat": "A",
+"text": "In schedule BP, The value at field A9 should be equal to Sl.No. 7a + 7b + 7c + 7d + 7e +7f+7g+ 8a+8b"
+},
+{
+"n": 246,
+"cat": "A",
+"text": "In schedule BP, The value at field (A10) should be equal to Sl.No. (6+9). 17"
+},
+{
+"n": 247,
+"cat": "A",
+"text": "In schedule BP, Sl.No. A12iii should be equal to Sl.No. A(12i+12ii)"
+},
+{
+"n": 248,
+"cat": "A",
+"text": "In schedule BP, The value at field (A13) should be equal to Sl.No. (10 +11 \u2013 12iii)."
+},
+{
+"n": 249,
+"cat": "A",
+"text": "In schedule BP, The value at field (A26) should be equal to Sl.No. A(14 + 15 + 16 + 17 + 18 + 19 + 20 + 21+22 +23+24+25)."
+},
+{
+"n": 250,
+"cat": "A",
+"text": "In Schedule BP, The value at field (A33) of schedule BP should be equal to Sl.No. A(27+28+29+30+31+32)"
+}
+]

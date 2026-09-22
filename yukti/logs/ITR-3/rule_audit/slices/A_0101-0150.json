@@ -1,0 +1,252 @@
+[
+{
+"n": 101,
+"cat": "A",
+"text": "In Profit & Loss A/c, field 61(ii)(b) cannot be less than 8% of field 61(iB) + 61(iC)"
+},
+{
+"n": 102,
+"cat": "A",
+"text": "Income disclosed u/s 44AD can not be more than gross receipts"
+},
+{
+"n": 103,
+"cat": "A",
+"text": "Income disclosed u/s 44AD can not be more than gross Turnover"
+},
+{
+"n": 104,
+"cat": "A",
+"text": "In Profit & Loss A/c, Sl.No. 62ii cannot be less than 50% of the amount in Sl.No. 62i"
+},
+{
+"n": 105,
+"cat": "A",
+"text": "In Part A P&L, if \"Business code\" u/s 44AD is selected then it is mandatory to declare income u/s 44AD."
+},
+{
+"n": 106,
+"cat": "A",
+"text": "In Part A P&L, Nature of business must be filled by the assessee if 61(i) and /or (ii) is greater than zero"
+},
+{
+"n": 107,
+"cat": "A",
+"text": "In Part A P&L, If \"business code\" u/s 44ADA is selected then it is mandatory to declare income u/s 44ADA."
+},
+{
+"n": 108,
+"cat": "A",
+"text": "In Part A P&L, Nature of profession must be filled by the assessee if 62(i) and /or (ii) is greater than zero 9"
+},
+{
+"n": 109,
+"cat": "A",
+"text": "In Part A P&L, If \"business code\" u/s 44AE is selected then it is mandatory to declare income u/s 44AE."
+},
+{
+"n": 110,
+"cat": "A",
+"text": "In Part A P&L, Nature of business must be filled by the assessee if 63(ii) is greater than zero"
+},
+{
+"n": 111,
+"cat": "A",
+"text": "In Part A P&L, Income u/s 44ADA cannot be more than Gross receipts"
+},
+{
+"n": 112,
+"cat": "A",
+"text": "In schedule BP value mentioned in the field 35(i) \"Section 44AD\" should be equal to the amount mentioned at the field\" Presumptive income under section 44AD\" of Schedule"
+},
+{
+"n": 113,
+"cat": "A",
+"text": "P&L. In schedule BP, field 35(ii) \"Section 44ADA (62(ii) of schedule P&L)\" should match with field 62(ii) \"Presumptive Income under section 44ADA \" of Schedule Profit & Loss A/c."
+},
+{
+"n": 114,
+"cat": "A",
+"text": "In schedule BP, field 35(iii) \"Section 44AE (63(ii) of schedule P&L)\" should match with field 63(ii) \"Total presumptive income from goods carriage u/s 44AE\" of Schedule Profit"
+},
+{
+"n": 115,
+"cat": "A",
+"text": "& Loss A/c In Part A P&L, If Sl.No. 63(ii) \"Total presumptive income from goods carriage u/s 44AE\" is greater than zero than table 63(i) of 44AE should be filed."
+},
+{
+"n": 116,
+"cat": "A",
+"text": "In Part A P&L, Total presumptive income from goods carriage u/s 44AE in field 63(ii) should be equal to the breakup of presumptive income u/s 44AE in column 5"
+},
+{
+"n": 117,
+"cat": "A",
+"text": "In Part A P&L, in table 63(i) of 44AE, total of column 4 \"Number of months for which goods carriage was owned / leased / hired by assessee\" shall not exceed 120."
+},
+{
+"n": 118,
+"cat": "A",
+"text": "In Part A P&L, in table 63(i) of 44AE, if the Tonnage capacity at column 3 \"Tonnage Capacity of goods carriage(in MT)\" is less than or equal to 12MT then column 5 \"Presumptive income u/s 44AE for the goods carriage\" cannot be less than column 4"
+},
+{
+"n": 119,
+"cat": "A",
+"text": "\"Number of months for which goods carriage was owned / leased / hired by assessee\" *7500. In Schedule BP, Sl.No. 2a \"Net profit or loss from speculative business\" should be equal to 65iv of Schedule P&L+Sl.no 12b of Trading account , if books are not maintained for"
+},
+{
+"n": 120,
+"cat": "A",
+"text": "speculative business. Presumptive Business Income Under Section 44AD cannot be disclosed by Non-Resident."
+},
+{
+"n": 121,
+"cat": "A",
+"text": "The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1)."
+},
+{
+"n": 122,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64(i)(d) should be equal to Sl.No. 64(i)(b) - 64(i)(c)."
+},
+{
+"n": 123,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64(ii)(d) should be equal to Sl.No. 64(ii)(b) - 64(ii)(c)."
+},
+{
+"n": 124,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64(i)(b) cannot be more than Sl.No. 64(i)(a)"
+},
+{
+"n": 125,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64(ii)(b) cannot be more than Sl.No. 64(ii)(a)"
+},
+{
+"n": 126,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64ia should be equal to sum of Sl.No. 64ia1 + 64ia2"
+},
+{
+"n": 127,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 64iia should be equal to sum of Sl.No. 64iia1 + 64iia2"
+},
+{
+"n": 128,
+"cat": "A",
+"text": "In Schedule P&L, Total profit as per Sl.No. 64iii should be equal to sum of 64i + 64ii 10"
+},
+{
+"n": 129,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 65iv \"Net income from speculative activity\" should be equal to equal with the difference between Gross profit (65ii) and Expenses (65iii)"
+},
+{
+"n": 130,
+"cat": "A",
+"text": "HUF is not eligible to disclose presumptive income u/s 44ADA."
+},
+{
+"n": 131,
+"cat": "A",
+"text": "In Schedule P & L, Bad debts is claimed at Sl.No. 47(i), PAN or Aadhaar No. should be provided."
+},
+{
+"n": 132,
+"cat": "A",
+"text": "In Schedule P&L, Registration No. of goods carriage should not be repeated in section 44AE."
+},
+{
+"n": 133,
+"cat": "A",
+"text": "In Schedule P&L, Sl.No. 65(ii) should not be more than 65(i)."
+},
+{
+"n": 134,
+"cat": "A",
+"text": "If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 135,
+"cat": "A",
+"text": "If Gross Receipts u/s 44AD are more than Rs.2 Crore and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 136,
+"cat": "A",
+"text": "Gross Receipts u/s 44ADA at sl.no.62 (i) should match with sum of 62 (i)a+62 (i)b+62 (i)c"
+},
+{
+"n": 137,
+"cat": "A",
+"text": "If Gross Receipts u/s 44ADA are more than Rs.75,00,000, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 138,
+"cat": "A",
+"text": "If Gross Receipts u/s 44AD are more than Rs.3 Crore, it is mandatory to have a tax audit under 44AB."
+},
+{
+"n": 139,
+"cat": "A",
+"text": "In Schedule Profit & Loss, total of Sl. No. 47(i) should be equal to the sum of individual line items of Amount at Sl. No. 47(i)"
+},
+{
+"n": 140,
+"cat": "A",
+"text": "In Schedule Profit & Loss, total of Sl. No. 47(ii) should be equal to the sum of individual line items of Amount at Sl. No. 47(ii)"
+},
+{
+"n": 141,
+"cat": "A",
+"text": "In Schedule P&L, Net Profit at Sl.No. 66(ii) should not be more than Turnover at Sl. No. 66(i)."
+},
+{
+"n": 142,
+"cat": "A",
+"text": "In Part A P&L, if assessee has opted for taxation u/s 44BBD , sl no 66(ii) \"Net Profit \" cannot be less than 25% of \" Gross receipts /turnover"
+},
+{
+"n": 143,
+"cat": "A",
+"text": "In Part A P&L, if assessee has opted for taxation u/s 44B , sl no 66(ii) \"Net Profit \" cannot be less than 7.5% of \" Gross receipts /turnover"
+},
+{
+"n": 144,
+"cat": "A",
+"text": "In Part A P&L, if assessee has opted for taxation u/s 44BB , sl no 66(ii) \"Net Profit \" cannot be less than 10% of \" Gross receipts /turnover"
+},
+{
+"n": 145,
+"cat": "A",
+"text": "In Part A P&L, if assessee has opted for taxation u/s 44BBA , sl no 66(ii) \"Net Profit \" cannot be less than 5% of \" Gross receipts /turnover"
+},
+{
+"n": 146,
+"cat": "A",
+"text": "In Part A P&L, if assessee has opted for taxation u/s 44BBC, sl no 66(ii) \"Net Profit \" cannot be less than 20% of \" Gross receipts /turnover"
+},
+{
+"n": 147,
+"cat": "A",
+"text": "Name and address of bad debtors should be provided where PAN or Aadhaar is not available and the amount exceeds \u20b91 lakh."
+},
+{
+"n": 148,
+"cat": "A",
+"text": "In Schedule OI, Sl.No. 13 should be equal to 13i + 13ii. 11"
+},
+{
+"n": 149,
+"cat": "A",
+"text": "In Sch BP, Sl.No.23 should be minimum of sum of amounts entered at Sl.No.5a to 5d of Schedule Part A-OI"
+},
+{
+"n": 150,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No. 3a \"Increase in the profit or decrease in loss because of deviation, if any, as per Income Computation Disclosure Standards notified under section"
+}
+]

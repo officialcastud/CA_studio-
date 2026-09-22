@@ -1,0 +1,413 @@
+{
+ "Home": {
+  "section": "excluded",
+  "reason": "the utility's index page — navigation, not a schedule"
+ },
+ "PART A - GENERAL": {
+  "section": "who",
+  "blocks": [
+   "PartA_GEN1"
+  ]
+ },
+ "GENERAL2": {
+  "section": "gen",
+  "blocks": [
+   "PartA_GEN2For6"
+  ]
+ },
+ "SUBSIDIARY DETAILS": {
+  "section": "excluded",
+  "reason": "veryHidden in the utility — subsidiary look-up helper, not a filed schedule"
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "hidden in the utility — updated-return (139(8A)) variant, not this filing"
+ },
+ "NATURE OF BUSINESS": {
+  "section": "gen",
+  "blocks": [
+   "PartA_GEN2For6"
+  ]
+ },
+ "BALANCE SHEET": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_BSFor6FrmAY13"
+  ]
+ },
+ "Part A-Manufacturing Account": {
+  "section": "accounts",
+  "blocks": [
+   "ManufacturingAccount"
+  ]
+ },
+ "Part A-Trading Account": {
+  "section": "accounts",
+  "blocks": [
+   "TradingAccount"
+  ]
+ },
+ "PROFIT LOSS": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_PL"
+  ]
+ },
+ "Part A-BS - Ind AS": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_BSIndAS"
+  ]
+ },
+ "Part AManufacturingAccountIndas": {
+  "section": "accounts",
+  "blocks": [
+   "ManufacturingAccountIndAS"
+  ]
+ },
+ "Part A-Trading Account Indas": {
+  "section": "accounts",
+  "blocks": [
+   "TradingAccountIndAS"
+  ]
+ },
+ "Part A-P& L - Ind AS": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_PLIndAS"
+  ]
+ },
+ "PART - A OI": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_OI"
+  ]
+ },
+ "QUANTITATIVE DETAILS": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_QD"
+  ]
+ },
+ "PART-A OL": {
+  "section": "accounts",
+  "blocks": [
+   "PARTA_OL"
+  ]
+ },
+ "Tax": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden computation sheet — the method behind Part B-TTI and the interest; read, not shown"
+ },
+ "HOUSE PROPERTY": {
+  "section": "hp",
+  "blocks": [
+   "ScheduleHP"
+  ]
+ },
+ "VDA": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleVDA"
+  ]
+ },
+ "BP": {
+  "section": "bp",
+  "blocks": [
+   "CorpScheduleBP"
+  ]
+ },
+ "DPM_DOA": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDPM",
+   "ScheduleDOA"
+  ]
+ },
+ "DEP_DCG": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleDEP",
+   "ScheduleDCG"
+  ]
+ },
+ "ESR": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleESR"
+  ]
+ },
+ "CG": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleCG"
+  ]
+ },
+ "112A": {
+  "section": "cg",
+  "blocks": [
+   "Schedule112A"
+  ]
+ },
+ "115AD(1)(b)(iii) proviso": {
+  "section": "cg",
+  "blocks": [
+   "Schedule115AD"
+  ]
+ },
+ "HelpCSV": {
+  "section": "excluded",
+  "reason": "hidden in the utility — CSV import helper"
+ },
+ "OS": {
+  "section": "os",
+  "blocks": [
+   "ScheduleOS"
+  ]
+ },
+ "OS_Old": {
+  "section": "excluded",
+  "reason": "hidden in the utility — superseded OS version"
+ },
+ "CYLA-BFLA": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCYLA",
+   "ScheduleBFLA"
+  ]
+ },
+ "CFL": {
+  "section": "loss",
+  "blocks": [
+   "ScheduleCFL"
+  ]
+ },
+ "Unabsorbed Depreciation": {
+  "section": "loss",
+  "blocks": [
+   "ITRScheduleUD"
+  ]
+ },
+ "ICDS": {
+  "section": "bp",
+  "blocks": [
+   "ScheduleICDS"
+  ]
+ },
+ "10AA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule10AA"
+  ]
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80G"
+  ]
+ },
+ "80GGA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGA"
+  ]
+ },
+ "RA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80RA"
+  ]
+ },
+ "80": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80_IA",
+   "Schedule80_IB",
+   "Schedule80_IC"
+  ]
+ },
+ "80M": {
+  "section": "ded",
+  "blocks": [
+   "ScheduleVIA"
+  ],
+  "why_built": "the 80M dividend table feeds ScheduleVIA.UsrDeductUndChapVIA.Section80MDtls[] — its own sheet, no separate schema block"
+ },
+ "80GGB": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGB"
+  ]
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80GGC"
+  ]
+ },
+ "80IAC": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80IAC"
+  ]
+ },
+ "80LA": {
+  "section": "ded",
+  "blocks": [
+   "Schedule80LA"
+  ]
+ },
+ "VIA": {
+  "section": "ded",
+  "blocks": [
+   "ScheduleVIA"
+  ]
+ },
+ "SI": {
+  "section": "si",
+  "blocks": [
+   "ScheduleSI"
+  ]
+ },
+ "IF": {
+  "section": "other",
+  "blocks": [
+   "ScheduleIF"
+  ]
+ },
+ "DB": {
+  "section": "excluded",
+  "reason": "hidden in the utility — reference database"
+ },
+ "EI": {
+  "section": "ei",
+  "blocks": [
+   "ScheduleEI"
+  ]
+ },
+ "PTI": {
+  "section": "other",
+  "blocks": [
+   "SchedulePTI"
+  ]
+ },
+ "MAT": {
+  "section": "mat",
+  "blocks": [
+   "ScheduleMAT"
+  ]
+ },
+ "MATC": {
+  "section": "mat",
+  "blocks": [
+   "ScheduleMATC"
+  ]
+ },
+ "BBS": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "TPSA": {
+  "section": "other",
+  "blocks": [
+   "ScheduleTPSA"
+  ]
+ },
+ "Schedule 115TD": {
+  "section": "other",
+  "blocks": [
+   "Schedule115TD"
+  ]
+ },
+ "FSI": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleFSI"
+  ]
+ },
+ "TR_FA": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleTR1",
+   "ScheduleFA"
+  ]
+ },
+ "SH-1 AND SH-2": {
+  "section": "al",
+  "blocks": [
+   "ScheduleSH"
+  ]
+ },
+ "AL-1": {
+  "section": "al",
+  "blocks": [
+   "ScheduleAL"
+  ]
+ },
+ "AL-2": {
+  "section": "al",
+  "blocks": [
+   "ScheduleAL"
+  ]
+ },
+ "GST": {
+  "section": "other",
+  "blocks": [
+   "ScheduleGST"
+  ]
+ },
+ "FD": {
+  "section": "other",
+  "blocks": [
+   "ScheduleFD"
+  ]
+ },
+ "PARTB - TI - TTI": {
+  "section": "tax",
+  "blocks": [
+   "PartB-TI",
+   "PartB_TTI"
+  ]
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTDS2",
+   "ScheduleTDS3",
+   "ScheduleTCS"
+  ]
+ },
+ "Index": {
+  "section": "excluded",
+  "reason": "hidden in the utility — navigation"
+ },
+ "Help": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "hidden in the utility"
+ },
+ "Verification": {
+  "section": "bank",
+  "blocks": [
+   "Verification"
+  ]
+ },
+ "CG Pop up_prefill": {
+  "section": "excluded",
+  "reason": "hidden in the utility — capital-gains prefill popup helper"
+ }
+}

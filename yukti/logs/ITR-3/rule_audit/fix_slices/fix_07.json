@@ -1,0 +1,182 @@
+[
+ {
+  "n": 854,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule SI, Income u/s 115BBG (income from patent)-Income under head business or profession should be equal to Sl.No. 3f in schedule BP",
+  "clean": "",
+  "finding": "SI 115BBG(BP) 5BBG_BP not reconciled to BP 3f"
+ },
+ {
+  "n": 855,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income from other sources chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(xiv) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is \"Yes\".",
+  "clean": "",
+  "finding": "SI OS-DTAA (DTAAOS) not reconciled to BFLA 5(xiv)"
+ },
+ {
+  "n": 857,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g3.js:177",
+  "text": "115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA, STCG PTI@20% In Schedule SI, tax computed can not be null if income is greater than zero. Note : This rule is not applicable for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (12.5%), 111A, 112 (proviso) or",
+  "clean": "",
+  "finding": "SIEXC exclusion set diverges from rule (adds 5Ea/5Eb, omits 5ADiiiP/PTI_STCG20P/21/22)"
+ },
+ {
+  "n": 859,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In schedule SI, sum of income u/s 115AD (STCG for FIIs on securities where STT not paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30%",
+  "clean": "",
+  "finding": "SI 115AD-STCG(noSTT)+PTI-STCG@30% not reconciled to BFLA 5vii"
+ },
+ {
+  "n": 862,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income selected in 2d \"Any other income chargeable at special rate\" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as",
+  "clean": "",
+  "finding": "OS 2d special income not reconciled to SI"
+ },
+ {
+  "n": 863,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "referred to in 2f under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e \"Pass through income in the nature of income from ot",
+  "clean": "",
+  "finding": "OS 2e PTI-OS special not reconciled to SI"
+ },
+ {
+  "n": 864,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "referred to in 2f under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e \"Pass through income in the nature of income from ot",
+  "clean": "",
+  "finding": "OS 2e PTI-OS special not reconciled to SI (dup)"
+ },
+ {
+  "n": 865,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "referred to in 2f under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e \"Pass through income in the nature of income from ot",
+  "clean": "",
+  "finding": "OS 2e PTI-OS special not reconciled to SI (dup)"
+ },
+ {
+  "n": 866,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income selected in 2e \"Pass through income in the nature of income from other sources chargeable at special rates\" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as",
+  "clean": "",
+  "finding": "OS 2e PTI-OS special not reconciled to SI (dup)"
+ },
+ {
+  "n": 869,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule SI, Income u/s 115BBJ (Winnings from online games) should be equal to Sl.No. 2a(ii) after reducing corresponding DTAA income in Schedule OS Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as",
+  "clean": "",
+  "finding": "SI 115BBJ (5BBJ) not reconciled to OS 2a(ii)"
+ },
+ {
+  "n": 870,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "referred to in 2f under given section provided TRC flag is \"Yes\" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Sum of income u/s 112(1) (LTCG on listed securities/ units without indexat",
+  "clean": "",
+  "finding": "Sum of SI LTCG special heads not reconciled to BFLA"
+ },
+ {
+  "n": 871,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "(LTCG on sale of shares or units on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5%-u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5 - u/s other than 112A should be equal to corresponding income as per schedule BFLA In schedule SI, sum of income u/s 111A or 115AD(1)(b)(ii) proviso & Pass Through Income in the",
+  "clean": "",
+  "finding": "SI 111A/115AD(1)(b)(ii)proviso+PTI-STCG@20% not reconciled to BFLA 5vi"
+ },
+ {
+  "n": 872,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Sl.No. 5vi of schedule BFLA Income from short term capital gains chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(ix) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. 52",
+  "clean": "",
+  "finding": "SI STCG-DTAA not reconciled to BFLA 5(ix)"
+ },
+ {
+  "n": 873,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Income from long term capital gains chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(xi) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is \"Yes\".",
+  "clean": "",
+  "finding": "SI LTCG-DTAA not reconciled to BFLA 5(xi)"
+ },
+ {
+  "n": 891,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Schedule FSI in Schedule FSI If tax relief is claimed against House Property then amount shown in House property in Sl.no 1k+2 should not be less than the amount of income shown under House property in Schedule FSI 53",
+  "clean": "",
+  "finding": "FSI HP relief not guarded (only salary head A890 checked)"
+ },
+ {
+  "n": 892,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule FSI if tax relief is claimed against Business or Profession then amount shown in Business Income in Sl.no. D of Trading Account + Positive values of Sl.no.14 of schedule Profit and loss or No books of account as the case may be, should not be less",
+  "clean": "",
+  "finding": "FSI business relief not guarded"
+ },
+ {
+  "n": 893,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "than the amount of income shown under Business or Profession in Schedule FSI in Schedule FSI, if tax relief is claimed against Capital Gains then amount of Income shown in Capital gains should not be less than the amount of income shown under Capital",
+  "clean": "",
+  "finding": "FSI capital-gains relief not guarded"
+ },
+ {
+  "n": 894,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "gains in Schedule FSI In Schedule FSI If tax relief is claimed against other sources then amount of Income shown in other sources should not be less than the amount of income shown under the",
+  "clean": "",
+  "finding": "FSI other-sources relief not guarded"
+ },
+ {
+  "n": 922,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:575",
+  "text": "Income claimed under the head PGBP in Part B TI should be equal to the Income as per Schedule BP",
+  "clean": "",
+  "finding": "Condition ends with ||true so never fires (dead check)"
+ },
+ {
+  "n": 939,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "\"Income details\" and \"Tax computation\" should be disclosed where details regarding \u201cTaxes Paid\u201d have been disclosed",
+  "clean": "",
+  "finding": "No check taxes-paid disclosed -> income/tax computation required"
+ }
+]

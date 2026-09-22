@@ -1,0 +1,252 @@
+[
+{
+"n": 651,
+"cat": "A",
+"text": "If \"Old Tax Regime\" is selected In Schedule VIA, if deduction u/s 80GGA is claimed then Schedule 80GGA must be filled"
+},
+{
+"n": 652,
+"cat": "A",
+"text": "Schedule 80GGA should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 653,
+"cat": "A",
+"text": "In Sch 80GGA, Eligible Amount donated in cash should not exceed Rs. 2000"
+},
+{
+"n": 654,
+"cat": "A",
+"text": "Deduction u/s 80GGA can be allowed to a person who is a partner of firm and deriving only profit from the firm"
+},
+{
+"n": 655,
+"cat": "A",
+"text": "In Sch 80GGA Donee PAN is same as \"Assessee PAN\" or \"PAN at Verification\""
+},
+{
+"n": 656,
+"cat": "A",
+"text": "In Schedule 80GGC, Sl. No. A \"Contribution in cash\" is not equal to sum of column iii"
+},
+{
+"n": 657,
+"cat": "A",
+"text": "In Schedule 80GGC, Sl. No. B \"Contribution in other mode\" is not equal to sum of column iv"
+},
+{
+"n": 658,
+"cat": "A",
+"text": "In Schedule 80GGC, Sl. No. C \"Total Contribution\" is not equal to sum of column v"
+},
+{
+"n": 659,
+"cat": "A",
+"text": "If Gross Total Income in Part B TI is negative, Sl. No. D \"Eligible amount of Donation\" can not be more than 0"
+},
+{
+"n": 660,
+"cat": "A",
+"text": "If deduction under section 80GGC claimed in sl. No (a) of Sch VI A then its mandatory to fill details in Schedule 80GGC"
+},
+{
+"n": 661,
+"cat": "A",
+"text": "In Part A General, \"If New tax regime is selected \" then Schedule 80GGC is not required to be filled."
+},
+{
+"n": 662,
+"cat": "A",
+"text": "In Schedule 80GGC, if Sl. No. iii is greater than '0', then Sl. No. iv to viii are not required to be filled"
+},
+{
+"n": 663,
+"cat": "A",
+"text": "In Schedule 80GGC, Sl. No. D \"Total Eligible Amount of Contribution\" is not equal to total of column vi"
+},
+{
+"n": 664,
+"cat": "A",
+"text": "In Sch 80GGC, Total Contribution should be equal to the sum of (i+ii)"
+},
+{
+"n": 665,
+"cat": "A",
+"text": "In schedule 80GGC, If \"Donation in other mode\" is > 0, then details of such donation are required"
+},
+{
+"n": 666,
+"cat": "A",
+"text": "In Schedule 80GGC, Amount of deduction computed cannot be more than the eligible amount. Hence deduction u/s 80GGC is restricted to eligible amount of donation in schedule 80GGC 39"
+},
+{
+"n": 667,
+"cat": "A",
+"text": "In Schedule 80GGC, Sl. No. D \"Eligible Amount of contribution\" should be equal to sum of individual amounts restricted to GTI"
+},
+{
+"n": 668,
+"cat": "A",
+"text": "Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2025 to 31.03.2026 for AY 2026-27"
+},
+{
+"n": 669,
+"cat": "A",
+"text": "Name and PAN of the political party is necessary to claim deduction u/s 80GGC"
+},
+{
+"n": 670,
+"cat": "A",
+"text": "Amount that can be claimed for category \"Dependent with disability\" u/s 80DD should be equal to 75,000 in schedule 80DD. It cannot be either more or less."
+},
+{
+"n": 671,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule VI-A, Amount claimed for category \"Dependent with severe disability\" u/s 80DD should be equal to Rs. 1,25,000. It cannot be either more or less."
+},
+{
+"n": 672,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80DD Value of SL.No ii is not equal to SL.no g of VIA under Part B- Deduction in respect of certain payments"
+},
+{
+"n": 673,
+"cat": "A",
+"text": "In Schedule 80DD SL. No i to iii and either from iv or v are mandatory if any one or multiple rows of SL. No i to viii is filled"
+},
+{
+"n": 674,
+"cat": "A",
+"text": "In schedule 80DD, If deduction is > 0, then details of such donation are required"
+},
+{
+"n": 675,
+"cat": "A",
+"text": "HUF can claim deductions u/s 80DD for dependent being \"Member of HUF\""
+},
+{
+"n": 676,
+"cat": "A",
+"text": "Amount claimed for category \"Self with disability\" u/s 80U should be equal to Rs. 75,000. It cannot be either more or less."
+},
+{
+"n": 677,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80DD, If Assessee is claiming deduction under section 80U, providing Nature of disability is mandatory"
+},
+{
+"n": 678,
+"cat": "A",
+"text": "In Schedule VIA, deduction that can be claimed for category \"Self with severe disability\" in schedule 80U should be equal to Rs. 1,25,000. It cannot be either more or less."
+},
+{
+"n": 679,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80U Value of SL.no ii is not equal to SL.no iii of VIA under Part CA and D- Deduction in respect of other incomes/other deduction"
+},
+{
+"n": 680,
+"cat": "A",
+"text": "In Schedule 80U SL. No i and ii are mandatory if any one or multiple rows of SL. No i to iv are filled"
+},
+{
+"n": 681,
+"cat": "A",
+"text": "In schedule 80U, If deduction is > 0, then details of such donation are required"
+},
+{
+"n": 682,
+"cat": "A",
+"text": "Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively."
+},
+{
+"n": 683,
+"cat": "A",
+"text": "In Schedule RA, Total donation should be equal to Donation in cash + Donation in other mode"
+},
+{
+"n": 684,
+"cat": "A",
+"text": "In Schedule RA, Total of column Donation in cash should be equal to the sum of individual value of donation in cash 40"
+},
+{
+"n": 685,
+"cat": "A",
+"text": "In Schedule RA, Total of column Donation in other mode should be equal to the sum of individual value of donation in other mode"
+},
+{
+"n": 686,
+"cat": "A",
+"text": "In Schedule RA, Total donation should be equal to sum of individual value of total donation"
+},
+{
+"n": 687,
+"cat": "A",
+"text": "Schedule RA should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 688,
+"cat": "A",
+"text": "Schedule 80-IA/IB/IE should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 689,
+"cat": "A",
+"text": "In \"Schedule 80-IA\" Total deductions under section 80-IA should be equal to the sum of individual values"
+},
+{
+"n": 690,
+"cat": "A",
+"text": "Deduction claimed u/s 80-IB in \"Schedule VI-A\" cannot be more than the amount in \"Schedule 80-IB\""
+},
+{
+"n": 691,
+"cat": "A",
+"text": "In \"Schedule 80-IB\", Total deduction under section 80-IB should be equal to the value entered in (Total of a to d)"
+},
+{
+"n": 692,
+"cat": "A",
+"text": "In \"Schedule 80IE\" (ai)- Total of deduction for undertakings located in North-east should be equal to the sum of (Total of (a) to (h))"
+},
+{
+"n": 693,
+"cat": "A",
+"text": "Details such as Amount eligible for deduction u/s 80C, Policy number or Document Identification number are required to provide in schedule 80C to claim deduction"
+},
+{
+"n": 694,
+"cat": "A",
+"text": "Deduction u/s 80C claimed under chapter VIA should be same as the \"Total Deduction u/s 80C\""
+},
+{
+"n": 695,
+"cat": "A",
+"text": "In schedule 80C the sum of individual rows for \"Amount eligible for deduction u/s 80C\" shall match with the \"Total Deduction u/s 80C\" as per the schedule 80C"
+},
+{
+"n": 696,
+"cat": "A",
+"text": "Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule, 80EEB"
+},
+{
+"n": 697,
+"cat": "A",
+"text": "schedule or Table 10(13A) In Schedule 80D, Deduction at Sl. No. 1a Self and Family will be allowed to the extent of 25000."
+},
+{
+"n": 698,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii)"
+},
+{
+"n": 699,
+"cat": "A",
+"text": "Deduction of Preventive Health Check up under section 80D for Self and Family and/or Parents cannot be greater than 5000."
+},
+{
+"n": 700,
+"cat": "A",
+"text": "Deduction is available only if \"Old Tax Regime\" is selected In Schedule 80D, Deduction at Sl. No. 1b Self and Family (Senior Citizen) will be allowed to the extent of 50000."
+}
+]

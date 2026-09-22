@@ -1,0 +1,252 @@
+[
+{
+"n": 551,
+"cat": "A",
+"text": "In schedule CYLA, Sl.No. 2xvi cannot be more than Rs. 200000."
+},
+{
+"n": 552,
+"cat": "A",
+"text": "In Schedule CYLA, HP Income should be equal to Sl.No. 3 of Schedule HP"
+},
+{
+"n": 553,
+"cat": "A",
+"text": "Other sources loss at Schedule CYLA should be equal to the amount mentioned in \"Schedule OS\"."
+},
+{
+"n": 554,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 2xvi \"Total loss set off\" should be equal to sum of (2ii + 2iv + 2v + 2vi + 2vii + 2viii + 2ix + 2x+2xi+2xii +2xiii+2xiv+2xv)"
+},
+{
+"n": 555,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 3xvi \"Total loss set off\" should be equal to sum of ( 3iii+ 3vii+ 3viii + 3ix + 3x+3xi+3xii +3xiii+3xiv+3xv)"
+},
+{
+"n": 556,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 4xvi \"Total loss set off\" should be equal to sum of ( 4ii+ 4iii+4iv++4v+4vi+4vii+ 4viii + 4ix + 4x+4xi+4xii+4xiii+4xv)"
+},
+{
+"n": 557,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 2xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 2i-2xvi"
+},
+{
+"n": 558,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 3xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 3i-3xvi"
+},
+{
+"n": 559,
+"cat": "A",
+"text": "In Schedule CYLA, Sl.No. 4xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 4i-4xvi"
+},
+{
+"n": 560,
+"cat": "A",
+"text": "In Schedule CYLA, Col No.5 \"Current year\u2019s Income remaining after set off\" should be equal to the output of Col No. 1-2-3-4"
+},
+{
+"n": 561,
+"cat": "A",
+"text": "In Schedule CYLA, Income from Business & profession (excluding Income from speculation income and income from specified business) should be equal to Sl.No. A37"
+},
+{
+"n": 562,
+"cat": "A",
+"text": "in Schedule BP In Schedule CYLA, Speculative Income should be equal to SL.No. 3ii of Table E Schedule BP"
+},
+{
+"n": 563,
+"cat": "A",
+"text": "In Schedule CYLA, Specified business Income should be equal to Sl.No. 3iii of Table E of Schedule BP 34"
+},
+{
+"n": 564,
+"cat": "A",
+"text": "In Schedule CYLA, Short term capital gain @30% should be equal to Sl.No. 8iii of item E of Schedule CG"
+},
+{
+"n": 565,
+"cat": "A",
+"text": "In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.No. 8iv of item E of Schedule CG"
+},
+{
+"n": 566,
+"cat": "A",
+"text": "In Schedule CYLA, Short term capital gain taxable at special rates in India as per DTAA should be equal to Sl.No. 8v of item E of Schedule CG"
+},
+{
+"n": 567,
+"cat": "A",
+"text": "In Schedule CYLA, Long term capital gain taxable as per DTAA @special rate should be equal to Sl.No. 8vii of item E of Schedule CG"
+},
+{
+"n": 568,
+"cat": "A",
+"text": "In Schedule CYLA, Other Source Income(excluding profit from owning race horses and amount chargeable to special rate of tax) should be equal to Sl.No. 6 of Schedule OS"
+},
+{
+"n": 569,
+"cat": "A",
+"text": "In Schedule CYLA, Profit from owning and maintaining race horses should be equal to Sl.No. 8e of Schedule OS"
+},
+{
+"n": 570,
+"cat": "A",
+"text": "In Schedule CYLA, Income from other sources taxable at special rates in India as per DTAA should be equal to Sl.No. 2f of Schedule OS"
+},
+{
+"n": 571,
+"cat": "A",
+"text": "In Schedule CYLA, Salary Income should be equal to Sl.No. 6 of Schedule Salary"
+},
+{
+"n": 572,
+"cat": "A",
+"text": "If \"New Tax Regime\" is selected, In schedule CYLA, loss under house property cannot be allowed to set off at Sl. No. 2ii to 2xii."
+},
+{
+"n": 573,
+"cat": "A",
+"text": "If \"New Tax Regime\" is selected, In schedule CYLA, loss under head house property cannot be carry forwarded at Sl. No. 2xvii."
+},
+{
+"n": 574,
+"cat": "A",
+"text": "In Schedule CYLA, 'Total loss set off' cannot be more than the 'Loss to be set off'"
+},
+{
+"n": 575,
+"cat": "A",
+"text": "In Schedule CYLA ,Row No (xvii) should be equal to (i - xvi) i.e. Loss to be adjusted - total loss set off (xvi) , for HP, BP and OS and cannot be negative."
+},
+{
+"n": 576,
+"cat": "A",
+"text": "In Schedule CYLA, Normal OS loss should be set off first against the (i)Profit from the activity of owning and maintaining race horses & (ii)Income from other sources taxable"
+},
+{
+"n": 577,
+"cat": "A",
+"text": "at special rates in India as per DTAA In Schedule CYLA, whole House property loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 578,
+"cat": "A",
+"text": "In Schedule CYLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1"
+},
+{
+"n": 579,
+"cat": "A",
+"text": "In Schedule CYLA, house property losses cannot be adjusted against any income in case new tax regime is opted by taxpayer"
+},
+{
+"n": 580,
+"cat": "A",
+"text": "In Schedule CYLA, whole business loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 581,
+"cat": "A",
+"text": "In Schedule CYLA, whole OS loss can be setoff against any head of income in case income is more than loss"
+},
+{
+"n": 582,
+"cat": "A",
+"text": "In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. 8ii of item E of Schedule CG 35"
+},
+{
+"n": 583,
+"cat": "A",
+"text": "In Schedule CYLA, Long term capital gain taxable @12.5% should be equal to Sl.No. 8vi of item E of Schedule CG"
+},
+{
+"n": 584,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 2(ii) should be equal to Sl.No. 4(xviii) of CFL"
+},
+{
+"n": 585,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 2(iii+iv+v) should be equal to Sl.No. 5c(xviii)+6(xviii)+7(xviii) of Schedule CFL"
+},
+{
+"n": 586,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 2(vi +vii+viii+ix+x +xi) should be equal to Sl.No. 8(xviii)+9(xviii) of CFL"
+},
+{
+"n": 587,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 2xv should be equal to sum of Sl.No.(2ii + 2iii + 2iv + 2v + 2vi+ 2vii +2viii + 2ix + 2x + 2xi + 2xiii)"
+},
+{
+"n": 588,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. xvi should be equal to sum of Sl.No. (5i + 5ii + 5iii + 5iv+ 5v + 5vi+ 5vii + 5viii + 5ix + 5x + 5xi +5xii + 5xiii+ 5xiv)"
+},
+{
+"n": 589,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 3xv should be equal to sum of Sl.No. (3ii + 3iii + 3iv + 3v + 3vi+ 3vii +3viii + 3ix + 3x+ 3xi+3xii+3xiii+3xiv )"
+},
+{
+"n": 590,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 4xv should be equal to sum of Sl.No. (4ii + 4iii + 4iv + 4v + 4vi+ 4vii +4viii + 4ix + 4x+ 4xi+4xii+4xiii+4xiv)"
+},
+{
+"n": 591,
+"cat": "A",
+"text": "The value claimed as Brought forward allowance under section 35(4) set off in Schedule BFLA should be same as reflecting in Schedule UD"
+},
+{
+"n": 592,
+"cat": "A",
+"text": "The value claimed as Brought forward depreciation set off in Schedule BFLA should be same as reflecting in Schedule UD"
+},
+{
+"n": 593,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1i should be equal to Sl.No. 5ii of schedule CYLA"
+},
+{
+"n": 594,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1ii should be equal to Sl.No. 5iii of schedule CYLA"
+},
+{
+"n": 595,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1iii should be equal to Sl.No. 5iv of schedule CYLA"
+},
+{
+"n": 596,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1iv should be equal to Sl.No. 5v of schedule CYLA"
+},
+{
+"n": 597,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1v should be equal to Sl.No. 5vi of schedule CYLA"
+},
+{
+"n": 598,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1vii should be equal to Sl.No. 5viii of schedule CYLA"
+},
+{
+"n": 599,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1viii should be equal to Sl.No. 5ix of schedule CYLA"
+},
+{
+"n": 600,
+"cat": "A",
+"text": "In Schedule BFLA, Sl.No. 1ix should be equal to Sl.No. 5x of schedule CYLA"
+}
+]

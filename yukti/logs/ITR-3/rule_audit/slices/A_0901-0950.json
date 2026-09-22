@@ -1,0 +1,252 @@
+[
+{
+"n": 901,
+"cat": "A",
+"text": "(d) whichever is lower\" in schedule FSI for each and every \"Country code\" Schedule FA has to be filled if SL.no.14 of Part B-TTI is selected as \"Yes\""
+},
+{
+"n": 902,
+"cat": "A",
+"text": "Complete details of foreign assets should be provided in Schedule FA"
+},
+{
+"n": 903,
+"cat": "A",
+"text": "If assessee is governed by Portuguese Code then \"PAN of Spouse\" should be provided."
+},
+{
+"n": 904,
+"cat": "A",
+"text": "In Schedule 5A, Sl. No. 5 Total should be equal to sum of Sl. No. (1+2+3+4)"
+},
+{
+"n": 905,
+"cat": "A",
+"text": "Total Income is greater than Rs. 1 crore then Schedule AL is required to be filled"
+},
+{
+"n": 906,
+"cat": "A",
+"text": "In Schedule ESOP \"Balance amount of tax deferred to be carried forward to be next Assessment years\" Sl.no 8 should be equal to Sl.no 3-7"
+},
+{
+"n": 907,
+"cat": "A",
+"text": "In Schedule ESOP \"Balance amount of tax deferred to be carried forward to be next Assessment years\" Sl.no 8 should be equal to Sl.no 3b of Part B-TTI"
+},
+{
+"n": 908,
+"cat": "A",
+"text": "In Schedule ESOP If Sl.no 4, option selected as 'Not sold' AND If in Sl.no 5, option selected as 'No', then Sl.no 7 should be as Zero"
+},
+{
+"n": 909,
+"cat": "A",
+"text": "In Schedule ESOP if Sl.No. 5 is selected as \"Yes\", then Sl.no 7 should be auto populated from Sl.no 3,"
+},
+{
+"n": 910,
+"cat": "A",
+"text": "In \"Schedule IF\", Total of Col \"Amount of share in the profit\" should be equal to sum of value entered in individual columns. 54"
+},
+{
+"n": 911,
+"cat": "A",
+"text": "In Schedule BP, Sl. No. A5a -Share of income from firm(s) can not be more than the \u201cAmount of share in the profits\u201d column of schedule IF"
+},
+{
+"n": 912,
+"cat": "A",
+"text": "As per Rule 37BA of the Income Tax Rules, 1962, read with Section 199 of the Income Tax Act, 1961, credit of tax deducted at source shall be given for the assessment year for which such income is assessable. Thus please ensure that the schedules contain the details of the receipts and are not left blank. (category \u2013 A)"
+},
+{
+"n": 913,
+"cat": "A",
+"text": "Further, ensure that all the receipts / income on which credit is claimed as per 26AS is appearing in the return. If tax computation is more than 0, GTI (Gross Total Income) should be disclosed mandatorily, It cannot be left as Nil or 0."
+},
+{
+"n": 914,
+"cat": "A",
+"text": "In Schedule Part B-TI, amount at \"Total Profits and Gains from Business or Profession\" should be equal to sum of \"Individual profits and Gains from Business and Profession\""
+},
+{
+"n": 915,
+"cat": "A",
+"text": "In Schedule Part B-TI, amount at \"Total Short term Capital Gains\" should be equal to the sum of \"Individual Short Term Capital Gain amounts\""
+},
+{
+"n": 916,
+"cat": "A",
+"text": "In Schedule Part B-TI, amount at \"Total Long term Capital Gains\" should be equal to the sum of \"Individual Long Term Capital Gain amounts\"."
+},
+{
+"n": 917,
+"cat": "A",
+"text": "In Schedule Part B-TI, amount at \"Total Capital Gains\" should be equal to the sum of \"Short Term and Long Term Capital Gains\"."
+},
+{
+"n": 918,
+"cat": "A",
+"text": "In Schedule Part B-TI, , total Income from other sources should be equal to the sum of \"Individual incomes from Other Sources head\""
+},
+{
+"n": 919,
+"cat": "A",
+"text": "In schedule Part B-TI, the value in Sl.No. 6 should be equal to total of Sl.No. (1 + 2 + 3v + 4e+ 5d)"
+},
+{
+"n": 920,
+"cat": "A",
+"text": "Income claimed under the head Salaries in Part BTI should be equal to Income as per Schedule Salary (sum of all employers)."
+},
+{
+"n": 921,
+"cat": "A",
+"text": "Income claimed under the head House Property in Part B TI should be equal to Income as per Schedule HP"
+},
+{
+"n": 922,
+"cat": "A",
+"text": "Income claimed under the head PGBP in Part B TI should be equal to the Income as per Schedule BP"
+},
+{
+"n": 923,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Short term chargeable @30% should be equal to Sl.no. 8iii of Table E in Schedule CG."
+},
+{
+"n": 924,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Short term chargeable @ applicable rate should be equal to Sl.no. 8iv of Table E in Schedule CG."
+},
+{
+"n": 925,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Short term chargeable as per DTAA should be equal to Sl.no. 8v of Table E in Schedule CG."
+},
+{
+"n": 926,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Long term chargeable as per DTAA should be equal to Sl.no. 8vii of Table E in Schedule CG. 55"
+},
+{
+"n": 927,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income from sources other than from owning Race Horses & Income chargeable at special rate should be equal to Sl.No. 6 of Schedule OS."
+},
+{
+"n": 928,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income chargeable to tax at special rate is should be equal to Sl.No. 2 of Schedule OS."
+},
+{
+"n": 929,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income from the activity of owning and maintaining race horses should be equal to Sl.No. 8e of Schedule OS."
+},
+{
+"n": 930,
+"cat": "A",
+"text": "In Schedule Part B-TI, Losses of current year set off against income from all the heads should be equal to the \"Total losses set off\" at Schedule CYLA."
+},
+{
+"n": 931,
+"cat": "A",
+"text": "In Schedule Part B-TI, Brought forward losses set off against Balance Income should be equal to \"Total of brought forward losses set off\" at Schedule BFLA."
+},
+{
+"n": 932,
+"cat": "A",
+"text": "In Schedule Part B-TI, Gross Total Income should be equal to Sl.No. 8 - 9"
+},
+{
+"n": 933,
+"cat": "A",
+"text": "If deduction u/s 10AA is claimed in Part B-TI then Schedule 10AA should be filled."
+},
+{
+"n": 934,
+"cat": "A",
+"text": "In Schedule Part B-TI, Losses of current year to be carried forward should be equal to the \"Total of Current year losses\" of Schedule CFL. OR"
+},
+{
+"n": 935,
+"cat": "A",
+"text": "If the original return is filed or being filed u/s 139(4) - after due date, carry forward of current year losses other than HP loss will not be allowed. In Schedule Part B-TI, Total Income should be equal to the Gross Total Income minus Chapter VI-A deductions."
+},
+{
+"n": 936,
+"cat": "A",
+"text": "Note : Round off +5 and -5 is allowed. In Schedule Part B-TI, Income chargeable to tax at special rates(3e, 3f & 3g of Schedule BP) should be equal to income disclosed in Schedule BP."
+},
+{
+"n": 937,
+"cat": "A",
+"text": "In Schedule Part B-TI, If deductions is claimed at Sl.No. 12(a) then Part-B, CA and D of Chapter VI-A should be filled"
+},
+{
+"n": 938,
+"cat": "A",
+"text": "In Schedule Part B-TI, If deductions is claimed at Sl.No. 12(b) then Part-C of Chapter VI- A should be filled"
+},
+{
+"n": 939,
+"cat": "A",
+"text": "\"Income details\" and \"Tax computation\" should be disclosed where details regarding \u201cTaxes Paid\u201d have been disclosed"
+},
+{
+"n": 940,
+"cat": "A",
+"text": "In Schedule Part B-TI, Net agricultural income for rate purpose should be equal to the value entered at Sl.No. 2 of Schedule EI"
+},
+{
+"n": 941,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income chargeable to tax at special rate under section 111A, 112, 112A etc. included in Sl.No. 10 should be consistent with the total of special incomes of"
+},
+{
+"n": 942,
+"cat": "A",
+"text": "Schedule SI In Schedule Part B-TI, Deduction under chapter VI-A, Part-B, CA and D at Sl.No. 12(a) should be equal to 1+3 of Schedule VI-A"
+},
+{
+"n": 943,
+"cat": "A",
+"text": "In Schedule Part B-TI, deduction under chapter VI-A Part-C at Sl.No. 12(b) should be equal to Sl.No. 2 of schedule VI-A"
+},
+{
+"n": 944,
+"cat": "A",
+"text": "In \"Schedule Part B-TI\" '12(c)' Total should be equal to the value entered in (12a + 12b) 56"
+},
+{
+"n": 945,
+"cat": "A",
+"text": "In Schedule Part B-TI, Balance after set off current year losses should be equal to the output of Total Head wise Income less Losses of current year to be set off"
+},
+{
+"n": 946,
+"cat": "A",
+"text": "In Schedule Part B-TI, Sl.No. 17 Aggregate Income should be equal to Sl.No. 14-15+16"
+},
+{
+"n": 947,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income chargeable to tax at special rate has been shown, details of the same should be provided in the applicable schedules ,viz., Schedule Capital Gain"
+},
+{
+"n": 948,
+"cat": "A",
+"text": "/Schedule Other sources and Schedule SI. In Schedule Part B-TI, Sl.No. 3(ii) Income disclosed under Profit and gains from speculative business should be equal to amount mentioned in Schedule BP"
+},
+{
+"n": 949,
+"cat": "A",
+"text": "In Schedule Part B-TI, Sl.No. 3(iii) Income disclosed under Profit and gains from specified business should be equal to amount mentioned in Schedule BP"
+},
+{
+"n": 950,
+"cat": "A",
+"text": "Exempt allowance u/s 10(10B) is claimed by Central Government employees, State government employees, CG-Pensioners, and SG- Pensioners"
+}
+]

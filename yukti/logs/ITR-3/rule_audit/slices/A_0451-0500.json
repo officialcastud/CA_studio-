@@ -1,0 +1,252 @@
+[
+{
+"n": 451,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No. 1 the breakup of all the quarters should be equal to the value from item 5vi of schedule BFLA"
+},
+{
+"n": 452,
+"cat": "A",
+"text": "In Schedule CG, Table F Sl.No. 5 the breakup of all the quarters should be equal to the value from item 5x of schedule BFLA"
+},
+{
+"n": 453,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 20%."
+},
+{
+"n": 454,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 30%."
+},
+{
+"n": 455,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG Applicable rates%."
+},
+{
+"n": 456,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG dtaa rates."
+},
+{
+"n": 457,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 12.5%."
+},
+{
+"n": 458,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG DTAA Rates."
+},
+{
+"n": 459,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL20%."
+},
+{
+"n": 460,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL30%."
+},
+{
+"n": 461,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL Applicable rate%."
+},
+{
+"n": 462,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL_DTAA Rates"
+},
+{
+"n": 463,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 12.5%"
+},
+{
+"n": 464,
+"cat": "A",
+"text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL _DTAA Rates"
+},
+{
+"n": 465,
+"cat": "A",
+"text": "In Table E of Schedule CG, Column 8 of each row should be equal to 1- (2+3+4+5+6+7)"
+},
+{
+"n": 466,
+"cat": "A",
+"text": "Sum of capital gains from all properties should be correctly reflected at B1g"
+},
+{
+"n": 467,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1ea of LTCG Balance should be equal to B1(ca - d)"
+},
+{
+"n": 468,
+"cat": "A",
+"text": "Sl. No. B1b(iva) of LTCG of Schedule CG should be equal to B1(biia + \u01a9biib(c) + biii)."
+},
+{
+"n": 469,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1(ca) of LTCG Balance should be equal to B1(aiii-biva)"
+},
+{
+"n": 470,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1h of LTCG (\u01a9B1eii)\" should be equal to sum of B1e(ii) of all blocks 28"
+},
+{
+"n": 471,
+"cat": "A",
+"text": "In schedule CG, in Table D, section 54EC of LTCG, amount invested should not be more than 50L"
+},
+{
+"n": 472,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B1di to B1dvii for all assets"
+},
+{
+"n": 473,
+"cat": "A",
+"text": "In Schedule CG, Table E, entire loss should be set off with gains available for set off."
+},
+{
+"n": 474,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B2d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B2di and B2dii"
+},
+{
+"n": 475,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B9d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B9di to B9div"
+},
+{
+"n": 476,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A1d of STCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. A1di to A1diii"
+},
+{
+"n": 477,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A6f of STCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. A6fii and A6fiii"
+},
+{
+"n": 478,
+"cat": "A",
+"text": "Sum of Improve cost in each L&B block should be equal to sum of all improve costs for such block of land and building in schedule CG under Long term capital gain"
+},
+{
+"n": 479,
+"cat": "A",
+"text": "Sum of Indexed Improve cost in each L&B block should be equal to sum of all Indexed improve costs for such block of land and building in schedule CG under Long term capital"
+},
+{
+"n": 480,
+"cat": "A",
+"text": "gain Deduction claimed under section 54F in Table D cannot be more than 10cr"
+},
+{
+"n": 481,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B4i biv of LTCG should be equal to sum of B4i(bi+bii+biii)"
+},
+{
+"n": 482,
+"cat": "A",
+"text": "In Schedule CG, Sl. No. B12 Col. 10 Applicable Rate is not equal to lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate as per IT Act)"
+},
+{
+"n": 483,
+"cat": "A",
+"text": "In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of financial year"
+},
+{
+"n": 484,
+"cat": "A",
+"text": "Deduction under section 115F shall be allowed only if the investment in the new specified asset or savings certificate is made within 6 months after the date of transfer of the original"
+},
+{
+"n": 485,
+"cat": "A",
+"text": "foreign exchange asset. In Schedule 112A, Col. 6 Total Sale Value should be equal to Col. 4*Col. 5"
+},
+{
+"n": 486,
+"cat": "A",
+"text": "In Schedule 112A, Col. 7 Cost of acquisition without indexation should be higher of Col. 8 and Col. 9"
+},
+{
+"n": 487,
+"cat": "A",
+"text": "In Schedule 112A, Col. 9 If the long term capital asset was acquired before 01.02.2018 should be lower of Col. 6 and Col. 11"
+},
+{
+"n": 488,
+"cat": "A",
+"text": "In Schedule 112A, Col. 11 Total Fair Market Value of capital asset as per section 55(2)(ac) should be equal to Col. 4*Col. 10"
+},
+{
+"n": 489,
+"cat": "A",
+"text": "In Schedule 112A, Col. 13 Total deductions should be equal to sum of Col. (7+12)"
+},
+{
+"n": 490,
+"cat": "A",
+"text": "In Schedule 112A, Col. 14 Balance should be equal to the output of Col. 6-Col. 13 29"
+},
+{
+"n": 491,
+"cat": "A",
+"text": "In Schedule 112A, Total of Col 6, 7, 8, 9, 11, 12, 13 and 14 should be equal to the sum of individual amounts entered in respective column"
+},
+{
+"n": 492,
+"cat": "A",
+"text": "In schedule 112A, Value at Column no. 4,5,10 & 11 cannot be greater than zero in case drop down is selected as \"After 31st January 2018\" to question whether shares are"
+},
+{
+"n": 493,
+"cat": "A",
+"text": "acquired on or before 31.01.2018 or after 31.01.2018? In Schedule 115AD(1)(iii) proviso, Col. 6 Total Sale Value should be equal to Col. 4*Col. 5"
+},
+{
+"n": 494,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Col. 7 Cost of acquisition without indexation should be higher of Col. 8 and Col. 9"
+},
+{
+"n": 495,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Col. 9 If the long term capital asset was acquired before 01.02.2018 should be lower of Col. 6 and Col. 11"
+},
+{
+"n": 496,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Col. 11 Total Fair Market Value of capital asset as per section 55(2)(ac) should be equal to Col. 4*Col. 10"
+},
+{
+"n": 497,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Col. 13 Total deductions should be equal to sum of Col. (7+12)"
+},
+{
+"n": 498,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Col. 14 Balance should be equal to the output of Col. 6-Col. 13"
+},
+{
+"n": 499,
+"cat": "A",
+"text": "In Schedule 115AD(1)(iii) proviso, Total of Col 6, 7, 8, 9, 11, 12, 13 and 14 should be equal to the sum of individual amounts entered in respective column"
+},
+{
+"n": 500,
+"cat": "A",
+"text": "In schedule 115AD(1)(b)(iii), Value at Column no. 4,5,10 & 11 cannot be greater than zero in case drop down is selected as \"After 31st January 2018\" to question whether shares"
+}
+]
