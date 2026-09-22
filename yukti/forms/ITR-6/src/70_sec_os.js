@@ -364,6 +364,65 @@ function engOs(){
   C.dtaaTotal  = R(f2);                    /* 2e total → Schedule SI DTAA / CYLA (rule 524, 616) */
   /* GTI contribution — signed on the normal leg so a loss reaches CYLA */
   C.income = R(item2 + item6 + Math.max(0, item8e));
+
+  /* ================= Schedule-SI feed (special-rate OS heads) =================
+     70_sec_si.js consumes S.C.os.siFeed keyed by the schema SecCode (SI.md
+     §2/§3/§6). A value is a plain number (income — si.js supplies the rate
+     from SI_RATE_DEF and computes the tax) or {inc,tax} for the DTAA head
+     (treaty tax, rule A618). Every amount is REUSED from item 2 above — the
+     2a winnings, 2b 115BBE, and the 2c/2d dropdown incomes summed by their
+     own section code (which is already the schema enum spelling, verified
+     against the SI SecCode enum) — never recomputed.
+
+     DTAA netting (SI.md §6 r58 + Feed summary; OS book §13 l.407–410, rules
+     616/630/631 "…after reducing DTAA"): the 2e income is disclosed once, at
+     the treaty rate, under the single OS-DTAA head (code DTAAOS = the whole
+     2e total f2, tax = Σ income × the applicable lower-of-treaty/IT-Act rate).
+     Because the same DTAA income is also carried inside the 2a/2c/2d figures
+     (see the item-2 note above — the 2ai/2aii/2c/2d DTAA rows are NOT re-added
+     into item 2, they already sit in those heads), each special-rate head is
+     reduced by its own counted-DTAA portion so no rupee is taxed twice; the
+     natures map 2ai→5BB, 2aii→5BBJ 1:1, and a 2c/2d row names its head in the
+     SecITAct (enum) column. The fed heads then reconcile to item 2. A head is
+     emitted only when its remaining income is > 0 (SI.md §12.1). */
+  const siFeed = {};
+  const dtRows = (dtaaRows || []).filter(r => r.counts);           /* rule 495 gate already applied */
+  const sumDt  = pred => dtRows.filter(pred).reduce((s, r) => s + r.amt, 0);
+
+  /* gross special-rate incomes by SecCode, straight from item 2 */
+  const osGross = {};
+  const bump = (code, amt) => { if (code) osGross[code] = (osGross[code] || 0) + R(amt); };
+  bump("5BB",  s2ai);                                              /* 2a(i)  115BB   */
+  bump("5BBJ", s2aii);                                             /* 2a(ii) 115BBJ  */
+  bump("5BBE", b2);                                                /* 2b     115BBE (never DTAA) */
+  (O.spl || []).forEach(r => bump(st0(r.code), r.amt));            /* 2c dropdown incomes */
+  (O.pti || []).forEach(r => bump(st0(r.code), r.amt));            /* 2d dropdown incomes */
+
+  /* the DTAA portion carried inside those gross figures, by SecCode */
+  const osDtaa = {};
+  const bumpDt = (code, amt) => { if (code) osDtaa[code] = (osDtaa[code] || 0) + R(amt); };
+  bumpDt("5BB",  sumDt(r => r.nature === "2ai"));                  /* 2ai ↔ 5BB   */
+  bumpDt("5BBJ", sumDt(r => r.nature === "2aii"));                 /* 2aii ↔ 5BBJ */
+  dtRows.filter(r => r.nature === "2c" || r.nature === "2d")       /* 2c/2d named by SecITAct */
+        .forEach(r => bumpDt(st0(r.sec), r.amt));
+
+  /* net each head; publish only what still carries income */
+  Object.keys(osGross).forEach(code => {
+    const net = R(Math.max(0, osGross[code] - R(osDtaa[code] || 0)));
+    if (net > 0) siFeed[code] = net;
+  });
+
+  /* OS-DTAA head — the whole 2e total at the treaty rate ({inc,tax}); tax is
+     Σ income × applicable rate (lower of treaty / IT-Act, per row). */
+  if (R(f2) > 0) {
+    const dtaaTax = dtRows.reduce((s, r) => {
+      const rate = (r.appl !== "" && r.appl != null) ? N(r.appl) : 0;
+      return s + R(r.amt * rate / 100);
+    }, 0);
+    siFeed["DTAAOS"] = { inc: R(f2), tax: R(dtaaTax) };
+  }
+
+  C.siFeed = siFeed;                        /* special-rate OS heads → Schedule SI (S.C.os.siFeed) */
 }
 
 /* ---- renderer ---------------------------------------------------- */

@@ -349,8 +349,77 @@ function engCg(){
     ltDTAA:after.ltDTAA,
     si115bbh:vda.cg};             /* VDA @30% u/s 115BBH */
 
+  /* ================= Schedule-SI feed (special-rate CG heads) =================
+     70_sec_si.js consumes S.C.cg.siFeed keyed by the exact schema SecCode
+     (SI.md §2/§3/§6). Value = a plain number (income; si.js supplies the rate
+     from its own SI_RATE_DEF and computes the tax) OR, for a DTAA head, an
+     {inc,tax} object carrying the treaty-rate tax (SI.md §4, rule A618).
+     Every figure is REUSED from the ladder above (Part A/B gains, Table-E
+     after-set-off slots and the ₹1.25L LTCG split) — nothing is recomputed.
+
+     A special-rate head shares its Table-E rate-slot with siblings, so the
+     post-set-off slot total (after.*) is apportioned back to its member heads
+     by their gross gain (splitSI); with no current-year capital loss each head
+     simply keeps its full gain. Applicable-/normal-rate slots (stApp: A1/A2/A4b/
+     A6/A7/A8-app) carry NO special rate and are deliberately excluded — that is
+     the income that must stay at the corporate rate.
+        1A     111A / 115AD(1)(b)(ii)-STT own+NR @20%   <- A3(i)e + A4a  (E.st20)
+        5AD1biip 115AD(1)(b)(ii) STCG by FII @20%       <- A3(ii)e       (E.st20)
+        PTI_STCG20P pass-through STCG @20%              <- A8a           (E.st20)
+        5ADii  115AD(1)(b)(ii) STCG (other than 111A) @30% <- A5e        (E.st30)
+        PTI_STCG30P pass-through STCG @30%              <- A8b           (E.st30)
+        2A     112A LTCG @12.5%                         <- B4 (Sch 112A) (si112a)
+        5ADiiiP 115AD(1)(b)(iii) proviso LTCG @12.5%    <- B7 (Sch 115AD)(si112a115ad)
+        21     112 LTCG (land/slump/B5/B8/B9) @12.5%    <- B1g/B2e/B5/B8e/B9 (si112)
+        22     112(1) listed sec/ZCB @12.5%             <- B3c           (si112)
+        21ciii/5AB1b/5AC1c/5ADiii  NR 112(1)(c)/115AB/115AC/115AD @12.5% <- B6 rows
+        PTI_LTCG12_5P112A / PTI_LTCG12_5P pass-through LTCG @12.5% <- B10a1/B10a2 (si112)
+        DTAASTCG / DTAALTCG  STCG/LTCG chargeable at the DTAA treaty rate <- A9b/B11b
+        5BBH   115BBH VDA capital-gain income @30%      <- Schedule VDA item B (C2) */
+  const splitSI=(dst,afterAmt,members)=>{               /* apportion a slot total across its heads */
+    const codes=Object.keys(members).filter(c=>members[c]>0);
+    const tot=codes.reduce((a,c)=>a+members[c],0);
+    if(tot<=0||afterAmt<=0)return;
+    if(afterAmt>=tot){codes.forEach(c=>{dst[c]=R((dst[c]||0)+members[c]);});return;}
+    let acc=0;                                          /* set-off shrank the slot — pro-rate, last head absorbs rounding */
+    codes.forEach((c,i)=>{const v=(i<codes.length-1)?R(afterAmt*members[c]/tot):R(afterAmt-acc);
+      acc+=v; if(v>0)dst[c]=R((dst[c]||0)+v);});
+  };
+  const siFeed={};
+  /* STCG @20% slot (E.st20) — 111A own+NR, FII 115AD(1)(b)(ii), pass-through */
+  splitSI(siFeed,after.st20,{
+    "1A":R(Math.max(0,A.a3i.gain)+Math.max(0,A.a4.a)),
+    "5AD1biip":Math.max(0,A.a3ii.gain),
+    "PTI_STCG20P":Math.max(0,N(a8.r20))});
+  /* STCG @30% slot (E.st30) — FII 115AD(1)(b)(ii) other than 111A, pass-through */
+  splitSI(siFeed,after.st30,{
+    "5ADii":Math.max(0,A.a5.gain),
+    "PTI_STCG30P":Math.max(0,N(a8.r30))});
+  /* LTCG @12.5% — 112A (2A) and 115AD-proviso (5ADiiiP) are carved out first
+     by the engine (si112a / si112a115ad); the residue si112 is the "other" pool */
+  if(si112a>0)       siFeed["2A"]=R(si112a);
+  if(si112a115ad>0)  siFeed["5ADiiiP"]=R(si112a115ad);
+  const b6by={};                                        /* NR B6 rows classified to their SI code by the entered section */
+  (C.b6||[]).forEach((rw,i)=>{const g=Math.max(0,N(((B.b6.rows||[])[i]||{}).gain));if(g<=0)return;
+    const s=st0(rw.sec).toUpperCase().replace(/\s+/g,"");
+    const code=/115AB/.test(s)?"5AB1b":/115AC/.test(s)?"5AC1c":/115AD/.test(s)?"5ADiii":"21ciii";
+    b6by[code]=R((b6by[code]||0)+g);});
+  splitSI(siFeed,si112,Object.assign({
+    "21":R(Math.max(0,B.b1)+Math.max(0,B.b2.gain)+Math.max(0,B.b5.gain)+Math.max(0,B.b8.gain)+Math.max(0,B.b9.gain)),
+    "22":Math.max(0,B.b3.gain),
+    "PTI_LTCG12_5P112A":Math.max(0,N(b10.r125a)),
+    "PTI_LTCG12_5P":Math.max(0,N(b10.r125o))},b6by));
+  /* DTAA heads — treaty-rate tax (SI.md §4): {inc, tax}. inc = post-set-off
+     amount; tax = inc × the applicable (lower of treaty/IT-Act) rate. */
+  const dSt=R(after.stDTAA), dLt=R(after.ltDTAA);
+  if(dSt>0)siFeed["DTAASTCG"]={inc:dSt,tax:R(dSt*N(A.a9.rate)/100)};
+  if(dLt>0)siFeed["DTAALTCG"]={inc:dLt,tax:R(dLt*N(B.b11.rate)/100)};
+  /* 115BBH VDA capital-gain income @30% (Schedule VDA item B = C2) — not part of
+     Table E, taken directly */
+  if(R(vda.cg)>0)siFeed["5BBH"]=R(vda.cg);
+
   S.C.cg={on:true,nri:nri,land,A,B,E,gain,loss,used,absorbed,matrix,after,totSet,remain,F,Fauto,
-    s112a,s115ad,vda,buckets,dedD,dedTotal:R(dedTotal),cflSTCL,cflLTCL,
+    s112a,s115ad,vda,buckets,siFeed,dedD,dedTotal:R(dedTotal),cflSTCL,cflLTCL,
     dtaaStcgRate:A.a9.rate,dtaaLtcgRate:B.b11.rate,
     C1:R(C1),C2:R(C2),C3:R(C3),
     shortTerm:A.total,longTerm:B.total,total:R(C3),

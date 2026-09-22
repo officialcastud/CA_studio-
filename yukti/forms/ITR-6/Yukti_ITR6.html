@@ -4226,6 +4226,28 @@ function engBp(){
   const totSet = R(specSet+specifiedSet+lifeSet+diamondSet); /* (v) */
   const lossRemain = R(Math.max(0, lossSetOff-totSet));      /* (vi) = (i) - (v) */
 
+  /* ================= Schedule-SI feed (special-rate BP heads) =================
+     70_sec_si.js consumes S.C.bp.siFeed keyed by the schema SecCode (book
+     SI.md §2/§3/§6). Each value is the already-computed BP income (a plain
+     number); si.js supplies the statutory rate from its own SI_RATE_DEF
+     (5B=12.5, 5BBF_BP=10, 5BBG_BP=10, 5BBH_BP=30) and computes the tax.
+        5B      115B — profits & gains of life insurance business <- item 4b (A237)
+        5BBF_BP 115BBF — patent royalty, business income          <- item 3d (A615)
+        5BBG_BP 115BBG — carbon credits, business income          <- item 3e (A614)
+        5BBH_BP 115BBH — VDA, business income                     <- item 3f (A623)
+     Amounts are REUSED from the BP ladder above (not recomputed). A head is
+     emitted only when its income is positive — a nil / loss head carries no
+     special-rate income and so contributes no SI row. */
+  const siFeed={};
+  const si5B   = R(_4b);            /* item 4b — 115B life insurance profit */
+  const si5BBF = R(nb("a3d"));      /* item 3d — 115BBF patent (business)   */
+  const si5BBG = R(nb("a3e"));      /* item 3e — 115BBG carbon (business)   */
+  const si5BBH = R(nb("a3f"));      /* item 3f — 115BBH VDA (business)      */
+  if(si5B>0)   siFeed["5B"]=si5B;
+  if(si5BBF>0) siFeed["5BBF_BP"]=si5BBF;
+  if(si5BBG>0) siFeed["5BBG_BP"]=si5BBG;
+  if(si5BBH>0) siFeed["5BBH_BP"]=si5BBH;
+
   S.C.bp = {
     on:true,
     a:{K1,_2a,_2b,_3c,sum3,_4a,_4b,_4c,_4d,_5ciii,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
@@ -4236,6 +4258,7 @@ function engBp(){
     e:{lossSetOff,specInc,specifiedInc,lifeInc,diamondInc,specSet,specifiedSet,lifeSet,diamondSet,totSet,lossRemain},
     feed:feed,
     dcg:dcg,     /* published for the CG section (S.C.bp.dcg) */
+    siFeed:siFeed, /* special-rate BP heads for Schedule SI (S.C.bp.siFeed) */
     income:D
   };
 }
@@ -5283,8 +5306,77 @@ function engCg(){
     ltDTAA:after.ltDTAA,
     si115bbh:vda.cg};             /* VDA @30% u/s 115BBH */
 
+  /* ================= Schedule-SI feed (special-rate CG heads) =================
+     70_sec_si.js consumes S.C.cg.siFeed keyed by the exact schema SecCode
+     (SI.md §2/§3/§6). Value = a plain number (income; si.js supplies the rate
+     from its own SI_RATE_DEF and computes the tax) OR, for a DTAA head, an
+     {inc,tax} object carrying the treaty-rate tax (SI.md §4, rule A618).
+     Every figure is REUSED from the ladder above (Part A/B gains, Table-E
+     after-set-off slots and the ₹1.25L LTCG split) — nothing is recomputed.
+
+     A special-rate head shares its Table-E rate-slot with siblings, so the
+     post-set-off slot total (after.*) is apportioned back to its member heads
+     by their gross gain (splitSI); with no current-year capital loss each head
+     simply keeps its full gain. Applicable-/normal-rate slots (stApp: A1/A2/A4b/
+     A6/A7/A8-app) carry NO special rate and are deliberately excluded — that is
+     the income that must stay at the corporate rate.
+        1A     111A / 115AD(1)(b)(ii)-STT own+NR @20%   <- A3(i)e + A4a  (E.st20)
+        5AD1biip 115AD(1)(b)(ii) STCG by FII @20%       <- A3(ii)e       (E.st20)
+        PTI_STCG20P pass-through STCG @20%              <- A8a           (E.st20)
+        5ADii  115AD(1)(b)(ii) STCG (other than 111A) @30% <- A5e        (E.st30)
+        PTI_STCG30P pass-through STCG @30%              <- A8b           (E.st30)
+        2A     112A LTCG @12.5%                         <- B4 (Sch 112A) (si112a)
+        5ADiiiP 115AD(1)(b)(iii) proviso LTCG @12.5%    <- B7 (Sch 115AD)(si112a115ad)
+        21     112 LTCG (land/slump/B5/B8/B9) @12.5%    <- B1g/B2e/B5/B8e/B9 (si112)
+        22     112(1) listed sec/ZCB @12.5%             <- B3c           (si112)
+        21ciii/5AB1b/5AC1c/5ADiii  NR 112(1)(c)/115AB/115AC/115AD @12.5% <- B6 rows
+        PTI_LTCG12_5P112A / PTI_LTCG12_5P pass-through LTCG @12.5% <- B10a1/B10a2 (si112)
+        DTAASTCG / DTAALTCG  STCG/LTCG chargeable at the DTAA treaty rate <- A9b/B11b
+        5BBH   115BBH VDA capital-gain income @30%      <- Schedule VDA item B (C2) */
+  const splitSI=(dst,afterAmt,members)=>{               /* apportion a slot total across its heads */
+    const codes=Object.keys(members).filter(c=>members[c]>0);
+    const tot=codes.reduce((a,c)=>a+members[c],0);
+    if(tot<=0||afterAmt<=0)return;
+    if(afterAmt>=tot){codes.forEach(c=>{dst[c]=R((dst[c]||0)+members[c]);});return;}
+    let acc=0;                                          /* set-off shrank the slot — pro-rate, last head absorbs rounding */
+    codes.forEach((c,i)=>{const v=(i<codes.length-1)?R(afterAmt*members[c]/tot):R(afterAmt-acc);
+      acc+=v; if(v>0)dst[c]=R((dst[c]||0)+v);});
+  };
+  const siFeed={};
+  /* STCG @20% slot (E.st20) — 111A own+NR, FII 115AD(1)(b)(ii), pass-through */
+  splitSI(siFeed,after.st20,{
+    "1A":R(Math.max(0,A.a3i.gain)+Math.max(0,A.a4.a)),
+    "5AD1biip":Math.max(0,A.a3ii.gain),
+    "PTI_STCG20P":Math.max(0,N(a8.r20))});
+  /* STCG @30% slot (E.st30) — FII 115AD(1)(b)(ii) other than 111A, pass-through */
+  splitSI(siFeed,after.st30,{
+    "5ADii":Math.max(0,A.a5.gain),
+    "PTI_STCG30P":Math.max(0,N(a8.r30))});
+  /* LTCG @12.5% — 112A (2A) and 115AD-proviso (5ADiiiP) are carved out first
+     by the engine (si112a / si112a115ad); the residue si112 is the "other" pool */
+  if(si112a>0)       siFeed["2A"]=R(si112a);
+  if(si112a115ad>0)  siFeed["5ADiiiP"]=R(si112a115ad);
+  const b6by={};                                        /* NR B6 rows classified to their SI code by the entered section */
+  (C.b6||[]).forEach((rw,i)=>{const g=Math.max(0,N(((B.b6.rows||[])[i]||{}).gain));if(g<=0)return;
+    const s=st0(rw.sec).toUpperCase().replace(/\s+/g,"");
+    const code=/115AB/.test(s)?"5AB1b":/115AC/.test(s)?"5AC1c":/115AD/.test(s)?"5ADiii":"21ciii";
+    b6by[code]=R((b6by[code]||0)+g);});
+  splitSI(siFeed,si112,Object.assign({
+    "21":R(Math.max(0,B.b1)+Math.max(0,B.b2.gain)+Math.max(0,B.b5.gain)+Math.max(0,B.b8.gain)+Math.max(0,B.b9.gain)),
+    "22":Math.max(0,B.b3.gain),
+    "PTI_LTCG12_5P112A":Math.max(0,N(b10.r125a)),
+    "PTI_LTCG12_5P":Math.max(0,N(b10.r125o))},b6by));
+  /* DTAA heads — treaty-rate tax (SI.md §4): {inc, tax}. inc = post-set-off
+     amount; tax = inc × the applicable (lower of treaty/IT-Act) rate. */
+  const dSt=R(after.stDTAA), dLt=R(after.ltDTAA);
+  if(dSt>0)siFeed["DTAASTCG"]={inc:dSt,tax:R(dSt*N(A.a9.rate)/100)};
+  if(dLt>0)siFeed["DTAALTCG"]={inc:dLt,tax:R(dLt*N(B.b11.rate)/100)};
+  /* 115BBH VDA capital-gain income @30% (Schedule VDA item B = C2) — not part of
+     Table E, taken directly */
+  if(R(vda.cg)>0)siFeed["5BBH"]=R(vda.cg);
+
   S.C.cg={on:true,nri:nri,land,A,B,E,gain,loss,used,absorbed,matrix,after,totSet,remain,F,Fauto,
-    s112a,s115ad,vda,buckets,dedD,dedTotal:R(dedTotal),cflSTCL,cflLTCL,
+    s112a,s115ad,vda,buckets,siFeed,dedD,dedTotal:R(dedTotal),cflSTCL,cflLTCL,
     dtaaStcgRate:A.a9.rate,dtaaLtcgRate:B.b11.rate,
     C1:R(C1),C2:R(C2),C3:R(C3),
     shortTerm:A.total,longTerm:B.total,total:R(C3),
@@ -10461,6 +10553,65 @@ function engOs(){
   C.dtaaTotal  = R(f2);                    /* 2e total → Schedule SI DTAA / CYLA (rule 524, 616) */
   /* GTI contribution — signed on the normal leg so a loss reaches CYLA */
   C.income = R(item2 + item6 + Math.max(0, item8e));
+
+  /* ================= Schedule-SI feed (special-rate OS heads) =================
+     70_sec_si.js consumes S.C.os.siFeed keyed by the schema SecCode (SI.md
+     §2/§3/§6). A value is a plain number (income — si.js supplies the rate
+     from SI_RATE_DEF and computes the tax) or {inc,tax} for the DTAA head
+     (treaty tax, rule A618). Every amount is REUSED from item 2 above — the
+     2a winnings, 2b 115BBE, and the 2c/2d dropdown incomes summed by their
+     own section code (which is already the schema enum spelling, verified
+     against the SI SecCode enum) — never recomputed.
+
+     DTAA netting (SI.md §6 r58 + Feed summary; OS book §13 l.407–410, rules
+     616/630/631 "…after reducing DTAA"): the 2e income is disclosed once, at
+     the treaty rate, under the single OS-DTAA head (code DTAAOS = the whole
+     2e total f2, tax = Σ income × the applicable lower-of-treaty/IT-Act rate).
+     Because the same DTAA income is also carried inside the 2a/2c/2d figures
+     (see the item-2 note above — the 2ai/2aii/2c/2d DTAA rows are NOT re-added
+     into item 2, they already sit in those heads), each special-rate head is
+     reduced by its own counted-DTAA portion so no rupee is taxed twice; the
+     natures map 2ai→5BB, 2aii→5BBJ 1:1, and a 2c/2d row names its head in the
+     SecITAct (enum) column. The fed heads then reconcile to item 2. A head is
+     emitted only when its remaining income is > 0 (SI.md §12.1). */
+  const siFeed = {};
+  const dtRows = (dtaaRows || []).filter(r => r.counts);           /* rule 495 gate already applied */
+  const sumDt  = pred => dtRows.filter(pred).reduce((s, r) => s + r.amt, 0);
+
+  /* gross special-rate incomes by SecCode, straight from item 2 */
+  const osGross = {};
+  const bump = (code, amt) => { if (code) osGross[code] = (osGross[code] || 0) + R(amt); };
+  bump("5BB",  s2ai);                                              /* 2a(i)  115BB   */
+  bump("5BBJ", s2aii);                                             /* 2a(ii) 115BBJ  */
+  bump("5BBE", b2);                                                /* 2b     115BBE (never DTAA) */
+  (O.spl || []).forEach(r => bump(st0(r.code), r.amt));            /* 2c dropdown incomes */
+  (O.pti || []).forEach(r => bump(st0(r.code), r.amt));            /* 2d dropdown incomes */
+
+  /* the DTAA portion carried inside those gross figures, by SecCode */
+  const osDtaa = {};
+  const bumpDt = (code, amt) => { if (code) osDtaa[code] = (osDtaa[code] || 0) + R(amt); };
+  bumpDt("5BB",  sumDt(r => r.nature === "2ai"));                  /* 2ai ↔ 5BB   */
+  bumpDt("5BBJ", sumDt(r => r.nature === "2aii"));                 /* 2aii ↔ 5BBJ */
+  dtRows.filter(r => r.nature === "2c" || r.nature === "2d")       /* 2c/2d named by SecITAct */
+        .forEach(r => bumpDt(st0(r.sec), r.amt));
+
+  /* net each head; publish only what still carries income */
+  Object.keys(osGross).forEach(code => {
+    const net = R(Math.max(0, osGross[code] - R(osDtaa[code] || 0)));
+    if (net > 0) siFeed[code] = net;
+  });
+
+  /* OS-DTAA head — the whole 2e total at the treaty rate ({inc,tax}); tax is
+     Σ income × applicable rate (lower of treaty / IT-Act, per row). */
+  if (R(f2) > 0) {
+    const dtaaTax = dtRows.reduce((s, r) => {
+      const rate = (r.appl !== "" && r.appl != null) ? N(r.appl) : 0;
+      return s + R(r.amt * rate / 100);
+    }, 0);
+    siFeed["DTAAOS"] = { inc: R(f2), tax: R(dtaaTax) };
+  }
+
+  C.siFeed = siFeed;                        /* special-rate OS heads → Schedule SI (S.C.os.siFeed) */
 }
 
 /* ---- renderer ---------------------------------------------------- */

@@ -384,6 +384,28 @@ function engBp(){
   const totSet = R(specSet+specifiedSet+lifeSet+diamondSet); /* (v) */
   const lossRemain = R(Math.max(0, lossSetOff-totSet));      /* (vi) = (i) - (v) */
 
+  /* ================= Schedule-SI feed (special-rate BP heads) =================
+     70_sec_si.js consumes S.C.bp.siFeed keyed by the schema SecCode (book
+     SI.md §2/§3/§6). Each value is the already-computed BP income (a plain
+     number); si.js supplies the statutory rate from its own SI_RATE_DEF
+     (5B=12.5, 5BBF_BP=10, 5BBG_BP=10, 5BBH_BP=30) and computes the tax.
+        5B      115B — profits & gains of life insurance business <- item 4b (A237)
+        5BBF_BP 115BBF — patent royalty, business income          <- item 3d (A615)
+        5BBG_BP 115BBG — carbon credits, business income          <- item 3e (A614)
+        5BBH_BP 115BBH — VDA, business income                     <- item 3f (A623)
+     Amounts are REUSED from the BP ladder above (not recomputed). A head is
+     emitted only when its income is positive — a nil / loss head carries no
+     special-rate income and so contributes no SI row. */
+  const siFeed={};
+  const si5B   = R(_4b);            /* item 4b — 115B life insurance profit */
+  const si5BBF = R(nb("a3d"));      /* item 3d — 115BBF patent (business)   */
+  const si5BBG = R(nb("a3e"));      /* item 3e — 115BBG carbon (business)   */
+  const si5BBH = R(nb("a3f"));      /* item 3f — 115BBH VDA (business)      */
+  if(si5B>0)   siFeed["5B"]=si5B;
+  if(si5BBF>0) siFeed["5BBF_BP"]=si5BBF;
+  if(si5BBG>0) siFeed["5BBG_BP"]=si5BBG;
+  if(si5BBH>0) siFeed["5BBH_BP"]=si5BBH;
+
   S.C.bp = {
     on:true,
     a:{K1,_2a,_2b,_3c,sum3,_4a,_4b,_4c,_4d,_5ciii,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
@@ -394,6 +416,7 @@ function engBp(){
     e:{lossSetOff,specInc,specifiedInc,lifeInc,diamondInc,specSet,specifiedSet,lifeSet,diamondSet,totSet,lossRemain},
     feed:feed,
     dcg:dcg,     /* published for the CG section (S.C.bp.dcg) */
+    siFeed:siFeed, /* special-rate BP heads for Schedule SI (S.C.bp.siFeed) */
     income:D
   };
 }
