@@ -37,6 +37,8 @@ source to get past a gate.
 - `books/ITR-N/BUILD_RECORD.md`, `REGIME.md`, and the per-sheet books.
 - `logs/ITR-N/rule_audit/` — `RULES_ALL.md`, per-batch audit reports, `MASTER_COVERAGE.md`,
   `TICK_SHEET.md`, `FIX_RECORD.md`, `CENSUS_SUMMARY.md`, and `census/`.
+- `logs/ITR-N/verify/` — Module F: `LEAF_*.md` (leaf coverage, ORPHAN=0), `RULES_*.md` (rule-firing),
+  `regimes_and_entities.md`, `caps_and_limits.md`, and `DEFECTS.md` (the fix ledger).
 - All Gates 0–7 green; PR to `main` (draft) with the enforcement census table in the body.
 
 ---
@@ -240,6 +242,82 @@ Output: `CENSUS_SUMMARY.md` — the reconciliation table (Enforced / NA / Offlin
 
 ---
 
+## 7.5 MODULE F — VERIFICATION & DELIVERY (does it behave like the utility? leaf × regime × entity)
+
+**Why this module exists.** Modules B/C/E prove every rule *exists* and Missing=0. Module F proves the
+software *behaves like the utility*: every schema leaf has a home, every encoded rule actually FIRES, every
+cap actually BINDS, and the whole return changes correctly with **regime** and **filing-entity type**.
+This is the layer that catches what the census structurally cannot — the census *counts* rules, it does not
+*run scenarios*. On ITR-5 this sweep found 16 real defects with a flawless-to-the-rupee rate engine sitting
+underneath (all failures were gating / leaf / cap-target, not arithmetic). Run Module F after Module E,
+before sign-off. **All F1–F3 agents are READ-ONLY; the fix-wave (F4) runs only after they finish**, because
+the readers read `forms/` and the fixers write it.
+
+### Step F1 — LEAF COVERAGE (prove 100% of schema leaves have a home)
+- Gate 5 checks that every *block* is referenced. That is NOT enough: a large form has ~1500 **leaves**, and
+  a block can be referenced while individual leaves have no input and nothing computes them.
+- Enumerate every leaf from the schema (walk `properties`, resolve `$ref`/`definitions`, recurse `items`;
+  a leaf = a property with no nested properties/items).
+- **Slice by schema block-group, one group per agent (~8 agents).** Give the big blocks (OS, CG, BS, P&L,
+  Part-B) their own agent — same spirit as 50-rules-per-head: keep each agent's leaf count bounded for
+  ~100% accuracy. **Opus, READ-ONLY.**
+- Each leaf gets exactly one verdict: **INPUT** (a `data-p` field reaches it — give the path) · **COMPUTED**
+  (engine derives it and the export writes it — give the put line) · **NA** (legitimately never filed for
+  this form/assessee — cite the book line or rule) · **ORPHAN** (schema allows it, the form should be able
+  to file it, but there is no input and nothing computes it — the FAILURE case; a required-leaf orphan is
+  critical, the return cannot be filed).
+- Output `logs/ITR-N/verify/LEAF_<group>.md` (per-leaf table + bucket counts + bold ORPHAN list, required
+  first). **Gate: ORPHAN = 0.**
+
+### Step F2 — RULE-FIRING (prove every encoded rule actually bites)
+- Distinct from Module B (which classifies *presence*). Here each rule must **fire on a return that violates
+  it** and be **silent on a lawful one**, in the direction its text states. **50 rules per agent**, one
+  contiguous slice, **Opus READ-ONLY** (same slicing as Module B).
+- Drive the assembled form in Playwright and read `runRules(Object.values(buildReturn().ITR)[0],S)`. For a
+  violation the engine itself would never emit (a hand-edited / portal-supplied return), build the return
+  object directly and call `runRules(obj,S)` — that is the right tool for a guard rule.
+- **Prioritise CONDITIONAL rules** (regime-, entity-, date-, schedule-presence-gated): a wrong guard hides
+  there, so test BOTH sides of every guard.
+- Output `logs/ITR-N/verify/RULES_<range>.md` (serial | fires-on-violation | silent-on-lawful | verdict).
+  **Gate: 0 rule that fails to fire when violated, and 0 that false-fires on a lawful return.**
+
+### Step F3 — REGIME × ENTITY × SCHEDULE MATRIX (the export works for each filer, per regime)
+The form MUST change correctly with (a) **regime** — old / 115BAC / 115BAD / 115BAE — and (b) **filing-entity
+type** — every StatusOrCompanyType × sub-status the form serves (firm, LLP, co-op, AOP/BOI, AJP, business
+trust, investment fund; company for ITR-6; the trust/institution classes for ITR-7). For each *legal*
+(entity × regime) cell, one Opus READ-ONLY agent per cluster hand-computes the expected tax from the books +
+the Act and matches the form **to the rupee**, and confirms:
+- **The default is disabled.** A fresh return must NOT silently sit in a regime/status it was never put in
+  (e.g. a firm must not start in 115BAC). A status that cannot opt a regime must be *prevented* from opting
+  it — that "option disabled" is itself a rule to encode and to fire-test.
+- **Every barred item is actually zeroed by BOTH the engine and the screen** — not just the rate changed.
+  115BAC, 115BAD and 115BAE each close their *own* set of deductions / additional depreciation / 35AD /
+  Chapter VI-A; verify each closure per regime, not merely the headline rate.
+- **Mandatory fields and the schema OUTPUT are correct for that regime** — a leaf required in one regime can
+  be barred/absent in another; the required-set is regime-dependent.
+- **The export builds, is schema-valid, and round-trips** for that cell.
+- **The caps actually BIND after implementation** — re-test each at its boundary (Chapter VI-A limits, HP
+  ₹2L §71(3A), 112A ₹1.25L, race-horse/speculative/specified ring-fences, surcharge slabs + marginal relief,
+  §234A/B/C, §288B rounding). "The rule is present" (Module B) ≠ "the cap binds" (Module F).
+- Output `logs/ITR-N/verify/regimes_and_entities.md` and `caps_and_limits.md` (expected-vs-actual, every
+  FAIL first, with the root-cause file:line).
+
+### Step F4 — FIX-WAVE (parallel, ≤10 fixes per agent)
+- Consolidate F1–F3 (plus any Module E leftovers) into one defect ledger (`logs/ITR-N/verify/DEFECTS.md`).
+- Launch fixers, **≤10 fixes each, in parallel**. A gating/engine fix edits a section engine/exporter, so
+  **split by disjoint file/section** — no two agents touch the same file; a pure rule-encoding fix is a new
+  `61_rules_fix_NN.js` (never collides). Fixers run ONLY after the F1–F3 readers have stopped.
+- CEO integrates, re-assembles, re-gates (5→6→7), and **re-runs the exact failing scenarios to green** —
+  a fix is not done until its scenario passes and no earlier gate regressed.
+
+### Step F5 — FINAL TESTING & DELIVERY
+- Extend the test client(s) so at least one lawful return **per major entity×regime cell** computes to the
+  rupee. Re-run Gates 0–7; confirm **ORPHAN=0, every rule fires, every cap binds, 0 A/D fire on each lawful
+  cell**. Deliver: draft PR to `main` with the leaf-coverage %, the rule-firing pass rate, the regime×entity
+  matrix, the caps table, and the fix list in the body.
+
+---
+
 ## 8. Buckets that are legitimately not "enforced" (and why that's correct)
 
 Be honest and precise; the portal does these, and so does the official CBDT utility:
@@ -270,6 +348,10 @@ so a user can't benefit past a ceiling even if they type more.
 | Engine-fix | held rules / real bugs | strongest | 1–2 | W | — | section engines |
 | **Census** | prove Missing=0 | **Opus** | **ceil(rules/350) (2–3)** | **R** | ✅ | `census/CENSUS_*.md` |
 | Test-client | lawful client to the rupee | strong | 1 | W | — | `tests/…` |
+| **Leaf-cover (F1)** | every schema leaf has a home | **Opus** | **~8 (1/block-group)** | **R** | ✅ | `verify/LEAF_*.md` |
+| **Rule-fire (F2)** | every rule actually bites | **Opus** | **ceil(rules/50)** | **R** | ✅ | `verify/RULES_*.md` |
+| **Regime×entity (F3)** | behaves per filer & regime | **Opus** | **1/cluster (~4-6)** | **R** | ✅ | `verify/regimes_and_entities.md`, `caps_and_limits.md` |
+| **Fix-wave (F4)** | close F1-F3 defects | strong | **# disjoint files (≤10 fixes/agent)** | **W** | ✅ | engines / `61_rules_fix_NN.js` |
 
 **CEO (you)** never writes a book or a rule batch itself — it dispatches, assembles, gates, decides,
 commits, and does the cross-cutting engine fixes.
@@ -309,7 +391,15 @@ commits, and does the cross-cutting engine fixes.
 5. Module D: fix the held/engine-bug rules; re-derive client figures to the rupee; `TICK_SHEET.md`.
 6. Module E: launch 2–3 **Opus read-only** census agents; **prove Missing=0**; fix anything they find
    (there will usually be one A346-style dead check); rebuild; `CENSUS_SUMMARY.md`.
-7. Sign-off: gates 0–7 green, Missing=0, PR to `main` (draft) with the census table in the body.
+7. Module F (VERIFY & DELIVER): F1 launch ~8 **Opus read-only** leaf agents (1/block-group) → **ORPHAN=0**;
+   F2 launch `ceil(rules/50)` **Opus read-only** rule-firing agents (50 each) → every rule fires/silent;
+   F3 launch 1 **Opus read-only** agent per regime/entity cluster → the form behaves per filer & regime,
+   the default is disabled, every barred item is zeroed, mandatory/output is regime-correct, and every cap
+   BINDS at its boundary; consolidate to `verify/DEFECTS.md`.
+8. Module F fix-wave: fixers (≤10 fixes each, disjoint files, parallel) close every defect; CEO re-assembles,
+   re-gates 5→6→7, re-runs each failing scenario to green.
+9. Sign-off: gates 0–7 green, Missing=0, ORPHAN=0, all rules fire, all caps bind; PR to `main` (draft) with
+   the census + leaf-coverage + regime×entity + caps tables and the fix list in the body.
 
 **Estimated agent budget per large form (~1000 rules):** ~22 audit + ~9 fix + ~3 census + the build waves
 ≈ 34 rule-work agents; per small form (~400 rules): ~9 + ~7 + ~2 ≈ 18. All within the cap of 20 concurrent
