@@ -157,6 +157,12 @@ const ESR_ROWS = [
    has been opted for." So the adjustment is admissible ONLY in the old regime AND
    only for a non-firm/LLP/co-op assessee (i.e. AOP/BOI/AJP). Status "1" = Firm/LLP;
    a co-operative society files under status "14" with a co-op sub-status. */
+/* Concessional-regime bar for the depreciation/35AD closures. Under 115BAC(1A),
+   115BAD and 115BAE alike the utility bars additional depreciation (32(1)(iia)),
+   the 45% P&M block's depreciation and the 35AD(1) deduction. Drive these off the
+   resolved regime (S.C.regime.anyConc from 65_regime.js) — the shell isNew() only
+   sees the 115BAC master switch (optout) and misses a co-op electing 115BAD/115BAE. */
+function concBar(){ return !!(S.C&&S.C.regime&&S.C.regime.anyConc); }
 function bar115BAC(){
   if(isNew()) return true;                                    /* new regime: barred */
   const st=String((S.pi&&S.pi.status)||"");
@@ -168,9 +174,9 @@ function bar115BAC(){
 function bpBlock(b,rate,opts){
   b=b||{};opts=opts||{};
   const half     = opts.half!==false;
-  const addlOK   = opts.addl!==false && !isNew();   /* additional depr: old regime only */
+  const addlOK   = opts.addl!==false && !concBar(); /* additional depr: barred under any concessional regime (115BAC/BAD/BAE) */
   const fullOnly = !!opts.fullOnly;                 /* Rate45 */
-  const blocked  = opts.blocked && isNew();         /* Rate45 no depreciation in new regime */
+  const blocked  = opts.blocked && concBar();       /* Rate45 no depreciation under any concessional regime (115BAC/BAD/BAE) */
   const wdv = N(b.WDVFirstDay);                                 /* 3a */
   const adj = (opts.adj===false||bar115BAC())?0:N(b.AdjustmentSec115BAC);  /* 3b — DPM-only (opts.adj:false for DOA, DPM_DOA.md:118); old regime, non-firm/LLP/co-op only (rule 282) */
   const tot3 = wdv + adj;                                       /* [F9] Total (3a+3b) = WDVFirstDay+Adjustment */
@@ -341,7 +347,7 @@ function engBp(){
   /* ================= Part C — specified 35AD ================= */
   const _43  = _2b;                                            /* C43 (K144) = A2b */
   const _46  = R(_43+nb("sp44")-nb("sp45"));                  /* C46 (K147) = 43+44-45 */
-  const _47  = isNew()?0:R(nb("sp47"));                       /* C47 (rule 255: barred in new regime) */
+  const _47  = concBar()?0:R(nb("sp47"));                     /* C47 (rule 255: 35AD(1) barred under any concessional regime 115BAC/BAD/BAE) */
   const C48  = R(_46-_47);                                     /* C48 (K151) = 46-47 */
 
   /* ================= Part D ================= */
@@ -383,7 +389,7 @@ function inpN(p){return inp(p,{n:1});}
 
 function secBp(){
   const A=(S.C.bp&&S.C.bp.a)||{}, Bp=(S.C.bp&&S.C.bp.b)||{}, Cp=(S.C.bp&&S.C.bp.c)||{}, E=(S.C.bp&&S.C.bp.e)||{};
-  const nw=isNew();
+  const nw=concBar();
   let h="";
   h+=formNote("Schedule BP is a computed adjustment ladder. Most lines carry forward from Schedule P&L, "+
     "the Trading and Manufacturing accounts, Part A-OI and Schedules DEP/ESR/ICDS/VDA/EI — enter each figure "+
@@ -541,8 +547,8 @@ function blockCol(base,blk,opts){
   h+='<tr><td class="l">10 Depreciation at full rate</td>'+c(blk.depFull)+'</tr>';
   if(opts.half!==false)h+='<tr><td class="l">11 Depreciation at half rate</td>'+c(blk.depHalf)+'</tr>';
   if(opts.addl!==false){
-    if(isNew()){
-      h+='<tr><td class="l">12–14 Additional depreciation</td><td class="num">'+cell(0)+' <span class="hint">closed by the new tax regime</span></td></tr>';
+    if(concBar()){
+      h+='<tr><td class="l">12–14 Additional depreciation</td><td class="num">'+cell(0)+' <span class="hint">closed by the concessional regime</span></td></tr>';
     }else{
       h+='<tr><td class="l">12 Additional depr. on 4</td>'+iN("AddlnDeprOnGT180DayAdditions")+'</tr>';
       h+='<tr><td class="l">13 Additional depr. on 7</td>'+iN("AddlnDeprDuringYearAdditions")+'</tr>';
@@ -819,7 +825,7 @@ function expBp(j){
     }
     put(j,D2+"DepreciationAtFullRate",n0(blk.depFull));
     if(!opts.fullOnly)put(j,D2+"DepreciationAtHalfRate",n0(blk.depHalf));
-    if(!opts.fullOnly&&!isNew()){
+    if(!opts.fullOnly&&!concBar()){
       if(N(raw.AddlnDeprOnGT180DayAdditions))put(j,D2+"AddlnDeprOnGT180DayAdditions",n0(blk.addl1));
       if(N(raw.AddlnDeprDuringYearAdditions))put(j,D2+"AddlnDeprDuringYearAdditions",n0(blk.addl2));
       if(N(raw.AddlnDeprOnLessThan180DayAdditions))put(j,D2+"AddlnDeprOnLessThan180DayAdditions",n0(blk.addl3));
@@ -1051,7 +1057,7 @@ function impBp(I5){
    CHECKS
    ===================================================================== */
 function chkBp(){
-  const out=[]; const nw=isNew();
+  const out=[]; const nw=concBar();
   const A=(S.C.bp&&S.C.bp.a)||{}, Cp=(S.C.bp&&S.C.bp.c)||{}, esr=S.C.esr||{rows:{}};
   const B=S.bp||{};
   const isNRI=st0(S.pi.res).toUpperCase().slice(0,3)==="NRI";

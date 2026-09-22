@@ -110,8 +110,12 @@ ruleset(function(I,S_,A,Dd){
     if(I.PartB_TTI)
       A(688,REQ(i2,N(RG(I,"PartB_TTI.ComputationOfTaxLiability.TaxPayableOnTI.GrossTaxLiability"))),"Schedule AMTC: the tax under other provisions (Sl.2) must equal item 2g of Part B-TTI (gross tax liability).");
 
-    /* new tax regime? OptOldRegimeCurrAY "Y"=old, "N"=new (blank ⇒ no-op) */
-    const isNewReg=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",""))==="N";
+    /* new tax regime? Rule 696 ("New Tax Regime is 'yes'") applies to any
+       concessional regime — AMT (s.115JC) is inapplicable under 115BAC(1A),
+       115BAD and 115BAE alike, so AMT-credit col C/D must be nil under all
+       three. The OptOldRegimeCurrAY flag only sees the 115BAC opt-out path and
+       misses a 115BAD/115BAE co-op, so read S.C.regime.anyConc (blank ⇒ no-op). */
+    const isNewReg=!!(((S_||{}).C||{}).regime||{}).anyConc;
 
     /* per-row column arithmetic (694/695) and the 2025-26 set-off bar (693) */
     rows.forEach(function(r,i){r=r||{};const L=" row "+(i+1)+" ("+String(r.AssYr||"")+"): ";

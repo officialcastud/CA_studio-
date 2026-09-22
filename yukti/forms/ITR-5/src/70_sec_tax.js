@@ -59,6 +59,32 @@ function taxStatus(){
   const isCoop   = mainGrp===3 && (subC==="1"||subC==="3");
   const coop115BAD = isCoop && (S.fs.newTaxRegime==="Y");
   const coop115BAE = isCoop && (S.fs.baeYes==="Y"||S.fs.baeNo==="Y");
+
+  /* ---- §167B AOP/BOI member analysis (Tax(N) member cases O36:O40, C19/C27) ----
+     For an "Any other AOP/BOI" (sub-status 7 — the utility's GrpsB.4 member-case
+     group; co-op 1/3, society 2, business trust 4, investment fund 5 and trust 6
+     are handled by their own branches), the tax is not the ordinary slab when
+     s.167B bites. The utility reads Question B/C/D of PART A-GENERAL(2) and Table E,
+     captured by gen.js into S.pm:
+       · B  PartnerForeignCompFlg          → S.pm.bForeign  ("YES" = a member is a foreign company)
+       · C  PercentageOfShareForeignComp   → S.pm.cPct      (that foreign company's % share; Tax(N) R2)
+       · D  TotIncFrmMemberOfAop           → S.pm.dExceeds  ("Y" = some member's total income, excl. the AOP share, exceeds the basic exemption)
+       · Table E SharePercentage           → S.pm.members[].share (Tax(N) T2 = SUM(share) >= 99.9 ⇒ determinate)
+     s.167B triggers (→ maximum marginal rate) when ANY of:
+       (2)(i)  a member's income exceeds the basic exemption (D = Yes),  OR
+       (1)     the members' shares are indeterminate/unknown (share sum < 99.9%), OR
+       (2)(ii) a member is a foreign company (B = Yes) — then that member's share is
+               split out at the foreign-company rate (Tax(N) case 3, C27). */
+  const PM=(typeof S.pm==="object"&&S.pm)?S.pm:{};
+  const mem167=Array.isArray(PM.members)?PM.members:[];
+  const shareSum=mem167.reduce((s,m)=>s+N(m&&m.share),0);
+  const memForeign=st0(PM.bForeign).toUpperCase()==="YES";                       /* B — Tax(N) Q2 */
+  const foreignPct=Math.max(0,Math.min(100,N(PM.cPct)));                         /* C — Tax(N) R2 */
+  const memExceeds=st0(PM.dExceeds).toUpperCase()==="Y";                         /* D — Tax(N) S2 */
+  const sharesIndet=mem167.length>0 && shareSum<99.9;                            /* !T2 — 167B(1) */
+  const mmr167B=memForeign||memExceeds||sharesIndet;                             /* s.167B condition met */
+  const foreignSplit=memForeign && foreignPct>0;                                 /* Tax(N) case 3 (C27) */
+
   /* the taxing "kind" of the total income */
   let kind;
   if(mainGrp===1||mainGrp===2)      kind="flat30";                 /* firm / LLP / local authority — flat 30% (C7) */
@@ -66,9 +92,11 @@ function taxStatus(){
     if(busTrust||invFund)           kind="flat30";                 /* business trust / investment fund — flat 30% (C46) */
     else if(isCoop)                 kind=coop115BAE?"coop_bae":(coop115BAD?"coop_bad":"coop");
     else if(subC==="6")             kind="mmr";                    /* trust other than ITR-7 → maximum marginal rate 30% (C19) */
-    else                            kind="slab";                   /* society (2) / any other AOP/BOI (7) → slab (C14:C18) */
+    else if(subC==="7")             kind = mmr167B?(foreignSplit?"mmr_fsplit":"mmr"):"slab"; /* any other AOP/BOI — §167B: MMR / foreign-split, else slab (C19/C27 vs C14:C18) */
+    else                            kind="slab";                   /* society (2) → ordinary AOP slab (C14:C18) */
   } else                            kind = subC==="2"?"flat30":"slab"; /* AJP: estate-of-insolvent 30%, else slab (C34:C45) */
-  return {st,sub,subC,mainGrp,kind,busTrust,invFund,isCoop,coop115BAD,coop115BAE};
+  return {st,sub,subC,mainGrp,kind,busTrust,invFund,isCoop,coop115BAD,coop115BAE,
+    mmr167B,foreignSplit,foreignPct,memForeign,memExceeds,sharesIndet};
 }
 
 /* basic exemption (getExemption): only AOP/BOI/AJP on the slab get one; firm/LA/co-op get nil */
@@ -91,7 +119,10 @@ function taxOnRate(inc,TS,mfg){
   inc=Math.max(0,R(inc));
   if(inc<=0)return 0;
   switch(TS.kind){
-    case "flat30": case "mmr":   return R(inc*0.30);
+    case "flat30": case "mmr":   return R(inc*0.30);              /* MMR base = 30% (§167B / Tax(N) C19); surcharge + 4% cess added by the ladder */
+    case "mmr_fsplit":{                                            /* §167B(2)(ii) foreign-company member — Tax(N) case 3 (C27) */
+      const p=Math.max(0,Math.min(100,R(TS.foreignPct||0)));      /* R2 = PercentageOfShareForeignComp */
+      return R(inc*(p/100)*0.35)+R(inc*((100-p)/100)*0.30);}      /* 35% on the foreign share, 30% (MMR) on the balance */
     case "coop":                 return coopSlab(inc);
     case "coop_bad":             return R(inc*0.22);                       /* §115BAD 22% */
     case "coop_bae":{const m=Math.max(0,Math.min(R(mfg||0),inc));         /* §115BAE 15% mfg + 22% other */
@@ -251,7 +282,8 @@ function engTax(){
      (A696). amt publishes the available pool as S.C.amt.creditAvail (Σ B3); the
      credit set off is capped at item 3 = MAX(0, 2i − 1d) = grossTaxLiability −
      amtTotal, mirroring amtcTable() so this item and Schedule AMTC agree. */
-  const credit=(!isNew()&&grossTaxLiability>amtTotal)
+  const _amtcConc=(function(){var _r=(S.C&&S.C.regime)||{};return (_r.anyConc!=null)?!!_r.anyConc:isNew();})();  /* A820/A696: the 115JD credit cannot be set off under ANY concessional regime (115BAC/115BAD/115BAE), not just 115BAC */
+  const credit=(!_amtcConc&&grossTaxLiability>amtTotal)
     ?Math.min(R(AM.creditAvail!=null?AM.creditAvail:0),Math.max(0,grossTaxLiability-amtTotal)):0;
   const afterCredit=Math.max(0,grossTaxPayable-credit);                         /* 5 (L77) */
 
@@ -475,7 +507,8 @@ function secTax(){
 
   return h;
 }
-function taxKindLabel(k){return {flat30:"flat 30%",mmr:"maximum marginal rate 30%",coop:"co-op slab 10/20/30%",
+function taxKindLabel(k){return {flat30:"flat 30%",mmr:"maximum marginal rate 30% (§167B)",
+  mmr_fsplit:"§167B foreign-member split — 35% + MMR 30%",coop:"co-op slab 10/20/30%",
   coop_bad:"§115BAD 22%",coop_bae:"§115BAE 15% + 22%",slab:"slab rates"}[k]||"";}
 
 /* ---- export ---- */

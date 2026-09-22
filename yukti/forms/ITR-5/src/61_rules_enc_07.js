@@ -28,22 +28,26 @@ ruleset(function(I,S_,A,Dd){
        (rules.json text reads "1d + 2d + 3 + 4 + 5" — a typo for 1e; [J18] uses J9=1e.) */
     A(302,REQ(DEP.TotalDepreciation,Math.max(0,N(PM.TotPlntMach)+N(BD.TotBuildng)+N(DEP.FurnitureSummary)+N(DEP.IntangibleAssetSummary)+N(DEP.ShipsSummary))),
       "Schedule DEP: 6 (total depreciation) must equal 1e + 2d + 3 + 4 + 5 (nil if negative).");
-    if(I.ScheduleDPM){
-      /* 303–306 — plant & machinery blocks = Sl.17i/18i .. 17iv/18iv of Schedule DPM */
-      A(303,REQ(PM.DeprBlockTot15Percent,dpmDep(dpmBlk("Rate15"))),"Schedule DEP: 1a (P&M @15%) must equal Sl.17i/18i of Schedule DPM.");
-      A(304,REQ(PM.DeprBlockTot30Percent,dpmDep(dpmBlk("Rate30"))),"Schedule DEP: 1b (P&M @30%) must equal Sl.17ii/18ii of Schedule DPM.");
-      A(305,REQ(PM.DeprBlockTot40Percent,dpmDep(dpmBlk("Rate40"))),"Schedule DEP: 1c (P&M @40%) must equal Sl.17iii/18iii of Schedule DPM.");
-      A(306,REQ(PM.DeprBlockTot45Percent,dpmDep(dpmBlk("Rate45"))),"Schedule DEP: 1d (P&M @45%) must equal Sl.17iv/18iv of Schedule DPM.");
-    }
-    if(I.ScheduleDOA){
-      /* 307–312 — building/furniture/intangible/ship blocks = Sl.14ii/15ii .. 14vii/15vii of Schedule DOA */
-      A(307,REQ(BD.DeprBlockTot5Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate5"))),"Schedule DEP: 2a (building @5%) must equal Sl.14ii/15ii of Schedule DOA.");
-      A(308,REQ(BD.DeprBlockTot10Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate10"))),"Schedule DEP: 2b (building @10%) must equal Sl.14iii/15iii of Schedule DOA.");
-      A(309,REQ(BD.DeprBlockTot40Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate40"))),"Schedule DEP: 2c (building @40%) must equal Sl.14iv/15iv of Schedule DOA.");
-      A(310,REQ(DEP.FurnitureSummary,dpmDep(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"))),"Schedule DEP: 3 (furniture and fittings) must equal Sl.14v/15v of Schedule DOA.");
-      A(311,REQ(DEP.IntangibleAssetSummary,dpmDep(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"))),"Schedule DEP: 4 (intangible assets) must equal Sl.14vi/15vi of Schedule DOA.");
-      A(312,REQ(DEP.ShipsSummary,dpmDep(doaBlk("ScheduleDOA.Ships.Rate20"))),"Schedule DEP: 5 (ships) must equal Sl.14vii/15vii of Schedule DOA.");
-    }
+    /* 303–306 — plant & machinery blocks = Sl.17i/18i .. 17iv/18iv of Schedule DPM.
+       No `if(I.ScheduleDPM)` guard: a return that claims P&M depreciation in the DEP
+       summary while OMITTING Schedule DPM must fail. dpmBlk defaults an absent DPM
+       block to {}, so dpmDep is 0 when DPM is absent; a lawful return that carries
+       Schedule DPM keeps 1a..1d == Sl.17i/18i.. and stays silent. */
+    A(303,REQ(PM.DeprBlockTot15Percent,dpmDep(dpmBlk("Rate15"))),"Schedule DEP: 1a (P&M @15%) must equal Sl.17i/18i of Schedule DPM.");
+    A(304,REQ(PM.DeprBlockTot30Percent,dpmDep(dpmBlk("Rate30"))),"Schedule DEP: 1b (P&M @30%) must equal Sl.17ii/18ii of Schedule DPM.");
+    A(305,REQ(PM.DeprBlockTot40Percent,dpmDep(dpmBlk("Rate40"))),"Schedule DEP: 1c (P&M @40%) must equal Sl.17iii/18iii of Schedule DPM.");
+    A(306,REQ(PM.DeprBlockTot45Percent,dpmDep(dpmBlk("Rate45"))),"Schedule DEP: 1d (P&M @45%) must equal Sl.17iv/18iv of Schedule DPM.");
+    /* 307–312 — building/furniture/intangible/ship blocks = Sl.14ii/15ii .. 14vii/15vii
+       of Schedule DOA. No `if(I.ScheduleDOA)` guard: a return that claims these
+       summary blocks while OMITTING Schedule DOA must fail. doaBlk defaults an absent
+       DOA block to {} so the DOA side is 0 when it is absent; a lawful return that
+       carries Schedule DOA keeps the summary == Sl.14../15.. and stays silent. */
+    A(307,REQ(BD.DeprBlockTot5Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate5"))),"Schedule DEP: 2a (building @5%) must equal Sl.14ii/15ii of Schedule DOA.");
+    A(308,REQ(BD.DeprBlockTot10Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate10"))),"Schedule DEP: 2b (building @10%) must equal Sl.14iii/15iii of Schedule DOA.");
+    A(309,REQ(BD.DeprBlockTot40Percent,dpmDep(doaBlk("ScheduleDOA.Building.Rate40"))),"Schedule DEP: 2c (building @40%) must equal Sl.14iv/15iv of Schedule DOA.");
+    A(310,REQ(DEP.FurnitureSummary,dpmDep(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"))),"Schedule DEP: 3 (furniture and fittings) must equal Sl.14v/15v of Schedule DOA.");
+    A(311,REQ(DEP.IntangibleAssetSummary,dpmDep(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"))),"Schedule DEP: 4 (intangible assets) must equal Sl.14vi/15vi of Schedule DOA.");
+    A(312,REQ(DEP.ShipsSummary,dpmDep(doaBlk("ScheduleDOA.Ships.Rate20"))),"Schedule DEP: 5 (ships) must equal Sl.14vii/15vii of Schedule DOA.");
   }
 
   /* ================= Schedule DCG (deemed capital gains on sale of depreciable assets) ================= */
@@ -59,28 +63,37 @@ ruleset(function(I,S_,A,Dd){
     /* 315 — 6 (total) = 1e + 2d + 3 + 4 + 5 (signed; may be negative) */
     A(315,REQ(DCG.TotalDepreciation,N(PMc.TotPlntMach)+N(BDc.TotBuildng)+N(DCG.FurnitureSummary)+N(DCG.IntangibleAssetSummary)+N(DCG.ShipsSummary)),
       "Schedule DCG: 6 (total) must equal 1e + 2d + 3 + 4 + 5.");
-    if(I.ScheduleDPM){
-      /* 316–319 — P&M blocks = Sl.20i .. 20iv of Schedule DPM (Capital gains/loss u/s 50) */
-      A(316,REQ(PMc.DeprBlockTot15Percent,RG(dpmBlk("Rate15"),"CapGainUs50")),"Schedule DCG: 1a (block @15%) must equal Sl.20i of Schedule DPM.");
-      A(317,REQ(PMc.DeprBlockTot30Percent,RG(dpmBlk("Rate30"),"CapGainUs50")),"Schedule DCG: 1b (block @30%) must equal Sl.20ii of Schedule DPM.");
-      A(318,REQ(PMc.DeprBlockTot40Percent,RG(dpmBlk("Rate40"),"CapGainUs50")),"Schedule DCG: 1c (block @40%) must equal Sl.20iii of Schedule DPM.");
-      A(319,REQ(PMc.DeprBlockTot45Percent,RG(dpmBlk("Rate45"),"CapGainUs50")),"Schedule DCG: 1d (block @45%) must equal Sl.20iv of Schedule DPM.");
-    }
-    if(I.ScheduleDOA){
-      /* 320–325 — building/furniture/intangible/ship blocks = Sl.17ii .. 17vii of Schedule DOA (Capital gains/loss u/s 50) */
-      A(320,REQ(BDc.DeprBlockTot5Percent,RG(doaBlk("ScheduleDOA.Building.Rate5"),"CapGainUs50")),"Schedule DCG: 2a (building @5%) must equal Sl.17ii of Schedule DOA.");
-      A(321,REQ(BDc.DeprBlockTot10Percent,RG(doaBlk("ScheduleDOA.Building.Rate10"),"CapGainUs50")),"Schedule DCG: 2b (building @10%) must equal Sl.17iii of Schedule DOA.");
-      A(322,REQ(BDc.DeprBlockTot40Percent,RG(doaBlk("ScheduleDOA.Building.Rate40"),"CapGainUs50")),"Schedule DCG: 2c (building @40%) must equal Sl.17iv of Schedule DOA.");
-      A(323,REQ(DCG.FurnitureSummary,RG(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"),"CapGainUs50")),"Schedule DCG: 3 (furniture and fittings) must equal Sl.17v of Schedule DOA.");
-      A(324,REQ(DCG.IntangibleAssetSummary,RG(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"),"CapGainUs50")),"Schedule DCG: 4 (intangible assets) must equal Sl.17vi of Schedule DOA.");
-      A(325,REQ(DCG.ShipsSummary,RG(doaBlk("ScheduleDOA.Ships.Rate20"),"CapGainUs50")),"Schedule DCG: 5 (ships) must equal Sl.17vii of Schedule DOA.");
-    }
+    /* 316–319 — P&M blocks = Sl.20i .. 20iv of Schedule DPM (Capital gains/loss u/s 50).
+       No `if(I.ScheduleDPM)` guard: a return that reports deemed capital gains on a
+       P&M block in the DCG summary while OMITTING Schedule DPM must fail. dpmBlk
+       defaults an absent DPM block to {} so RG(..,"CapGainUs50") is 0; a lawful
+       return with Schedule DPM keeps 1a..1d == Sl.20i.. and stays silent. */
+    A(316,REQ(PMc.DeprBlockTot15Percent,RG(dpmBlk("Rate15"),"CapGainUs50")),"Schedule DCG: 1a (block @15%) must equal Sl.20i of Schedule DPM.");
+    A(317,REQ(PMc.DeprBlockTot30Percent,RG(dpmBlk("Rate30"),"CapGainUs50")),"Schedule DCG: 1b (block @30%) must equal Sl.20ii of Schedule DPM.");
+    A(318,REQ(PMc.DeprBlockTot40Percent,RG(dpmBlk("Rate40"),"CapGainUs50")),"Schedule DCG: 1c (block @40%) must equal Sl.20iii of Schedule DPM.");
+    A(319,REQ(PMc.DeprBlockTot45Percent,RG(dpmBlk("Rate45"),"CapGainUs50")),"Schedule DCG: 1d (block @45%) must equal Sl.20iv of Schedule DPM.");
+    /* 320–325 — building/furniture/intangible/ship blocks = Sl.17ii .. 17vii of
+       Schedule DOA (Capital gains/loss u/s 50). No `if(I.ScheduleDOA)` guard: a
+       return that reports deemed capital gains on these blocks while OMITTING
+       Schedule DOA must fail. doaBlk defaults an absent DOA block to {}; a lawful
+       return with Schedule DOA keeps the DCG summary == Sl.17.. and stays silent. */
+    A(320,REQ(BDc.DeprBlockTot5Percent,RG(doaBlk("ScheduleDOA.Building.Rate5"),"CapGainUs50")),"Schedule DCG: 2a (building @5%) must equal Sl.17ii of Schedule DOA.");
+    A(321,REQ(BDc.DeprBlockTot10Percent,RG(doaBlk("ScheduleDOA.Building.Rate10"),"CapGainUs50")),"Schedule DCG: 2b (building @10%) must equal Sl.17iii of Schedule DOA.");
+    A(322,REQ(BDc.DeprBlockTot40Percent,RG(doaBlk("ScheduleDOA.Building.Rate40"),"CapGainUs50")),"Schedule DCG: 2c (building @40%) must equal Sl.17iv of Schedule DOA.");
+    A(323,REQ(DCG.FurnitureSummary,RG(doaBlk("ScheduleDOA.FurnitureFittings.Rate10"),"CapGainUs50")),"Schedule DCG: 3 (furniture and fittings) must equal Sl.17v of Schedule DOA.");
+    A(324,REQ(DCG.IntangibleAssetSummary,RG(doaBlk("ScheduleDOA.IntangibleAssets.Rate25"),"CapGainUs50")),"Schedule DCG: 4 (intangible assets) must equal Sl.17vi of Schedule DOA.");
+    A(325,REQ(DCG.ShipsSummary,RG(doaBlk("ScheduleDOA.Ships.Rate20"),"CapGainUs50")),"Schedule DCG: 5 (ships) must equal Sl.17vii of Schedule DOA.");
   }
 
-  /* 326 — Schedule CG A6e (deemed STCG on depreciable assets) = Sl.6 of Schedule DCG */
-  if(I.ScheduleCG&&I.ScheduleDCG)
-    A(326,REQ(RG(I,"ScheduleCG.ShortTermCapGain.SaleOnOtherAssets.DeemedSTCGDeprAsset"),RG(I,"ScheduleDCG.SummaryFromDeprSchCG.TotalDepreciation")),
-      "Schedule CG: A6e (deemed STCG on depreciable assets) must equal Sl.6 of Schedule DCG.");
+  /* 326 — Schedule CG A6e (deemed STCG on depreciable assets) = Sl.6 of Schedule DCG.
+     No `if(I.ScheduleCG&&I.ScheduleDCG)` guard: a return that omits EITHER side of
+     the cross-check — reporting A6e in Schedule CG without the backing Schedule DCG,
+     or computing a DCG Sl.6 that is not carried into A6e — must fail. RG defaults an
+     absent schedule to 0 on both sides, so a return with neither (no depreciable
+     asset sale) stays silent, and a lawful return that carries both keeps A6e ==
+     Sl.6 and stays silent. */
+  A(326,REQ(RG(I,"ScheduleCG.ShortTermCapGain.SaleOnOtherAssets.DeemedSTCGDeprAsset"),RG(I,"ScheduleDCG.SummaryFromDeprSchCG.TotalDepreciation")),
+    "Schedule CG: A6e (deemed STCG on depreciable assets) must equal Sl.6 of Schedule DCG.");
 
   /* ================= Schedule ESR (expenditure on scientific research) ================= */
   if(I.ScheduleESR){

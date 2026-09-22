@@ -46,10 +46,13 @@ ruleset(function(I,S_,A,Dd){
     /* 103 — negative values allowed only at item 11 and/or 12 (11, 12, 12b, 12d) */
     A(103,negLeaves(T,["GoodsCostPrdcdFrmMA","GrossProfitFrmBusProf","IntradayTradingIncome","IncomeFutureTrd"]).length===0,
       "Part A-Trading Account: a negative amount is allowed only at item 11 and/or item 12.");
-    /* 104 — item 11 (cost from Mfg) = item 3 of Manufacturing Account */
-    if(I.ManufacturingAccount)
-      A(104,REQ(g(T,"GoodsCostPrdcdFrmMA"),g(M,"CostOfGoodsPrdcd")),
-        "Part A-Trading Account: item 11 must equal item 3 (cost of goods produced) of the Manufacturing Account.");
+    /* 104 — item 11 (cost from Mfg) = item 3 of Manufacturing Account.
+       No presence guard: an import that declares item 11 (cost of goods produced
+       transferred from the Manufacturing Account) while OMITTING the Manufacturing
+       Account must fail. M defaults to {} so g(M,..) is 0 when it is absent, and a
+       lawful return that has both keeps item 11 == item 3 and stays silent. */
+    A(104,REQ(g(T,"GoodsCostPrdcdFrmMA"),g(M,"CostOfGoodsPrdcd")),
+      "Part A-Trading Account: item 11 must equal item 3 (cost of goods produced) of the Manufacturing Account.");
     /* 105 — item 6 (total credits) = 4D + 5 */
     A(105,REQ(g(T,"TardingAccTotCred"),g(T,"TotRevenueFrmOperations")+g(T,"ClsngStckOfFinishedStcks")),
       "Part A-Trading Account: item 6 (total credits) must equal 4D + 5.");
@@ -64,10 +67,13 @@ ruleset(function(I,S_,A,Dd){
   /* =============================================================
      PART A - P&L ACCOUNT (serials 108-150)
      ============================================================= */
-  /* 108 — item 13 = Trading 12 + 12b + 12d */
-  if(I.TradingAccount)
-    A(108,REQ(g(CR,"GrossProfitTrnsfFrmTrdAcc"),g(T,"GrossProfitFrmBusProf")+g(T,"IntradayTradingIncome")+g(T,"IncomeFutureTrd")),
-      "Part A-P&L: item 13 (gross profit transferred) must equal item 12 + 12b + 12d of the Trading Account.");
+  /* 108 — item 13 = Trading 12 + 12b + 12d.
+       No presence guard: an import that declares P&L item 13 (gross profit
+       transferred from the Trading Account) while OMITTING the Trading Account must
+       fail. T defaults to {} so the Trading sum is 0 when it is absent; a lawful
+       return with both keeps item 13 == 12 + 12b + 12d and stays silent. */
+  A(108,REQ(g(CR,"GrossProfitTrnsfFrmTrdAcc"),g(T,"GrossProfitFrmBusProf")+g(T,"IntradayTradingIncome")+g(T,"IncomeFutureTrd")),
+    "Part A-P&L: item 13 (gross profit transferred) must equal item 12 + 12b + 12d of the Trading Account.");
   /* 109 — 14xi (misc other income) = its detail (array + liabilities written back + interest from firm) */
   A(109,REQ(g(CR,"OthIncome.MiscOthIncome"),RSUM(RG(CR,"OthIncome.OtherIncDtls",[]),"Amount")+g(CR,"OthIncome.LiabilityWrittenBack")+g(CR,"OthIncome.AmtofInterest")),
     "Part A-P&L: item 14xi (other income - miscellaneous) must equal the sum of its detail table, liabilities written back and interest from the firm.");
@@ -183,18 +189,21 @@ ruleset(function(I,S_,A,Dd){
      /* not mappable as literally worded: literal 63i<=63ii contradicts serial 134 and fires on lawful data */
   A(141,g(ADA,"TotPersumptiveInc44ADA")<=g(ADA,"GrsReceipt")+1,
     "Part A-P&L: presumptive income u/s 44ADA (63ii) cannot be more than the gross receipts (63i).");
-  /* 142 — Schedule BP A35(i) = 62ii of Part A-P&L */
-  if(I.CorpScheduleBP&&I.PARTA_PL)
-    A(142,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AD"),g(AD,"TotPersumptiveInc44AD")),
-      "Schedule BP: item A35(i) (44AD) must equal item 62ii of Part A-P&L.");
+  /* 142/143/144 — Schedule BP A35(i)/(ii)/(iii) must equal item 62ii / 63ii / 64iv
+     of Part A-P&L. No presence guard: an import that omits EITHER side of the
+     cross-check (the deemed-profit rows in Schedule BP, or the Part A-P&L
+     presumptive figures they must mirror) must fail. RG defaults an absent BP block
+     to 0 and PARTA_PL is already defaulted to {} (AD/ADA/P read via g), so both
+     sides are 0 when their schedule is absent; a lawful return that carries both
+     keeps A35 == the P&L figure and stays silent. */
+  A(142,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AD"),g(AD,"TotPersumptiveInc44AD")),
+    "Schedule BP: item A35(i) (44AD) must equal item 62ii of Part A-P&L.");
   /* 143 — Schedule BP A35(ii) = 63ii of Part A-P&L */
-  if(I.CorpScheduleBP&&I.PARTA_PL)
-    A(143,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44ADA"),g(ADA,"TotPersumptiveInc44ADA")),
-      "Schedule BP: item A35(ii) (44ADA) must equal item 63ii of Part A-P&L.");
+  A(143,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44ADA"),g(ADA,"TotPersumptiveInc44ADA")),
+    "Schedule BP: item A35(ii) (44ADA) must equal item 63ii of Part A-P&L.");
   /* 144 — Schedule BP A35(iii) = 64iv of Part A-P&L */
-  if(I.CorpScheduleBP&&I.PARTA_PL)
-    A(144,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AE"),g(P,"TotalPrsumptvIncUs44E")),
-      "Schedule BP: item A35(iii) (44AE) must equal item 64iv of Part A-P&L.");
+  A(144,REQ(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44AE"),g(P,"TotalPrsumptvIncUs44E")),
+    "Schedule BP: item A35(iii) (44AE) must equal item 64iv of Part A-P&L.");
   /* 145 — if 64ii > 0 then the 64i goods-carriage table must be filled */
   A(145,!(g(P,"TotalPrsumptvIncGCUs44E")>0)||RG(P,"GoodsDtlsUs44AE",[]).length>0,
     "Part A-P&L: when the total presumptive income from goods carriage u/s 44AE (64ii) is greater than zero, the 64i goods-carriage table must be filled.");

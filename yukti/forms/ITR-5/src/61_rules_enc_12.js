@@ -18,9 +18,13 @@ ruleset(function(I,S_,A,Dd){
   I=I||{};
   const arr=v=>Array.isArray(v)?v:[];
 
-  /* new-regime gate: OptOldRegimeCurrAY==="N" means the new regime u/s
-     115BAD / 115BAC(1A) was chosen (same test as 61_rules_enc_16). */
-  const isNewReg=String(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY",""))==="N";
+  /* new-regime gate: rules 567 (5b) / 572 (3a) name 115BAD / 115BAC(1A).
+     The OptOldRegimeCurrAY flag only sees the 115BAC opt-out path and misses
+     a co-op that opted 115BAD (via S.fs.newTaxRegime), which would false-fire
+     on a lawful 115BAD co-op carrying a legitimate 5b/3a adjustment. Read the
+     resolved regime object: is115BAD || is115BAC (S.C.regime). */
+  const _rgm=((S_||{}).C||{}).regime||{};
+  const isNewReg=!!(_rgm.is115BAD||_rgm.is115BAC);
 
   /* the thirteen BFLA / CYLA head blocks, in item order (the "Life
      insurance business u/s 115B" display row carries no schema leaf and is

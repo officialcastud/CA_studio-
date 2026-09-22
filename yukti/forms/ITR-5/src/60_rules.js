@@ -3,15 +3,27 @@
    assertion is FALSE (a violation). Every actual CBDT check lives in the
    61_rules_enc_*.js ruleset() batches (Category A blocking, Category B/D advisory),
    which register into _RULEBATCHES (08_registry.js). This driver sets up the A/Dd
-   collectors and runs every batch, wrapping each in try/catch so one throwing batch
-   never suppresses the others. Mechanism mirrors forms/ITR-3/src/60_rules.js. */
+   collectors and runs every batch. Fault tolerance is PER RULE: each A()/Dd()
+   assertion is evaluated inside its own try/catch, so one rule that throws (e.g.
+   on a wrong-typed imported field) is skipped — and recorded as an advisory —
+   without aborting the sibling rules that follow it in the same batch. A rule may
+   pass its condition either as a value (evaluated eagerly by the batch, as today)
+   or as a thunk `()=>cond` (evaluated here, which gives a throwing rule true
+   per-rule isolation). A batch-level try/catch is retained only as a backstop for
+   a fault in a batch's shared setup. Mechanism mirrors forms/ITR-3/src/60_rules.js. */
 function runRules(I,S_){
   I=I||{};
   const out=[];
-  const A =(n,cond,msg)=>{ if(!cond) out.push({cat:"A", n:n, msg:msg}); };   /* Category A — return not allowed to upload */
-  const Dd=(n,cond,msg)=>{ if(!cond) out.push({cat:"D", n:n, msg:msg}); };   /* Category B/D — advisory / may be defective u/s 139(9) */
+  const fire=(cat,n,cond,msg)=>{
+    let c;
+    try{ c=(typeof cond==="function")?cond():cond; }
+    catch(e){ out.push({cat:"D", n:n, msg:"[rule "+n+" skipped — "+((e&&e.message)||e)+"]"}); return; }  /* a throwing rule is skipped & recorded, never aborts its siblings */
+    if(!c) out.push({cat:cat, n:n, msg:msg});
+  };
+  const A =(n,cond,msg)=>fire("A",n,cond,msg);   /* Category A — return not allowed to upload */
+  const Dd=(n,cond,msg)=>fire("D",n,cond,msg);   /* Category B/D — advisory / may be defective u/s 139(9) */
   if(typeof _RULEBATCHES!=="undefined"){
-    _RULEBATCHES.forEach(rb=>{ try{ rb(I,S_,A,Dd); }catch(e){ /* a batch that throws is skipped, never aborts the rest */ } });
+    _RULEBATCHES.forEach(rb=>{ try{ rb(I,S_,A,Dd); }catch(e){ /* backstop: a fault in a batch's shared setup skips the rest of THAT batch only, never the other batches */ } });
   }
   return out;
 }

@@ -81,7 +81,13 @@ function amtIsCoop(){const sub=st0(S.pi&&S.pi.substatus);
 
 /* ---- engine ------------------------------------------------------ */
 function engAmt(){
-  const New=isNew();                                     /* bacValue=1 ⇒ new regime (§115BAC) */
+  /* AMT u/s 115JC does NOT apply once ANY concessional regime is opted
+     (115BAC(1A)/115BAD/115BAE) — those regimes forgo the Ch VI-A Part-C /
+     10AA / 35AD deductions that trigger AMT. Read the regime contract
+     (S.C.regime.anyConc), NOT the shell isNew() which sees only 115BAC.
+     Fall back to isNew() only if the regime module hasn't published yet. */
+  const REG=(S.C.regime||{});
+  const New=(REG.anyConc!=null)?!!REG.anyConc:isNew();
   const DED=(S.C.ded||{}), LOSS=(S.C.loss||{}), BP=(S.C.bp||{}), SI=(S.C.si||{});
 
   /* Gross Total Income after CYLA/BFLA set-off (Sheet8b.GrossTotalIncome) */
@@ -90,10 +96,14 @@ function engAmt(){
   const viaAllowed=Math.max(0,R(DED.allowed!=null?DED.allowed:(DED.total!=null?DED.total:
     ((DED.partB||0)+(DED.partCAandD||0)+(DED.partC||0)))));
   const us10AA=Math.max(0,R(DED.ded10AA!=null?DED.ded10AA:(DED.us10AA!=null?DED.us10AA:(DED.d10AA||0))));
-  /* Part C total and 80P (Part C add-back is Part C LESS 80P) */
+  /* Part C total (kept for the screen / checks) and the AMT Part-C add-back.
+     The 2a add-back is Chapter VI-A Part C LESS 80P — the deduction section
+     publishes exactly that figure as S.C.ded.partCForAMT (ded.js: partC−80P).
+     Fall back to the raw Part-C total if that key is absent (a firm has no
+     80P, so the two coincide). s80P is derived only for the published record. */
   const partCtot=Math.max(0,R(DED.partC!=null?DED.partC:(DED.PartCchapterVIA||0)));
-  const s80P=Math.max(0,R(DED.s80P!=null?DED.s80P:(DED.section80P!=null?DED.section80P:
-    (DED.p80P!=null?DED.p80P:(DED.d80P||0)))));
+  const partCForAMT=Math.max(0,R(DED.partCForAMT!=null?DED.partCForAMT:partCtot));
+  const s80P=Math.max(0,R(partCtot-partCForAMT));
   /* income at special rates and specified-business profit — the 2a cap terms */
   const splInc=Math.max(0,R(SI.totInc!=null?SI.totInc:(SI.income||0)));
   const specBusProfit=Math.max(0,R((BP.c&&BP.c.C48!=null)?BP.c.C48:(BP.specified!=null?BP.specified:0)));
@@ -105,7 +115,7 @@ function engAmt(){
   const ti=New?0:Math.max(0,Math.round((gti-viaAllowed-us10AA)/10)*10);
 
   /* 2a [H6] = MAX(0, MIN(GTI − splRateInc − specifiedBusProfit, PartC − 80P)) */
-  const add2a=New?0:Math.max(0,Math.min(gti-splInc-specBusProfit,partCtot-s80P));
+  const add2a=New?0:Math.max(0,Math.min(gti-splInc-specBusProfit,partCForAMT));
   /* 2b [H7] = the section-10AA deduction (MIN of 10AA-unit income and the 10AA deduction) */
   const add2b=New?0:us10AA;
   /* 2c [H8] = user input (35AD net of depreciation); prefilled from Sch BP 35AD */
@@ -180,7 +190,7 @@ function engAmt(){
    never from engAmt. Utilises oldest year first, capped by item 3 and pool. */
 function amtcTable(){
   const A=S.C.amt||{};
-  const New=isNew();
+  const REG=(S.C&&S.C.regime)||{}; const New=(REG.anyConc!=null)?!!REG.anyConc:isNew();  /* A696: hold AMTC col C/D to 0 under ANY concessional regime (115BAC/115BAD/115BAE), not just 115BAC */
   const rows=(A.amtcRows||[]).map(r=>Object.assign({},r,{used:0,cf:r.bf}));
   const pool=R(A.creditAvail!=null?A.creditAvail:rows.reduce((a,r)=>a+r.bf,0)); /* Σ B3 */
   const tax115JC=R(A.total!=null?A.total:0);              /* item 1 [L4] = 1d of Part B-TTI */
@@ -205,7 +215,7 @@ function amtcTable(){
 /* ---- renderer ---------------------------------------------------- */
 function secAmt(){
   const A=S.C.amt||engAmt()||S.C.amt||{};
-  const New=isNew();
+  const REG=(S.C&&S.C.regime)||{}; const New=(REG.anyConc!=null)?!!REG.anyConc:isNew();
   const r=(n,l,v,o)=>row(l,cell(v),Object.assign({ref:n},o||{}));
   let h="";
 

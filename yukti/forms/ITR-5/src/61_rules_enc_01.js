@@ -71,7 +71,7 @@ ruleset(function(I,S_,A,Dd){
   /* 17 — Status 'Local Authority' → SubStatus must be null */
   A(17,status!=="2"||!sub,"Part A-General: Status is 'Local Authority' — the Sub-status field must be left blank.");
   /* 18 — new regime (115BAC(1A)/115BAD/115BAE) → no 10AA, and no Part-C VI-A except 80JJAA & 80LA(1A) */
-  {const newR=(FS.OptOldRegimeCurrAY!=="Y");
+  {const newR=!!(((S_||{}).C||{}).regime||{}).anyConc;   /* all three concessional regimes (S.C.regime.anyConc), not the 115BAC-only flag */
    const VD=RG(I,"ScheduleVIA.DeductUndChapVIA",{})||{};
    const partCoth=N(VD.TotPartCchapterVIA)-N(VD.Section80JJAA)-N(VD.Section80LA_1A);
    A(18,!newR||(partCoth<=0&&!I.Schedule10AA),"Part A-General: deductions u/s 10AA / Schedule 80 / Chapter VI-A Part C (except 80JJAA and 80LA(1A)) cannot be claimed when opting for 115BAD/115BAE/115BAC(1A).");}

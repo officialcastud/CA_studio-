@@ -94,9 +94,12 @@ ruleset(function(I,S_,A,Dd){
     A(372,REQ(b3.BalanceCG,N(b3.FullConsideration)-N(d48.TotalDedn)),"Schedule CG: B3c balance must equal 3a − bv.");
   }
 
-  /* 373 — B4 LTCG u/s 112A = total of column 14 of Schedule 112A */
-  if(I.Schedule112A)
-    A(373,REQ(RG(LT,"SaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule112A.Balance112A")),"Schedule CG: B4 (LTCG u/s 112A) must equal the total of column 14 of Schedule 112A.");
+  /* 373 — B4 LTCG u/s 112A = total of column 14 of Schedule 112A.
+     No `if(I.Schedule112A)` guard: a return that reports B4 (LTCG u/s 112A) while
+     OMITTING Schedule 112A must fail. RG defaults an absent Schedule 112A total to
+     0, so B4 must then be 0; a lawful return that carries Schedule 112A keeps
+     B4 == col 14 total and stays silent. */
+  A(373,REQ(RG(LT,"SaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule112A.Balance112A")),"Schedule CG: B4 (LTCG u/s 112A) must equal the total of column 14 of Schedule 112A.");
 
   /* 374-377 — B6 non-resident u/s 112(1)(c)/115AB/115AC/115AD (per sub-block).
      377 is the book's duplicate of 376 (both assert the section-48 total). */
@@ -107,9 +110,12 @@ ruleset(function(I,S_,A,Dd){
     A(377,REQ(d48.TotalDedn,sec48Sum(d48)),L+"the section-48 total must equal bi + bii + biii + biv.");
   });
 
-  /* 378 — B7 FII/FPI equity u/s 115AD(1)(b)(iii) proviso = total of col 14 of Sch 115AD */
-  if(I.Schedule115AD)
-    A(378,REQ(RG(LT,"NRISaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule115AD.Balance115AD")),"Schedule CG: B7 (LTCG for FII u/s 115AD(1)(b)(iii) proviso) must equal the total of column 14 of Schedule 115AD.");
+  /* 378 — B7 FII/FPI equity u/s 115AD(1)(b)(iii) proviso = total of col 14 of Sch 115AD.
+     No `if(I.Schedule115AD)` guard: a return that reports B7 while OMITTING Schedule
+     115AD must fail. RG defaults an absent Schedule 115AD total to 0, so B7 must then
+     be 0; a lawful return that carries Schedule 115AD keeps B7 == col 14 total and
+     stays silent. */
+  A(378,REQ(RG(LT,"NRISaleOfEquityShareUs112A.CapgainonAssets"),RG(I,"Schedule115AD.Balance115AD")),"Schedule CG: B7 (LTCG for FII u/s 115AD(1)(b)(iii) proviso) must equal the total of column 14 of Schedule 115AD.");
 
   /* 379-383 — B8 assets where B1-B7 not applicable (SaleofAssetNADtls.SaleofAssetNA) */
   const b8=RG(LT,"SaleofAssetNADtls.SaleofAssetNA",null);
@@ -152,15 +158,19 @@ ruleset(function(I,S_,A,Dd){
   const EROWS=["InStcg20Per","InStcg30Per","InStcgAppRate","InStcgDTAARate","InLtcg12_5Per","InLtcgDTAARate"];
   const SOKEYS=["StclSetoff20Per","StclSetoff30Per","StclSetoffAppRate","StclSetoffDTAARate","LtclSetOff12_5Per","LtclSetOffDTAARate"];
 
-  if(CYL.TotLossSetOff&&CYL.InLossSetOff&&CYL.LossRemainSetOff){
-    SOKEYS.forEach(function(sk){
-      const colSum=EROWS.reduce((a,e)=>a+N(RG(CYL,e+"."+sk)),0);
-      /* 387 — Eviii (total loss set off, this rate) = Σ of rows ii..vii */
-      A(387,REQ(RG(CYL,"TotLossSetOff."+sk),colSum),"Schedule CG Table E: total loss set off ("+sk+") must equal the sum of the set-offs in rows ii to vii.");
-      /* 388 — Eix (loss remaining) = Ei (loss to be set off) − Eviii (total loss set off) */
-      A(388,REQ(RG(CYL,"LossRemainSetOff."+sk),N(RG(CYL,"InLossSetOff."+sk))-N(RG(CYL,"TotLossSetOff."+sk))),"Schedule CG Table E: loss remaining ("+sk+") must equal the loss to be set off (row i) − the total loss set off (row viii).");
-    });
-  }
+  /* 387/388 — no `if(CYL.TotLossSetOff&&CYL.InLossSetOff&&CYL.LossRemainSetOff)` guard:
+     a return whose set-off matrix carries loss set-offs in rows ii..vii while OMITTING
+     the Eviii (TotLossSetOff) / Eix (LossRemainSetOff) totals must fail. RG defaults
+     every absent node to 0, so a return with no set-offs at all keeps colSum == 0 and
+     stays silent, and a lawful return that reconciles keeps Eviii == Σ rows and
+     Eix == Ei − Eviii and stays silent. */
+  SOKEYS.forEach(function(sk){
+    const colSum=EROWS.reduce((a,e)=>a+N(RG(CYL,e+"."+sk)),0);
+    /* 387 — Eviii (total loss set off, this rate) = Σ of rows ii..vii */
+    A(387,REQ(RG(CYL,"TotLossSetOff."+sk),colSum),"Schedule CG Table E: total loss set off ("+sk+") must equal the sum of the set-offs in rows ii to vii.");
+    /* 388 — Eix (loss remaining) = Ei (loss to be set off) − Eviii (total loss set off) */
+    A(388,REQ(RG(CYL,"LossRemainSetOff."+sk),N(RG(CYL,"InLossSetOff."+sk))-N(RG(CYL,"TotLossSetOff."+sk))),"Schedule CG Table E: loss remaining ("+sk+") must equal the loss to be set off (row i) − the total loss set off (row viii).");
+  });
 
   /* 398 — E8 (remaining gain, col 8) = col 1 (income) − cols 2..7 (losses set off) */
   EROWS.forEach(function(ek){const node=RG(CYL,ek,null);if(!node||typeof node!=="object")return;
@@ -168,16 +178,22 @@ ruleset(function(I,S_,A,Dd){
     A(398,REQ(node.CurrYrCapGain,Math.max(0,N(node.CurrYearIncome)-so)),"Schedule CG Table E: remaining gain (E8, col 8) for "+ek+" must equal current-year income (col 1) − the losses set off (cols 2–7).");
   });
 
-  /* 391 & 395 — Ei5 / Ev (STCG at special DTAA rate) = A9b */
-  if(CYL.InStcgDTAARate){
-    A(391,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ei5) must equal A9b (STCG chargeable at special rates as per DTAA).");
-    A(395,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ev) must equal A9b.");
-  }
-  /* 392 & 396 — Ei7 / Evii (LTCG at special DTAA rate) = B11b */
-  if(CYL.InLtcgDTAARate){
-    A(392,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Ei7) must equal B11b (LTCG chargeable at special rates as per DTAA).");
-    A(396,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Evii) must equal B11b.");
-  }
+  /* 391 & 395 — Ei5 / Ev (STCG at special DTAA rate) = A9b.
+     No `if(CYL.InStcgDTAARate)` guard: a return that discloses STCG chargeable at a
+     special DTAA rate at A9b (A ShortTermCapGain.TotalAmtTaxUsDTAAStcg) while OMITTING
+     the Table-E DTAA row (InStcgDTAARate) must fail. RG defaults the absent Table-E
+     income to 0, so it must then equal a zero A9b; a lawful return that carries the
+     DTAA row keeps Ei5 / Ev == A9b and stays silent. */
+  A(391,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ei5) must equal A9b (STCG chargeable at special rates as per DTAA).");
+  A(395,REQ(RG(CYL,"InStcgDTAARate.CurrYearIncome"),N(RG(ST,"TotalAmtTaxUsDTAAStcg"))),"Schedule CG Table E: STCG at special DTAA rate (Ev) must equal A9b.");
+  /* 392 & 396 — Ei7 / Evii (LTCG at special DTAA rate) = B11b.
+     No `if(CYL.InLtcgDTAARate)` guard: a return that discloses LTCG chargeable at a
+     special DTAA rate at B11b (LongTermCapGain.TotalAmtTaxUsDTAALtcg) while OMITTING
+     the Table-E DTAA row (InLtcgDTAARate) must fail. RG defaults the absent Table-E
+     income to 0; a lawful return that carries the DTAA row keeps Ei7 / Evii == B11b
+     and stays silent. */
+  A(392,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Ei7) must equal B11b (LTCG chargeable at special rates as per DTAA).");
+  A(396,REQ(RG(CYL,"InLtcgDTAARate.CurrYearIncome"),N(RG(LT,"TotalAmtTaxUsDTAALtcg"))),"Schedule CG Table E: LTCG at special DTAA rate (Evii) must equal B11b.");
 
   /* 389, 390, 393, 394 — /* not mappable: the rule text (Ei3/Ei4/Eiii/Eiv = the
      30%- and applicable-rate bucket income "as reduced by the amount of STCG
@@ -191,13 +207,17 @@ ruleset(function(I,S_,A,Dd){
      Left un-encoded rather than introduce a false positive. */
 
   /* ================= TABLE F — ACCRUAL/RECEIPT (vs Schedule BFLA) ================= */
+  /* 399/400 — no `if(AF&&I.ScheduleBFLA)` guard: a return that omits EITHER side of
+     the cross-check — the Table-F quarter break-up (AccruOrRecOfCG) or Schedule BFLA —
+     must fail. RG(AF,..) with AF absent (null) safely returns the default, so qsum is
+     0 when Table F is absent, and RG(I,"ScheduleBFLA..") is 0 when BFLA is absent; a
+     return with neither STCG head stays silent, and a lawful return that carries both
+     keeps the quarter break-up == item 5vii/5viii of BFLA and stays silent. */
   const AF=RG(CG,"AccruOrRecOfCG",null);
-  if(AF&&I.ScheduleBFLA){
-    const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
-    const qsum=k=>{const dr=RG(AF,k+".DateRange",{})||{};return QK.reduce((a,q)=>a+N(dr[q]),0);};
-    /* 399 — Table F Sl.2 (STCG @30%) quarter break-up = item 5vii of Schedule BFLA */
-    A(399,REQ(qsum("ShortTermUnder30Per"),RG(I,"ScheduleBFLA.STCG30Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.2: the quarter-wise break-up of STCG @30% must equal item 5vii (STCG @30%) of Schedule BFLA.");
-    /* 400 — Table F Sl.3 (STCG applicable rate) quarter break-up = item 5viii of Schedule BFLA */
-    A(400,REQ(qsum("ShortTermUnderAppRate"),RG(I,"ScheduleBFLA.STCGAppRate.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.3: the quarter-wise break-up of STCG at applicable rates must equal item 5viii (STCG applicable rate) of Schedule BFLA.");
-  }
+  const QK=["Upto15Of6","Upto15Of9","Up16Of9To15Of12","Up16Of12To15Of3","Up16Of3To31Of3"];
+  const qsum=k=>{const dr=RG(AF,k+".DateRange",{})||{};return QK.reduce((a,q)=>a+N(dr[q]),0);};
+  /* 399 — Table F Sl.2 (STCG @30%) quarter break-up = item 5vii of Schedule BFLA */
+  A(399,REQ(qsum("ShortTermUnder30Per"),RG(I,"ScheduleBFLA.STCG30Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.2: the quarter-wise break-up of STCG @30% must equal item 5vii (STCG @30%) of Schedule BFLA.");
+  /* 400 — Table F Sl.3 (STCG applicable rate) quarter break-up = item 5viii of Schedule BFLA */
+  A(400,REQ(qsum("ShortTermUnderAppRate"),RG(I,"ScheduleBFLA.STCGAppRate.IncBFLA.IncOfCurYrAfterSetOffBFLosses")),"Schedule CG Table F Sl.3: the quarter-wise break-up of STCG at applicable rates must equal item 5viii (STCG applicable rate) of Schedule BFLA.");
 });

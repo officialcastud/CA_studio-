@@ -21,6 +21,7 @@
 ruleset(function(I,S_,A,Dd){
   I=I||{};
   const arr=v=>Array.isArray(v)?v:[];
+  const RGM=((S_||{}).C||{}).regime||{};                  /* resolved tax-regime object (65_regime.js) */
   const S=s=>String(s==null?"":s).trim();                 /* trimmed string */
   const has=s=>S(s).length>0;                             /* field present / non-blank */
   const isISO=s=>/^\d{4}-\d{2}-\d{2}$/.test(S(s));
@@ -203,10 +204,13 @@ ruleset(function(I,S_,A,Dd){
     /* 641 (part 1): rows Sl.8–13 [80P(2)(b)–(f)] carry only their mandated codes */
     ROWS.slice(7).forEach(function(x){if(present(x[0]))
       A(641,S(P[x[0]+"Code"])===x[1],"Schedule 80P: deduction under "+x[2]+" can be claimed only for business code "+x[1]+".");});
-    /* 641 (part 2): 80P cannot be claimed if the new tax regime has been opted for
-       (OptOldRegimeCurrAY = "N" is the new regime; the master switch is always
-       written, so the total deduction must then be nil) */
-    A(641,S(RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY","")).toUpperCase()==="Y"||N(P.Sec80PTotalAmt)===0,
+    /* 641 (part 2): 80P cannot be claimed if the new tax regime has been opted for.
+       80P is a Part-C deduction claimable only by a co-operative society and is
+       barred under the co-op concessional regimes 115BAD/115BAE (regime contract:
+       Part-C survivors are only 80JJAA & 80LA(1A)). The OptOldRegimeCurrAY flag
+       misses a co-op that opted 115BAD (via S.fs.newTaxRegime) or 115BAE, so read
+       the resolved regime object: fire when is115BAD || is115BAE and 80P>0. */
+    A(641,!(RGM.is115BAD||RGM.is115BAE)||N(P.Sec80PTotalAmt)===0,
       "Schedule 80P: a deduction u/s 80P cannot be claimed when the new tax regime has been opted for.");
 
     /* 639: total deduction at Sl.14 cannot exceed the sum of Sl.1–13 deductions */

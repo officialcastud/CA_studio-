@@ -29,8 +29,8 @@ const SKEL=
 {
  "CreationInfo": {
   "SWVersionNo": "1.0",
-  "SWCreatedBy": "SW10000000",
-  "JSONCreatedBy": "SW10000000",
+  "SWCreatedBy": "SW10000001",
+  "JSONCreatedBy": "SW10000001",
   "JSONCreationDate": "2026-01-01",
   "IntermediaryCity": "na",
   "Digest": "-"

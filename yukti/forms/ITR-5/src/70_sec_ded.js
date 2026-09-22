@@ -190,7 +190,12 @@ function engDed80P(closed){
    section at order 90 re-applies the authoritative cap on Total Income).
    =================================================================== */
 function engDed(){
-  const conc=isNew();                              /* new (concessional) regime */
+  /* regime contract published by 65_regime.js (S.C.regime) — guarded; falls back to the
+     115BAC-only shell isNew() until the resolver publishes it. anyConc covers 115BAC(1A)
+     AND the co-op concessional regimes 115BAD/115BAE, which isNew() never sees. */
+  const RG=(S.C&&S.C.regime)||{};
+  const is115BAD=!!RG.is115BAD, is115BAE=!!RG.is115BAE;
+  const conc=(RG.anyConc!=null)?!!RG.anyConc:isNew();   /* new (concessional) regime — Part-C/10AA bar */
   const stat=st0((S.pi||{}).status)||"1";
   const sub=st0((S.pi||{}).substatus);
   const isLLP=stat==="1"&&/LLP/i.test(sub);
@@ -247,7 +252,7 @@ function engDed(){
   out.c80jjaa=Math.min(R(kv("c80jjaa")),gtiNet);     /* [K17] SURVIVES new regime; ≤ post-BFLA income */
   out.c80la1=conc?0:(fx?0:la1raw);                   /* [K18] needs forex="No"; closes in new regime */
   out.c80la1a=fx?la1araw:0;                           /* [K19] needs forex="Yes"; SURVIVES new regime */
-  out.c80p=isCoop?p80.totalAmt:0;                     /* [K20] co-op only (A653/A631); zero otherwise */
+  out.c80p=(isCoop&&!(is115BAD||is115BAE))?p80.totalAmt:0; /* [K20] co-op only (A653/A631); forgone if it elected 115BAD/115BAE */
   const partCraw=DED_PARTC.reduce((s,k)=>s+N(out[k]),0);
 
   /* ---- Part B col-K (80G qualifying limit consumes 80GGA+80GGC+Part-C) ---- */
@@ -441,8 +446,10 @@ function expDed(j){
   ded.TotPartBchapterVIA=n0(V.partB);    ded.TotPartCchapterVIA=n0(V.partC);    ded.TotalChapVIADeductions=n0(V.allowed);
   j.ScheduleVIA={UsrDeductUndChapVIA:usr,DeductUndChapVIA:ded};
 
-  /* the donation / profit-linked sub-schedules are closed under the new regime — emit only in the old regime */
-  const conc=isNew();
+  /* the donation / profit-linked sub-schedules are closed under the new regime — emit only in the old regime.
+     Use the regime-resolved gate the engine already stored (covers 115BAC(1A)/115BAD/115BAE), not the
+     115BAC-only isNew(), so Schedule10AA / Part-C sub-schedules are suppressed under 115BAD/115BAE too. */
+  const conc=!!((S.C.ded||{}).conc);
 
   /* ---- Schedule80G ---- */
   {const rows=(S.ded.g80||[]).filter(r=>N(r.amt)||N(r.cash)||N(r.other));
@@ -632,5 +639,5 @@ function chkDed(){
 }
 
 reg({id:"ded", t:"Deductions", ref:"Chapter VI-A · 80G/GGA/GGC/RA · 80-IA/IB/IE/IAC/LA · 80P · 10AA", f:secDed,
-  s:()=>{const V=S.C.ded||{};return (V.allowed?"Allowed "+CR(V.allowed):(isNew()?"Almost none under the new regime":"Chapter VI-A"))+(V.ded10AA?" · 10AA "+CR(V.ded10AA):"");},
+  s:()=>{const V=S.C.ded||{};return (V.allowed?"Allowed "+CR(V.allowed):(V.conc?"Almost none under the new regime":"Chapter VI-A"))+(V.ded10AA?" · 10AA "+CR(V.ded10AA):"");},
   eng:engDed, exp:expDed, imp:impDed, chk:chkDed, order:50, corder:50});

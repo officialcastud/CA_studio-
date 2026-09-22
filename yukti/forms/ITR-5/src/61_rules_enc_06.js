@@ -46,7 +46,7 @@
    ===================================================================== */
 ruleset(function(I,S_,A,Dd){
   I=I||{};
-  const newR = RG(I,"PartA_GEN1.FilingStatus.OptOldRegimeCurrAY","N")!=="Y";  /* new regime is default; old = 10-IEA opt-out */
+  const newR = !!(((S_||{}).C||{}).regime||{}).anyConc;  /* any concessional new regime 115BAC(1A)/115BAD/115BAE (S.C.regime.anyConc) — 255/277/278/282 all bar under the new regime(s) */
   const BP   = RG(I,"CorpScheduleBP.BusinessIncOthThanSpec",null);
 
   /* ---------------- Schedule BP — Part A ladder ---------------- */
