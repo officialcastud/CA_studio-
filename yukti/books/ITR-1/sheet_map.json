@@ -1,0 +1,153 @@
+{
+ "form": "ITR-1",
+ "utility": "ITR1_AY_26-27_V1.2.xlsm",
+ "sheets": [
+  {
+   "name": "Income Details",
+   "file": "sheet1.xml",
+   "state": "visible",
+   "rows": 221,
+   "hidden_rows": 0
+  },
+  {
+   "name": "HP",
+   "file": "sheet2.xml",
+   "state": "visible",
+   "rows": 82,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Schedule EA 10(13A)",
+   "file": "sheet3.xml",
+   "state": "hidden",
+   "rows": 13,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Schedule 24(b)",
+   "file": "sheet4.xml",
+   "state": "hidden",
+   "rows": 13,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Part A Gen_139(8A)",
+   "file": "sheet5.xml",
+   "state": "hidden",
+   "rows": 36,
+   "hidden_rows": 0
+  },
+  {
+   "name": "TDS",
+   "file": "sheet6.xml",
+   "state": "visible",
+   "rows": 132,
+   "hidden_rows": 0
+  },
+  {
+   "name": "TCS",
+   "file": "sheet7.xml",
+   "state": "visible",
+   "rows": 30,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Taxes Paid and Verification",
+   "file": "sheet8.xml",
+   "state": "visible",
+   "rows": 248,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Part B ATI",
+   "file": "sheet9.xml",
+   "state": "hidden",
+   "rows": 49,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80D",
+   "file": "sheet10.xml",
+   "state": "hidden",
+   "rows": 56,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80G",
+   "file": "sheet11.xml",
+   "state": "hidden",
+   "rows": 201,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80GGA",
+   "file": "sheet12.xml",
+   "state": "hidden",
+   "rows": 26,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80GGC",
+   "file": "sheet13.xml",
+   "state": "hidden",
+   "rows": 20,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80U-80DD",
+   "file": "sheet14.xml",
+   "state": "hidden",
+   "rows": 29,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80C",
+   "file": "sheet15.xml",
+   "state": "hidden",
+   "rows": 22,
+   "hidden_rows": 0
+  },
+  {
+   "name": "80E_80EE_80EEA_80EEB",
+   "file": "sheet16.xml",
+   "state": "hidden",
+   "rows": 46,
+   "hidden_rows": 0
+  },
+  {
+   "name": "BankCode",
+   "file": "sheet17.xml",
+   "state": "hidden",
+   "rows": 318,
+   "hidden_rows": 0
+  },
+  {
+   "name": "IFSC",
+   "file": "sheet18.xml",
+   "state": "hidden",
+   "rows": 45136,
+   "hidden_rows": 0
+  },
+  {
+   "name": "DataBase",
+   "file": "sheet19.xml",
+   "state": "hidden",
+   "rows": 19303,
+   "hidden_rows": 0
+  },
+  {
+   "name": "SUMMARY",
+   "file": "sheet20.xml",
+   "state": "hidden",
+   "rows": 32,
+   "hidden_rows": 0
+  },
+  {
+   "name": "Help",
+   "file": "sheet21.xml",
+   "state": "hidden",
+   "rows": 147,
+   "hidden_rows": 0
+  }
+ ]
+}

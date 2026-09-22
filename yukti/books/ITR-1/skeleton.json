@@ -1,0 +1,172 @@
+{
+ "CreationInfo": {
+  "SWVersionNo": "1.0",
+  "SWCreatedBy": "SW10000000",
+  "JSONCreatedBy": "SW10000000",
+  "JSONCreationDate": "2026-01-01",
+  "IntermediaryCity": "Delhi",
+  "Digest": "-"
+ },
+ "Form_ITR1": {
+  "FormName": "ITR-1",
+  "Description": "For Individuals having Income from Salaries, one house property, other sources (Interest etc.) and having total income upto Rs.50 lakh",
+  "AssessmentYear": "2026",
+  "SchemaVer": "Ver1.0",
+  "FormVer": "Ver1.0"
+ },
+ "PersonalInfo": {
+  "AssesseeName": {
+   "SurNameOrOrgName": "NA"
+  },
+  "PAN": "AAAPA0000A",
+  "Address": {
+   "ResidenceNo": "NA",
+   "LocalityOrArea": "NA",
+   "CityOrTownOrDistrict": "NA",
+   "StateCode": "19",
+   "CountryCode": "91",
+   "PinCode": 400001,
+   "CountryCodeMobile": 91,
+   "MobileNo": 9999999999,
+   "EmailAddress": "na@na.in"
+  },
+  "SecondaryAdd": "N",
+  "DOB": "1990-01-01",
+  "EmployerCategory": "OTH"
+ },
+ "FilingStatus": {
+  "ReturnFileSec": 11,
+  "SeventhProvisio139": "N",
+  "OptOutNewTaxRegime": "N",
+  "clauseiv7provisio139i": "N",
+  "AsseseeRepFlg": "N",
+  "ItrFilingDueDate": "2026-07-31"
+ },
+ "ITR1_IncomeDeductions": {
+  "GrossSalary": 0,
+  "Salary": 0,
+  "PerquisitesValue": 0,
+  "ProfitsInSalary": 0,
+  "NetSalary": 0,
+  "DeductionUs16": 0,
+  "DeductionUs16ia": 0,
+  "EntertainmentAlw16ii": 0,
+  "ProfessionalTaxUs16iii": 0,
+  "IncomeFromSal": 0,
+  "IncomeOthSrc": 0,
+  "DeductionUs57iia": 0,
+  "GrossTotIncome": 0,
+  "GrossTotIncomeIncLTCG112A": 0,
+  "UsrDeductUndChapVIA": {
+   "Section80C": 0,
+   "Section80CCC": 0,
+   "Section80CCDEmployeeOrSE": 0,
+   "Section80CCD1B": 0,
+   "Section80CCDEmployer": 0,
+   "Section80D": 0,
+   "Section80DD": 0,
+   "Section80DDB": 0,
+   "Section80E": 0,
+   "Section80EE": 0,
+   "Section80EEA": 0,
+   "Section80EEB": 0,
+   "Section80G": 0,
+   "Section80GG": 0,
+   "Section80GGA": 0,
+   "Section80GGC": 0,
+   "Section80U": 0,
+   "Section80TTA": 0,
+   "Section80TTB": 0,
+   "AnyOthSec80CCH": 0,
+   "TotalChapVIADeductions": 0
+  },
+  "DeductUndChapVIA": {
+   "Section80C": 0,
+   "Section80CCC": 0,
+   "Section80CCDEmployeeOrSE": 0,
+   "Section80CCD1B": 0,
+   "Section80CCDEmployer": 0,
+   "Section80D": 0,
+   "Section80DD": 0,
+   "Section80DDB": 0,
+   "Section80E": 0,
+   "Section80EE": 0,
+   "Section80EEA": 0,
+   "Section80EEB": 0,
+   "Section80G": 0,
+   "Section80GG": 0,
+   "Section80GGA": 0,
+   "Section80GGC": 0,
+   "Section80U": 0,
+   "Section80TTA": 0,
+   "Section80TTB": 0,
+   "AnyOthSec80CCH": 0,
+   "TotalChapVIADeductions": 0
+  },
+  "TotalIncome": 0,
+  "TotalIncomeChargeableUnHP": 0
+ },
+ "ITR1_TaxComputation": {
+  "TotalTaxPayable": 0,
+  "Rebate87A": 0,
+  "TaxPayableOnRebate": 0,
+  "EducationCess": 0,
+  "GrossTaxLiability": 0,
+  "Section89": 0,
+  "NetTaxLiability": 0,
+  "TotalIntrstPay": 0,
+  "IntrstPay": {
+   "IntrstPayUs234A": 0,
+   "IntrstPayUs234B": 0,
+   "IntrstPayUs234C": 0,
+   "LateFilingFee234F": 0,
+   "FeeFurnish234I": 0
+  },
+  "TotTaxPlusIntrstPay": 0
+ },
+ "LTCG112A": {
+  "TotSaleCnsdrn": 0,
+  "TotCstAcqisn": 0,
+  "LongCap112A": 0
+ },
+ "TaxPaid": {
+  "TaxesPaid": {
+   "AdvanceTax": 0,
+   "TDS": 0,
+   "TCS": 0,
+   "SelfAssessmentTax": 0,
+   "TotalTaxesPaid": 0
+  },
+  "BalTaxPayable": 0
+ },
+ "Refund": {
+  "RefundDue": 0,
+  "BankAccountDtls": {
+   "AddtnlBankDetails": []
+  }
+ },
+ "Verification": {
+  "Declaration": {
+   "AssesseeVerName": "NA",
+   "FatherName": "NA",
+   "AssesseeVerPAN": "AAAPA0000A"
+  },
+  "Capacity": "S",
+  "Place": "NA"
+ },
+ "TDSonSalaries": {
+  "TotalTDSonSalaries": 0
+ },
+ "TDSonOthThanSals": {
+  "TotalTDSonOthThanSals": 0
+ },
+ "ScheduleTDS3Dtls": {
+  "TotalTDS3Details": 0
+ },
+ "ScheduleTCS": {
+  "TotalSchTCS": 0
+ },
+ "TaxPayments": {
+  "TotalTaxPayments": 0
+ }
+}
