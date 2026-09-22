@@ -275,10 +275,23 @@ S.accounts = {
     }
   },
   /* ---- PART A-OI (tax-audit annexure). MethodOfValClgStk 4d/4e = nil, so
-     BP 25/33 remain the Schedule ICDS increase / decrease alone. ---- */
+     BP 25/33 remain the Schedule ICDS increase / decrease alone.
+     The tax-audit disallowances are ENTERED here (Form 3CD annexure) and flow
+     to Schedule BP 14-18/20/31 (BP item = OI Sl.6s/7k/8Aj/9F/11i/14/10i); the
+     portal blocks a BP disallowance that Part A-OI does not carry (rules A207-
+     A211, A214, A236). The totals below match the Schedule BP figures d14-d18/
+     deem41/d31; only the per-section total feeds anything, so the sub-line used
+     for each is representative of that disallowance's nature. ---- */
   oi:{ MethodOfAcct:"MERC", ChangeInAcctMethFlg:"N",
        MethodOfValClgStk:{ ValRawMaterial:"1", ValFinishedGoods:"1", ChngStockValMetFlg:"N",
                            EffectOnPL:0, DecProOrIncLossUs145_A:0 },
+       AmtDisallUs36:{ AnyOthDisallowance:50000 },                  /* 6s -> BP 14 (u/s 36) */
+       AmtDisallUs37:{ OthPenalFineExp:80000 },                     /* 7k -> BP 15 (u/s 37 penalty) */
+       AmtDisallUs40:{ NonComp40aiaChapXVIIBAmt:120000 },           /* 8Aj -> BP 16 (u/s 40, TDS) */
+       AmtDisallUs40A:{ AmtGT20kCash:60000 },                       /* 9F -> BP 17 (u/s 40A(3)) */
+       AmtDisall43B:{ AmtUs43B:{ TaxDutyCesAmt:150000 } },          /* 11i -> BP 18 (u/s 43B unpaid) */
+       AmtDisallUs43BPyNowAll:{ AmtUs43B:{ TaxDutyCesAmt:110000 } },/* 10i -> BP 31 (43B now allowable) */
+       ProfTaxAmtUs41:25000,                                        /* OI 14 -> BP 20 (deemed u/s 41) */
        AmountOfExpDisAllwUs14A:15000 },                             /* OI 16 -> BP 8b */
   /* Part A-QD — the audited books carry no quantitative rows, so QD is not filed. */
   qd:{ trd:[], raw:[], fin:[] }, ol:{}
@@ -464,8 +477,16 @@ S.cg = {
 
 /* ======================= 7 · SCHEDULE OS ================================ */
 S.os = {
-  divOth:1200000,           /* 1a(i)  dividend from domestic companies */
-  div22e:0, div22f:0,
+  /* Total dividend 12,00,000. Of this, 1,00,000 is the buy-back consideration
+     received on the shares whose cost (50,000) is claimed as the STCL @20% at
+     A(A) of Schedule CG — post-01/10/2024 a buy-back is a deemed dividend u/s
+     2(22)(f) (offered at 1a(iii)) and the whole cost is the capital loss. The
+     portal blocks the buy-back loss unless 1a(iii) carries that dividend
+     (rule A500). Splitting it out of 1a(i) is figure-neutral: both legs are
+     taxed at the normal rate and the total dividend (hence 80M, the s.57 cap
+     and the OS gross) is unchanged. */
+  divOth:1100000,           /* 1a(i)  dividend from domestic companies */
+  div22e:0, div22f:100000,  /* 1a(iii) dividend u/s 2(22)(f) — share buy-back */
   intSaving:0,
   intDeposit:450000,        /* 1b(ii) interest on bank deposits */
   intRefund:25000,          /* 1b(iii) interest on an income-tax refund */
@@ -481,20 +502,30 @@ S.os = {
   dtaa:[],                  /* 2e — non-residents only */
   dExpenses:40000,          /* 3a collection charges */
   dDep:60000,               /* 3b depreciation on the plant let on hire (<= 1c) */
-  dIntClaimed:100000,       /* 3c interest u/s 57(1) — capped at 20 % of 12,00,000 */
+  dIntClaimed:100000,       /* 3c interest u/s 57(1) — capped at 20 % of 1a(i)+1a(ii) = 11,00,000 */
   notDed58:0, profit59:0,
   horse:{ receipts:"", ded57:"", notDed58:"", profit59:"" },
+  /* Quarterly break-up for 234C. d115bbda (1a(i)) must sum to 1a(i) − adj.57(1)
+     interest = 11,00,000 − 1,00,000 = 10,00,000 (rule A475); d115bbdaaiii (1a(iii))
+     to 1a(iii) = 1,00,000 (rule A499). The 1,00,000 buy-back dividend simply
+     moves from the d115bbda Q4 bucket to d115bbdaaiii Q4, so the total dividend
+     accrual per quarter — and hence 234C — is unchanged. */
   q:{ d115bbda:{ Upto15Of6:300000, Up16Of6To15Of9:300000, Up16Of9To15Of12:300000,
-                 Up16Of12To15Of3:150000, Up16Of3To31Of3:50000 } }
+                 Up16Of12To15Of3:50000, Up16Of3To31Of3:50000 },
+      d115bbdaaiii:{ Upto15Of6:0, Up16Of6To15Of9:0, Up16Of9To15Of12:0,
+                     Up16Of12To15Of3:100000, Up16Of3To31Of3:0 } }
 };
 
 /* ======================= 8 · THE LOSS CHAIN (CYLA · BFLA · CFL · UD) ==== */
 /* No current-year loss arises (every head is positive), so Schedule CYLA is
    nil.  Schedule CFL carries five earlier years; Schedule BFLA sets off the
-   house-property, business, short-term and long-term brought-forward losses.
-   The brought-forward speculative (80,000) and specified-business (3,00,000)
-   losses cannot be set off — there is no speculative / specified income row
-   published to BFLA — and are carried forward again. */
+   house-property, business, speculative, specified, short-term and long-term
+   brought-forward losses. The brought-forward speculative (80,000) is fully
+   set off against the 1,50,000 speculative income; the specified-business
+   (3,00,000) is set off to the extent of the 2,00,000 specified income and the
+   balance 1,00,000 is carried forward again (indefinite). [The Schedule-BP
+   head-split (busExcl/spec/specified) now reaches BFLA — earlier it lumped
+   everything into 'business other than spec/specified', starving these rows.] */
 S.loss = {
   cfl:{
     "2019-20":{ dt:"15/10/2019", specified:300000 },

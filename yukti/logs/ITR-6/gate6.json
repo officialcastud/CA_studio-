@@ -3,8 +3,19 @@
  "ok": true,
  "failing": [],
  "extra": {
-  "category_A_coded": 0,
+  "category_A_coded": 796,
   "category_A_total": 868,
-  "D_notices": []
+  "D_notices": [
+   "D6 [D] Schedule MAT: book profits u/s 115JB should equal the book profits reported under Form 29B (Report u/s 115JB) \u2014 income is increased if the Form 29B amount is higher.",
+   "D9 [D] Schedule VIA: deduction u/s 80JJAA (Sl.No. 2l) is claimed \u2014 ensure Form 10DA has been filed.",
+   "D12 [D] Schedule VIA: deduction u/s 80-IA/80-IB/80-IE/80-IAC/80-IAB/80-IBA is claimed \u2014 ensure Form 10CCB is filed within the due date (or extended date) for the current AY.",
+   "D16 [D] Schedule VIA: deduction u/s 80JJAA (Sl.No. 2l) should equal the amount reported in Form 10DA.",
+   "D18 [D] Schedule VIA: deduction u/s 80-IA (Sl.No. 2e) should equal the sum of the amounts reported in Form 10CCB.",
+   "D19 [D] Schedule VIA: deduction u/s 80-IB (Sl.No. 2h) should equal the sum of the amounts reported in Form 10CCB.",
+   "D22 [D] Schedule VIA: deduction u/s 80-IE (Sl.No. 2j) should equal the sum of the amounts reported in Form 10CCB.",
+   "D10 [D] Part B-TTI: relief u/s 90/90A/91 is claimed \u2014 it is mandatory to file Form 67.",
+   "D13 [D] Schedule 10AA: deduction u/s 10AA can be claimed only if Form 56F is filed within the due date (or extended due date).",
+   "D14 [D] Schedule 10AA: verify the deduction claimed u/s 10AA against the amount in Form 56F \u2014 the deduction is reduced per the entries in the form."
+  ]
  }
 }

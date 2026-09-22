@@ -173,12 +173,18 @@ function engTax(){
   var b2iv=Math.max(0, R(BP.spl!=null?BP.spl:(BP.splRate||0)));              /* 2iv special-rate (115BBF/G/H + BP) */
   var b2v =Math.max(0, b2i+b2ia+b2ii+b2iii+b2iv);                            /* 2v total (nil if the sum is a loss) */
 
-  /* item 3 — capital gains (J17-L30) */
-  var st20=Math.max(0,R(CG.st20||0)), st30=Math.max(0,R(CG.st30||0)),
-      stApp=Math.max(0,R(CG.stApp||0)), stDTAA=Math.max(0,R(CG.stDTAA||0));
-  var lt125=Math.max(0,R(CG.lt125||0)), ltDTAA=Math.max(0,R(CG.ltDTAA||0));
-  var totST=CG.shortTerm!=null?Math.max(0,R(CG.shortTerm)):(st20+st30+stApp+stDTAA);  /* 3av */
-  var totLT=CG.longTerm !=null?Math.max(0,R(CG.longTerm)) :(lt125+ltDTAA);            /* 3biii */
+  /* item 3 — capital gains (J17-L30). The per-rate break-up lives in CG.after
+     (Schedule CG item E, after the intra-head current-year loss set-off); the
+     head published st20/st30/... only under `after`, so reading them at top level
+     returned 0 while the head totals were non-zero — Part B-TI 3av/3biii then
+     failed to equal Σ 3ai..3aiv / Σ 3bi..3bii (rules A717/A718). Read the break-up
+     from CG.after and make the totals their sums, so the identity always holds. */
+  var cgA=(CG.after||{});
+  var st20=Math.max(0,R(cgA.st20!=null?cgA.st20:(CG.st20||0))), st30=Math.max(0,R(cgA.st30!=null?cgA.st30:(CG.st30||0))),
+      stApp=Math.max(0,R(cgA.stApp!=null?cgA.stApp:(CG.stApp||0))), stDTAA=Math.max(0,R(cgA.stDTAA!=null?cgA.stDTAA:(CG.stDTAA||0)));
+  var lt125=Math.max(0,R(cgA.lt125!=null?cgA.lt125:(CG.lt125||0))), ltDTAA=Math.max(0,R(cgA.ltDTAA!=null?cgA.ltDTAA:(CG.ltDTAA||0)));
+  var totST=R(st20+st30+stApp+stDTAA);                                                /* 3av = Σ 3ai..3aiv */
+  var totLT=R(lt125+ltDTAA);                                                          /* 3biii = Σ 3bi..3bii */
   var cg3c =CG.stlt!=null?Math.max(0,R(CG.stlt)):Math.max(0,totST+totLT);             /* 3c */
   var cgC2 =R(CG.C2!=null?CG.C2:(CG.cg115BBH||0));                                     /* 3d 115BBH @30 % */
   var cg3e =Math.max(0, cg3c+cgC2);                                                    /* 3e total */
@@ -578,8 +584,12 @@ function expTax(j){
   if(I.tcs)put(j,"PartB_TTI.TaxPaid.TaxesPaid.TCS",n0(I.tcs));
   if(I.sat)put(j,"PartB_TTI.TaxPaid.TaxesPaid.SelfAssessmentTax",n0(I.sat));
   put(j,"PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid",n0(I.paid));
-  /* 11 · amount payable (item 12 refund + the bank block are owned by `bank`) */
+  /* 11 · amount payable; 12 · refund. RefundDue was owned by nobody — the bank
+     section defers it to the tax section and the tax section never wrote it — so
+     PartB_TTI.Refund.RefundDue stayed 0 even when a refund was due (rule A766).
+     Write it here (the bank section owns only Refund.BankAccountDtls.*). */
   put(j,"PartB_TTI.TaxPaid.BalTaxPayable",n0(I.balance));
+  put(j,"PartB_TTI.Refund.RefundDue",n0(I.refund));
   /* 13-15 · the 115TD adjustment (only when Schedule 115TD carries a figure) */
   if(I.net115TD){
     put(j,"PartB_TTI.TaxPaid.NetTaxPayable115TD",n0(I.net115TD));

@@ -417,6 +417,16 @@ function engBp(){
     feed:feed,
     dcg:dcg,     /* published for the CG section (S.C.bp.dcg) */
     siFeed:siFeed, /* special-rate BP heads for Schedule SI (S.C.bp.siFeed) */
+    /* Head-wise split consumed by the loss section (CYLA/BFLA: busExcl/spec/specified/b115)
+       and the tax section (Part B-TI item 2: noSpec/spec/specified). Without these the
+       consumers fell back to `income` (= D, the LUMP A38+B43+C49) for "business excl"
+       and 0 for speculative/specified — so the speculative (B43) and specified (C49)
+       income never reached their own CYLA/BFLA rows or Part B-TI 2ii/2iii, blocking the
+       brought-forward speculative/specified loss set-off (rules A510/A511/A520/A568/
+       A722/A742/A743). Values are Table-E item 3 (income of the head after the current-
+       year intra-head business-loss set-off), which the rules tie to. */
+    busExcl:A38, noSpec:A38,
+    spec:R(specInc-specSet), specified:R(specifiedInc-specifiedSet), b115:R(lifeInc-lifeSet),
     income:D
   };
 }

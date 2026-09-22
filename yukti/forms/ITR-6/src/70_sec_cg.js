@@ -983,6 +983,8 @@ function expCg(j){
   const vr=(C.vda||[]).filter(r=>ISO(r.buy)&&ISO(r.sale)&&r.head);
   if(vr.length)j.ScheduleVDA={ScheduleVDADtls:vr.map(r=>({DateofAcquisition:ISO(r.buy),DateofTransfer:ISO(r.sale),
     HeadUndIncTaxed:r.head,AcquisitionCost:n0(r.cost),ConsidReceived:n0(r.cons),
+    /* Sl.7 = Col.6 − Col.5, but "enter nil in case of loss" (VDA.md) and the
+       schema floors it at 0 — a VDA loss is neither set off nor carried. */
     IncomeFromVDA:n0(Math.max(0,N(r.cons)-N(r.cost)))})),
     TotIncBusiness:n0(G.vda.bi),TotIncCapGain:n0(G.vda.cg)};
 }
