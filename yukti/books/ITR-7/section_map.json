@@ -1,0 +1,296 @@
+{
+ "Home": {
+  "section": "excluded",
+  "reason": "the utility's index/navigation page — Yukti's left index replaces it; no schedule, no schema block"
+ },
+ "PI": {
+  "section": "who",
+  "blocks": [
+   "PartA_GEN1"
+  ]
+ },
+ "Audit": {
+  "section": "who",
+  "blocks": [
+   "PartA_GEN2"
+  ]
+ },
+ "Part A Gen_139(8A)": {
+  "section": "excluded",
+  "reason": "the 139(8A) updated-return variant of Part A-General — not applicable to an original return"
+ },
+ "Schedule I": {
+  "section": "app",
+  "blocks": [
+   "ITRScheduleI"
+  ]
+ },
+ "Schedule D": {
+  "section": "app",
+  "blocks": [
+   "ITRScheduleD"
+  ]
+ },
+ "Schedule IA": {
+  "section": "app",
+  "blocks": [
+   "ITRScheduleIA"
+  ]
+ },
+ "Schedule DA": {
+  "section": "app",
+  "blocks": [
+   "ITRScheduleDA"
+  ]
+ },
+ "Schedule J": {
+  "section": "funds",
+  "blocks": [
+   "ITRScheduleJ"
+  ]
+ },
+ "BALANCE_SHEET": {
+  "section": "funds",
+  "blocks": [
+   "PARTA_BS"
+  ]
+ },
+ "Schedule K": {
+  "section": "excluded",
+  "reason": "hidden Statement of particulars regarding author(s)/founder(s)/trustee(s)/manager(s) — no schema block in ITR-7's block list; not filed as a schedule this year"
+ },
+ "Schedule R": {
+  "section": "funds",
+  "blocks": [
+   "ITRScheduleR"
+  ]
+ },
+ "Schedule PP": {
+  "section": "bodies",
+  "blocks": [
+   "SchedulePP"
+  ]
+ },
+ "Schedule ET": {
+  "section": "bodies",
+  "blocks": [
+   "ScheduleET"
+  ]
+ },
+ "Schedule AI": {
+  "section": "vc",
+  "blocks": [
+   "ScheduleAI"
+  ]
+ },
+ "Schedule A": {
+  "section": "app",
+  "blocks": [
+   "ScheduleA"
+  ]
+ },
+ "Schedule VC": {
+  "section": "vc",
+  "blocks": [
+   "ScheduleVC"
+  ]
+ },
+ "Schedule ER": {
+  "section": "excluded",
+  "reason": "hidden application detail (establishment & administrative expenses) — feeds Schedule A; no schema block of its own in ITR-7's list"
+ },
+ "Schedule EC": {
+  "section": "excluded",
+  "reason": "hidden application detail (capital account / capital work in progress) — feeds Schedule A; no schema block of its own in ITR-7's list"
+ },
+ "Schedule IE-1": {
+  "section": "ie",
+  "blocks": [
+   "ScheduleIE_I"
+  ]
+ },
+ "Schedule IE-2": {
+  "section": "ie",
+  "blocks": [
+   "ScheduleIE_II"
+  ]
+ },
+ "Schedule IE-3": {
+  "section": "ie",
+  "blocks": [
+   "ScheduleIE_III"
+  ]
+ },
+ "Schedule IE-4": {
+  "section": "ie",
+  "blocks": [
+   "ScheduleIE_IV"
+  ]
+ },
+ "Schedule HP": {
+  "section": "hp",
+  "blocks": [
+   "ScheduleHP"
+  ]
+ },
+ "Schedule CGold": {
+  "section": "excluded",
+  "reason": "hidden superseded prior-version Capital Gains table; the current Schedule CG sheet is built"
+ },
+ "Schedule CG": {
+  "section": "cg",
+  "blocks": [
+   "ScheduleCG"
+  ]
+ },
+ "Schedule OS": {
+  "section": "os",
+  "blocks": [
+   "ScheduleOS"
+  ]
+ },
+ "Schedule VDA": {
+  "section": "vda",
+  "blocks": [
+   "ScheduleVDA"
+  ]
+ },
+ "Schedule OA": {
+  "section": "oa",
+  "blocks": [
+   "ScheduleOA"
+  ]
+ },
+ "Schedule BP": {
+  "section": "bp",
+  "blocks": [
+   "CorpScheduleBP"
+  ]
+ },
+ "Schedule CYLA": {
+  "section": "cyla",
+  "blocks": [
+   "ScheduleCYLA"
+  ]
+ },
+ "Schedule PTI": {
+  "section": "pti",
+  "blocks": [
+   "SchedulePTI"
+  ]
+ },
+ "Sheet1": {
+  "section": "excluded",
+  "reason": "hidden utility scratch sheet (0 rows) — no schedule, no schema block"
+ },
+ "Schedule SI": {
+  "section": "si",
+  "blocks": [
+   "ScheduleSI"
+  ]
+ },
+ "Schedule 115TD": {
+  "section": "si",
+  "blocks": [
+   "Schedule115TD"
+  ]
+ },
+ "Schedule 115BBI": {
+  "section": "si",
+  "blocks": [
+   "Schedule115BBI"
+  ]
+ },
+ "Schedule FSI": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleFSI"
+  ]
+ },
+ "Schedule TR": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleTR1"
+  ]
+ },
+ "Schedule FA": {
+  "section": "fa",
+  "blocks": [
+   "ScheduleFA"
+  ]
+ },
+ "Schedule SH": {
+  "section": "bodies",
+  "blocks": [
+   "ScheduleSH"
+  ]
+ },
+ "PART-B-TI & TTI": {
+  "section": "tax",
+  "blocks": [
+   "PartB_TI",
+   "PartB_TI2",
+   "PartB_TI3",
+   "PartB_TTI"
+  ]
+ },
+ "Part B ATI": {
+  "section": "excluded",
+  "reason": "hidden Part B-ATI is the updated-return (139(8A) / 140B) computation — no schema block in ITR-7's list, not applicable to an original return"
+ },
+ "IT": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleIT"
+  ]
+ },
+ "TCS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTCS"
+  ]
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": [
+   "ScheduleTDS2",
+   "ScheduleTDS3"
+  ]
+ },
+ "Verification": {
+  "section": "bank",
+  "blocks": [
+   "Verification"
+  ]
+ },
+ "CG Pop up_prefill": {
+  "section": "excluded",
+  "reason": "hidden capital-gains prefill pop-up helper — Schedule CG is built from the visible CG sheet; no separate schema block"
+ },
+ "TaxCalc(N)": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden basic-tax computation sheet (new-regime / status-wise rates and surcharge) — the method behind Part B-TTI; read, not shown (rule 7)"
+ },
+ "TaxCalc": {
+  "section": "tax",
+  "blocks": [],
+  "why_built": "the hidden tax and interest computation sheet — the method behind Part B-TTI and the 234A/B/C interest; read, not shown (rule 7)"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "hidden internal preview / summary sheet — no schedule, no schema block"
+ },
+ "Temporary Values": {
+  "section": "excluded",
+  "reason": "hidden utility scratch / temporary values — no schedule"
+ },
+ "DataBase": {
+  "section": "excluded",
+  "reason": "hidden master lookup data (pincodes, dropdown lists) — data, not a schedule"
+ },
+ "Instructions": {
+  "section": "excluded",
+  "reason": "the utility's instructions text — not a schedule"
+ }
+}
