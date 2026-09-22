@@ -286,10 +286,10 @@ function expEi(j){
     o.ExcNetAgriInc = { ExcNetAgriIncDtls: land.map(r=>{
       const d = {};
       pf(d,"NameOfDistrict",(sv(r.district)||"NA").slice(0,125));
-      pf(d,"PinCode", R(r.pin)||undefined);
-      pf(d,"MeasurementOfLand", r.meas ? r.meas : undefined);
-      pf(d,"AgriLandOwnedFlag", sv(r.owned));
-      pf(d,"AgriLandIrrigatedFlag", sv(r.irr));
+      pf(d,"PinCode", R(r.pin)||100000);
+      pf(d,"MeasurementOfLand", r.meas || 0);
+      pf(d,"AgriLandOwnedFlag", sv(r.owned)||"O");
+      pf(d,"AgriLandIrrigatedFlag", sv(r.irr)||"IRG");
       return d;
     })};
   }
@@ -316,9 +316,9 @@ function expEi(j){
       d.AmountOfIncome = n0(r.amt);
       pf(d,"NatureOfIncome", sv(r.nature) ? sv(r.nature).slice(0,75) : undefined);
       pf(d,"CountryName",(sv(r.cname)||"NA").slice(0,55));
-      pf(d,"CountryCodeExcludingIndia", sv(r.ccode));
+      pf(d,"CountryCodeExcludingIndia", sv(r.ccode)||"9999");
       pf(d,"ArticleOfDTAA", sv(r.article) ? sv(r.article).slice(0,16) : undefined);
-      pf(d,"HeadOfIncome", sv(r.head));
+      pf(d,"HeadOfIncome", sv(r.head)||"OS");
       pf(d,"TRCFlag", sv(r.trc));
       return d;
     })};

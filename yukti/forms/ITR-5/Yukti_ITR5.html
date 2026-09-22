@@ -1037,7 +1037,8 @@ ruleset(function(I,S_,A,Dd){
   const resident=(FS.ResidentialStatus!=="NRI");
   const opted115BAD=(RF.NewTaxRegime==="Y")||(st0(RF.OptingNewTaxRegime)==="1");
   const opted115BAE=(FS.OptingTaxation115BAEYes==="Y")||(FS.OptingTaxation115BAENo==="Y");
-  const mem=RG(G2,"PartnerOrMemberInfo",[])||[];
+  const AR=v=>Array.isArray(v)?v:[];             /* coerce a wrong-typed imported field to an array (cf. enc_08) so a batch read never throws */
+  const mem=AR(RG(G2,"PartnerOrMemberInfo",[]));
   const m0=mem[0]||{};
 
   /* 1 — liable to audit u/s 92E → Part A BS and P&L cannot be blank */
@@ -1091,7 +1092,7 @@ ruleset(function(I,S_,A,Dd){
   /* 20 — private discretionary trust with no business income (Table F Sl.2 = No) → PartB-TI 2v must be nil */
   A(20,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustBusIncFlg")!=="N"||N(RG(I,"PartB-TI.ProfBusGain.TotProfBusGain"))===0,"Part A-General: Sl.No. 2v of Part B-TI cannot be declared when Table F Sl.No. 2 (business income of the private discretionary trust) is 'No'.");
   /* 21 — Table F Sl.1 = Yes (determinate shares) → member shares must sum to 100 */
-  A(21,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustShareFlg")!=="Y"||Math.abs(RSUM(mem,"SharePercentage")-100)<=1,"Part A-General: Table F Sl.No. 1 is 'Yes' — the sum of 'Percentage of share (if determinate)' must be equal to 100.");
+  A(21,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustShareFlg")!=="Y"||Math.abs(RSUM(mem.filter(function(r){return r!=null;}),"SharePercentage")-100)<=1,"Part A-General: Table F Sl.No. 1 is 'Yes' — the sum of 'Percentage of share (if determinate)' must be equal to 100.");
   /* 22 — 'Opting it now' for the current-AY 115BAD option → Form 10-IF date and ack mandatory */
   A(22,st0(RF.OptingNewTaxRegime)!=="1"||(!!st0(RF.Form10IFDate)&&!!st0(RF.Form10IFAckNo)),"Part A-General: 'Opting it now' is selected for the current-AY option u/s 115BAD — the date of filing of Form 10-IF and its acknowledgement number are mandatory.");
   /* 23 — opted 115BAD in an earlier year → Form 10-IF date and ack mandatory */
@@ -1152,16 +1153,20 @@ ruleset(function(I,S_,A,Dd){
   A(42,G2.LiableSec44ABflg!=="Y"||st0(G2.Cndnfor44AB)!=="","Part A-General: the assessee is liable to audit u/s 44AB — select the condition by virtue of which the audit is applicable.");
   /* 43 — the applicable due date for filing the return must be selected */
   A(43,!has||!!st0(RG(FS,"ItrFilingDueDate","")),"Part A-General: select the applicable due date for filing the return of income.");
-  /* 44 — Form 10-IFA filed → opting the new tax regime u/s 115BAE is mandatory */
-  A(44,!st0(FS.Form10IFADate)||FS.OptingTaxation115BAEYes==="Y","Part A-General: Form 10-IFA is filed — opting for the new tax regime u/s 115BAE is mandatory.");
+  /* 44 — Form 10-IFA filed → opting the new tax regime u/s 115BAE is mandatory.
+     115BAE may be opted via d(iv)a (OptingTaxation115BAEYes) OR d(iv)b (OptingTaxation115BAENo);
+     use the both-branch helper (as serials 19/34/36/37/47 do) so a d(iv)b election is not blocked. */
+  A(44,!st0(FS.Form10IFADate)||opted115BAE,"Part A-General: Form 10-IFA is filed — opting for the new tax regime u/s 115BAE is mandatory.");
   /* 45 — a2ii 'More than 5%' → liable to audit u/s 44AB */
   A(45,G2.AgrOFAllAmtsRcvd!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2ii (receipts in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
   /* 46 — a2iii 'More than 5%' → liable to audit u/s 44AB */
   A(46,G2.AgrOFAllPayMade!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2iii (payments in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
   /* 47 — 115BAE: date of incorporation AND date of commencement must be on/after 01/04/2023 */
   A(47,!opted115BAE||(inc>="2023-04-01"&&(!doc||doc>="2023-04-01")),"Part A-General: to claim section 115BAE the date of incorporation and the date of commencement of business must be on or after 01/04/2023.");
-  /* 48 — exercising 115BAE for AY 2026-27 at A19 div(b) → Form 10-IFA date and ack (A19 div(c)) mandatory */
-  A(48,FS.OptingTaxation115BAEYes!=="Y"||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: exercising the option u/s 115BAE for AY 2026-27 at A19 div(b) — the date of filing of Form 10-IFA and its acknowledgement number at A19 div(c) are mandatory.");
+  /* 48 — exercising 115BAE for AY 2026-27 at A19 div(b) → Form 10-IFA date and ack (A19 div(c)) mandatory.
+     The rule text is about div(b) (OptingTaxation115BAENo, "Do you wish to exercise..."), so guard that
+     branch — not div(a) OptingTaxation115BAEYes (which serial 34 already covers). */
+  A(48,FS.OptingTaxation115BAENo!=="Y"||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: exercising the option u/s 115BAE for AY 2026-27 at A19 div(b) — the date of filing of Form 10-IFA and its acknowledgement number at A19 div(c) are mandatory.");
   /* 49 — A19d(i)(I) = Yes (Form 10-IEA furnished, current AY, opting out) → its date (i) and ack (ii) mandatory */
   A(49,FS.F10IEACurrAYOldRegime!=="Y"||(!!st0(FS.F10IEADateCurrAYOldTax)&&!!st0(FS.F10IEAAckNoCurrAYOldTax)),"Part A-General: 'Yes' at A19d(i)(I) (Form 10-IEA furnished for the current AY) — the date of filing (i) and the acknowledgement number (ii) are mandatory.");
   /* 50 — Form 10-IEA filed (other branches) → the form's details must be given */
@@ -1184,7 +1189,7 @@ ruleset(function(I,S_,A,Dd){
    books (PART_A_GENERAL(2), BALANCE_SHEET, MANUFACTURING/TRADING_ACCOUNT).
 
    NOT MAPPABLE in this slice (encoded as comments only, no live A()):
-     51..? see below — 53, 54, 55, 59, 60.
+     55, 59, 60 (see below — each needs an external/system date, not in the return).
    ===================================================================== */
 ruleset(function(I,S_,A,Dd){
   I=I||{};
@@ -1206,32 +1211,47 @@ ruleset(function(I,S_,A,Dd){
 
   /* 51 — the new regime can be opted out/withdrawn only if Form 10-IEA is filed:
          a business filer opting the old regime for the current AY must have
-         furnished Form 10-IEA (F10IEACurrAYOldRegime = Yes). */
-  A(51,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y",
-    "Part A-General: the new tax regime can be opted out / withdrawn only if Form 10-IEA is filed for the current AY.");
+         furnished Form 10-IEA — either for the current AY (F10IEACurrAYOldRegime=Yes)
+         OR carried forward from an earlier AY (Form10IEAEarlierAYOldRegime=Yes) under
+         s.115BAC(6), where the earlier opt-out stays effective. Serial 75 treats all
+         four 10-IEA branches this way. */
+  A(51,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y"||FS.Form10IEAEarlierAYOldRegime==="Y",
+    "Part A-General: the new tax regime can be opted out / withdrawn only if Form 10-IEA is filed (current AY, or carried forward from an earlier AY under s.115BAC(6)).");
 
   /* 52 — if business income is declared in the return, 'Do you have income from
          business or profession for the current AY?' (d(i)) cannot be 'No'. */
   A(52,!bizDeclared||FS.IncFrmBusOrProf!=="N",
     "Part A-General: business income is declared, so 'Do you have income from business or profession for the current AY?' cannot be 'No'.");
 
-  /* 53 — NOT MAPPABLE: 115BAE option at A19 d(iv)a (manufacturing co-operative society not
-         required to file a return in AY 2024-25 and AY 2025-26). The 115BAE d(iv) sub-fields
-         are on hidden rows and are not built in this form (PART_A_GENERAL.md §9). */
-  /* 54 — NOT MAPPABLE: 115BAE option at A19 d(iv)b (manufacturing co-operative society that WAS
-         required to file a return in AY 2024-25 or AY 2025-26). Same reason as 53 — not built. */
+  /* 53 — a manufacturing co-operative society that was NOT required to file a return in AY
+         2024-25 and AY 2025-26 (A19 d(iv): 115BAEReturnFiling_24_25="N") must fill the 115BAE
+         option for that branch (OptingTaxation115BAENo, "do you wish to exercise the option").
+         The d(iv) sub-fields ARE built/emitted by 70_sec_gen.js (baeReturn/baeYes/baeNo ->
+         115BAEReturnFiling_24_25 / OptingTaxation115BAEYes / OptingTaxation115BAENo). */
+  A(53,FS["115BAEReturnFiling_24_25"]!=="N"||FS.OptingTaxation115BAENo==="Y"||FS.OptingTaxation115BAENo==="N",
+    "Part A-General: the manufacturing co-operative society was not required to file a return for AY 2024-25 and AY 2025-26 — the option u/s 115BAE at A19 d(iv) must be selected.");
+  /* 54 — a manufacturing co-operative society that WAS required to file a return in AY 2024-25 or
+         AY 2025-26 (A19 d(iv): 115BAEReturnFiling_24_25="Y") must fill the 115BAE option for that
+         branch (OptingTaxation115BAEYes, "have you exercised the option in AY 24-25/25-26"). */
+  A(54,FS["115BAEReturnFiling_24_25"]!=="Y"||FS.OptingTaxation115BAEYes==="Y"||FS.OptingTaxation115BAEYes==="N",
+    "Part A-General: the manufacturing co-operative society was required to file a return for AY 2024-25 or AY 2025-26 — the option u/s 115BAE at A19 d(iv) must be selected.");
   /* 55 — NOT MAPPABLE: 'Return cannot be submitted u/s 139(1) after the due date' needs the actual
          submission (system) date compared to the due date; there is no filing-date leaf in the
          return schema, so this is a runtime check, not encodable offline. */
 
-  /* 56 — due date 31-Oct selected ⇒ Schedule IF (partner-in-firm) or audit details present.
-         (not mappable: Schedule 5A / Portuguese-Civil-Code apportionment is not built in ITR-5.) */
-  A(56,due!=="2026-10-31"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
-    "Part A-General: due date 31 October is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+  /* 56 — due date 31-Oct selected ⇒ Schedule IF (built independently from S.other.if) is present,
+         OR any applicable audit obligation exists in Part A Gen: 44AB (b), 92E (di), other IT-Act
+         reports d(iii) (AuditDetails[]), or audit under another Act, item e (AuditReportDetails[]).
+         (AuditedByAccountantFlg is a dead arm — gen.js emits it only inside if(44AB="Y"); the
+         PartnerInFirmFlg proxy is dropped in favour of testing ScheduleIF directly. Schedule 5A /
+         Portuguese-Civil-Code apportionment is not built in ITR-5.) */
+  A(56,due!=="2026-10-31"||!!I.ScheduleIF||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||(RG(G2,"AuditDetails",[])||[]).length>0||(RG(G2,"AuditReportDetails",[])||[]).length>0,
+    "Part A-General: due date 31 October is selected — fill Schedule IF (partner in firm), or the audit details (44AB / 92E / other IT-Act report / audit under another Act) in Part A General.");
 
-  /* 57 — due date 30-Nov selected ⇒ Schedule IF or audit details present. (5A not built.) */
-  A(57,due!=="2026-11-30"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
-    "Part A-General: due date 30 November is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+  /* 57 — due date 30-Nov selected ⇒ Schedule IF present or any applicable audit obligation exists
+         (same broadened test as 56). (5A not built.) */
+  A(57,due!=="2026-11-30"||!!I.ScheduleIF||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||(RG(G2,"AuditDetails",[])||[]).length>0||(RG(G2,"AuditReportDetails",[])||[]).length>0,
+    "Part A-General: due date 30 November is selected — fill Schedule IF (partner in firm), or the audit details (44AB / 92E / other IT-Act report / audit under another Act) in Part A General.");
 
   /* 58 — due date 31-Aug can be selected only if there is income from business/profession. */
   A(58,due!=="2026-08-31"||FS.IncFrmBusOrProf==="Y",
@@ -1892,12 +1912,13 @@ ruleset(function(I,S_,A,Dd){
    ===================================================================== */
 ruleset(function(I,S_,A,Dd){
   I=I||{};
+  const AR=v=>Array.isArray(v)?v:[];   /* coerce a wrong-typed imported field to an array (cf. enc_08) so a read never throws and aborts the rest of the batch */
 
   /* =============================================================
      SCHEDULE HP (201–208, and the 203 pass-through / 204 PAN cross-checks)
      ============================================================= */
   if(I.ScheduleHP){
-    const props=RG(I,"ScheduleHP.PropertyDetails",[])||[];
+    const props=AR(RG(I,"ScheduleHP.PropertyDetails",[]));
     const asseseePAN=String(RG(I,"PartA_GEN1.OrgFirmInfo.PAN","")||"").toUpperCase();
     props.forEach(function(p,idx){
       p=p||{}; const rd=p.Rentdetails||{}; const L="Schedule HP property "+(idx+1)+": ";
@@ -1910,7 +1931,7 @@ ruleset(function(I,S_,A,Dd){
       /* A205 — total interest u/s 24(b) = Σ per-loan interest, and equals 1(h) */
       const s24=RG(rd,"Section24B",null);
       if(s24&&typeof s24==="object")
-        A(205,REQ(s24.TotalInterestUs24B,RSUM(RG(s24,"Section24BDtls",[]),"InterestUs24B"))
+        A(205,REQ(s24.TotalInterestUs24B,RSUM(AR(RG(s24,"Section24BDtls",[])).filter(function(r){return r!=null;}),"InterestUs24B"))
               &&REQ(N(rd.IntOnBorwCap),N(s24.TotalInterestUs24B)),
           L+"the interest on borrowed capital u/s 24(b) must equal the sum of the per-loan interest rows (and 1h).");
       /* A206 — interest claimed at 1(h) needs the 24(b) detail rows */
@@ -1918,19 +1939,19 @@ ruleset(function(I,S_,A,Dd){
         L+"details of interest on borrowed capital u/s 24(b) are mandatory to claim the deduction at 1(h).");
       /* A207 — co-owned: other co-owner(s) share < 100% */
       if(p.PropCoOwnedFlg==="YES")
-        A(207,RSUM(RG(p,"CoOwners",[]),"PercentShareProperty")<100,
+        A(207,RSUM(AR(RG(p,"CoOwners",[])).filter(function(r){return r!=null;}),"PercentShareProperty")<100,
           L+"when the property is co-owned, the percentage share of the other co-owner(s) must be less than 100%.");
       /* A208 — rent that cannot be realised (1b) cannot exceed gross/annual lettable value (1a) */
       A(208,N(rd.RentNotRealized)<=N(rd.AnnualLetableValue)+1,
         L+"the rent which cannot be realised (1b) cannot be more than the annual lettable value / gross rent (1a).");
       /* A204 — a co-owner PAN cannot equal the assessee PAN in Part A-General */
       if(asseseePAN)
-        A(204,!RG(p,"CoOwners",[]).some(function(c){return String((c||{}).PAN_CoOwner||"").toUpperCase()===asseseePAN;}),
+        A(204,!AR(RG(p,"CoOwners",[])).some(function(c){return String((c||{}).PAN_CoOwner||"").toUpperCase()===asseseePAN;}),
           L+"the PAN of a co-owner cannot be the same as the PAN of the assessee in Part A-General.");
     });
     /* A203 — pass-through HP income (item 2) = Σ HP net income/loss in Schedule PTI */
     A(203,!I.SchedulePTI||REQ(RG(I,"ScheduleHP.PassThroghIncome",0),
-        RSUM(RG(I,"SchedulePTI.SchedulePTIDtls",[]),function(d){return RG(d,"IncFromHP.NetIncomeLoss",0);})),
+        RSUM(AR(RG(I,"SchedulePTI.SchedulePTIDtls",[])),function(d){return RG(d,"IncFromHP.NetIncomeLoss",0);})),
       "Schedule HP: pass-through income (2) must equal the net house-property income/loss shown in Schedule PTI.");
   }
 
@@ -2036,13 +2057,13 @@ ruleset(function(I,S_,A,Dd){
         return (N(RG(P,"ProfitLossInclRefrdSec."+pr[0]))!==0)===(N(RG(P,"DeemedProfitBusUs."+pr[1]))!==0);}),
       "Schedule BP: the presumptive sections declared at A4a must match the sections declared at A35 (44AD/44ADA/44AE/44B/44BB/44BBA/44BBC/44BBD/44DA/First Schedule).");
     /* A239 — depreciation debited to P&L (11) = item 53 of P&L + item 1E(vi) of the Manufacturing A/c.
-       /* not mappable as exact equality: the reference test state sets item 11 = P&L 53 only (excludes the
-          factory-machinery depreciation 1E(vi)); encoded as the [53, 53 + 1E(vi)] range so both readings
-          are lawful while item 11 outside that range is still caught. */
+       Book BP.md:79 gives A11 (K65) = MAX(0, PL.dep 53 + Mfg.dep 1E(vi)); bp.js now emits A11 as that
+       computed cell (70_sec_bp.js:311/706, DepreciationDebPLCosAct = n0(A._11)), so enforce the book
+       identity with the strict-but-tolerant equality (±1 via REQ) rather than the old permissive range. */
     {const pl53=N(RG(I,"PARTA_PL.DebitsToPL.DebitPlAcnt.DepreciationAmort"));
      const mfg=N(RG(I,"ManufacturingAccount.OpeningInventory.DeprctnOfFactoryMachinery"));
      const a11=N(P.DepreciationDebPLCosAct);
-     A(239,a11>=pl53-1&&a11<=pl53+mfg+1,
+     A(239,REQ(a11,pl53+mfg),
        "Schedule BP: depreciation debited to P&L (11) must equal item 53 of the P&L plus item 1E(vi) of the Manufacturing Account.");}
 
     /* ---- Part A cross-links to Part A-OI (218–222, 225, 227–229, 245) ---- */
@@ -2125,7 +2146,7 @@ ruleset(function(I,S_,A,Dd){
 
   /* A249 — income u/s 115BBF (patent), in Schedule BP or Schedule OS/SI, only for a resident */
   const has5BBF=N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBF"))>0
-    ||RG(I,"ScheduleSI.SplCodeRateTax",[]).some(function(r){return /5BBF/.test(String((r||{}).SecCode||""))&&N((r||{}).SplRateInc)>0;});
+    ||AR(RG(I,"ScheduleSI.SplCodeRateTax",[])).some(function(r){return /5BBF/.test(String((r||{}).SecCode||""))&&N((r||{}).SplRateInc)>0;});
   A(249,!has5BBF||RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus")!=="NRI",
     "Schedule BP / OS: income under section 115BBF (income from patent) can be claimed only by a resident.");
 });
@@ -5277,10 +5298,12 @@ ruleset(function(I,S_,A,Dd){
     A(835,REQ(g("ComputationOfTaxLiability.TaxPaidUnderCredit"),
       g("ComputationOfTaxLiability.GrossTaxPayable")-g("ComputationOfTaxLiability.CreditUS115JD")),
       "Part B-TTI: item 5 (tax payable after credit u/s 115JD) must equal item 3 − item 4.");
-    /* 836: 7 Net tax liability = 5 − 6c */
+    /* 836: 7 Net tax liability = MAX(0, 5 − 6c) — floored per book PARTB_TI_TTI.md:120 L82
+       (L82 = MAX(TaxPayAfterCreditUs115JD − TotTaxRelief, 0)); tax.js emits n0(net) so a loss
+       year with s.90/91 relief > tax exports 0, which strict equality would have false-fired. */
     A(836,REQ(g("ComputationOfTaxLiability.NetTaxLiability"),
-      g("ComputationOfTaxLiability.TaxPaidUnderCredit")-g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief")),
-      "Part B-TTI: item 7 (net tax liability) must equal item 5 − item 6c.");
+      Math.max(0,g("ComputationOfTaxLiability.TaxPaidUnderCredit")-g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief"))),
+      "Part B-TTI: item 7 (net tax liability) must equal item 5 − item 6c (nil if negative).");
     /* 837/838: advance vs self-assessment split of Schedule IT by date of deposit.
        Advance = challans up to 31-03-2026; self-assessment = challans after 31-03-2026. */
     if(I.ScheduleIT){
@@ -6711,7 +6734,7 @@ function bpBlock(b,rate,opts){
   const fullOnly = !!opts.fullOnly;                 /* Rate45 */
   const blocked  = opts.blocked && isNew();         /* Rate45 no depreciation in new regime */
   const wdv = N(b.WDVFirstDay);                                 /* 3a */
-  const adj = bar115BAC()?0:N(b.AdjustmentSec115BAC);          /* 3b — old regime, non-firm/LLP/co-op only (rule 282) */
+  const adj = (opts.adj===false||bar115BAC())?0:N(b.AdjustmentSec115BAC);  /* 3b — DPM-only (opts.adj:false for DOA, DPM_DOA.md:118); old regime, non-firm/LLP/co-op only (rule 282) */
   const tot3 = wdv + adj;                                       /* [F9] Total (3a+3b) = WDVFirstDay+Adjustment */
   const add180 = fullOnly?0:N(b.AdditionsGrThan180Days);       /* 4 (Rate45 has no additions leaf) */
   const realTot = N(b.RealizationTotalPeriod);                 /* 5 */
@@ -6793,14 +6816,14 @@ function engBp(){
   /* ---------- DOA (Land + Building 5/10/40 + Furniture + Intangible + Ships) ---------- */
   const landB=(S.doa&&S.doa.land)||{};
   const land={wdv:N(landB.WDVFirstDay),wdvLast:Math.max(0,N(landB.WDVFirstDay)),dep:0,cg50:0}; /* [F51] Nil rate */
-  const doa={
+  const doa={   /* DOA: adj:false — the 3b 115BAC adjustment is DPM-only (DPM_DOA.md:118; :92 has no 3b term) */
     land:land,
-    b5:bpBlock(S.doa&&S.doa.b5,5,{addl:false}),
-    b10:bpBlock(S.doa&&S.doa.b10,10,{addl:false}),
-    b40:bpBlock(S.doa&&S.doa.b40,40,{addl:false}),
-    furn:bpBlock(S.doa&&S.doa.furn,10,{addl:false}),
-    intang:bpBlock(S.doa&&S.doa.intang,25,{addl:false}),
-    ships:bpBlock(S.doa&&S.doa.ships,20,{addl:false})
+    b5:bpBlock(S.doa&&S.doa.b5,5,{addl:false,adj:false}),
+    b10:bpBlock(S.doa&&S.doa.b10,10,{addl:false,adj:false}),
+    b40:bpBlock(S.doa&&S.doa.b40,40,{addl:false,adj:false}),
+    furn:bpBlock(S.doa&&S.doa.furn,10,{addl:false,adj:false}),
+    intang:bpBlock(S.doa&&S.doa.intang,25,{addl:false,adj:false}),
+    ships:bpBlock(S.doa&&S.doa.ships,20,{addl:false,adj:false})
   };
   S.C.doa=doa;
 
@@ -6836,12 +6859,18 @@ function engBp(){
   const _5c  = R(nb("divExempt")+othExemptTot);               /* A5c total (I49) OthExempInc */
   const _5d  = R(nb("a5a")+nb("a5b")+_5c);                    /* A5d (I51) = 5a+5b+5c */
   const _5A  = R(nb("a5A"));                                   /* A5A */
+  /* A3f (I16) = MAX(0, Schedule-VDA business-head total) — auto-populated (BP.md:195),
+     NOT a free input; read from Schedule VDA (CG section) via S.C.cg.vda.bi.
+     Forward dependency (bp corder 25 reads cg corder 26): the wiring fixpoint loop resolves it. */
+  const _a3f = Math.max(0, R(N(((S.C.cg||{}).vda||{}).bi)));
   /* A6 (K53) = 1 - 2a - 2b - 3a - 3b - 3c - 3d - 3e - 3f - 4a - 4b - 4c - 5d - 5A */
-  const _6   = R(K5 - _2a - _2b - nb("a3a") - nb("a3b") - a3c - nb("a3d") - nb("a3e") - nb("a3f")
+  const _6   = R(K5 - _2a - _2b - nb("a3a") - nb("a3b") - a3c - nb("a3d") - nb("a3e") - _a3f
                    - _4a - nb("pl44b") - _4c - _5d - _5A);
   const _9   = R(nb("e7a")+nb("e7b")+nb("e7c")+nb("e7d")+nb("e7e")+nb("e7f")+nb("e8a")+nb("e8b")); /* A9 (I63) */
   const _10  = R(_6+_9);                                       /* A10 (K64) = 6+9 */
-  const _11  = R(nb("depDebPL"));                              /* A11 (K65) */
+  /* A11 (K65) = MAX(0, P&L sl.53 DepreciationAmort + Mfg 1E(vi) DeprctnOfFactoryMachinery) — computed
+     (BP.md:79 / rule 239-240), NOT a free input; read from PL section S.C.pl.depreciationPL/factoryDepreciation */
+  const _11  = Math.max(0, R(N((S.C.pl||{}).depreciationPL)+N((S.C.pl||{}).factoryDepreciation)));
   const _12i = R(dep.total>0?dep.total:0);                    /* A12i (I67) = IF(DEP J18>0, J18, 0) */
   const _12ii= R(nb("dep32_1_i"));                            /* A12ii */
   const _12iii=R(_12i+_12ii);                                 /* A12iii (K69) = 12i+12ii */
@@ -6893,7 +6922,7 @@ function engBp(){
 
   S.C.bp = {
     on:true,
-    a:{K5,_2a,_2b,a3c,_4a,_4c,_5c,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
+    a:{K5,_2a,_2b,a3c,a3f:_a3f,_4a,_4c,_5c,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
        _20,_21,e24e,_24,_25,_26,_27,_28,_32,_33,_34,_35,_36,_37f,A37,_38},
     b:{_39,B42},
     c:{_43,_46,_47,C48},
@@ -6904,7 +6933,7 @@ function engBp(){
     curDep:dep.total,       /* current-year depreciation allowable (Sch DEP 6) */
     dcg:dcg.total,          /* deemed capital gains u/s 50 (Sch DCG 6 -> Sch CG) */
     ded35AD:_47,            /* 35AD(1) deduction claimed (-> AMT add-back) */
-    a3d:R(nb("a3d")), a3e:R(nb("a3e")), a3f:R(nb("a3f"))  /* A3d/e/f 115BBF/BBG/BBH income credited to P&L (-> Schedule SI) */
+    a3d:R(nb("a3d")), a3e:R(nb("a3e")), a3f:_a3f  /* A3d/e (115BBF/BBG free inputs); a3f (115BBH) = MAX(0,VDA business-head total) — read by tax.js Part B-TI 2(iv) */
   };
 }
 
@@ -6937,7 +6966,7 @@ function secBp(){
   h+=rBP("A3c  Other Sources (3ci + 3cii)",cell(A.a3c),"A3c",{ind:1});
   h+=rBP("A3d  u/s 115BBF",inpN("bp.a3d"),"A3d",{ind:1});
   h+=rBP("A3e  u/s 115BBG",inpN("bp.a3e"),"A3e",{ind:1});
-  h+=rBP("A3f  u/s 115BBH (net of cost of acquisition)",inpN("bp.a3f"),"A3f",{ind:1});
+  h+=rBP("A3f  u/s 115BBH (net of cost of acquisition) — item A of Schedule VDA",cell(A.a3f),"A3f",{ind:1});
   h+=sub("A4a — Profit incl. in 1 referred to 44AD/ADA/AE/B/BB/BBA/BBC/BBD/DA / First Schedule");
   [["p44AD","44AD (Resident firm)"],["p44ADA","44ADA (Resident firm)"],["p44AE","44AE"],
    ["p44B","44B (NRI)"],["p44BB","44BB (NRI)"],["p44BBA","44BBA (NRI)"],["p44BBC","44BBC (NRI)"],
@@ -6966,7 +6995,7 @@ function secBp(){
      h+=rBP(x[1],inpN("bp."+x[0]),"",{ind:1}));
   h+=rBP("A9  Total (7a…7f + 8a + 8b)",cell(A._9),"A9");
   h+=rBP("A10  Adjusted profit or loss (6 + 9)",cell(A._10),"A10");
-  h+=rBP("A11  Depreciation & amortization debited to P&L",inpN("bp.depDebPL"),"A11");
+  h+=rBP("A11  Depreciation & amortization debited to P&L (item 53 of P&L + 1E(vi) of Manufacturing A/c)",cell(A._11),"A11");
   h+=rBP("A12i  Depreciation allowable u/s 32(1)(ii) & (iia) — item 6 of Schedule DEP",cell(A._12i),"A12i");
   h+=rBP("A12ii  Depreciation allowable u/s 32(1)(i) (Appendix-IA)",inpN("bp.dep32_1_i"),"A12ii");
   h+=rBP("A12iii  Total (12i + 12ii)",cell(A._12iii),"A12iii");
@@ -7061,7 +7090,7 @@ function blockCol(base,blk,opts){
   const full=!opts.fullOnly;
   let h='';
   h+='<tr><td class="l">3a WDV on first day</td>'+iN("WDVFirstDay")+'</tr>';
-  if(!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* rule 282: not for firm/LLP/co-op or new regime */
+  if(opts.adj!==false&&!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* DPM-only (opts.adj:false hides it for DOA); rule 282: not for firm/LLP/co-op or new regime */
   if(opts.total!==false)h+='<tr><td class="l">3 Total (3a+3b)</td>'+c(blk.tot3)+'</tr>';
   if(full)h+='<tr><td class="l">4 Additions ≥180 days</td>'+iN("AdditionsGrThan180Days")+'</tr>';
   h+='<tr><td class="l">5 Realization out of 3 or 4</td>'+iN("RealizationTotalPeriod")+'</tr>';
@@ -7109,12 +7138,12 @@ function depFold(){
   inner+='<div class="full"><table class="gt" style="min-width:420px"><thead><tr><th class="l">Land (Nil rate)</th><th style="width:200px">Amount</th></tr></thead><tbody>'+
     '<tr><td class="l">3 WDV on first day</td><td>'+inp("doa.land.WDVFirstDay",{n:1})+'</td></tr>'+
     '<tr><td class="l">WDV on last day</td><td class="num">'+cell((O.land||{}).wdvLast)+'</td></tr></tbody></table></div>';
-  inner+=oneBlockTable("Building @ 5%","doa.b5",O.b5||{},{addl:false,total:false});
-  inner+=oneBlockTable("Building @ 10%","doa.b10",O.b10||{},{addl:false,total:false});
-  inner+=oneBlockTable("Building @ 40%","doa.b40",O.b40||{},{addl:false,total:false});
-  inner+=oneBlockTable("Furniture & Fittings @ 10%","doa.furn",O.furn||{},{addl:false,total:false});
-  inner+=oneBlockTable("Intangible assets @ 25%","doa.intang",O.intang||{},{addl:false,total:false});
-  inner+=oneBlockTable("Ships @ 20%","doa.ships",O.ships||{},{addl:false,total:false});
+  inner+=oneBlockTable("Building @ 5%","doa.b5",O.b5||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Building @ 10%","doa.b10",O.b10||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Building @ 40%","doa.b40",O.b40||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Furniture & Fittings @ 10%","doa.furn",O.furn||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Intangible assets @ 25%","doa.intang",O.intang||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Ships @ 20%","doa.ships",O.ships||{},{addl:false,total:false,adj:false});
   /* DEP summary */
   inner+=sub("Schedule DEP — Summary of depreciation (computed)");
   inner+=summaryTable([["1a P&M @15%",dep.pm15],["1b P&M @30%",dep.pm30],["1c P&M @40%",dep.pm40],
@@ -7202,7 +7231,7 @@ function expBp(j){
   put(j,P+"IncRecCredPLOthHeadDtls.OtherThanDividend",n0(B.a3cii));
   put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBF",n0(B.a3d));
   put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBG",n0(B.a3e));
-  if(n0(B.a3f))put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBH",n0(B.a3f));  /* optional */
+  if(n0(A.a3f))put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBH",n0(A.a3f));  /* optional; A3f computed = MAX(0,VDA business-head total) */
   const IR="ProfitLossInclRefrdSec.";
   put(j,P+IR+"ProfitLossUs44AD",sg(B.p44AD)); put(j,P+IR+"ProfitLossUs44ADA",sg(B.p44ADA));
   put(j,P+IR+"ProfitLossUs44AE",sg(B.p44AE)); put(j,P+IR+"ProfitLossUs44B",sg(B.p44B));
@@ -7236,7 +7265,7 @@ function expBp(j){
   put(j,P+"ExpDebToPLExemptIncDisAllwUs14A",n0(B.e8b));
   put(j,P+"TotExpDebPL",n0(A._9));
   put(j,P+"AdjustedPLOthThanSpecBus",sg(A._10));
-  put(j,P+"DepreciationDebPLCosAct",n0(B.depDebPL));
+  put(j,P+"DepreciationDebPLCosAct",n0(A._11));   /* A11 computed = MAX(0, P&L 53 + Mfg 1E(vi)) */
   put(j,P+"DepreciationAllowITAct32.DepreciationAllowUs32_1_ii",n0(A._12i));
   put(j,P+"DepreciationAllowITAct32.DepreciationAllowUs32_1_i",n0(B.dep32_1_i));
   put(j,P+"DepreciationAllowITAct32.TotDeprAllowITAct",n0(A._12iii));
@@ -7365,10 +7394,18 @@ function expBp(j){
     put(j,D2+"CapGainUs50",sg(blk.cg50));
     put(j,D2+"WDVLastDay",n0(blk.wdvLast));
   }
-  putDPM("ScheduleDPM.PlantMachinery.Rate15",(S.dpm||{}).r15,dpm.r15||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate30",(S.dpm||{}).r30,dpm.r30||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate40",(S.dpm||{}).r40,dpm.r40||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate45",(S.dpm||{}).r45,dpm.r45||{},{fullOnly:true});  /* reduced leaf set */
+  /* emit ScheduleDPM only when a rate block has content (optional at root; PlantMachinery required
+     inside it, so all four rates emit together) — matches the DOA/DEP/ESR/ICDS sibling gating */
+  const dpmHas=["r15","r30","r40","r45"].some(k=>{
+    const blk=dpm[k]||{};
+    return anyDOA((S.dpm||{})[k])||N(blk.totDep)||N(blk.wdvLast)||sg(blk.cg50);
+  });
+  if(dpmHas){
+    putDPM("ScheduleDPM.PlantMachinery.Rate15",(S.dpm||{}).r15,dpm.r15||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate30",(S.dpm||{}).r30,dpm.r30||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate40",(S.dpm||{}).r40,dpm.r40||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate45",(S.dpm||{}).r45,dpm.r45||{},{fullOnly:true});  /* reduced leaf set */
+  }
 
   /* ---- ScheduleDOA (per-asset; optional at root, emit only assets with data) ---- */
   const doa=S.C.doa||{};
@@ -8200,6 +8237,12 @@ const CG_STATE=[["01","Andaman and Nicobar Islands"],["02","Andhra Pradesh"],["0
   ["31","Uttar Pradesh"],["32","West Bengal"],["33","Chhattisgarh"],["34","Uttarakhand"],["35","Jharkhand"],
   ["36","Telangana"],["37","Ladakh"],["99","Foreign"]];
 const CG_STATE_SET={};CG_STATE.forEach(x=>CG_STATE_SET[x[0]]=1);
+/* ---- country-code enum (books/ITR-5/enums.json / schema CountryCode & CountryCodeExcludingIndia,
+   verbatim; same list/codes as Schedule FSI (70_sec_foreign FA_CO) and Schedule OS (70_sec_os OS_CC)) ---- */
+const CG_CO=[["93","AFGHANISTAN"],["1001","ALAND ISLANDS"],["355","ALBANIA"],["213","ALGERIA"],["684","AMERICAN SAMOA"],["376","ANDORRA"],["244","ANGOLA"],["1264","ANGUILLA"],["1010","ANTARCTICA"],["1268","ANTIGUA AND BARBUDA"],["54","ARGENTINA"],["374","ARMENIA"],["297","ARUBA"],["61","AUSTRALIA"],["43","AUSTRIA"],["994","AZERBAIJAN"],["1242","BAHAMAS"],["973","BAHRAIN"],["880","BANGLADESH"],["1246","BARBADOS"],["375","BELARUS"],["32","BELGIUM"],["501","BELIZE"],["229","BENIN"],["1441","BERMUDA"],["975","BHUTAN"],["591","BOLIVIA (PLURINATIONAL STATE OF)"],["1002","BONAIRE, SINT EUSTATIUS AND SABA"],["387","BOSNIA AND HERZEGOVINA"],["267","BOTSWANA"],["1003","BOUVET ISLAND"],["55","BRAZIL"],["1014","BRITISH INDIAN OCEAN TERRITORY"],["673","BRUNEI DARUSSALAM"],["359","BULGARIA"],["226","BURKINA FASO"],["257","BURUNDI"],["238","CABO VERDE"],["855","CAMBODIA"],["237","CAMEROON"],["1","CANADA"],["1345","CAYMAN ISLANDS"],["236","CENTRAL AFRICAN REPUBLIC"],["235","CHAD"],["56","CHILE"],["86","CHINA"],["9","CHRISTMAS ISLAND"],["672","COCOS (KEELING) ISLANDS"],["57","COLOMBIA"],["270","COMOROS"],["242","CONGO"],["243","CONGO (DEMOCRATIC REPUBLIC OF THE)"],["682","COOK ISLANDS"],["506","COSTA RICA"],["225","COTE DIVOIRE"],["385","CROATIA"],["53","CUBA"],["1015","CURACAO"],["357","CYPRUS"],["420","CZECHIA"],["45","DENMARK"],["253","DJIBOUTI"],["1767","DOMINICA"],["1809","DOMINICAN REPUBLIC"],["593","ECUADOR"],["20","EGYPT"],["503","EL SALVADOR"],["240","EQUATORIAL GUINEA"],["291","ERITREA"],["372","ESTONIA"],["251","ETHIOPIA"],["500","FALKLAND ISLANDS (MALVINAS)"],["298","FAROE ISLANDS"],["679","FIJI"],["358","FINLAND"],["33","FRANCE"],["594","FRENCH GUIANA"],["689","FRENCH POLYNESIA"],["1004","FRENCH SOUTHERN TERRITORIES"],["241","GABON"],["220","GAMBIA"],["995","GEORGIA"],["49","GERMANY"],["233","GHANA"],["350","GIBRALTAR"],["30","GREECE"],["299","GREENLAND"],["1473","GRENADA"],["590","GUADELOUPE"],["1671","GUAM"],["502","GUATEMALA"],["1481","GUERNSEY"],["224","GUINEA"],["245","GUINEA-BISSAU"],["592","GUYANA"],["509","HAITI"],["1005","HEARD ISLAND AND MCDONALD ISLANDS"],["6","HOLY SEE"],["504","HONDURAS"],["852","HONG KONG"],["36","HUNGARY"],["354","ICELAND"],["62","INDONESIA"],["98","IRAN (ISLAMIC REPUBLIC OF)"],["964","IRAQ"],["353","IRELAND"],["1624","ISLE OF MAN"],["972","ISRAEL"],["5","ITALY"],["1876","JAMAICA"],["81","JAPAN"],["1534","JERSEY"],["962","JORDAN"],["7","KAZAKHSTAN"],["254","KENYA"],["686","KIRIBATI"],["850","KOREA (DEMOCRATIC PEOPLES REPUBLIC OF)"],["82","KOREA (REPUBLIC OF)"],["965","KUWAIT"],["996","KYRGYZSTAN"],["856","LAO PEOPLES DEMOCRATIC REPUBLIC"],["371","LATVIA"],["961","LEBANON"],["266","LESOTHO"],["231","LIBERIA"],["218","LIBYA"],["423","LIECHTENSTEIN"],["370","LITHUANIA"],["352","LUXEMBOURG"],["853","MACAO"],["389","MACEDONIA (THE FORMER YUGOSLAV REPUBLIC OF)"],["261","MADAGASCAR"],["265","MALAWI"],["60","MALAYSIA"],["960","MALDIVES"],["223","MALI"],["356","MALTA"],["692","MARSHALL ISLANDS"],["596","MARTINIQUE"],["222","MAURITANIA"],["230","MAURITIUS"],["269","MAYOTTE"],["52","MEXICO"],["691","MICRONESIA (FEDERATED STATES OF)"],["373","MOLDOVA (REPUBLIC OF)"],["377","MONACO"],["976","MONGOLIA"],["382","MONTENEGRO"],["1664","MONTSERRAT"],["212","MOROCCO"],["258","MOZAMBIQUE"],["95","MYANMAR"],["264","NAMIBIA"],["674","NAURU"],["977","NEPAL"],["31","NETHERLANDS"],["687","NEW CALEDONIA"],["64","NEW ZEALAND"],["505","NICARAGUA"],["227","NIGER"],["234","NIGERIA"],["683","NIUE"],["15","NORFOLK ISLAND"],["1670","NORTHERN MARIANA ISLANDS"],["47","NORWAY"],["968","OMAN"],["92","PAKISTAN"],["680","PALAU"],["970","PALESTINE, STATE OF"],["507","PANAMA"],["675","PAPUA NEW GUINEA"],["595","PARAGUAY"],["51","PERU"],["63","PHILIPPINES"],["1011","PITCAIRN"],["48","POLAND"],["14","PORTUGAL"],["1787","PUERTO RICO"],["974","QATAR"],["262","REUNION"],["40","ROMANIA"],["8","RUSSIAN FEDERATION"],["250","RWANDA"],["1006","SAINT BARTHELEMY"],["290","SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"],["1869","SAINT KITTS AND NEVIS"],["1758","SAINT LUCIA"],["1007","SAINT MARTIN (FRENCH PART)"],["508","SAINT PIERRE AND MIQUELON"],["1784","SAINT VINCENT AND THE GRENADINES"],["685","SAMOA"],["378","SAN MARINO"],["239","SAO TOME AND PRINCIPE"],["966","SAUDI ARABIA"],["221","SENEGAL"],["381","SERBIA"],["248","SEYCHELLES"],["232","SIERRA LEONE"],["65","SINGAPORE"],["1721","SINT MAARTEN (DUTCH PART)"],["421","SLOVAKIA"],["386","SLOVENIA"],["677","SOLOMON ISLANDS"],["252","SOMALIA"],["28","SOUTH AFRICA"],["1008","SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"],["211","SOUTH SUDAN"],["35","SPAIN"],["94","SRI LANKA"],["249","SUDAN"],["597","SURINAME"],["1012","SVALBARD AND JAN MAYEN"],["268","SWAZILAND"],["46","SWEDEN"],["41","SWITZERLAND"],["963","SYRIAN ARAB REPUBLIC"],["886","TAIWAN, PROVINCE OF CHINA[A]"],["992","TAJIKISTAN"],["255","TANZANIA, UNITED REPUBLIC OF"],["66","THAILAND"],["670","TIMOR-LESTE (EAST TIMOR)"],["228","TOGO"],["690","TOKELAU"],["676","TONGA"],["1868","TRINIDAD AND TOBAGO"],["216","TUNISIA"],["90","TURKEY"],["993","TURKMENISTAN"],["1649","TURKS AND CAICOS ISLANDS"],["688","TUVALU"],["256","UGANDA"],["380","UKRAINE"],["971","UNITED ARAB EMIRATES"],["44","UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND"],["2","UNITED STATES OF AMERICA"],["1009","UNITED STATES MINOR OUTLYING ISLANDS"],["598","URUGUAY"],["998","UZBEKISTAN"],["678","VANUATU"],["58","VENEZUELA (BOLIVARIAN REPUBLIC OF)"],["84","VIET NAM"],["1284","VIRGIN ISLANDS (BRITISH)"],["1340","VIRGIN ISLANDS (U.S.)"],["681","WALLIS AND FUTUNA"],["1013","WESTERN SAHARA"],["967","YEMEN"],["260","ZAMBIA"],["263","ZIMBABWE"],["9999","OTHERS"]];                       /* CountryCodeExcludingIndia enum (India excluded) — A9/B11 DTAA ccode */
+const CG_CO_IN=[["91","INDIA"]].concat(CG_CO);   /* CountryCode enum (India included) — TrnsfImmblPrprty CountryCode */
+const CG_CO_SET={};CG_CO.forEach(x=>CG_CO_SET[x[0]]=1);
+const CG_CO_IN_SET={};CG_CO_IN.forEach(x=>CG_CO_IN_SET[x[0]]=1);
 /* Part D — DeducClaimInfo detail tables (ITR-5 exposes only 54D/54EC/54G/54GA). */
 const DCLAIM=[
   {ns:"us54D", sec:"54D", key:"DeducClaimDtlsUs54D", lbl:"Sec 54D — new land / building for industrial undertaking",
@@ -8433,7 +8476,7 @@ function engCg(){
   const gain={},loss={},used={},absorbed={},matrix={};
   KEYS.forEach(k=>{gain[k]=Math.max(0,E[k]);loss[k]=Math.max(0,-E[k]);used[k]=0;absorbed[k]=0;matrix[k]={};});
   const isLong=k=>k.charAt(0)==="l";
-  if(C.editE && C.Eover){                                             /* r418 EditAutopoulatedDetail override */
+  if(st0(C.editE)==="Yes" && C.Eover){                               /* r418 EditAutopoulatedDetail override */
     KEYS.forEach(gk=>KEYS.forEach(lk=>{const v=N(((C.Eover[gk]||{})[lk]));
       if(v>0){matrix[gk][lk]=v;absorbed[gk]+=v;used[lk]+=v;}}));
   } else {
@@ -8457,7 +8500,7 @@ function engCg(){
   KEYS.forEach(k=>{const placed=Fauto[k].reduce((a,v)=>a+v,0);const rest=Math.max(0,gain[k]-placed);
     if(rest>0)Fauto[k][4]+=rest;});                                   /* bucket total pre-set-off = Σ quarters */
   const F={};KEYS.forEach(k=>{const ov=(C.Fover||{})[k];
-    F[k]=(C.editF&&ov)?ov.map(N):Fauto[k].slice();});
+    F[k]=(st0(C.editF)==="Yes"&&ov)?ov.map(N):Fauto[k].slice();});
 
   /* ---- Part C · summary ------------------------------------------- */
   const C2=Math.max(0,vda.cg);                                        /* C2 r346 = MAX(0, Sch VDA item B) */
@@ -8528,7 +8571,8 @@ function landBlock(p,i,lt){const r=p._||engLand(p);let h="";
   h+=row("Address of property",inp("cg.land."+i+".paddr"),{ref:"AddressOfProperty"});
   h+=row("State",sel("cg.land."+i+".pstate",CG_STATE),{ref:"StateCode"});
   h+=row("Pin code",inp("cg.land."+i+".ppin",{max:6}),{ref:"PinCode"});
-  h+=row("Country code",inp("cg.land."+i+".pcountry",{max:4,ph:"91"}),{ref:"CountryCode"});
+  h+=row("Country code",sel("cg.land."+i+".pcountry",CG_CO_IN,{blank:false}),{ref:"CountryCode"});
+  h+=row("ZIP code (if property outside India)",inp("cg.land."+i+".pzip",{max:8}),{ref:"ZipCode"});
   h+=grid("cg.land."+i+".buyers",[
       {h:"Name of buyer",k:"name",t:"txt"},
       {h:"PAN",k:"pan",t:"txt",max:10},
@@ -8579,10 +8623,28 @@ function scripGrid(key,rows){
 function setoffTable(G){
   const LBL={st20:"STCG @20%",st30:"STCG @30%",stApp:"STCG applicable",stDTAA:"STCG DTAA",
     lt125:"LTCG @12.5%",ltDTAA:"LTCG DTAA"};
-  let h='<div class="full"><table class="gt" style="min-width:720px"><thead><tr>'+
-    '<th class="l">Type of capital gain</th><th>Gain of CY</th><th>Loss set off</th><th>Remaining</th></tr></thead><tbody>';
-  KEYS.forEach(k=>{h+='<tr><td class="l">'+esc(LBL[k])+'</td><td class="num">'+cell(G.gain[k])+
-    '</td><td class="num">'+cell(G.absorbed[k])+'</td><td class="num">'+cell(G.after[k])+'</td></tr>';});
+  /* r418: the whole Table-E matrix auto-populates and is editable only via
+     EditAutopoulatedDetail (CG.md:388). Off → read-only summary; On → editable matrix. */
+  if(st0(S.cg.editE)!=="Yes"){
+    let h='<div class="full"><table class="gt" style="min-width:720px"><thead><tr>'+
+      '<th class="l">Type of capital gain</th><th>Gain of CY</th><th>Loss set off</th><th>Remaining</th></tr></thead><tbody>';
+    KEYS.forEach(k=>{h+='<tr><td class="l">'+esc(LBL[k])+'</td><td class="num">'+cell(G.gain[k])+
+      '</td><td class="num">'+cell(G.absorbed[k])+'</td><td class="num">'+cell(G.after[k])+'</td></tr>';});
+    h+='</tbody></table></div>';return h;
+  }
+  /* manual override: each intersection is an editable cell writing S.cg.Eover[gain][loss]
+     (mirrors quartersTable Part-F cg.Fover.*); the engine reads these at r418.
+     A STCL may set off any capital gain; a LTCL only LTCG (Part-E rule, matches expCg gating). */
+  const isLong=k=>k.charAt(0)==="l";
+  let h=note("Manual set-off is on: enter the loss of each type set off against each gain. A short-term loss may set off any capital gain; a long-term loss only long-term gains. Blank cells are treated as nil.","warn")+
+    '<div class="full"><table class="gt" style="min-width:1120px"><thead><tr>'+
+    '<th class="l">Gain \\ Loss set off</th><th>Gain of CY</th>';
+  KEYS.forEach(lk=>h+='<th>'+esc(LBL[lk])+'</th>');
+  h+='<th>Total set off</th><th>Remaining</th></tr></thead><tbody>';
+  KEYS.forEach(gk=>{h+='<tr><td class="l">'+esc(LBL[gk])+'</td><td class="num">'+cell(G.gain[gk])+'</td>';
+    KEYS.forEach(lk=>{const valid=lk!==gk&&(isLong(gk)||!isLong(lk));
+      h+=valid?'<td>'+inp("cg.Eover."+gk+"."+lk,{n:1})+'</td>':'<td class="num">—</td>';});
+    h+='<td class="num">'+cell(G.absorbed[gk])+'</td><td class="num">'+cell(G.after[gk])+'</td></tr>';});
   h+='</tbody></table></div>';return h;
 }
 
@@ -8627,7 +8689,7 @@ function dtaaGrid(key,rows,itemOpts){
     {h:"Amount of income",k:"amt",t:"num"},
     {h:"Item included",k:"itemno",t:"sel",opts:itemOpts||DTAA_ITEM_ST},
     {h:"Country name",k:"country",t:"txt"},
-    {h:"Country code",k:"ccode",t:"txt",max:5},
+    {h:"Country code",k:"ccode",t:"sel",opts:CG_CO},
     {h:"Article of DTAA",k:"article",t:"txt",max:20},
     {h:"Rate as per Treaty (%)",k:"treaty",t:"num"},
     {h:"TRC obtained?",k:"trc",t:"sel",opts:TRCYN},
@@ -8826,13 +8888,13 @@ function secCg(){
   /* ---- E · set-off ---- */
   h+=fold("cgE","E","Set-off of current-year capital losses",RS(G.C1),
     setoffTable(G)+
-    row("Edit the auto-populated set-off?",sel("cg.editE",[["false","No"],["true","Yes"]],{blank:false}),{ref:"EditAutopoulatedDetail"}),{});
+    row("Edit the auto-populated set-off?",sel("cg.editE",[["No","No"],["Yes","Yes"]],{blank:false}),{ref:"EditAutopoulatedDetail"}),{});
 
   /* ---- F · quarterly split (234C) ---- */
   h+=fold("cgF","F","Accrual / receipt of capital gain (quarterly, for 234C)","—",
     note("Each bucket's quarter total ties to the matching item of Schedule BFLA; the utility scales it to the after-set-off figure.")+
     quartersTable(G)+
-    row("Edit the auto-filled quarters?",sel("cg.editF",[["false","No"],["true","Yes"]],{blank:false}),{ref:"AccruOrRecOfCG"}),{});
+    row("Edit the auto-filled quarters?",sel("cg.editF",[["No","No"],["Yes","Yes"]],{blank:false}),{ref:"AccruOrRecOfCG"}),{});
 
   return h;
 }
@@ -8872,13 +8934,14 @@ function expCg(j){
       PercentageShare:N(x.share)||100,Amount:n0(x.amt),
       AddressOfProperty:(sv(p.paddr)||"NA").slice(0,50),
       StateCode:CG_STATE_SET[st0(p.pstate)]?st0(p.pstate):"19",
-      CountryCode:(st0(p.pcountry)||"91").slice(0,4),
-      PinCode:/^[1-9]\d{5}$/.test(st0(p.ppin))?parseInt(p.ppin,10):undefined}))};};
+      CountryCode:CG_CO_IN_SET[st0(p.pcountry)]?st0(p.pcountry):"91",
+      PinCode:/^[1-9]\d{5}$/.test(st0(p.ppin))?parseInt(p.ppin,10):undefined,
+      ZipCode:st0(p.pzip)?st0(p.pzip).slice(0,8):undefined}))};};
   const exArr=(ded,set)=>{const ex=[];Object.keys(ded||{}).forEach(k=>{const code=k.replace("s","");
     if(set[code]&&N(ded[k]))ex.push({ExemptionSecCode:code,ExemptionAmount:n0(ded[k])});});return ex;};
   const dtaaOut=rows=>{const good=(rows||[]).filter(r=>N(r.amt));if(!good.length)return undefined;
     return {NRIDTAADtls:good.map(r=>{const o={DTAAamt:n0(r.amt),ItemNoincl:st0(r.itemno),
-      CountryName:st0(r.country),CountryCodeExcludingIndia:st0(r.ccode),DTAAarticle:st0(r.article),
+      CountryName:st0(r.country),CountryCodeExcludingIndia:CG_CO_SET[st0(r.ccode)]?st0(r.ccode):"9999",DTAAarticle:st0(r.article),
       RateAsPerTreaty:N(r.treaty),SecITAct:st0(r.secit),RateAsPerITAct:N(r.itact)};
       if(r.trc)o.TaxRescertifiedFlag=r.trc;
       if(r._appl!=null)o.ApplicableRate=r._appl;return o;})};};
@@ -8964,7 +9027,7 @@ function expCg(j){
     if(b6.length)LT.NRIOnSec112and115={NRIOnSec112and115Dtls:b6.map(o=>{const rr=engAgg(o,{unq:1,noExempt:1});
       return {SectionCode:o.sec,FullValueConsdRecvUnqshr:n0(o.unqCons),FairMrktValueUnqshr:n0(o.unqFmv),
         FullValueConsdSec50CA:n0(rr.c50ca||Math.max(N(o.unqCons),N(o.unqFmv))),FullValueConsdOthUnqshr:n0(o.othCons),
-        FullConsideration:n0(rr.cons),DeductSec48:ded48(o),BalanceCG:sg(rr.gain)};})};
+        FullConsideration:n0(rr.cons),DeductSec48:ded48(o),BalanceCG:sg(rr.gain)};}),TotalNRIOnSec112and115:sg(B.b6)};
     if((G.nri||isFii()))LT.NRISaleOfEquityShareUs112A={CapgainonAssets:sg(B.b7)};
     const b11d=dtaaOut(C.b11);if(b11d)LT.NRICgDTAA=b11d;
   } else if(isFii()){
@@ -9064,7 +9127,7 @@ function expCg(j){
   const CG={ShortTermCapGain:ST,LongTermCapGain:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),IncChargeableHeadCapGain:sg(G.C3),
     DeducClaimInfo:DED,CurrYrLosses:E,AccruOrRecOfCG:AF};
-  if(st0(C.editE?"Y":"")||C.editE)CG.EditAutopoulatedDetail=C.editE?"Y":"N";
+  CG.EditAutopoulatedDetail=(st0(C.editE)==="Yes")?"Y":"N";
   put(j,"ScheduleCG",CG);
 
   /* ---- Schedule 112A / 115AD / VDA ---- */
@@ -9091,7 +9154,7 @@ function impCg(I5){
       const out={buyers:bs.map(y=>({name:y.NameOfBuyer||"",pan:y.PANofBuyer||"",aadhaar:y.AaadhaarOfBuyer||"",
         share:nz(y.PercentageShare),amt:nz(y.Amount)}))};
       if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";
-        out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";out.pcountry=bs[0].CountryCode||"";}
+        out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";out.pcountry=bs[0].CountryCode||"";out.pzip=bs[0].ZipCode||"";}
       return out;};
     const land=[];
     (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
@@ -9170,7 +9233,7 @@ function impCg(I5){
           purchase:dmy(r.DateofPurchase),deposited:nz(r.AmtDeposited),depdate:dmy(r.DepositDate),
           acno:r.AccountNo||"",ifsc:r.IFSC||"",amt:nz(r.AmtDeducted)};});});
       if(Object.keys(S.cg.dclaim).some(k=>S.cg.dclaim[k].length))read.push("CG deduction detail");}
-    if(CGb.EditAutopoulatedDetail)S.cg.editE=(CGb.EditAutopoulatedDetail==="Y");
+    if(CGb.EditAutopoulatedDetail)S.cg.editE=(CGb.EditAutopoulatedDetail==="Y")?"Yes":"No";
     read.push("capital gains");
   }
   const b112=I5&&I5.Schedule112A;
@@ -9447,7 +9510,7 @@ function engDed(){
   const stat=st0((S.pi||{}).status)||"1";
   const sub=st0((S.pi||{}).substatus);
   const isLLP=stat==="1"&&/LLP/i.test(sub);
-  const isCoop=stat==="14"&&/^(1a|1b|1c|2|3)/.test(sub);   /* co-operative society sub-statuses */
+  const isCoop=stat==="14"&&/^(1a|1b|1c|3)/.test(sub);   /* co-operative society sub-statuses */
   const barred80ggc=(stat==="2"||stat==="9");        /* Local Authority / AJP (80GGC.md P7) */
   const fx=st0((S.fs||{}).foreignExch)==="Y";        /* IFSC convertible-forex (80LA(1A) gate) */
 
@@ -9500,7 +9563,7 @@ function engDed(){
   out.c80jjaa=Math.min(R(kv("c80jjaa")),gtiNet);     /* [K17] SURVIVES new regime; ≤ post-BFLA income */
   out.c80la1=conc?0:(fx?0:la1raw);                   /* [K18] needs forex="No"; closes in new regime */
   out.c80la1a=fx?la1araw:0;                           /* [K19] needs forex="Yes"; SURVIVES new regime */
-  out.c80p=p80.totalAmt;                              /* [K20] */
+  out.c80p=isCoop?p80.totalAmt:0;                     /* [K20] co-op only (A653/A631); zero otherwise */
   const partCraw=DED_PARTC.reduce((s,k)=>s+N(out[k]),0);
 
   /* ---- Part B col-K (80G qualifying limit consumes 80GGA+80GGC+Part-C) ---- */
@@ -9726,7 +9789,7 @@ function expDed(j){
       DoneePAN:(st0(r.pan)||"NA").toUpperCase(),DonationAmtCash:n0(r.cash),DonationAmtOtherMode:n0(r.other),
       DonationAmt:n0(N(r.amt)||N(r.cash)+N(r.other)),EligibleDonationAmt:n0((N(r.cash)>2000?0:N(r.cash))+N(r.other))})),
       TotalDonationAmtCash80GGA:n0(cash),TotalDonationAmtOtherMode80GGA:n0(oth),
-      TotalDonationsUs80GGA:n0(cash+oth),TotalEligibleDonationAmt80GGA:n0(O.c80gga)};}}
+      TotalDonationsUs80GGA:n0(cash+oth),TotalEligibleDonationAmt80GGA:rows.reduce((a,r)=>a+n0((N(r.cash)>2000?0:N(r.cash))+N(r.other)),0)};}}
 
   /* ---- Schedule80RA (35(1) research associations) ---- */
   {const rows=(S.ded.ra||[]).filter(r=>N(r.cash)||N(r.other));
@@ -9740,14 +9803,14 @@ function expDed(j){
 
   /* ---- Schedule80GGC ---- */
   {const rows=(S.ded.ggc||[]).filter(r=>N(r.cash)||N(r.other));
-   if(rows.length&&!conc){const cash=rows.reduce((a,r)=>a+N(r.cash),0),oth=rows.reduce((a,r)=>a+N(r.other),0);
+   if(rows.length&&!conc&&!V.barred80ggc){const cash=rows.reduce((a,r)=>a+N(r.cash),0),oth=rows.reduce((a,r)=>a+N(r.other),0);
     j.Schedule80GGC={Schedule80GGCDetails:rows.map(r=>{const o={DonationDate:ISO(r.dt)||"2025-04-01",
       DonationAmtCash:n0(r.cash),DonationAmtOtherMode:n0(r.other),DonationAmt:n0(N(r.cash)+N(r.other)),
       EligibleDonationAmt:n0(r.other)};                       /* cash never eligible */
       if(sv(r.name))o.PoliticalPartyName=sv(r.name).slice(0,125); if(st0(r.pan))o.PoliticalPartyPAN=st0(r.pan).toUpperCase();
       if(sv(r.ref))o.TransactionRefNum=sv(r.ref).slice(0,50); if(sv(r.ifsc))o.IFSCCode=st0(r.ifsc).toUpperCase().slice(0,11); return o;}),
       TotalDonationAmtCash80GGC:n0(cash),TotalDonationAmtOtherMode80GGC:n0(oth),
-      TotalDonationsUs80GGC:n0(cash+oth),TotalEligibleDonationAmt80GGC:n0(O.c80ggc)};}}
+      TotalDonationsUs80GGC:n0(cash+oth),TotalEligibleDonationAmt80GGC:rows.reduce((a,r)=>a+n0(r.other),0)};}}
 
   /* ---- Schedule80_IA / _IB / _IC — fixed clause objects (Sch80LocOrDescCode + up-to-2 amounts) ---- */
   const amtDtls=a=>{a=a||[];const arr=[];if(N(a[0])){arr.push({DeductAmountSec80:n0(a[0])});if(N(a[1]))arr.push({DeductAmountSec80:n0(a[1])});}
@@ -9782,7 +9845,7 @@ function expDed(j){
   /* ---- Schedule80P (flat matrix) ---- */
   {const P=S.ded.p||{}, pr=(V.p80||{rows:{}}).rows||{};
    const any=DED_80P.some(x=>N((P[x[0]]||{}).inc)||N((P[x[0]]||{}).amt));
-   if(any){const blk={};
+   if(any&&V.isCoop){const blk={};
      DED_80P.forEach((x,i)=>{const id=x[0],key=DED_80P_KEY[i],row=pr[id]||{inc:0,amt:0};
        if(N(row.inc)||N(row.amt)){blk[key+"Code"]=x[1];blk[key]=n0(row.inc);blk[key+"Amt"]=conc?0:n0(row.amt);}});
      blk.Sec80PTotal=n0(V.p80?V.p80.total:0); blk.Sec80PTotalAmt=n0(V.p80?V.p80.totalAmt:0);
@@ -9792,7 +9855,7 @@ function expDed(j){
   {const rows=(S.ded.aa||[]).filter(r=>N(r.amt));
    if(rows.length&&!conc){j.Schedule10AA={DeductSEZ:{DedUs10Detail:{
      Undertaking:{DedFromUndertakingWithAy:rows.map(r=>({AssmtYrUnit:DED_AAAY.some(a=>a[0]===st0(r.ay))?st0(r.ay):"2022-23",DedUs10Sub:n0(r.amt)}))},
-     TotalDedUs10Sub:n0(V.ded10AA)}}};}}
+     TotalDedUs10Sub:rows.reduce((s,r)=>s+n0(r.amt),0)}}};}}
 }
 
 /* ===================================================================
@@ -9876,7 +9939,7 @@ function chkDed(){
    if(has1&&V.fx)add("warn","80LA(1) needs IFSC forex = No","80LA(1) requires the IFSC-convertible-foreign-exchange answer to be No (rule 665).");}
   /* 80P eligibility */
   if(N(V.tot80IA||0)+N((V.p80||{}).totalAmt||0)&&Object.keys(S.ded.p||{}).length&&!V.isCoop&&N((V.p80||{}).totalAmt))
-    add("warn","80P is for co-operative societies","80P can be claimed only by a co-operative society (Primary Agricultural Credit Society / Primary Co-op Agri & Rural Dev bank / other co-op).");
+    add("err","80P is for co-operative societies","80P can be claimed only by a co-operative society (Primary Agricultural Credit Society / Primary Co-op Agri & Rural Dev bank / other co-op) (rule 653); the deduction is set to zero.");
   /* Chapter VI-A capped at GTI */
   if(V.clipped)add("warn","Deductions capped","The Chapter VI-A total is limited to the gross total income less income taxed at special rates.");
   /* a settled figure */
@@ -10176,10 +10239,10 @@ function expEi(j){
     o.ExcNetAgriInc = { ExcNetAgriIncDtls: land.map(r=>{
       const d = {};
       pf(d,"NameOfDistrict",(sv(r.district)||"NA").slice(0,125));
-      pf(d,"PinCode", R(r.pin)||undefined);
-      pf(d,"MeasurementOfLand", r.meas ? r.meas : undefined);
-      pf(d,"AgriLandOwnedFlag", sv(r.owned));
-      pf(d,"AgriLandIrrigatedFlag", sv(r.irr));
+      pf(d,"PinCode", R(r.pin)||100000);
+      pf(d,"MeasurementOfLand", r.meas || 0);
+      pf(d,"AgriLandOwnedFlag", sv(r.owned)||"O");
+      pf(d,"AgriLandIrrigatedFlag", sv(r.irr)||"IRG");
       return d;
     })};
   }
@@ -10206,9 +10269,9 @@ function expEi(j){
       d.AmountOfIncome = n0(r.amt);
       pf(d,"NatureOfIncome", sv(r.nature) ? sv(r.nature).slice(0,75) : undefined);
       pf(d,"CountryName",(sv(r.cname)||"NA").slice(0,55));
-      pf(d,"CountryCodeExcludingIndia", sv(r.ccode));
+      pf(d,"CountryCodeExcludingIndia", sv(r.ccode)||"9999");
       pf(d,"ArticleOfDTAA", sv(r.article) ? sv(r.article).slice(0,16) : undefined);
-      pf(d,"HeadOfIncome", sv(r.head));
+      pf(d,"HeadOfIncome", sv(r.head)||"OS");
       pf(d,"TRCFlag", sv(r.trc));
       return d;
     })};
@@ -11023,7 +11086,7 @@ const GEN_STATUS=[["1","Firm"],["2","Local Authority"],["14","AOP/BOI"],["9","Ar
 const GEN_SUBSTATUS={
  "1":[["1-Partnership Firm","1-Partnership Firm"],["2-LLP (Limited Liability Partnership)","2-LLP (Limited Liability Partnership)"]],
  "2":[["1-Local Authority","1-Local Authority"]],
- "14":[["1a-Primary Agricultural Credit Society","1a-Primary Agricultural Credit Society"],["1b-Primary Co-operative Agricultural and Rural Development bank","1b-Primary Co-operative Agricultural and Rural Development bank"],["1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank","1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank"],["2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ","2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State "],["3-Other Cooperative Society","3-Other Cooperative Society"],["4-Business Trust","4-Business Trust"],["5-Investment Fund","5-Investment Fund"],["6-Trust other than trust eligible to file return in ITR-7","6-Trust other than trust eligible to file return in ITR-7"],["7-Any other AOP/BOI","7-Any other AOP/BOI"]],
+ "14":[["1a-Primary Agricultural Credit Society","1a-Primary Agricultural Credit Society"],["1b-Primary Co-operative Agricultural and Rural Development bank","1b-Primary Co-operative Agricultural and Rural Development bank"],["1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank","1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank"],["2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State","2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State"],["3-Other Cooperative Society","3-Other Cooperative Society"],["4-Business Trust","4-Business Trust"],["5-Investment Fund","5-Investment Fund"],["6-Trust other than trust eligible to file return in ITR-7","6-Trust other than trust eligible to file return in ITR-7"],["7-Any other AOP/BOI","7-Any other AOP/BOI"]],
  "9":[["1-Estate of the deceased","1-Estate of the deceased"],["2-Estate of the insolvent","2-Estate of the insolvent"],["3-Other AJP","3-Other AJP"]]
 };
 /* OrgFirmInfo.SubStatus is a schema CODE (pattern 4|5|8|10|…|21), while the
@@ -11036,7 +11099,7 @@ const GEN_SUBSTATUS_CODE={
  "1a-Primary Agricultural Credit Society":"15",
  "1b-Primary Co-operative Agricultural and Rural Development bank":"16",
  "1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank":"17",
- "2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ":"11",
+ "2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State":"11",
  "3-Other Cooperative Society":"4", "4-Business Trust":"20", "5-Investment Fund":"21",
  "6-Trust other than trust eligible to file return in ITR-7":"13", "7-Any other AOP/BOI":"8",
  "1-Estate of the deceased":"12", "2-Estate of the insolvent":"18", "3-Other AJP":"19"};
@@ -11072,13 +11135,14 @@ const GEN_BYN=[["YES","Yes"],["NO","No"]];                               /* Part
 S.pi=S.pi||{};
 if(S.pi.status===undefined)   S.pi.status="1";      /* OrgFirmInfo.StatusOrCompanyType */
 if(S.pi.country===undefined)  S.pi.country="91";    /* Address.CountryCode (91 = India) */
+if(S.pi.mobileCc===undefined) S.pi.mobileCc="91";   /* Address.CountryCodeMobile (91 = India; NRI firm may use another) */
 if(S.pi.countryb===undefined) S.pi.countryb="91";   /* AlternateAddress.CountryCode */
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";   /* OrgFirmInfo.SecondaryAdd */
 if(!Array.isArray(S.pi.firms))S.pi.firms=[];        /* PartnerInFirm.PartnerInFirmDtls[] */
 if(!Array.isArray(S.pi.unlco))S.pi.unlco=[];        /* HeldUnlistedEqShrPrYr…Dtls[] */
 S.fs=S.fs||{};
 if(S.fs.sec===undefined)      S.fs.sec=11;          /* ReturnFileSec.IncomeTaxSec */
-if(S.fs.optout===undefined)   S.fs.optout="No";     /* OptOldRegimeCurrAY master switch (Yes=old) */
+if(S.fs.optout===undefined||S.fs.optout==="No") S.fs.optout="Yes"; /* RE-7(a): OptOldRegimeCurrAY master switch (Yes=old). A fresh return must START in the OLD/default regime — 10_state.js scaffolds "No" (=>115BAC), corrected here to "Yes". An import overrides via impGen (OptOldRegimeCurrAY, always emitted) and an eligible entity elects the new regime through the entity-gated switch below. */
 if(S.fs.incBP===undefined)    S.fs.incBP="Y";       /* IncFrmBusOrProf (d(i)) */
 if(S.fs.busTrust===undefined) S.fs.busTrust="N";    /* BusinessTrustFlag */
 if(S.fs.invFund===undefined)  S.fs.invFund="N";     /* InvstmntFundRefrdSec115UB */
@@ -11142,6 +11206,13 @@ function engGen(){
 function secGen(){
   const st=S.pi.status||"1", india=(S.pi.country||"91")==="91", indiab=(S.pi.countryb||"91")==="91";
   const nri=(S.fs.resStatus==="NRI"), old=(S.fs.optout==="Yes"), sec=+S.fs.sec;
+  /* RE-7(b): entity-gate the concessional-regime switch. Sub-status first char:
+     co-op society = 1a/1b/1c/3 (taxStatus() definition). 115BAC applies to a
+     non-co-op AOP/BOI (status 14) or AJP (status 9); co-ops elect 115BAD/115BAE;
+     firms/LLPs (1) and local authorities (2) have no concessional regime. */
+  const subC=st0(S.pi.substatus).charAt(0);
+  const isCoop=(st==="14"&&(subC==="1"||subC==="3"));
+  const canBAC=((st==="14"&&!isCoop)||st==="9");
   let h="";
 
   /* ===== PANEL 1 — PERSONAL INFORMATION (OrgFirmInfo, rows 7-24) ===== */
@@ -11149,7 +11220,7 @@ function secGen(){
   h+=row("Name (firm / organisation)",inp("pi.name",{max:125}),{req:1,ref:"E7 · SurNameOrOrgName"});
   h+=row("Is there any change in the name? If yes, the old name",inp("pi.oldName",{max:125}),{ref:"O7 · OrgOldName"});
   h+=row("PAN",inp("pi.pan",{max:10}),{req:1,ref:"W7 · PAN",hint:"ten characters; the fourth letter is F for a firm"});
-  h+=row("LLPIN issued by MCA",inp("pi.llpin",{max:20}),{ref:"LLPINissuedByMCA",hint:"limited-liability partnerships only"});
+  h+=row("LLPIN issued by MCA",inp("pi.llpin",{max:8}),{ref:"LLPINissuedByMCA",hint:"limited-liability partnerships only; eight characters [A-Z0-9-]"});
   h+=row("Status",sel("pi.status",GEN_STATUS,{blank:false}),{req:1,ref:"W12 · StatusOrCompanyType"});
   h+=row("Sub-status",sel("pi.substatus",GEN_SUBSTATUS[st]||[]),{req:1,ref:"AH12 · SubStatus",hint:st==="1"?"a firm must be Partnership Firm or LLP (rules A14 / A29)":""});
   h+=row("Date of formation (DD/MM/YYYY)",dte("pi.formed"),{req:1,ref:"W13 · DateOFFormOrIncorp",hint:"on or before 31 March 2026"});
@@ -11191,7 +11262,7 @@ function secGen(){
   h+=sub("Details for communication");
   h+=row("STD / area code",inp("pi.std",{n:1,max:5}),{ref:"Phone.STDcode"});
   h+=row("Landline / phone number",inp("pi.phone",{n:1,max:12}),{ref:"Phone.PhoneNo"});
-  h+=row("Primary mobile of the taxpayer",inp("pi.mobile",{n:1,max:10}),{req:1,ref:"T24 · MobileNo",hint:"ten digits, country code 91"});
+  h+=row("Primary mobile of the taxpayer",inp("pi.mobileCc",{n:1,max:5,ph:"Code"})+' '+inp("pi.mobile",{n:1,max:10,ph:"Mobile"}),{req:1,ref:"T24 · MobileNo (CountryCodeMobile)",hint:"country code (91 for India, other codes for an NRI firm) + number"});
   h+=row("Secondary mobile",inp("pi.mobile2Cc",{n:1,max:5,ph:"Code"})+' '+inp("pi.mobile2",{n:1,max:10,ph:"Mobile"}),{ref:"MobileNoSec"});
   h+=row("Primary email of the taxpayer",inp("pi.email",{max:125,ph:"name@example.in"}),{req:1,ref:"E24 · EmailAddress",hint:"receives the copy of ITR-V"});
   h+=row("Secondary email",inp("pi.email2",{max:125}),{ref:"H24 · EmailAddressSecondary"});
@@ -11216,6 +11287,7 @@ function secGen(){
   /* ---- Tax regime — old-regime opt-out via Form 10-IEA (II / d(i) / I(A)) ---- */
   h+=fold("gen_regime","Regime","Tax regime — old / new option (Form 10-IEA · 115BAD · 115BAE)",
     (old?"Old regime":"New regime"),(function(){let g="";
+    if(canBAC){                                              /* 115BAC(6) opt-out — non-co-op AOP/BOI or AJP only */
     g+=row("Do you wish to opt for old tax regime for the current AY?",sel("fs.optout",[["Yes","Yes"],["No","No"]],{blank:false}),{req:1,ref:"F51 (II) · OptOldRegimeCurrAY (A51/A59/A60)"});
     if(old){
       g+=row("Have you furnished Form 10-IEA within due date for current AY (choosing old regime)?",sel("fs.f10ieaCurrOld",GEN_YN,{blank:false}),{ref:"G48 (B) · F10IEACurrAYOldRegime"});
@@ -11240,6 +11312,8 @@ function secGen(){
       g+=row("Date of filing of Form 10-IEA for AY 2026-27 (re-entry)",dte("fs.f10ieaDateNew"),{ref:"H46 · F10IEADateCurrAYNewTax"});
       g+=row("Acknowledgement number of Form 10-IEA",inp("fs.f10ieaAckNew",{n:1,max:15}),{ref:"H47 · F10IEAAckNoCurrAYNewTax"});
     }
+    }                                                        /* /canBAC */
+    if(isCoop){                                              /* 115BAD / 115BAE — co-operative society only */
     /* ---- 115BAD — co-operative society new regime (d(ii)/d(iii)) ---- */
     g+=sub("Section 115BAD — co-operative society");
     g+=row("Have you opted for new tax regime u/s 115BAD?",sel("fs.newTaxRegime",GEN_YN),{ref:"F76 (d(ii)) · ReturnFileSec.NewTaxRegime"});
@@ -11266,6 +11340,9 @@ function secGen(){
       g+=row("Date of filing of Form 10-IFA (DD/MM/YYYY)",dte("fs.form10IFADate"),{ref:"F93/F97 · Form10IFADate"});
       g+=row("Acknowledgement number of Form 10-IFA",inp("fs.form10IFAAck",{n:1,max:15}),{ref:"F94/F98 · Form10IFAAckNo"});
     }
+    }                                                        /* /isCoop */
+    if(!canBAC&&!isCoop)                                     /* firm / LLP / local authority — no concessional regime */
+      g+=note("A firm / LLP or local authority has no concessional tax regime (section 115BAC / 115BAD / 115BAE do not apply); the return is taxed at the applicable flat rate.");
     return g;})(),{def:false});
 
   /* ---- Eligibility / recognition flags (rows 100-108) ---- */
@@ -11347,10 +11424,10 @@ function secGen(){
   if(S.aud.sec44AB==="Y"){
     h+=row("Condition by which liable to audit u/s 44AB",sel("aud.cnd44AB",GEN_CND44AB),{req:1,ref:"F145 · Cndnfor44AB (A42)"});
     if(S.aud.cnd44AB==="bii"){
-      h+=row("Turnover u/s 44AD",inp("aud.bii44AD",{max:30}),{ref:"BiiDetails.44AD",ind:1});
-      h+=row("Turnover u/s 44ADA",inp("aud.bii44ADA",{max:30}),{ref:"BiiDetails.44ADA",ind:1});
-      h+=row("Turnover u/s 44AE",inp("aud.bii44AE",{max:30}),{ref:"BiiDetails.44AE",ind:1});
-      h+=row("Turnover u/s 44BB",inp("aud.bii44BB",{max:30}),{ref:"BiiDetails.44BB",ind:1});
+      h+=row("Assessee falling u/s 44AD?",sel("aud.bii44AD",GEN_YN),{ref:"BiiDetails.44AD",ind:1});
+      h+=row("Assessee falling u/s 44ADA?",sel("aud.bii44ADA",GEN_YN),{ref:"BiiDetails.44ADA",ind:1});
+      h+=row("Assessee falling u/s 44AE?",sel("aud.bii44AE",GEN_YN),{ref:"BiiDetails.44AE",ind:1});
+      h+=row("Assessee falling u/s 44BB?",sel("aud.bii44BB",GEN_YN),{ref:"BiiDetails.44BB",ind:1});
     }
     h+=row("Have the accounts been audited by an accountant?",sel("aud.acctFlg",GEN_YN,{blank:false}),{ref:"F149 (c) · AuditedByAccountantFlg"});
     if(S.aud.acctFlg==="Y"){
@@ -11473,7 +11550,7 @@ function expGen(j){
     put(j,"PartA_GEN1.OrgFirmInfo.Address.Phone.STDcode",R(S.pi.std));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.Phone.PhoneNo",R(S.pi.phone));
   }
-  if(st0(S.pi.mobile)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobile",91);
+  if(st0(S.pi.mobile)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobile",R(S.pi.mobileCc||91));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.MobileNo",R(S.pi.mobile));}
   if(st0(S.pi.mobile2)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobileNoSec",R(S.pi.mobile2Cc||91));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.MobileNoSec",R(S.pi.mobile2));}
@@ -11657,6 +11734,7 @@ function impGen(I5){
     if(AD.CountryCode!=null)S.pi.country=AD.CountryCode;if(AD.PinCode!=null)S.pi.pin=String(AD.PinCode);
     if(AD.ZipCode!=null)S.pi.zip=AD.ZipCode;
     if(AD.Phone){if(AD.Phone.STDcode!=null)S.pi.std=String(AD.Phone.STDcode);if(AD.Phone.PhoneNo!=null)S.pi.phone=String(AD.Phone.PhoneNo);}
+    if(AD.CountryCodeMobile!=null)S.pi.mobileCc=String(AD.CountryCodeMobile);
     if(AD.MobileNo!=null)S.pi.mobile=String(AD.MobileNo);
     if(AD.CountryCodeMobileNoSec!=null)S.pi.mobile2Cc=String(AD.CountryCodeMobileNoSec);
     if(AD.MobileNoSec!=null)S.pi.mobile2=String(AD.MobileNoSec);
@@ -11836,6 +11914,10 @@ function chkGen(){
   /* B ⇒ C > 0 (A33) and B/C vs foreign-company member share (W3) */
   if(M.bForeign==="YES"&&!(N(M.cPct)>0))
     out.push({lvl:"err",t:"Foreign-company share required",m:"When a member is a foreign company (B = Yes), the percentage of share (C) cannot be zero (rule A33).",sec:"gen"});
+  /* Questions B/C/D ride on the first partner/member row (PartnerOrMemberInfo[0]);
+     with an empty grid the answers are silently dropped on export (GEN-2). */
+  if((st0(M.bForeign)!==""||st0(M.dExceeds)!=="")&&!(S.pm.members||[]).length)
+    out.push({lvl:"err",t:"Partner / member row required",m:"Answers to questions B/C/D (foreign-company member, its share and members' income above the basic exemption) are recorded against the first partner/member row. Add at least one partner/member row so the answer is not lost.",sec:"gen"});
   /* Nature of business mandatory (A11) */
   if(!(S.nob||[]).length)
     out.push({lvl:"err",t:"Nature of business required",m:"Disclosure of the nature of business or profession is mandatory (rule A11).",sec:"gen"});
@@ -12117,7 +12199,7 @@ function hpBlock(p, i, ordinal){
   b += grid(pre.slice(0,-1)+".loans",[
       {k:"from",h:"Loan taken from",t:"sel",w:"160px",req:1,opts:HP_LOANFROM},
       {k:"name",h:"Name of the bank / institution / person",t:"txt",w:"auto",req:1,max:125},
-      {k:"acno",h:"Loan Account number",t:"txt",w:"170px",req:1,max:25},
+      {k:"acno",h:"Loan Account number",t:"txt",w:"170px",req:1,max:20},
       {k:"dt",h:"Date of sanction of loan",t:"date",w:"140px",req:1},
       {k:"amt",h:"Total amount of loan",t:"num",w:"150px",req:1},
       {k:"os",h:"Loan outstanding on 31-03-2026",t:"num",w:"170px",req:1},
@@ -12206,7 +12288,7 @@ function expHp(j){
         Section24BDtls: ln.map(l=>({
           LoanTknFrom:l.from==="I"?"I":"B",
           BankOrInstnName:(sv(l.name)||"NA").slice(0,125),
-          LoanAccNoOfBankOrInstnRefNo:(sv(l.acno)||"NA").slice(0,25),
+          LoanAccNoOfBankOrInstnRefNo:(sv(l.acno)||"NA").slice(0,20),
           DateofLoan:ISO(l.dt)||"2025-04-01",
           TotalLoanAmt:n0(l.amt),
           LoanOutstndngAmt:n0(l.os),
@@ -12466,6 +12548,15 @@ const CFL_YEARS=[
    year (CFL [G30] MAX(0,G23-G26-MAX(0,G15-G26))); specified never lapses. */
 const CFL_OLDEST_8="2018-19", CFL_OLDEST_4="2022-23";
 
+/* Schedule CFL row xx ("loss distributed among unit-holders") applies only to
+   an investment fund (AOP/BOI sub-status "5-Investment Fund"). Every other
+   assessee leaves the row at nil. */
+const isAIF=()=>st0((S.pi||{}).substatus)==="5-Investment Fund";
+/* Schedule UD earlier-year AssYr choices — the CFL year horizon, newest first;
+   every value matches the schema pattern YYYY-YY (a plain <select>, so a free
+   entry can never break the pattern). */
+const UD_AY=CFL_YEARS.map(x=>x[0]).reverse();
+
 /* ---- engine --------------------------------------------------------- */
 /* Every cross-head figure is read defensively (never throw). The upstream
    S.C contract consumed here (guarded, default 0):
@@ -12594,9 +12685,12 @@ function engLoss(){
     horse:Math.max(0,-R(osHorseBal))};                              /* [W27] = ABS(MIN(0, os.BalanceOwnRaceHorse)) */
 
   /* ---- CFL xx · current-year loss distributed to unit-holders ------
-     Investment-fund only; nil for the ordinary assessee (S.loss.distr).   */
+     Investment-fund only (sub-status "5-Investment Fund"); nil for every other
+     assessee, so the row exports 0 without any input. Schema CurrYrDistrLoss
+     carries only the HP / STCG / LTCG / race-horse legs, so only those four
+     are collected, each capped at that head's current-year loss (row xix).   */
   const distr={hp:0,bus:0,spec:0,specified:0,st:0,lt:0,horse:0};
-  Object.keys(distr).forEach(k=>distr[k]=Math.min(N((S.loss.distr||{})[k]),cur[k]));
+  if(isAIF())["hp","st","lt","horse"].forEach(k=>distr[k]=Math.min(N((S.loss.distr||{})[k]),cur[k]));
   /* ---- CFL xxi · current-year losses to carry forward (xix − xx) --- */
   const curCF={};Object.keys(cur).forEach(k=>curCF[k]=Math.max(0,cur[k]-distr[k]));
 
@@ -12715,8 +12809,8 @@ function secLoss(){
   h+=row("2026-27 — depreciation balance carried to next year (col 5)",inp("loss.ud.curBal",{n:1}),{ref:"UD H7"});
   h+=row("2026-27 — allowance u/s 35(4) balance carried to next year (col 8)",inp("loss.ud.curAllowBal",{n:1}),{ref:"UD K7"});
   const udRows=(U.rows||[]).map((r,i)=>{const c=(UD.rows||[])[i]||{};return Object.assign({},r,{bal:c.bal,allowBal:c.allowBal});});
-  h+=grid("loss.ud.rows",[
-    {k:"ay",h:"Assessment year",t:"txt",w:"120px",req:1},
+  let udG=grid("loss.ud.rows",[
+    {k:"ay",h:"Assessment year",t:"sel",opts:UD_AY,w:"130px",req:1},
     {k:"bfUD",h:"B/f unabsorbed depreciation (3)",t:"num"},
     {k:"adj",h:"115BAD/115BAC adj (3a)",t:"num"},
     {k:"deprSO",h:"Depreciation set-off (4)",t:"num"},
@@ -12726,6 +12820,10 @@ function secLoss(){
     {k:"allowBal",h:"Balance c/f (8)",t:"calc"}],
     udRows,{min:"1180px",empty:"No earlier-year unabsorbed depreciation.",add:"Add an assessment year",
       foot:[{l:1,v:"Total"},{v:UD.totBF},{v:UD.totAdj},{v:UD.totSetoff},{v:UD.totBal},{v:UD.totBFAllow},{v:UD.totAllowSetoff},{v:UD.totAllowBal}]});
+  if((U.rows||[]).length>=9){                                          /* the utility allows only 9 earlier-year rows (UD sheet rows 8-16) */
+    udG=udG.replace(/<button class="add" data-add="loss\.ud\.rows">[\s\S]*<\/button>$/,'');
+    udG+=note("Schedule UD allows up to 9 earlier-year rows.","warn");}
+  h+=udG;
   if(!New)h+=note("Column 3a (amount adjusted on account of opting for 115BAD / 115BAC(1A)) must be nil unless the new regime is chosen — it is ignored here.","warn");
 
   /* ===== Schedule CFL ===== */
@@ -12753,14 +12851,24 @@ function secLoss(){
   const B=L.bf,U2=L.usedBF,C=L.cur,D2=L.distr,X2=L.curCF,X=L.cf;
   const frow=(sl,lbl,o)=>'<tr><td class="l">'+sl+'</td><td class="l" colspan="2">'+lbl+'</td>'+
      '<td>'+F(o.hp)+'</td><td></td><td></td><td>'+F(o.bus)+'</td><td>'+F(o.spec)+'</td><td>'+F(o.specified)+'</td><td>'+F(o.st)+'</td><td>'+F(o.lt)+'</td><td>'+F(o.horse)+'</td></tr>';
+  /* Row xx is an input row for an investment fund (the four schema legs
+     HP / STCG / LTCG / race-horse); every other assessee sees read-only nil,
+     and business / speculative / specified carry no schema leaf here. */
+  const aif=isAIF();
+  const dcell=k=>aif?'<td>'+inp("loss.distr."+k,{n:1})+'</td>':'<td class="num">'+cell(D2[k])+'</td>';
+  const drow='<tr><td class="l">xx</td><td class="l" colspan="2">Current-year loss distributed among unit-holders (investment fund only)</td>'+
+     dcell("hp")+'<td></td><td></td>'+
+     '<td class="num" '+closed+'></td><td class="num" '+closed+'></td><td class="num" '+closed+'></td>'+
+     dcell("st")+dcell("lt")+dcell("horse")+'</tr>';
   h+='</tbody><tfoot>'+
      frow("xvii","Total of earlier-year losses brought forward",B)+
      frow("xviii","Adjustment of the above in Schedule BFLA",U2)+
      frow("xix","2026-27 — current-year losses",C)+
-     frow("xx","Current-year loss distributed among unit-holders (investment fund only)",D2)+
+     drow+
      frow("xxi","Current-year losses to be carried forward (xix − xx)",X2)+
      frow("xxii","Total loss carried forward to future years",X)+
      '</tfoot></table></div>';
+  if(aif)h+=note("Investment fund: enter the current-year loss distributed to unit-holders (row xx) per head above. Each figure is capped at that head's current-year loss (row xix); the balance (xxi = xix − xx) is what the fund carries forward.");
   const lp=["hp","bus","spec","specified","st","lt","horse"].filter(k=>L.lapsed[k]>0);
   if(lp.length)h+=note("<b>Lapsed this year:</b> "+lp.map(k=>({hp:"house property",bus:"business",spec:"speculative",specified:"specified business",st:"short-term capital",lt:"long-term capital",horse:"race horse"})[k]+" "+RS(L.lapsed[k])).join(", ")+" — the loss at the end of its carry window that BFLA did not use.","warn");
   if(L.cf.total>0)h+=note("Total carried forward to next year: <b>"+RS(L.cf.total)+"</b>.");
@@ -13942,7 +14050,7 @@ function secOs(){
       {k:"itemno",h:"Section of I.T. Act",t:"sel",opts:OS_DTAA_ITEM,req:1},
       {k:"cname",h:"Country name",t:"txt",max:50,req:1},
       {k:"cc",h:"Country code (excl. India)",t:"sel",opts:OS_CC,req:1},
-      {k:"article",h:"Article of DTAA",t:"txt",max:20,req:1},
+      {k:"article",h:"Article of DTAA",t:"txt",max:16,req:1},
       {k:"treaty",h:"Rate as per Treaty (NIL if not chargeable)",t:"txt",max:10,req:1},
       {k:"trc",h:"TRC obtained",t:"sel",opts:OS_TRC},
       {k:"itact",h:"Rate as per I.T. Act",t:"txt",max:10,req:1},
@@ -14084,7 +14192,7 @@ function expOs(j){
       NatureOfIncome: st0(r.nature)||"1ai",
       CountryName: (sv(r.cname)||"NA").slice(0,50),
       CountryCodeExcludingIndia: st0(r.cc)||"9999",
-      DTAAarticle: (sv(r.article)||"NA").slice(0,20),
+      DTAAarticle: (sv(r.article)||"NA").slice(0,16),
       RateAsPerTreaty: R(r.treaty),
       ItemNoincl: st0(r.itemno)||"56i",
       RateAsPerITAct: R(r.itact)
@@ -14643,7 +14751,7 @@ function expOther(j){
   /* ---------------- Schedule IF ---------------- */
   const CI = C.if||{rows:[], tot:{}};
   const ifRows = (CI.rows||[]).filter(f=>f.hasVal);
-  if(ifRows.length || st0((O.if||{}).n)!==""){
+  if(ifRows.length || R((O.if||{}).n)>0){
     const o = {
       PartnerInNumberOfFirms: sg(CI.n),
       TotalProfitShareAmt: sg((CI.tot||{}).profit),
@@ -16523,15 +16631,15 @@ function engTax(){
   const b2i =Math.max(0,R(bpA.A37!=null?bpA.A37:(BP.noSpec!=null?BP.noSpec:BP.income||0)));
   const b2ii=Math.max(0,R(bpE.specRemain!=null?bpE.specRemain:(BP.spec||0)));
   const b2iii=Math.max(0,R(bpE.specifiedRemain!=null?bpE.specifiedRemain:(BP.specified||0)));
-  const b2iv=Math.max(0,R(BP.splRate!=null?BP.splRate:(BP.spl||0)));
+  const b2iv=Math.max(0,R(n0(BP.a3d)+n0(BP.a3e)+n0(BP.a3f)));                    /* 2iv (J9) = 115BBF+115BBG+115BBH of Sch BP (S.C.bp.a3d/e/f) */
   const b2v=Math.max(0,b2i+b2ii+b2iii+b2iv);                                     /* 2v (L10) — nil if the sum is a loss */
 
   /* 3 — capital gains from the CG E-table after set-off (J14-J24) */
   const cga=CG.after||{};
   const st20=Math.max(0,R(cga.st20||0)), st30=Math.max(0,R(cga.st30||0)), stApp=Math.max(0,R(cga.stApp||0)), stDTAA=Math.max(0,R(cga.stDTAA||0));
   const lt125=Math.max(0,R(cga.lt125||0)), ltDTAA=Math.max(0,R(cga.ltDTAA||0));
-  const totST=CG.shortTerm!=null?Math.max(0,R(CG.shortTerm)):st20+st30+stApp+stDTAA;   /* 3av (J18) */
-  const totLT=CG.longTerm !=null?Math.max(0,R(CG.longTerm )):lt125+ltDTAA;             /* 3biii (J24) */
+  const totST=st20+st30+stApp+stDTAA;   /* 3av (J18) = SUM(J14:J17), after current-year set-off (Sch CG Table E) */
+  const totLT=lt125+ltDTAA;             /* 3biii (J24) = SUM(J21:J23), after current-year set-off (Sch CG Table E) */
   const cg3c=Math.max(0,totST+totLT);                                            /* 3c (L25) */
   const cgC2=R(CG.C2!=null?CG.C2:((CG.vda||{}).cg||0));                          /* 3d = VDA 115BBH (L26) */
   const cg3e=Math.max(0,cg3c+cgC2);                                             /* 3e (L27) */
@@ -16692,7 +16800,7 @@ function engTax(){
   const assessed234c=Math.max(0,net-tds-tcs);
   const QDEF=[[0.15,0.12,3],[0.45,0.36,3],[0.75,null,3],[1,null,1]];
   const qs=QDEF.map((q,k)=>{const pc=q[0],safe=q[1],mo=q[2];
-    const need=R(assessed234c*pc), got=upto(TAX_Q_CUT[k]);
+    const need=Math.floor(assessed234c*pc/100)*100, got=upto(TAX_Q_CUT[k]);
     let sh=(safe!==null&&got>=Math.floor(assessed234c*safe/100)*100)?0:Math.floor(Math.max(0,need-got)/100)*100;
     if(!gate234c)sh=0;
     return {need,got:R(got),short:sh,mo,int:R(sh*0.01*mo)};});
@@ -16956,6 +17064,15 @@ function expTax(j){
   put(j,"PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid",n0(I.paid));
   put(j,"PartB_TTI.TaxPaid.BalTaxPayable",n0(I.balance));
   put(j,"PartB_TTI.Refund.RefundDue",n0(I.refund));
+
+  /* ---- 115TD carry-across (Part B-TTI Sr.13/14/15) — only when Schedule 115TD is present ---- */
+  const td115=(S.C.other||{}).td||{};
+  if(td115.on){
+    const net12=n0(td115.net12), refund=n0(I.refund);
+    put(j,"PartB_TTI.TaxPaid.NetTaxPayable115TD",net12);                    /* 13 L101 = Sch115TD Sr.12 NetPaybleRefble (rule 762) */
+    put(j,"PartB_TTI.TaxPaid.TaxPayable115TD",Math.max(0,net12-refund));    /* 14 L102 = MAX(0, 13 - 12) (rule 816) */
+    put(j,"PartB_TTI.TaxPaid.NetRefundAdjust",Math.max(0,refund-net12));    /* 15 L103 = MAX(0, 12 - 13) (rule 839) */
+  }
 
   /* ---- refund bank accounts + the foreign-asset flag ---- */
   put(j,"PartB_TTI.Refund.BankAccountDtls.BankDtlsFlag",(S.tax.bankFlag==="N")?"N":"Y");

@@ -509,7 +509,7 @@ function secOs(){
       {k:"itemno",h:"Section of I.T. Act",t:"sel",opts:OS_DTAA_ITEM,req:1},
       {k:"cname",h:"Country name",t:"txt",max:50,req:1},
       {k:"cc",h:"Country code (excl. India)",t:"sel",opts:OS_CC,req:1},
-      {k:"article",h:"Article of DTAA",t:"txt",max:20,req:1},
+      {k:"article",h:"Article of DTAA",t:"txt",max:16,req:1},
       {k:"treaty",h:"Rate as per Treaty (NIL if not chargeable)",t:"txt",max:10,req:1},
       {k:"trc",h:"TRC obtained",t:"sel",opts:OS_TRC},
       {k:"itact",h:"Rate as per I.T. Act",t:"txt",max:10,req:1},
@@ -651,7 +651,7 @@ function expOs(j){
       NatureOfIncome: st0(r.nature)||"1ai",
       CountryName: (sv(r.cname)||"NA").slice(0,50),
       CountryCodeExcludingIndia: st0(r.cc)||"9999",
-      DTAAarticle: (sv(r.article)||"NA").slice(0,20),
+      DTAAarticle: (sv(r.article)||"NA").slice(0,16),
       RateAsPerTreaty: R(r.treaty),
       ItemNoincl: st0(r.itemno)||"56i",
       RateAsPerITAct: R(r.itact)

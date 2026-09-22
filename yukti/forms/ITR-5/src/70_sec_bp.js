@@ -172,7 +172,7 @@ function bpBlock(b,rate,opts){
   const fullOnly = !!opts.fullOnly;                 /* Rate45 */
   const blocked  = opts.blocked && isNew();         /* Rate45 no depreciation in new regime */
   const wdv = N(b.WDVFirstDay);                                 /* 3a */
-  const adj = bar115BAC()?0:N(b.AdjustmentSec115BAC);          /* 3b — old regime, non-firm/LLP/co-op only (rule 282) */
+  const adj = (opts.adj===false||bar115BAC())?0:N(b.AdjustmentSec115BAC);  /* 3b — DPM-only (opts.adj:false for DOA, DPM_DOA.md:118); old regime, non-firm/LLP/co-op only (rule 282) */
   const tot3 = wdv + adj;                                       /* [F9] Total (3a+3b) = WDVFirstDay+Adjustment */
   const add180 = fullOnly?0:N(b.AdditionsGrThan180Days);       /* 4 (Rate45 has no additions leaf) */
   const realTot = N(b.RealizationTotalPeriod);                 /* 5 */
@@ -254,14 +254,14 @@ function engBp(){
   /* ---------- DOA (Land + Building 5/10/40 + Furniture + Intangible + Ships) ---------- */
   const landB=(S.doa&&S.doa.land)||{};
   const land={wdv:N(landB.WDVFirstDay),wdvLast:Math.max(0,N(landB.WDVFirstDay)),dep:0,cg50:0}; /* [F51] Nil rate */
-  const doa={
+  const doa={   /* DOA: adj:false — the 3b 115BAC adjustment is DPM-only (DPM_DOA.md:118; :92 has no 3b term) */
     land:land,
-    b5:bpBlock(S.doa&&S.doa.b5,5,{addl:false}),
-    b10:bpBlock(S.doa&&S.doa.b10,10,{addl:false}),
-    b40:bpBlock(S.doa&&S.doa.b40,40,{addl:false}),
-    furn:bpBlock(S.doa&&S.doa.furn,10,{addl:false}),
-    intang:bpBlock(S.doa&&S.doa.intang,25,{addl:false}),
-    ships:bpBlock(S.doa&&S.doa.ships,20,{addl:false})
+    b5:bpBlock(S.doa&&S.doa.b5,5,{addl:false,adj:false}),
+    b10:bpBlock(S.doa&&S.doa.b10,10,{addl:false,adj:false}),
+    b40:bpBlock(S.doa&&S.doa.b40,40,{addl:false,adj:false}),
+    furn:bpBlock(S.doa&&S.doa.furn,10,{addl:false,adj:false}),
+    intang:bpBlock(S.doa&&S.doa.intang,25,{addl:false,adj:false}),
+    ships:bpBlock(S.doa&&S.doa.ships,20,{addl:false,adj:false})
   };
   S.C.doa=doa;
 
@@ -297,12 +297,18 @@ function engBp(){
   const _5c  = R(nb("divExempt")+othExemptTot);               /* A5c total (I49) OthExempInc */
   const _5d  = R(nb("a5a")+nb("a5b")+_5c);                    /* A5d (I51) = 5a+5b+5c */
   const _5A  = R(nb("a5A"));                                   /* A5A */
+  /* A3f (I16) = MAX(0, Schedule-VDA business-head total) — auto-populated (BP.md:195),
+     NOT a free input; read from Schedule VDA (CG section) via S.C.cg.vda.bi.
+     Forward dependency (bp corder 25 reads cg corder 26): the wiring fixpoint loop resolves it. */
+  const _a3f = Math.max(0, R(N(((S.C.cg||{}).vda||{}).bi)));
   /* A6 (K53) = 1 - 2a - 2b - 3a - 3b - 3c - 3d - 3e - 3f - 4a - 4b - 4c - 5d - 5A */
-  const _6   = R(K5 - _2a - _2b - nb("a3a") - nb("a3b") - a3c - nb("a3d") - nb("a3e") - nb("a3f")
+  const _6   = R(K5 - _2a - _2b - nb("a3a") - nb("a3b") - a3c - nb("a3d") - nb("a3e") - _a3f
                    - _4a - nb("pl44b") - _4c - _5d - _5A);
   const _9   = R(nb("e7a")+nb("e7b")+nb("e7c")+nb("e7d")+nb("e7e")+nb("e7f")+nb("e8a")+nb("e8b")); /* A9 (I63) */
   const _10  = R(_6+_9);                                       /* A10 (K64) = 6+9 */
-  const _11  = R(nb("depDebPL"));                              /* A11 (K65) */
+  /* A11 (K65) = MAX(0, P&L sl.53 DepreciationAmort + Mfg 1E(vi) DeprctnOfFactoryMachinery) — computed
+     (BP.md:79 / rule 239-240), NOT a free input; read from PL section S.C.pl.depreciationPL/factoryDepreciation */
+  const _11  = Math.max(0, R(N((S.C.pl||{}).depreciationPL)+N((S.C.pl||{}).factoryDepreciation)));
   const _12i = R(dep.total>0?dep.total:0);                    /* A12i (I67) = IF(DEP J18>0, J18, 0) */
   const _12ii= R(nb("dep32_1_i"));                            /* A12ii */
   const _12iii=R(_12i+_12ii);                                 /* A12iii (K69) = 12i+12ii */
@@ -354,7 +360,7 @@ function engBp(){
 
   S.C.bp = {
     on:true,
-    a:{K5,_2a,_2b,a3c,_4a,_4c,_5c,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
+    a:{K5,_2a,_2b,a3c,a3f:_a3f,_4a,_4c,_5c,_5d,_5A,_6,_9,_10,_11,_12i,_12ii,_12iii,_13,
        _20,_21,e24e,_24,_25,_26,_27,_28,_32,_33,_34,_35,_36,_37f,A37,_38},
     b:{_39,B42},
     c:{_43,_46,_47,C48},
@@ -365,7 +371,7 @@ function engBp(){
     curDep:dep.total,       /* current-year depreciation allowable (Sch DEP 6) */
     dcg:dcg.total,          /* deemed capital gains u/s 50 (Sch DCG 6 -> Sch CG) */
     ded35AD:_47,            /* 35AD(1) deduction claimed (-> AMT add-back) */
-    a3d:R(nb("a3d")), a3e:R(nb("a3e")), a3f:R(nb("a3f"))  /* A3d/e/f 115BBF/BBG/BBH income credited to P&L (-> Schedule SI) */
+    a3d:R(nb("a3d")), a3e:R(nb("a3e")), a3f:_a3f  /* A3d/e (115BBF/BBG free inputs); a3f (115BBH) = MAX(0,VDA business-head total) — read by tax.js Part B-TI 2(iv) */
   };
 }
 
@@ -398,7 +404,7 @@ function secBp(){
   h+=rBP("A3c  Other Sources (3ci + 3cii)",cell(A.a3c),"A3c",{ind:1});
   h+=rBP("A3d  u/s 115BBF",inpN("bp.a3d"),"A3d",{ind:1});
   h+=rBP("A3e  u/s 115BBG",inpN("bp.a3e"),"A3e",{ind:1});
-  h+=rBP("A3f  u/s 115BBH (net of cost of acquisition)",inpN("bp.a3f"),"A3f",{ind:1});
+  h+=rBP("A3f  u/s 115BBH (net of cost of acquisition) — item A of Schedule VDA",cell(A.a3f),"A3f",{ind:1});
   h+=sub("A4a — Profit incl. in 1 referred to 44AD/ADA/AE/B/BB/BBA/BBC/BBD/DA / First Schedule");
   [["p44AD","44AD (Resident firm)"],["p44ADA","44ADA (Resident firm)"],["p44AE","44AE"],
    ["p44B","44B (NRI)"],["p44BB","44BB (NRI)"],["p44BBA","44BBA (NRI)"],["p44BBC","44BBC (NRI)"],
@@ -427,7 +433,7 @@ function secBp(){
      h+=rBP(x[1],inpN("bp."+x[0]),"",{ind:1}));
   h+=rBP("A9  Total (7a…7f + 8a + 8b)",cell(A._9),"A9");
   h+=rBP("A10  Adjusted profit or loss (6 + 9)",cell(A._10),"A10");
-  h+=rBP("A11  Depreciation & amortization debited to P&L",inpN("bp.depDebPL"),"A11");
+  h+=rBP("A11  Depreciation & amortization debited to P&L (item 53 of P&L + 1E(vi) of Manufacturing A/c)",cell(A._11),"A11");
   h+=rBP("A12i  Depreciation allowable u/s 32(1)(ii) & (iia) — item 6 of Schedule DEP",cell(A._12i),"A12i");
   h+=rBP("A12ii  Depreciation allowable u/s 32(1)(i) (Appendix-IA)",inpN("bp.dep32_1_i"),"A12ii");
   h+=rBP("A12iii  Total (12i + 12ii)",cell(A._12iii),"A12iii");
@@ -522,7 +528,7 @@ function blockCol(base,blk,opts){
   const full=!opts.fullOnly;
   let h='';
   h+='<tr><td class="l">3a WDV on first day</td>'+iN("WDVFirstDay")+'</tr>';
-  if(!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* rule 282: not for firm/LLP/co-op or new regime */
+  if(opts.adj!==false&&!bar115BAC())h+='<tr><td class="l">3b Adjustment 2nd proviso s.115BAC (Rule 5)</td>'+iN("AdjustmentSec115BAC")+'</tr>';  /* DPM-only (opts.adj:false hides it for DOA); rule 282: not for firm/LLP/co-op or new regime */
   if(opts.total!==false)h+='<tr><td class="l">3 Total (3a+3b)</td>'+c(blk.tot3)+'</tr>';
   if(full)h+='<tr><td class="l">4 Additions ≥180 days</td>'+iN("AdditionsGrThan180Days")+'</tr>';
   h+='<tr><td class="l">5 Realization out of 3 or 4</td>'+iN("RealizationTotalPeriod")+'</tr>';
@@ -570,12 +576,12 @@ function depFold(){
   inner+='<div class="full"><table class="gt" style="min-width:420px"><thead><tr><th class="l">Land (Nil rate)</th><th style="width:200px">Amount</th></tr></thead><tbody>'+
     '<tr><td class="l">3 WDV on first day</td><td>'+inp("doa.land.WDVFirstDay",{n:1})+'</td></tr>'+
     '<tr><td class="l">WDV on last day</td><td class="num">'+cell((O.land||{}).wdvLast)+'</td></tr></tbody></table></div>';
-  inner+=oneBlockTable("Building @ 5%","doa.b5",O.b5||{},{addl:false,total:false});
-  inner+=oneBlockTable("Building @ 10%","doa.b10",O.b10||{},{addl:false,total:false});
-  inner+=oneBlockTable("Building @ 40%","doa.b40",O.b40||{},{addl:false,total:false});
-  inner+=oneBlockTable("Furniture & Fittings @ 10%","doa.furn",O.furn||{},{addl:false,total:false});
-  inner+=oneBlockTable("Intangible assets @ 25%","doa.intang",O.intang||{},{addl:false,total:false});
-  inner+=oneBlockTable("Ships @ 20%","doa.ships",O.ships||{},{addl:false,total:false});
+  inner+=oneBlockTable("Building @ 5%","doa.b5",O.b5||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Building @ 10%","doa.b10",O.b10||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Building @ 40%","doa.b40",O.b40||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Furniture & Fittings @ 10%","doa.furn",O.furn||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Intangible assets @ 25%","doa.intang",O.intang||{},{addl:false,total:false,adj:false});
+  inner+=oneBlockTable("Ships @ 20%","doa.ships",O.ships||{},{addl:false,total:false,adj:false});
   /* DEP summary */
   inner+=sub("Schedule DEP — Summary of depreciation (computed)");
   inner+=summaryTable([["1a P&M @15%",dep.pm15],["1b P&M @30%",dep.pm30],["1c P&M @40%",dep.pm40],
@@ -663,7 +669,7 @@ function expBp(j){
   put(j,P+"IncRecCredPLOthHeadDtls.OtherThanDividend",n0(B.a3cii));
   put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBF",n0(B.a3d));
   put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBG",n0(B.a3e));
-  if(n0(B.a3f))put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBH",n0(B.a3f));  /* optional */
+  if(n0(A.a3f))put(j,P+"IncRecCredPLOthHeadDtls.UnderSec115BBH",n0(A.a3f));  /* optional; A3f computed = MAX(0,VDA business-head total) */
   const IR="ProfitLossInclRefrdSec.";
   put(j,P+IR+"ProfitLossUs44AD",sg(B.p44AD)); put(j,P+IR+"ProfitLossUs44ADA",sg(B.p44ADA));
   put(j,P+IR+"ProfitLossUs44AE",sg(B.p44AE)); put(j,P+IR+"ProfitLossUs44B",sg(B.p44B));
@@ -697,7 +703,7 @@ function expBp(j){
   put(j,P+"ExpDebToPLExemptIncDisAllwUs14A",n0(B.e8b));
   put(j,P+"TotExpDebPL",n0(A._9));
   put(j,P+"AdjustedPLOthThanSpecBus",sg(A._10));
-  put(j,P+"DepreciationDebPLCosAct",n0(B.depDebPL));
+  put(j,P+"DepreciationDebPLCosAct",n0(A._11));   /* A11 computed = MAX(0, P&L 53 + Mfg 1E(vi)) */
   put(j,P+"DepreciationAllowITAct32.DepreciationAllowUs32_1_ii",n0(A._12i));
   put(j,P+"DepreciationAllowITAct32.DepreciationAllowUs32_1_i",n0(B.dep32_1_i));
   put(j,P+"DepreciationAllowITAct32.TotDeprAllowITAct",n0(A._12iii));
@@ -826,10 +832,18 @@ function expBp(j){
     put(j,D2+"CapGainUs50",sg(blk.cg50));
     put(j,D2+"WDVLastDay",n0(blk.wdvLast));
   }
-  putDPM("ScheduleDPM.PlantMachinery.Rate15",(S.dpm||{}).r15,dpm.r15||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate30",(S.dpm||{}).r30,dpm.r30||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate40",(S.dpm||{}).r40,dpm.r40||{},{});
-  putDPM("ScheduleDPM.PlantMachinery.Rate45",(S.dpm||{}).r45,dpm.r45||{},{fullOnly:true});  /* reduced leaf set */
+  /* emit ScheduleDPM only when a rate block has content (optional at root; PlantMachinery required
+     inside it, so all four rates emit together) — matches the DOA/DEP/ESR/ICDS sibling gating */
+  const dpmHas=["r15","r30","r40","r45"].some(k=>{
+    const blk=dpm[k]||{};
+    return anyDOA((S.dpm||{})[k])||N(blk.totDep)||N(blk.wdvLast)||sg(blk.cg50);
+  });
+  if(dpmHas){
+    putDPM("ScheduleDPM.PlantMachinery.Rate15",(S.dpm||{}).r15,dpm.r15||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate30",(S.dpm||{}).r30,dpm.r30||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate40",(S.dpm||{}).r40,dpm.r40||{},{});
+    putDPM("ScheduleDPM.PlantMachinery.Rate45",(S.dpm||{}).r45,dpm.r45||{},{fullOnly:true});  /* reduced leaf set */
+  }
 
   /* ---- ScheduleDOA (per-asset; optional at root, emit only assets with data) ---- */
   const doa=S.C.doa||{};

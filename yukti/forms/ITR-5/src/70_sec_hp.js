@@ -258,7 +258,7 @@ function hpBlock(p, i, ordinal){
   b += grid(pre.slice(0,-1)+".loans",[
       {k:"from",h:"Loan taken from",t:"sel",w:"160px",req:1,opts:HP_LOANFROM},
       {k:"name",h:"Name of the bank / institution / person",t:"txt",w:"auto",req:1,max:125},
-      {k:"acno",h:"Loan Account number",t:"txt",w:"170px",req:1,max:25},
+      {k:"acno",h:"Loan Account number",t:"txt",w:"170px",req:1,max:20},
       {k:"dt",h:"Date of sanction of loan",t:"date",w:"140px",req:1},
       {k:"amt",h:"Total amount of loan",t:"num",w:"150px",req:1},
       {k:"os",h:"Loan outstanding on 31-03-2026",t:"num",w:"170px",req:1},
@@ -347,7 +347,7 @@ function expHp(j){
         Section24BDtls: ln.map(l=>({
           LoanTknFrom:l.from==="I"?"I":"B",
           BankOrInstnName:(sv(l.name)||"NA").slice(0,125),
-          LoanAccNoOfBankOrInstnRefNo:(sv(l.acno)||"NA").slice(0,25),
+          LoanAccNoOfBankOrInstnRefNo:(sv(l.acno)||"NA").slice(0,20),
           DateofLoan:ISO(l.dt)||"2025-04-01",
           TotalLoanAmt:n0(l.amt),
           LoanOutstndngAmt:n0(l.os),

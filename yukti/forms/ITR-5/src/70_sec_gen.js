@@ -43,7 +43,7 @@ const GEN_STATUS=[["1","Firm"],["2","Local Authority"],["14","AOP/BOI"],["9","Ar
 const GEN_SUBSTATUS={
  "1":[["1-Partnership Firm","1-Partnership Firm"],["2-LLP (Limited Liability Partnership)","2-LLP (Limited Liability Partnership)"]],
  "2":[["1-Local Authority","1-Local Authority"]],
- "14":[["1a-Primary Agricultural Credit Society","1a-Primary Agricultural Credit Society"],["1b-Primary Co-operative Agricultural and Rural Development bank","1b-Primary Co-operative Agricultural and Rural Development bank"],["1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank","1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank"],["2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ","2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State "],["3-Other Cooperative Society","3-Other Cooperative Society"],["4-Business Trust","4-Business Trust"],["5-Investment Fund","5-Investment Fund"],["6-Trust other than trust eligible to file return in ITR-7","6-Trust other than trust eligible to file return in ITR-7"],["7-Any other AOP/BOI","7-Any other AOP/BOI"]],
+ "14":[["1a-Primary Agricultural Credit Society","1a-Primary Agricultural Credit Society"],["1b-Primary Co-operative Agricultural and Rural Development bank","1b-Primary Co-operative Agricultural and Rural Development bank"],["1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank","1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank"],["2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State","2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State"],["3-Other Cooperative Society","3-Other Cooperative Society"],["4-Business Trust","4-Business Trust"],["5-Investment Fund","5-Investment Fund"],["6-Trust other than trust eligible to file return in ITR-7","6-Trust other than trust eligible to file return in ITR-7"],["7-Any other AOP/BOI","7-Any other AOP/BOI"]],
  "9":[["1-Estate of the deceased","1-Estate of the deceased"],["2-Estate of the insolvent","2-Estate of the insolvent"],["3-Other AJP","3-Other AJP"]]
 };
 /* OrgFirmInfo.SubStatus is a schema CODE (pattern 4|5|8|10|…|21), while the
@@ -56,7 +56,7 @@ const GEN_SUBSTATUS_CODE={
  "1a-Primary Agricultural Credit Society":"15",
  "1b-Primary Co-operative Agricultural and Rural Development bank":"16",
  "1c-Co-operative Bank other than a primary agricultural credit society or a primary co-operative agricultural and rural development bank":"17",
- "2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State ":"11",
+ "2-Society Registered under Societies Registration Act-1860 or any law corresponding to that State":"11",
  "3-Other Cooperative Society":"4", "4-Business Trust":"20", "5-Investment Fund":"21",
  "6-Trust other than trust eligible to file return in ITR-7":"13", "7-Any other AOP/BOI":"8",
  "1-Estate of the deceased":"12", "2-Estate of the insolvent":"18", "3-Other AJP":"19"};
@@ -92,13 +92,14 @@ const GEN_BYN=[["YES","Yes"],["NO","No"]];                               /* Part
 S.pi=S.pi||{};
 if(S.pi.status===undefined)   S.pi.status="1";      /* OrgFirmInfo.StatusOrCompanyType */
 if(S.pi.country===undefined)  S.pi.country="91";    /* Address.CountryCode (91 = India) */
+if(S.pi.mobileCc===undefined) S.pi.mobileCc="91";   /* Address.CountryCodeMobile (91 = India; NRI firm may use another) */
 if(S.pi.countryb===undefined) S.pi.countryb="91";   /* AlternateAddress.CountryCode */
 if(S.pi.addr2same===undefined)S.pi.addr2same="Y";   /* OrgFirmInfo.SecondaryAdd */
 if(!Array.isArray(S.pi.firms))S.pi.firms=[];        /* PartnerInFirm.PartnerInFirmDtls[] */
 if(!Array.isArray(S.pi.unlco))S.pi.unlco=[];        /* HeldUnlistedEqShrPrYr…Dtls[] */
 S.fs=S.fs||{};
 if(S.fs.sec===undefined)      S.fs.sec=11;          /* ReturnFileSec.IncomeTaxSec */
-if(S.fs.optout===undefined)   S.fs.optout="No";     /* OptOldRegimeCurrAY master switch (Yes=old) */
+if(S.fs.optout===undefined||S.fs.optout==="No") S.fs.optout="Yes"; /* RE-7(a): OptOldRegimeCurrAY master switch (Yes=old). A fresh return must START in the OLD/default regime — 10_state.js scaffolds "No" (=>115BAC), corrected here to "Yes". An import overrides via impGen (OptOldRegimeCurrAY, always emitted) and an eligible entity elects the new regime through the entity-gated switch below. */
 if(S.fs.incBP===undefined)    S.fs.incBP="Y";       /* IncFrmBusOrProf (d(i)) */
 if(S.fs.busTrust===undefined) S.fs.busTrust="N";    /* BusinessTrustFlag */
 if(S.fs.invFund===undefined)  S.fs.invFund="N";     /* InvstmntFundRefrdSec115UB */
@@ -162,6 +163,13 @@ function engGen(){
 function secGen(){
   const st=S.pi.status||"1", india=(S.pi.country||"91")==="91", indiab=(S.pi.countryb||"91")==="91";
   const nri=(S.fs.resStatus==="NRI"), old=(S.fs.optout==="Yes"), sec=+S.fs.sec;
+  /* RE-7(b): entity-gate the concessional-regime switch. Sub-status first char:
+     co-op society = 1a/1b/1c/3 (taxStatus() definition). 115BAC applies to a
+     non-co-op AOP/BOI (status 14) or AJP (status 9); co-ops elect 115BAD/115BAE;
+     firms/LLPs (1) and local authorities (2) have no concessional regime. */
+  const subC=st0(S.pi.substatus).charAt(0);
+  const isCoop=(st==="14"&&(subC==="1"||subC==="3"));
+  const canBAC=((st==="14"&&!isCoop)||st==="9");
   let h="";
 
   /* ===== PANEL 1 — PERSONAL INFORMATION (OrgFirmInfo, rows 7-24) ===== */
@@ -169,7 +177,7 @@ function secGen(){
   h+=row("Name (firm / organisation)",inp("pi.name",{max:125}),{req:1,ref:"E7 · SurNameOrOrgName"});
   h+=row("Is there any change in the name? If yes, the old name",inp("pi.oldName",{max:125}),{ref:"O7 · OrgOldName"});
   h+=row("PAN",inp("pi.pan",{max:10}),{req:1,ref:"W7 · PAN",hint:"ten characters; the fourth letter is F for a firm"});
-  h+=row("LLPIN issued by MCA",inp("pi.llpin",{max:20}),{ref:"LLPINissuedByMCA",hint:"limited-liability partnerships only"});
+  h+=row("LLPIN issued by MCA",inp("pi.llpin",{max:8}),{ref:"LLPINissuedByMCA",hint:"limited-liability partnerships only; eight characters [A-Z0-9-]"});
   h+=row("Status",sel("pi.status",GEN_STATUS,{blank:false}),{req:1,ref:"W12 · StatusOrCompanyType"});
   h+=row("Sub-status",sel("pi.substatus",GEN_SUBSTATUS[st]||[]),{req:1,ref:"AH12 · SubStatus",hint:st==="1"?"a firm must be Partnership Firm or LLP (rules A14 / A29)":""});
   h+=row("Date of formation (DD/MM/YYYY)",dte("pi.formed"),{req:1,ref:"W13 · DateOFFormOrIncorp",hint:"on or before 31 March 2026"});
@@ -211,7 +219,7 @@ function secGen(){
   h+=sub("Details for communication");
   h+=row("STD / area code",inp("pi.std",{n:1,max:5}),{ref:"Phone.STDcode"});
   h+=row("Landline / phone number",inp("pi.phone",{n:1,max:12}),{ref:"Phone.PhoneNo"});
-  h+=row("Primary mobile of the taxpayer",inp("pi.mobile",{n:1,max:10}),{req:1,ref:"T24 · MobileNo",hint:"ten digits, country code 91"});
+  h+=row("Primary mobile of the taxpayer",inp("pi.mobileCc",{n:1,max:5,ph:"Code"})+' '+inp("pi.mobile",{n:1,max:10,ph:"Mobile"}),{req:1,ref:"T24 · MobileNo (CountryCodeMobile)",hint:"country code (91 for India, other codes for an NRI firm) + number"});
   h+=row("Secondary mobile",inp("pi.mobile2Cc",{n:1,max:5,ph:"Code"})+' '+inp("pi.mobile2",{n:1,max:10,ph:"Mobile"}),{ref:"MobileNoSec"});
   h+=row("Primary email of the taxpayer",inp("pi.email",{max:125,ph:"name@example.in"}),{req:1,ref:"E24 · EmailAddress",hint:"receives the copy of ITR-V"});
   h+=row("Secondary email",inp("pi.email2",{max:125}),{ref:"H24 · EmailAddressSecondary"});
@@ -236,6 +244,7 @@ function secGen(){
   /* ---- Tax regime — old-regime opt-out via Form 10-IEA (II / d(i) / I(A)) ---- */
   h+=fold("gen_regime","Regime","Tax regime — old / new option (Form 10-IEA · 115BAD · 115BAE)",
     (old?"Old regime":"New regime"),(function(){let g="";
+    if(canBAC){                                              /* 115BAC(6) opt-out — non-co-op AOP/BOI or AJP only */
     g+=row("Do you wish to opt for old tax regime for the current AY?",sel("fs.optout",[["Yes","Yes"],["No","No"]],{blank:false}),{req:1,ref:"F51 (II) · OptOldRegimeCurrAY (A51/A59/A60)"});
     if(old){
       g+=row("Have you furnished Form 10-IEA within due date for current AY (choosing old regime)?",sel("fs.f10ieaCurrOld",GEN_YN,{blank:false}),{ref:"G48 (B) · F10IEACurrAYOldRegime"});
@@ -260,6 +269,8 @@ function secGen(){
       g+=row("Date of filing of Form 10-IEA for AY 2026-27 (re-entry)",dte("fs.f10ieaDateNew"),{ref:"H46 · F10IEADateCurrAYNewTax"});
       g+=row("Acknowledgement number of Form 10-IEA",inp("fs.f10ieaAckNew",{n:1,max:15}),{ref:"H47 · F10IEAAckNoCurrAYNewTax"});
     }
+    }                                                        /* /canBAC */
+    if(isCoop){                                              /* 115BAD / 115BAE — co-operative society only */
     /* ---- 115BAD — co-operative society new regime (d(ii)/d(iii)) ---- */
     g+=sub("Section 115BAD — co-operative society");
     g+=row("Have you opted for new tax regime u/s 115BAD?",sel("fs.newTaxRegime",GEN_YN),{ref:"F76 (d(ii)) · ReturnFileSec.NewTaxRegime"});
@@ -286,6 +297,9 @@ function secGen(){
       g+=row("Date of filing of Form 10-IFA (DD/MM/YYYY)",dte("fs.form10IFADate"),{ref:"F93/F97 · Form10IFADate"});
       g+=row("Acknowledgement number of Form 10-IFA",inp("fs.form10IFAAck",{n:1,max:15}),{ref:"F94/F98 · Form10IFAAckNo"});
     }
+    }                                                        /* /isCoop */
+    if(!canBAC&&!isCoop)                                     /* firm / LLP / local authority — no concessional regime */
+      g+=note("A firm / LLP or local authority has no concessional tax regime (section 115BAC / 115BAD / 115BAE do not apply); the return is taxed at the applicable flat rate.");
     return g;})(),{def:false});
 
   /* ---- Eligibility / recognition flags (rows 100-108) ---- */
@@ -367,10 +381,10 @@ function secGen(){
   if(S.aud.sec44AB==="Y"){
     h+=row("Condition by which liable to audit u/s 44AB",sel("aud.cnd44AB",GEN_CND44AB),{req:1,ref:"F145 · Cndnfor44AB (A42)"});
     if(S.aud.cnd44AB==="bii"){
-      h+=row("Turnover u/s 44AD",inp("aud.bii44AD",{max:30}),{ref:"BiiDetails.44AD",ind:1});
-      h+=row("Turnover u/s 44ADA",inp("aud.bii44ADA",{max:30}),{ref:"BiiDetails.44ADA",ind:1});
-      h+=row("Turnover u/s 44AE",inp("aud.bii44AE",{max:30}),{ref:"BiiDetails.44AE",ind:1});
-      h+=row("Turnover u/s 44BB",inp("aud.bii44BB",{max:30}),{ref:"BiiDetails.44BB",ind:1});
+      h+=row("Assessee falling u/s 44AD?",sel("aud.bii44AD",GEN_YN),{ref:"BiiDetails.44AD",ind:1});
+      h+=row("Assessee falling u/s 44ADA?",sel("aud.bii44ADA",GEN_YN),{ref:"BiiDetails.44ADA",ind:1});
+      h+=row("Assessee falling u/s 44AE?",sel("aud.bii44AE",GEN_YN),{ref:"BiiDetails.44AE",ind:1});
+      h+=row("Assessee falling u/s 44BB?",sel("aud.bii44BB",GEN_YN),{ref:"BiiDetails.44BB",ind:1});
     }
     h+=row("Have the accounts been audited by an accountant?",sel("aud.acctFlg",GEN_YN,{blank:false}),{ref:"F149 (c) · AuditedByAccountantFlg"});
     if(S.aud.acctFlg==="Y"){
@@ -493,7 +507,7 @@ function expGen(j){
     put(j,"PartA_GEN1.OrgFirmInfo.Address.Phone.STDcode",R(S.pi.std));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.Phone.PhoneNo",R(S.pi.phone));
   }
-  if(st0(S.pi.mobile)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobile",91);
+  if(st0(S.pi.mobile)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobile",R(S.pi.mobileCc||91));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.MobileNo",R(S.pi.mobile));}
   if(st0(S.pi.mobile2)){put(j,"PartA_GEN1.OrgFirmInfo.Address.CountryCodeMobileNoSec",R(S.pi.mobile2Cc||91));
     put(j,"PartA_GEN1.OrgFirmInfo.Address.MobileNoSec",R(S.pi.mobile2));}
@@ -677,6 +691,7 @@ function impGen(I5){
     if(AD.CountryCode!=null)S.pi.country=AD.CountryCode;if(AD.PinCode!=null)S.pi.pin=String(AD.PinCode);
     if(AD.ZipCode!=null)S.pi.zip=AD.ZipCode;
     if(AD.Phone){if(AD.Phone.STDcode!=null)S.pi.std=String(AD.Phone.STDcode);if(AD.Phone.PhoneNo!=null)S.pi.phone=String(AD.Phone.PhoneNo);}
+    if(AD.CountryCodeMobile!=null)S.pi.mobileCc=String(AD.CountryCodeMobile);
     if(AD.MobileNo!=null)S.pi.mobile=String(AD.MobileNo);
     if(AD.CountryCodeMobileNoSec!=null)S.pi.mobile2Cc=String(AD.CountryCodeMobileNoSec);
     if(AD.MobileNoSec!=null)S.pi.mobile2=String(AD.MobileNoSec);
@@ -856,6 +871,10 @@ function chkGen(){
   /* B ⇒ C > 0 (A33) and B/C vs foreign-company member share (W3) */
   if(M.bForeign==="YES"&&!(N(M.cPct)>0))
     out.push({lvl:"err",t:"Foreign-company share required",m:"When a member is a foreign company (B = Yes), the percentage of share (C) cannot be zero (rule A33).",sec:"gen"});
+  /* Questions B/C/D ride on the first partner/member row (PartnerOrMemberInfo[0]);
+     with an empty grid the answers are silently dropped on export (GEN-2). */
+  if((st0(M.bForeign)!==""||st0(M.dExceeds)!=="")&&!(S.pm.members||[]).length)
+    out.push({lvl:"err",t:"Partner / member row required",m:"Answers to questions B/C/D (foreign-company member, its share and members' income above the basic exemption) are recorded against the first partner/member row. Add at least one partner/member row so the answer is not lost.",sec:"gen"});
   /* Nature of business mandatory (A11) */
   if(!(S.nob||[]).length)
     out.push({lvl:"err",t:"Nature of business required",m:"Disclosure of the nature of business or profession is mandatory (rule A11).",sec:"gen"});

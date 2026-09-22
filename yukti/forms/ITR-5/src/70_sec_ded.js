@@ -194,7 +194,7 @@ function engDed(){
   const stat=st0((S.pi||{}).status)||"1";
   const sub=st0((S.pi||{}).substatus);
   const isLLP=stat==="1"&&/LLP/i.test(sub);
-  const isCoop=stat==="14"&&/^(1a|1b|1c|2|3)/.test(sub);   /* co-operative society sub-statuses */
+  const isCoop=stat==="14"&&/^(1a|1b|1c|3)/.test(sub);   /* co-operative society sub-statuses */
   const barred80ggc=(stat==="2"||stat==="9");        /* Local Authority / AJP (80GGC.md P7) */
   const fx=st0((S.fs||{}).foreignExch)==="Y";        /* IFSC convertible-forex (80LA(1A) gate) */
 
@@ -247,7 +247,7 @@ function engDed(){
   out.c80jjaa=Math.min(R(kv("c80jjaa")),gtiNet);     /* [K17] SURVIVES new regime; ≤ post-BFLA income */
   out.c80la1=conc?0:(fx?0:la1raw);                   /* [K18] needs forex="No"; closes in new regime */
   out.c80la1a=fx?la1araw:0;                           /* [K19] needs forex="Yes"; SURVIVES new regime */
-  out.c80p=p80.totalAmt;                              /* [K20] */
+  out.c80p=isCoop?p80.totalAmt:0;                     /* [K20] co-op only (A653/A631); zero otherwise */
   const partCraw=DED_PARTC.reduce((s,k)=>s+N(out[k]),0);
 
   /* ---- Part B col-K (80G qualifying limit consumes 80GGA+80GGC+Part-C) ---- */
@@ -473,7 +473,7 @@ function expDed(j){
       DoneePAN:(st0(r.pan)||"NA").toUpperCase(),DonationAmtCash:n0(r.cash),DonationAmtOtherMode:n0(r.other),
       DonationAmt:n0(N(r.amt)||N(r.cash)+N(r.other)),EligibleDonationAmt:n0((N(r.cash)>2000?0:N(r.cash))+N(r.other))})),
       TotalDonationAmtCash80GGA:n0(cash),TotalDonationAmtOtherMode80GGA:n0(oth),
-      TotalDonationsUs80GGA:n0(cash+oth),TotalEligibleDonationAmt80GGA:n0(O.c80gga)};}}
+      TotalDonationsUs80GGA:n0(cash+oth),TotalEligibleDonationAmt80GGA:rows.reduce((a,r)=>a+n0((N(r.cash)>2000?0:N(r.cash))+N(r.other)),0)};}}
 
   /* ---- Schedule80RA (35(1) research associations) ---- */
   {const rows=(S.ded.ra||[]).filter(r=>N(r.cash)||N(r.other));
@@ -487,14 +487,14 @@ function expDed(j){
 
   /* ---- Schedule80GGC ---- */
   {const rows=(S.ded.ggc||[]).filter(r=>N(r.cash)||N(r.other));
-   if(rows.length&&!conc){const cash=rows.reduce((a,r)=>a+N(r.cash),0),oth=rows.reduce((a,r)=>a+N(r.other),0);
+   if(rows.length&&!conc&&!V.barred80ggc){const cash=rows.reduce((a,r)=>a+N(r.cash),0),oth=rows.reduce((a,r)=>a+N(r.other),0);
     j.Schedule80GGC={Schedule80GGCDetails:rows.map(r=>{const o={DonationDate:ISO(r.dt)||"2025-04-01",
       DonationAmtCash:n0(r.cash),DonationAmtOtherMode:n0(r.other),DonationAmt:n0(N(r.cash)+N(r.other)),
       EligibleDonationAmt:n0(r.other)};                       /* cash never eligible */
       if(sv(r.name))o.PoliticalPartyName=sv(r.name).slice(0,125); if(st0(r.pan))o.PoliticalPartyPAN=st0(r.pan).toUpperCase();
       if(sv(r.ref))o.TransactionRefNum=sv(r.ref).slice(0,50); if(sv(r.ifsc))o.IFSCCode=st0(r.ifsc).toUpperCase().slice(0,11); return o;}),
       TotalDonationAmtCash80GGC:n0(cash),TotalDonationAmtOtherMode80GGC:n0(oth),
-      TotalDonationsUs80GGC:n0(cash+oth),TotalEligibleDonationAmt80GGC:n0(O.c80ggc)};}}
+      TotalDonationsUs80GGC:n0(cash+oth),TotalEligibleDonationAmt80GGC:rows.reduce((a,r)=>a+n0(r.other),0)};}}
 
   /* ---- Schedule80_IA / _IB / _IC — fixed clause objects (Sch80LocOrDescCode + up-to-2 amounts) ---- */
   const amtDtls=a=>{a=a||[];const arr=[];if(N(a[0])){arr.push({DeductAmountSec80:n0(a[0])});if(N(a[1]))arr.push({DeductAmountSec80:n0(a[1])});}
@@ -529,7 +529,7 @@ function expDed(j){
   /* ---- Schedule80P (flat matrix) ---- */
   {const P=S.ded.p||{}, pr=(V.p80||{rows:{}}).rows||{};
    const any=DED_80P.some(x=>N((P[x[0]]||{}).inc)||N((P[x[0]]||{}).amt));
-   if(any){const blk={};
+   if(any&&V.isCoop){const blk={};
      DED_80P.forEach((x,i)=>{const id=x[0],key=DED_80P_KEY[i],row=pr[id]||{inc:0,amt:0};
        if(N(row.inc)||N(row.amt)){blk[key+"Code"]=x[1];blk[key]=n0(row.inc);blk[key+"Amt"]=conc?0:n0(row.amt);}});
      blk.Sec80PTotal=n0(V.p80?V.p80.total:0); blk.Sec80PTotalAmt=n0(V.p80?V.p80.totalAmt:0);
@@ -539,7 +539,7 @@ function expDed(j){
   {const rows=(S.ded.aa||[]).filter(r=>N(r.amt));
    if(rows.length&&!conc){j.Schedule10AA={DeductSEZ:{DedUs10Detail:{
      Undertaking:{DedFromUndertakingWithAy:rows.map(r=>({AssmtYrUnit:DED_AAAY.some(a=>a[0]===st0(r.ay))?st0(r.ay):"2022-23",DedUs10Sub:n0(r.amt)}))},
-     TotalDedUs10Sub:n0(V.ded10AA)}}};}}
+     TotalDedUs10Sub:rows.reduce((s,r)=>s+n0(r.amt),0)}}};}}
 }
 
 /* ===================================================================
@@ -623,7 +623,7 @@ function chkDed(){
    if(has1&&V.fx)add("warn","80LA(1) needs IFSC forex = No","80LA(1) requires the IFSC-convertible-foreign-exchange answer to be No (rule 665).");}
   /* 80P eligibility */
   if(N(V.tot80IA||0)+N((V.p80||{}).totalAmt||0)&&Object.keys(S.ded.p||{}).length&&!V.isCoop&&N((V.p80||{}).totalAmt))
-    add("warn","80P is for co-operative societies","80P can be claimed only by a co-operative society (Primary Agricultural Credit Society / Primary Co-op Agri & Rural Dev bank / other co-op).");
+    add("err","80P is for co-operative societies","80P can be claimed only by a co-operative society (Primary Agricultural Credit Society / Primary Co-op Agri & Rural Dev bank / other co-op) (rule 653); the deduction is set to zero.");
   /* Chapter VI-A capped at GTI */
   if(V.clipped)add("warn","Deductions capped","The Chapter VI-A total is limited to the gross total income less income taxed at special rates.");
   /* a settled figure */

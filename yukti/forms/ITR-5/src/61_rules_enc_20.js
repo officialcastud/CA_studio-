@@ -110,10 +110,12 @@ ruleset(function(I,S_,A,Dd){
     A(835,REQ(g("ComputationOfTaxLiability.TaxPaidUnderCredit"),
       g("ComputationOfTaxLiability.GrossTaxPayable")-g("ComputationOfTaxLiability.CreditUS115JD")),
       "Part B-TTI: item 5 (tax payable after credit u/s 115JD) must equal item 3 − item 4.");
-    /* 836: 7 Net tax liability = 5 − 6c */
+    /* 836: 7 Net tax liability = MAX(0, 5 − 6c) — floored per book PARTB_TI_TTI.md:120 L82
+       (L82 = MAX(TaxPayAfterCreditUs115JD − TotTaxRelief, 0)); tax.js emits n0(net) so a loss
+       year with s.90/91 relief > tax exports 0, which strict equality would have false-fired. */
     A(836,REQ(g("ComputationOfTaxLiability.NetTaxLiability"),
-      g("ComputationOfTaxLiability.TaxPaidUnderCredit")-g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief")),
-      "Part B-TTI: item 7 (net tax liability) must equal item 5 − item 6c.");
+      Math.max(0,g("ComputationOfTaxLiability.TaxPaidUnderCredit")-g("ComputationOfTaxLiability.TaxRelief.TotTaxRelief"))),
+      "Part B-TTI: item 7 (net tax liability) must equal item 5 − item 6c (nil if negative).");
     /* 837/838: advance vs self-assessment split of Schedule IT by date of deposit.
        Advance = challans up to 31-03-2026; self-assessment = challans after 31-03-2026. */
     if(I.ScheduleIT){

@@ -25,7 +25,8 @@ ruleset(function(I,S_,A,Dd){
   const resident=(FS.ResidentialStatus!=="NRI");
   const opted115BAD=(RF.NewTaxRegime==="Y")||(st0(RF.OptingNewTaxRegime)==="1");
   const opted115BAE=(FS.OptingTaxation115BAEYes==="Y")||(FS.OptingTaxation115BAENo==="Y");
-  const mem=RG(G2,"PartnerOrMemberInfo",[])||[];
+  const AR=v=>Array.isArray(v)?v:[];             /* coerce a wrong-typed imported field to an array (cf. enc_08) so a batch read never throws */
+  const mem=AR(RG(G2,"PartnerOrMemberInfo",[]));
   const m0=mem[0]||{};
 
   /* 1 — liable to audit u/s 92E → Part A BS and P&L cannot be blank */
@@ -79,7 +80,7 @@ ruleset(function(I,S_,A,Dd){
   /* 20 — private discretionary trust with no business income (Table F Sl.2 = No) → PartB-TI 2v must be nil */
   A(20,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustBusIncFlg")!=="N"||N(RG(I,"PartB-TI.ProfBusGain.TotProfBusGain"))===0,"Part A-General: Sl.No. 2v of Part B-TI cannot be declared when Table F Sl.No. 2 (business income of the private discretionary trust) is 'No'.");
   /* 21 — Table F Sl.1 = Yes (determinate shares) → member shares must sum to 100 */
-  A(21,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustShareFlg")!=="Y"||Math.abs(RSUM(mem,"SharePercentage")-100)<=1,"Part A-General: Table F Sl.No. 1 is 'Yes' — the sum of 'Percentage of share (if determinate)' must be equal to 100.");
+  A(21,RG(G2,"PvtDiscretioneryTrust.PvtDiscTrustShareFlg")!=="Y"||Math.abs(RSUM(mem.filter(function(r){return r!=null;}),"SharePercentage")-100)<=1,"Part A-General: Table F Sl.No. 1 is 'Yes' — the sum of 'Percentage of share (if determinate)' must be equal to 100.");
   /* 22 — 'Opting it now' for the current-AY 115BAD option → Form 10-IF date and ack mandatory */
   A(22,st0(RF.OptingNewTaxRegime)!=="1"||(!!st0(RF.Form10IFDate)&&!!st0(RF.Form10IFAckNo)),"Part A-General: 'Opting it now' is selected for the current-AY option u/s 115BAD — the date of filing of Form 10-IF and its acknowledgement number are mandatory.");
   /* 23 — opted 115BAD in an earlier year → Form 10-IF date and ack mandatory */
@@ -140,16 +141,20 @@ ruleset(function(I,S_,A,Dd){
   A(42,G2.LiableSec44ABflg!=="Y"||st0(G2.Cndnfor44AB)!=="","Part A-General: the assessee is liable to audit u/s 44AB — select the condition by virtue of which the audit is applicable.");
   /* 43 — the applicable due date for filing the return must be selected */
   A(43,!has||!!st0(RG(FS,"ItrFilingDueDate","")),"Part A-General: select the applicable due date for filing the return of income.");
-  /* 44 — Form 10-IFA filed → opting the new tax regime u/s 115BAE is mandatory */
-  A(44,!st0(FS.Form10IFADate)||FS.OptingTaxation115BAEYes==="Y","Part A-General: Form 10-IFA is filed — opting for the new tax regime u/s 115BAE is mandatory.");
+  /* 44 — Form 10-IFA filed → opting the new tax regime u/s 115BAE is mandatory.
+     115BAE may be opted via d(iv)a (OptingTaxation115BAEYes) OR d(iv)b (OptingTaxation115BAENo);
+     use the both-branch helper (as serials 19/34/36/37/47 do) so a d(iv)b election is not blocked. */
+  A(44,!st0(FS.Form10IFADate)||opted115BAE,"Part A-General: Form 10-IFA is filed — opting for the new tax regime u/s 115BAE is mandatory.");
   /* 45 — a2ii 'More than 5%' → liable to audit u/s 44AB */
   A(45,G2.AgrOFAllAmtsRcvd!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2ii (receipts in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
   /* 46 — a2iii 'More than 5%' → liable to audit u/s 44AB */
   A(46,G2.AgrOFAllPayMade!=="MoreThan5Per"||G2.LiableSec44ABflg==="Y","Part A-General: Sl.No. a2iii (payments in cash) is 'More than 5%' — the assessee is liable to audit u/s 44AB.");
   /* 47 — 115BAE: date of incorporation AND date of commencement must be on/after 01/04/2023 */
   A(47,!opted115BAE||(inc>="2023-04-01"&&(!doc||doc>="2023-04-01")),"Part A-General: to claim section 115BAE the date of incorporation and the date of commencement of business must be on or after 01/04/2023.");
-  /* 48 — exercising 115BAE for AY 2026-27 at A19 div(b) → Form 10-IFA date and ack (A19 div(c)) mandatory */
-  A(48,FS.OptingTaxation115BAEYes!=="Y"||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: exercising the option u/s 115BAE for AY 2026-27 at A19 div(b) — the date of filing of Form 10-IFA and its acknowledgement number at A19 div(c) are mandatory.");
+  /* 48 — exercising 115BAE for AY 2026-27 at A19 div(b) → Form 10-IFA date and ack (A19 div(c)) mandatory.
+     The rule text is about div(b) (OptingTaxation115BAENo, "Do you wish to exercise..."), so guard that
+     branch — not div(a) OptingTaxation115BAEYes (which serial 34 already covers). */
+  A(48,FS.OptingTaxation115BAENo!=="Y"||(!!st0(FS.Form10IFADate)&&!!st0(FS.Form10IFAAckNo)),"Part A-General: exercising the option u/s 115BAE for AY 2026-27 at A19 div(b) — the date of filing of Form 10-IFA and its acknowledgement number at A19 div(c) are mandatory.");
   /* 49 — A19d(i)(I) = Yes (Form 10-IEA furnished, current AY, opting out) → its date (i) and ack (ii) mandatory */
   A(49,FS.F10IEACurrAYOldRegime!=="Y"||(!!st0(FS.F10IEADateCurrAYOldTax)&&!!st0(FS.F10IEAAckNoCurrAYOldTax)),"Part A-General: 'Yes' at A19d(i)(I) (Form 10-IEA furnished for the current AY) — the date of filing (i) and the acknowledgement number (ii) are mandatory.");
   /* 50 — Form 10-IEA filed (other branches) → the form's details must be given */

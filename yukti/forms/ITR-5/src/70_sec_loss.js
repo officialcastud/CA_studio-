@@ -100,6 +100,15 @@ const CFL_YEARS=[
    year (CFL [G30] MAX(0,G23-G26-MAX(0,G15-G26))); specified never lapses. */
 const CFL_OLDEST_8="2018-19", CFL_OLDEST_4="2022-23";
 
+/* Schedule CFL row xx ("loss distributed among unit-holders") applies only to
+   an investment fund (AOP/BOI sub-status "5-Investment Fund"). Every other
+   assessee leaves the row at nil. */
+const isAIF=()=>st0((S.pi||{}).substatus)==="5-Investment Fund";
+/* Schedule UD earlier-year AssYr choices — the CFL year horizon, newest first;
+   every value matches the schema pattern YYYY-YY (a plain <select>, so a free
+   entry can never break the pattern). */
+const UD_AY=CFL_YEARS.map(x=>x[0]).reverse();
+
 /* ---- engine --------------------------------------------------------- */
 /* Every cross-head figure is read defensively (never throw). The upstream
    S.C contract consumed here (guarded, default 0):
@@ -228,9 +237,12 @@ function engLoss(){
     horse:Math.max(0,-R(osHorseBal))};                              /* [W27] = ABS(MIN(0, os.BalanceOwnRaceHorse)) */
 
   /* ---- CFL xx · current-year loss distributed to unit-holders ------
-     Investment-fund only; nil for the ordinary assessee (S.loss.distr).   */
+     Investment-fund only (sub-status "5-Investment Fund"); nil for every other
+     assessee, so the row exports 0 without any input. Schema CurrYrDistrLoss
+     carries only the HP / STCG / LTCG / race-horse legs, so only those four
+     are collected, each capped at that head's current-year loss (row xix).   */
   const distr={hp:0,bus:0,spec:0,specified:0,st:0,lt:0,horse:0};
-  Object.keys(distr).forEach(k=>distr[k]=Math.min(N((S.loss.distr||{})[k]),cur[k]));
+  if(isAIF())["hp","st","lt","horse"].forEach(k=>distr[k]=Math.min(N((S.loss.distr||{})[k]),cur[k]));
   /* ---- CFL xxi · current-year losses to carry forward (xix − xx) --- */
   const curCF={};Object.keys(cur).forEach(k=>curCF[k]=Math.max(0,cur[k]-distr[k]));
 
@@ -349,8 +361,8 @@ function secLoss(){
   h+=row("2026-27 — depreciation balance carried to next year (col 5)",inp("loss.ud.curBal",{n:1}),{ref:"UD H7"});
   h+=row("2026-27 — allowance u/s 35(4) balance carried to next year (col 8)",inp("loss.ud.curAllowBal",{n:1}),{ref:"UD K7"});
   const udRows=(U.rows||[]).map((r,i)=>{const c=(UD.rows||[])[i]||{};return Object.assign({},r,{bal:c.bal,allowBal:c.allowBal});});
-  h+=grid("loss.ud.rows",[
-    {k:"ay",h:"Assessment year",t:"txt",w:"120px",req:1},
+  let udG=grid("loss.ud.rows",[
+    {k:"ay",h:"Assessment year",t:"sel",opts:UD_AY,w:"130px",req:1},
     {k:"bfUD",h:"B/f unabsorbed depreciation (3)",t:"num"},
     {k:"adj",h:"115BAD/115BAC adj (3a)",t:"num"},
     {k:"deprSO",h:"Depreciation set-off (4)",t:"num"},
@@ -360,6 +372,10 @@ function secLoss(){
     {k:"allowBal",h:"Balance c/f (8)",t:"calc"}],
     udRows,{min:"1180px",empty:"No earlier-year unabsorbed depreciation.",add:"Add an assessment year",
       foot:[{l:1,v:"Total"},{v:UD.totBF},{v:UD.totAdj},{v:UD.totSetoff},{v:UD.totBal},{v:UD.totBFAllow},{v:UD.totAllowSetoff},{v:UD.totAllowBal}]});
+  if((U.rows||[]).length>=9){                                          /* the utility allows only 9 earlier-year rows (UD sheet rows 8-16) */
+    udG=udG.replace(/<button class="add" data-add="loss\.ud\.rows">[\s\S]*<\/button>$/,'');
+    udG+=note("Schedule UD allows up to 9 earlier-year rows.","warn");}
+  h+=udG;
   if(!New)h+=note("Column 3a (amount adjusted on account of opting for 115BAD / 115BAC(1A)) must be nil unless the new regime is chosen — it is ignored here.","warn");
 
   /* ===== Schedule CFL ===== */
@@ -387,14 +403,24 @@ function secLoss(){
   const B=L.bf,U2=L.usedBF,C=L.cur,D2=L.distr,X2=L.curCF,X=L.cf;
   const frow=(sl,lbl,o)=>'<tr><td class="l">'+sl+'</td><td class="l" colspan="2">'+lbl+'</td>'+
      '<td>'+F(o.hp)+'</td><td></td><td></td><td>'+F(o.bus)+'</td><td>'+F(o.spec)+'</td><td>'+F(o.specified)+'</td><td>'+F(o.st)+'</td><td>'+F(o.lt)+'</td><td>'+F(o.horse)+'</td></tr>';
+  /* Row xx is an input row for an investment fund (the four schema legs
+     HP / STCG / LTCG / race-horse); every other assessee sees read-only nil,
+     and business / speculative / specified carry no schema leaf here. */
+  const aif=isAIF();
+  const dcell=k=>aif?'<td>'+inp("loss.distr."+k,{n:1})+'</td>':'<td class="num">'+cell(D2[k])+'</td>';
+  const drow='<tr><td class="l">xx</td><td class="l" colspan="2">Current-year loss distributed among unit-holders (investment fund only)</td>'+
+     dcell("hp")+'<td></td><td></td>'+
+     '<td class="num" '+closed+'></td><td class="num" '+closed+'></td><td class="num" '+closed+'></td>'+
+     dcell("st")+dcell("lt")+dcell("horse")+'</tr>';
   h+='</tbody><tfoot>'+
      frow("xvii","Total of earlier-year losses brought forward",B)+
      frow("xviii","Adjustment of the above in Schedule BFLA",U2)+
      frow("xix","2026-27 — current-year losses",C)+
-     frow("xx","Current-year loss distributed among unit-holders (investment fund only)",D2)+
+     drow+
      frow("xxi","Current-year losses to be carried forward (xix − xx)",X2)+
      frow("xxii","Total loss carried forward to future years",X)+
      '</tfoot></table></div>';
+  if(aif)h+=note("Investment fund: enter the current-year loss distributed to unit-holders (row xx) per head above. Each figure is capped at that head's current-year loss (row xix); the balance (xxi = xix − xx) is what the fund carries forward.");
   const lp=["hp","bus","spec","specified","st","lt","horse"].filter(k=>L.lapsed[k]>0);
   if(lp.length)h+=note("<b>Lapsed this year:</b> "+lp.map(k=>({hp:"house property",bus:"business",spec:"speculative",specified:"specified business",st:"short-term capital",lt:"long-term capital",horse:"race horse"})[k]+" "+RS(L.lapsed[k])).join(", ")+" — the loss at the end of its carry window that BFLA did not use.","warn");
   if(L.cf.total>0)h+=note("Total carried forward to next year: <b>"+RS(L.cf.total)+"</b>.");

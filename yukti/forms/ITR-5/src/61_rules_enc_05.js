@@ -12,12 +12,13 @@
    ===================================================================== */
 ruleset(function(I,S_,A,Dd){
   I=I||{};
+  const AR=v=>Array.isArray(v)?v:[];   /* coerce a wrong-typed imported field to an array (cf. enc_08) so a read never throws and aborts the rest of the batch */
 
   /* =============================================================
      SCHEDULE HP (201–208, and the 203 pass-through / 204 PAN cross-checks)
      ============================================================= */
   if(I.ScheduleHP){
-    const props=RG(I,"ScheduleHP.PropertyDetails",[])||[];
+    const props=AR(RG(I,"ScheduleHP.PropertyDetails",[]));
     const asseseePAN=String(RG(I,"PartA_GEN1.OrgFirmInfo.PAN","")||"").toUpperCase();
     props.forEach(function(p,idx){
       p=p||{}; const rd=p.Rentdetails||{}; const L="Schedule HP property "+(idx+1)+": ";
@@ -30,7 +31,7 @@ ruleset(function(I,S_,A,Dd){
       /* A205 — total interest u/s 24(b) = Σ per-loan interest, and equals 1(h) */
       const s24=RG(rd,"Section24B",null);
       if(s24&&typeof s24==="object")
-        A(205,REQ(s24.TotalInterestUs24B,RSUM(RG(s24,"Section24BDtls",[]),"InterestUs24B"))
+        A(205,REQ(s24.TotalInterestUs24B,RSUM(AR(RG(s24,"Section24BDtls",[])).filter(function(r){return r!=null;}),"InterestUs24B"))
               &&REQ(N(rd.IntOnBorwCap),N(s24.TotalInterestUs24B)),
           L+"the interest on borrowed capital u/s 24(b) must equal the sum of the per-loan interest rows (and 1h).");
       /* A206 — interest claimed at 1(h) needs the 24(b) detail rows */
@@ -38,19 +39,19 @@ ruleset(function(I,S_,A,Dd){
         L+"details of interest on borrowed capital u/s 24(b) are mandatory to claim the deduction at 1(h).");
       /* A207 — co-owned: other co-owner(s) share < 100% */
       if(p.PropCoOwnedFlg==="YES")
-        A(207,RSUM(RG(p,"CoOwners",[]),"PercentShareProperty")<100,
+        A(207,RSUM(AR(RG(p,"CoOwners",[])).filter(function(r){return r!=null;}),"PercentShareProperty")<100,
           L+"when the property is co-owned, the percentage share of the other co-owner(s) must be less than 100%.");
       /* A208 — rent that cannot be realised (1b) cannot exceed gross/annual lettable value (1a) */
       A(208,N(rd.RentNotRealized)<=N(rd.AnnualLetableValue)+1,
         L+"the rent which cannot be realised (1b) cannot be more than the annual lettable value / gross rent (1a).");
       /* A204 — a co-owner PAN cannot equal the assessee PAN in Part A-General */
       if(asseseePAN)
-        A(204,!RG(p,"CoOwners",[]).some(function(c){return String((c||{}).PAN_CoOwner||"").toUpperCase()===asseseePAN;}),
+        A(204,!AR(RG(p,"CoOwners",[])).some(function(c){return String((c||{}).PAN_CoOwner||"").toUpperCase()===asseseePAN;}),
           L+"the PAN of a co-owner cannot be the same as the PAN of the assessee in Part A-General.");
     });
     /* A203 — pass-through HP income (item 2) = Σ HP net income/loss in Schedule PTI */
     A(203,!I.SchedulePTI||REQ(RG(I,"ScheduleHP.PassThroghIncome",0),
-        RSUM(RG(I,"SchedulePTI.SchedulePTIDtls",[]),function(d){return RG(d,"IncFromHP.NetIncomeLoss",0);})),
+        RSUM(AR(RG(I,"SchedulePTI.SchedulePTIDtls",[])),function(d){return RG(d,"IncFromHP.NetIncomeLoss",0);})),
       "Schedule HP: pass-through income (2) must equal the net house-property income/loss shown in Schedule PTI.");
   }
 
@@ -156,13 +157,13 @@ ruleset(function(I,S_,A,Dd){
         return (N(RG(P,"ProfitLossInclRefrdSec."+pr[0]))!==0)===(N(RG(P,"DeemedProfitBusUs."+pr[1]))!==0);}),
       "Schedule BP: the presumptive sections declared at A4a must match the sections declared at A35 (44AD/44ADA/44AE/44B/44BB/44BBA/44BBC/44BBD/44DA/First Schedule).");
     /* A239 — depreciation debited to P&L (11) = item 53 of P&L + item 1E(vi) of the Manufacturing A/c.
-       /* not mappable as exact equality: the reference test state sets item 11 = P&L 53 only (excludes the
-          factory-machinery depreciation 1E(vi)); encoded as the [53, 53 + 1E(vi)] range so both readings
-          are lawful while item 11 outside that range is still caught. */
+       Book BP.md:79 gives A11 (K65) = MAX(0, PL.dep 53 + Mfg.dep 1E(vi)); bp.js now emits A11 as that
+       computed cell (70_sec_bp.js:311/706, DepreciationDebPLCosAct = n0(A._11)), so enforce the book
+       identity with the strict-but-tolerant equality (±1 via REQ) rather than the old permissive range. */
     {const pl53=N(RG(I,"PARTA_PL.DebitsToPL.DebitPlAcnt.DepreciationAmort"));
      const mfg=N(RG(I,"ManufacturingAccount.OpeningInventory.DeprctnOfFactoryMachinery"));
      const a11=N(P.DepreciationDebPLCosAct);
-     A(239,a11>=pl53-1&&a11<=pl53+mfg+1,
+     A(239,REQ(a11,pl53+mfg),
        "Schedule BP: depreciation debited to P&L (11) must equal item 53 of the P&L plus item 1E(vi) of the Manufacturing Account.");}
 
     /* ---- Part A cross-links to Part A-OI (218–222, 225, 227–229, 245) ---- */
@@ -245,7 +246,7 @@ ruleset(function(I,S_,A,Dd){
 
   /* A249 — income u/s 115BBF (patent), in Schedule BP or Schedule OS/SI, only for a resident */
   const has5BBF=N(RG(I,"CorpScheduleBP.BusinessIncOthThanSpec.IncRecCredPLOthHeadDtls.UnderSec115BBF"))>0
-    ||RG(I,"ScheduleSI.SplCodeRateTax",[]).some(function(r){return /5BBF/.test(String((r||{}).SecCode||""))&&N((r||{}).SplRateInc)>0;});
+    ||AR(RG(I,"ScheduleSI.SplCodeRateTax",[])).some(function(r){return /5BBF/.test(String((r||{}).SecCode||""))&&N((r||{}).SplRateInc)>0;});
   A(249,!has5BBF||RG(I,"PartA_GEN1.FilingStatus.ResidentialStatus")!=="NRI",
     "Schedule BP / OS: income under section 115BBF (income from patent) can be claimed only by a resident.");
 });

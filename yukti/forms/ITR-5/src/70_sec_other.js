@@ -396,7 +396,7 @@ function expOther(j){
   /* ---------------- Schedule IF ---------------- */
   const CI = C.if||{rows:[], tot:{}};
   const ifRows = (CI.rows||[]).filter(f=>f.hasVal);
-  if(ifRows.length || st0((O.if||{}).n)!==""){
+  if(ifRows.length || R((O.if||{}).n)>0){
     const o = {
       PartnerInNumberOfFirms: sg(CI.n),
       TotalProfitShareAmt: sg((CI.tot||{}).profit),

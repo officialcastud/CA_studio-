@@ -87,6 +87,12 @@ const CG_STATE=[["01","Andaman and Nicobar Islands"],["02","Andhra Pradesh"],["0
   ["31","Uttar Pradesh"],["32","West Bengal"],["33","Chhattisgarh"],["34","Uttarakhand"],["35","Jharkhand"],
   ["36","Telangana"],["37","Ladakh"],["99","Foreign"]];
 const CG_STATE_SET={};CG_STATE.forEach(x=>CG_STATE_SET[x[0]]=1);
+/* ---- country-code enum (books/ITR-5/enums.json / schema CountryCode & CountryCodeExcludingIndia,
+   verbatim; same list/codes as Schedule FSI (70_sec_foreign FA_CO) and Schedule OS (70_sec_os OS_CC)) ---- */
+const CG_CO=[["93","AFGHANISTAN"],["1001","ALAND ISLANDS"],["355","ALBANIA"],["213","ALGERIA"],["684","AMERICAN SAMOA"],["376","ANDORRA"],["244","ANGOLA"],["1264","ANGUILLA"],["1010","ANTARCTICA"],["1268","ANTIGUA AND BARBUDA"],["54","ARGENTINA"],["374","ARMENIA"],["297","ARUBA"],["61","AUSTRALIA"],["43","AUSTRIA"],["994","AZERBAIJAN"],["1242","BAHAMAS"],["973","BAHRAIN"],["880","BANGLADESH"],["1246","BARBADOS"],["375","BELARUS"],["32","BELGIUM"],["501","BELIZE"],["229","BENIN"],["1441","BERMUDA"],["975","BHUTAN"],["591","BOLIVIA (PLURINATIONAL STATE OF)"],["1002","BONAIRE, SINT EUSTATIUS AND SABA"],["387","BOSNIA AND HERZEGOVINA"],["267","BOTSWANA"],["1003","BOUVET ISLAND"],["55","BRAZIL"],["1014","BRITISH INDIAN OCEAN TERRITORY"],["673","BRUNEI DARUSSALAM"],["359","BULGARIA"],["226","BURKINA FASO"],["257","BURUNDI"],["238","CABO VERDE"],["855","CAMBODIA"],["237","CAMEROON"],["1","CANADA"],["1345","CAYMAN ISLANDS"],["236","CENTRAL AFRICAN REPUBLIC"],["235","CHAD"],["56","CHILE"],["86","CHINA"],["9","CHRISTMAS ISLAND"],["672","COCOS (KEELING) ISLANDS"],["57","COLOMBIA"],["270","COMOROS"],["242","CONGO"],["243","CONGO (DEMOCRATIC REPUBLIC OF THE)"],["682","COOK ISLANDS"],["506","COSTA RICA"],["225","COTE DIVOIRE"],["385","CROATIA"],["53","CUBA"],["1015","CURACAO"],["357","CYPRUS"],["420","CZECHIA"],["45","DENMARK"],["253","DJIBOUTI"],["1767","DOMINICA"],["1809","DOMINICAN REPUBLIC"],["593","ECUADOR"],["20","EGYPT"],["503","EL SALVADOR"],["240","EQUATORIAL GUINEA"],["291","ERITREA"],["372","ESTONIA"],["251","ETHIOPIA"],["500","FALKLAND ISLANDS (MALVINAS)"],["298","FAROE ISLANDS"],["679","FIJI"],["358","FINLAND"],["33","FRANCE"],["594","FRENCH GUIANA"],["689","FRENCH POLYNESIA"],["1004","FRENCH SOUTHERN TERRITORIES"],["241","GABON"],["220","GAMBIA"],["995","GEORGIA"],["49","GERMANY"],["233","GHANA"],["350","GIBRALTAR"],["30","GREECE"],["299","GREENLAND"],["1473","GRENADA"],["590","GUADELOUPE"],["1671","GUAM"],["502","GUATEMALA"],["1481","GUERNSEY"],["224","GUINEA"],["245","GUINEA-BISSAU"],["592","GUYANA"],["509","HAITI"],["1005","HEARD ISLAND AND MCDONALD ISLANDS"],["6","HOLY SEE"],["504","HONDURAS"],["852","HONG KONG"],["36","HUNGARY"],["354","ICELAND"],["62","INDONESIA"],["98","IRAN (ISLAMIC REPUBLIC OF)"],["964","IRAQ"],["353","IRELAND"],["1624","ISLE OF MAN"],["972","ISRAEL"],["5","ITALY"],["1876","JAMAICA"],["81","JAPAN"],["1534","JERSEY"],["962","JORDAN"],["7","KAZAKHSTAN"],["254","KENYA"],["686","KIRIBATI"],["850","KOREA (DEMOCRATIC PEOPLES REPUBLIC OF)"],["82","KOREA (REPUBLIC OF)"],["965","KUWAIT"],["996","KYRGYZSTAN"],["856","LAO PEOPLES DEMOCRATIC REPUBLIC"],["371","LATVIA"],["961","LEBANON"],["266","LESOTHO"],["231","LIBERIA"],["218","LIBYA"],["423","LIECHTENSTEIN"],["370","LITHUANIA"],["352","LUXEMBOURG"],["853","MACAO"],["389","MACEDONIA (THE FORMER YUGOSLAV REPUBLIC OF)"],["261","MADAGASCAR"],["265","MALAWI"],["60","MALAYSIA"],["960","MALDIVES"],["223","MALI"],["356","MALTA"],["692","MARSHALL ISLANDS"],["596","MARTINIQUE"],["222","MAURITANIA"],["230","MAURITIUS"],["269","MAYOTTE"],["52","MEXICO"],["691","MICRONESIA (FEDERATED STATES OF)"],["373","MOLDOVA (REPUBLIC OF)"],["377","MONACO"],["976","MONGOLIA"],["382","MONTENEGRO"],["1664","MONTSERRAT"],["212","MOROCCO"],["258","MOZAMBIQUE"],["95","MYANMAR"],["264","NAMIBIA"],["674","NAURU"],["977","NEPAL"],["31","NETHERLANDS"],["687","NEW CALEDONIA"],["64","NEW ZEALAND"],["505","NICARAGUA"],["227","NIGER"],["234","NIGERIA"],["683","NIUE"],["15","NORFOLK ISLAND"],["1670","NORTHERN MARIANA ISLANDS"],["47","NORWAY"],["968","OMAN"],["92","PAKISTAN"],["680","PALAU"],["970","PALESTINE, STATE OF"],["507","PANAMA"],["675","PAPUA NEW GUINEA"],["595","PARAGUAY"],["51","PERU"],["63","PHILIPPINES"],["1011","PITCAIRN"],["48","POLAND"],["14","PORTUGAL"],["1787","PUERTO RICO"],["974","QATAR"],["262","REUNION"],["40","ROMANIA"],["8","RUSSIAN FEDERATION"],["250","RWANDA"],["1006","SAINT BARTHELEMY"],["290","SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"],["1869","SAINT KITTS AND NEVIS"],["1758","SAINT LUCIA"],["1007","SAINT MARTIN (FRENCH PART)"],["508","SAINT PIERRE AND MIQUELON"],["1784","SAINT VINCENT AND THE GRENADINES"],["685","SAMOA"],["378","SAN MARINO"],["239","SAO TOME AND PRINCIPE"],["966","SAUDI ARABIA"],["221","SENEGAL"],["381","SERBIA"],["248","SEYCHELLES"],["232","SIERRA LEONE"],["65","SINGAPORE"],["1721","SINT MAARTEN (DUTCH PART)"],["421","SLOVAKIA"],["386","SLOVENIA"],["677","SOLOMON ISLANDS"],["252","SOMALIA"],["28","SOUTH AFRICA"],["1008","SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"],["211","SOUTH SUDAN"],["35","SPAIN"],["94","SRI LANKA"],["249","SUDAN"],["597","SURINAME"],["1012","SVALBARD AND JAN MAYEN"],["268","SWAZILAND"],["46","SWEDEN"],["41","SWITZERLAND"],["963","SYRIAN ARAB REPUBLIC"],["886","TAIWAN, PROVINCE OF CHINA[A]"],["992","TAJIKISTAN"],["255","TANZANIA, UNITED REPUBLIC OF"],["66","THAILAND"],["670","TIMOR-LESTE (EAST TIMOR)"],["228","TOGO"],["690","TOKELAU"],["676","TONGA"],["1868","TRINIDAD AND TOBAGO"],["216","TUNISIA"],["90","TURKEY"],["993","TURKMENISTAN"],["1649","TURKS AND CAICOS ISLANDS"],["688","TUVALU"],["256","UGANDA"],["380","UKRAINE"],["971","UNITED ARAB EMIRATES"],["44","UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND"],["2","UNITED STATES OF AMERICA"],["1009","UNITED STATES MINOR OUTLYING ISLANDS"],["598","URUGUAY"],["998","UZBEKISTAN"],["678","VANUATU"],["58","VENEZUELA (BOLIVARIAN REPUBLIC OF)"],["84","VIET NAM"],["1284","VIRGIN ISLANDS (BRITISH)"],["1340","VIRGIN ISLANDS (U.S.)"],["681","WALLIS AND FUTUNA"],["1013","WESTERN SAHARA"],["967","YEMEN"],["260","ZAMBIA"],["263","ZIMBABWE"],["9999","OTHERS"]];                       /* CountryCodeExcludingIndia enum (India excluded) — A9/B11 DTAA ccode */
+const CG_CO_IN=[["91","INDIA"]].concat(CG_CO);   /* CountryCode enum (India included) — TrnsfImmblPrprty CountryCode */
+const CG_CO_SET={};CG_CO.forEach(x=>CG_CO_SET[x[0]]=1);
+const CG_CO_IN_SET={};CG_CO_IN.forEach(x=>CG_CO_IN_SET[x[0]]=1);
 /* Part D — DeducClaimInfo detail tables (ITR-5 exposes only 54D/54EC/54G/54GA). */
 const DCLAIM=[
   {ns:"us54D", sec:"54D", key:"DeducClaimDtlsUs54D", lbl:"Sec 54D — new land / building for industrial undertaking",
@@ -320,7 +326,7 @@ function engCg(){
   const gain={},loss={},used={},absorbed={},matrix={};
   KEYS.forEach(k=>{gain[k]=Math.max(0,E[k]);loss[k]=Math.max(0,-E[k]);used[k]=0;absorbed[k]=0;matrix[k]={};});
   const isLong=k=>k.charAt(0)==="l";
-  if(C.editE && C.Eover){                                             /* r418 EditAutopoulatedDetail override */
+  if(st0(C.editE)==="Yes" && C.Eover){                               /* r418 EditAutopoulatedDetail override */
     KEYS.forEach(gk=>KEYS.forEach(lk=>{const v=N(((C.Eover[gk]||{})[lk]));
       if(v>0){matrix[gk][lk]=v;absorbed[gk]+=v;used[lk]+=v;}}));
   } else {
@@ -344,7 +350,7 @@ function engCg(){
   KEYS.forEach(k=>{const placed=Fauto[k].reduce((a,v)=>a+v,0);const rest=Math.max(0,gain[k]-placed);
     if(rest>0)Fauto[k][4]+=rest;});                                   /* bucket total pre-set-off = Σ quarters */
   const F={};KEYS.forEach(k=>{const ov=(C.Fover||{})[k];
-    F[k]=(C.editF&&ov)?ov.map(N):Fauto[k].slice();});
+    F[k]=(st0(C.editF)==="Yes"&&ov)?ov.map(N):Fauto[k].slice();});
 
   /* ---- Part C · summary ------------------------------------------- */
   const C2=Math.max(0,vda.cg);                                        /* C2 r346 = MAX(0, Sch VDA item B) */
@@ -415,7 +421,8 @@ function landBlock(p,i,lt){const r=p._||engLand(p);let h="";
   h+=row("Address of property",inp("cg.land."+i+".paddr"),{ref:"AddressOfProperty"});
   h+=row("State",sel("cg.land."+i+".pstate",CG_STATE),{ref:"StateCode"});
   h+=row("Pin code",inp("cg.land."+i+".ppin",{max:6}),{ref:"PinCode"});
-  h+=row("Country code",inp("cg.land."+i+".pcountry",{max:4,ph:"91"}),{ref:"CountryCode"});
+  h+=row("Country code",sel("cg.land."+i+".pcountry",CG_CO_IN,{blank:false}),{ref:"CountryCode"});
+  h+=row("ZIP code (if property outside India)",inp("cg.land."+i+".pzip",{max:8}),{ref:"ZipCode"});
   h+=grid("cg.land."+i+".buyers",[
       {h:"Name of buyer",k:"name",t:"txt"},
       {h:"PAN",k:"pan",t:"txt",max:10},
@@ -466,10 +473,28 @@ function scripGrid(key,rows){
 function setoffTable(G){
   const LBL={st20:"STCG @20%",st30:"STCG @30%",stApp:"STCG applicable",stDTAA:"STCG DTAA",
     lt125:"LTCG @12.5%",ltDTAA:"LTCG DTAA"};
-  let h='<div class="full"><table class="gt" style="min-width:720px"><thead><tr>'+
-    '<th class="l">Type of capital gain</th><th>Gain of CY</th><th>Loss set off</th><th>Remaining</th></tr></thead><tbody>';
-  KEYS.forEach(k=>{h+='<tr><td class="l">'+esc(LBL[k])+'</td><td class="num">'+cell(G.gain[k])+
-    '</td><td class="num">'+cell(G.absorbed[k])+'</td><td class="num">'+cell(G.after[k])+'</td></tr>';});
+  /* r418: the whole Table-E matrix auto-populates and is editable only via
+     EditAutopoulatedDetail (CG.md:388). Off → read-only summary; On → editable matrix. */
+  if(st0(S.cg.editE)!=="Yes"){
+    let h='<div class="full"><table class="gt" style="min-width:720px"><thead><tr>'+
+      '<th class="l">Type of capital gain</th><th>Gain of CY</th><th>Loss set off</th><th>Remaining</th></tr></thead><tbody>';
+    KEYS.forEach(k=>{h+='<tr><td class="l">'+esc(LBL[k])+'</td><td class="num">'+cell(G.gain[k])+
+      '</td><td class="num">'+cell(G.absorbed[k])+'</td><td class="num">'+cell(G.after[k])+'</td></tr>';});
+    h+='</tbody></table></div>';return h;
+  }
+  /* manual override: each intersection is an editable cell writing S.cg.Eover[gain][loss]
+     (mirrors quartersTable Part-F cg.Fover.*); the engine reads these at r418.
+     A STCL may set off any capital gain; a LTCL only LTCG (Part-E rule, matches expCg gating). */
+  const isLong=k=>k.charAt(0)==="l";
+  let h=note("Manual set-off is on: enter the loss of each type set off against each gain. A short-term loss may set off any capital gain; a long-term loss only long-term gains. Blank cells are treated as nil.","warn")+
+    '<div class="full"><table class="gt" style="min-width:1120px"><thead><tr>'+
+    '<th class="l">Gain \\ Loss set off</th><th>Gain of CY</th>';
+  KEYS.forEach(lk=>h+='<th>'+esc(LBL[lk])+'</th>');
+  h+='<th>Total set off</th><th>Remaining</th></tr></thead><tbody>';
+  KEYS.forEach(gk=>{h+='<tr><td class="l">'+esc(LBL[gk])+'</td><td class="num">'+cell(G.gain[gk])+'</td>';
+    KEYS.forEach(lk=>{const valid=lk!==gk&&(isLong(gk)||!isLong(lk));
+      h+=valid?'<td>'+inp("cg.Eover."+gk+"."+lk,{n:1})+'</td>':'<td class="num">—</td>';});
+    h+='<td class="num">'+cell(G.absorbed[gk])+'</td><td class="num">'+cell(G.after[gk])+'</td></tr>';});
   h+='</tbody></table></div>';return h;
 }
 
@@ -514,7 +539,7 @@ function dtaaGrid(key,rows,itemOpts){
     {h:"Amount of income",k:"amt",t:"num"},
     {h:"Item included",k:"itemno",t:"sel",opts:itemOpts||DTAA_ITEM_ST},
     {h:"Country name",k:"country",t:"txt"},
-    {h:"Country code",k:"ccode",t:"txt",max:5},
+    {h:"Country code",k:"ccode",t:"sel",opts:CG_CO},
     {h:"Article of DTAA",k:"article",t:"txt",max:20},
     {h:"Rate as per Treaty (%)",k:"treaty",t:"num"},
     {h:"TRC obtained?",k:"trc",t:"sel",opts:TRCYN},
@@ -713,13 +738,13 @@ function secCg(){
   /* ---- E · set-off ---- */
   h+=fold("cgE","E","Set-off of current-year capital losses",RS(G.C1),
     setoffTable(G)+
-    row("Edit the auto-populated set-off?",sel("cg.editE",[["false","No"],["true","Yes"]],{blank:false}),{ref:"EditAutopoulatedDetail"}),{});
+    row("Edit the auto-populated set-off?",sel("cg.editE",[["No","No"],["Yes","Yes"]],{blank:false}),{ref:"EditAutopoulatedDetail"}),{});
 
   /* ---- F · quarterly split (234C) ---- */
   h+=fold("cgF","F","Accrual / receipt of capital gain (quarterly, for 234C)","—",
     note("Each bucket's quarter total ties to the matching item of Schedule BFLA; the utility scales it to the after-set-off figure.")+
     quartersTable(G)+
-    row("Edit the auto-filled quarters?",sel("cg.editF",[["false","No"],["true","Yes"]],{blank:false}),{ref:"AccruOrRecOfCG"}),{});
+    row("Edit the auto-filled quarters?",sel("cg.editF",[["No","No"],["Yes","Yes"]],{blank:false}),{ref:"AccruOrRecOfCG"}),{});
 
   return h;
 }
@@ -759,13 +784,14 @@ function expCg(j){
       PercentageShare:N(x.share)||100,Amount:n0(x.amt),
       AddressOfProperty:(sv(p.paddr)||"NA").slice(0,50),
       StateCode:CG_STATE_SET[st0(p.pstate)]?st0(p.pstate):"19",
-      CountryCode:(st0(p.pcountry)||"91").slice(0,4),
-      PinCode:/^[1-9]\d{5}$/.test(st0(p.ppin))?parseInt(p.ppin,10):undefined}))};};
+      CountryCode:CG_CO_IN_SET[st0(p.pcountry)]?st0(p.pcountry):"91",
+      PinCode:/^[1-9]\d{5}$/.test(st0(p.ppin))?parseInt(p.ppin,10):undefined,
+      ZipCode:st0(p.pzip)?st0(p.pzip).slice(0,8):undefined}))};};
   const exArr=(ded,set)=>{const ex=[];Object.keys(ded||{}).forEach(k=>{const code=k.replace("s","");
     if(set[code]&&N(ded[k]))ex.push({ExemptionSecCode:code,ExemptionAmount:n0(ded[k])});});return ex;};
   const dtaaOut=rows=>{const good=(rows||[]).filter(r=>N(r.amt));if(!good.length)return undefined;
     return {NRIDTAADtls:good.map(r=>{const o={DTAAamt:n0(r.amt),ItemNoincl:st0(r.itemno),
-      CountryName:st0(r.country),CountryCodeExcludingIndia:st0(r.ccode),DTAAarticle:st0(r.article),
+      CountryName:st0(r.country),CountryCodeExcludingIndia:CG_CO_SET[st0(r.ccode)]?st0(r.ccode):"9999",DTAAarticle:st0(r.article),
       RateAsPerTreaty:N(r.treaty),SecITAct:st0(r.secit),RateAsPerITAct:N(r.itact)};
       if(r.trc)o.TaxRescertifiedFlag=r.trc;
       if(r._appl!=null)o.ApplicableRate=r._appl;return o;})};};
@@ -851,7 +877,7 @@ function expCg(j){
     if(b6.length)LT.NRIOnSec112and115={NRIOnSec112and115Dtls:b6.map(o=>{const rr=engAgg(o,{unq:1,noExempt:1});
       return {SectionCode:o.sec,FullValueConsdRecvUnqshr:n0(o.unqCons),FairMrktValueUnqshr:n0(o.unqFmv),
         FullValueConsdSec50CA:n0(rr.c50ca||Math.max(N(o.unqCons),N(o.unqFmv))),FullValueConsdOthUnqshr:n0(o.othCons),
-        FullConsideration:n0(rr.cons),DeductSec48:ded48(o),BalanceCG:sg(rr.gain)};})};
+        FullConsideration:n0(rr.cons),DeductSec48:ded48(o),BalanceCG:sg(rr.gain)};}),TotalNRIOnSec112and115:sg(B.b6)};
     if((G.nri||isFii()))LT.NRISaleOfEquityShareUs112A={CapgainonAssets:sg(B.b7)};
     const b11d=dtaaOut(C.b11);if(b11d)LT.NRICgDTAA=b11d;
   } else if(isFii()){
@@ -951,7 +977,7 @@ function expCg(j){
   const CG={ShortTermCapGain:ST,LongTermCapGain:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),IncChargeableHeadCapGain:sg(G.C3),
     DeducClaimInfo:DED,CurrYrLosses:E,AccruOrRecOfCG:AF};
-  if(st0(C.editE?"Y":"")||C.editE)CG.EditAutopoulatedDetail=C.editE?"Y":"N";
+  CG.EditAutopoulatedDetail=(st0(C.editE)==="Yes")?"Y":"N";
   put(j,"ScheduleCG",CG);
 
   /* ---- Schedule 112A / 115AD / VDA ---- */
@@ -978,7 +1004,7 @@ function impCg(I5){
       const out={buyers:bs.map(y=>({name:y.NameOfBuyer||"",pan:y.PANofBuyer||"",aadhaar:y.AaadhaarOfBuyer||"",
         share:nz(y.PercentageShare),amt:nz(y.Amount)}))};
       if(bs.length){out.paddr=bs[0].AddressOfProperty||"";out.pstate=bs[0].StateCode||"";
-        out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";out.pcountry=bs[0].CountryCode||"";}
+        out.ppin=bs[0].PinCode!=null?String(bs[0].PinCode):"";out.pcountry=bs[0].CountryCode||"";out.pzip=bs[0].ZipCode||"";}
       return out;};
     const land=[];
     (g(ST,"SaleofLandBuild.SaleofLandBuildDtls")||[]).forEach(x=>{const d={};
@@ -1057,7 +1083,7 @@ function impCg(I5){
           purchase:dmy(r.DateofPurchase),deposited:nz(r.AmtDeposited),depdate:dmy(r.DepositDate),
           acno:r.AccountNo||"",ifsc:r.IFSC||"",amt:nz(r.AmtDeducted)};});});
       if(Object.keys(S.cg.dclaim).some(k=>S.cg.dclaim[k].length))read.push("CG deduction detail");}
-    if(CGb.EditAutopoulatedDetail)S.cg.editE=(CGb.EditAutopoulatedDetail==="Y");
+    if(CGb.EditAutopoulatedDetail)S.cg.editE=(CGb.EditAutopoulatedDetail==="Y")?"Yes":"No";
     read.push("capital gains");
   }
   const b112=I5&&I5.Schedule112A;

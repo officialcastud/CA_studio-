@@ -128,15 +128,15 @@ function engTax(){
   const b2i =Math.max(0,R(bpA.A37!=null?bpA.A37:(BP.noSpec!=null?BP.noSpec:BP.income||0)));
   const b2ii=Math.max(0,R(bpE.specRemain!=null?bpE.specRemain:(BP.spec||0)));
   const b2iii=Math.max(0,R(bpE.specifiedRemain!=null?bpE.specifiedRemain:(BP.specified||0)));
-  const b2iv=Math.max(0,R(BP.splRate!=null?BP.splRate:(BP.spl||0)));
+  const b2iv=Math.max(0,R(n0(BP.a3d)+n0(BP.a3e)+n0(BP.a3f)));                    /* 2iv (J9) = 115BBF+115BBG+115BBH of Sch BP (S.C.bp.a3d/e/f) */
   const b2v=Math.max(0,b2i+b2ii+b2iii+b2iv);                                     /* 2v (L10) — nil if the sum is a loss */
 
   /* 3 — capital gains from the CG E-table after set-off (J14-J24) */
   const cga=CG.after||{};
   const st20=Math.max(0,R(cga.st20||0)), st30=Math.max(0,R(cga.st30||0)), stApp=Math.max(0,R(cga.stApp||0)), stDTAA=Math.max(0,R(cga.stDTAA||0));
   const lt125=Math.max(0,R(cga.lt125||0)), ltDTAA=Math.max(0,R(cga.ltDTAA||0));
-  const totST=CG.shortTerm!=null?Math.max(0,R(CG.shortTerm)):st20+st30+stApp+stDTAA;   /* 3av (J18) */
-  const totLT=CG.longTerm !=null?Math.max(0,R(CG.longTerm )):lt125+ltDTAA;             /* 3biii (J24) */
+  const totST=st20+st30+stApp+stDTAA;   /* 3av (J18) = SUM(J14:J17), after current-year set-off (Sch CG Table E) */
+  const totLT=lt125+ltDTAA;             /* 3biii (J24) = SUM(J21:J23), after current-year set-off (Sch CG Table E) */
   const cg3c=Math.max(0,totST+totLT);                                            /* 3c (L25) */
   const cgC2=R(CG.C2!=null?CG.C2:((CG.vda||{}).cg||0));                          /* 3d = VDA 115BBH (L26) */
   const cg3e=Math.max(0,cg3c+cgC2);                                             /* 3e (L27) */
@@ -297,7 +297,7 @@ function engTax(){
   const assessed234c=Math.max(0,net-tds-tcs);
   const QDEF=[[0.15,0.12,3],[0.45,0.36,3],[0.75,null,3],[1,null,1]];
   const qs=QDEF.map((q,k)=>{const pc=q[0],safe=q[1],mo=q[2];
-    const need=R(assessed234c*pc), got=upto(TAX_Q_CUT[k]);
+    const need=Math.floor(assessed234c*pc/100)*100, got=upto(TAX_Q_CUT[k]);
     let sh=(safe!==null&&got>=Math.floor(assessed234c*safe/100)*100)?0:Math.floor(Math.max(0,need-got)/100)*100;
     if(!gate234c)sh=0;
     return {need,got:R(got),short:sh,mo,int:R(sh*0.01*mo)};});
@@ -561,6 +561,15 @@ function expTax(j){
   put(j,"PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid",n0(I.paid));
   put(j,"PartB_TTI.TaxPaid.BalTaxPayable",n0(I.balance));
   put(j,"PartB_TTI.Refund.RefundDue",n0(I.refund));
+
+  /* ---- 115TD carry-across (Part B-TTI Sr.13/14/15) — only when Schedule 115TD is present ---- */
+  const td115=(S.C.other||{}).td||{};
+  if(td115.on){
+    const net12=n0(td115.net12), refund=n0(I.refund);
+    put(j,"PartB_TTI.TaxPaid.NetTaxPayable115TD",net12);                    /* 13 L101 = Sch115TD Sr.12 NetPaybleRefble (rule 762) */
+    put(j,"PartB_TTI.TaxPaid.TaxPayable115TD",Math.max(0,net12-refund));    /* 14 L102 = MAX(0, 13 - 12) (rule 816) */
+    put(j,"PartB_TTI.TaxPaid.NetRefundAdjust",Math.max(0,refund-net12));    /* 15 L103 = MAX(0, 12 - 13) (rule 839) */
+  }
 
   /* ---- refund bank accounts + the foreign-asset flag ---- */
   put(j,"PartB_TTI.Refund.BankAccountDtls.BankDtlsFlag",(S.tax.bankFlag==="N")?"N":"Y");

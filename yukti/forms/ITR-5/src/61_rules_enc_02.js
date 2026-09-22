@@ -10,7 +10,7 @@
    books (PART_A_GENERAL(2), BALANCE_SHEET, MANUFACTURING/TRADING_ACCOUNT).
 
    NOT MAPPABLE in this slice (encoded as comments only, no live A()):
-     51..? see below — 53, 54, 55, 59, 60.
+     55, 59, 60 (see below — each needs an external/system date, not in the return).
    ===================================================================== */
 ruleset(function(I,S_,A,Dd){
   I=I||{};
@@ -32,32 +32,47 @@ ruleset(function(I,S_,A,Dd){
 
   /* 51 — the new regime can be opted out/withdrawn only if Form 10-IEA is filed:
          a business filer opting the old regime for the current AY must have
-         furnished Form 10-IEA (F10IEACurrAYOldRegime = Yes). */
-  A(51,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y",
-    "Part A-General: the new tax regime can be opted out / withdrawn only if Form 10-IEA is filed for the current AY.");
+         furnished Form 10-IEA — either for the current AY (F10IEACurrAYOldRegime=Yes)
+         OR carried forward from an earlier AY (Form10IEAEarlierAYOldRegime=Yes) under
+         s.115BAC(6), where the earlier opt-out stays effective. Serial 75 treats all
+         four 10-IEA branches this way. */
+  A(51,FS.OptOldRegimeCurrAY!=="Y"||!hasBP||FS.F10IEACurrAYOldRegime==="Y"||FS.Form10IEAEarlierAYOldRegime==="Y",
+    "Part A-General: the new tax regime can be opted out / withdrawn only if Form 10-IEA is filed (current AY, or carried forward from an earlier AY under s.115BAC(6)).");
 
   /* 52 — if business income is declared in the return, 'Do you have income from
          business or profession for the current AY?' (d(i)) cannot be 'No'. */
   A(52,!bizDeclared||FS.IncFrmBusOrProf!=="N",
     "Part A-General: business income is declared, so 'Do you have income from business or profession for the current AY?' cannot be 'No'.");
 
-  /* 53 — NOT MAPPABLE: 115BAE option at A19 d(iv)a (manufacturing co-operative society not
-         required to file a return in AY 2024-25 and AY 2025-26). The 115BAE d(iv) sub-fields
-         are on hidden rows and are not built in this form (PART_A_GENERAL.md §9). */
-  /* 54 — NOT MAPPABLE: 115BAE option at A19 d(iv)b (manufacturing co-operative society that WAS
-         required to file a return in AY 2024-25 or AY 2025-26). Same reason as 53 — not built. */
+  /* 53 — a manufacturing co-operative society that was NOT required to file a return in AY
+         2024-25 and AY 2025-26 (A19 d(iv): 115BAEReturnFiling_24_25="N") must fill the 115BAE
+         option for that branch (OptingTaxation115BAENo, "do you wish to exercise the option").
+         The d(iv) sub-fields ARE built/emitted by 70_sec_gen.js (baeReturn/baeYes/baeNo ->
+         115BAEReturnFiling_24_25 / OptingTaxation115BAEYes / OptingTaxation115BAENo). */
+  A(53,FS["115BAEReturnFiling_24_25"]!=="N"||FS.OptingTaxation115BAENo==="Y"||FS.OptingTaxation115BAENo==="N",
+    "Part A-General: the manufacturing co-operative society was not required to file a return for AY 2024-25 and AY 2025-26 — the option u/s 115BAE at A19 d(iv) must be selected.");
+  /* 54 — a manufacturing co-operative society that WAS required to file a return in AY 2024-25 or
+         AY 2025-26 (A19 d(iv): 115BAEReturnFiling_24_25="Y") must fill the 115BAE option for that
+         branch (OptingTaxation115BAEYes, "have you exercised the option in AY 24-25/25-26"). */
+  A(54,FS["115BAEReturnFiling_24_25"]!=="Y"||FS.OptingTaxation115BAEYes==="Y"||FS.OptingTaxation115BAEYes==="N",
+    "Part A-General: the manufacturing co-operative society was required to file a return for AY 2024-25 or AY 2025-26 — the option u/s 115BAE at A19 d(iv) must be selected.");
   /* 55 — NOT MAPPABLE: 'Return cannot be submitted u/s 139(1) after the due date' needs the actual
          submission (system) date compared to the due date; there is no filing-date leaf in the
          return schema, so this is a runtime check, not encodable offline. */
 
-  /* 56 — due date 31-Oct selected ⇒ Schedule IF (partner-in-firm) or audit details present.
-         (not mappable: Schedule 5A / Portuguese-Civil-Code apportionment is not built in ITR-5.) */
-  A(56,due!=="2026-10-31"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
-    "Part A-General: due date 31 October is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+  /* 56 — due date 31-Oct selected ⇒ Schedule IF (built independently from S.other.if) is present,
+         OR any applicable audit obligation exists in Part A Gen: 44AB (b), 92E (di), other IT-Act
+         reports d(iii) (AuditDetails[]), or audit under another Act, item e (AuditReportDetails[]).
+         (AuditedByAccountantFlg is a dead arm — gen.js emits it only inside if(44AB="Y"); the
+         PartnerInFirmFlg proxy is dropped in favour of testing ScheduleIF directly. Schedule 5A /
+         Portuguese-Civil-Code apportionment is not built in ITR-5.) */
+  A(56,due!=="2026-10-31"||!!I.ScheduleIF||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||(RG(G2,"AuditDetails",[])||[]).length>0||(RG(G2,"AuditReportDetails",[])||[]).length>0,
+    "Part A-General: due date 31 October is selected — fill Schedule IF (partner in firm), or the audit details (44AB / 92E / other IT-Act report / audit under another Act) in Part A General.");
 
-  /* 57 — due date 30-Nov selected ⇒ Schedule IF or audit details present. (5A not built.) */
-  A(57,due!=="2026-11-30"||FS.PartnerInFirmFlg==="Y"||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||G2.AuditedByAccountantFlg==="Y",
-    "Part A-General: due date 30 November is selected — fill Schedule IF (partner in firm) or the audit details in Part A General.");
+  /* 57 — due date 30-Nov selected ⇒ Schedule IF present or any applicable audit obligation exists
+         (same broadened test as 56). (5A not built.) */
+  A(57,due!=="2026-11-30"||!!I.ScheduleIF||G2.LiableSec44ABflg==="Y"||G2.LiableSec92Eflg==="Y"||(RG(G2,"AuditDetails",[])||[]).length>0||(RG(G2,"AuditReportDetails",[])||[]).length>0,
+    "Part A-General: due date 30 November is selected — fill Schedule IF (partner in firm), or the audit details (44AB / 92E / other IT-Act report / audit under another Act) in Part A General.");
 
   /* 58 — due date 31-Aug can be selected only if there is income from business/profession. */
   A(58,due!=="2026-08-31"||FS.IncFrmBusOrProf==="Y",
