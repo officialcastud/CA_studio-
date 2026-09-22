@@ -1,0 +1,252 @@
+[
+{
+"n": 51,
+"cat": "A",
+"text": "If Assessee is liable for audit u/s 44AB then Part A BS and Part A P&L should be filled"
+},
+{
+"n": 52,
+"cat": "A",
+"text": "In Schedule Part A BS, \"Sources of funds\" should match with \"Total application of funds\""
+},
+{
+"n": 53,
+"cat": "A",
+"text": "In Schedule Part A BS, \"Total of Proprietor's fund\" should be equal to sum of \"Proprietor's Capital\" and \"Total Reserve and surplus\""
+},
+{
+"n": 54,
+"cat": "A",
+"text": "In Schedule Part A BS, \"Total Loan Funds\" should be equal to sum of \"Secured Loans\" and \"Unsecured Loans\" 6"
+},
+{
+"n": 55,
+"cat": "A",
+"text": "In Schedule Part A BS, \"Total of sources of funds\" should be equal to sum of Proprietor's fund, Loan Funds, Deferred Tax Liability and Advances"
+},
+{
+"n": 56,
+"cat": "A",
+"text": "In Schedule Part A BS - Application of funds, \"Total of investments\" should be equal to sum of Long term Investments and Short term Investments"
+},
+{
+"n": 57,
+"cat": "A",
+"text": "In Schedule Part A BS - Application of funds, \"Total of current assets\" should be equal to sum of inventories, sundry debtors, sum of cash and bank balances and other current assets"
+},
+{
+"n": 58,
+"cat": "A",
+"text": "In Schedule Part A BS - Application of funds, \"Total of net current assets\" should be equal to difference between \"Total of current assets, loans and advances\" and \"Total current"
+},
+{
+"n": 59,
+"cat": "A",
+"text": "liabilities and provisions\" In Schedule Part A BS - Application of funds, \"Total of application of funds\" should be equal to sum of Total Fixed Assets, Total Investments , Total Current assets, loans and"
+},
+{
+"n": 60,
+"cat": "A",
+"text": "advances and Total Miscellaneous expenditure In Schedule Part A BS - Sources of funds, \"Total of Advances\" should be equal to sum of \"From persons specified in section 40A(2)(b) of the I. T. Act\" and \"From others \""
+},
+{
+"n": 61,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Total of Opening Inventory at Sl.No. 1Aiii should be equal to 1Ai+1Aii"
+},
+{
+"n": 62,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Total of Direct expenses should be equal to sum of individual break-up of direct expenses"
+},
+{
+"n": 63,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Total Factory overheads should be equal to the sum of individual break-up of Factory overheads"
+},
+{
+"n": 64,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Total debits to manufacturing account as per Sl.No. 1F should be equal to Sl.No. 1(Aiii+B+C+D+Evii)"
+},
+{
+"n": 65,
+"cat": "A",
+"text": "In Part A Manufacturing Account, the total of closing stock should be equal to the sum of break-up of closing stock"
+},
+{
+"n": 66,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Sl.No. 3 \"Cost of Goods Produced \u2013 transferred to Trading Account (1F - 2)\" should be equal to 1F-2"
+},
+{
+"n": 67,
+"cat": "A",
+"text": "In Part A Manufacturing Account, Negative signs will not be allowed other than in Sl.No. 3 \"Cost of Goods Produced \u2013 transferred to Trading Account\""
+},
+{
+"n": 68,
+"cat": "A",
+"text": "Value mentioned in Sl.No. 11 Cost of Goods Produced \u2013 transferred from Manufacturing Account should be equal to value mentioned in Sl.No. 3 of Part A Manufacturing Account"
+},
+{
+"n": 69,
+"cat": "A",
+"text": "Cost of goods produced \u2013 Transferred to trading Account In Part A-Trading Account, Total of other operating revenue should be consistent with individual row item"
+},
+{
+"n": 70,
+"cat": "A",
+"text": "In Part A-Trading Account, Sl.No. 4A(iv) should be equal to sum of Sl.No. 4A(i)+4A(ii)+4A(iiic)"
+},
+{
+"n": 71,
+"cat": "A",
+"text": "In Part A-Trading Account, Sl.No. 4A(Cix) should be equal to total of Sl.No. 4Ci+4Cii+4Ciii+4Civ+4Cv+4Cvi+4Cvii+4Cviii 7"
+},
+{
+"n": 72,
+"cat": "A",
+"text": "In Part A-Trading Account, Total revenue from operations in Sl.No. 4D should be equal to (Aiv + B +Cix)"
+},
+{
+"n": 73,
+"cat": "A",
+"text": "In Part A Trading Account, Total Direct expenses should be equal to sum of carriage Inward, power and fuel and other direct expenses"
+},
+{
+"n": 74,
+"cat": "A",
+"text": "In Part A Trading Account, Total of Duties and taxes, paid or payable, in respect of goods and services purchased should be equal to sum of (10i + 10ii + 10iii + 10iv + 10v + 10vi"
+},
+{
+"n": 75,
+"cat": "A",
+"text": "+ 10vii + 10viii + 10ix + 10x + 10xi) In Part A Trading Account, Sl.No. 12 should be equal to sum of (6-7-8-9-10xii-11)"
+},
+{
+"n": 76,
+"cat": "A",
+"text": "In Part A Trading Account, Negative signs should not be allowed other than in Sl.No. 11 and/or 12"
+},
+{
+"n": 77,
+"cat": "A",
+"text": "In Schedule Trading account, \"Income from Intraday Trading - transferred to Statement of Profit and Loss\" at Sl.No. 12b should not be more than Turnover from Intraday Trading"
+},
+{
+"n": 78,
+"cat": "A",
+"text": "at Sl. No. 12a. In Schedule Trading account, \"Income from Futures & Options Trading - transferred to Statement of Profit and Loss\" at Sl.No. 12d should not be more than Turnover from"
+},
+{
+"n": 79,
+"cat": "A",
+"text": "Futures & Options Trading at Sl. No. 12c. Sl.No. 13 Gross profit transferred from Trading Account should be equal to Sl.No. 12+12b +12d (Gross Profit from Business/Profession & Income from Intraday Trading & 'Futures"
+},
+{
+"n": 80,
+"cat": "A",
+"text": "& Options' - transferred to Profit and Loss account ) of Part A trading account In schedule Part A-P & L, total of Any Other Income (Specify Nature and Amount) at Sl.No. 14xic should be equal to break up of Sl.No. 14x(ia + ib)"
+},
+{
+"n": 81,
+"cat": "A",
+"text": "In schedule Part A-P & L, total of other income at Sl.No.14 should be equal to the sum of break up of other income."
+},
+{
+"n": 82,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 15 Total of credits to profit and loss account (13+14xii) should be equal to the sum of Sl.No. 13+14xii"
+},
+{
+"n": 83,
+"cat": "A",
+"text": "In Part A P&L, If Sl.No. 22xiia is Yes then Sl.No. 22xiib should be filled"
+},
+{
+"n": 84,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 22xi Compensation to employees should be equal to sum of 22i to 22x"
+},
+{
+"n": 85,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 23v \"Total expenditure on insurance\" should be equal to the sum of Medical Insurance, Life Insurance, Keyman\u2019s Insurance and Other Insurance including"
+},
+{
+"n": 86,
+"cat": "A",
+"text": "factory, office, car, goods, etc. In Part A P&L, \"Total Commission\" at Sl.No.30iii should be equal to the sum of commission Paid outside India, or paid in India to a non-resident other than a company"
+},
+{
+"n": 87,
+"cat": "A",
+"text": "or a foreign company and To others In Part A P&L, \"Total Royalty\" at Sl.No. 31iii should be equal to the sum of Royalty Paid outside India, or paid in India to a non-resident other than a company or a foreign company and To others 8"
+},
+{
+"n": 88,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 32iii \"Professional / Consultancy fees / Fee for technical services\" should be equal to the sum of fees Paid outside India, or paid in India to a non-resident"
+},
+{
+"n": 89,
+"cat": "A",
+"text": "other than a company or a foreign company and To others In Sch P&L , Sl.No. 44x should be equal to breakup individual values"
+},
+{
+"n": 90,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 46 \"Other expenses\" should be equal to the sum of individual fields"
+},
+{
+"n": 91,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 47 \"Total Bad Debt\" should be equal to the sum of Individual fields"
+},
+{
+"n": 92,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 50 \"Profit before interest, depreciation and taxes\" should be equal to the sum of (15 \u2013 (16 to 21 + 22xi + 23v + 24 to 29 + 30iii + 31iii + 32iii + 33 to 43 +"
+},
+{
+"n": 93,
+"cat": "A",
+"text": "44x + 45 + 46iii + 47iv + 48 + 49)) In Part A P&L, Sl.No. 51iii should be equal to sum of Interest Paid outside India, or paid in India to a non-resident other than a company or a foreign company and To others"
+},
+{
+"n": 94,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 53 \"Net profit before taxes\" should be equal to the sum of (Profit before Interest, depreciation and taxes - Total Interest - Depreciation and amortization)"
+},
+{
+"n": 95,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 56 \"Profit after tax\" should be equal to the sum of (Net Profit before Taxes - provision for current tax - provision for deferred tax)"
+},
+{
+"n": 96,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 58 should be equal to sum of Sl.No. 56 + 57"
+},
+{
+"n": 97,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 60 \"Balance carried to balance sheet in proprietor\u2019s account\" should be equal to Sl.No. 58 - 59"
+},
+{
+"n": 98,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 61(i)\" Gross Turnover or Gross Receipts\" should be equal Sl.No. 61ia + 61ib +61ic"
+},
+{
+"n": 99,
+"cat": "A",
+"text": "In Part A P&L, Sl.No. 61(ii) Presumptive Income under section 44AD should be equal to Sl.No. 61iiA + 61iiB"
+},
+{
+"n": 100,
+"cat": "A",
+"text": "In Profit & Loss A/c, field 61(ii)(A) cannot be less than 6% of field 61(i)(A)."
+}
+]

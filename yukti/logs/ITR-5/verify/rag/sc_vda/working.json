@@ -1,0 +1,1464 @@
+{
+ "meta": {
+  "app": "yukti",
+  "form": "ITR-5",
+  "ay": "2026-27",
+  "ver": 1,
+  "saved": "2026-09-22T07:33:58.973Z"
+ },
+ "pi": {
+  "status": "1",
+  "substatus": "1-Partnership Firm",
+  "name": "S SUDHIR AND ASSOCIATES",
+  "pan": "AAAFS5678Q",
+  "res": "RES",
+  "formed": "01/04/2015",
+  "bizStart": "01/04/2015",
+  "addr1": "No. 42, 3rd Cross",
+  "premises": "Brigade Gardens",
+  "road": "Richmond Road",
+  "locality": "Richmond Town",
+  "city": "Bengaluru",
+  "country": "91",
+  "state": "15",
+  "pin": "560025",
+  "addr2same": "N",
+  "addr1b": "Unit 9, 2nd Floor",
+  "premisesb": "Prestige Meridian",
+  "roadb": "MG Road",
+  "localityb": "Central Bengaluru",
+  "cityb": "Bengaluru",
+  "countryb": "91",
+  "stateb": "15",
+  "pinb": "560001",
+  "std": "080",
+  "phone": "25551234",
+  "mobile": "9845012345",
+  "mobile2Cc": "91",
+  "mobile2": "9845067890",
+  "email": "s.sudhir.test@example.in",
+  "email2": "accounts.sudhir@example.in",
+  "firms": [
+   {
+    "name": "Sudhir Ventures LLP",
+    "pan": "AABFS9911L"
+   }
+  ],
+  "unlco": []
+ },
+ "fs": {
+  "sec": 11,
+  "optout": "Yes",
+  "duedate": "2026-10-31",
+  "incBP": "Y",
+  "busTrust": "N",
+  "invFund": "N",
+  "resStatus": "RES",
+  "foreignExch": "Y",
+  "startupDPIIT": "N",
+  "interMinCert": "N",
+  "ifMSME": "Y",
+  "msmeNum": "UDYAM-KR-03-0012345",
+  "fpi": "N",
+  "rep": "N",
+  "partner": "Y",
+  "unl": "N",
+  "f10ieaCurrOld": "Y",
+  "f10ieaDateOld": "25/09/2026",
+  "f10ieaAckOld": "100200300400500",
+  "filed": "31/10/2026",
+  "lei": "3358005G7M7VX2ZUXX88",
+  "leiValid": "31/12/2026"
+ },
+ "bank": [],
+ "ver": {
+  "name": "S SUDHIR",
+  "father": "S SUBRAMANIAM",
+  "pan": "TVOPS4373C",
+  "capacity": "MP",
+  "place": "Bengaluru",
+  "date": "22/09/2026"
+ },
+ "open": {},
+ "amt": {
+  "d35AD": "",
+  "ifsc": "",
+  "amtc": {
+   "2023-24": {
+    "gross": 50000,
+    "setoff": 0
+   }
+  }
+ },
+ "bp": {
+  "pbt": 2630000,
+  "nplSpec": 0,
+  "nplSpecified": 0,
+  "a3a": 0,
+  "a3b": 0,
+  "a3ci": 0,
+  "a3cii": 0,
+  "a3d": 0,
+  "a3e": 0,
+  "a3f": 0,
+  "p44AD": 0,
+  "p44ADA": 0,
+  "p44AE": 0,
+  "p44B": 0,
+  "p44BB": 0,
+  "p44BBA": 0,
+  "p44BBC": 0,
+  "p44BBD": 0,
+  "p44DA": 0,
+  "pFirstSch": 0,
+  "pl44b": 0,
+  "r7": 0,
+  "r7A": 0,
+  "r7B1": 0,
+  "r7B1A": 0,
+  "r8": 0,
+  "a5a": 0,
+  "a5b": 0,
+  "divExempt": 0,
+  "othExempt": [],
+  "a5A": 0,
+  "e7a": 0,
+  "e7b": 0,
+  "e7c": 0,
+  "e7d": 0,
+  "e7e": 0,
+  "e7f": 0,
+  "e8a": 0,
+  "e8b": 0,
+  "depDebPL": 400000,
+  "dep32_1_i": 0,
+  "d14": 0,
+  "d15": 0,
+  "d16": 0,
+  "d17": 0,
+  "d18": 0,
+  "d19": 0,
+  "deem41": 0,
+  "d21_32AC": 0,
+  "d21_32AD": 0,
+  "d21_33AB": 0,
+  "d21_33ABA": 0,
+  "d21_35ABA": 0,
+  "d21_35ABB": 0,
+  "d21_35AC": 0,
+  "d21_40A3A": 0,
+  "d21_33AC": 0,
+  "d21_72A": 0,
+  "d21_80HHD": 0,
+  "d21_80IA": 0,
+  "d22": 0,
+  "d23": 0,
+  "i24a": 0,
+  "i24b": 0,
+  "i24c": 0,
+  "i24d": 0,
+  "i24e": 0,
+  "i25": 0,
+  "d27": 0,
+  "d29": 0,
+  "d30": 0,
+  "d31": 0,
+  "i32": 0,
+  "d35_44AD": 0,
+  "d35_44ADA": 0,
+  "d35_44AE": 0,
+  "d35_44B": 0,
+  "d35_44BB": 0,
+  "d35_44BBA": 0,
+  "d35_44BBC": 0,
+  "d35_44BBD": 0,
+  "d35_44DA": 0,
+  "d35_FirstSch": 0,
+  "r37a": 0,
+  "r37b": 0,
+  "r37c": 0,
+  "r37d": 0,
+  "r37e": 0,
+  "s40": 0,
+  "s41": 0,
+  "sp44": 0,
+  "sp45": 0,
+  "sp47": 0,
+  "clause": [
+   "",
+   ""
+  ]
+ },
+ "dpm": {
+  "r15": {
+   "WDVFirstDay": 2000000,
+   "AdditionsGrThan180Days": 500000
+  },
+  "r30": {},
+  "r40": {},
+  "r45": {}
+ },
+ "doa": {
+  "land": {},
+  "b5": {
+   "WDVFirstDay": 1000000
+  },
+  "b10": {},
+  "b40": {},
+  "furn": {
+   "WDVFirstDay": 200000
+  },
+  "intang": {},
+  "ships": {}
+ },
+ "esr": {
+  "i": {
+   "deb": 100000,
+   "allow": 100000
+  }
+ },
+ "icds": {
+  "acc": {
+   "inc": 25000,
+   "dec": 0
+  }
+ },
+ "bs": {
+  "FundSrc": {
+   "PartnerOrMemberFund": {
+    "PartnerOrMemberCap": 5000000,
+    "ResrNSurp": {
+     "RevResr": 0,
+     "CapResr": 500000,
+     "StatResr": 0,
+     "OthResr": 0,
+     "CreditBalOfPLAccount": 1500000,
+     "TotResrNSurp": 2000000
+    },
+    "TotPartnerOrMemberFund": 7000000
+   },
+   "LoanFunds": {
+    "SecrLoan": {
+     "ForeignCurrLoan": 0,
+     "RupeeLoan": {
+      "FrmBank": 3000000,
+      "FrmOthrs": 0,
+      "TotRupeeLoan": 3000000
+     },
+     "TotSecrLoan": 3000000
+    },
+    "UnsecrLoan": {
+     "ForeignCurrencyLoans": 0,
+     "RupeeLoan": {
+      "FrmBank": 0,
+      "FrmPersonSpcfdUs40A2b": 500000,
+      "FrmOthrs": 600000,
+      "TotRupeeLoan": 1100000
+     },
+     "TotUnSecrLoan": 1100000
+    },
+    "TotLoanFund": 4100000
+   },
+   "DeferredTax": 0,
+   "Advances": {
+    "FrmPersonSpcfdUs40A2b": 0,
+    "FrmOthers": 600000,
+    "TotalAdvances": 600000
+   },
+   "TotFundSrc": 11700000
+  },
+  "FundApply": {
+   "FixedAsset": {
+    "GrossBlock": 6000000,
+    "Depreciation": 1200000,
+    "CapWrkProg": 200000,
+    "NetBlock": 4800000,
+    "TotFixedAsset": 5000000
+   },
+   "Investments": {
+    "LongTermInv": {
+     "InvInProperty": 0,
+     "EquityInstruments": {
+      "ListedEquities": 800000,
+      "UnListedEquities": 0,
+      "Total": 800000
+     },
+     "PreferenceShares": 0,
+     "GovtOrTrustSecurities": 0,
+     "DebenturesOrBonds": 0,
+     "MutualFunds": 400000,
+     "Others": 0,
+     "TotLongTermInv": 1200000
+    },
+    "ShortTermInv": {
+     "EquityInstruments": {
+      "ListedEquities": 0,
+      "UnListedEquities": 0,
+      "Total": 0
+     },
+     "PreferenceShares": 0,
+     "GovtOrTrustSecurities": 0,
+     "DebenturesOrBonds": 0,
+     "MutualFunds": 0,
+     "Others": 0,
+     "TotShortTermInv": 0
+    },
+    "TotInvestments": 1200000
+   },
+   "CurrAssetLoanAdv": {
+    "CurrAsset": {
+     "Inventories": {
+      "RawMatl": 400000,
+      "WorkInProgress": 100000,
+      "FinOrTradGood": 800000,
+      "StkInTrade": 0,
+      "StoresConsumables": 0,
+      "LooseTools": 0,
+      "Others": 0,
+      "TotInventries": 1300000
+     },
+     "SundryDebtorDtls": {
+      "OutstandindMorethanOneYr": 0,
+      "Others": 3600000,
+      "TotalSundryDebtors": 3600000
+     },
+     "CashOrBankBal": {
+      "BankBal": 2100000,
+      "CashinHand": 300000,
+      "Others": 0,
+      "TotCashOrBankBal": 2400000
+     },
+     "OthCurrAsset": 0,
+     "TotCurrAsset": 7300000
+    },
+    "LoanAdv": {
+     "AdvRecoverable": 500000,
+     "Deposits": 400000,
+     "BalWithRevAuth": 100000,
+     "LoanAdvIncluded": {
+      "PurposeOFBusOrProf": 1000000,
+      "NotForPurposeOFBusOrProf": 0
+     },
+     "TotLoanAdv": 1000000
+    },
+    "CurrLiabilitiesProv": {
+     "CurrLiabilities": {
+      "SundryCreditorDtls": {
+       "OutstandindMorethanOneYr": 0,
+       "Others": 2200000,
+       "TotalSundryCreditors": 2200000
+      },
+      "LiabForLeasedAsset": 0,
+      "AccrIntonLeasedAsset": 0,
+      "AccrIntNotDue": 0,
+      "IncRecvdInAdv": 0,
+      "OtherPayables": 0,
+      "TotCurrLiabilities": 2200000
+     },
+     "Provisions": {
+      "ITProvision": 600000,
+      "ELSuperAnnGratProvision": 0,
+      "OthProvision": 0,
+      "TotProvisions": 600000
+     },
+     "TotCurrLiabilitiesProvision": 2800000
+    },
+    "TotCurrAssetLoanAdv": 8300000,
+    "NetCurrAsset": 5500000
+   },
+   "MiscAdjust": {
+    "MiscExpndr": 0,
+    "DefTaxAsset": 0,
+    "AccumultedLosses": 0,
+    "TotMiscAdjust": 0
+   },
+   "TotFundApply": 11700000
+  },
+  "NoBooksOfAccBS": {}
+ },
+ "cg": {
+  "on": "true",
+  "land": [
+   {
+    "buy": "12/05/2024",
+    "sale": "20/11/2025",
+    "lt": "Short",
+    "cons": 5000000,
+    "sdv": 5000000,
+    "red": 0,
+    "cost": 4000000,
+    "imp": 0,
+    "exp": 100000,
+    "ded": {},
+    "buyers": [
+     {
+      "name": "Anil Kumar",
+      "pan": "AAAPK1122A",
+      "aadhaar": "",
+      "share": 100,
+      "amt": 5000000
+     }
+    ],
+    "paddr": "Site 18, Sarjapur Layout",
+    "pstate": "15",
+    "ppin": "560035",
+    "pcountry": "91",
+    "_": {
+     "isLT": false,
+     "value": 5000000,
+     "safe": true,
+     "bv": 4100000,
+     "c": 900000,
+     "dedTot": 0,
+     "e": 900000,
+     "costIdx": 4000000,
+     "gain": 900000
+    },
+    "_i": 0
+   }
+  ],
+  "a2": {},
+  "a3": [],
+  "a4": {},
+  "a5": {
+   "_c50ca": 0
+  },
+  "a6": {
+   "_c50ca": 0
+  },
+  "a7": {
+   "unutFlag": "",
+   "deem": [],
+   "other": 0,
+   "other45": 0
+  },
+  "a8": {},
+  "a9": [],
+  "aA": [],
+  "b2": {},
+  "b3": {},
+  "b5": {},
+  "b6": [],
+  "b8": {
+   "_c50ca": 0
+  },
+  "b9": {
+   "unutFlag": "",
+   "deem": [],
+   "other": 0,
+   "other45": 0
+  },
+  "b10": {},
+  "b11": [],
+  "bA": {},
+  "s112a": [
+   {
+    "pre18": "AE",
+    "after23": "AF",
+    "isin": "INE467B01029",
+    "name": "TCS Ltd",
+    "sale6": 800000,
+    "cost": 300000,
+    "exp": 0,
+    "_": {
+     "sale": 800000,
+     "fmvTot": 0,
+     "col9": 0,
+     "cwo": 300000,
+     "cost": 300000,
+     "exp": 0,
+     "totded": 300000,
+     "bal": 500000
+    }
+   }
+  ],
+  "s115ad": [],
+  "vda": [
+   {
+    "buy": "14/07/2025",
+    "sale": "09/02/2026",
+    "head": "CG",
+    "cost": 300000,
+    "cons": 500000,
+    "_": {
+     "inc": 200000,
+     "q": 3
+    }
+   }
+  ],
+  "dclaim": {
+   "us54D": [],
+   "us54EC": [],
+   "us54G": [],
+   "us54GA": []
+  },
+  "editE": false,
+  "editF": false
+ },
+ "ded": {
+  "v": {},
+  "g80": [
+   {
+    "bucket": "A",
+    "name": "Prime Minister's National Relief Fund",
+    "addr": "South Block",
+    "city": "New Delhi",
+    "state": "09",
+    "pin": "110011",
+    "pan": "AAAGP1234A",
+    "cash": 0,
+    "other": 100000,
+    "ref": "NEFT-PMNRF-2025-0917",
+    "ifsc": "SBIN0000691",
+    "amt": 100000
+   },
+   {
+    "bucket": "D",
+    "name": "Karnataka Charitable Trust",
+    "addr": "JC Road",
+    "city": "Bengaluru",
+    "state": "15",
+    "pin": "560002",
+    "pan": "AAATK6624F",
+    "arn": "AAATK6624F24BLR1",
+    "cash": 0,
+    "other": 40000,
+    "ref": "UPI-kct-778812",
+    "ifsc": "HDFC0000523",
+    "amt": 40000
+   }
+  ],
+  "gga": [],
+  "ra": [],
+  "ggc": [
+   {
+    "dt": "11/10/2025",
+    "name": "Bharatiya Janata Party",
+    "pan": "AAABI0067L",
+    "cash": 0,
+    "other": 25000,
+    "ref": "NEFT-9988776655",
+    "ifsc": "SBIN0000691"
+   }
+  ],
+  "ia": {
+   "inf": [
+    "",
+    ""
+   ],
+   "pow": [
+    "100000",
+    ""
+   ]
+  },
+  "ib": {
+   "jk": [
+    "",
+    ""
+   ],
+   "oil": [
+    "",
+    ""
+   ],
+   "hous": [
+    "",
+    ""
+   ],
+   "fruit": [
+    "",
+    ""
+   ],
+   "food": [
+    "",
+    ""
+   ]
+  },
+  "ic": {
+   "assam": [
+    "",
+    ""
+   ],
+   "arun": [
+    "",
+    ""
+   ],
+   "mani": [
+    "",
+    ""
+   ],
+   "mizo": [
+    "",
+    ""
+   ],
+   "megh": [
+    "",
+    ""
+   ],
+   "naga": [
+    "",
+    ""
+   ],
+   "trip": [
+    "",
+    ""
+   ],
+   "sikk": [
+    "",
+    ""
+   ]
+  },
+  "iac": {},
+  "la": [],
+  "p": {},
+  "aa": [
+   {
+    "ay": "2019-20",
+    "amt": 200000
+   }
+  ]
+ },
+ "ei": {
+  "interest": 50000,
+  "grossAgri": 300000,
+  "expAgri": 100000,
+  "unabAgri": 0,
+  "land": [],
+  "others": [
+   {
+    "cat": "AGRI",
+    "sub": "10(30)",
+    "desc": "Subsidy received through the Tea Board",
+    "amt": 25000
+   }
+  ],
+  "dtaa": [],
+  "passThr": 25000
+ },
+ "fa": {
+  "fsi": [
+   {
+    "code": "2",
+    "name": "UNITED STATES OF AMERICA",
+    "tin": "US-98-7654321",
+    "sec": "90",
+    "hp": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "bus": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "cg": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "os": {
+     "b": 100000,
+     "c": 15000,
+     "d": 15000,
+     "art": "11"
+    }
+   }
+  ],
+  "trFlag": "NO",
+  "trAmt": "",
+  "trAY": "",
+  "a1": [
+   {
+    "code": "2",
+    "Bankname": "JPMorgan Chase Bank",
+    "AddressOfBank": "270 Park Avenue, New York",
+    "ZipCode": "10017",
+    "ForeignAccountNumber": "US-987654321",
+    "OwnerStatus": "OWNER",
+    "AccOpenDate": "14/03/2019",
+    "PeakBalanceDuringYear": 1200000,
+    "ClosingBalance": 900000,
+    "IntrstAccured": 15000
+   }
+  ],
+  "a2": [],
+  "a3": [],
+  "a4": [],
+  "b": [],
+  "c": [],
+  "d": [],
+  "e": [],
+  "f": [],
+  "g": []
+ },
+ "aud": {
+  "sec44AA": "Y",
+  "incDclrdUs": "N",
+  "salesBand": "Upto10CR",
+  "pctRcvd": "MoreThan5Per",
+  "pctPaid": "Upto5Per",
+  "sec44AB": "Y",
+  "cnd44AB": "bi",
+  "acctFlg": "Y",
+  "repDate": "20/09/2026",
+  "repAck": "123456789012345",
+  "frmName": "Iyer & Rao, Chartered Accountants",
+  "frmPAN": "AAAFI2233R",
+  "frmAadhaar": "",
+  "sec92E": "N",
+  "acct92E": "N",
+  "oth": [
+   {
+    "sec": "80-IA",
+    "flag": "Y",
+    "date": "20/09/2026",
+    "ack": "555666777888999"
+   }
+  ],
+  "act": [
+   {
+    "act": "4",
+    "actOther": "",
+    "section": "35",
+    "flag": "Y",
+    "date": "20/09/2026"
+   }
+  ]
+ },
+ "pm": {
+  "prevChange": "N",
+  "prev": [],
+  "bForeign": "NO",
+  "dExceeds": "N",
+  "isTrust": "N",
+  "trust": {},
+  "members": [
+   {
+    "name": "S Sudhir",
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "share": 40,
+    "pan": "TVOPS4373C",
+    "aadhaar": "734519826041",
+    "status": "INDIVIDUAL",
+    "roi": 12,
+    "remun": 400000
+   },
+   {
+    "name": "Lakshmi Sudhir",
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "share": 35,
+    "pan": "AKPPL2211M",
+    "aadhaar": "612345678901",
+    "status": "INDIVIDUAL",
+    "roi": 12,
+    "remun": 300000
+   },
+   {
+    "name": "Ravi Menon",
+    "addr": "14, Lavelle Road",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560001",
+    "share": 25,
+    "pan": "AQRPM5544K",
+    "aadhaar": "501234567890",
+    "status": "INDIVIDUAL",
+    "roi": 12,
+    "remun": 100000
+   }
+  ]
+ },
+ "nob": [
+  {
+   "code": "04008",
+   "trade": "Sudhir Flour Mills",
+   "desc": "Flour milling (manufacturing)"
+  },
+  {
+   "code": "09028",
+   "trade": "Sudhir Traders",
+   "desc": "Retail sale of other products"
+  }
+ ],
+ "hp": {
+  "on": "1",
+  "pti": 0,
+  "props": [
+   {
+    "addr": "Shop 3, Commerce House, Residency Road",
+    "city": "Bengaluru",
+    "country": "91",
+    "state": "15",
+    "pin": "560025",
+    "owner": "SE",
+    "co": "NO",
+    "type": "Y",
+    "tenants": [
+     {
+      "name": "Bluesky Retail Private Limited",
+      "pan": "AABCB7788Q",
+      "aadhaar": "",
+      "pantan": "AABCB7788Q"
+     }
+    ],
+    "rent": 600000,
+    "unreal": 0,
+    "taxes": 40000,
+    "arrears": 0,
+    "loans": [
+     {
+      "from": "B",
+      "name": "HDFC Bank",
+      "acno": "HL-CRE-778812",
+      "dt": "10/06/2018",
+      "amt": 5000000,
+      "os": 3200000,
+      "interest": 200000
+     }
+    ],
+    "_": {
+     "coShare": 0,
+     "share": 100,
+     "a": 600000,
+     "b": 0,
+     "c": 40000,
+     "d": 40000,
+     "e": 560000,
+     "f": 560000,
+     "g": 168000,
+     "hRaw": 200000,
+     "h": 200000,
+     "i": 368000,
+     "jRecd": 0,
+     "j": 0,
+     "k": 192000,
+     "nLoans": 1
+    },
+    "_i": 0
+   }
+  ]
+ },
+ "loss": {
+  "cfl": {
+   "2021-22": {
+    "dt": "30/07/2021",
+    "lt": 80000
+   },
+   "2022-23": {
+    "dt": "28/07/2022",
+    "st": 100000
+   },
+   "2023-24": {
+    "dt": "29/07/2023",
+    "bus5a": 300000
+   }
+  },
+  "ud": {
+   "curBal": 0,
+   "curAllowBal": 0,
+   "rows": [
+    {
+     "ay": "2024-25",
+     "bfUD": 60000,
+     "adj": 0,
+     "deprSO": 60000,
+     "bfUAllow": 0,
+     "allowSO": 0
+    }
+   ]
+  },
+  "editC": "",
+  "editB": "",
+  "cylaOver": {},
+  "busOver": {},
+  "osOver": {},
+  "bflaOver": {}
+ },
+ "oi": {
+  "MethodOfAcct": "MERC",
+  "ChangeInAcctMethFlg": "N",
+  "MethodOfValClgStk": {
+   "ValRawMaterial": "1",
+   "ValFinishedGoods": "1",
+   "ChngStockValMetFlg": "N"
+  },
+  "NoCredToPLAmt": {
+   "TotNoCredToPLAmt": 0
+  },
+  "AmtDisallUs36": {
+   "NoOfEmployeesEmployed": {
+    "DeployedInIndia": 24,
+    "DeployedOutSideIndia": 0,
+    "Total": 24
+   },
+   "TotAmtDisallUs36": 0
+  },
+  "AmtDisallUs37": {
+   "TotAmtDisallUs37": 0
+  },
+  "AmtDisallUs40": {
+   "TotAmtDisallUs40": 0
+  },
+  "AmtDisallUs40A": {
+   "TotAmtDisallUs40A": 0
+  },
+  "AmtDisallUs43BPyNowAll": {
+   "AmtUs43B": {
+    "TotAmtUs43b": 0
+   }
+  },
+  "AmtDisall43B": {
+   "AmtUs43B": {
+    "TotAmtUs43b": 0
+   }
+  },
+  "AmtExciseCustomsVATOutstanding": {
+   "ExciseCustomsVAT": {
+    "TotExciseCustomsVAT": 0
+   }
+  },
+  "DeemedProfUs33AB": 0,
+  "DeemedProfUs33ABA": 0,
+  "DeemedProfUs33AC": 0,
+  "ProfTaxAmtUs41": 0,
+  "PriorAmtIncCrDrPL": 0,
+  "AmountOfExpDisAllwUs14A": 0,
+  "InterestDisAllowUs23SMEAct": 0,
+  "ScheduleTPSAFlg": "Yes",
+  "DeemedProfUs33ABs": 0,
+  "ProfDeviatDueAcctMeth": 25000,
+  "DecProOrIncLossUs145_2": 0
+ },
+ "qd": {
+  "trd": [
+   {
+    "ItemName": "Wheat flour bags",
+    "UnitOfMeasure": "108",
+    "OpeningStock": 1200,
+    "PurchaseQty": 0,
+    "SaleQty": 9800,
+    "ClgStock": 1400,
+    "AnyShortExces": 0
+   }
+  ],
+  "raw": [
+   {
+    "ItemName": "Wheat",
+    "UnitOfMeasure": "109",
+    "OpeningStock": 500,
+    "PurchaseQty": 9000,
+    "PrevYrConsum": 8900,
+    "SaleQty": 0,
+    "ClgStock": 600,
+    "yldFinisProd": 8700,
+    "PercentYld": 97,
+    "AnyShortExces": 0
+   }
+  ],
+  "fin": [
+   {
+    "ItemName": "Refined wheat flour",
+    "UnitOfMeasure": "108",
+    "OpeningStock": 1200,
+    "PurchaseQty": 0,
+    "PrevyrManfact": 9800,
+    "SaleQty": 9800,
+    "ClgStock": 1200,
+    "AnyShortExces": 0
+   }
+  ]
+ },
+ "os": {
+  "divOth": 200000,
+  "div22e": 0,
+  "div22f": 0,
+  "intSaving": 20000,
+  "intDeposit": 300000,
+  "intRefund": 0,
+  "intPTI": 0,
+  "intOthers": 30000,
+  "rentMach": 0,
+  "giftMoney": 0,
+  "giftImmovWo": 0,
+  "giftImmovInadeq": 0,
+  "giftOthWo": 0,
+  "giftOthInadeq": 0,
+  "others": [],
+  "sum562xii": 0,
+  "win115BB": 50000,
+  "win115BBJ": 0,
+  "cc68": 0,
+  "ui69": 0,
+  "um69a": 0,
+  "udi69b": 0,
+  "ue69c": 0,
+  "hundi69d": 0,
+  "spl": [],
+  "pti": [],
+  "dtaa": [],
+  "dExpenses": 10000,
+  "dDep": 0,
+  "dIntClaimed": 40000,
+  "notDed58": 0,
+  "profit59": 0,
+  "horse": {
+   "receipts": 0,
+   "ded57": 0,
+   "notDed58": 0,
+   "profit59": 0
+  },
+  "q": {
+   "lottery": {
+    "Up16Of12To15Of3": 50000
+   }
+  }
+ },
+ "other": {
+  "pti": [
+   {
+    "kind": "A",
+    "name": "Embassy Office Parks REIT",
+    "pan": "AAATE0770R",
+    "ex23fbb": {
+     "inc": 25000,
+     "tds": 0
+    }
+   }
+  ],
+  "if": {
+   "n": "1",
+   "firms": [
+    {
+     "name": "Sudhir Ventures LLP",
+     "pan": "AABFS9911L",
+     "audit": "No",
+     "s92e": "No",
+     "pct": 30,
+     "profit": 150000,
+     "intr": 0,
+     "cap": 1200000
+    }
+   ]
+  },
+  "tpsa": {
+   "amt": 100000,
+   "challans": [
+    {
+     "bsr": "0510308",
+     "bank": "State Bank of India, MG Road",
+     "date": "10/09/2026",
+     "srl": "88",
+     "amt": 21000
+    }
+   ]
+  },
+  "gst": [
+   {
+    "gstin": "29AAAFS5678Q1Z5",
+    "amt": 15050000
+   }
+  ],
+  "td": {
+   "fmv": "",
+   "liab": "",
+   "fmv101": "",
+   "fmv12aa": "",
+   "fmv115td2": "",
+   "assetLiab": "",
+   "specDate": "",
+   "intOvr": "",
+   "challans": []
+  }
+ },
+ "paid": {
+  "tds2": [
+   {
+    "who": "S",
+    "tan": "MUMB12345A",
+    "sec": "94A",
+    "dedOwn": 30000,
+    "claimOwn": 30000,
+    "gross": 300000,
+    "head": "OS",
+    "_avail": 30000,
+    "_claimed": 30000,
+    "_cf": 0,
+    "_over": false
+   },
+   {
+    "who": "S",
+    "tan": "DELH54321B",
+    "sec": "4-IB",
+    "dedOwn": 40000,
+    "claimOwn": 40000,
+    "gross": 600000,
+    "head": "HP",
+    "_avail": 40000,
+    "_claimed": 40000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "tds3": [
+   {
+    "who": "S",
+    "pan": "AAAPB1234Q",
+    "sec": "94S",
+    "dedOwn": 5000,
+    "claimOwn": 5000,
+    "gross": 500000,
+    "head": "CG",
+    "_avail": 5000,
+    "_claimed": 5000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "tcs": [
+   {
+    "who": "S",
+    "tan": "BLRC44444J",
+    "collOwn": 8000,
+    "claimOwn": 8000,
+    "_avail": 8000,
+    "_claimed": 8000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "it": [
+   {
+    "bsr": "0510308",
+    "dt": "14/06/2025",
+    "sn": "11",
+    "amt": 130000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "12/09/2025",
+    "sn": "27",
+    "amt": 260000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "13/12/2025",
+    "sn": "41",
+    "amt": 260000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "14/03/2026",
+    "sn": "63",
+    "amt": 300000
+   }
+  ]
+ },
+ "pl": {
+  "mfg": {
+   "OpeningInventory": {
+    "OpngStckRawMat": 500000,
+    "OpngStckWrkinPrgrs": 100000,
+    "Purchases": 3000000,
+    "DirectWages": 800000,
+    "CarriageInward": 50000,
+    "PowerAndFuel": 150000,
+    "OthDirectExpenses": 0,
+    "IndirectWages": 100000,
+    "FactoryRentAndRates": 50000,
+    "FactoryInsurance": 20000,
+    "FactoryFuelAndPower": 30000,
+    "FactoryGeneralExpenses": 40000,
+    "DeprctnOfFactoryMachinery": 60000,
+    "OpngInvntryTotal": 600000,
+    "DirectExpenses": 200000,
+    "TotalFactoryOverheads": 300000,
+    "TotalDebtsManfctrngAcc": 4900000
+   },
+   "ClosingStock": {
+    "ClsngStckRawMaterial": 400000,
+    "ClsngStckWrkInPrgrs": 100000,
+    "ClsngStckTotal": 500000
+   },
+   "CostOfGoodsPrdcd": 4400000
+  },
+  "trd": {
+   "SaleOfGoods": 15000000,
+   "SaleOfServices": 0,
+   "OtherOperatingRevenueDtls": [
+    {
+     "OperatingRevenueName": "Scrap sales",
+     "OperatingRevenueAmt": 50000
+    }
+   ],
+   "GrossRcptFromProfession": 0,
+   "ExciseCustomsVAT": {
+    "UnionExciseDuty": 0,
+    "ServiceTax": 0,
+    "VATorSaleTax": 0,
+    "CentralGoodServiceTax": 0,
+    "StateGoodServiceTax": 0,
+    "IntegratedGoodServiceTax": 0,
+    "UnionTerrGoodServiceTax": 0,
+    "OthDutyTaxCess": 0,
+    "TotExciseCustomsVAT": 0
+   },
+   "ClsngStckOfFinishedStcks": 800000,
+   "OpngStckOfFinishedStcks": 600000,
+   "Purchases": 5000000,
+   "CarriageInward": 100000,
+   "PowerAndFuel": 100000,
+   "OtherDirectExpenses": [
+    {
+     "NatureOfDirectExpense": "Loading and cartage",
+     "Amount": 50000
+    }
+   ],
+   "DutyTaxPay": {
+    "ExciseCustomsVAT": {
+     "CustomDuty": 0,
+     "CounterVailDuty": 0,
+     "SplAddDuty": 0,
+     "UnionExciseDuty": 0,
+     "ServiceTax": 0,
+     "VATorSaleTax": 0,
+     "CentralGoodServiceTax": 0,
+     "StateGoodServiceTax": 0,
+     "IntegratedGoodServiceTax": 0,
+     "UnionTerrGoodServiceTax": 0,
+     "OthDutyTaxCess": 0,
+     "TotExciseCustomsVAT": 0
+    }
+   },
+   "IntradayTradingTurnOver": 0,
+   "IntradayTradingIncome": 0,
+   "TurnoverFutureTrd": 0,
+   "IncomeFutureTrd": 0,
+   "OperatingRevenueTotal": 50000,
+   "SalesGrossReceiptsTotal": 15050000,
+   "TotRevenueFrmOperations": 15050000,
+   "TardingAccTotCred": 15850000,
+   "DirectExpensesTotal": 50000,
+   "DirectExpenses": 250000,
+   "GoodsCostPrdcdFrmMA": 4400000,
+   "GrossProfitFrmBusProf": 5600000
+  },
+  "pl": {
+   "CreditsToPL": {
+    "OthIncome": {
+     "RentInc": 0,
+     "Comissions": 0,
+     "Dividends": 0,
+     "InterestInc": 0,
+     "ProfitOnSaleFixedAsset": 0,
+     "ProfitOnInvChrSTT": 0,
+     "ProfitOnOthInv": 0,
+     "ProfitOnCurrFluct": 0,
+     "ProfitOnCnvInvntryToCapAsst": 0,
+     "ProfitOnAgriIncome": 0,
+     "LiabilityWrittenBack": 0,
+     "AmtofInterest": 0,
+     "OtherIncDtls": [
+      {
+       "NatureOfIncome": "Discount received from suppliers",
+       "Amount": 100000
+      }
+     ],
+     "MiscOthIncome": 100000,
+     "TotOthIncome": 100000
+    },
+    "GrossProfitTrnsfFrmTrdAcc": 5600000,
+    "TotCreditsToPL": 5700000
+   },
+   "DebitsToPL": {
+    "DebitPlAcnt": {
+     "Freight": 50000,
+     "ConsumptionOfStores": 0,
+     "PowerFuel": 0,
+     "RentExpdr": 0,
+     "RepairsBldg": 0,
+     "RepairMach": 0,
+     "EmployeeComp": {
+      "SalsWages": 1200000,
+      "Bonus": 0,
+      "MedExpReimb": 0,
+      "LeaveEncash": 0,
+      "LeaveTravelBenft": 0,
+      "ContToSuperAnnFund": 0,
+      "ContToPF": 0,
+      "ContToGratFund": 0,
+      "ContToOthFund": 0,
+      "OthEmpBenftExpdr": 0,
+      "TotEmployeeComp": 1200000
+     },
+     "Insurances": {
+      "MedInsur": 30000,
+      "LifeInsur": 0,
+      "KeyManInsur": 0,
+      "OthInsur": 0,
+      "TotInsurances": 30000
+     },
+     "StaffWelfareExp": 20000,
+     "Entertainment": 0,
+     "Hospitality": 0,
+     "Conference": 0,
+     "SalePromoExp": 0,
+     "Advertisement": 0,
+     "CommissionExpdrDtls": {
+      "NonResOtherCompany": 0,
+      "Others": 0,
+      "Total": 0
+     },
+     "RoyalityDtls": {
+      "NonResOtherCompany": 0,
+      "Others": 0,
+      "Total": 0
+     },
+     "ProfessionalConstDtls": {
+      "NonResOtherCompany": 0,
+      "Others": 0,
+      "Total": 0
+     },
+     "HotelBoardLodge": 0,
+     "TravelExp": 40000,
+     "ForeignTravelExp": 0,
+     "ConveyanceExp": 0,
+     "TelephoneExp": 30000,
+     "GuestHouseExp": 0,
+     "ClubExp": 0,
+     "FestivalCelebExp": 0,
+     "Scholarship": 0,
+     "Gift": 0,
+     "Donation": 0,
+     "RatesTaxesPays": {
+      "ExciseCustomsVAT": {
+       "UnionExciseDuty": 0,
+       "ServiceTax": 0,
+       "VATorSaleTax": 0,
+       "Cess": 0,
+       "CentralGoodServiceTax": 0,
+       "StateGoodServiceTax": 0,
+       "IntegratedGoodServiceTax": 0,
+       "UnionTerrGoodServiceTax": 0,
+       "OthDutyTaxCess": 0,
+       "TotExciseCustomsVAT": 0
+      }
+     },
+     "AuditFee": 100000,
+     "SalRemuneration": 800000,
+     "OtherExpensesDtls": [
+      {
+       "ExpenseNature": "Office and administrative expenses",
+       "Amount": 60000
+      },
+      {
+       "ExpenseNature": "Scientific research u/s 35(1)(i)",
+       "Amount": 100000
+      }
+     ],
+     "BadDebtDtls": {
+      "BadDebtAmtDtls": [
+       {
+        "PAN": "AAKCS9012Q",
+        "Amount": 40000
+       }
+      ],
+      "OthersPANNotAvlblDtl": [],
+      "OthersAmtLt1Lakh": 0,
+      "BadDebtAmtDtlsTotal": 40000,
+      "OthersPANNotAvlblDtlTotal": 0,
+      "BadDebt": 40000
+     },
+     "ProvForBadDoubtDebt": 0,
+     "OthProvisionsExpdr": 0,
+     "InterestExpdrtDtls": {
+      "NonResOtherCompany": 0,
+      "Others": 0,
+      "ResPartners": 200000,
+      "ResOthers": 0,
+      "InterestExpdr": 200000
+     },
+     "DepreciationAmort": 400000,
+     "OtherExpenses": 160000,
+     "PBIDTA": 3230000,
+     "PBT": 2630000
+    },
+    "TaxProvAppr": {
+     "ProvForCurrTax": 600000,
+     "ProvDefTax": 0,
+     "BalBFPrevYr": 0,
+     "Appropriations": {
+      "TrfToReserves": 0
+     },
+     "ProfitAfterTax": 2030000,
+     "AmtAvlAppr": 2030000,
+     "PartnerAccBalTrf": 2030000
+    }
+   },
+   "PersumptiveInc44AD": {
+    "GrsTrnOverOrReceipt": 0,
+    "TotPersumptiveInc44AD": 0
+   },
+   "PersumptiveInc44ADA": {
+    "GrsReceipt": 0
+   },
+   "TotalNumOfMonths": 0,
+   "TotalPrsumptvIncUs44EGoods": 0,
+   "TotalPrsumptvIncGCUs44E": 0,
+   "TotalPrsumptvIncUs44E": 0,
+   "NoBooksOfAccPL": {
+    "GrossReceipt": 0,
+    "NetProfit": 0,
+    "GrossReceiptPrf": 0,
+    "NetProfitPrf": 0,
+    "TotBusinessProfession": 0
+   },
+   "NetIncomeFrmSpecActivity": 0,
+   "NonResidentPL": {
+    "GrossReceipt": 0,
+    "NetProfit": 0
+   },
+   "NatOfBus44AD": [],
+   "NatOfBus44ADA": [],
+   "NatOfBus44AE": [],
+   "GoodsDtlsUs44AE": [],
+   "NonResidentPLDetails": []
+  }
+ },
+ "si": {
+  "edit": "",
+  "over": []
+ },
+ "tax": {
+  "bankFlag": "Y",
+  "faFlag": "",
+  "banks": [
+   {
+    "ifsc": "SBIN0040011",
+    "name": "State Bank of India",
+    "acno": "30412345678",
+    "type": "CA",
+    "refund": "Y"
+   },
+   {
+    "ifsc": "HDFC0000523",
+    "name": "HDFC Bank",
+    "acno": "50100987654321",
+    "type": "CA",
+    "refund": "N"
+   }
+  ],
+  "fbanks": []
+ }
+}

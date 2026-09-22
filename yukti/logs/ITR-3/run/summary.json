@@ -1,0 +1,42 @@
+{
+ "form": "ITR-3",
+ "html": "forms/ITR-3/Yukti_ITR3.html",
+ "boot_errors": [],
+ "checks_err": [],
+ "figures": {
+  "gti": 3273500,
+  "ti": 1786500,
+  "tax": 361868,
+  "net": 416835,
+  "balance": 0,
+  "refund": 1161170
+ },
+ "rules": [
+  {
+   "cat": "D",
+   "n": 1,
+   "msg": "AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory."
+  },
+  {
+   "cat": "D",
+   "n": 12,
+   "msg": "Liable to pay AMT u/s 115JC \u2014 Form 29C should be filed."
+  },
+  {
+   "cat": "D",
+   "n": 3,
+   "msg": "Deduction u/s 80JJAA is claimed \u2014 Form 10DA is required."
+  },
+  {
+   "cat": "D",
+   "n": 6,
+   "msg": "Deduction u/s 10AA is claimed \u2014 Form 56F should be filed."
+  }
+ ],
+ "exported": true,
+ "saved": true,
+ "page_errors": [],
+ "alerts": [
+  "Exported. 4 Category D notices to act on after upload:\n\nD1 \u00b7 AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory.\nD12 \u00b7 Liable to pay AMT u/s 115JC \u2014 Form 29C shoul"
+ ]
+}

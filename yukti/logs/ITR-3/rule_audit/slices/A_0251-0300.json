@@ -1,0 +1,252 @@
+[
+{
+"n": 251,
+"cat": "A",
+"text": "In Schedule BP, The value at field (A14) should be equal to the value at Sl.No. 6s of schedule OI."
+},
+{
+"n": 252,
+"cat": "A",
+"text": "In Schedule BP, Sl.No.15 should be equal to Sl.No. 7j of Schedule OI."
+},
+{
+"n": 253,
+"cat": "A",
+"text": "In Schedule BP, The value at field (A16) should be equal to the value at Sl.No. 8Aj of schedule Part A OI."
+},
+{
+"n": 254,
+"cat": "A",
+"text": "In Schedule BP, The value at field (A17) of should be equal to the value at Sl.No. 9F of schedule Part A- OI."
+},
+{
+"n": 255,
+"cat": "A",
+"text": "In Schedule BP, Sl.No.18 \"Any Amounts debited to the profit and loss account, to the extent disallowable under section 43B\" should be equal to Sl.No.11 of Schedule Part A-"
+},
+{
+"n": 256,
+"cat": "A",
+"text": "OI In Schedule BP, The value at field (A20) should be equal to the value at Sl.No. 14 of schedule OI"
+},
+{
+"n": 257,
+"cat": "A",
+"text": "In Schedule BP, Sl. No. A25 Increase in profit or decrease in loss on account of ICDS adjustments and deviation in method of valuation of stock should be equal to sum total of"
+},
+{
+"n": 258,
+"cat": "A",
+"text": "Column 3a + 4d of Schedule Part A- OI In Schedule BP, Sl.No. 28. \"Amount of deduction under section 35 or 35CCC or 35CCD or 35ABA or 35ABB or 35CCA or 35D or 35DD or 35DDA or 35E in excess of the"
+},
+{
+"n": 259,
+"cat": "A",
+"text": "amount debited to P & L a/c\" should be equal to Sl.No. X(4)of Schedule ESR In Schedule BP, Sl.No. A29 \"Any amount disallowed under section 40 in any preceding previous year but allowable during the previous year(8B of Part A-OI)\" should be equal"
+},
+{
+"n": 260,
+"cat": "A",
+"text": "to Sl.No. 8B of Schedule Part-A OI In Schedule BP, Sl.No.30 \"Any amount disallowed under section 43B in any preceding year but allowable during the previous year(10i of Part A-OI)\" should be equal to Sl.No."
+},
+{
+"n": 261,
+"cat": "A",
+"text": "10i of Schedule Part A-OI In Schedule BP, Sl. No. A32 \"Decrease in profit or increase in loss on account of ICDS adjustments and deviation in method of valuation of stock\" should be equal to Column 3b"
+},
+{
+"n": 262,
+"cat": "A",
+"text": "+ 4e of Schedule Part A- OI In schedule BP, Sl.No. A34 \"Income\" should be equal to Sl.No. A(13+26-33)"
+},
+{
+"n": 263,
+"cat": "A",
+"text": "In schedule BP, Sl.No. A35viii should be equal to sum of individual amounts entered in Sl.No. A35i to 35vii."
+},
+{
+"n": 264,
+"cat": "A",
+"text": "In schedule BP, Sl.No. A36 \"Net profit or loss from business or profession other than speculative and specified business\" should be equal to Sl.No. A34 + A35viii 18"
+},
+{
+"n": 265,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. A37 should be equal to Sl.No. A(37a+ 37b + 37c + 37d + 37e + 37f.)"
+},
+{
+"n": 266,
+"cat": "A",
+"text": "In Schedule BP, The value at field (B42) should be equal to Sl.No. B39+B40-B41"
+},
+{
+"n": 267,
+"cat": "A",
+"text": "In schedule BP, Sl.No. C47 \"Profit or loss from specified business\" should be equal to Sl.No. C43+C44-C45."
+},
+{
+"n": 268,
+"cat": "A",
+"text": "In Schedule BP, Income from Specified Business at Sl.No. C48 should be equal to \"Profit or loss from specified business\" minus \"Deductions in accordance with section 35AD(1)\""
+},
+{
+"n": 269,
+"cat": "A",
+"text": "In schedule BP, Sl.No. D Income chargeable under the head 'Profits and gains from Business or Profession' should be equal to Sl.No. (A37 + B42 + C48)"
+},
+{
+"n": 270,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. 4a should be equal to Sl.No. 35(i) to 35(vii)"
+},
+{
+"n": 271,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. 11 Depreciation and amortization debited to profit and loss account should be equal to Sl.No. 1Evi of Manufacturing account+ Sl.No. 52 of PART-A-P&L"
+},
+{
+"n": 272,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. A38 \"Balance of income deemed to be from agriculture, after applying Rule 7, 7A, 7B(1), 7B(1A) and Rule 8 for the purpose of aggregation of income"
+},
+{
+"n": 273,
+"cat": "A",
+"text": "as per Finance Act\" should be equal to [4b-(37a+37b+37c+37d+37e)] In Schedule BP, Sl.No. 5d should be equal to Sl.No. 5a+5b+5ciii"
+},
+{
+"n": 274,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. E(3) \"Business income remaining after set off\" should be equal to Income of current year minus Business loss set off"
+},
+{
+"n": 275,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. Eiv \"Total loss set off\" should be equal to sum of Income from speculative business and Income from specified business set off"
+},
+{
+"n": 276,
+"cat": "A",
+"text": "In Schedule BP, Sl.No. Ev \"Loss remaining after set off\" should be equal to \"Loss to be set off\" minus \"Total loss set off\""
+},
+{
+"n": 277,
+"cat": "A",
+"text": "In schedule BP, Sl.No. 8b should be equal to Sl.No. 16 of schedule Part A-OI"
+},
+{
+"n": 278,
+"cat": "A",
+"text": "In Schedule BP, \u201cDepreciation allowable under section 32(1)(i)\u201d can be claimed only if assessee is carrying on power sector business (05001 or 06008)"
+},
+{
+"n": 279,
+"cat": "A",
+"text": "In Schedule BP, If income/ loss from specified business is entered then nature of specified business should be mentioned"
+},
+{
+"n": 280,
+"cat": "A",
+"text": "In schedule BP, Sl.No. B39 \"Net profit or loss from speculative business as per profit or loss account \" should be equal to Sl.No. 2a \"Net profit or loss from speculative business"
+},
+{
+"n": 281,
+"cat": "A",
+"text": "included in Profit before tax as per profit and loss account \" In Schedule BP, The Income/receipts reduced at Sl.No.3 and/or Sl.No.5 should not be higher than the Income/receipts that have been credited to the P and L A/c"
+},
+{
+"n": 282,
+"cat": "A",
+"text": "Amount reduced in Sl.No. A3a in schedule BP cannot be more than the income offered in schedule Salary"
+},
+{
+"n": 283,
+"cat": "A",
+"text": "In Schedule BP, If Sum of amount entered in \"S.No 35 (i) (Sec 44AD) + S.No 35 (ii) (Sec 44ADA) + S.No 35 (iii) (Sec 44AE)\" is greater than \"0\" then Balance sheet particulars for either \"Regular books of accounts\" or particulars for \"No accounts case\" is mandatory 19"
+},
+{
+"n": 284,
+"cat": "A",
+"text": "Total value of \"S.No. 4D of Part A Trading account + Gross receipts at Sl.No. 61(i) +62(i) +64(i) +64(ii) of Schedule P&L\" should be greater than or Equal to Sum of amount entered"
+},
+{
+"n": 285,
+"cat": "A",
+"text": "in \"Sl.No 35 (i) (Sec 44AD) \" of Schedule BP The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1)"
+},
+{
+"n": 286,
+"cat": "A",
+"text": "Schedule BP, sl no 24(e) should be minimum of Absolute value of total of negative values of \"col 3 - col 2\" of all fields in Schedule ESR"
+},
+{
+"n": 287,
+"cat": "A",
+"text": "If New Tax Regime is selected then in schedule BP, deduction u/s 35AD cannot be claimed."
+},
+{
+"n": 288,
+"cat": "A",
+"text": "In Schedule BP, value at Sl.No. 3d should be equal to 3d(i) + 3d(ii)."
+},
+{
+"n": 289,
+"cat": "A",
+"text": "In Schedule BP, Income reduced from Row no A3d(i) \"Dividend Income\" plus 5c- Dividend income\" and income offered under schedule OS should not be more than"
+},
+{
+"n": 290,
+"cat": "A",
+"text": "dividend income offered in Sl. No. 14(iii) of Part A-P&L In Schedule BP, sum of values entered from 35(iv) to 35(vii) should match with sum of values declared at Sl.No.4a(iv) to 4a(vii)"
+},
+{
+"n": 291,
+"cat": "A",
+"text": "In Schedule BP Sl.no 3d should be equal to Sl.no 3di+3dii."
+},
+{
+"n": 292,
+"cat": "A",
+"text": "In schedule BP amount of exempt income reduced from Profits and Gains of Business and Profession does not tally with income offered in schedule EI & Column Amount of share"
+},
+{
+"n": 293,
+"cat": "A",
+"text": "in profits from schedule IF In schedule BP , sl no 35(iii) should be equal to 63(ii) \"Total presumptive income from goods carriage u/s 44AE\" of schedule P&L"
+},
+{
+"n": 294,
+"cat": "A",
+"text": "In schedule BP value mentioned at the Sl. No. 37a \"Income Chargeable under Rule 7\" does not tally with the amount mentioned at the Sl. No. 4b(i) \"Profit from activities"
+},
+{
+"n": 295,
+"cat": "A",
+"text": "covered under rule 7\". In schedule BP value mentioned at the Sl. No. 37b \"Deemed income chargeable under Rule 7A\" Should be minimum 35% of the amount mentioned at the Sl. No. 4b(ii) \"Profit"
+},
+{
+"n": 296,
+"cat": "A",
+"text": "from activities covered under rule 7A\". In schedule BP value mentioned at the Sl. No. 37c \"Deemed income chargeable under Rule 7B(1)\" Should be minimum 25% of the amount mentioned at the Sl. No. 4b(iii)"
+},
+{
+"n": 297,
+"cat": "A",
+"text": "\"Profit from activities covered under rule 7B(1)\". In schedule BP value mentioned at the Sl. No. 37d \"Deemed income chargeable under Rule 7B(1A)\" Should be minimum 40% of the amount mentioned at the Sl. No. 4b(iv)"
+},
+{
+"n": 298,
+"cat": "A",
+"text": "\"Profit from activities covered under rule 7B(1A)\". In schedule BP value mentioned at the Sl. No. 37e \"Deemed income chargeable under Rule 8\" Should be minimum 40% of the amount mentioned at the Sl. No. 4b(v) \"Profit"
+},
+{
+"n": 299,
+"cat": "A",
+"text": "from activities covered under rule 8\". In Such BP Sl. No. C43 should be equal to Pt 2b \"Net profit or loss from specified business as per profit or loss account\" 20"
+},
+{
+"n": 300,
+"cat": "A",
+"text": "Amount entered at Sl. No. 3g \"u/s 115BBH (net of Cost of acquisition, if any)\" should match with Sl. No. A \"Total\" of Schedule VDA"
+}
+]

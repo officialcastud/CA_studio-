@@ -1,0 +1,18 @@
+{
+ "name": "sc_115td",
+ "rules": [],
+ "audit": [],
+ "export1": true,
+ "saved": true,
+ "errors1": [],
+ "export2": true,
+ "errors2": [],
+ "export3": true,
+ "errors3": [],
+ "rt_export": "DIFFERS",
+ "rt_export_diff": [
+  "- /ITR/ITR5/ScheduleIF = {\"PartnerInNumberOfFirms\": 0, \"TotalProfitShareAmt\": 0, \"Tot"
+ ],
+ "rt_export_ndiff": 1,
+ "rt_working": "IDENTICAL"
+}

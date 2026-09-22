@@ -1,0 +1,15 @@
+TDS credit in the name of  (Col 2),"PAN Of Other Person (If TDS Credit related to other person)
+(Col 3i)","Aadhaar No. Of Other Person (If TDS credit related to other person)
+(Col 3ii)","PAN of the buyer/ tenant/ deductor
+(Col 4a)","Aadhaar of the buyer/ tenant/ deductor
+(Column 4b)",Section under which TDS is deducted,"Fin. year in which deducted - UTBF
+(Col 5)","TDS b/f - UTBF
+(Col 6)","Deducted in own hands - TCFY
+(Col 7)","Income - Deducted in hands of any other person as per rule 37BA(2) - TCFY
+(Col 8a)","TDS - Deducted in hands of any other person as per rule 37BA(2) - TCFY
+(Col 8b)","Claimed in own hands - TC 
+(Col 9)","Income - CHS - TC 
+(Col 10a)",TDS - CHS - TC (Col 10b),PAN - CHS - TC (Col 10c),Aadhar No - CHS - TC (Col 10d),"Gross Amount - CRO
+(Col 11)","Head of Income - CRO
+(Col 12)","TDS credit being carried forward
+(Col 13)"

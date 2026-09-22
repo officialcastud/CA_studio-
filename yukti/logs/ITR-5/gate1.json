@@ -1,0 +1,27 @@
+{
+ "gate": 1,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "sections": [
+   "amt",
+   "bp",
+   "bs",
+   "cg",
+   "ded",
+   "ei",
+   "foreign",
+   "gen",
+   "hp",
+   "loss",
+   "oi",
+   "os",
+   "other",
+   "paid",
+   "pl",
+   "si",
+   "tax",
+   "verify"
+  ]
+ }
+}

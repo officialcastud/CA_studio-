@@ -1,0 +1,14 @@
+{
+ "name": "sc_vda",
+ "rules": [],
+ "audit": [],
+ "export1": true,
+ "saved": true,
+ "errors1": [],
+ "export2": true,
+ "errors2": [],
+ "export3": true,
+ "errors3": [],
+ "rt_export": "IDENTICAL",
+ "rt_working": "IDENTICAL"
+}
