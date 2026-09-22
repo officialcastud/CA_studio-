@@ -70,8 +70,8 @@ const OTH_PTIKIND = [["Section 115U","Section 115U"],
    (PartA_GEN2For6.LiableSec44ABflg). Guarded read; when unknown, treat the
    filer as non-audit so the FD card is offered. */
 const oth_audited = ()=>{
-  const g = S.gen||{};
-  const v = st0(g.aud44ab||g.liable44AB||g.LiableSec44ABflg||"");
+  const g = S.gen||{}, A = g.aud||{};
+  const v = st0(A.sec44AB||"");
   return v==="Y" || v==="Yes";
 };
 /* Part A-OI "impermissible avoidance arrangement (section 96)" = Yes requires

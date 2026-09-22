@@ -18,9 +18,13 @@ const S={
   pi:{status:"6",res:"RES",domestic:"Y",name:"",pan:"",dob:"",doi:""},
   fs:{optout:"No",sec:11,filed:""},
   ver:{cap:"MD"},
-  /* the 18 screen-section namespaces — filled by the Phase-4 builders */
-  who:{}, gen:{}, accounts:{}, bp:{}, cg:{}, os:{}, hp:{}, loss:{},
-  ded:{}, si:{}, ei:{}, mat:{}, fa:{}, al:{}, other:{}, paid:{}, tax:{},
+  /* the screen-section namespaces (who/gen/accounts/bp/cg/os/hp/loss/ded/
+     si/ei/mat/fa/al/other/paid/tax) are intentionally NOT pre-seeded here:
+     each Phase-4 section builder initialises its own with `S.<ns> =
+     S.<ns> || {…defaults}`, and a `{}` placeholder is truthy — it would
+     short-circuit that `||` and drop every section's defaults. Left
+     undefined so each section's own seed runs; the test client and every
+     engine assign/read these namespaces defensively. */
   bank:[],        /* shell array; also the 'bank' (verification) section's namespace */
   open:{}, C:{}
 };
@@ -35,18 +39,18 @@ const SKEL=
 {
  "CreationInfo": {
   "SWVersionNo": "na",
-  "SWCreatedBy": "na",
-  "JSONCreatedBy": "na",
+  "SWCreatedBy": "SW10000001",
+  "JSONCreatedBy": "SW10000001",
   "JSONCreationDate": "2026-01-01",
   "IntermediaryCity": "na",
-  "Digest": "na"
+  "Digest": "-"
  },
  "Form_ITR6": {
-  "FormName": "na",
+  "FormName": "ITR-6",
   "Description": "na",
-  "AssessmentYear": "na",
-  "SchemaVer": "na",
-  "FormVer": "na"
+  "AssessmentYear": "2026",
+  "SchemaVer": "Ver1.0",
+  "FormVer": "Ver1.0"
  },
  "PartA_GEN1": {
   "OrgFirmInfo": {

@@ -44,7 +44,7 @@ const ACC_YN=[["Yes","Yes"],["No","No"]];       /* items 2, 4c, 18 flags */
 const ACC_YN2=[["Y","Y"],["N","N"]];            /* P&L 22xiia AnyCompPaidToNonRes */
 const ACC_ACCT=[["MERC","Mercantile"],["CASH","Cash"]];  /* OI item 1 */
 const ACC_VAL=[["1","1 — Cost or market rate, whichever is less"],["2","2 — At cost"],["3","3 — At market rate"]]; /* OI 4a/4b */
-const ACC_RC=[["Revenue","Revenue"],["Capital","Capital"]]; /* OL 2v TypeOfIncome */
+const ACC_RC=[["R","Revenue"],["C","Capital"]]; /* OL 2v TypeOfIncome — schema enum R/C */
 
 /* ---- state: S.accounts mirrors each schema block's nested shape. The
    engine writes computed totals back onto the same paths, so S.accounts is
@@ -247,7 +247,7 @@ function engAccounts(){
     const stl=ca+"TotShortTermLoanAdv.";
     St(stl+"TotShrtTermLoans", G(stl+"LoanAdv")+G(stl+"Others")); /* 2Eiii */
     const totCA=G(ci+"TotCurrInvstmnts")+G(iv+"TotInventries")+G(ca+"TradeReceivables.TotalTradeReceivables")+G(ce+"TotCashNCashEquivalents")+G(stl+"TotShrtTermLoans")+G(ca+"OtherCurrAssets"); St(ca+"TotCurrAssets",totCA); /* 2G */
-    St("bs.Assets.TotalAssets", totNCA+totCA); /* II */
+    St("bs.TotalAssets", totNCA+totCA); /* II */
   })();
 
   /* ---------- Balance Sheet (Ind AS) ---------- */
@@ -327,7 +327,7 @@ function engAccounts(){
     const ocaOth=SUM(A(oca+"OthersCurrentAssts"),"OthersAmount"); St(oca+"OthersTotal",ocaOth);
     St(oca+"TotalOthCurrentAsst", G(oca+"AdvancOthCapital")+ocaOth); /* 2D */
     St(oca+"TotalCurrAsst", G(cin+"TotalInventories")+G(cfa+"TotalFinancialAsst")+G(cfa+"CurrentTaxAsst")+G(oca+"TotalOthCurrentAsst")); /* total CA */
-    St("bsias.Assets.TotalAssets", G(nfa+"TotalNonCurrntAsst")+G(oca+"TotalCurrAsst")); /* II */
+    St("bsias.TotalAssets", G(nfa+"TotalNonCurrntAsst")+G(oca+"TotalCurrAsst")); /* II */
   })();
 
   /* ---------- Part A - OI (Other Information) ---------- */
@@ -381,10 +381,10 @@ function engAccounts(){
     depreciationPL:R(G("pl.DebitsToPL.DebitPlAcnt.DepreciationAmort")),
     depreciationPLIndAs:R(G("plias.DebitsToPL.DebitPlAcnt.DepreciationAmort")),
     totComprIncome:R(G("plias.OtherComprnsvInc.TotalComprIncome")),
-    bsTotEL:R(G("bs.EquityAndLiablities.TotEquityAndLiabilities")), bsTotAsset:R(G("bs.Assets.TotalAssets")),
-    bsMismatch:R(G("bs.EquityAndLiablities.TotEquityAndLiabilities"))!==R(G("bs.Assets.TotalAssets")),
-    biasTotEL:R(G("bsias.EquityAndLiablities.Liabilities.CurrentLiabilities.TotalEquityLiab")), biasTotAsset:R(G("bsias.Assets.TotalAssets")),
-    biasMismatch:R(G("bsias.EquityAndLiablities.Liabilities.CurrentLiabilities.TotalEquityLiab"))!==R(G("bsias.Assets.TotalAssets")),
+    bsTotEL:R(G("bs.EquityAndLiablities.TotEquityAndLiabilities")), bsTotAsset:R(G("bs.TotalAssets")),
+    bsMismatch:R(G("bs.EquityAndLiablities.TotEquityAndLiabilities"))!==R(G("bs.TotalAssets")),
+    biasTotEL:R(G("bsias.EquityAndLiablities.Liabilities.CurrentLiabilities.TotalEquityLiab")), biasTotAsset:R(G("bsias.TotalAssets")),
+    biasMismatch:R(G("bsias.EquityAndLiablities.Liabilities.CurrentLiabilities.TotalEquityLiab"))!==R(G("bsias.TotalAssets")),
     olIn:R(G("ol.TotalOpenReceipts")), olOut:R(G("ol.TotalClPaymnts")),
     olMismatch:R(G("ol.TotalOpenReceipts"))!==R(G("ol.TotalClPaymnts")),
     /* OI feeds -> Schedule BP add-backs / allowances */
@@ -691,3 +691,847 @@ function accOCI(){
   s+=_acRc("62 — Total Comprehensive Income (56 + 61A + 61B)","plias.OtherComprnsvInc.TotalComprIncome","62");
   return s;
 }
+
+/* =====================================================================
+   Part A - OI item lists (schema key · item ref · label — from
+   books/ITR-6/PART_A_OI.md). Shared by the screen and the exporter so the
+   two never drift; the exporter builds the required-leaf skeleton from
+   these arrays and every leaf here is a verbatim PARTA_OI schema key.
+   ===================================================================== */
+const OI_NC5=[["Section28Items","5a","Items falling within the scope of section 28"],
+  ["ProformaCreditsDue","5b","Proforma credits, drawbacks, refund of duty/tax"],
+  ["PrevYrEscalClaim","5c","Escalation claims accepted during the year"],
+  ["OthItemInc","5d","Any other item of income"],
+  ["CapReceipt","5e","Capital receipt, if any"]];
+const OI36=[["StkInsurPrem","6a","Insurance premium — risk of damage/destruction of stocks or stores [36(1)(i)]"],
+  ["EmpHealthInsurPrem","6b","Insurance premium on the health of employees [36(1)(ib)]"],
+  ["EmpBonusCommSum","6c","Bonus or commission to an employee otherwise payable as profit/dividend"],
+  ["IntOnBorrCap","6d","Interest on borrowed capital [36(1)(iii)]"],
+  ["ZeroCoupBondDisc","6e","Discount on a zero-coupon bond [36(1)(iiia)]"],
+  ["RecogPFContribAmt","6f","Contributions to a recognised provident fund [36(1)(iv)]"],
+  ["AppSuperAnnFundAmt","6g","Contributions to an approved superannuation fund [36(1)(iv)]"],
+  ["PensionSchemeSec80CCD","6h","Contribution to a pension scheme u/s 80CCD [36(1)(iva)]"],
+  ["AppGratFundAmt","6i","Contributions to an approved gratuity fund [36(1)(v)]"],
+  ["OthFundAmt","6j","Contributions to any other fund"],
+  ["EmpContributionCredits","6k","Employees' contribution to any fund, not credited by the due date"],
+  ["BadDebtDoubtAmt","6l","Bad and doubtful debts [36(1)(vii)]"],
+  ["BadDebtDoubtProvn","6m","Provision for bad and doubtful debts [36(1)(viia)]"],
+  ["SpecResrvTranfr","6n","Amount transferred to any special reserve [36(1)(viii)]"],
+  ["FamPlanPromoExp","6o","Expenditure for promoting family planning amongst employees [36(1)(ix)]"],
+  ["SecuritiesPaidAmt","6p","Securities transaction tax paid where such income is not business income"],
+  ["MrktLossOthExpLossICDS","6q","Marked-to-market / expected loss as computed under ICDS u/s 145(2)"],
+  ["AnyOthDisallowance","6r","Any other disallowance"]];
+const OI37=[["CapitalNatureExp","7a","Expenditure of capital nature [37(1)]"],
+  ["PersonalExp","7b","Expenditure of personal nature [37(1)]"],
+  ["BusOrProfessnExp","7c","Expenditure not wholly and exclusively for business/profession"],
+  ["PoliticPartyExp","7d","Advertisement in a publication of a political party"],
+  ["LawVoilatPenalExp","7e","Expenditure by way of penalty/fine for violation of any law"],
+  ["OthPenalFineExp","7f","Any other penalty or fine"],
+  ["OffenceExp","7g","Expenditure incurred for any purpose which is an offence/prohibited by law"],
+  ["SocialRespCSR","7h","Expenditure on corporate social responsibility (s.135 Companies Act)"],
+  ["ContigentLiability","7i","Amount of any liability of a contingent nature"],
+  ["OthAmtNotAllowUs37","7j","Any other amount not allowable under section 37"]];
+const OI40=[["NonCompChapXVIIBAmt","8Aa","Amount disallowable u/s 40(a)(i) — non-compliance with Chapter XVII-B"],
+  ["NonComp40aiaChapXVIIBAmt","8Ab","Amount disallowable u/s 40(a)(ia)"],
+  ["NonComp40aibChapXVIIBAmt","8Ac","Amount disallowable u/s 40(a)(ib)"],
+  ["NonComp40aiiiChapXVIIBAmt","8Ad","Amount disallowable u/s 40(a)(iii)"],
+  ["TaxAmtOnProfits","8Ae","Amount of tax on profits (s.40(a)(ii))"],
+  ["WTAmt","8Af","Amount of wealth-tax (s.40(a)(iia))"],
+  ["RolyatyOrServiceFee","8Ag","Royalty/licence/service fee to a State Government undertaking (s.40(a)(iib))"],
+  ["IntSalBonPartner","8Ah","Interest/salary/bonus to a partner (s.40(b)/40(ba))"]];
+const OI40A=[["AmtPaidUs40A2b","9a","Amounts paid to persons specified u/s 40A(2)(b)"],
+  ["AmtGT20kCash","9b","Amount paid otherwise than by account-payee mode u/s 40A(3)/(3A)"],
+  ["ProvPmtGrat","9c","Provision for payment of gratuity u/s 40A(7)"],
+  ["ContToSetupTrust","9d","Contribution to a non-statutory fund/trust u/s 40A(9)"]];
+const OI43=[["TaxDutyCesAmt","a","Any sum of tax, duty, cess or fee"],
+  ["ContToEmpPFSFGF","b","Contribution to any provident/superannuation/gratuity or other employee fund"],
+  ["EmpBonusComm","c","Bonus or commission to employees"],
+  ["IntPayaleToFI","d","Interest on any loan/borrowing from a public financial institution/NBFC"],
+  ["SumPayaleLoanBrToFinComp","e","Interest on any loan/advance from a scheduled bank/co-op bank"],
+  ["IntPayaleToFISchBank","f","Interest on any loan/borrowing from a deposit-taking NBFC"],
+  ["LeaveEncashPayable","g","Sum payable towards leave encashment"],
+  ["RailwayAsstsPyble","h","Sum payable to Indian Railways for use of railway assets"],
+  ["MSEPayable","i","Sum payable to a micro or small enterprise beyond the MSMED time limit"]];
+const OI_EXC=["UnionExciseDuty","ServiceTax","VATorSaleTax","CentralGoodServiceTax","StateGoodServiceTax","IntegratedGoodServiceTax","UnionTerrGoodServiceTax","OthDutyTaxCess"];
+const OI13=[["DeemedProfUs33AB","13a","Deemed profit u/s 33AB (tea/coffee/rubber development)"],
+  ["DeemedProfUs33ABA","13b","Deemed profit u/s 33ABA (site restoration fund)"],
+  ["DeemedProfUs33AC","13c","Deemed profit u/s 33AC (shipping reserve)"]];
+const ACC_BASIS=[["reg","Schedule III (non-Ind-AS) accounts"],["ias","Ind-AS accounts (Companies (Ind-AS) Rules, 2015)"],["ol","Company under liquidation — Receipt & Payment account"]];
+const ACC_OIYN=[["Y","Yes"],["N","No"]];
+
+/* ---------- Balance Sheet — Schedule III, non-Ind-AS (accBS) ---------- */
+function accBS(){
+  const el="bs.EquityAndLiablities.", as="bs.Assets.";
+  const shf=el+"ShareHolderFund.", sc=shf+"ShareCapital.", rs=shf+"ResrNSurp.";
+  let h=sub("Part I — Equity and Liabilities");
+  h+=sub("1A — Share capital");
+  h+=_acRi("Authorised",sc+"Authorised","1Ai",{ind:1});
+  h+=_acRi("Issued, subscribed and fully paid up",sc+"IssuedSubsPaidUp","1Aii",{ind:1});
+  h+=_acRi("Subscribed but not fully paid",sc+"SubscribedNotFullyPaid","1Aiii",{ind:1});
+  h+=_acRc("Total share capital (Aii + Aiii)",sc+"TotShareCapital","1Aiv");
+  h+=sub("1B — Reserves and surplus");
+  h+=_acRi("Capital reserve",rs+"CapResr","1Bi",{ind:1});
+  h+=_acRi("Capital redemption reserve",rs+"CapRedempResr","1Bii",{ind:1});
+  h+=_acRi("Securities premium reserve",rs+"SecurPremResr","1Biii",{ind:1});
+  h+=_acRi("Debenture redemption reserve",rs+"DebunRedResr","1Biv",{ind:1});
+  h+=_acRi("Revaluation reserve",rs+"RevResr","1Bv",{ind:1});
+  h+=_acRi("Share options outstanding amount",rs+"ShareOptOSAmount","1Bvi",{ind:1});
+  h+=grid("accounts."+rs+"OtherResrvDtls",
+    [{k:"Nature",h:"Other reserve — nature",t:"txt",w:"auto",req:1,max:125},{k:"Amount",h:"Amount",t:"num",w:"150px",req:1}],
+    _acArr(rs+"OtherResrvDtls"),{min:"480px",empty:"No other reserves.",add:"Add other reserve"});
+  h+=_acRc("Total other reserves (1Bvii)",rs+"OtherResrvTotal","1Bvii");
+  h+=_acRi("Surplus — balance in the statement of profit and loss (fed from P&L item 60; debit balance as −ve)",rs+"PLAccount","1Bviii",{hint:"fed from the P&L"});
+  h+=_acRc("Total reserves and surplus (1Bix)",rs+"TotResrNSurp","1Bix");
+  h+=_acRi("1C — Money received against share warrants",shf+"MoneyRecvdAgainstShares","1C");
+  h+=_acRc("1D — Total shareholders' fund (Aiv + Bix + 1C)",shf+"TotShareHolderFund","1D");
+  const sam=el+"ShareAppMoneyAllot.";
+  h+=sub("2 — Share application money pending allotment");
+  h+=_acRi("Pending for less than one year",sam+"PendingLtOneYr","2i",{ind:1});
+  h+=_acRi("Pending for more than one year",sam+"PendingMtOneYr","2ii",{ind:1});
+  h+=_acRc("Total (i + ii)",sam+"Total","2iii");
+  const ncl=el+"NonCurrLiabilities.", ltb=ncl+"LongTermBorrowings.";
+  h+=sub("3A — Long-term borrowings");
+  h+=_acRi("Bonds/debentures — foreign currency",ltb+"BondsDebentures.ForeignCurrency","3Aia",{ind:1});
+  h+=_acRi("Bonds/debentures — rupee",ltb+"BondsDebentures.Rupee","3Aib",{ind:1});
+  h+=_acRc("Total bonds/debentures",ltb+"BondsDebentures.Total","3Aic");
+  h+=_acRi("Term loans — foreign currency",ltb+"TermLoans.ForeignCurrency","3Aiia",{ind:1});
+  h+=_acRi("Rupee term loans — from banks",ltb+"TermLoans.RupeeLoans.FromBanks","3Aiib1",{ind:1});
+  h+=_acRi("Rupee term loans — from others",ltb+"TermLoans.RupeeLoans.FromOthers","3Aiib2",{ind:1});
+  h+=_acRc("Total rupee term loans",ltb+"TermLoans.RupeeLoans.Total","3Aiib3");
+  h+=_acRc("Total term loans",ltb+"TermLoans.TotalTermLoans","3Aiic");
+  h+=_acRi("Deferred payment liabilities",ltb+"DeferredPymtLiabilities","3Aiii",{ind:1});
+  h+=_acRi("Deposits from related parties",ltb+"DepositsFrmRelatedParties","3Aiv",{ind:1});
+  h+=_acRi("Other deposits",ltb+"OtherDeposits","3Av",{ind:1});
+  h+=_acRi("Loans and advances from related parties",ltb+"LoansAndAdv","3Avi",{ind:1});
+  h+=_acRi("Other loans and advances",ltb+"OthersLoanAdv","3Avii",{ind:1});
+  h+=_acRi("Long-term maturities of finance lease obligations",ltb+"LongTermMaturities","3Aviii",{ind:1});
+  h+=_acRc("Total long-term borrowings (3Aix)",ltb+"TotalLTBorrowings","3Aix");
+  h+=_acRi("3B — Deferred tax liabilities (net)",ncl+"NetDefferedTaxLiability","3B");
+  h+=sub("3C — Other long-term liabilities");
+  h+=_acRi("Trade payables",ncl+"OthLongTermLiablities.TradePayables","3Ci",{ind:1});
+  h+=_acRi("Others",ncl+"OthLongTermLiablities.Others","3Cii",{ind:1});
+  h+=_acRc("Total other long-term liabilities",ncl+"OthLongTermLiablities.TotalOthLtLiabilities","3Ciii");
+  h+=sub("3D — Long-term provisions");
+  h+=_acRi("Provision for employee benefits",ncl+"LongTermProvisions.ProvEmpBenefits","3Di",{ind:1});
+  h+=_acRi("Others",ncl+"LongTermProvisions.Others","3Dii",{ind:1});
+  h+=_acRc("Total long-term provisions",ncl+"LongTermProvisions.Total","3Diii");
+  h+=_acRc("3E — Total non-current liabilities (3A + 3B + 3C + 3D)",ncl+"TotalNonCurrLiabilites","3E");
+  const cl=el+"CurrentLiabilities.", stb=cl+"ShortTrmBorrowings.";
+  h+=sub("4A — Short-term borrowings");
+  h+=_acRi("Loans repayable on demand — from banks",stb+"LoansRepaybleOnDemand.FromBanks","4Aia",{ind:1});
+  h+=_acRi("Loans repayable on demand — from NBFCs",stb+"LoansRepaybleOnDemand.FrmNonBanking","4Aib",{ind:1});
+  h+=_acRi("Loans repayable on demand — from other financial institutions",stb+"LoansRepaybleOnDemand.OthFinanceInst","4Aic",{ind:1});
+  h+=_acRi("Loans repayable on demand — from others",stb+"LoansRepaybleOnDemand.Others","4Aid",{ind:1});
+  h+=_acRc("Total loans repayable on demand",stb+"LoansRepaybleOnDemand.TotLoansRepaybleOnDemand","4Aie");
+  h+=_acRi("Deposits from related parties",stb+"DepositsFrmRelatedParties","4Aii",{ind:1});
+  h+=_acRi("Loans and advances from related parties",stb+"LoansAndAdv","4Aiii",{ind:1});
+  h+=_acRi("Other loans and advances",stb+"OthLoansAndAdv","4Aiv",{ind:1});
+  h+=_acRi("Other deposits",stb+"OthDeposits","4Av",{ind:1});
+  h+=_acRc("Total short-term borrowings (4Avi)",stb+"TotShortTrmBorrowings","4Avi");
+  h+=sub("4B — Trade payables");
+  h+=_acRi("Outstanding for more than one year",cl+"TradePayables.OSMoreThanOneYr","4Bi",{ind:1});
+  h+=_acRi("Others",cl+"TradePayables.Others","4Bii",{ind:1});
+  h+=_acRc("Total trade payables",cl+"TradePayables.TotalTradePayables","4Biii");
+  const ocl=cl+"OthCurrLiabilities.";
+  h+=sub("4C — Other current liabilities");
+  h+=_acRi("Current maturities of long-term debt",ocl+"CurrMatOnLTDebt","4Ci",{ind:1});
+  h+=_acRi("Current maturities of finance lease obligations",ocl+"CurrMatFinanceOblg","4Cii",{ind:1});
+  h+=_acRi("Interest accrued but not due on borrowings",ocl+"AccrInterestNotDue","4Ciii",{ind:1});
+  h+=_acRi("Interest accrued and due on borrowings",ocl+"AccrInterest","4Civ",{ind:1});
+  h+=_acRi("Income received in advance",ocl+"IncRecvdAdvance","4Cv",{ind:1});
+  h+=_acRi("Unpaid dividends",ocl+"UnpaidDividend","4Cvi",{ind:1});
+  h+=_acRi("Application money received for allotment (due for refund) and interest accrued",ocl+"AppMonyRecvdAllotSecurities","4Cvii",{ind:1});
+  h+=_acRi("Unpaid matured deposits and interest accrued thereon",ocl+"UnpaidMatDeposits","4Cviii",{ind:1});
+  h+=_acRi("Unpaid matured debentures and interest accrued thereon",ocl+"UnpaidMatureDebenture","4Cix",{ind:1});
+  h+=_acRi("Other payables",ocl+"OthPayables","4Cx",{ind:1});
+  h+=_acRc("Total other current liabilities (4Cxi)",ocl+"TotOthCurrLiabilities","4Cxi");
+  const sp=cl+"ShortTermProv.";
+  h+=sub("4D — Short-term provisions");
+  h+=_acRi("Provision for employee benefit",sp+"EmpBenefitProv","4Di",{ind:1});
+  h+=_acRi("Provision for income-tax",sp+"ITProvision","4Dii",{ind:1});
+  h+=_acRi("Proposed dividend",sp+"ProposedDividend","4Diii",{ind:1});
+  h+=_acRi("Tax on dividend",sp+"TaxOnDividend","4Div",{ind:1});
+  h+=_acRi("Other",sp+"OthProvision","4Dv",{ind:1});
+  h+=_acRc("Total short-term provisions (4Dvi)",sp+"TotShortTermProvisions","4Dvi");
+  h+=_acRc("4E — Total current liabilities (4Avi + 4Biii + 4Cxi + 4Dvi)",cl+"TotCurrLiabilitiesProvision","4E");
+  h+=_acRc("I — Total Equity and liabilities (1D + 2 + 3E + 4E)",el+"TotEquityAndLiabilities","I",{cls:"grand"});
+  /* ---- Assets ---- */
+  const nca=as+"NonCurrAssets.", fa=nca+"FixedAsset.";
+  h+=sub("Part II — Assets");
+  h+=sub("1A — Fixed assets");
+  h+=_acRi("Tangible assets — gross block",fa+"Tangible.GrossBlock","1Aia",{ind:1});
+  h+=_acRi("Tangible assets — depreciation",fa+"Tangible.Depreciation","1Aib",{ind:1});
+  h+=_acRi("Tangible assets — impairment losses",fa+"Tangible.ImpairmentLosses","1Aic",{ind:1});
+  h+=_acRc("Tangible assets — net block (ia − ib − ic)",fa+"Tangible.NetBlock","1Aid");
+  h+=_acRi("Intangible assets — gross block",fa+"InTangible.GrossBlock","1Aiia",{ind:1});
+  h+=_acRi("Intangible assets — amortization",fa+"InTangible.Amortization","1Aiib",{ind:1});
+  h+=_acRi("Intangible assets — impairment losses",fa+"InTangible.ImpairmentLosses","1Aiic",{ind:1});
+  h+=_acRc("Intangible assets — net block (iia − iib − iic)",fa+"InTangible.NetBlock","1Aiid");
+  h+=_acRi("Capital work-in-progress",fa+"CapWrkProg","1Aiii",{ind:1});
+  h+=_acRi("Intangible assets under development",fa+"IntangibleAssetUnDev","1Aiv",{ind:1});
+  h+=_acRc("Total fixed assets (1Av)",fa+"TotFixedAsset","1Av");
+  const nci=nca+"NonCurrInvstmnts.";
+  h+=sub("1B — Non-current investments");
+  h+=_acRi("Investment in property",nci+"InvInProperty","1Bi",{ind:1});
+  h+=_acRi("Equity instruments — listed",nci+"EquityInstruments.ListedEquities","1Biia",{ind:1});
+  h+=_acRi("Equity instruments — unlisted",nci+"EquityInstruments.UnListedEquities","1Biib",{ind:1});
+  h+=_acRc("Total equity instruments",nci+"EquityInstruments.Total","1Biic");
+  h+=_acRi("Preference shares",nci+"PreferenceShares","1Biii",{ind:1});
+  h+=_acRi("Government or trust securities",nci+"GovtOrTrustSecurities","1Biv",{ind:1});
+  h+=_acRi("Debentures or bonds",nci+"DebenturesOrBonds","1Bv",{ind:1});
+  h+=_acRi("Mutual funds",nci+"MutualFunds","1Bvi",{ind:1});
+  h+=_acRi("Partnership firms",nci+"InvstmntInPrtnrShipFirm","1Bvii",{ind:1});
+  h+=_acRi("Other investments",nci+"OtherInvstmnts","1Bviii",{ind:1});
+  h+=_acRc("Total non-current investments (1Bix)",nci+"TotNonCurrInvstmnts","1Bix");
+  h+=_acRi("1C — Deferred tax assets (net)",nca+"NetDeferredTaxAssets","1C");
+  const lla=nca+"LongTrmLoanAdv.";
+  h+=sub("1D — Long-term loans and advances");
+  h+=_acRi("Capital advances",lla+"CapitalAdv","1Di",{ind:1});
+  h+=_acRi("Security deposits",lla+"SecurityDeposits","1Dii",{ind:1});
+  h+=_acRi("Loans and advances to related parties",lla+"LoanAdvRelatedParties","1Diii",{ind:1});
+  h+=_acRi("Other loans and advances",lla+"OthLoanAdv","1Div",{ind:1});
+  h+=_acRc("Total long-term loans and advances (1Dv)",lla+"TotLTLoanAdv","1Dv");
+  h+=_acRi("of Dv — for the purpose of business or profession",lla+"LTLoanAdvDtls.BusOrProf","1Dvia",{ind:1});
+  h+=_acRi("of Dv — not for the purpose of business or profession",lla+"LTLoanAdvDtls.NotForBusOrProf","1Dvib",{ind:1});
+  h+=_acRi("of Dv — to a shareholder/concern u/s 2(22)(e)",lla+"LTLoanAdvDtls.ShareHolderUs2_22","1Dvic",{ind:1});
+  const onc=nca+"OthNonCurrAssets.";
+  h+=sub("1E — Other non-current assets");
+  h+=_acRi("Long-term trade receivables — secured, considered good",onc+"LTTradeReceivables.Secured","1Eia",{ind:1});
+  h+=_acRi("Long-term trade receivables — unsecured, considered good",onc+"LTTradeReceivables.Unsecured","1Eib",{ind:1});
+  h+=_acRi("Long-term trade receivables — doubtful",onc+"LTTradeReceivables.Doubtful","1Eic",{ind:1});
+  h+=_acRc("Total long-term trade receivables",onc+"LTTradeReceivables.TotOthNonCurrAssets","1Eid");
+  h+=_acRi("Others",onc+"Others","1Eii",{ind:1});
+  h+=_acRc("Total other non-current assets (1Eiii)",onc+"Total","1Eiii");
+  h+=_acRi("of Eiii — due from a shareholder/concern u/s 2(22)(e)",onc+"NonCurrAssetUs2_22","1Eiv",{ind:1});
+  h+=_acRc("1F — Total non-current assets (Av + Bix + C + Dv + Eiii)",nca+"TotNonCurrAssets","1F");
+  const ca=as+"CurrentAssets.", ci=ca+"CurrInvstmnts.";
+  h+=sub("2A — Current investments");
+  h+=_acRi("Equity instruments — listed",ci+"EquityInstruments.ListedEquities","2Aia",{ind:1});
+  h+=_acRi("Equity instruments — unlisted",ci+"EquityInstruments.UnListedEquities","2Aib",{ind:1});
+  h+=_acRc("Total equity instruments",ci+"EquityInstruments.Total","2Aic");
+  h+=_acRi("Preference shares",ci+"PreferenceShares","2Aii",{ind:1});
+  h+=_acRi("Government or trust securities",ci+"GovtOrTrustSecurities","2Aiii",{ind:1});
+  h+=_acRi("Debentures or bonds",ci+"DebenturesOrBonds","2Aiv",{ind:1});
+  h+=_acRi("Mutual funds",ci+"MutualFunds","2Av",{ind:1});
+  h+=_acRi("Partnership firms",ci+"InvstmntInPrtnrShipFirm","2Avi",{ind:1});
+  h+=_acRi("Other investment",ci+"OtherInvstmnts","2Avii",{ind:1});
+  h+=_acRc("Total current investments (2Aviii)",ci+"TotCurrInvstmnts","2Aviii");
+  const iv=ca+"Inventories.";
+  h+=sub("2B — Inventories");
+  h+=_acRi("Raw materials",iv+"RawMatl","2Bi",{ind:1});
+  h+=_acRi("Work-in-progress",iv+"WorkInProgress","2Bii",{ind:1});
+  h+=_acRi("Finished goods",iv+"FinOrTradGood","2Biii",{ind:1});
+  h+=_acRi("Stock-in-trade (goods acquired for trading)",iv+"StkInTrade","2Biv",{ind:1});
+  h+=_acRi("Stores and spares",iv+"StoresConsumables","2Bv",{ind:1});
+  h+=_acRi("Loose tools",iv+"LooseTools","2Bvi",{ind:1});
+  h+=_acRi("Others",iv+"Others","2Bvii",{ind:1});
+  h+=_acRc("Total inventories (2Bviii)",iv+"TotInventries","2Bviii");
+  h+=sub("2C — Trade receivables");
+  h+=_acRi("Outstanding for more than six months",ca+"TradeReceivables.OSMoreThanSixMonths","2Ci",{ind:1});
+  h+=_acRi("Others",ca+"TradeReceivables.Others","2Cii",{ind:1});
+  h+=_acRc("Total trade receivables",ca+"TradeReceivables.TotalTradeReceivables","2Ciii");
+  const ce=ca+"CashNCashEquivalents.";
+  h+=sub("2D — Cash and cash equivalents");
+  h+=_acRi("Balances with banks",ce+"BalWithBanks","2Di",{ind:1});
+  h+=_acRi("Cheques, drafts in hand",ce+"ChequesDrafts","2Dii",{ind:1});
+  h+=_acRi("Cash in hand",ce+"CashInHand","2Diii",{ind:1});
+  h+=_acRi("Others",ce+"Others","2Div",{ind:1});
+  h+=_acRc("Total cash and cash equivalents (2Dv)",ce+"TotCashNCashEquivalents","2Dv");
+  const stl=ca+"TotShortTermLoanAdv.";
+  h+=sub("2E — Short-term loans and advances");
+  h+=_acRi("Loans and advances to related parties",stl+"LoanAdv","2Ei",{ind:1});
+  h+=_acRi("Others",stl+"Others","2Eii",{ind:1});
+  h+=_acRc("Total short-term loans and advances (2Eiii)",stl+"TotShrtTermLoans","2Eiii");
+  h+=_acRi("of Eiii — for the purpose of business or profession",stl+"STLoanAdvDtls.BusOrProf","2Eiva",{ind:1});
+  h+=_acRi("of Eiii — not for the purpose of business or profession",stl+"STLoanAdvDtls.NotForBusOrProf","2Eivb",{ind:1});
+  h+=_acRi("of Eiii — to a shareholder/concern u/s 2(22)(e)",stl+"STLoanAdvDtls.ShareHolderUs2_22","2Eivc",{ind:1});
+  h+=_acRi("2F — Other current assets",ca+"OtherCurrAssets","2F");
+  h+=_acRc("2G — Total current assets (Aviii + Bviii + Ciii + Dv + Eiii + F)",ca+"TotCurrAssets","2G");
+  h+=_acRc("II — Total Assets (1F + 2G)","bs.TotalAssets","II",{cls:"grand"});
+  return h;
+}
+
+/* ---------- Balance Sheet — Ind AS (accBSias) ---------- */
+function accBSias(){
+  const el="bsias.EquityAndLiablities.";
+  const eq=el+"Equity.", esc=eq+"EquityShareCapital.", oe=eq+"OtherEquityReserv.";
+  let h=sub("Part I — Equity and Liabilities");
+  h+=sub("1A — Equity share capital");
+  h+=_acRi("Authorised",esc+"Authorised","1Ai",{ind:1});
+  h+=_acRi("Issued, subscribed and fully paid up",esc+"IssuedSubsPaidUp","1Aii",{ind:1});
+  h+=_acRi("Subscribed but not fully paid",esc+"SubscribedNotFullyPaid","1Aiii",{ind:1});
+  h+=_acRc("Total share capital (1Aiv)",esc+"TotShareCapital","1Aiv");
+  h+=sub("1B — Other equity");
+  h+=_acRi("Capital redemption reserve",oe+"CapRedempResr","1Bia",{ind:1});
+  h+=_acRi("Debenture redemption reserve",oe+"DebunRedResr","1Bib",{ind:1});
+  h+=_acRi("Share options outstanding amount",oe+"ShareOptOSAmount","1Bic",{ind:1});
+  h+=_acOthTbl(oe+"OtherResrvDtls","Add other reserve (1Bid)");
+  h+=_acRc("Total of other reserves table",oe+"OthersTotal","1Bid");
+  h+=_acRc("Total other reserves (1Bie)",oe+"TotalOtherResrv","1Bie");
+  h+=_acRi("Retained earnings (fed from P&L item 60)",oe+"RetainedEarngs","1Bii",{hint:"fed from the P&L Ind-AS"});
+  h+=_acRc("Total reserves and retained earnings (1Biii)",oe+"TotResrNRetEar","1Biii");
+  h+=_acRc("1C — Total equity",oe+"TotalEquity","1C",{cls:"grand"});
+  const li=el+"Liabilities.", ncl=li+"NonCurrLiabilities.", fl=ncl+"FinancialLiabilities.";
+  h+=sub("Non-current liabilities · I — Financial liabilities (borrowings)");
+  h+=_acRi("Bonds/debentures — foreign currency",fl+"BondsDebentures.ForeignCurrency","a1",{ind:1});
+  h+=_acRi("Bonds/debentures — rupee",fl+"BondsDebentures.Rupee","a2",{ind:1});
+  h+=_acRc("Total bonds/debentures",fl+"BondsDebentures.Total","a3");
+  h+=_acRi("Term loans — foreign currency",fl+"TermLoans.ForeignCurrency","b1",{ind:1});
+  h+=_acRi("Rupee term loans — from banks",fl+"TermLoans.RupeeLoans.FromBanks","b2a",{ind:1});
+  h+=_acRi("Rupee term loans — from others",fl+"TermLoans.RupeeLoans.FromOthers","b2b",{ind:1});
+  h+=_acRc("Total rupee term loans",fl+"TermLoans.RupeeLoans.Total","b2");
+  h+=_acRc("Total term loans",fl+"TermLoans.TotalTermLoans","b3");
+  h+=_acRi("Deferred payment liabilities",fl+"DeferredPymtLiabilities","c",{ind:1});
+  h+=_acRi("Deposits",fl+"Deposits","d",{ind:1});
+  h+=_acRi("Loans from related parties",fl+"LoansReltdParties","e",{ind:1});
+  h+=_acRi("Long-term maturities of finance lease obligations",fl+"LongTermMaturities","f",{ind:1});
+  h+=_acRi("Liability component of compound financial instruments",fl+"LiabilityComp","g",{ind:1});
+  h+=_acRi("Other loans",fl+"OtherLoans","h",{ind:1});
+  h+=_acRc("Total long-term borrowings",fl+"TotalLTBorrowings","i");
+  h+=_acRi("Trade payables",fl+"TradePayables","j");
+  h+=_acRi("Other financial liabilities",fl+"OtherFinancialLiab","k");
+  const prv=ncl+"Provisions.";
+  h+=sub("II — Provisions");
+  h+=_acRi("Provision for employee benefits",prv+"ProvEmpBenefits","IIa",{ind:1});
+  h+=_acOthTbl(prv+"OthersProvisions","Add other provision (IIb)");
+  h+=_acRc("Total of other provisions",prv+"OthersTotal","IIb");
+  h+=_acRc("Total provisions (IIc)",prv+"TotalProvisions","IIc");
+  h+=_acRi("III — Deferred tax liabilities (net)",ncl+"DefrdTaxCurrLiabilites","III");
+  const onl=ncl+"OtherNonCurLiabilites.";
+  h+=sub("IV — Other non-current liabilities");
+  h+=_acRi("Advances",onl+"Advances","IVa",{ind:1});
+  h+=_acOthTbl(onl+"OthersNonCurrLiab","Add other non-current liability (IVb)");
+  h+=_acRc("Total of others",onl+"OthersTotal","IVb");
+  h+=_acRc("Total other non-current liabilities (IVc)",onl+"TotalOthNonCurrLiab","IVc");
+  h+=_acRc("2A — Total non-current liabilities",ncl+"TotalNonCurrLiab","2A");
+  const cl=li+"CurrentLiabilities.", flb=cl+"FinancialLiabBorrowings.";
+  h+=sub("Current liabilities · I — Financial liabilities (borrowings)");
+  h+=_acRi("Loans repayable on demand — from banks",flb+"LoansRepaybleOnDemand.FromBanks","i",{ind:1});
+  h+=_acRi("Loans repayable on demand — from other parties",flb+"LoansRepaybleOnDemand.FrmOtherParties","i2",{ind:1});
+  h+=_acRc("Total loans repayable on demand",flb+"LoansRepaybleOnDemand.TotLoansRepaybleOnDemand","i3");
+  h+=_acRi("Loans from related parties",flb+"LoansFrmRelatedParties","b",{ind:1});
+  h+=_acRi("Deposits",flb+"Deposits","c",{ind:1});
+  h+=_acOthTbl(flb+"BrwngOtherLoans","Add other loan (d)");
+  h+=_acRc("Total of other loans",flb+"OthersTotal","d");
+  h+=_acRc("Total borrowings",flb+"TotalBorrowings","Ia");
+  h+=_acRi("Trade payables",flb+"TradePayables","ii");
+  const ofl=cl+"OthFinancialLiabilities.";
+  h+=sub("III — Other financial liabilities");
+  h+=_acRi("Current maturities of long-term debt",ofl+"CurrMatOnLTDebt","a",{ind:1});
+  h+=_acRi("Current maturities of finance lease obligations",ofl+"CurrMatFinanceOblg","b",{ind:1});
+  h+=_acRi("Interest accrued",ofl+"AccrInterest","c",{ind:1});
+  h+=_acRi("Unpaid dividends",ofl+"UnpaidDividend","d",{ind:1});
+  h+=_acRi("Application money received for allotment (due for refund) and interest",ofl+"AppMonyRecvdAllotSecurities","e",{ind:1});
+  h+=_acRi("Unpaid matured deposits and interest accrued",ofl+"UnpaidMatDeposits","f",{ind:1});
+  h+=_acRi("Unpaid matured debentures and interest accrued",ofl+"UnpaidMatureDebenture","g",{ind:1});
+  h+=_acOthTbl(ofl+"OthPayables","Add other payable (h)");
+  h+=_acRc("Total of other payables",ofl+"OthersTotal","h");
+  h+=_acRc("Total other financial liabilities (Iiii)",ofl+"TotOthFinancialLiab","Iiii");
+  h+=_acRc("Total financial liabilities (Iiv)",cl+"TottalFinancialLiab","Iiv");
+  const ocl=cl+"OtherCuurLiabilities.";
+  h+=sub("II — Other current liabilities");
+  h+=_acRi("Revenue received in advance",ocl+"RevenueRecvdAdvance","a",{ind:1});
+  h+=_acOthTbl(ocl+"OtherAdvance","Add other advance (b)");
+  h+=_acRc("Total of other advances",ocl+"OthersAdvTotal","b");
+  h+=_acOthTbl(ocl+"Others","Add other (c)");
+  h+=_acRc("Total of others",ocl+"OthersTotal","c");
+  h+=_acRc("Total other current liabilities (IId)",ocl+"TotalOthCurrLiab","IId");
+  const pv2=cl+"Provosions.";
+  h+=sub("III — Provisions");
+  h+=_acRi("Provision for employee benefits",pv2+"ProvosionEmpBenft","a",{ind:1});
+  h+=_acOthTbl(pv2+"OthersProvisions","Add other provision (b)");
+  h+=_acRc("Total of other provisions",pv2+"OthersTotal","b");
+  h+=_acRc("Total provisions (IIIc)",pv2+"TotalProvosions","IIIc");
+  h+=_acRi("IV — Current tax liabilities (net)",cl+"CurrTaxLiabilities","IV");
+  h+=_acRc("2B — Total current liabilities",cl+"TotalCurrentLiab","2B");
+  h+=_acRc("Total Equity and liabilities (1C + 2A + 2B)",cl+"TotalEquityLiab","1(I)",{cls:"grand"});
+  /* ---- Assets ---- */
+  const ppe="bsias.Assets.NonCurrAssets.PropertyPlantEquip.";
+  h+=sub("Part II — Assets · Non-current · Property, plant and equipment");
+  h+=_acRi("Gross block",ppe+"GrossBlock","Aa",{ind:1});
+  h+=_acRi("Depreciation",ppe+"Depreciation","Ab",{ind:1});
+  h+=_acRi("Impairment losses",ppe+"ImpairmentLosses","Ac",{ind:1});
+  h+=_acRc("Net block (Ad)",ppe+"NetBlock","Ad");
+  h+=_acRi("Capital work-in-progress",ppe+"CapWrkProg","B");
+  h+=_acRi("Investment property — gross block",ppe+"InvstPropGrossBlock","Ca",{ind:1});
+  h+=_acRi("Investment property — depreciation",ppe+"InvstPropDepreciation","Cb",{ind:1});
+  h+=_acRi("Investment property — impairment losses",ppe+"InvstPropImprLosses","Cc",{ind:1});
+  h+=_acRc("Investment property — net block (Cd)",ppe+"InvstPropNetBlock","Cd");
+  h+=_acRi("Goodwill — gross block",ppe+"GoodWlGrossBlock","Da",{ind:1});
+  h+=_acRi("Goodwill — impairment losses",ppe+"GoodWlImprLosses","Db",{ind:1});
+  h+=_acRc("Goodwill — net block (Dc)",ppe+"GoodWlNetBlock","Dc");
+  h+=_acRi("Other intangible assets — gross block",ppe+"OthIntAstGrossBlock","Ea",{ind:1});
+  h+=_acRi("Other intangible assets — amortisation",ppe+"OthIntAstAmortisation","Eb",{ind:1});
+  h+=_acRi("Other intangible assets — impairment losses",ppe+"OthIntAstImprLosses","Ec",{ind:1});
+  h+=_acRc("Other intangible assets — net block (Ed)",ppe+"OthIntAstNetBlock","Ed");
+  h+=_acRi("Intangible assets under development",ppe+"IntAstUndrDevlpmnt","F");
+  h+=_acRi("Biological assets — gross block",ppe+"BioAstGrossBlock","Ga",{ind:1});
+  h+=_acRi("Biological assets — impairment losses",ppe+"BioAstImprLosses","Gb",{ind:1});
+  h+=_acRc("Biological assets — net block (Gc)",ppe+"BioAstNetBlock","Gc");
+  const nfa=ppe+"FinancialAssets.", inv=nfa+"Investments.";
+  h+=sub("H — Financial assets · Investments");
+  h+=_acRi("Listed equities",inv+"ListedEquities","Hi1",{ind:1});
+  h+=_acRi("Unlisted equities",inv+"UnListedEquities","Hi2",{ind:1});
+  h+=_acRc("Total equities",inv+"Total","Hi3");
+  h+=_acRi("Preference shares",inv+"InvstPrfShares","Hii",{ind:1});
+  h+=_acRi("Government or trust securities",inv+"InvstGovtTrust","Hiii",{ind:1});
+  h+=_acRi("Debentures",inv+"InvstInDebenture","Hiv",{ind:1});
+  h+=_acRi("Mutual funds",inv+"InvstInMutualFunds","Hv",{ind:1});
+  h+=_acRi("Partnership firms",inv+"InvstInPartnershpFirm","Hvi",{ind:1});
+  h+=_acOthTbl(inv+"OtherInvestment","Add other investment");
+  h+=_acRc("Total of other investments",inv+"OthersTotal","Hvii");
+  h+=_acRc("Total non-current investments (HI)",inv+"TotalNonCurrentInvst","HI");
+  h+=sub("H II — Trade receivables");
+  h+=_acRi("Secured, considered good",nfa+"TradeReceivables.SecuredConsGoods","HIIa",{ind:1});
+  h+=_acRi("Unsecured, considered good",nfa+"TradeReceivables.UnSecuredConsGoods","HIIb",{ind:1});
+  h+=_acRi("Doubtful",nfa+"TradeReceivables.Doubtful","HIIc",{ind:1});
+  h+=_acRc("Total trade receivables (HII)",nfa+"TradeReceivables.TotalTradeReceivbls","HII");
+  const lo=nfa+"Loans.";
+  h+=sub("H III — Loans");
+  h+=_acRi("Security deposits",lo+"SecurityDepsts","HIIIa",{ind:1});
+  h+=_acRi("Loans to related parties",lo+"LoansRltdParties","HIIIb",{ind:1});
+  h+=_acOthTbl(lo+"OtherLoans","Add other loan");
+  h+=_acRc("Total of other loans",lo+"OthersTotal","HIIIc");
+  h+=_acRc("Total loans (HIII)",lo+"TotalLoans","HIII");
+  h+=sub("H IV — Other financial assets");
+  h+=_acRi("Bank deposits",nfa+"OtherFinacialAssets.BankDeposits","HIVa",{ind:1});
+  h+=_acRi("Other deposits",nfa+"OtherFinacialAssets.OtherDeposits","HIVb",{ind:1});
+  h+=_acRc("Total other financial assets (HIV)",nfa+"OtherFinacialAssets.TotalOthFinancialAsst","HIV");
+  h+=_acRi("Deferred tax assets (net)",nfa+"OtherFinacialAssets.DefrdTaxAsst","J0");
+  const ona=nfa+"OtherNonCurrentAssets.";
+  h+=sub("J — Other non-current assets");
+  h+=_acRi("Capital advances",ona+"CapitalAdvanc","Ja",{ind:1});
+  h+=_acRi("Advances other than capital advances",ona+"AdvancOthCapital","Jb",{ind:1});
+  h+=_acOthTbl(ona+"OtherNonCurrAsst","Add other non-current asset");
+  h+=_acRc("Total of others",ona+"OthersTotal","Jc");
+  h+=_acRc("Total other non-current assets (J)",ona+"TotalNonCurrAsst","J");
+  h+=_acRc("Total non-current assets",nfa+"TotalNonCurrntAsst","NCA",{cls:"grand"});
+  const cca="bsias.Assets.CurrentAssets.", cin=cca+"Inventories.";
+  h+=sub("Current assets · 2A — Inventories");
+  h+=_acRi("Raw materials",cin+"RawMaterials","2Aa",{ind:1});
+  h+=_acRi("Work-in-progress",cin+"WorkInProgress","2Ab",{ind:1});
+  h+=_acRi("Finished goods",cin+"FinishedGoods","2Ac",{ind:1});
+  h+=_acRi("Stock-in-trade",cin+"StockInTrade","2Ad",{ind:1});
+  h+=_acRi("Stores and spares",cin+"StoresSpares","2Ae",{ind:1});
+  h+=_acRi("Loose tools",cin+"LooseTools","2Af",{ind:1});
+  h+=_acRi("Others",cin+"Others","2Ag",{ind:1});
+  h+=_acRc("Total inventories (2A)",cin+"TotalInventories","2A");
+  const cfa=cca+"FinancialAssets.", cinv=cfa+"Investments.";
+  h+=sub("2B — Financial assets · Investments");
+  h+=_acRi("Listed equities",cinv+"ListedEquities","Bi1",{ind:1});
+  h+=_acRi("Unlisted equities",cinv+"UnListedEquities","Bi2",{ind:1});
+  h+=_acRc("Total equities",cinv+"Total","Bi3");
+  h+=_acRi("Preference shares",cinv+"InvstPrfShares","Bii",{ind:1});
+  h+=_acRi("Government or trust securities",cinv+"InvstGovtTrust","Biii",{ind:1});
+  h+=_acRi("Debentures",cinv+"InvstInDebenture","Biv",{ind:1});
+  h+=_acRi("Mutual funds",cinv+"InvstInMutualFunds","Bv",{ind:1});
+  h+=_acRi("Partnership firms",cinv+"InvstInPartnershpFirm","Bvi",{ind:1});
+  h+=_acRi("Other investment",cinv+"OtherInvestment","Bvii",{ind:1});
+  h+=_acRc("Total current investments (BI)",cinv+"TotalCurrentInvst","BI");
+  h+=sub("B II — Trade receivables");
+  h+=_acRi("Secured, considered good",cfa+"TradeReceivables.SecuredConsGoods","BIIa",{ind:1});
+  h+=_acRi("Unsecured, considered good",cfa+"TradeReceivables.UnSecuredConsGoods","BIIb",{ind:1});
+  h+=_acRi("Doubtful",cfa+"TradeReceivables.Doubtful","BIIc",{ind:1});
+  h+=_acRc("Total trade receivables (BII)",cfa+"TradeReceivables.TotalTradeReceivbls","BII");
+  const cce=cfa+"CashEquivalents.";
+  h+=sub("B III — Cash and cash equivalents");
+  h+=_acRi("Balances with banks",cce+"BalancesWithBanks","BIIIa",{ind:1});
+  h+=_acRi("Cheques, drafts in hand",cce+"ChequeDraftsInHand","BIIIb",{ind:1});
+  h+=_acRi("Cash on hand",cce+"CashOnHand","BIIIc",{ind:1});
+  h+=_acOthTbl(cce+"OtherCashDtls","Add other cash item");
+  h+=_acRc("Total of others",cce+"OthersTotal","BIIId");
+  h+=_acRc("Total cash and cash equivalents (BIII)",cce+"TotalCashEquivalents","BIII");
+  h+=_acRi("B IV — Bank balances other than cash and cash equivalents",cfa+"BankBalanceOther","BIV");
+  const clo=cfa+"Loans.";
+  h+=sub("B V — Loans");
+  h+=_acRi("Security deposits",clo+"SecurityDepsts","BVa",{ind:1});
+  h+=_acRi("Loans to related parties",clo+"LoansRltdParties","BVb",{ind:1});
+  h+=_acOthTbl(clo+"OtherLoans","Add other loan");
+  h+=_acRc("Total of other loans",clo+"OthersTotal","BVc");
+  h+=_acRc("Total loans (BV)",clo+"TotalLoans","BV");
+  h+=_acRi("B VI — Other financial assets",cfa+"OtherFinancialAsst","BVI");
+  h+=_acRc("Total financial assets (2B)",cfa+"TotalFinancialAsst","2Bfa");
+  h+=_acRi("2C — Current tax assets (net)",cfa+"CurrentTaxAsst","2C");
+  const oca=cfa+"OtherCurrentAssets.";
+  h+=sub("2D — Other current assets");
+  h+=_acRi("Advances other than capital advances",oca+"AdvancOthCapital","2Da",{ind:1});
+  h+=_acOthTbl(oca+"OthersCurrentAssts","Add other current asset");
+  h+=_acRc("Total of others",oca+"OthersTotal","2Db");
+  h+=_acRc("Total other current assets (2D)",oca+"TotalOthCurrentAsst","2D");
+  h+=_acRc("Total current assets",oca+"TotalCurrAsst","CA");
+  h+=_acRc("II — Total Assets","bsias.TotalAssets","II",{cls:"grand"});
+  return h;
+}
+
+/* ---------- Part A - OI (Other Information) screen (accOI) ---------- */
+function accOI(){
+  const o="oi."; let h="";
+  h+=note("Part A-OI — Other Information. Mandatory for a filer liable to audit u/s 44AB. Each total feeds a corresponding add-back in Schedule BP.");
+  h+=_acRsel("1 — Method of accounting employed in the previous year",o+"MethodOfAcct",ACC_ACCT,"1",{req:1});
+  h+=_acRsel("2 — Is there any change in the method of accounting?",o+"ChangeInAcctMethFlg",ACC_OIYN,"2",{req:1});
+  h+=_acRi("3a — Increase in profit / decrease in loss due to ICDS deviation",o+"ProfDeviatDueAcctMeth","3a",{hint:"auto-filled from Schedule ICDS when present"});
+  h+=_acRi("3b — Decrease in profit / increase in loss due to ICDS deviation",o+"DecProOrIncLossUs145_2","3b",{hint:"auto-filled from Schedule ICDS when present"});
+  h+=sub("4 — Method of valuation of closing stock");
+  h+=_acRsel("4a — Raw material",o+"MethodOfValClgStk.ValRawMaterial",ACC_VAL,"4a");
+  h+=_acRsel("4b — Finished goods",o+"MethodOfValClgStk.ValFinishedGoods",ACC_VAL,"4b");
+  h+=_acRsel("4c — Is there any change in the stock valuation method?",o+"MethodOfValClgStk.ChngStockValMetFlg",ACC_OIYN,"4c");
+  h+=_acRi("4d — Increase in profit / decrease in loss due to deviation in valuation",o+"MethodOfValClgStk.EffectOnPL","4d");
+  h+=_acRi("4e — Decrease in profit / increase in loss due to deviation in valuation",o+"MethodOfValClgStk.DecProOrIncLossUs145_A","4e");
+  h+=sub("5 — Amounts not credited to the statement of profit and loss");
+  OI_NC5.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+"NoCredToPLAmt."+x[0],x[1],{ind:1}); });
+  h+=_acRc("5f — Total amounts not credited to the P&L",o+"NoCredToPLAmt.TotNoCredToPLAmt","5f");
+  h+=sub("6 — Amounts debited to the P&L, disallowable under section 36");
+  OI36.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+"AmtDisallUs36."+x[0],x[1],{ind:1}); });
+  h+=_acRc("6s — Total amount disallowable under section 36",o+"AmtDisallUs36.TotAmtDisallUs36","6s");
+  h+=_acRi("6t(i) — Number of employees deployed in India",o+"AmtDisallUs36.NoOfEmployeesEmployed.DeployedInIndia","6ti",{ind:1});
+  h+=_acRi("6t(ii) — Number of employees deployed outside India",o+"AmtDisallUs36.NoOfEmployeesEmployed.DeployedOutSideIndia","6tii",{ind:1});
+  h+=_acRc("6t(iii) — Total number of employees",o+"AmtDisallUs36.NoOfEmployeesEmployed.Total","6tiii");
+  h+=sub("7 — Amounts debited to the P&L, disallowable under section 37");
+  OI37.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+"AmtDisallUs37."+x[0],x[1],{ind:1}); });
+  h+=_acRc("7k — Total amount disallowable under section 37",o+"AmtDisallUs37.TotAmtDisallUs37","7k");
+  h+=sub("8A — Amounts debited to the P&L, disallowable under section 40");
+  OI40.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+"AmtDisallUs40."+x[0],x[1],{ind:1}); });
+  h+=_acRi("8Ai — Any other disallowance under section 40",o+"AmtDisallUs40.AnyOthDisallowance","8Ai",{ind:1});
+  h+=_acRc("8Aj — Total amount disallowable under section 40",o+"AmtDisallUs40.TotAmtDisallUs40","8Aj");
+  h+=_acRi("8B — Amount of section 40 disallowance of an earlier year now allowable",o+"AmtDisallUs40.AnyAmtOfSec40AllowPrevYr","8B");
+  h+=sub("9 — Amounts debited to the P&L, disallowable under section 40A");
+  OI40A.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+"AmtDisallUs40A."+x[0],x[1],{ind:1}); });
+  h+=_acRi("9e — Any other disallowance under section 40A",o+"AmtDisallUs40A.AnyOthDisallowance","9e",{ind:1});
+  h+=_acRc("9f — Total amount disallowable under section 40A",o+"AmtDisallUs40A.TotAmtDisallUs40A","9f");
+  h+=sub("10 — Section 43B: disallowed in an earlier year, allowable this year");
+  OI43.forEach(x=>{ h+=_acRi("10"+x[1]+" — "+x[2],o+"AmtDisallUs43BPyNowAll.AmtUs43B."+x[0],"10"+x[1],{ind:1}); });
+  h+=_acRc("10 — Total (allowable this year)",o+"AmtDisallUs43BPyNowAll.AmtUs43B.TotAmtUs43b","10tot");
+  h+=sub("11 — Section 43B: debited this year, disallowable");
+  OI43.forEach(x=>{ h+=_acRi("11"+x[1]+" — "+x[2],o+"AmtDisall43B.AmtUs43B."+x[0],"11"+x[1],{ind:1}); });
+  h+=_acRc("11 — Total (disallowable this year)",o+"AmtDisall43B.AmtUs43B.TotAmtUs43b","11tot");
+  h+=sub("12 — Amounts of tax/duty/cess/fee outstanding (credit balance in the accounts)");
+  OI_EXC.forEach((k,i)=>{ h+=_acRi("12"+String.fromCharCode(97+i)+" — "+k,o+"AmtExciseCustomsVATOutstanding.ExciseCustomsVAT."+k,"12"+String.fromCharCode(97+i),{ind:1}); });
+  h+=_acRc("12i — Total outstanding",o+"AmtExciseCustomsVATOutstanding.ExciseCustomsVAT.TotExciseCustomsVAT","12i");
+  h+=sub("13 — Amounts deemed to be profits chargeable under section 33AB/33ABA/33AC");
+  OI13.forEach(x=>{ h+=_acRi(x[1]+" — "+x[2],o+x[0],x[1],{ind:1}); });
+  h+=_acRc("13 — Total deemed profits (33AB + 33ABA + 33AC)",o+"DeemedProfUs33ABs","13");
+  h+=_acRi("14 — Amount of profit chargeable to tax under section 41",o+"ProfTaxAmtUs41","14");
+  h+=_acRi("15 — Amount of income/expenditure of a prior period credited/debited to the P&L",o+"PriorAmtIncCrDrPL","15");
+  h+=_acRi("16 — Amount of expenditure disallowed under section 14A",o+"AmountOfExpDisAllwUs14A","16");
+  h+=_acRi("17 — Amount of interest inadmissible under section 23 of the MSMED Act, 2006",o+"InterestDisAllowUs23SMEAct","17");
+  h+=_acRsel("18 — Whether an option is exercised under section 92CE(2A)?",o+"ScheduleTPSAFlg",ACC_OIYN,"18");
+  return h;
+}
+
+/* ---------- Part A - QD (Quantitative Details) screen (accQD) ---------- */
+function accQD(){
+  let h=note("Part A-QD — Quantitative details of stock. Mandatory for a filer liable to audit u/s 44AB. Enter physical quantities (no commas, no units).");
+  h+=sub("(a) Trading concern");
+  h+=grid("accounts.qd.trd",
+    [{k:"ItemName",h:"Item name",t:"txt",w:"auto",req:1,max:50},{k:"UnitOfMeasure",h:"Unit",t:"sel",opts:ACC_UNIT,req:1},
+     {k:"OpeningStock",h:"Opening",t:"num",w:"110px"},{k:"PurchaseQty",h:"Purchase",t:"num",w:"110px"},
+     {k:"SaleQty",h:"Sales",t:"num",w:"110px"},{k:"ClgStock",h:"Closing",t:"num",w:"110px"},
+     {k:"AnyShortExces",h:"Shortage/excess",t:"num",w:"120px"}],
+    _acArr("qd.trd"),{min:"900px",empty:"No trading items.",add:"Add trading item"});
+  h+=sub("(b) Manufacturing concern — raw materials");
+  h+=grid("accounts.qd.raw",
+    [{k:"ItemName",h:"Item name",t:"txt",w:"auto",req:1,max:50},{k:"UnitOfMeasure",h:"Unit",t:"sel",opts:ACC_UNIT,req:1},
+     {k:"OpeningStock",h:"Opening",t:"num",w:"100px"},{k:"PurchaseQty",h:"Purchase",t:"num",w:"100px"},
+     {k:"PrevYrConsum",h:"Consumption",t:"num",w:"110px"},{k:"SaleQty",h:"Sales",t:"num",w:"90px"},
+     {k:"ClgStock",h:"Closing",t:"num",w:"90px"},{k:"yldFinisProd",h:"Yield",t:"num",w:"90px"},
+     {k:"PercentYld",h:"% yield",t:"num",w:"90px"},{k:"AnyShortExces",h:"Shortage/excess",t:"num",w:"110px"}],
+    _acArr("qd.raw"),{min:"1200px",empty:"No raw materials.",add:"Add raw material"});
+  h+=sub("(c) Manufacturing concern — finished goods / by-products");
+  h+=grid("accounts.qd.fin",
+    [{k:"ItemName",h:"Item name",t:"txt",w:"auto",req:1,max:50},{k:"UnitOfMeasure",h:"Unit",t:"sel",opts:ACC_UNIT,req:1},
+     {k:"OpeningStock",h:"Opening",t:"num",w:"100px"},{k:"PurchaseQty",h:"Purchase",t:"num",w:"100px"},
+     {k:"PrevyrManfact",h:"Manufactured",t:"num",w:"120px"},{k:"SaleQty",h:"Sales",t:"num",w:"100px"},
+     {k:"ClgStock",h:"Closing",t:"num",w:"100px"},{k:"AnyShortExces",h:"Shortage/excess",t:"num",w:"120px"}],
+    _acArr("qd.fin"),{min:"1000px",empty:"No finished goods.",add:"Add finished good"});
+  return h;
+}
+
+/* ---------- Part A - OL (Receipt & Payment · liquidation) screen (accOL) ---------- */
+function accOL(){
+  const o="ol."; let h="";
+  h+=note("Part A-OL — Receipt and payment account of a company under liquidation (substitutes the Balance Sheet / P&L). Amounts in rupees.");
+  h+=sub("1 — Opening balance");
+  h+=_acRi("Cash in hand",o+"OpeningBal.CashInHand","1i",{ind:1});
+  h+=_acRi("Bank",o+"OpeningBal.CashInBank","1ii",{ind:1});
+  h+=_acRc("Total opening balance (i + ii)",o+"OpeningBal.TotalOpenBal","1iii");
+  h+=sub("2 — Receipts");
+  h+=_acRi("Interest",o+"Receipts.Interest","2i",{ind:1});
+  h+=_acRi("Dividend",o+"Receipts.Dividend","2ii",{ind:1});
+  h+=grid("accounts."+o+"Receipts.SaleOfAssets.SaleOfAssetsDtls",
+    [{k:"OthNatOfInc",h:"Sale of assets — nature",t:"txt",w:"auto",req:1,max:100},{k:"OthAmount",h:"Amount",t:"num",w:"150px",req:1}],
+    _acArr("ol.Receipts.SaleOfAssets.SaleOfAssetsDtls"),{min:"480px",empty:"No asset sales.",add:"Add asset sale"});
+  h+=_acRc("2iiib — Total sale of assets",o+"Receipts.TotalSaleofAssets","2iiib");
+  h+=_acRi("Realization of dues / debtors",o+"Receipts.RlznDuesDebtors","2iv",{ind:1});
+  h+=grid("accounts."+o+"Receipts.OthersIncRec.OthersIncDtls",
+    [{k:"OthNatOfInc",h:"Other receipt — nature",t:"txt",w:"auto",req:1,max:100},{k:"TypeOfIncome",h:"Revenue/Capital",t:"sel",opts:ACC_RC,req:1},{k:"OthAmount",h:"Amount",t:"num",w:"150px",req:1}],
+    _acArr("ol.Receipts.OthersIncRec.OthersIncDtls"),{min:"620px",empty:"No other receipts.",add:"Add other receipt"});
+  h+=_acRc("2vb — Total other receipts",o+"Receipts.TotOthersReceiptsOnly","2vb");
+  h+=_acRc("2vi — Total receipts",o+"Receipts.TotalOfReceipts","2vi");
+  h+=_acRc("3 — Total of opening balance and receipts",o+"TotalOpenReceipts","3",{cls:"grand"});
+  h+=sub("4 — Payments");
+  h+=_acRi("Repayment of secured loans",o+"Payments.RepaymentSecuredloan","4i",{ind:1});
+  h+=_acRi("Repayment of unsecured loans",o+"Payments.RepaymentUnsecuredloan","4ii",{ind:1});
+  h+=_acRi("Repayment to creditors",o+"Payments.RepaymentCreditors","4iii",{ind:1});
+  h+=_acRi("Commission",o+"Payments.Commission","4iv",{ind:1});
+  h+=grid("accounts."+o+"Payments.OthersPayments.OthersPaymentsDtls",
+    [{k:"OthNatOfInc",h:"Other payment — nature",t:"txt",w:"auto",req:1,max:100},{k:"OthAmount",h:"Amount",t:"num",w:"150px",req:1}],
+    _acArr("ol.Payments.OthersPayments.OthersPaymentsDtls"),{min:"480px",empty:"No other payments.",add:"Add other payment"});
+  h+=_acRc("4vb — Total other payments",o+"Payments.TotalOthersPayments","4vb");
+  h+=_acRc("4vi — Total payments",o+"Payments.TotalPayments","4vi");
+  h+=sub("5 — Closing balance");
+  h+=_acRi("Cash in hand",o+"ClosingStock.CashInHand","5i",{ind:1});
+  h+=_acRi("Bank",o+"ClosingStock.CashInBank","5ii",{ind:1});
+  h+=_acRc("Total closing balance (i + ii)",o+"ClosingStock.TotalClBal","5iii");
+  h+=_acRc("6 — Total of closing balance and payments (4vi + 5iii)",o+"TotalClPaymnts","6",{cls:"grand"});
+  return h;
+}
+
+/* =====================================================================
+   SCREEN — orchestrator: basis selector, then the block folds.
+   ===================================================================== */
+function _acCR(n){ n=R(n); return n?CR(n):""; }
+function secAccounts(){
+  const A=S.accounts||{}; let h="";
+  h+=note("<b>Part A — Audited accounts.</b> Enter the audited Balance Sheet, Manufacturing / Trading Account and Statement of Profit &amp; Loss (or the Ind-AS set), the tax-audit Other Information (Part A-OI) and the Quantitative Details. Amounts are in rupees. The four Balance-Sheet / P&amp;L blocks are always filed (the schema requires all four); the set not used is filed as zeros.");
+  h+=row("Basis of accounts",sel("accounts.basis",ACC_BASIS),{ref:"Part A",hint:"Schedule III, Ind-AS, or (in liquidation) the Receipt & Payment account"});
+  const basis=st0(A.basis)||"reg";
+  if(basis==="ol"){
+    h+=fold("ac_ol","OL","Receipt and payment account (company under liquidation)",_acCR((S.C.accounts||{}).olIn),accOL(),{def:true});
+    return h;
+  }
+  const ias=basis==="ias";
+  const P=ias?{bs:"bsias",mfg:"mfgias",trd:"trdias",pl:"plias"}:{bs:"bs",mfg:"mfg",trd:"trd",pl:"pl"};
+  const C=S.C.accounts||{};
+  const bsTot=ias?C.biasTotEL:C.bsTotEL, mism=ias?C.biasMismatch:C.bsMismatch;
+  h+=fold("ac_bs","1","Balance Sheet"+(ias?" (Ind AS)":""),(bsTot?_acCR(bsTot)+(mism?" ⚠ does not balance":" ✓"):""),ias?accBSias():accBS(),{def:true});
+  h+=fold("ac_mfg","Mfg","Manufacturing Account"+(ias?" (Ind AS)":"")+" — if a manufacturing concern","",accMfg(P.mfg),{});
+  h+=fold("ac_trd","Trd","Trading Account"+(ias?" (Ind AS)":""),"",accTrd(P.trd),{def:true});
+  h+=fold("ac_pl","P&L","Statement of Profit and Loss"+(ias?" (Ind AS)":""),_acCR(ias?C.pbtIndAs:C.pbt),accPL(P.pl,ias),{def:true});
+  h+=fold("ac_oi","OI","Part A-OI — Other Information (tax-audit annexure)","",accOI(),{def:true});
+  h+=fold("ac_qd","QD","Part A-QD — Quantitative Details","",accQD(),{});
+  return h;
+}
+
+/* =====================================================================
+   EXPORT helpers — a schema-clean serializer. Every leaf written is a
+   verbatim schema key: the state subtree mirrors the schema shape and the
+   engine only ever writes schema keys, so a guided copy is exact. Numbers
+   are coerced to whole rupees; empty branches/strings are dropped.
+   ===================================================================== */
+function _acEnum(v,allowed,def){ const t=st0(v); return allowed.indexOf(t)>=0?t:def; }
+function _acClean(v){
+  if(Array.isArray(v)) return _acRows(v);
+  if(v&&typeof v==="object"){
+    const o={}; for(const k of Object.keys(v)){ const c=_acClean(v[k]); if(c!==undefined) o[k]=c; }
+    return Object.keys(o).length?o:undefined;
+  }
+  if(typeof v==="number") return R(v);
+  const t=st0(v); return t===""?undefined:t;
+}
+function _acRows(a){
+  if(!Array.isArray(a)) return undefined;
+  const out=a.map(_acClean).filter(v=>v!==undefined);
+  return out.length?out:undefined;
+}
+/* overlay src onto dst (the SKEL / required skeleton subtree), adding arrays
+   and optional leaves from state without ever creating an empty object. */
+function _acOverlay(dst,src){
+  if(!dst||src==null||typeof src!=="object") return;
+  for(const k of Object.keys(src)){
+    const v=src[k];
+    if(Array.isArray(v)){ const r=_acRows(v); if(r) dst[k]=r; }
+    else if(v&&typeof v==="object"){
+      if(_acClean(v)===undefined) continue;
+      if(dst[k]==null||typeof dst[k]!=="object"||Array.isArray(dst[k])) dst[k]={};
+      _acOverlay(dst[k],v);
+    }
+    else if(typeof v==="number") dst[k]=R(v);
+    else { const t=st0(v); if(t!=="") dst[k]=t; }
+  }
+}
+/* one QD row: integer columns via R, PercentYld kept as a number */
+function _acQrow(r){
+  if(!r||typeof r!=="object") return undefined; const o={};
+  const put1=(k,fn)=>{ const v=r[k]; if(v!=null&&st0(v)!=="") o[k]=fn(v); };
+  put1("ItemName",st0); put1("UnitOfMeasure",st0);
+  ["OpeningStock","PurchaseQty","PrevYrConsum","PrevyrManfact","SaleQty","ClgStock","yldFinisProd","AnyShortExces"].forEach(k=>put1(k,x=>R(x)));
+  put1("PercentYld",x=>N(x));
+  return Object.keys(o).length?o:undefined;
+}
+function _acQrows(a){ if(!Array.isArray(a))return undefined; const out=a.map(_acQrow).filter(v=>v!==undefined); return out.length?out:undefined; }
+/* the required-leaf skeleton for Part A-OI (zeros + enum defaults) */
+function _acOIskel(){
+  const zobj=keys=>{ const x={}; keys.forEach(k=>x[k]=0); return x; };
+  return {
+    MethodOfAcct:"MERC", ChangeInAcctMethFlg:"N", ProfDeviatDueAcctMeth:0, DecProOrIncLossUs145_2:0,
+    MethodOfValClgStk:{ValRawMaterial:"1",ValFinishedGoods:"1",ChngStockValMetFlg:"N",EffectOnPL:0,DecProOrIncLossUs145_A:0},
+    NoCredToPLAmt:zobj(OI_NC5.map(r=>r[0]).concat("TotNoCredToPLAmt")),
+    AmtDisallUs36:zobj(OI36.map(r=>r[0]).concat("TotAmtDisallUs36")),
+    AmtDisallUs37:zobj(OI37.map(r=>r[0]).concat("TotAmtDisallUs37")),
+    AmtDisallUs40:zobj(OI40.map(r=>r[0]).concat("TotAmtDisallUs40")),
+    AmtDisallUs40A:zobj(OI40A.map(r=>r[0]).concat("TotAmtDisallUs40A")),
+    AmtDisallUs43BPyNowAll:{AmtUs43B:zobj(OI43.slice(0,7).map(r=>r[0]).concat("TotAmtUs43b"))},
+    AmtDisall43B:{AmtUs43B:zobj(OI43.slice(0,8).map(r=>r[0]).concat("TotAmtUs43b"))},
+    AmtExciseCustomsVATOutstanding:{ExciseCustomsVAT:{TotExciseCustomsVAT:0}},
+    DeemedProfUs33ABs:0, ProfTaxAmtUs41:0, PriorAmtIncCrDrPL:0, AmountOfExpDisAllwUs14A:0, ScheduleTPSAFlg:"N"
+  };
+}
+function _acOI(j){
+  const A=S.accounts||{}, sk=_acOIskel();
+  const st=deep(A.oi||{});
+  try{ if(st.AmtDisallUs36) delete st.AmtDisallUs36.NoOfEmployeesEmployed; }catch(e){}
+  _acOverlay(sk,st);
+  sk.MethodOfAcct=_acEnum(RG(A,"oi.MethodOfAcct"),["MERC","CASH"],"MERC");
+  sk.ChangeInAcctMethFlg=_acEnum(RG(A,"oi.ChangeInAcctMethFlg"),["Y","N"],"N");
+  sk.MethodOfValClgStk.ValRawMaterial=_acEnum(RG(A,"oi.MethodOfValClgStk.ValRawMaterial"),["1","2","3"],"1");
+  sk.MethodOfValClgStk.ValFinishedGoods=_acEnum(RG(A,"oi.MethodOfValClgStk.ValFinishedGoods"),["1","2","3"],"1");
+  sk.MethodOfValClgStk.ChngStockValMetFlg=_acEnum(RG(A,"oi.MethodOfValClgStk.ChngStockValMetFlg"),["Y","N"],"N");
+  sk.ScheduleTPSAFlg=_acEnum(RG(A,"oi.ScheduleTPSAFlg"),["Y","N"],"N");
+  const eIn=N(RG(A,"oi.AmtDisallUs36.NoOfEmployeesEmployed.DeployedInIndia")), eOut=N(RG(A,"oi.AmtDisallUs36.NoOfEmployeesEmployed.DeployedOutSideIndia"));
+  if(eIn||eOut) sk.AmtDisallUs36.NoOfEmployeesEmployed={DeployedInIndia:R(eIn),DeployedOutSideIndia:R(eOut),Total:R(eIn)+R(eOut)};
+  j.PARTA_OI=sk;
+}
+function _acOL(j){
+  const A=S.accounts||{};
+  const sk={
+    OpeningBal:{CashInHand:0,CashInBank:0,TotalOpenBal:0},
+    Receipts:{Interest:0,Dividend:0,TotalSaleofAssets:0,RlznDuesDebtors:0,TotOthersReceiptsOnly:0,TotalOfReceipts:0},
+    TotalOpenReceipts:0,
+    Payments:{RepaymentSecuredloan:0,RepaymentUnsecuredloan:0,RepaymentCreditors:0,Commission:0,TotalOthersPayments:0,TotalPayments:0},
+    ClosingStock:{CashInHand:0,CashInBank:0,TotalClBal:0},
+    TotalClPaymnts:0
+  };
+  _acOverlay(sk,A.ol||{});
+  j.PARTA_OL=sk;
+}
+function _acQD(j){
+  const A=S.accounts||{}, qd=A.qd||{};
+  const trd=_acQrows(qd.trd), raw=_acQrows(qd.raw), fin=_acQrows(qd.fin);
+  const o={};
+  if(trd) o.TradingConcern={QuantitDet:trd};
+  if(raw||fin) o.ManfactrConcern={RawMaterial:raw?{QuantitDet:raw}:{}, FinishrByProd:fin?{QuantitDet:fin}:{}};
+  if(Object.keys(o).length) j.PARTA_QD=o;
+}
+const _acOIon=A=>!!(A&&(A.oiOn||_accHas(A.oi)));
+const _acOLon=A=>!!(A&&(A.olOn||_accHas(A.ol)));
+/* TradingAccountIndAS required-leaf skeleton (its schema requires more input
+   leaves than the regular Trading Account) */
+function _acTrdiasSkel(){
+  return { GrossRcptFromProfession:0, OpngStckOfFinishedStcks:0, Purchases:0, CarriageInward:0, PowerAndFuel:0,
+    TotOthDirectExpenses:0, OperatingRevenueTotal:0, SalesGrossReceiptsTotal:0, TotRevenueFrmOperations:0,
+    TardingAccTotCred:0, GrossProfitFrmBusProf:0,
+    ExciseCustomsVAT:{CentralGoodServiceTax:0,StateGoodServiceTax:0,IntegratedGoodServiceTax:0,UnionTerrGoodServiceTax:0,TotExciseCustomsVAT:0} };
+}
+
+/* PARTA_PLIndAS (schema-required, always filed): overlay CreditsToPL /
+   DebitsToPL onto SKEL; the OtherComprnsvInc block is OPTIONAL, so emit it
+   only when it carries real OCI data — and then with every required leaf,
+   since SKEL does not carry the OCI skeleton. */
+function _acPLias(j, plias){
+  plias=plias||{};
+  const oci=plias.OtherComprnsvInc;
+  const rest=deep(plias); try{ delete rest.OtherComprnsvInc; }catch(e){}
+  _acOverlay(j.PARTA_PLIndAS, rest);
+  if(oci&&typeof oci==="object"){
+    const probe=deep(oci);
+    try{ delete probe.TotalComprIncome;
+      if(probe.ItemsNotReclsfdPnL){ delete probe.ItemsNotReclsfdPnL.OthersTotal; delete probe.ItemsNotReclsfdPnL.TotalNotPnL; }
+      if(probe.ItemsReclsfdPnL){ delete probe.ItemsReclsfdPnL.OthersTotal; delete probe.ItemsReclsfdPnL.TotalPnL; }
+    }catch(e){}
+    if(_accHas(probe)){
+      const osk={ ItemsNotReclsfdPnL:{ChangesInSurplus:0,ReMesDefinedBenftPlans:0,EquityOCI:0,FairValFVTPl:0,ShareOfOtherComprInc:0,OthersTotal:0,IncomeTaxNotPnL:0,TotalNotPnL:0},
+                  ItemsReclsfdPnL:{ExchangeDiff:0,DebtsOCI:0,EffecPortionGainnLoss:0,ShareOCI:0,OthersTotal:0,IncomeTaxReclsPnL:0,TotalPnL:0},
+                  TotalComprIncome:0 };
+      _acOverlay(osk, oci);
+      j.PARTA_PLIndAS.OtherComprnsvInc=osk;
+    }
+  }
+}
+
+function expAccounts(j){
+  const A=S.accounts||{};
+  /* the four schema-required blocks: overlay live values onto the SKEL zero
+     skeleton already present in j (SKEL carries every required leaf). */
+  _acOverlay(j.PARTA_BSFor6FrmAY13, A.bs);
+  _acOverlay(j.PARTA_BSIndAS,       A.bsias);
+  _acOverlay(j.PARTA_PL,            A.pl);
+  _acPLias(j, A.plias);
+  /* optional blocks — emitted only when they carry data */
+  if(_accHas(A.mfg))    j.ManufacturingAccount     =_acClean(A.mfg);
+  if(_accHas(A.trd))    j.TradingAccount            =_acClean(A.trd);
+  if(_accHas(A.mfgias)) j.ManufacturingAccountIndAS =_acClean(A.mfgias);
+  /* TradingAccountIndAS requires input leaves the engine does not write
+     (GST fields, opening stock, purchases, carriage, power) — overlay onto
+     a required-leaf skeleton so every mandatory leaf is present. */
+  if(_accHas(A.trdias)){ const tsk=_acTrdiasSkel(); _acOverlay(tsk,A.trdias); j.TradingAccountIndAS=tsk; }
+  if(_acOIon(A)) _acOI(j);
+  if(_accHas(A.qd)) _acQD(j);
+  if(_acOLon(A)) _acOL(j);
+}
+
+/* =====================================================================
+   IMPORT — inverse of the exporter. The state subtree equals the schema
+   shape, so a raw copy back into S.accounts round-trips to the byte; QD's
+   three helper arrays are the only remapping. Totals are re-derived by the
+   engine on the following compute(), so the round-trip is identity.
+   ===================================================================== */
+function impAccounts(I6){
+  const read=[]; if(!I6||typeof I6!=="object") return read;
+  const A=S.accounts=S.accounts||{};
+  const cp=(k,ns,flag,label)=>{ const b=I6[k]; if(b!=null&&typeof b==="object"){ A[ns]=deep(b); if(flag)A[flag]=true; if(label)read.push(label); return true; } return false; };
+  cp("PARTA_BSFor6FrmAY13","bs","bsOn","Part A — Balance Sheet");
+  cp("PARTA_BSIndAS","bsias","biasOn",null);
+  cp("PARTA_PL","pl","plOn","Part A — Statement of Profit and Loss");
+  cp("PARTA_PLIndAS","plias","pliasOn",null);
+  cp("ManufacturingAccount","mfg","mfgOn","Part A — Manufacturing Account");
+  cp("TradingAccount","trd","trdOn","Part A — Trading Account");
+  cp("ManufacturingAccountIndAS","mfgias","mfgiasOn",null);
+  cp("TradingAccountIndAS","trdias","trdiasOn",null);
+  if(cp("PARTA_OI","oi","oiOn","Part A — Other Information (OI)")) {}
+  const qd=I6.PARTA_QD;
+  if(qd&&typeof qd==="object"){
+    A.qd={ trd:RG(qd,"TradingConcern.QuantitDet",[])||[],
+           raw:RG(qd,"ManfactrConcern.RawMaterial.QuantitDet",[])||[],
+           fin:RG(qd,"ManfactrConcern.FinishrByProd.QuantitDet",[])||[] };
+    A.qdOn=true; read.push("Part A — Quantitative Details (QD)");
+  }
+  if(cp("PARTA_OL","ol","olOn","Part A — Receipt & Payment (company under liquidation)")) {}
+  /* infer the screen basis so the imported set shows on the right path */
+  if(_accHas(A.ol)) A.basis="ol";
+  else if(_accHas(A.bsias)&&!_accHas(A.bs)) A.basis="ias";
+  else if(!st0(A.basis)) A.basis="reg";
+  return read;
+}
+
+/* =====================================================================
+   CHECKS — this section's own screen validations (not department rules).
+   ===================================================================== */
+function chkAccounts(){
+  const out=[]; const A=S.accounts||{}, C=S.C.accounts||{};
+  const add=(lvl,t,m)=>out.push({lvl,t,m,sec:"accounts"});
+  const basis=st0(A.basis)||"reg";
+  if(basis==="ol"){
+    if(_accHas(A.ol)&&C.olMismatch)
+      add("err","Receipt & payment account does not tie","Total of opening balance and receipts (₹"+F(C.olIn)+") must equal the total of closing balance and payments (₹"+F(C.olOut)+").");
+    return out;
+  }
+  const ias=basis==="ias";
+  const mism=ias?C.biasMismatch:C.bsMismatch;
+  const el=ias?C.biasTotEL:C.bsTotEL, as=ias?C.biasTotAsset:C.bsTotAsset;
+  if((el||as)&&mism)
+    add("err","Balance Sheet does not balance","Total Equity & Liabilities (₹"+F(el)+") must equal Total Assets (₹"+F(as)+").");
+  else if(el&&as)
+    add("ok","Balance Sheet balances","Both sides foot to ₹"+F(el)+".");
+  const pbt=ias?C.pbtIndAs:C.pbt;
+  if(N(pbt)!==0) add("ok","P&L profit before tax","₹"+F(pbt)+" (P&L item 53) — enter the same figure at Schedule BP item 1.");
+  if(_acOIon(A)&&!st0(RG(A,"oi.MethodOfAcct")))
+    add("warn","Part A-OI method of accounting unanswered","State the method of accounting (item 1) — defaults to Mercantile on export.");
+  return out;
+}
+
+/* ---- register (overrides the boot stub for "accounts") ---------------- */
+reg({id:"accounts", t:"Audited accounts", ref:"BS · Mfg/Trading · P&L · Ind-AS · OI · QD · OL",
+  f:secAccounts,
+  s:()=>{ const C=S.C.accounts||{}; const el=C.bsTotEL||C.biasTotEL||0; const pbt=C.pbt||C.pbtIndAs||0;
+    return el?(CR(el)+(( (C.bsMismatch&&C.bsTotEL)||(C.biasMismatch&&C.biasTotEL))?" ⚠":"")):(pbt?"PBT "+CR(pbt):""); },
+  eng:engAccounts, exp:expAccounts, imp:impAccounts, chk:chkAccounts, order:15, corder:15});

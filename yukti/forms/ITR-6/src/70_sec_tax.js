@@ -20,8 +20,9 @@
    (35 % foreign) with the 115BAA eligibility gate, company surcharge
    (7/12 % domestic, 2/5 % foreign) with marginal relief, a flat 25 %
    surcharge on 115BBE income, cess at 4 %, the MAT (115JB) interplay
-   (gross tax = higher of normal 2f and MAT 1d, from S.C.mat), MAT credit
-   (115JAA, S.C.mat.credit, only when 2f > 1d), tax relief (Schedule TR),
+   (gross tax = higher of normal 2f and MAT 1d, read as S.C.mat.tax1d),
+   MAT credit (115JAA, computed here from S.C.matc.totBF, only when 2f > 1d),
+   tax relief (Schedule TR),
    and 234A/234B/234C interest + 234F/234-I fees. It SETS the footer
    contract S.C.{gti, ti, tax, int}. There is NO salary head (Part B-TI
    opens at house property, item 1), NO basic exemption, NO 87A rebate,
@@ -48,16 +49,18 @@ function taxGet(){ for(var i=0;i<arguments.length;i++){var o=S,ok=true;
    the seam if the who/gen field names differ. Default: domestic, no option,
    turnover unknown → 30 % (the ELSE branch of the ladder). */
 function taxDrivers(){
-  var domRaw = st0(taxGet("C.gen.domestic","C.who.domestic","who.domestic","who.domesticFlg",
-    "gen.domestic","pi.domestic")||"Y");
-  var domestic = domRaw.charAt(0).toUpperCase()==="Y";           /* Yes = domestic */
+  var domVal = taxGet("C.who.domestic","C.gen.domestic","who.domestic","who.domesticFlg",
+    "gen.domestic","pi.domestic");
+  var domestic = (domVal==null) ? true                           /* default: a domestic company */
+    : (typeof domVal==="boolean") ? domVal                       /* engWho publishes S.C.who.domestic as a BOOLEAN (who.js:84) */
+    : st0(domVal).charAt(0).toUpperCase()==="Y";                 /* tolerate a raw "Y"/"N" input */
   var secRaw = st0(taxGet("C.gen.sec115","C.who.sec115","who.sec115","who.section115","who.opt115",
     "who.Section115CurrAY","who.Section115BA","fs.sec115","gen.sec115")||"");
   var s = secRaw.replace(/[^0-9A-Za-z]/g,"").toUpperCase();
   var sec = /115BAB/.test(s)?"115BAB": /115BAA/.test(s)?"115BAA": /115BA/.test(s)?"115BA":"";
   if(!domestic) sec="";                                          /* rule 9-10: a foreign co. cannot opt */
   var grRaw = st0(taxGet("C.gen.gr400","C.who.gr400","who.grossReceipt","who.gr400","who.turnover400",
-    "who.GrossReceipt","gen.grossReceipt","fs.grossReceipt")||"");
+    "who.GrossReceipt","gen.grossReceipt","fs.grossRcpt","fs.grossReceipt")||"");
   var per25small = grRaw.charAt(0).toUpperCase()==="N";          /* "No, ≤400cr" → 25 % small company */
   var sec92E = st0(taxGet("C.gen.sec92E","who.sec92E","gen.sec92E","gen.liable92E",
     "fs.sec92E")||"").charAt(0).toUpperCase()==="Y";             /* TP audit → 30-Nov due date */
@@ -193,7 +196,7 @@ function engTax(){
   var L=(S.C.loss||{});
   var cyla=R(L.cylaTotal!=null?L.cylaTotal:((L.totHPset||0)+(L.totBusset||0)+(L.totOSset||0)));/* 6 */
   var item7=Math.max(0, item5 - cyla);                                       /* 7 balance after CY set-off */
-  var bfla=R(L.bflaTotal!=null?L.bflaTotal:((L.totBFset||0)+(L.totUnabsDep||0)+(L.tot35_4||0)));/* 8 */
+  var bfla=R(L.bfSetoffTotal!=null?L.bfSetoffTotal:((L.totBFset||0)+(L.totDep||0)+(L.tot35||0)));/* 8 = BFLA set-off total 2xv+3xv+4xv */
   /* item 9 GROSS TOTAL INCOME = 7 − 8. It INCLUDES special-rate income —
      item5 already carries every head (b2iv, cgC2, os4b, 3d), so do NOT
      subtract special-rate income here (the ITR-5 GTI bug). (L40) */
@@ -222,10 +225,10 @@ function engTax(){
   var normalInc=Math.max(0, ti - splInc);
 
   /* item 16 — net agricultural income for rate (Schedule EI 2v) (L50) */
-  var agri=Math.max(0, R((S.C.ei||{}).netAgri!=null?(S.C.ei||{}).netAgri:((S.C.ei||{}).agri||0)));
+  var agri=Math.max(0, R((S.C.ei||{}).net2v!=null?(S.C.ei||{}).net2v:((S.C.ei||{}).netAgri||0)));
 
   /* item 17 — current-year losses carried forward (Schedule CFL xxi) (L51) */
-  var cf=R(L.cfTotal!=null?L.cfTotal:((L.cf&&L.cf.total)||0));
+  var cf=R(L.curTotal!=null?L.curTotal:((L.cf&&L.cf.total)||0));            /* Sch CFL row xxi = current-year total */
 
   /* item 18 — deemed total income u/s 115JB (Schedule MAT item 9) (L52);
      0 if 115BAA/115BAB is opted (rule 674) */
@@ -248,18 +251,29 @@ function engTax(){
   var cess=R((tax2c+sur)*0.04);                                              /* 2e — 4 % */
   var grossTaxLiability=R(tax2c + sur + cess);                                /* 2f (L68) */
 
-  /* ===== Part B-TTI 1 — tax on the deemed income u/s 115JB (MAT) ===== */
-  var mat1a = matBlocked?0:Math.max(0, R(MAT.tax!=null?MAT.tax:(MAT.taxUs115JB||0)));   /* 1a — MAT.TaxPayableUs115JB */
+  /* ===== Part B-TTI 1 — tax on the deemed income u/s 115JB (MAT) =====
+     The MAT tax total (1d = base + surcharge + cess) is OWNED by engMat and
+     read here as S.C.mat.tax1d (MAT seam contract). The 1a/1b/1c breakdown is
+     recomputed locally for the on-screen rows and as a guarded fallback for
+     1d when engMat has not yet published tax1d; both use the same domestic
+     15 % + 7 %/12 % + 4 % ladder, so they agree. */
+  var mat1a = matBlocked?0:Math.max(0, R(MAT.tax!=null?MAT.tax:(MAT.taxUs115JB||0)));   /* 1a — MAT item 10 (15 % base) */
   var mscg = matBlocked?{sur:0,rate:0,mr:0}:taxMatSurcharge(deemedTI, mat1a, dr);       /* 1b */
   var mat1b = mscg.sur;
   var mat1c = matBlocked?0:R((mat1a+mat1b)*0.04);                                       /* 1c — cess 4 % */
-  var mat1d = matBlocked?0:R(mat1a+mat1b+mat1c);                                        /* 1d total */
+  var mat1dLocal = matBlocked?0:R(mat1a+mat1b+mat1c);                                   /* local 1d (fallback) */
+  var mat1d = matBlocked?0:R(MAT.tax1d!=null?MAT.tax1d:mat1dLocal);                     /* 1d = S.C.mat.tax1d (MAT seam) */
 
-  /* ===== Part B-TTI 3 — gross tax payable = higher of 1d and 2f (rule 768) ===== */
+  /* ===== Part B-TTI 3 — gross tax payable = higher of 2f and MAT 1d (rule 768) ===== */
   var grossTaxPayable=Math.max(grossTaxLiability, mat1d);
 
-  /* ===== Part B-TTI 4 — MAT credit u/s 115JAA (MATC item 5), only if 2f > 1d ===== */
-  var matCredit=(grossTaxLiability>mat1d)?Math.max(0, R(MAT.credit!=null?MAT.credit:(MAT.creditUtil||0))):0;/* rule 773 */
+  /* ===== Part B-TTI 4 — 115JAA MAT credit set-off, computed HERE (MATC item 5) =====
+     Only when the normal gross tax (2f) exceeds the MAT (1d); capped at the
+     headroom (2f − 1d) and at the MAT credit brought forward and available
+     (Schedule MATC ΣB3 = S.C.matc.totBF), rule 773. Not read from
+     S.C.mat.credit — that seam is retired. */
+  var availCredit115JAA=Math.max(0, N((S.C.matc||{}).totBF));                 /* MATC brought-forward credit (input-derived) */
+  var matCredit=(grossTaxLiability>mat1d)?Math.max(0, R(Math.min(availCredit115JAA, grossTaxLiability-mat1d))):0;/* rule 773 */
   var afterCredit=Math.max(0, grossTaxPayable - matCredit);                   /* item 5 (L71) */
 
   /* ===== Part B-TTI 6 — tax relief (Schedule TR): 90/90A + 91 ===== */
@@ -328,7 +342,7 @@ function engTax(){
   var refund =Math.round(Math.max(0,-bal)/10)*10;                           /* item 12 — nearest ten (L92) */
 
   /* 115TD adjustment (items 13-15) — Schedule 115TD net payable (S.C.other) */
-  var net115TD=Math.max(0, R((S.C.other||{}).net115TD!=null?(S.C.other||{}).net115TD:((S.C.other||{}).sch115TD||0)));
+  var net115TD=Math.max(0, R((S.C.other||{}).td115Net!=null?(S.C.other||{}).td115Net:((S.C.other||{}).net115TD||0)));
   var payable115TD=net115TD>refund?(net115TD-refund):0;                       /* 14 */
   var netRefund=refund>net115TD?(refund-net115TD):0;                          /* 15 */
 
@@ -347,7 +361,8 @@ function engTax(){
     normalInc:R(normalInc), agri:agri, cf:cf, deemedTI:deemedTI,
     tax2a:tax2a, splTax:splTax, tax2c:tax2c, bbeInc:bbeInc, bbeTax:bbeTax,
     surI:scg.surI, surII:scg.surII, surRate:scg.rate, mr:scg.mr, sur:sur, cess:cess,
-    gross:grossTaxLiability,                                                 /* 2f = footer tax, and MATC item 2 */
+    gross:grossTaxLiability,                                                 /* 2f = footer tax */
+    normal2f:grossTaxLiability, grossTaxLiability:grossTaxLiability,         /* MAT seam: engMat/engMatc read these as the normal 2f */
     mat1a:mat1a, mat1b:mat1b, mat1c:mat1c, matSurRate:mscg.rate, matMr:mscg.mr,
     deemedTotal:mat1d,                                                       /* 1d = MATC item 1 */
     grossPayable:grossTaxPayable, matBlocked:matBlocked, matHigher:matHigher};

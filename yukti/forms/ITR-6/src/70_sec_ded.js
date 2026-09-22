@@ -561,20 +561,25 @@ function expDed(j){
       TotalDonationsUs80GGC:n0(conc?0:cash+oth),TotalEligibleDonationAmt80GGC:n0(V.ggcElig)};}}
 
   /* ---- Schedule80_IA / 80_IB / 80_IC (the 80-IE block) ---- */
-  const grp80=g=>{const o={Sch80LocOrDescCode:(g&&sv(g.loc))||"NA"};
+  /* Sch80LocOrDescCode is a FIXED per-sub-clause constant (schema pattern), not free text —
+     the exporter supplies it; each group is schema-required, so all groups are emitted (amount
+     details only where claimed). */
+  const grp80=(g,code)=>{const o={Sch80LocOrDescCode:code};
     const rows=((g&&g.rows)||[]).filter(r=>N(r.amt)).map(r=>({DeductAmountSec80:n0(r.amt)}));
     if(rows.length)o.Sch80DeductAmtDtls=rows;return o;};
   const ia=S.ded.ia||{},ib=S.ded.ib||{},ie=S.ded.ie||{};
-  if(V.ia80>0)j.Schedule80_IA={Sch80SectionCode:"80-IA",DeductUs80_IA_4_i:grp80(ia.i),
-    DeductUs80_IA_4_iv:grp80(ia.iv),DeductUs80_IA_4_v:grp80(ia.v),TotSchedule80_IA:n0(V.ia80)};
-  if(V.ib80>0)j.Schedule80_IB={Sch80SectionCode:"80-IB",DeductMinOilUs80_IB_9_Und:grp80(ib.oil),
-    DeductHousUs80_IB_10_Und:grp80(ib.hous),DeductFruitVegUs80_IB_11A_Und:grp80(ib.fruit),
-    DeductFoodGrainUs80_IB_11A_Und:grp80(ib.food),TotSchedule80_IB:n0(V.ib80)};
+  if(V.ia80>0)j.Schedule80_IA={Sch80SectionCode:"80-IA",DeductUs80_IA_4_i:grp80(ia.i,"INFRAFAC"),
+    DeductUs80_IA_4_iv:grp80(ia.iv,"POWER"),DeductUs80_IA_4_v:grp80(ia.v,"REVIVAL_POWER_PLNT"),TotSchedule80_IA:n0(V.ia80)};
+  if(V.ib80>0)j.Schedule80_IB={Sch80SectionCode:"80-IB",DeductMinOilUs80_IB_9_Und:grp80(ib.oil,"COMM_PROD"),
+    DeductHousUs80_IB_10_Und:grp80(ib.hous,"HOUSING_PROJECT"),DeductFruitVegUs80_IB_11A_Und:grp80(ib.fruit,"FRIUTS_VEGTBLE"),
+    DeductFoodGrainUs80_IB_11A_Und:grp80(ib.food,"STOR_TRANS"),TotSchedule80_IB:n0(V.ib80)};
   if(V.ie80>0){const NE={};
-    [["assam","Assam_Und"],["arun","ArunachalPradesh_Und"],["manip","Manipur_Und"],["mizo","Mizoram_Und"],
-     ["megh","Meghalaya_Und"],["naga","Nagaland_Und"],["trip","Tripura_Und"],["sikk","Sikkim_Und"]].forEach(([k,K])=>{NE[K]=grp80(ie[k]);});
+    [["assam","Assam_Und","INDSRTL_ASSAM"],["arun","ArunachalPradesh_Und","INDSRTL_ARUNPRADESH"],
+     ["manip","Manipur_Und","INDSRTL_MANIPUR"],["mizo","Mizoram_Und","INDSRTL_MIZORAM"],
+     ["megh","Meghalaya_Und","INDSRTL_MEGHALAYA"],["naga","Nagaland_Und","INDSRTL_NAGALND"],
+     ["trip","Tripura_Und","INDSRTL_TRIPURA"],["sikk","Sikkim_Und","INDSRTL_SIKKIM"]].forEach(([k,K,code])=>{NE[K]=grp80(ie[k],code);});
     NE.TotDeductInNorthEast=n0(V.ie80);
-    j.Schedule80_IC={Sch80SectionCode:"80IE",DeductInNorthEast:NE,TotSchedule80_IC:n0(V.ie80)};}
+    j.Schedule80_IC={Sch80SectionCode:"80-IC_IE",DeductInNorthEast:NE,TotSchedule80_IC:n0(V.ie80)};}
 
   /* ---- Schedule80IAC (one start-up) ---- */
   {const x=S.ded.iac||{};

@@ -84,7 +84,7 @@ function cgQtr(iso){const d=D(iso);if(!d)return 4;
   if(d<=j15)return 0; if(d<=s15)return 1; if(d<=d15)return 2; if(d<=m15)return 3; return 4;}
 
 /* company (resident/domestic) unless the return's residential status says otherwise */
-function isNr(){return st0((S.pi||{}).res)!=="RES";}
+function isNr(){return st0((S.fs||{}).resStatus||"RES")!=="RES";}
 
 /* ---- state (S.cg) ------------------------------------------------- */
 /* field paths match the shell's baked-in cg handlers (commit/data-addland). */
@@ -785,9 +785,10 @@ function expCg(j){
   dfl(ST,"SaleOnOtherAssets",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
     FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,
     DeemedSTCGDeprAsset:0,ExemptionOrDednUs54:{ExemptionGrandTotal:0},CapgainonAssets:0});
-  if(G.nri){dfl(ST,"NRITransacSec48Dtl",{NRItaxSTTPaid:0,NRItaxSTTNotPaid:0});
-    dfl(ST,"NRISecur115AD",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
-      FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,CapgainonAssets:0});}
+  /* NRITransacSec48Dtl + NRISecur115AD are schema-REQUIRED on every ShortTermCapGain -> emit unconditionally; dfl() preserves any NR data written above */
+  dfl(ST,"NRITransacSec48Dtl",{NRItaxSTTPaid:0,NRItaxSTTNotPaid:0});
+  dfl(ST,"NRISecur115AD",{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
+    FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,LossSec94of7Or94of8:0,CapgainonAssets:0});
 
   /* ---- Part B (LongTermCapGain) ---- */
   const LT={};
@@ -847,8 +848,9 @@ function expCg(j){
   dfl(LT,"SaleofAssetNADtls",{SaleofAssetNA:{FullValueConsdRecvUnqshr:0,FairMrktValueUnqshr:0,FullValueConsdSec50CA:0,
     FullValueConsdOthUnqshr:0,FullConsideration:0,DeductSec48:zDed48(),BalanceCG:0,
     ExemptionOrDednUs54:{ExemptionGrandTotal:0},CapgainonAssets:0}});
-  if(G.nri){dfl(LT,"NRIProvisoSec48",{BalanceCG:0});
-    dfl(LT,"NRISaleOfEquityShareUs112A",{CapgainonAssets:0});}
+  /* NRISaleOfEquityShareUs112A is schema-REQUIRED on every LongTermCapGain -> emit unconditionally; NRIProvisoSec48 is NOT required -> stays NR-only */
+  if(G.nri)dfl(LT,"NRIProvisoSec48",{BalanceCG:0});
+  dfl(LT,"NRISaleOfEquityShareUs112A",{CapgainonAssets:0});
 
   j.ScheduleCG={ShortTermCapGain:ST,LongTermCapGain:LT,
     SumOfCGIncm:sg(G.C1),IncmFromVDATrnsf:n0(G.C2),IncChargeableHeadCapGain:sg(G.C3)};

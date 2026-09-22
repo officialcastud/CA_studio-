@@ -24,21 +24,29 @@
    rest (item 9b). Surcharge and cess are applied in Part B-TTI by the tax
    section, not here.
 
-   Compute model (books MAT §12 / MATC §9): this engine PUBLISHES
-     S.C.mat  = { ..., deemedTI (item 9), tax (item 10) }  — the tax section
-                 reads these into Part B-TI (rule 745) and Part B-TTI 1a
-                 (rule 771).
-     S.C.matc = { ..., credit (item 5), carryFwd (item 6) } — the tax section
-                 reads credit into Part B-TTI point 4 (rule 772).
-   and CONSUMES, for the MATC head:
-     Part B-TTI 1d (MAT + surcharge + cess) -> MATC item 1,
-     Part B-TTI 2f (normal gross tax)       -> MATC item 2,
-   from S.C.tax when the tax section has published them; when it has not yet
-   (pass 1, or the tax section absent) it falls back to this section's own
-   MAT tax (item 10) for 1d and 0 for 2f. The 2-pass fixpoint in compute()
-   (mat corder 70 < tax corder ~90) makes MATC converge on the tax section's
-   real 1d/2f by pass 2. This section OWNS only ScheduleMAT / ScheduleMATC —
-   it does not write any Part B block (the tax section owns those).
+   Compute model (books MAT §12 / MATC §9 — the FIX-WAVE-6A seam contract):
+   this engine PUBLISHES, computed from Schedule MAT / book profit ALONE (it
+   does NOT depend on the tax section):
+     S.C.mat.deemedTI  (item 9)  -> Part B-TI (rule 745), via the tax section.
+     S.C.mat.tax1d               -> Part B-TTI item 1d = MAT (item 10) +
+                 surcharge + 4% cess (rule 774). This single figure feeds both
+                 Schedule MATC item 1 AND the tax section's higher-of test at
+                 Part B-TTI 3 (rule 768: gross = higher of 2f and 1d), so the
+                 two share one source. (S.C.mat.tax = item 10 before surcharge/
+                 cess is kept for Part B-TTI 1a, rule 771.)
+     S.C.matc.* (the Schedule MATC figures: item 1/2/3, the year rows,
+                 credit = item 5, carryFwd = item 6).
+   and CONSUMES, for the MATC head (seam keys — never tax.mat1d/normal2f that
+   do not exist):
+     MATC item 1 <- S.C.mat.tax1d  (this section's own 1d, computed above).
+     MATC item 2 <- S.C.tax.normal2f (published by engTax = Part B-TTI 2f, the
+                 normal gross tax incl. surcharge+cess); 0 until the tax section
+                 has run (pass 1). The compute() fixpoint (mat corder 70 < tax
+                 corder ~90) makes MATC converge on the real 2f by pass 2.
+   The credit SET-OFF for Part B-TTI point 4 is NOT computed here — the tax
+   section derives it from S.C.mat.tax1d and S.C.tax.normal2f (contract); this
+   section only publishes the Schedule MATC figures. It OWNS only ScheduleMAT /
+   ScheduleMATC — it writes no Part B block (the tax section owns those).
    ===================================================================== */
 
 /* ---- field metadata (labels, sheet cells, schema keys — from the books) -- */
@@ -149,6 +157,27 @@ function _matConc(){
   return /115BA[AB]/.test(s);
 }
 
+/* Surcharge on the MAT (Tax.md §4 / MAT.md §9), tiered on the deemed total
+   income (item 9) with marginal relief; MAT rate 15% at the cut-off income.
+   Self-contained so S.C.mat.tax1d is computed from book profit alone (the seam
+   contract forbids depending on the tax section); it mirrors taxMatSurcharge in
+   70_sec_tax.js so the two agree to the rupee. MAT is a domestic-company charge
+   (rule 685), so the domestic tiers (7% >1cr / 12% >10cr) apply; the foreign
+   tiers (2%/5%) are kept only for completeness. Returns the surcharge amount. */
+function _matSurcharge(deemedTI, matTax, domestic){
+  const rate = deemedTI>100000000?(domestic?0.12:0.05)
+             : deemedTI>10000000 ?(domestic?0.07:0.02):0;
+  let sur=R(matTax*rate);
+  if(rate>0){
+    const th   = deemedTI>100000000?100000000:10000000;
+    const lower= deemedTI>100000000?(domestic?0.07:0.02):0;   /* surcharge of the tier below */
+    const matTaxAtTh=R(th*0.15), surAtTh=R(matTaxAtTh*lower);
+    const mr=Math.max(0,(matTax+sur)-(matTaxAtTh+surAtTh)-(deemedTI-th));
+    sur=Math.max(0,sur-mr);
+  }
+  return R(sur);
+}
+
 /* ---- engine ------------------------------------------------------------- */
 /* Computes MAT (items 4..10) then MATC (items 1..6), publishing S.C.mat and
    S.C.matc. All cross-reads guarded; never throws on empty state. */
@@ -169,6 +198,13 @@ function engMat(){
   const tax10 = (conc||item9<=0) ? 0
               : Math.max(0, R(0.09*ifsc9a + 0.15*item9b));  /* 9%*9a + 15%*9b */
 
+  /* Part B-TTI 1d (rule 774) = MAT (item 10) + surcharge (1b) + 4% cess (1c),
+     computed here from book profit alone. This is the seam figure the tax
+     section reads for the higher-of test (rule 768) and that MATC item 1 uses. */
+  const mat1b = (conc||item9<=0) ? 0 : _matSurcharge(item9, tax10, domestic);
+  const mat1c = (conc||item9<=0) ? 0 : R((tax10 + mat1b)*0.04);
+  const tax1d = (conc||item9<=0) ? 0 : R(tax10 + mat1b + mat1c);
+
   const matContent = item4!==0 || tot5>0 || tot6>0 || tot8e>0 || tot8j>0 ||
     st0(S.mat.q1) || st0(S.mat.q3) || n0(S.mat.ifsc)>0;
 
@@ -179,20 +215,21 @@ function engMat(){
     tot8e:R(tot8e), tot8j:R(tot8j),
     item9, ifsc9a:R(ifsc9a), item9b, tax10,
     deemedTI:item9,      /* -> Part B-TI (rule 745), via the tax section */
-    tax:tax10};          /* -> Part B-TTI 1a (rule 771), via the tax section */
+    tax:tax10,           /* -> Part B-TTI 1a (rule 771), via the tax section */
+    sur1b:mat1b, cess1c:mat1c,
+    tax1d};              /* -> Part B-TTI 1d (rule 774) & Schedule MATC item 1 */
 
   /* ===== Schedule MATC ============================================= */
   const tax=(S.C&&S.C.tax)||{};
-  /* item 1 <- Part B-TTI 1d (MAT + surcharge + cess); fallback = MAT tax10 */
-  let td1d = [tax.mat1d, tax.deemedTITax1d, tax.totalTaxDeemedTI, tax.taxDeemedTI1d]
-    .find(v=>v!=null);
-  if(td1d==null) td1d = tax10;
-  /* item 2 <- Part B-TTI 2f (normal gross tax liability); fallback = 0 */
-  let tf2f = [tax.normal2f, tax.grossTaxLiability, tax.grossTax2f]
-    .find(v=>v!=null);
-  if(tf2f==null) tf2f = 0;
-  /* relief net-off for the current-year gross (book MATC §3, G27) */
-  const grossLiab = (tax.grossTaxLiability!=null?tax.grossTaxLiability:tf2f);
+  /* item 1 (MATC §2, rule 677) <- Part B-TTI 1d = this section's own tax1d
+     (MAT + surcharge + cess), computed above from book profit alone. */
+  const td1d = tax1d;
+  /* item 2 (MATC §2, rule 678) <- Part B-TTI 2f = S.C.tax.normal2f, published
+     by engTax (normal gross tax incl. surcharge+cess); 0 until it has run. */
+  const tf2f = tax.normal2f!=null ? N(tax.normal2f) : 0;
+  /* relief net-off for the current-year gross (book MATC §3, G27): 2f IS the
+     gross tax liability under normal provisions, so grossLiab = item 2. */
+  const grossLiab = tf2f;
   const relief = tax.totRelief!=null ? Math.max(0, N(tax.totRelief)-N(grossLiab)) : 0;
 
   const item1 = R(td1d), item2 = R(tf2f);

@@ -486,11 +486,11 @@ function expLoss(j){
     U.rows.forEach(r=>{if(!(r.bf||r.adj||r.so||r.bfa||r.soa))return;
       const o={AssYr:r.ay||"2026-27",AmtBFUD:n0(r.bf),AmtDeprSOCY:n0(r.so),BalCFNY:n0(r.bal),
                AmtBFUAllow:n0(r.bfa),AmtAllowSOCY:n0(r.soa),AllowBalCFNY:n0(r.bala)};
-      if(baa&&r.adj)o.AmtAdjOptTaxUs115BAA=n0(r.adj);
+      o.AmtAdjOptTaxUs115BAA=(baa&&r.adj)?n0(r.adj):0;   /* schema-required in ScheduleUD; 0 when not 115BAA (Defect 12) */
       arr.push(o);});
     if(arr.length)UD.ScheduleUD=arr;
     UD.TotBFUDepritAmt=n0(U.totBF);
-    if(baa&&U.totAdj)UD.TotAmtAdjOptTaxUs115BAA=n0(U.totAdj);
+    UD.TotAmtAdjOptTaxUs115BAA=(baa&&U.totAdj)?n0(U.totAdj):0;   /* schema-required in ITRScheduleUD; 0 when not 115BAA (Defect 12) */
     UD.TotCurYrdepritSetoffInc=n0(U.totSO);
     UD.TotDepritBalCFNY=n0(U.totBal);
     UD.TotBFUAllowAmt=n0(U.totBFa);

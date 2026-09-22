@@ -727,12 +727,13 @@ function expBp(j){
   put(j,P+"IncCredPL.OthExempInc",n0(A._5ciii));
   put(j,P+"IncCredPL.TotExempInc",n0(A._5d));
   /* 5c exempt-income detail (Dividend name/amount + other rows) */
-  if(n0(B.divExempt)){
-    put(j,P+"OtherExmptIncDtl.OperatingDividendName","Dividend");
-    put(j,P+"OtherExmptIncDtl.OperatingDividendAmt",n0(B.divExempt));
-  }
   const oth=(B.othExempt||[]).filter(r=>N(r.amt)||st0(r.name)).map(r=>({OperatingRevenueName:sv(r.name),OperatingRevenueAmt:n0(r.amt)}));
-  if(oth.length)put(j,P+"OtherExmptIncDtl.OtherExmptIncDtls",oth);
+  /* OtherExmptIncDtl requires OperatingDividendName(enum "Dividend")+OperatingDividendAmt(min 0); build whole so put cannot drop amt 0 */
+  if(n0(B.divExempt)||oth.length){
+    var oed={OperatingDividendName:"Dividend",OperatingDividendAmt:n0(B.divExempt)};
+    if(oth.length)oed.OtherExmptIncDtls=oth;
+    put(j,P+"IncCredPL.OtherExmptIncDtl",oed);
+  }
   put(j,P+"BalancePLOthThanSpecBus",sg(A._6));
   put(j,P+"ExpDebToPLOthHeadDtls.HouseProperty",n0(B.e7a));
   put(j,P+"ExpDebToPLOthHeadDtls.CapitalGains",n0(B.e7b));
@@ -847,7 +848,7 @@ function expBp(j){
     if(!any && !blk.totDep && !blk.wdvLast && !blk.cg50)return false;
     const D=root+".DepreciationDetail.";
     put(j,D+"WDVFirstDay",n0(blk.wdv));
-    put(j,D+"AdditionsGrThan180Days",n0(blk.add180));
+    if(opts.add180!==false)put(j,D+"AdditionsGrThan180Days",n0(blk.add180));
     put(j,D+"RealizationTotalPeriod",n0(blk.realTot));
     put(j,D+"FullRateDeprAmt",n0(blk.fullAmt));
     if(opts.half!==false){
@@ -871,7 +872,7 @@ function expBp(j){
     put(j,D+"WDVLastDay",n0(blk.wdvLast));
     return true;
   }
-  [["Rate15","r15",{}],["Rate30","r30",{}],["Rate40","r40",{}],["Rate45","r45",{half:false,addl:false}]].forEach(x=>{
+  [["Rate15","r15",{}],["Rate30","r30",{}],["Rate40","r40",{}],["Rate45","r45",{half:false,addl:false,add180:false}]].forEach(x=>{
     if(putBlock("ScheduleDPM.PlantMachinery."+x[0],(S.dpm||{})[x[1]],dpm[x[1]]||{},x[2]))wrote.dpm=true;
   });
   const landRaw=(S.doa||{}).land||{};
@@ -974,7 +975,7 @@ function impBp(I6){
     const pf=A.ProfitFrmActCvrd||{};
     S.bp.r7=N(pf.ProfitFrmActCvrdUndrRule7);S.bp.r7A=N(pf.ProfitFrmActCvrdUndrRule7A);
     S.bp.r7B1=N(pf.ProfitFrmActCvrdUndrRule7B1);S.bp.r7B1A=N(pf.ProfitFrmActCvrdUndrRule7B1A);S.bp.r8=N(pf.ProfitFrmActCvrdUndrRule8);
-    const ic=A.IncCredPL||{}, od=A.OtherExmptIncDtl||{};
+    const ic=A.IncCredPL||{}, od=ic.OtherExmptIncDtl||{};
     S.bp.a5a=N(ic.FirmShareInc);S.bp.a5b=N(ic.AOPBOISharInc);S.bp.divExempt=N(od.OperatingDividendAmt);
     S.bp.othExempt=(od.OtherExmptIncDtls||[]).map(r=>({name:r.OperatingRevenueName||"",amt:N(r.OperatingRevenueAmt)}));
     const ed=A.ExpDebToPLOthHeadDtls||{};

@@ -1,8 +1,6 @@
 {
  "gate": 5,
- "ok": false,
- "failing": [
-  "export blocked: 22 things still to fix:\n\n\u00b7 Bank account \u2014 At least one bank account in India is needed for the refund.\n\u00b7 Verification \u2014 The full name of the person verifying the return is required.\n\u00b7 Father's name \u2014 The schema makes the father's name compulsory.\n\u00b7 Verifier's PAN \u2014 A valid ten-character PAN of the p"
- ],
+ "ok": true,
+ "failing": [],
  "extra": {}
 }
