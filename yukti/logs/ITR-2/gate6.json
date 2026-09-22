@@ -1,0 +1,16 @@
+{
+ "gate": 6,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "category_A_coded": 429,
+  "category_A_total": 764,
+  "D_notices": [
+   "D3 Relief under 90/91 is claimed \u2014 Form 67 must be filed.",
+   "D1 AMT exceeds normal tax \u2014 Form 29C is mandatory.",
+   "D5 Relief under 89 \u2014 Form 10E must be filed.",
+   "D4 Income under 115BBF \u2014 Form 3CFA must be furnished in time.",
+   "D19 89A relief \u2014 Form 10EE must be filed."
+  ]
+ }
+}

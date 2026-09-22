@@ -1,0 +1,182 @@
+[
+ {
+  "n": 423,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:251",
+  "text": "In Schedule CG, Deductions claimed under respective section in STCG and LTCG should match with deduction reported in Table D.",
+  "clean": "",
+  "finding": "claimed rebuilt from land+112A+B9 only; omits A6/B3i/B3ii/B2/NR 54F/54EC deductions"
+ },
+ {
+  "n": 425,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No. 2 the breakup of all the quarters should be equal to the value from item 5vii of schedule BFLA",
+  "clean": "",
+  "finding": "Table F st30 quarter total not reconciled to BFLA 5vii; Fauto land-only, editF free"
+ },
+ {
+  "n": 426,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No. 3 the breakup of all the quarters should be equal to the value from item 5viii of schedule BFLA",
+  "clean": "",
+  "finding": "Table F stApp quarter total not reconciled to BFLA 5viii"
+ },
+ {
+  "n": 427,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No. 4 the breakup of all the quarters should be equal to the value from item 5ix of schedule BFLA",
+  "clean": "",
+  "finding": "Table F quarter total not reconciled to BFLA 5ix"
+ },
+ {
+  "n": 428,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No.6 the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA",
+  "clean": "",
+  "finding": "Table F lt125 quarter total not reconciled to BFLA 5xi"
+ },
+ {
+  "n": 436,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g0.js:91",
+  "text": "Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biib) is more than Zero",
+  "clean": "",
+  "finding": "shared A435 guard omits biib improvement-cost trigger"
+ },
+ {
+  "n": 442,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "values. In Schedule CG, Table D, Sl. No. 1aiv,1civ and 1div is more than zero but details of iva, ivb and ivc are blank",
+  "clean": "",
+  "finding": "Table D per-claim detail sub-fields not made mandatory when amount>0"
+ },
+ {
+  "n": 451,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No. 1 the breakup of all the quarters should be equal to the value from item 5vi of schedule BFLA",
+  "clean": "",
+  "finding": "Table F Sl.1 quarterly break-up not tallied to BFLA 5vi; quarters editable"
+ },
+ {
+  "n": 452,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table F Sl.No. 5 the breakup of all the quarters should be equal to the value from item 5x of schedule BFLA",
+  "clean": "",
+  "finding": "Table F Sl.5 quarterly break-up not tallied to BFLA 5x"
+ },
+ {
+  "n": 459,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL20%.",
+  "clean": "",
+  "finding": "STCL20% loss-available cap missing; serial reused for Sch IT total at :630"
+ },
+ {
+  "n": 462,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL_DTAA Rates",
+  "clean": "",
+  "finding": "STCL DTAA loss-available cap not encoded"
+ },
+ {
+  "n": 463,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 12.5%",
+  "clean": "",
+  "finding": "LTCL12.5% loss-available cap missing; serial reused for TDS<=gross at :629"
+ },
+ {
+  "n": 464,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL _DTAA Rates",
+  "clean": "",
+  "finding": "LTCL DTAA loss-available cap not encoded"
+ },
+ {
+  "n": 473,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "In Schedule CG, Table E, entire loss should be set off with gains available for set off.",
+  "clean": "",
+  "finding": "Entire-loss-set-off not enforced; editE override can leave loss unabsorbed"
+ },
+ {
+  "n": 484,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "Deduction under section 115F shall be allowed only if the investment in the new specified asset or savings certificate is made within 6 months after the date of transfer of the original",
+  "clean": "",
+  "finding": "115F 6-month investment-timing condition not enforced; B8 has no date check"
+ },
+ {
+  "n": 509,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:301",
+  "text": "In Schedule OS, Sl.No. 7 \"Income from other sources (other than from owning race horses)\" should be equal to sum of Sl.No. 2+6",
+  "clean": "",
+  "finding": "Checks item-6 formula not 7=2+6; omits DTAA; item7 is green cell"
+ },
+ {
+  "n": 514,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "In Schedule OS, Column 3 of table 2f, the sum of all the dropdown value of Col 2 Amount of income of 1a should not exceed the field 1ai \"Dividend income [other than (ii)]\"",
+  "clean": "",
+  "finding": "2f sum(1a) <= 1a(i) not checked"
+ },
+ {
+  "n": 515,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1b should not exceed the field 1b \"Interest, Gross\"",
+  "clean": "",
+  "finding": "2f sum(1b) <= 1b not checked"
+ },
+ {
+  "n": 516,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 1c should not exceed the field 1c \"Rental income from machinery, plants,",
+  "clean": "",
+  "finding": "2f sum(1c) <= 1c not checked"
+ },
+ {
+  "n": 517,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "buildings, etc., Gross\" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1d should not exceed the field 1d \"Income of the nature referred to in section",
+  "clean": "",
+  "finding": "2f sum(1d) <= 1d not checked"
+ }
+]

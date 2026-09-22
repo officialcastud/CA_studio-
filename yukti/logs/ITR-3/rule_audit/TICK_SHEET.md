@@ -1,0 +1,187 @@
+# ITR-3 — CBDT validation-rule enforcement TICK SHEET
+
+Cross-check of every rule the audit flagged (GAP + WEAK) against the shipped rule engine, regenerated after the fix pass. A rule is **ticked** when a live `A(n,…)` / `Dd(n,…)` check (direct, loop-coded, or advisory) enforces it in an assembled, all-gates-green build.
+
+**Status: 168 / 169 enforced (133 GAP + 36 WEAK).** Remaining 1 are offline-impossible (no schema field / external DB) and documented below.
+
+Build at tick time: Gates G0–G7 GREEN.
+
+## Enforced (ticked)
+
+### GAP — 132 enforced
+- [x] **A10** — seventh-proviso Yes does not force any condition/amount detail  (not encoded)  → `60_rules.js`
+- [x] **A28** — a2ii MoreThan5Per not linked to liable 44AB (29/30 are)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A37** — DTAA rate for non-resident only not checked (CG/OS/EI)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A42** — new-regime earlier-AY 10IEA re-entry details not required  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A43** — current-AY new-regime re-entry answer not mandatory  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A44** — new-regime current-AY 10IEA date/ack not enforced (45 is)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A46** — A19b Yes does not force business income in Schedule BP  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A67** — No non-negative guard on Mfg fields except Sl.3; not encoded  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A76** — No non-negative guard on Trading fields except 11/12; not encoded  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A119** — BP 2a not tied to P&L 65iv + Trading 12b; manual input  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A121** — 44AD commission-agent bar not enforced; professions only structurally split  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A134** — 44ADA >50L and cash>5% audit branch not encoded (only >75L)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A141** — net profit 66(ii) <= turnover 66(i) not enforced (skipped)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A146** — 44BBC net profit >= 20% receipts not encoded (series gap)  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A149** — BP 23 >= sum of OI 5a-5d not enforced; manual input  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A166** — 10(10) gratuity 20/25L + income-offered cap not enforced  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A179** — 10(6) <= gross salary not enforced  (not encoded)  → `61_rules_fix_01.js`
+- [x] **A180** — 10(7) <= gross salary not enforced  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A181** — 10(10) gratuity 20/25L cap not enforced (dup 166)  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A189** — 10(14)(i) <= Other Allowance & Others 17(1) not enforced  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A190** — 10(14)(ii) <= Other Allowance & Others 17(1) not enforced  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A197** — old regime 10(14) 115BAC-variant restriction not enforced  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A209** — EIC judge allowance not gated to CG/SG employer; selectable for any employer, no A() check  (60_rules.js)  → `61_rules_fix_02.js`
+- [x] **A227** — A(227) is mislabeled OS-89A check (dup of A954); 80EE/80EEA vs 24(b)-exhaustion link unenforced  (60_rules.js:305)  → `60_rules.js`
+- [x] **A228** — 80EE loan not cross-checked to be part of Table 24(b) details  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A229** — 80EEA loan not cross-checked to be part of Table 24(b) details  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A237** — BP item 1 profit-before-tax is manual input, not validated against P&L (PBT + no-account + presumptive)  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A242** — A3c reduced not capped at Schedule CG income; no analogue of A241 for CG  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A243** — A3d reduced not capped at Schedule OS income; no analogue of A241 for OS  (not encoded)  → `61_rules_fix_02.js`
+- [x] **A256** — A20 deem41 free-typed; no cross-check to OI item 14  (70_sec_bp.js:378)  → `61_rules_fix_02.js`
+- [x] **A257** — A25 OI-part i25 free-typed; not checked vs OI 3a+4d  (70_sec_bp.js:388)  → `61_rules_fix_02.js`
+- [x] **A261** — A32 OI-part i32 free-typed; not checked vs OI 3b+4e  (70_sec_bp.js:398)  → `61_rules_fix_02.js`
+- [x] **A270** — 4a total not equated to sum of 35(i)..(vii)  (70_sec_bp.js:245)  → `61_rules_fix_02.js`
+- [x] **A271** — item 11 depDebPL free-typed; no Manuf 1Evi + P&L 52 check  (70_sec_bp.js:254)  → `61_rules_fix_03.js`
+- [x] **A281** — general cap on 3/5 reduced vs credited to P&L not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A284** — Trading 4D + P&L receipts >= 44AD (35i) not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A285** — 44AD bar for agents/44AA(1) professions not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A286** — 24(e) ESR-shortfall only a fallback; typed i24e overrides, unchecked  (70_sec_bp.js:261)  → `61_rules_fix_03.js`
+- [x] **A289** — 3d(i)+5c-div+OS <= P&L 14(iii) cross-cap not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A290** — 35(iv)..(vii) = 4a(iv)..(vii) not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A292** — exempt reduced tally with EI & IF share not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A294** — 37a Rule-7 = 4b(i) tally not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A295** — 37b Rule-7A >= 35% of 4b(ii) not encoded  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A303** — ITR-3 no-business-income filing bar with 5 exceptions not encoded, not structural  (not encoded)  → `61_rules_fix_03.js`
+- [x] **A351** — A6e deemed-depreciable manual input, not tied to Schedule DCG Sl.6; no A(351)  (70_sec_cg.js:441)  → `61_rules_fix_03.js`
+- [x] **A360** — A5 nil-FVC-vs-expenses check missing (NR head)  (70_sec_cg.js:830)  → `61_rules_fix_03.js`
+- [x] **A361** — A6 nil-FVC-vs-expenses check missing (resident head)  (70_sec_cg.js:799)  → `61_rules_fix_03.js`
+- [x] **A363** — B3 nil-FVC-vs-expenses check missing (resident head)  (70_sec_cg.js:858)  → `61_rules_fix_03.js`
+- [x] **A364** — B6 nil-FVC-vs-expenses check missing (NR head)  (70_sec_cg.js:896)  → `61_rules_fix_03.js`
+- [x] **A425** — Table F st30 quarter total not reconciled to BFLA 5vii; Fauto land-only, editF free  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A426** — Table F stApp quarter total not reconciled to BFLA 5viii  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A427** — Table F quarter total not reconciled to BFLA 5ix  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A428** — Table F lt125 quarter total not reconciled to BFLA 5xi  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A442** — Table D per-claim detail sub-fields not made mandatory when amount>0  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A451** — Table F Sl.1 quarterly break-up not tallied to BFLA 5vi; quarters editable  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A452** — Table F Sl.5 quarterly break-up not tallied to BFLA 5x  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A459** — STCL20% loss-available cap missing; serial reused for Sch IT total at :630  (not encoded)  → `60_rules.js`
+- [x] **A462** — STCL DTAA loss-available cap not encoded  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A463** — LTCL12.5% loss-available cap missing; serial reused for TDS<=gross at :629  (not encoded)  → `60_rules.js`
+- [x] **A464** — LTCL DTAA loss-available cap not encoded  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A473** — Entire-loss-set-off not enforced; editE override can leave loss unabsorbed  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A484** — 115F 6-month investment-timing condition not enforced; B8 has no date check  (not encoded)  → `61_rules_fix_04.js`
+- [x] **A514** — 2f sum(1a) <= 1a(i) not checked  (70_sec_os.js:430)  → `61_rules_fix_04.js`
+- [x] **A515** — 2f sum(1b) <= 1b not checked  (70_sec_os.js:430)  → `61_rules_fix_04.js`
+- [x] **A516** — 2f sum(1c) <= 1c not checked  (70_sec_os.js:430)  → `61_rules_fix_04.js`
+- [x] **A517** — 2f sum(1d) <= 1d not checked  (70_sec_os.js:430)  → `61_rules_fix_04.js`
+- [x] **A518** — 2f sum(2a) <= 2a(i) not checked  (70_sec_os.js:430)  → `61_rules_fix_05.js`
+- [x] **A519** — 2f sum(2d) <= 2d not checked  (70_sec_os.js:430)  → `61_rules_fix_05.js`
+- [x] **A520** — 2f sum(2e) <= 2e not checked  (70_sec_os.js:430)  → `61_rules_fix_05.js`
+- [x] **A526** — Q dividend not reconciled to 1a(i)-DTAA-int  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A528** — 115H flag exists but not used to gate OS special rates  (70_sec_who.js:240)  → `61_rules_fix_05.js`
+- [x] **A534** — Q div@DTAA not reconciled to 2f  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A535** — Q div 115A(1)(a)(i) not reconciled to 2d+2e  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A536** — Q div 115AC not reconciled to 2d+2e  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A537** — Q div 115ACA not reconciled to 2d+2e  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A538** — Q div 115AD(1)(i) not reconciled to 2d+2e  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A540** — Q 89A not reconciled to 1e 89A - relief  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A544** — 2f sum(2a) <= 2a total not checked  (70_sec_os.js:430)  → `61_rules_fix_05.js`
+- [x] **A545** — Q online-games not reconciled to 2a(ii)  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A546** — Q div proviso 115A(1)(a)(A) not reconciled to 2d+2e  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A547** — Q div 3b not reconciled to 1a(iii)-DTAA  (70_sec_os.js:500)  → `61_rules_fix_05.js`
+- [x] **A550** — Buyback loss => CYLA 3i = BP Table E 2v not checked  (not encoded)  → `61_rules_fix_05.js`
+- [x] **A607** — No block on BF business loss/depreciation set-off vs 44BB/44BBD income  (—)  → `61_rules_fix_05.js`
+- [x] **A625** — No check UD col4 (AmtDeprSOCY) <= col3 - col3a; free input, only col5 clamped  (—)  → `61_rules_fix_06.js`
+- [x] **A673** — mandatory i-iii and iv/v when any row filled not enforced  (not encoded)  → `61_rules_fix_06.js`
+- [x] **A682** — Form10IA ack captured but never required for 80U/80DD  (not encoded)  → `61_rules_fix_06.js`
+- [x] **A751** — 80CCD(1) pensioner 20%-of-GTI cap not enforced (only combined 1.5L)  (70_sec_ded.js:189)  → `61_rules_fix_06.js`
+- [x] **A761** — 80GG 25%-of-AGTI limb not enforced (only flat 60000)  (70_sec_ded.js:77)  → `61_rules_fix_06.js`
+- [x] **A773** — 80CCD(1) 10%-of-salary cap not enforced  (70_sec_ded.js:189)  → `61_rules_fix_06.js`
+- [x] **A795** — 80CCH nature=CG and age 17-27 not checked  (70_sec_ded.js:189)  → `61_rules_fix_06.js`
+- [x] **A829** — dead code A(829?0:846)=A(0); negative AMT-TI vs specified-business unchecked  (60_rules.js:518)  → `61_rules_fix_06.js`
+- [x] **A849** — SI code-1 PF income not fed from OS 2ciii; no A(849)  (70_sec_si.js:181)  → `61_rules_fix_06.js`
+- [x] **A850** — SI code-1 PF tax not fed from OS 2civ; no A(850)  (70_sec_si.js:181)  → `61_rules_fix_06.js`
+- [x] **A851** — SI 115BB not reconciled to OS 2a(i); manual 5BB row, no A() check  (not encoded)  → `61_rules_fix_06.js`
+- [x] **A853** — SI 115BBF(BP) 5BBF_BP not reconciled to BP 3e  (not encoded)  → `61_rules_fix_06.js`
+- [x] **A854** — SI 115BBG(BP) 5BBG_BP not reconciled to BP 3f  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A855** — SI OS-DTAA (DTAAOS) not reconciled to BFLA 5(xiv)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A859** — SI 115AD-STCG(noSTT)+PTI-STCG@30% not reconciled to BFLA 5vii  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A862** — OS 2d special income not reconciled to SI  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A863** — OS 2e PTI-OS special not reconciled to SI  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A864** — OS 2e PTI-OS special not reconciled to SI (dup)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A865** — OS 2e PTI-OS special not reconciled to SI (dup)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A866** — OS 2e PTI-OS special not reconciled to SI (dup)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A869** — SI 115BBJ (5BBJ) not reconciled to OS 2a(ii)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A870** — Sum of SI LTCG special heads not reconciled to BFLA  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A871** — SI 111A/115AD(1)(b)(ii)proviso+PTI-STCG@20% not reconciled to BFLA 5vi  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A872** — SI STCG-DTAA not reconciled to BFLA 5(ix)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A873** — SI LTCG-DTAA not reconciled to BFLA 5(xi)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A891** — FSI HP relief not guarded (only salary head A890 checked)  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A892** — FSI business relief not guarded  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A893** — FSI capital-gains relief not guarded  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A894** — FSI other-sources relief not guarded  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A939** — No check taxes-paid disclosed -> income/tax computation required  (not encoded)  → `61_rules_fix_07.js`
+- [x] **A950** — 10(10B) allowance not gated to CG/SG employee/pensioner category  (not encoded)  → `61_rules_fix_08.js`
+- [x] **A966** — relief90 fed from dead S.C.trDTAA/fsi.dtaaRel (always 0); no check vs Sch TR DTAA  (70_sec_tax.js:194)  → `61_rules_fix_08.js`
+- [x] **A967** — relief91 fed from dead S.C.trNoDTAA/fsi.noDtaaRel (always 0); no check vs Sch TR notDTAA  (70_sec_tax.js:195)  → `61_rules_fix_08.js`
+- [x] **A990** — 234-I fee is free input, not validated to Rs.1000 for TI<=5L 139(5)  (70_sec_tax.js:222)  → `61_rules_fix_08.js`
+- [x] **A991** — 234-I fee is free input, not validated to Rs.5000 for TI>5L 139(5)  (70_sec_tax.js:222)  → `61_rules_fix_08.js`
+- [x] **B1** — 80-IA/IAB/IB/IBA/IE claimed but no Form 10CCB presence notice; D-notice family missing it  (not encoded)  → `60_rules.js`
+- [x] **B2** — belated (139(4)) CY-loss carry-forward restriction not enforced; belated var defined but unused  (not encoded)  → `60_rules.js`
+- [x] **B5** — 35(2AB) R&D -> Form 3CLA presence notice missing  (not encoded)  → `60_rules.js`
+- [x] **B7** — 44AD(5) sub-8% declared income -> audit liability not checked  (not encoded)  → `60_rules.js`
+- [x] **B19** — Form 10EE for 89A relief presence notice missing from D-notice family  (not encoded)  → `61_rules_fix_08.js`
+- [x] **B20** — Form 10F / TRC flag for NR treaty rate not enforced  (not encoded)  → `60_rules.js`
+- [x] **B21** — OS dividend vs dividend-reduced-from-BP cross-check not enforced (A301 is BP-internal)  (not encoded)  → `61_rules_fix_08.js`
+- [x] **B34** — CY losses must be 0 if 139(4); belated var unused; not enforced (same hole as serial 2)  (not encoded)  → `61_rules_fix_09.js`
+- [x] **B39** — Schedule IF interest total = P&L 14xi(b) not enforced (no cross-total rule)  (not encoded)  → `61_rules_fix_09.js`
+- [x] **B40** — Schedule IF remuneration total = P&L 14xi(c) not enforced (no cross-total rule)  (not encoded)  → `61_rules_fix_09.js`
+- [x] **D4** — No advisory tying Chapter VI-A Part C deductions to on-time 139(1) filing  (60_rules.js)  → `61_rules_fix_08.js`
+- [x] **D7** — No check that 10AA deduction requires return filed within 139(1) due date  (60_rules.js)  → `60_rules.js`
+- [x] **D16** — BP 4b rule-7A/7B/8 reduction not gated on business code 1001/1002/1003  (70_sec_bp.js:348)  → `60_rules.js`
+- [x] **D17** — Resident claiming DTAA special-rate heads not warned/blocked  (70_sec_si.js:94)  → `61_rules_fix_09.js`
+
+### WEAK — 36 enforced
+- [x] **A48** — checks CG Schedule115AD not OS 115AD(1)(i)  (60_rules.js:44)  → `60_rules.js`
+- [x] **A168** — condition ends ||true, never enforces  (60_rules.js:128)  → `60_rules.js`
+- [x] **A173** — only 5000 cap, misses 1/5-basic limit  (61_rules_g2.js:200)  → `61_rules_fix_01.js`
+- [x] **A183** — ||!natSum(16) bypass disables cap when no leave-encash  (60_rules.js:117)  → `60_rules.js`
+- [x] **A196** — ||true and wrong dropdown key, no-op  (60_rules.js:124)  → `60_rules.js`
+- [x] **A202** — uses non-existent code 10(10B); real enum is 10(10B)(i) so check is vacuous, first-proviso cap unenforced  (60_rules.js:125)  → `60_rules.js`
+- [x] **A234** — checks assessee own share <100 not sum of OTHER co-owners <100; misses assessee-share=0 case  (60_rules.js:164)  → `60_rules.js`
+- [x] **A297** — 37d checked vs 4b(iii) field (Rule7B1) not 4b(iv) (Rule7B1A)  (61_rules_g0.js:61)  → `61_rules_fix_03.js`
+- [x] **A301** — BP 5c dividend asserts <=3d(i) not <=0; positive 5c passes when 3d(i)>0  (60_rules.js:183)  → `60_rules.js`
+- [x] **A355** — Breakup sum omits A2 slump (resident) plus A4/A5; false mismatch when used  (60_rules.js:246)  → `60_rules.js`
+- [x] **A356** — Breakup sum omits B2 slump, B3i/B3ii proviso-112, NR B5-B8; false mismatch  (60_rules.js:247)  → `60_rules.js`
+- [x] **A423** — claimed rebuilt from land+112A+B9 only; omits A6/B3i/B3ii/B2/NR 54F/54EC deductions  (60_rules.js:251)  → `60_rules.js`
+- [x] **A436** — shared A435 guard omits biib improvement-cost trigger  (61_rules_g0.js:91)  → `61_rules_fix_04.js`
+- [x] **A509** — Checks item-6 formula not 7=2+6; omits DTAA; item7 is green cell  (60_rules.js:301)  → `60_rules.js`
+- [x] **A543** — A530 covers general case but omits 89A-income exclusion  (60_rules.js:300)  → `61_rules_fix_05.js`
+- [x] **A574** — Checks HP+OS columns only; business set-off cap not asserted (engine caps it structurally)  (60_rules.js:329)  → `60_rules.js`
+- [x] **A622** — Guard sums only 5 of 16 CFL AY nodes; total auto-computed so no filed error  (61_rules_g5.js:162)  → `61_rules_fix_05.js`
+- [x] **A631** — Tautological REQ(x,x); net-effect field never actually checked  (60_rules.js:222)  → `60_rules.js`
+- [x] **A659** — rule targets 80GGC D but code guards/checks Schedule80G  (61_rules_g4.js:124)  → `61_rules_fix_06.js`
+- [x] **A662** — rule makes iv-viii optional; code forbids them  (60_rules.js:463)  → `60_rules.js`
+- [x] **A693** — only schedule presence checked, not per-row policy/doc-ID  (60_rules.js:410)  → `60_rules.js`
+- [x] **A696** — omits Table 10(13A) from new-regime individual block  (60_rules.js:412)  → `60_rules.js`
+- [x] **A788** — condition ends with ||true so never fires  (60_rules.js:428)  → `60_rules.js`
+- [x] **A796** — only flat 288000 checked not 60% of actual salary  (60_rules.js:397)  → `60_rules.js`
+- [x] **A835** — only >20L half enforced; missing 2d>0 condition  (60_rules.js:509)  → `60_rules.js`
+- [x] **A857** — SIEXC exclusion set diverges from rule (adds 5Ea/5Eb, omits 5ADiiiP/PTI_STCG20P/21/22)  (61_rules_g3.js:177)  → `61_rules_fix_07.js`
+- [x] **A922** — Condition ends with ||true so never fires (dead check)  (60_rules.js:575)  → `60_rules.js`
+- [x] **A982** — guard checks ti.Salaries>0 only; omits family-pension income  (60_rules.js:620)  → `60_rules.js`
+- [x] **B4** — BS/PL only via Dd(9) business-income trigger; no direct 92E flag trigger  (60_rules.js:644)  → `61_rules_fix_08.js`
+- [x] **B6** — 44AB liability enforced for presumptive (A137/A138) and 1-10cr cash band (A29/A30); no plain >10cr trading trigger  (61_rules_g2.js:62)  → `60_rules.js`
+- [x] **B8** — A104 forces presumptive 44ADA >=50%; the <50%-with-audit-info route not modelled  (61_rules_g0.js:35)  → `61_rules_fix_08.js`
+- [x] **B25** — 80GG capped to allowed via A816; specific 5000/month period ceiling not independently asserted  (60_rules.js:362)  → `61_rules_fix_08.js`
+- [x] **B32** — 10IEA ack+date presence enforced (A45/A41); database match external  (61_rules_g0.js:19)  → `61_rules_fix_08.js`
+- [x] **B33** — 10IEA presence enforced (A45/A41); DB match external/CPC-side  (61_rules_g0.js:19)  → `60_rules.js`
+- [x] **B35** — 80G donee PAN mandatory (A648), not assessee's (A12), unique (A645); DB validity external  (60_rules.js:452)  → `61_rules_fix_09.js`
+- [x] **D1** — Form 29C AMT notice compares base 115JC tax vs gross normal (with cess) - mismatched basis, may under-fire  (60_rules.js:635)  → `60_rules.js`
+
+## Not enforceable offline (documented, accepted)
+
+- [ ] **A972** (GAP) — only IFSC format regex; no RBI database membership check  (70_sec_bank.js:55)
+  _IFSC vs the RBI master database — external DB; the IFSC *format* is enforced by IFSC_RE. Portal validates membership._
+

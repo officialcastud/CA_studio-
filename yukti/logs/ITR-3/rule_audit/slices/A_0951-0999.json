@@ -1,0 +1,247 @@
+[
+{
+"n": 951,
+"cat": "A",
+"text": "In schedule salary, under nature of perquisites, income is given more than once against one dropdown, under each block."
+},
+{
+"n": 952,
+"cat": "A",
+"text": "In schedule salary, under profit in lieu of salary, income is given more than once against one dropdown, under each block."
+},
+{
+"n": 953,
+"cat": "A",
+"text": "In Schedule salary, Income from retirement benefit account maintained in a notified country u/s 89A is not equal to sum of amounts of income entered against individual"
+},
+{
+"n": 954,
+"cat": "A",
+"text": "country. In Schedule other sources, Income from retirement benefit account maintained in a notified country u/s 89A is not equal to sum of amounts of income entered against"
+},
+{
+"n": 955,
+"cat": "A",
+"text": "individual country. In schedule Part B-TI, Income offered in Capital gain chargeable @ 30% u/s 115BBH, is not matching with Sl. No. C2 of Sch CG"
+},
+{
+"n": 956,
+"cat": "A",
+"text": "Amount of \"Total Capital Gains\" is not equal to sum of Sl. No. 3c 'Sum of Short- term/Long-term capital gains' & 3d 'Capital gain chargeable @ 30% u/s 115BBH'."
+},
+{
+"n": 957,
+"cat": "A",
+"text": "If Old tax regime is selected, then value in the field \"Rebate u/s 87A\" should not be more than Rs.12,500."
+},
+{
+"n": 958,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl.no. 8ii of Table E in Schedule CG."
+},
+{
+"n": 959,
+"cat": "A",
+"text": "In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl.no. 8vi of Table E in Schedule CG."
+},
+{
+"n": 960,
+"cat": "A",
+"text": "Tax Payable on deemed total Income u/s 115JC in Part B TTI should be equal to the tax ascertained at Schedule AMT"
+},
+{
+"n": 961,
+"cat": "A",
+"text": "In Schedule Part B-TTI, tax payments claimed should be equal to the claims made in Schedule TDS/TCS/IT."
+},
+{
+"n": 962,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Total Tax Payable on Deemed Total Income u/s 115JC should be equal to (tax Payable on Deemed Income + Surcharge + Cess) 57"
+},
+{
+"n": 963,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Tax Payable on Total Income should be equal to (Normal Tax + Special Tax - Rebate on Agricultural Income)."
+},
+{
+"n": 964,
+"cat": "A",
+"text": "In Schedule Part B-TTI, The amount at \"Tax payable\" should be equal to the amount of [Tax Payable on Total Income - Rebate u/s 87A]"
+},
+{
+"n": 965,
+"cat": "A",
+"text": "In Schedule Part B-TTI, The amount at \"Gross tax liability\" should be equal to the sum of (Tax Payable, Surcharge & Education Cess)"
+},
+{
+"n": 966,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Relief claimed under section 90/90A should be equal to \"Amount entered\" in Schedule TR"
+},
+{
+"n": 967,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Relief claimed under section 91 should be equal to \"Amount entered\" in Schedule TR"
+},
+{
+"n": 968,
+"cat": "A",
+"text": "In Schedule Part B-TTI, \"Total Tax Relief\" should be equal to sum of (Relief u/s 89, Relief u/s 90/90A and Relief u/s 91)."
+},
+{
+"n": 969,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Total Interest & fee Payable should be equal to \"Interest & fee u/s 234A + 234B + 234C+234F+234-I\""
+},
+{
+"n": 970,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Aggregate liability should be equal to \"Net tax liability\" + \"Total Interest & fee Payable\""
+},
+{
+"n": 971,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Total Taxes Paid should be equal to the sum of \"Advance Tax, TDS, TCS & Self-Assessment Tax\""
+},
+{
+"n": 972,
+"cat": "A",
+"text": "IFSC under \u201cBank Details\u201d in Part BTTI and schedule 80G and schedule 80GGC should match with the RBI database"
+},
+{
+"n": 973,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Sl.No.2e Rebate u/s 87A is only allowed to Resident or Resident but not ordinary resident"
+},
+{
+"n": 974,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Sl.No.2e Rebate u/s. 87A is only allowed to Individual."
+},
+{
+"n": 975,
+"cat": "A",
+"text": "Rebate u/s 87A cannot be claimed by Individual Resident or Non Ordinarily Resident Individual having Total income more than Rs 5 lakhs and if Old Tax Regime is selected"
+},
+{
+"n": 976,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Refund claimed should match with the difference of \u201cTotal Taxes Paid\u201d and \u201cAggregate Liability\u201d."
+},
+{
+"n": 977,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Tax payable Amount is not matching with the difference of \u201cAggregate Liability\u201d and \u201cTotal Taxes Paid\u201d."
+},
+{
+"n": 978,
+"cat": "A",
+"text": "In Schedule Part B-TI, Deemed income under section 115JC should be equal to Sl.no.3 of Schedule AMT"
+},
+{
+"n": 979,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Gross tax payable (higher of 1d and 2i) should be higher of Sl.No. 1d or 2i"
+},
+{
+"n": 980,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Tax payable after credit u/s 115JD (3a+3c-4) should be equal to sum of Sl.No. 3a+3c-4"
+},
+{
+"n": 981,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Net tax liability should be equal to Sl.No. 5 - 6D"
+},
+{
+"n": 982,
+"cat": "A",
+"text": "Relief u/s 89 can be claimed only out of Income from salary or family pension 58"
+},
+{
+"n": 983,
+"cat": "A",
+"text": "If \"New Tax Regime\" is selected and In Schedule Part B TTI, Sl.No. 1a to 1d should not be more than zero."
+},
+{
+"n": 984,
+"cat": "A",
+"text": "In Schedule Part B TTI, Sl.No. 3a + 3b should be equal to Sl.No.3."
+},
+{
+"n": 985,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Sl.no 3 should be equal to Sl.no 3a+3b"
+},
+{
+"n": 986,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Sl. No. 10c \"TCS\" should be equal to the sum of column 7(i) of Schedule TCS"
+},
+{
+"n": 987,
+"cat": "A",
+"text": "In Schedule Part B-TTI, Sl. No. 10b \"TDS\" should be equal to the sum of column 5 of TDS 1, column 9 of Schedule TDS 2 & Schedule TDS 3"
+},
+{
+"n": 988,
+"cat": "A",
+"text": "Assessee with total income exceeding Rs. 12,00,000 subject to marginal relief (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax act, 1961."
+},
+{
+"n": 989,
+"cat": "A",
+"text": "Maximum amount of Rebate should be computed as per the provisions of section 87A."
+},
+{
+"n": 990,
+"cat": "A",
+"text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5 lakh."
+},
+{
+"n": 991,
+"cat": "A",
+"text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5 lakh."
+},
+{
+"n": 992,
+"cat": "A",
+"text": "In Schedule EI, Sl.No. 5 Pass through income not chargeable to tax should be equal to the amount of exempt income mentioned in Schedule PTI"
+},
+{
+"n": 993,
+"cat": "A",
+"text": "In Schedule EI, Sl.No. 6 should be equal to sum of Sl.No. 1+2(v)+3+4+5"
+},
+{
+"n": 994,
+"cat": "A",
+"text": "In Schedule EI, Sl.No. 2v should be equal to sum of Sl. No. i-ii-iii+iv"
+},
+{
+"n": 995,
+"cat": "A",
+"text": "In Schedule EI, Sl.No. 2(iv) Agricultural income portion relating to Rule 7, 7A, 7B(1), 7B(1A) and 8 should be equal to Sl.No. 38 of Schedule BP"
+},
+{
+"n": 996,
+"cat": "A",
+"text": "In Schedule EI, If net agricultural income for the year exceeds Rs.5 lakh, details of each agriculture land should be filled."
+},
+{
+"n": 997,
+"cat": "A",
+"text": "If \"New Tax Regime\" is selected, then exempt income u/s 10(17)-Allowance MP/MLA/MLC cannot be claimed."
+},
+{
+"n": 998,
+"cat": "A",
+"text": "In \"Schedule EI\" ' Total income claimed as not chargeable to tax as per DTAA' at Sl. No, 4 should be equal to the total of amount entered in \"Amount of Income\""
+},
+{
+"n": 999,
+"cat": "A",
+"text": "In Schedule EI at Sl. No. 3, dropdowns of the same exemption should not be selected more than once. Exempt income u/s 10(4)(i), 10(4F), 10(4G), 10(4H), 10(6B), 10(6BB), 10(6D), 10(8A) and 10(23FF) cannot be reported by Residents Exempt income fields should be reported only for applicable sections and sub-categories In Schedule TDS2 and TDS3, If TDS b/f is claimed then year of tax deduction should be provided. 59"
+}
+]

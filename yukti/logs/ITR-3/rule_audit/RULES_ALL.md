@@ -1,0 +1,1069 @@
+# ITR-3 — every validation rule (from books/ITR-3/rules.json, parsed from the CBDT PDF)
+
+Total 1056 rules — A:999, B:40, D:17
+
+
+## Category A
+
+- **A1** — Assessee should provide valid Mobile Number
+- **A2** — HUF cannot claim relief u/s 89
+- **A3** — Name entered in the return should match with the name as per the PAN database
+- **A4** — If taxpayer claiming benefit of senior citizen or super senior citizen then date of birth should be matched with PAN database
+- **A5** — If the original return is filed under section 142(1) then taxpayer cannot file revised return
+- **A6** — In Part A General, "Whether you have held unlisted equity shares at any time during the previous year?" is selected as "Yes" then details in table should be filled
+- **A7** — In Part A General information, "Are you governed by Portuguese Civil Code as per section 5A?" is selected as Yes then schedule 5A should be filled
+- **A8** — If return is being filed by Representative Assessee then PAN quoted in verification schedule of the return should be same as the PAN who is trying to upload the return.
+- **A9** — In Verification, if representative is selected from dropdown of capacity then Yes should be selected in "Whether this return is being filed by a representative assessee" & details
+- **A10** — of representative assessee in Part-A General and details of representative should be filled In Part A General, Are you filing return of income under Seventh proviso to Section 139(1) is selected as Yes then details should be provided
+- **A11** — In Part A General, Whether you were Director in a company at any time during the previous year? is selected as Yes then the details should be filled
+- **A12** — Donee PAN mentioned in Schedule 80G cannot be the same as the assessee PAN or the verification PAN
+- **A13** — In Part A General information, if Assessee is liable for audit u/s 44AB and Yes is selected for accounts have been audited by an accountant, information relating to auditor and audit
+- **A14** — report should be furnished In Part A General information, answer to "Whether assessee is declaring income only under section 44AE/44B/44BB/44AD/44ADA/44BBA/44BBB/44BBC/44BBD" is
+- **A15** — mandatory If Assessee selects option "More than Rs. 1 crore and up to Rs. 10 crores" in field , a2i (Please select the range of whether during the year Total sales/turnover/gross receipts of business) of Part A general, then a2ii cannot be left blank
+- **A16** — If Assessee selects option "More than Rs. 1 crore and up to Rs. 10 crores" in field , a2i (Please select the range of whether during the year Total sales/turnover/gross receipts of business) of Part A general, then a2iii cannot be left blank 4
+- **A17** — In Part A General information, Date of audit report cannot be after system date
+- **A18** — TAN number should be valid.
+- **A19** — Once a proceeding is initiated u/s 148, 153A or 153C, no other return can be filed u/s 139(8A)
+- **A20** — HUF & Non Resident Individual cannot claim relief from taxation u/s 89A
+- **A21** — In Part A General, "Are you required to file return of income under clause (iv) of the Seventh proviso to Section 139(1) " is selected as Yes and drop-down is selected then the
+- **A22** — respective amounts should be filled. In Filing status, "Are you governed by Portuguese Civil Code as per section 5A?" is selected as 'No' then Schedule Governed by Portuguese Civil Code should not be filed.
+- **A23** — In Part A general, if filed in response to a notice u/s 139(9)/142(1)/148 or order under section 119(2)(b) then unique number /Document Identification Number (DIN) and date
+- **A24** — of such notice/Order are mandatory Taxpayer is required to select the condition by virtue of which he is liable for audit u/s. 44AB
+- **A25** — Taxpayer is required to select applicable due date for filing the return of income in Part A General
+- **A26** — If Due date 31st October is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen
+- **A27** — If Due date 30th November is selected, kindly fill Schedule IF or Schedule 5A or audit details in Part A Gen
+- **A28** — You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as "More than 5%" in Part A General.
+- **A29** — You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as "More than 5%" in Part A General.
+- **A30** — Since you have selected a2i as "More than Rs. 1 crore and up to Rs. 10 crores" and either of a2ii or a2iii is entered as "More than 5%" in Part A General, then you are liable to audit
+- **A31** — u/s 44AB. Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A32** — Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A33** — The date of Birth/ Formation should be before 01/04/20XX of AY for which ITR is being filled.
+- **A34** — The date of Birth/ Formation should be before 01/04/20XX of AY for which ITR is being filled.
+- **A35** — Please choose the same tax regime that taxpayer selected in the return for which the response to the defective notice is being filed 5
+- **A36** — Tax Regime should not be changed in the revised return if the revised return is filed after the due date of filing of original return
+- **A37** — If status of the taxpayer is other than Non-Resident, DTAA benefit is not available in rate of taxation (i.e. Sl no B12 or A9 of Sch CG or Sl no 2f of Sch OS or Sl no 4 of Sch EI),
+- **A38** — and the claim may not be allowed. Exempt Allowance u/s 10(13A) in schedule Salary should match with the "Eligible exempt allowance u/s 10(13A)" as per Table 10(13A) of Schedule Salary
+- **A39** — In case of business income, it is mandatory to answer Sl. No. A19(b)(I) in Schedule Part A General
+- **A40** — In case of no business income, it is mandatory to answer Sl. No. A19(b)(II) in Schedule Part A General
+- **A41** — Details of Form 10IEA shall be mentioned if "Yes" is selected at "Have you filed form10IEA within due date for any earlier assessment year for choosing old tax regime?"
+- **A42** — in Schedule Part A General Details of the Form 10IEA is mandatory if Form 10IEA is filed to re-enter to the New tax regime in earlier year in Schedule Part A General
+- **A43** — If Form 10IEA is not filed with re-enter option for earlier assessment year, then answer to questions in "Have you furnished Form 1010IEA for re-entering in new tax regime in
+- **A44** — current assessment year? is mandatory in Schedule Part A General Information. Form 10IEA details are mandatory for re-entering to New Tax Regime in Current AY
+- **A45** — Form 10IEA details are mandatory for opting for Old Tax Regime in Current AY
+- **A46** — Business Income is mandatory if any option is selected at Sl. no. A19b of Schedule Part A General Information
+- **A47** — In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary) and contact no (primary) of taxpayer.
+- **A48** — In Part A General, "Whether you are FPI?" should be selected "Yes" for offering income under Section 115AD(1)(i) in Schedule OS
+- **A49** — Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income
+- **A50** — Secondary address should not be same as Primary address if "No" is mentioned for "Is the secondary address same as primary address?" in Schedule Part A General Information
+- **A51** — If Assessee is liable for audit u/s 44AB then Part A BS and Part A P&L should be filled
+- **A52** — In Schedule Part A BS, "Sources of funds" should match with "Total application of funds"
+- **A53** — In Schedule Part A BS, "Total of Proprietor's fund" should be equal to sum of "Proprietor's Capital" and "Total Reserve and surplus"
+- **A54** — In Schedule Part A BS, "Total Loan Funds" should be equal to sum of "Secured Loans" and "Unsecured Loans" 6
+- **A55** — In Schedule Part A BS, "Total of sources of funds" should be equal to sum of Proprietor's fund, Loan Funds, Deferred Tax Liability and Advances
+- **A56** — In Schedule Part A BS - Application of funds, "Total of investments" should be equal to sum of Long term Investments and Short term Investments
+- **A57** — In Schedule Part A BS - Application of funds, "Total of current assets" should be equal to sum of inventories, sundry debtors, sum of cash and bank balances and other current assets
+- **A58** — In Schedule Part A BS - Application of funds, "Total of net current assets" should be equal to difference between "Total of current assets, loans and advances" and "Total current
+- **A59** — liabilities and provisions" In Schedule Part A BS - Application of funds, "Total of application of funds" should be equal to sum of Total Fixed Assets, Total Investments , Total Current assets, loans and
+- **A60** — advances and Total Miscellaneous expenditure In Schedule Part A BS - Sources of funds, "Total of Advances" should be equal to sum of "From persons specified in section 40A(2)(b) of the I. T. Act" and "From others "
+- **A61** — In Part A Manufacturing Account, Total of Opening Inventory at Sl.No. 1Aiii should be equal to 1Ai+1Aii
+- **A62** — In Part A Manufacturing Account, Total of Direct expenses should be equal to sum of individual break-up of direct expenses
+- **A63** — In Part A Manufacturing Account, Total Factory overheads should be equal to the sum of individual break-up of Factory overheads
+- **A64** — In Part A Manufacturing Account, Total debits to manufacturing account as per Sl.No. 1F should be equal to Sl.No. 1(Aiii+B+C+D+Evii)
+- **A65** — In Part A Manufacturing Account, the total of closing stock should be equal to the sum of break-up of closing stock
+- **A66** — In Part A Manufacturing Account, Sl.No. 3 "Cost of Goods Produced – transferred to Trading Account (1F - 2)" should be equal to 1F-2
+- **A67** — In Part A Manufacturing Account, Negative signs will not be allowed other than in Sl.No. 3 "Cost of Goods Produced – transferred to Trading Account"
+- **A68** — Value mentioned in Sl.No. 11 Cost of Goods Produced – transferred from Manufacturing Account should be equal to value mentioned in Sl.No. 3 of Part A Manufacturing Account
+- **A69** — Cost of goods produced – Transferred to trading Account In Part A-Trading Account, Total of other operating revenue should be consistent with individual row item
+- **A70** — In Part A-Trading Account, Sl.No. 4A(iv) should be equal to sum of Sl.No. 4A(i)+4A(ii)+4A(iiic)
+- **A71** — In Part A-Trading Account, Sl.No. 4A(Cix) should be equal to total of Sl.No. 4Ci+4Cii+4Ciii+4Civ+4Cv+4Cvi+4Cvii+4Cviii 7
+- **A72** — In Part A-Trading Account, Total revenue from operations in Sl.No. 4D should be equal to (Aiv + B +Cix)
+- **A73** — In Part A Trading Account, Total Direct expenses should be equal to sum of carriage Inward, power and fuel and other direct expenses
+- **A74** — In Part A Trading Account, Total of Duties and taxes, paid or payable, in respect of goods and services purchased should be equal to sum of (10i + 10ii + 10iii + 10iv + 10v + 10vi
+- **A75** — + 10vii + 10viii + 10ix + 10x + 10xi) In Part A Trading Account, Sl.No. 12 should be equal to sum of (6-7-8-9-10xii-11)
+- **A76** — In Part A Trading Account, Negative signs should not be allowed other than in Sl.No. 11 and/or 12
+- **A77** — In Schedule Trading account, "Income from Intraday Trading - transferred to Statement of Profit and Loss" at Sl.No. 12b should not be more than Turnover from Intraday Trading
+- **A78** — at Sl. No. 12a. In Schedule Trading account, "Income from Futures & Options Trading - transferred to Statement of Profit and Loss" at Sl.No. 12d should not be more than Turnover from
+- **A79** — Futures & Options Trading at Sl. No. 12c. Sl.No. 13 Gross profit transferred from Trading Account should be equal to Sl.No. 12+12b +12d (Gross Profit from Business/Profession & Income from Intraday Trading & 'Futures
+- **A80** — & Options' - transferred to Profit and Loss account ) of Part A trading account In schedule Part A-P & L, total of Any Other Income (Specify Nature and Amount) at Sl.No. 14xic should be equal to break up of Sl.No. 14x(ia + ib)
+- **A81** — In schedule Part A-P & L, total of other income at Sl.No.14 should be equal to the sum of break up of other income.
+- **A82** — In Part A P&L, Sl.No. 15 Total of credits to profit and loss account (13+14xii) should be equal to the sum of Sl.No. 13+14xii
+- **A83** — In Part A P&L, If Sl.No. 22xiia is Yes then Sl.No. 22xiib should be filled
+- **A84** — In Part A P&L, Sl.No. 22xi Compensation to employees should be equal to sum of 22i to 22x
+- **A85** — In Part A P&L, Sl.No. 23v "Total expenditure on insurance" should be equal to the sum of Medical Insurance, Life Insurance, Keyman’s Insurance and Other Insurance including
+- **A86** — factory, office, car, goods, etc. In Part A P&L, "Total Commission" at Sl.No.30iii should be equal to the sum of commission Paid outside India, or paid in India to a non-resident other than a company
+- **A87** — or a foreign company and To others In Part A P&L, "Total Royalty" at Sl.No. 31iii should be equal to the sum of Royalty Paid outside India, or paid in India to a non-resident other than a company or a foreign company and To others 8
+- **A88** — In Part A P&L, Sl.No. 32iii "Professional / Consultancy fees / Fee for technical services" should be equal to the sum of fees Paid outside India, or paid in India to a non-resident
+- **A89** — other than a company or a foreign company and To others In Sch P&L , Sl.No. 44x should be equal to breakup individual values
+- **A90** — In Part A P&L, Sl.No. 46 "Other expenses" should be equal to the sum of individual fields
+- **A91** — In Part A P&L, Sl.No. 47 "Total Bad Debt" should be equal to the sum of Individual fields
+- **A92** — In Part A P&L, Sl.No. 50 "Profit before interest, depreciation and taxes" should be equal to the sum of (15 – (16 to 21 + 22xi + 23v + 24 to 29 + 30iii + 31iii + 32iii + 33 to 43 +
+- **A93** — 44x + 45 + 46iii + 47iv + 48 + 49)) In Part A P&L, Sl.No. 51iii should be equal to sum of Interest Paid outside India, or paid in India to a non-resident other than a company or a foreign company and To others
+- **A94** — In Part A P&L, Sl.No. 53 "Net profit before taxes" should be equal to the sum of (Profit before Interest, depreciation and taxes - Total Interest - Depreciation and amortization)
+- **A95** — In Part A P&L, Sl.No. 56 "Profit after tax" should be equal to the sum of (Net Profit before Taxes - provision for current tax - provision for deferred tax)
+- **A96** — In Part A P&L, Sl.No. 58 should be equal to sum of Sl.No. 56 + 57
+- **A97** — In Part A P&L, Sl.No. 60 "Balance carried to balance sheet in proprietor’s account" should be equal to Sl.No. 58 - 59
+- **A98** — In Part A P&L, Sl.No. 61(i)" Gross Turnover or Gross Receipts" should be equal Sl.No. 61ia + 61ib +61ic
+- **A99** — In Part A P&L, Sl.No. 61(ii) Presumptive Income under section 44AD should be equal to Sl.No. 61iiA + 61iiB
+- **A100** — In Profit & Loss A/c, field 61(ii)(A) cannot be less than 6% of field 61(i)(A).
+- **A101** — In Profit & Loss A/c, field 61(ii)(b) cannot be less than 8% of field 61(iB) + 61(iC)
+- **A102** — Income disclosed u/s 44AD can not be more than gross receipts
+- **A103** — Income disclosed u/s 44AD can not be more than gross Turnover
+- **A104** — In Profit & Loss A/c, Sl.No. 62ii cannot be less than 50% of the amount in Sl.No. 62i
+- **A105** — In Part A P&L, if "Business code" u/s 44AD is selected then it is mandatory to declare income u/s 44AD.
+- **A106** — In Part A P&L, Nature of business must be filled by the assessee if 61(i) and /or (ii) is greater than zero
+- **A107** — In Part A P&L, If "business code" u/s 44ADA is selected then it is mandatory to declare income u/s 44ADA.
+- **A108** — In Part A P&L, Nature of profession must be filled by the assessee if 62(i) and /or (ii) is greater than zero 9
+- **A109** — In Part A P&L, If "business code" u/s 44AE is selected then it is mandatory to declare income u/s 44AE.
+- **A110** — In Part A P&L, Nature of business must be filled by the assessee if 63(ii) is greater than zero
+- **A111** — In Part A P&L, Income u/s 44ADA cannot be more than Gross receipts
+- **A112** — In schedule BP value mentioned in the field 35(i) "Section 44AD" should be equal to the amount mentioned at the field" Presumptive income under section 44AD" of Schedule
+- **A113** — P&L. In schedule BP, field 35(ii) "Section 44ADA (62(ii) of schedule P&L)" should match with field 62(ii) "Presumptive Income under section 44ADA " of Schedule Profit & Loss A/c.
+- **A114** — In schedule BP, field 35(iii) "Section 44AE (63(ii) of schedule P&L)" should match with field 63(ii) "Total presumptive income from goods carriage u/s 44AE" of Schedule Profit
+- **A115** — & Loss A/c In Part A P&L, If Sl.No. 63(ii) "Total presumptive income from goods carriage u/s 44AE" is greater than zero than table 63(i) of 44AE should be filed.
+- **A116** — In Part A P&L, Total presumptive income from goods carriage u/s 44AE in field 63(ii) should be equal to the breakup of presumptive income u/s 44AE in column 5
+- **A117** — In Part A P&L, in table 63(i) of 44AE, total of column 4 "Number of months for which goods carriage was owned / leased / hired by assessee" shall not exceed 120.
+- **A118** — In Part A P&L, in table 63(i) of 44AE, if the Tonnage capacity at column 3 "Tonnage Capacity of goods carriage(in MT)" is less than or equal to 12MT then column 5 "Presumptive income u/s 44AE for the goods carriage" cannot be less than column 4
+- **A119** — "Number of months for which goods carriage was owned / leased / hired by assessee" *7500. In Schedule BP, Sl.No. 2a "Net profit or loss from speculative business" should be equal to 65iv of Schedule P&L+Sl.no 12b of Trading account , if books are not maintained for
+- **A120** — speculative business. Presumptive Business Income Under Section 44AD cannot be disclosed by Non-Resident.
+- **A121** — The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1).
+- **A122** — In Schedule P&L, Sl.No. 64(i)(d) should be equal to Sl.No. 64(i)(b) - 64(i)(c).
+- **A123** — In Schedule P&L, Sl.No. 64(ii)(d) should be equal to Sl.No. 64(ii)(b) - 64(ii)(c).
+- **A124** — In Schedule P&L, Sl.No. 64(i)(b) cannot be more than Sl.No. 64(i)(a)
+- **A125** — In Schedule P&L, Sl.No. 64(ii)(b) cannot be more than Sl.No. 64(ii)(a)
+- **A126** — In Schedule P&L, Sl.No. 64ia should be equal to sum of Sl.No. 64ia1 + 64ia2
+- **A127** — In Schedule P&L, Sl.No. 64iia should be equal to sum of Sl.No. 64iia1 + 64iia2
+- **A128** — In Schedule P&L, Total profit as per Sl.No. 64iii should be equal to sum of 64i + 64ii 10
+- **A129** — In Part A P&L, Sl.No. 65iv "Net income from speculative activity" should be equal to equal with the difference between Gross profit (65ii) and Expenses (65iii)
+- **A130** — HUF is not eligible to disclose presumptive income u/s 44ADA.
+- **A131** — In Schedule P & L, Bad debts is claimed at Sl.No. 47(i), PAN or Aadhaar No. should be provided.
+- **A132** — In Schedule P&L, Registration No. of goods carriage should not be repeated in section 44AE.
+- **A133** — In Schedule P&L, Sl.No. 65(ii) should not be more than 65(i).
+- **A134** — If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB.
+- **A135** — If Gross Receipts u/s 44AD are more than Rs.2 Crore and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB.
+- **A136** — Gross Receipts u/s 44ADA at sl.no.62 (i) should match with sum of 62 (i)a+62 (i)b+62 (i)c
+- **A137** — If Gross Receipts u/s 44ADA are more than Rs.75,00,000, it is mandatory to have a tax audit under 44AB.
+- **A138** — If Gross Receipts u/s 44AD are more than Rs.3 Crore, it is mandatory to have a tax audit under 44AB.
+- **A139** — In Schedule Profit & Loss, total of Sl. No. 47(i) should be equal to the sum of individual line items of Amount at Sl. No. 47(i)
+- **A140** — In Schedule Profit & Loss, total of Sl. No. 47(ii) should be equal to the sum of individual line items of Amount at Sl. No. 47(ii)
+- **A141** — In Schedule P&L, Net Profit at Sl.No. 66(ii) should not be more than Turnover at Sl. No. 66(i).
+- **A142** — In Part A P&L, if assessee has opted for taxation u/s 44BBD , sl no 66(ii) "Net Profit " cannot be less than 25% of " Gross receipts /turnover
+- **A143** — In Part A P&L, if assessee has opted for taxation u/s 44B , sl no 66(ii) "Net Profit " cannot be less than 7.5% of " Gross receipts /turnover
+- **A144** — In Part A P&L, if assessee has opted for taxation u/s 44BB , sl no 66(ii) "Net Profit " cannot be less than 10% of " Gross receipts /turnover
+- **A145** — In Part A P&L, if assessee has opted for taxation u/s 44BBA , sl no 66(ii) "Net Profit " cannot be less than 5% of " Gross receipts /turnover
+- **A146** — In Part A P&L, if assessee has opted for taxation u/s 44BBC, sl no 66(ii) "Net Profit " cannot be less than 20% of " Gross receipts /turnover
+- **A147** — Name and address of bad debtors should be provided where PAN or Aadhaar is not available and the amount exceeds ₹1 lakh.
+- **A148** — In Schedule OI, Sl.No. 13 should be equal to 13i + 13ii. 11
+- **A149** — In Sch BP, Sl.No.23 should be minimum of sum of amounts entered at Sl.No.5a to 5d of Schedule Part A-OI
+- **A150** — In Schedule Part A-OI, Sl.No. 3a "Increase in the profit or decrease in loss because of deviation, if any, as per Income Computation Disclosure Standards notified under section
+- **A151** — 145(2)" should be equal to the amount mentioned in the field XI(3) In Schedule Part A-OI, Sl.No. 3b "Decrease in the profit or increase in loss because of deviation, if any, as per Income Computation Disclosure Standards notified under section
+- **A152** — 145(2)" should be equal to the amount mentioned in the field XI(4) In Schedule Part A-OI, Sl.No. 5f "Total of amounts not credited to profit and loss account" should be equal to sum of Sl.No. 5a+5b+5c+5d+5e
+- **A153** — In Schedule Part A-OI, Sl.No.6s "Total amount disallowable under section 36 (total of 6a to 6r)" should be equal to sum of Sl.No. 6a to Sl.No. 6r
+- **A154** — In Schedule Part A-OI, Sl.No.7j "Total amount disallowable under section 37 (total of 7a to 7i )" should be equal to sum of Sl.No. 7a to Sl.No. 7i
+- **A155** — In Schedule Part A-OI, Sl.No. 8Aj "Total amount disallowable under section 40 (total of 8Aa to 8Al)" should be equal to sum of Sl.No. 8Aa to Sl.No.8Al
+- **A156** — In Schedule Part A-OI, Sl.No.9f "Total amount disallowable under section 40A (total of 9a to 9e)" should be equal to sum of Sl.No. 9a to Sl.No. 9e
+- **A157** — In Schedule Part A-OI, Sl.No. 10g "Total amount allowable under section 43B" should be equal to sum of Sl.No. 10a to Sl.No. 10h
+- **A158** — In Schedule Part A-OI, Sl.No. 11i "Total amount disallowable under section 43B" should be equal to sum of Sl.No. 11a to Sl.No. 11h
+- **A159** — In Schedule OI, Sl.No. 12i should be equal to sum of Sl.No. 12a to 12h
+- **A160** — In Schedule S, Sl.no 1 Gross Salary (1a + 1b + 1c +1d+1e+1f) should be equal to the sum of Sl.no 1a+1b+1c +1d+1e+1f
+- **A161** — In Schedule S, Sl.No. 2 Total Gross Salary(from all employers) should be sum of Sl.No. 1 +2+3….
+- **A162** — In Schedule S, Sl.No. 3 Allowances to the extent exempt u/s 10 should be equal to the sum of all the dropdowns
+- **A163** — In Schedule S , Sl. No. 4 Net Salary should be output of Sl.No. 2 - 2a - 3
+- **A164** — In Schedule S, Sl. No. 5 "Deductions u/s 16 (5a+5b+5c)" should be sum of 5a+5b+5c
+- **A165** — In Schedule S, Sl.no. 6 "Income chargeable under Salaries" should be output of Sl.No. 4- 5 12
+- **A166** — Exemption u/s 10(10) for gratuity shall not exceed income offered under the head Salary u/s 17(1) under sub head gratuity receipt and cannot exceed (i) Rs20 lakhs in case of Nature of employment is "Public Sector Undertaking", "PSU- Pensioners", "Others-Pensioners" or "Others"
+- **A167** — (ii) Rs 25 lakhs in case of Nature of employment is "Central Government", "State Government", "CG-Pensioners" or "SG-Pensioners" Exempt Allowance u/s 10(13A)-Allowance to meet expenditure incurred on house rent in no case can be more than minimum of : a) 50% of Basic + DA as per drop downs of Salary as per section 17(1) or
+- **A168** — b) HRA as per drop down of salary as per section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Total of exempt allowances excluding HRA shall not exceed total of Sl.No. 1(a)+1(b)+1(c) as reduced by HRA
+- **A169** — In Schedule Salary, Sum of Drop downs in Sl. No. 1a should be equal to sum of individual dropdowns at Sl No. 1a
+- **A170** — In Schedule Salary, Sum of Drop downs in Sl. No. 1b should be equal to sum of individual dropdowns at Sl No. 1b
+- **A171** — In Schedule Salary, Sum of Drop downs in Sl. No. 1c should be equal to sum of individual dropdowns at Sl No. 1c
+- **A172** — In Schedule Salary, Entertainment allowance 16(ii) will not be allowed for employees other than Central and State government and PSU (If none of the employer is Central or
+- **A173** — State Government or PSU) In Schedule Salary, For Central and State Govt and PSU employees, Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of Basic salary,
+- **A174** — whichever is lower. Deduction is available only if old tax regime is opted Professional tax u/s 16(iii) will be allowed only to the extent of Rs 5000 Deduction is available only if old tax regime is opted
+- **A175** — In Schedule Salary, Exemption u/s 10(10) shall not be allowed against more than one Employer.
+- **A176** — In Schedule Salary, Exemption u/s 10(10A) shall not be allowed against more than one Employer.
+- **A177** — In Schedule Salary, standard deduction u/s 16(ia) should not exceed Rs 50,000 or salary whichever is less in Old tax regime.
+- **A178** — In Schedule Salary, Exempt allowance u/s 10(5)-Leave Travel concession/assistance received cannot be more than Salary as per section 17(1).
+- **A179** — In Schedule Salary, Exempt allowance u/s 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc." can not be more than Gross Salary 13
+- **A180** — In Schedule Salary, Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service
+- **A181** — outside India can not be more than Gross salary In Schedule Salary, Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received can not be more than (i) Rs20 lakhs in case of Nature of employment is "Public Sector Undertaking", "PSU- Pensioners", "Others-Pensioners" or "Others"
+- **A182** — (ii) Rs 25 lakhs in case of Nature of employment is “Central Government", "State Government", "CG-Pensioners" or "SG-Pensioners" In Schedule Salary, Exempt allowance u/s 10(10A)-Commuted value of pension received can not be more than Salary as per section 17(1)
+- **A183** — In Schedule Salary, Exempt allowance u/s 10(10AA)-Earned leave encashment cannot be more than "Leave Encashment" dropdown in Section 17(1)
+- **A184** — In Schedule Salary, Exempt allowance u/s 10(10B)(ii)-Retrenchment Compensation received in respect of approved scheme can not exceed Rs.5,00,000
+- **A185** — In Schedule Salary, Exempt allowance u/s 10(10C)-Amount received/receivable on voluntary retirement or termination of service can not exceed Rs. 5,00,000
+- **A186** — In Schedule Salary, exempt allowances in Section 10(10B)(i) OR Section 10(10B)(ii) OR Section 10(10C), only one can be claimed
+- **A187** — In Schedule Salary, Exempt Allowance u/s 10(10CC)-Tax paid by employer on non- monetary perquisite cannot be more than Value of perquisites as per section 17(2)
+- **A188** — In Schedule Salary, Exempt Allowance u/s 10(13A)-Allowance to meet expenditure incurred on house rent cannot be more than Salary as per section 17(1)
+- **A189** — In Schedule Salary, Exempt allowance u/s 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment cannot be more than the value of Salary under "Other Allowance" & "Others"
+- **A190** — in Section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Exempt allowance u/s 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living cannot be more than the value of Salary under
+- **A191** — "Other Allowance" & "Others" in Section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Sl.No. 3 "exempt allowance" Same dropdown can be selected more than once
+- **A192** — If exempt allowance u/s 10(13A) is claimed, then deduction u/s 80GG cannot be claimed for the period for which income of the nature of 10(13A) is received.
+- **A193** — Assessee cannot claim deduction u/s 10(10AA) more than the maximum limit of Rs 2500000/- for employer category other than "Central and State Government" 14
+- **A194** — If New Tax Regime is opted Entertainment allowance u/s 16(ii) cannot be claimed.
+- **A195** — If New Tax Regime is opted, Professional allowance u/s 16(iii) cannot be claimed.
+- **A196** — Exempt allowance u/s 10(14)(ii) "Transport allowance granted to certain physically handicapped assessee" cannot exceed Rs 38,400
+- **A197** — Only the following allowances can be claimed as exempt u/s 14, if old tax regime is selected • "Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB"
+- **A198** — • "Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee" If New Tax Regime is selected then following allowances cannot be claimed as exempt: • "Sec 10(5)-Leave Travel concession/assistance" • "Sec 10(13A)-Allowance to meet expenditure incurred on house rent" • "Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the
+- **A199** — extent actually incurred, in performance of duties of office or employment" • "Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living" Schedule Salary should be blank if HUF is selected in status.
+- **A200** — Relief u/s 89A at Sl.No. 2a of Sch Salary cannot be claimed by taxpayer if Sl.no 1d of Schedule Salary is Zero
+- **A201** — In Schedule Salary, one country cannot be selected more than one time at "Income from retirement benefit account maintained in a notified country u/s 89A ".
+- **A202** — Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000
+- **A203** — "Exempt Allowances" in Salary under each section should be disclosed in one dropdown
+- **A204** — HRA u/s 10(13A) shall not be more than Actual rent paid after deducting 10% of basic salary and DA
+- **A205** — HRA u/s 10(13A) shall not be more than 40% of basic salary and DA for those living in non-metro cities or, shall not be more than 50% of basic salary and DA for those living in metro cities
+- **A206** — (as applicable) In Table 10(13A) of Schedule Salary, the lowest of the following amounts shall be claimed as HRA exemption: A)Actual HRA received
+- **A207** — B)Actual rent paid-10% of (salary+DA) C) 40% or 50% of (salary+DA) 10(13A) 15
+- **A208** — Sum of Basic salary, dearness allowance as per Table 10(13A) of Schedule Salary or actual HRA received shall not be more than salary as per section 17(1) of respective fields
+- **A209** — under Income details In Schedule Salary, Nature of Exempt allowance can be selected as "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court
+- **A210** — judges Act /Rules" only if nature of Employer is CG/SG In Schedule HP, Standard deduction allowed on House property should be equal to 30% of Annual value.
+- **A211** — In Schedule HP, Ownership of house is selected as co-owned house property then assessee's share and co-owner(s) share should be equal to 100 %.
+- **A212** — In Schedule HP, In case property is co-owned, annual value of the property owned should be equal to own percentage share *annual value.
+- **A213** — In Schedule HP, Assessee cannot claim interest on borrowed capital if assessee's share of co-owned property is zero
+- **A214** — In Schedule HP, Municipal tax cannot be claimed if Gross rent received/ receivable/ lettable value is zero or null
+- **A215** — In Schedule HP, Type of "House Property" is selected as "Self-occupied" then maximum Interest on borrowed capital cannot be claimed more than Rs. 2,00,000.
+- **A216** — Deduction is available only if Old tax regime is selected In Schedule HP, Sl.No. 3 should be equal to sum of Sl.No. 1k+2
+- **A217** — In Schedule HP, In case of type of property is let out or deemed let out then Gross rent received/ receivable/ lettable value should be more than zero
+- **A218** — In Schedule HP, Sl.No. 1e - Annual Value should be equal to Sl.No. (1a- 1d)
+- **A219** — In Schedule HP, Sl.No. 1d -Total should be equal to Sl.No. (1b+1c)
+- **A220** — In Schedule HP, Sl.No 1i "Total" should be equal to Sl.No. (1g+1h)
+- **A221** — In Schedule HP, Sl.No. 1k "Income from House Property (1f – 1i + 1j)" should be equal to Sl.No. (1f – 1i + 1j)
+- **A222** — In Schedule HP, Sl.No. 2 "Pass through income" should be equal to the amount of net income/ loss of HP mentioned in Schedule PTI
+- **A223** — In Schedule HP, assessee cannot claim more than two house is claimed to be self occupied
+- **A224** — If New Tax Regime is selected than Interest on borrowed capital cannot be claimed for "Self-Occupied" house property.
+- **A225** — In Schedule HP, in case of co-owned house property, Assessee PAN & Co-owners PAN cannot be same
+- **A226** — Details of loan taken needs to be provided for claiming Interest on borrowed capital u/s 24(b) in Table 24(b) of Schedule HP
+- **A227** — Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted. 16
+- **A228** — As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EE should be part of the details disclosed in Table 24(b) of
+- **A229** — Schedule HP As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), details of loan taken in schedule 80EEA should be part of the details disclosed in Table 24(b) of
+- **A230** — Schedule HP In schedule House property, value of "Interest payable on borrowed capital" should be same as the "Total Interest on Borrowed capital u/s 24(b)" as per schedule 24(b)
+- **A231** — In Table 24(b) of Schedule HP, the sum of individual rows for "Interest on Borrowed capital u/s 24(b)" shall match with the "Total Interest on borrowed capital u/s 24(b)" as
+- **A232** — per Table 24(b) Interest on borrowed capital cant be claimed incase of Self occupied house property under new tax regime
+- **A233** — In Schedule HP, Details of Interest on borrowed capital u/s 24(b) is mandatory to claim the deduction.
+- **A234** — In Schedule HP, if "Is property co-owned" is selected as Yes, then sum of percentage share of other co-owner(s) in property should be less than 100%
+- **A235** — In case of property is not Co-owned the assessee's share should be equal to 100%
+- **A236** — "The amount of rent which cannot be realized" can not be more than Gross rent received/ receivable/ lettable during the year
+- **A237** — Profit before Tax as per Profit & Loss a/c in Schedule BP should be equal to the "[Profit before Tax] plus [Net Profit (No Accounts Case)] plus [presumptive income] as per P&L
+- **A238** — A/c." Current year Speculative loss in CFL should be equal to Sl.No. B42 of Schedule BP
+- **A239** — Current year Specified loss in CFL should be equal to Sl.No. C48 of Schedule BP
+- **A240** — Depreciation allowable under section 32(1)(ii) and 32(1)(iia) in Schedule BP should be equal to Sl.No. 6 of Schedule DEP
+- **A241** — Amount reduced in Sl.No. A3b in schedule BP cannot be more than the income offered in schedule HP
+- **A242** — Amount reduced in Sl.No. A3c in schedule BP cannot be more than the income offered in schedule CG
+- **A243** — Amount reduced in Sl.No. A3d in schedule BP cannot be more than the income offered in schedule OS
+- **A244** — In Schedule BP, A6 should be equal to sum of Sl.No. (1- 2a- 2b - 3a -3b -3c -3d-3e-3f- 4a -4b- 5d-5A)
+- **A245** — In schedule BP, The value at field A9 should be equal to Sl.No. 7a + 7b + 7c + 7d + 7e +7f+7g+ 8a+8b
+- **A246** — In schedule BP, The value at field (A10) should be equal to Sl.No. (6+9). 17
+- **A247** — In schedule BP, Sl.No. A12iii should be equal to Sl.No. A(12i+12ii)
+- **A248** — In schedule BP, The value at field (A13) should be equal to Sl.No. (10 +11 – 12iii).
+- **A249** — In schedule BP, The value at field (A26) should be equal to Sl.No. A(14 + 15 + 16 + 17 + 18 + 19 + 20 + 21+22 +23+24+25).
+- **A250** — In Schedule BP, The value at field (A33) of schedule BP should be equal to Sl.No. A(27+28+29+30+31+32)
+- **A251** — In Schedule BP, The value at field (A14) should be equal to the value at Sl.No. 6s of schedule OI.
+- **A252** — In Schedule BP, Sl.No.15 should be equal to Sl.No. 7j of Schedule OI.
+- **A253** — In Schedule BP, The value at field (A16) should be equal to the value at Sl.No. 8Aj of schedule Part A OI.
+- **A254** — In Schedule BP, The value at field (A17) of should be equal to the value at Sl.No. 9F of schedule Part A- OI.
+- **A255** — In Schedule BP, Sl.No.18 "Any Amounts debited to the profit and loss account, to the extent disallowable under section 43B" should be equal to Sl.No.11 of Schedule Part A-
+- **A256** — OI In Schedule BP, The value at field (A20) should be equal to the value at Sl.No. 14 of schedule OI
+- **A257** — In Schedule BP, Sl. No. A25 Increase in profit or decrease in loss on account of ICDS adjustments and deviation in method of valuation of stock should be equal to sum total of
+- **A258** — Column 3a + 4d of Schedule Part A- OI In Schedule BP, Sl.No. 28. "Amount of deduction under section 35 or 35CCC or 35CCD or 35ABA or 35ABB or 35CCA or 35D or 35DD or 35DDA or 35E in excess of the
+- **A259** — amount debited to P & L a/c" should be equal to Sl.No. X(4)of Schedule ESR In Schedule BP, Sl.No. A29 "Any amount disallowed under section 40 in any preceding previous year but allowable during the previous year(8B of Part A-OI)" should be equal
+- **A260** — to Sl.No. 8B of Schedule Part-A OI In Schedule BP, Sl.No.30 "Any amount disallowed under section 43B in any preceding year but allowable during the previous year(10i of Part A-OI)" should be equal to Sl.No.
+- **A261** — 10i of Schedule Part A-OI In Schedule BP, Sl. No. A32 "Decrease in profit or increase in loss on account of ICDS adjustments and deviation in method of valuation of stock" should be equal to Column 3b
+- **A262** — + 4e of Schedule Part A- OI In schedule BP, Sl.No. A34 "Income" should be equal to Sl.No. A(13+26-33)
+- **A263** — In schedule BP, Sl.No. A35viii should be equal to sum of individual amounts entered in Sl.No. A35i to 35vii.
+- **A264** — In schedule BP, Sl.No. A36 "Net profit or loss from business or profession other than speculative and specified business" should be equal to Sl.No. A34 + A35viii 18
+- **A265** — In Schedule BP, Sl.No. A37 should be equal to Sl.No. A(37a+ 37b + 37c + 37d + 37e + 37f.)
+- **A266** — In Schedule BP, The value at field (B42) should be equal to Sl.No. B39+B40-B41
+- **A267** — In schedule BP, Sl.No. C47 "Profit or loss from specified business" should be equal to Sl.No. C43+C44-C45.
+- **A268** — In Schedule BP, Income from Specified Business at Sl.No. C48 should be equal to "Profit or loss from specified business" minus "Deductions in accordance with section 35AD(1)"
+- **A269** — In schedule BP, Sl.No. D Income chargeable under the head 'Profits and gains from Business or Profession' should be equal to Sl.No. (A37 + B42 + C48)
+- **A270** — In Schedule BP, Sl.No. 4a should be equal to Sl.No. 35(i) to 35(vii)
+- **A271** — In Schedule BP, Sl.No. 11 Depreciation and amortization debited to profit and loss account should be equal to Sl.No. 1Evi of Manufacturing account+ Sl.No. 52 of PART-A-P&L
+- **A272** — In Schedule BP, Sl.No. A38 "Balance of income deemed to be from agriculture, after applying Rule 7, 7A, 7B(1), 7B(1A) and Rule 8 for the purpose of aggregation of income
+- **A273** — as per Finance Act" should be equal to [4b-(37a+37b+37c+37d+37e)] In Schedule BP, Sl.No. 5d should be equal to Sl.No. 5a+5b+5ciii
+- **A274** — In Schedule BP, Sl.No. E(3) "Business income remaining after set off" should be equal to Income of current year minus Business loss set off
+- **A275** — In Schedule BP, Sl.No. Eiv "Total loss set off" should be equal to sum of Income from speculative business and Income from specified business set off
+- **A276** — In Schedule BP, Sl.No. Ev "Loss remaining after set off" should be equal to "Loss to be set off" minus "Total loss set off"
+- **A277** — In schedule BP, Sl.No. 8b should be equal to Sl.No. 16 of schedule Part A-OI
+- **A278** — In Schedule BP, “Depreciation allowable under section 32(1)(i)” can be claimed only if assessee is carrying on power sector business (05001 or 06008)
+- **A279** — In Schedule BP, If income/ loss from specified business is entered then nature of specified business should be mentioned
+- **A280** — In schedule BP, Sl.No. B39 "Net profit or loss from speculative business as per profit or loss account " should be equal to Sl.No. 2a "Net profit or loss from speculative business
+- **A281** — included in Profit before tax as per profit and loss account " In Schedule BP, The Income/receipts reduced at Sl.No.3 and/or Sl.No.5 should not be higher than the Income/receipts that have been credited to the P and L A/c
+- **A282** — Amount reduced in Sl.No. A3a in schedule BP cannot be more than the income offered in schedule Salary
+- **A283** — In Schedule BP, If Sum of amount entered in "S.No 35 (i) (Sec 44AD) + S.No 35 (ii) (Sec 44ADA) + S.No 35 (iii) (Sec 44AE)" is greater than "0" then Balance sheet particulars for either "Regular books of accounts" or particulars for "No accounts case" is mandatory 19
+- **A284** — Total value of "S.No. 4D of Part A Trading account + Gross receipts at Sl.No. 61(i) +62(i) +64(i) +64(ii) of Schedule P&L" should be greater than or Equal to Sum of amount entered
+- **A285** — in "Sl.No 35 (i) (Sec 44AD) " of Schedule BP The provisions of 44AD is not applicable for General commission agents and persons carrying on professions as referred in section 44AA(1)
+- **A286** — Schedule BP, sl no 24(e) should be minimum of Absolute value of total of negative values of "col 3 - col 2" of all fields in Schedule ESR
+- **A287** — If New Tax Regime is selected then in schedule BP, deduction u/s 35AD cannot be claimed.
+- **A288** — In Schedule BP, value at Sl.No. 3d should be equal to 3d(i) + 3d(ii).
+- **A289** — In Schedule BP, Income reduced from Row no A3d(i) "Dividend Income" plus 5c- Dividend income" and income offered under schedule OS should not be more than
+- **A290** — dividend income offered in Sl. No. 14(iii) of Part A-P&L In Schedule BP, sum of values entered from 35(iv) to 35(vii) should match with sum of values declared at Sl.No.4a(iv) to 4a(vii)
+- **A291** — In Schedule BP Sl.no 3d should be equal to Sl.no 3di+3dii.
+- **A292** — In schedule BP amount of exempt income reduced from Profits and Gains of Business and Profession does not tally with income offered in schedule EI & Column Amount of share
+- **A293** — in profits from schedule IF In schedule BP , sl no 35(iii) should be equal to 63(ii) "Total presumptive income from goods carriage u/s 44AE" of schedule P&L
+- **A294** — In schedule BP value mentioned at the Sl. No. 37a "Income Chargeable under Rule 7" does not tally with the amount mentioned at the Sl. No. 4b(i) "Profit from activities
+- **A295** — covered under rule 7". In schedule BP value mentioned at the Sl. No. 37b "Deemed income chargeable under Rule 7A" Should be minimum 35% of the amount mentioned at the Sl. No. 4b(ii) "Profit
+- **A296** — from activities covered under rule 7A". In schedule BP value mentioned at the Sl. No. 37c "Deemed income chargeable under Rule 7B(1)" Should be minimum 25% of the amount mentioned at the Sl. No. 4b(iii)
+- **A297** — "Profit from activities covered under rule 7B(1)". In schedule BP value mentioned at the Sl. No. 37d "Deemed income chargeable under Rule 7B(1A)" Should be minimum 40% of the amount mentioned at the Sl. No. 4b(iv)
+- **A298** — "Profit from activities covered under rule 7B(1A)". In schedule BP value mentioned at the Sl. No. 37e "Deemed income chargeable under Rule 8" Should be minimum 40% of the amount mentioned at the Sl. No. 4b(v) "Profit
+- **A299** — from activities covered under rule 8". In Such BP Sl. No. C43 should be equal to Pt 2b "Net profit or loss from specified business as per profit or loss account" 20
+- **A300** — Amount entered at Sl. No. 3g "u/s 115BBH (net of Cost of acquisition, if any)" should match with Sl. No. A "Total" of Schedule VDA
+- **A301** — In Schedule BP, at Sl.No. 5c "Dividend income" amount cannot be more than Zero.
+- **A302** — In schedule BP, Sl.No. 19 should be equal to Sl.No. 17 of schedule Part A-OI
+- **A303** — Exceptions: 1. If NOB has business code as 00001 and Schedule IF is filled. 2. If "Yes" is selected for "Are you liable for Audit u/s 92E?" in Schedule Part A General Information. 3. If "Yes" is selected for "Whether books of account of spouse is audited u/s 92E? or
+- **A304** — Whether your spouse is a partner of a firm whose accounts are required to be audited u/s 92E under this Act?" in Schedule 5A 4. If 5cxvii or 6xvii or 7xvii of Schedule CFL is more than 0 5. If any field of Column 3 or Column 6 of Schedule UD is more than 0 In Schedule DPM, Sl.No. 6 should be equal to (3+4-5) Or enter zero if result is negative
+- **A305** — In Schedule DPM, Sl.No. 9 in should be equal to (7-8) Or enter zero if result is negative
+- **A306** — In Schedule DPM, Sl.No. 15 should be equal to sum of Sl.No. (10+11+12+13+14)
+- **A307** — In Schedule DPM, Sl.No. 17 should be sum of Sl.No. (15-16)
+- **A308** — In Schedule DPM, Written down value on the last day of previous year should be equal to Sl.No. 6+9-15 Or zero if the value is negative
+- **A309** — If "New Tax Regime" is selected then in schedule DPM, Additional depreciation should not be more than zero
+- **A310** — If "New Tax Regime" is selected then in schedule DPM, depreciation in 45% block cannot be claimed as per Rule 5.
+- **A311** — Schedule DPM, Value of depreciation at Sl.No.10 is not matching as per the depreciation rates mentioned in Sl.No.2
+- **A312** — Schedule DPM, Value of depreciation at Sl.No.11 is not matching as per the depreciation rates mentioned in Sl.No.2 at half rates
+- **A313** — In Schedule DPM, value at sl.no.3 should match with 3a + 3b
+- **A314** — In schedule DPM , amount at Sl. No. 3b cannot be greater than zero if assessee has selected Old tax regime for current assessment year in Part A General.
+- **A315** — In schedule DPM, Proportionate depreciation at sl.no.18 should be out of Net aggregate depreciation at sl.no.17
+- **A316** — In Schedule DOA, Amount on which depreciation at full rate to be allowed should be equal to Sl.No. 3 + 4 - 5 Or zero if the value is negative
+- **A317** — In Schedule DOA, Sl.No. 9 should be equal to Sl.No. 7 - 8 or 0 if the value is negative
+- **A318** — In Schedule DOA , Sl.No. 12 should be equal to sum of Sl.No. (10+11) 21
+- **A319** — In Schedule DOA, Sl.No. 14 should be equal to Sl.No. 12-13
+- **A320** — In Schedule DOA, Sl.No.17 should be equal to sum of Sl.No. (5+8-3-4-7-16)
+- **A321** — In Schedule DOA, Sl.No. 18 should be equal to Sl.No. (6+9-12)
+- **A322** — Schedule DOA, Value of depreciation at Sl.No.10 is not matching as per the depreciation rates mentioned in Sl.No.2
+- **A323** — Schedule DOA, Value of depreciation at Sl.No.11 is not matching as per the depreciation rates mentioned in Sl.No.2 at half rates
+- **A324** — In schedule DOA, Proportionate depreciation at sl.no.15 should be out of Net aggregate depreciation at sl.no.14
+- **A325** — In Schedule DEP, Total depreciation on plant and machinery should be equal to sum of Sl.No. (1a + 1b + 1c+1d)
+- **A326** — In Schedule DEP, total depreciation on building should be equal to sum of Sl.No. (2a + 2b + 2c)
+- **A327** — In Schedule DEP, total depreciation should be equal to sum of Sl.No. (1e+2d+3+4+5)
+- **A328** — In Schedule DEP, block of plant and machinery entitled for depreciation @ 15% should be equal to Sl.No. 17i or 18i, as applicable of Schedule DPM
+- **A329** — In Schedule DEP, block of plant and machinery entitled for depreciation @ 30% should be equal to Sl.No. 17ii or 18ii, as applicable of schedule DPM
+- **A330** — In Schedule DEP, block of plant and machinery entitled for depreciation @ 40% should be equal to Sl.No. 17iii or 18iii, as applicable of schedule DPM
+- **A331** — In Schedule DEP, block of plant and machinery entitled for depreciation @ 45% should be equal to Sl.No. 17iv or 18iv, as applicable of schedule DPM
+- **A332** — In Schedule DEP, block of Building entitled for depreciation @ 5% should be equal to Sl.No. 14ii or 15ii, as applicable of schedule DOA
+- **A333** — In Schedule DEP, block of Building entitled for depreciation @ 10% should be equal to Sl.No. 14iii or 15iii, as applicable of schedule DOA
+- **A334** — In Schedule DEP, block of Building entitled for depreciation @ 40% should be equal to Sl.No. 14iv or 15iv, as applicable of schedule DOA
+- **A335** — In Schedule DEP block of furniture and fittings should be equal to Sl.No. 14v or 15v, as applicable of schedule DOA
+- **A336** — In Schedule DEP block of intangible assets should be equal to Sl.No. 14vi or 15vi, as applicable of schedule DOA
+- **A337** — In Schedule DEP block of ships should be equal to Sl.No. 14vii or 15vii, as applicable of schedule DOA
+- **A338** — In Schedule DCG, Sl.No. 1e of should be equal to sum of (1a + 1b + 1c+ 1d)
+- **A339** — In Schedule DCG, Sl.No. 2d should be equal to sum of (2a + 2b + 2c) 22
+- **A340** — In Schedule DCG, "Total deemed capital gains on sale of depreciable assets" should be equal to sum of Sl.No. (1e+2d+3+4+5)
+- **A341** — In Schedule DCG, Sl.No. 1a should be equal to Sl.No. 20i of schedule DPM
+- **A342** — In Schedule DCG, Sl.No. 1b should be equal to Sl.No. 20ii of schedule DPM
+- **A343** — In Schedule DCG, Sl.No. 1c should be equal to Sl.No. 20iii of schedule DPM
+- **A344** — In Schedule DCG, Sl.No. 1d should be equal to Sl.No. 20iv of schedule DPM
+- **A345** — In Schedule DCG, Sl.No. 2a should be equal to Sl.No. 17ii of schedule DPM
+- **A346** — In Schedule DCG, Sl.No. 2b should be equal to Sl.No. 17iii of schedule DPM
+- **A347** — In Schedule DCG, Sl.No. 2c should be equal to Sl.No. 17iv of schedule DPM
+- **A348** — In Schedule DCG, Sl.No. 3 should be equal to Sl.No. 17v of schedule DPM
+- **A349** — In Schedule DCG, Sl.No. 4 should be equal to Sl.No. 17vi of schedule DPM
+- **A350** — In Schedule DCG, Sl.No. 5 should be equal to Sl.No. 17vii of schedule DPM
+- **A351** — In Schedule CG, STCG on depreciable assets at Sl.No. A6e should be equal to Sl.No. 6 of Schedule DCG
+- **A352** — In Schedule ESR, Sl.No.4 "Amount of deduction in excess of the amount debited to profit and loss account (4)=(3)-(2)" should be equal to Sl.No.3-Sl.No.2
+- **A353** — In Schedule ESR, Sl.No. x should be equal to sum of Sl.No. i+ii+iii+iv+v+vi+vii+viii+ix
+- **A354** — If "New Tax Regime" is selected, then in schedule ESR at column 3, amount cannot be more than zero for section 35(1)(ii), 35(1)(iia), 35(1)(iii), 35(2AA) and 35(CCC).
+- **A355** — Total of STCG in Schedule CG should be equal to the individual breakup of STCG in Schedule CG
+- **A356** — Total of LTCG in Schedule CG should be equal to the individual breakup of LTCG in Schedule CG
+- **A357** — In Schedule CG, SL.no. C1 Income chargeable under the head "Capital Gain" is not equal to the sum of Capital Gains in Table E
+- **A358** — In Schedule CG, Full Value of Consideration(Sl.No.A1aiii) is zero then expenses (Sl.No. A1b(iv) cannot be claimed
+- **A359** — In Schedule CG, Full Value of Consideration(Sl.No. A3aiii) is zero then expenses (Sl.No. A3b(iv) cannot be claimed
+- **A360** — In Schedule CG, Full Value of Consideration(Sl.No. A5aiii) is zero than expenses (Sl.No. A5b(iv) cannot be claimed
+- **A361** — In Schedule CG, Full Value of Consideration(Sl.No. A6aiii) is zero than expenses (Sl.No. A6b(iv) cannot be claimed
+- **A362** — In Schedule CG, Full Value of Consideration(Sl.No. B1aiii) is zero than expenses(Sl.No. B1b(iv) cannot be claimed 23
+- **A363** — In Schedule CG, Full Value of Consideration(Sl.No. B3ia) is zero than expenses (Sl.No. B3ib(iv) cannot be claimed
+- **A364** — In Schedule CG, Full Value of Consideration(Sl.No. B6a) is zero than expenses (Sl.No.B6b(iv) cannot be claimed
+- **A365** — In Schedule CG, Full Value of Consideration (Sl.No. B9aiii) is zero and expenses (Sl.No.B9b(iv) cannot be claimed
+- **A366** — In schedule CG, Sl. No. A1biv of STCG Total should be equal to sum of A1(bi+bii+biii)
+- **A367** — In schedule CG, Sl. No. A1c of STCG Balance should be equal to A1(aiii-biv)
+- **A368** — In Schedule CG Sl.no. A1e of STCG should be equal to A(1c-1d)
+- **A369** — In Schedule CG Sl.No. A2c of STCG should be equal to A(2aiii-2b)
+- **A370** — In schedule CG, Sl. No. A3biv of STCG Total should be equal to sum of A3(bi+bii+biii)
+- **A371** — In schedule CG, Sl.No. A3c of STCG Balance should be equal to A(3a-biv)
+- **A372** — In Schedule CG Sl.No. A3e of STCG should be equal to the sum of A(3c+3d)
+- **A373** — In Schedule CG Sl.No. A5(a)(ic) should be higher of A5(a)(ia) or A5(a)(ib)
+- **A374** — In Schedule CG, Sl. No. A5(aiii) should be equal to sum of A5[(a)(ic)+(aii)]
+- **A375** — In schedule CG, Sl. No. A5biv Total should be equal to sum of A5(bi+bii+biii)
+- **A376** — In schedule CG, Sl. No. A5c Balance should be equal to A5(aiii-biv)
+- **A377** — In Schedule CG Sl.No. A5e of STCG should be equal to the sum of A(5c+5d)
+- **A378** — In Schedule CG Sl.No. A6(a)(ic) should be higher of A6(a)(ia) or A6(a)(ib)
+- **A379** — In Schedule CG, Sl.No. A6(aiii) should be equal to sum of A6[(a)(ic)+(aii)]
+- **A380** — In schedule CG, Sl.No. A6biv Total should be equal to sum of A6(bi+bii+biii)
+- **A381** — In schedule CG, Sl.No. A6c Balance should be equal to A6(aiii-biv)
+- **A382** — In Schedule CG Sl.No. A6g should be equal to the sum of A(6c+6d+6e-6f)
+- **A383** — In Schedule CG Sl.No. A7 of STCG should be equal to the sum of A(aXi +aXii+aXn + b)
+- **A384** — In Schedule CG Sl.No. A8 should be equal to the sum of (A8a+ A8b + A8c)
+- **A385** — In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1 (bi + ∑biib(a) + biii)
+- **A386** — In schedule CG, Sl. No. B1c of LTCG Balance should be equal to B1(aiii-biv)
+- **A387** — In Schedule CG Sl.No. B1e of LTCG should be the difference of B(1c-1d)
+- **A388** — In Schedule CG, Sl.No. B2e of LTCG should be the difference of B(2c-2d)
+- **A389** — In Schedule CG, Sl.No. B2c of LTCG should be equal to B(2aiii-2b)
+- **A390** — In schedule CG, Sl.No. B3 biv Total should be equal to sum of B3 (bi+bii+biii) 24
+- **A391** — In schedule CG, Sl.No. B3c Balance should be equal to B(3a-biv)
+- **A392** — In Schedule CG, Sl.No. B3e of LTCG should be equal to B3 (c-d)
+- **A393** — In Schedule CG, Sl.No. B4a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A
+- **A394** — In Schedule CG, Sl.No. B4c of LTCG should be equal to B(4a-4b)
+- **A395** — In schedule CG, Sl.No. B5c LTCG on share or debenture should be equal to B(5a-5b)
+- **A396** — In Schedule CG Sl.No. B6 (a)(ic) should be higher of B6 (a)(ia) or B6 (a)(ib)
+- **A397** — In schedule CG, Sl.No. B6 aiii Total should be equal to sum of B6 (a)(ic+ii)
+- **A398** — In schedule CG, Sl.No. B6biv Total should be equal to sum of B6 (bi+bii+biii)
+- **A399** — In schedule CG, Sl.No. B6c Balance should be equal to B(6aiii-biv)
+- **A400** — In Schedule CG Sl.No. B6e of LTCG should be equal to B(6c-6d)
+- **A401** — In Schedule CG, Sl.No. B7a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)
+- **A402** — In Schedule CG Sl.No. B7c of LTCG should be equal to B(7a-7b)
+- **A403** — In schedule CG, Sl.No. B8c LTCG on share or debenture should be equal to B(8a-8b).
+- **A404** — In Schedule CG, Sl.No. B9 (a)(ic) should be higher of B9 (a)(ia) or B9 (a)(ib)
+- **A405** — In schedule CG, Sl.No. B9 (aiii) Total should be equal to sum of B9 (a)(ic+ii)
+- **A406** — In schedule CG, Sl.No. B9biv Total should be equal to sum of B9 (bi+bii+biii)
+- **A407** — In schedule CG, Sl.No. B9c Balance should be equal to B(9aiii-biv)
+- **A408** — In Schedule CG, Sl.No. B9e should be equal to B(9c-9d)
+- **A409** — In Schedule CG, Sl.No. B10 should be equal to B10 (aXi + aXii +aXn+ b)
+- **A410** — In Schedule CG, Sl. No. B11 should be equal to (B11a1+B11a2)
+- **A411** — If resident has not exercised option under 115H then ax benefits against the sections mentioned therein will not be allowed in Schedule CG
+- **A412** — In Schedule CG, Sl.No. D1i should be equal to sum of D(1a + 1b + 1c + 1d + 1e + 1f+1g+1h)
+- **A413** — In Schedule CG, Sl.No. Eviii should be equal to the sum of sl no (ii + iii + iv + v + vi + vii)
+- **A414** — In Schedule CG, Sl.No. Eix should be equal Ei-Eviii
+- **A415** — In Schedule CG, Sl.No. Ei3 should be equal to sum of Sl.No. (A5e+ A8b +A(A) for 30%)]) Note: This rule will be applicable only if the sum of Sl.No. (A5e+ A8b +A(A) for 30%)] is negative 25
+- **A416** — Schedule CG sl no Ei4 should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+A(A) for App rate) Note: This rule will be applicable only if the sum of Sl.No.
+- **A417** — (A1e+A2c+A4b+A6g+A7+A8c+A(A) for App rate) is negative In Schedule CG, Sl.No. Ei5 should be equal to Sl.No. 9b Note: This rule will be applicable only if Sl.No. A9b is negative
+- **A418** — In Schedule CG, Sl.No. Ei7 should be equal to Sl.No. B12b.
+- **A419** — Note: This rule will be applicable only if Sl.No. B12bis negative In Schedule CG, Sl.No.Eiii should be equal to sum of Sl.No. (A5e+A8b+A(A))
+- **A420** — Note: This rule will be applicable only if the (A5e+A8b+A(A)) is positive In Schedule CG, Sl.No. Eiv should be equal to sum of Sl.No. (A1e+A2c+A4b+A6g +A7+A8c+A(A))
+- **A421** — Note: This rule will be applicable only if the (A1e+A2c+A4b+A6g +A7+A8c+A(A)) is positive In Schedule CG, Sl.No. Ev should be equal to Sl.No. A9b. Note: This rule will be applicable only if Sl.No. A9b is positive
+- **A422** — In Schedule CG, Sl.No. Evii should be equal to Sl.No. B12b. Note: This rule will be applicable only if Sl.No. B12b is positive
+- **A423** — In Schedule CG, Deductions claimed under respective section in STCG and LTCG should match with deduction reported in Table D.
+- **A424** — In Sch CG, value at field E8 is not equal to the Col no (1-2-3-4-5-6-7)
+- **A425** — In Schedule CG, Table F Sl.No. 2 the breakup of all the quarters should be equal to the value from item 5vii of schedule BFLA
+- **A426** — In Schedule CG, Table F Sl.No. 3 the breakup of all the quarters should be equal to the value from item 5viii of schedule BFLA
+- **A427** — In Schedule CG, Table F Sl.No. 4 the breakup of all the quarters should be equal to the value from item 5ix of schedule BFLA
+- **A428** — In Schedule CG, Table F Sl.No.6 the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA
+- **A429** — In Schedule CG ,In case A1(aii) does not exceed 1.10 times A1(ai), value at A1(aiii) will be equal to A1(ai), or else value at A1(aiii) will
+- **A430** — be equal to A1(aii) In Schedule CG ,In case B1(aii) does not exceed 1.10 times B1(ai), value at B1(aiii) will be equal to B1(ai), or else value at B1(aiii) will
+- **A431** — be equal to B1(aii) In Schedule CG, Sl. No. A2aiii should be higher of 2ai and 2aii 26
+- **A432** — In Schedule CG, Sl. No. B2aiii should be higher of 2ai and 2aii
+- **A433** — If any one row is filled in Schedule 112A, then Schedule 115AD(1)(b)(iii) proviso is not allowed to fill by the taxpayer
+- **A434** — If any one row is filled in Schedule 115AD(1)(b)(iii) proviso, then Schedule 112A is not allowed to fill by the taxpayer
+- **A435** — Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biia) is more than Zero
+- **A436** — Schedule CG, Date of sale and Date of purchase is mandatory if either of the field at B(1)(aiii) or B(1)(biib) is more than Zero
+- **A437** — In Schedule CG, SL. No. C3 Income chargeable under the head “CAPITAL GAINS” should be equal to the sum of "Sum of Capital Gain Incomes" and "Income from transfer
+- **A438** — of Virtual Digital Assets" In Schedule CG, SL. No. C2 Income from transfer of Virtual Digital Assets should be equal to Sl. No. B of Schedule VDA
+- **A439** — In Schedule CG, Table F Sl. No.7 the breakup of all the quarters should be equal to the value of 'Income under the head Capital Gain' of schedule SI
+- **A440** — In Schedule CG, Table F Sl. No. 7 the breakup of all the quarters should be equal to the value at Sl. No. C2
+- **A441** — If Total Cost of improvement with Indexation is filled, its mandatory to provide Cost of Improvement, Cost of Improvement with Indexation and Year of Improvement. Also, Total Cost of Improvement with Indexation should match with sum of its individual
+- **A442** — values. In Schedule CG, Table D, Sl. No. 1aiv,1civ and 1div is more than zero but details of iva, ivb and ivc are blank
+- **A443** — In Schedule CG, STCG @ 20% - 111A & 115AD(1)(b)(ii) can only be entered once.
+- **A444** — In Schedule CG, the beneficial rate of LTCG on sale of land or building or both is applicable only if the acquisition is before 23 July 2024
+- **A445** — In Schedule CG, Indexation should not be allowed in case of Non Residents.
+- **A446** — In Schedule CG, for residents, tax on LTCG from sale of land or building or both should be 20% in case of transfer is before 23 July and 12.5% in case of transfer on or after 23
+- **A447** — July 2024 Value at field Ei2 should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A) @20%)
+- **A448** — Value at field Eii should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A)@20%)
+- **A449** — Value at field Ei6 should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A)
+- **A450** — Value at field Evi should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A) 27
+- **A451** — In Schedule CG, Table F Sl.No. 1 the breakup of all the quarters should be equal to the value from item 5vi of schedule BFLA
+- **A452** — In Schedule CG, Table F Sl.No. 5 the breakup of all the quarters should be equal to the value from item 5x of schedule BFLA
+- **A453** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 20%.
+- **A454** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 30%.
+- **A455** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG Applicable rates%.
+- **A456** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG dtaa rates.
+- **A457** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 12.5%.
+- **A458** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG DTAA Rates.
+- **A459** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL20%.
+- **A460** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL30%.
+- **A461** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL Applicable rate%.
+- **A462** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL_DTAA Rates
+- **A463** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 12.5%
+- **A464** — In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL _DTAA Rates
+- **A465** — In Table E of Schedule CG, Column 8 of each row should be equal to 1- (2+3+4+5+6+7)
+- **A466** — Sum of capital gains from all properties should be correctly reflected at B1g
+- **A467** — In schedule CG, Sl. No. B1ea of LTCG Balance should be equal to B1(ca - d)
+- **A468** — Sl. No. B1b(iva) of LTCG of Schedule CG should be equal to B1(biia + Ʃbiib(c) + biii).
+- **A469** — In schedule CG, Sl. No. B1(ca) of LTCG Balance should be equal to B1(aiii-biva)
+- **A470** — In schedule CG, Sl. No. B1h of LTCG (ƩB1eii)" should be equal to sum of B1e(ii) of all blocks 28
+- **A471** — In schedule CG, in Table D, section 54EC of LTCG, amount invested should not be more than 50L
+- **A472** — In schedule CG, Sl. No. B1d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B1di to B1dvii for all assets
+- **A473** — In Schedule CG, Table E, entire loss should be set off with gains available for set off.
+- **A474** — In schedule CG, Sl. No. B2d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B2di and B2dii
+- **A475** — In schedule CG, Sl. No. B9d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B9di to B9div
+- **A476** — In schedule CG, Sl. No. A1d of STCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. A1di to A1diii
+- **A477** — In schedule CG, Sl. No. A6f of STCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. A6fii and A6fiii
+- **A478** — Sum of Improve cost in each L&B block should be equal to sum of all improve costs for such block of land and building in schedule CG under Long term capital gain
+- **A479** — Sum of Indexed Improve cost in each L&B block should be equal to sum of all Indexed improve costs for such block of land and building in schedule CG under Long term capital
+- **A480** — gain Deduction claimed under section 54F in Table D cannot be more than 10cr
+- **A481** — In schedule CG, Sl. No. B4i biv of LTCG should be equal to sum of B4i(bi+bii+biii)
+- **A482** — In Schedule CG, Sl. No. B12 Col. 10 Applicable Rate is not equal to lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate as per IT Act)
+- **A483** — In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of financial year
+- **A484** — Deduction under section 115F shall be allowed only if the investment in the new specified asset or savings certificate is made within 6 months after the date of transfer of the original
+- **A485** — foreign exchange asset. In Schedule 112A, Col. 6 Total Sale Value should be equal to Col. 4*Col. 5
+- **A486** — In Schedule 112A, Col. 7 Cost of acquisition without indexation should be higher of Col. 8 and Col. 9
+- **A487** — In Schedule 112A, Col. 9 If the long term capital asset was acquired before 01.02.2018 should be lower of Col. 6 and Col. 11
+- **A488** — In Schedule 112A, Col. 11 Total Fair Market Value of capital asset as per section 55(2)(ac) should be equal to Col. 4*Col. 10
+- **A489** — In Schedule 112A, Col. 13 Total deductions should be equal to sum of Col. (7+12)
+- **A490** — In Schedule 112A, Col. 14 Balance should be equal to the output of Col. 6-Col. 13 29
+- **A491** — In Schedule 112A, Total of Col 6, 7, 8, 9, 11, 12, 13 and 14 should be equal to the sum of individual amounts entered in respective column
+- **A492** — In schedule 112A, Value at Column no. 4,5,10 & 11 cannot be greater than zero in case drop down is selected as "After 31st January 2018" to question whether shares are
+- **A493** — acquired on or before 31.01.2018 or after 31.01.2018? In Schedule 115AD(1)(iii) proviso, Col. 6 Total Sale Value should be equal to Col. 4*Col. 5
+- **A494** — In Schedule 115AD(1)(iii) proviso, Col. 7 Cost of acquisition without indexation should be higher of Col. 8 and Col. 9
+- **A495** — In Schedule 115AD(1)(iii) proviso, Col. 9 If the long term capital asset was acquired before 01.02.2018 should be lower of Col. 6 and Col. 11
+- **A496** — In Schedule 115AD(1)(iii) proviso, Col. 11 Total Fair Market Value of capital asset as per section 55(2)(ac) should be equal to Col. 4*Col. 10
+- **A497** — In Schedule 115AD(1)(iii) proviso, Col. 13 Total deductions should be equal to sum of Col. (7+12)
+- **A498** — In Schedule 115AD(1)(iii) proviso, Col. 14 Balance should be equal to the output of Col. 6-Col. 13
+- **A499** — In Schedule 115AD(1)(iii) proviso, Total of Col 6, 7, 8, 9, 11, 12, 13 and 14 should be equal to the sum of individual amounts entered in respective column
+- **A500** — In schedule 115AD(1)(b)(iii), Value at Column no. 4,5,10 & 11 cannot be greater than zero in case drop down is selected as "After 31st January 2018" to question whether shares
+- **A501** — are acquired on or before 31.01.2018 or after 31.01.2018? In Schedule VDA, value at Sl. No. 7 should be equal to Sl. No. 6 - Sl. No. 5
+- **A502** — In Schedule VDA, value at Sl. No. A 'Total (Sum of all Positive Incomes of Business Income in Col. 7) should be equal to sum of col. 7 if head of income is selected as Business
+- **A503** — income in col. 4 In Schedule VDA, value at Sl. No. B 'Total (Sum of all Positive Incomes of Capital Gain in Col. 7) should be equal to sum of col. 7 if head of income is selected as Capital Gain in
+- **A504** — col. 4 In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year
+- **A505** — Non-resident is not eligible to disclose Income from Patent u/s 115BBF
+- **A506** — In Schedule OS, Sl.No. 1 "Gross amount chargeable to tax at normal applicable rates" should be equal to the sum of Sl.No. (1a+1b+1c+1d+1e)
+- **A507** — In Schedule OS, Sl.No. 3c "Deduction u/s 57" should be equal to the sum of Sl.No. (3a(i)+3a(ii)+3b+3ci)
+- **A508** — In Schedule OS, Sl.No. 3b "Depreciation" can be claimed only if income is offered at Sl.No. 1c "Rental income from machinery, plants, building, etc., Gross" 30
+- **A509** — In Schedule OS, Sl.No. 7 "Income from other sources (other than from owning race horses)" should be equal to sum of Sl.No. 2+6
+- **A510** — In Schedule OS, Sl.No. 8e "Balance" should be equal to sum of Sl.No. (8a-8b+8c+8d)
+- **A511** — In Schedule OS, Sl.No. 9 "Income under the head Income from Other Sources" should be equal to sum of Sl.No. (7 +8e)
+- **A512** — In Schedule OS, Sl.No. 2e "Pass through income in the nature of income from other sources chargeable at special rates" should be equal to sum of all the drop downs
+- **A513** — In Schedule OS, Sl.No. 1d "Income of the nature referred to in section 56(2)(x) which is chargeable to tax" should be equal to sum of Sl.No. (1di+1dii+1diii+1div+1dv)
+- **A514** — In Schedule OS, Column 3 of table 2f, the sum of all the dropdown value of Col 2 Amount of income of 1a should not exceed the field 1ai "Dividend income [other than (ii)]"
+- **A515** — In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1b should not exceed the field 1b "Interest, Gross"
+- **A516** — In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 1c should not exceed the field 1c "Rental income from machinery, plants,
+- **A517** — buildings, etc., Gross" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of income of 1d should not exceed the field 1d "Income of the nature referred to in section
+- **A518** — 56(2)(x) which is chargeable to tax " In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2a should not exceed the field 2a(i) "Winnings from lotteries, crossword
+- **A519** — puzzles etc. chargeable u/s 115BB" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2d should not exceed the field 2d "Any other income chargeable at special rate"
+- **A520** — In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2e should not exceed the field 2e "Pass through income in the nature of income
+- **A521** — from other sources chargeable at special rates" In Schedule OS, Sl.no 6 Net Income from other sources chargeable at normal applicable rates should be equal to sum of Sl.No. (1(after reducing income related to DTAA portion)- 3 + 4 + 5-5a) Note: If status in Part A general is Non-resident, DTAA income shall be considered
+- **A522** — provided TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In schedule OS, Sl.No. 2f , column 10 is should be lower of column 6 and column 9. Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. 31
+- **A523** — In Schedule OS, Sl.No. 2 "Income chargeable to tax at special rate should be equal to the sum of Sl.No. (2ai+2aii+2b+2c+2d+2e +2f elements related to Sl. No. 1) Note: If status in Part A general is Non-resident, DTAA income shall be considered
+- **A524** — provided TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule OS, Deduction u/s 57iia shall be allowed only if income is offered in Family Pension in Sl. No. 1(e)
+- **A525** — In Schedule OS, Sl. No. 1b should be equal to sum of (bi+bii+biii+biv+bv +bvi+bvii+ bviii+bix)
+- **A526** — In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to Sl. No. 1a (Dividend other than 2(22)(e) - DTAA Dividend other than 2(22)(e) - System calculated value Interest expenditure u/s 57 attributable to Dividend other than 2(22)(e)] of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is "Yes".
+- **A527** — If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. (Please refer the instructions for computation of Interest expenditure u/s 57 attributable to Dividend other than 2(22)(e)) In Schedule OS, Sl. No. 10 the quarterly break up of Income by way of winnings from lotteries, crossword puzzles, races, games, gambling, betting etc. referred to in section 2(24)(ix) should be equal to Sl. No. 2a(i) Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB Note: If status in Part A general is Non-resident, DTAA income shall be considered
+- **A528** — provided TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. If resident has not exercised option under 115H then ax benefits against the sections mentioned therein will not be allowed in Schedule OS
+- **A529** — In Schedule OS, Interest expenditure on dividend u/s 57(1) should not be more than 20% of Dividend income.
+- **A530** — In Schedule OS, Expenses / deductions (in case of other than family pension), shall be allowed only if income is offered in Sl.No. 1b, 1c, 1d and 1e (except Family pension).
+- **A531** — Deduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000 incase of Old Tax regime.
+- **A532** — Note : Rounding off +1 and -1 . In Schedule OS, Depreciation, shall be allowed only if income is offered in Sl.No. 1c.
+- **A533** — In Schedule OS, value at Sl.No. 1a should be equal to 1ai + 1aii + 1aiii. 32
+- **A534** — In Schedule OS, Sl. No. 10 the quarterly break up of Dividend income taxable at DTAA rates should be equal to Dividend income selected at Sl.No. 2f of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is "Yes".
+- **A535** — If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115A(1)(a)(i) @ 20% (Including PTI Income) other than first proviso to section 115A(1)(a)(A) should
+- **A536** — be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 Dividend Income u/s 115AC @ 10% should be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS
+- **A537** — In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115ACA (1)(a) @ 10% (Including PTI Income) should be equal to Dividend income selected at Sl.No.
+- **A538** — 2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income (other than units referred to in section 115AB) u/s 115AD(1)(i) @ 20% (Including PTI Income) should be
+- **A539** — equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS Income claimed for relief from taxation u/s 89A at Sl.No. 5a of Schedule OS cannot be allowed more than income offered from retirement benefit account maintained in a
+- **A540** — notified country u/s 89A at Sl.No. 1e of Schedule OS. Quarterly breakup of "Income from retirement benefit account maintained in a notified country u/s 89A" must be equal to amount entered in "Income from retirement benefit account maintained in a notified country u/s 89A " - "Income claimed for relief from
+- **A541** — taxation u/s 89A" In Schedule OS, Sl no 5a. Income claimed for relief from taxation u/s 89A, shall be allowed only if income is offered at Income from retirement benefit account maintained
+- **A542** — in a notified country u/s 89A at Sl.No. 1e of Schedule OS In Schedule Income from Other sources, one country cannot be selected more than one time at "Income from retirement benefit account maintained in a notified country u/s 89A
+- **A543** — ". In Schedule OS, Sl. No 3ai Expenses / deductions other than “aii” (in case of other than family pension) should not be allowed if income is not offered in Sl No 1(b) Interest / Sl No 1(c) Rental Income from Machinery, Plants, Buildings, etc., / Sl No 1(d) Income of
+- **A544** — the nature referred to in section 56(2)(x) which is chargeable to tax / Sl No 1(e) Any Other Income Other than Family Pension and 89A Income. In Schedule OS - column 3 of table 2f, the sum of dropdown value of 2a should not exceed the field 2a "Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB"
+- **A545** — In Schedule OS, Sl. No. 10 the quarterly break up of "Income by way of winnings from online games u/s 115BBJ" should be equal to Sl. No. 2a(ii) -Income by way of winnings from online games u/s 115BBJ- DTAA 115BBJ respectively 33
+- **A546** — In Schedule OS, Sl. No. 10 the quarterly break up of "Dividend Income under proviso to section 115A(1)(a)(A) @ 10% (Including PTI Income) should be equal to dividend
+- **A547** — income selected at Sl. No. 2d and Sl No 2e in Schedule OS In Schedule OS, quarterly break up of Dividend Income at 3b should be equal to "Dividend Income referred in Sl. No. 1a(iii) - DTAA of Dividend" in Schedule OS
+- **A548** — Under New Tax Regime, deduction u/s 57 for family pension should not exceed INR 25,000 or 1/3 of the family pension, whichever is lower
+- **A549** — Kindly fill in the details of dividend income u/s 2(22)(f) in Sl.No. 1a(iii) or as per Section 115A, 115AB, 115AC or 115ACA (i, ia, x, xi or xix of sl. no. 2d or 2e) in of schedule OS
+- **A550** — if buy back loss is claimed in schedule CG Business & Profession loss claimed at Sl.No. 3i in Schedule CYLA should be equal to the amount at Sl.No. 2v of Table E in Schedule BP.
+- **A551** — In schedule CYLA, Sl.No. 2xvi cannot be more than Rs. 200000.
+- **A552** — In Schedule CYLA, HP Income should be equal to Sl.No. 3 of Schedule HP
+- **A553** — Other sources loss at Schedule CYLA should be equal to the amount mentioned in "Schedule OS".
+- **A554** — In Schedule CYLA, Sl.No. 2xvi "Total loss set off" should be equal to sum of (2ii + 2iv + 2v + 2vi + 2vii + 2viii + 2ix + 2x+2xi+2xii +2xiii+2xiv+2xv)
+- **A555** — In Schedule CYLA, Sl.No. 3xvi "Total loss set off" should be equal to sum of ( 3iii+ 3vii+ 3viii + 3ix + 3x+3xi+3xii +3xiii+3xiv+3xv)
+- **A556** — In Schedule CYLA, Sl.No. 4xvi "Total loss set off" should be equal to sum of ( 4ii+ 4iii+4iv++4v+4vi+4vii+ 4viii + 4ix + 4x+4xi+4xii+4xiii+4xv)
+- **A557** — In Schedule CYLA, Sl.No. 2xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 2i-2xvi
+- **A558** — In Schedule CYLA, Sl.No. 3xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 3i-3xvi
+- **A559** — In Schedule CYLA, Sl.No. 4xvii i.e. Loss remaining after set-off should be equal to the output of Sl.No. 4i-4xvi
+- **A560** — In Schedule CYLA, Col No.5 "Current year’s Income remaining after set off" should be equal to the output of Col No. 1-2-3-4
+- **A561** — In Schedule CYLA, Income from Business & profession (excluding Income from speculation income and income from specified business) should be equal to Sl.No. A37
+- **A562** — in Schedule BP In Schedule CYLA, Speculative Income should be equal to SL.No. 3ii of Table E Schedule BP
+- **A563** — In Schedule CYLA, Specified business Income should be equal to Sl.No. 3iii of Table E of Schedule BP 34
+- **A564** — In Schedule CYLA, Short term capital gain @30% should be equal to Sl.No. 8iii of item E of Schedule CG
+- **A565** — In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.No. 8iv of item E of Schedule CG
+- **A566** — In Schedule CYLA, Short term capital gain taxable at special rates in India as per DTAA should be equal to Sl.No. 8v of item E of Schedule CG
+- **A567** — In Schedule CYLA, Long term capital gain taxable as per DTAA @special rate should be equal to Sl.No. 8vii of item E of Schedule CG
+- **A568** — In Schedule CYLA, Other Source Income(excluding profit from owning race horses and amount chargeable to special rate of tax) should be equal to Sl.No. 6 of Schedule OS
+- **A569** — In Schedule CYLA, Profit from owning and maintaining race horses should be equal to Sl.No. 8e of Schedule OS
+- **A570** — In Schedule CYLA, Income from other sources taxable at special rates in India as per DTAA should be equal to Sl.No. 2f of Schedule OS
+- **A571** — In Schedule CYLA, Salary Income should be equal to Sl.No. 6 of Schedule Salary
+- **A572** — If "New Tax Regime" is selected, In schedule CYLA, loss under house property cannot be allowed to set off at Sl. No. 2ii to 2xii.
+- **A573** — If "New Tax Regime" is selected, In schedule CYLA, loss under head house property cannot be carry forwarded at Sl. No. 2xvii.
+- **A574** — In Schedule CYLA, 'Total loss set off' cannot be more than the 'Loss to be set off'
+- **A575** — In Schedule CYLA ,Row No (xvii) should be equal to (i - xvi) i.e. Loss to be adjusted - total loss set off (xvi) , for HP, BP and OS and cannot be negative.
+- **A576** — In Schedule CYLA, Normal OS loss should be set off first against the (i)Profit from the activity of owning and maintaining race horses & (ii)Income from other sources taxable
+- **A577** — at special rates in India as per DTAA In Schedule CYLA, whole House property loss can be setoff against any head of income in case income is more than loss
+- **A578** — In Schedule CYLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1
+- **A579** — In Schedule CYLA, house property losses cannot be adjusted against any income in case new tax regime is opted by taxpayer
+- **A580** — In Schedule CYLA, whole business loss can be setoff against any head of income in case income is more than loss
+- **A581** — In Schedule CYLA, whole OS loss can be setoff against any head of income in case income is more than loss
+- **A582** — In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. 8ii of item E of Schedule CG 35
+- **A583** — In Schedule CYLA, Long term capital gain taxable @12.5% should be equal to Sl.No. 8vi of item E of Schedule CG
+- **A584** — In Schedule BFLA, Sl.No. 2(ii) should be equal to Sl.No. 4(xviii) of CFL
+- **A585** — In Schedule BFLA, Sl.No. 2(iii+iv+v) should be equal to Sl.No. 5c(xviii)+6(xviii)+7(xviii) of Schedule CFL
+- **A586** — In Schedule BFLA, Sl.No. 2(vi +vii+viii+ix+x +xi) should be equal to Sl.No. 8(xviii)+9(xviii) of CFL
+- **A587** — In Schedule BFLA, Sl.No. 2xv should be equal to sum of Sl.No.(2ii + 2iii + 2iv + 2v + 2vi+ 2vii +2viii + 2ix + 2x + 2xi + 2xiii)
+- **A588** — In Schedule BFLA, Sl.No. xvi should be equal to sum of Sl.No. (5i + 5ii + 5iii + 5iv+ 5v + 5vi+ 5vii + 5viii + 5ix + 5x + 5xi +5xii + 5xiii+ 5xiv)
+- **A589** — In Schedule BFLA, Sl.No. 3xv should be equal to sum of Sl.No. (3ii + 3iii + 3iv + 3v + 3vi+ 3vii +3viii + 3ix + 3x+ 3xi+3xii+3xiii+3xiv )
+- **A590** — In Schedule BFLA, Sl.No. 4xv should be equal to sum of Sl.No. (4ii + 4iii + 4iv + 4v + 4vi+ 4vii +4viii + 4ix + 4x+ 4xi+4xii+4xiii+4xiv)
+- **A591** — The value claimed as Brought forward allowance under section 35(4) set off in Schedule BFLA should be same as reflecting in Schedule UD
+- **A592** — The value claimed as Brought forward depreciation set off in Schedule BFLA should be same as reflecting in Schedule UD
+- **A593** — In Schedule BFLA, Sl.No. 1i should be equal to Sl.No. 5ii of schedule CYLA
+- **A594** — In Schedule BFLA, Sl.No. 1ii should be equal to Sl.No. 5iii of schedule CYLA
+- **A595** — In Schedule BFLA, Sl.No. 1iii should be equal to Sl.No. 5iv of schedule CYLA
+- **A596** — In Schedule BFLA, Sl.No. 1iv should be equal to Sl.No. 5v of schedule CYLA
+- **A597** — In Schedule BFLA, Sl.No. 1v should be equal to Sl.No. 5vi of schedule CYLA
+- **A598** — In Schedule BFLA, Sl.No. 1vii should be equal to Sl.No. 5viii of schedule CYLA
+- **A599** — In Schedule BFLA, Sl.No. 1viii should be equal to Sl.No. 5ix of schedule CYLA
+- **A600** — In Schedule BFLA, Sl.No. 1ix should be equal to Sl.No. 5x of schedule CYLA
+- **A601** — In Schedule BFLA, Sl.No. 1xi should be equal to Sl.No. 5xii of schedule CYLA
+- **A602** — In Schedule BFLA, Sl.No. 1xii should be equal to Sl.No. 5xiii of schedule CYLA
+- **A603** — In Schedule BFLA, Sl.No. 1xiii should be equal to Sl.No. 5xiv of schedule CYLA
+- **A604** — In Schedule BFLA, Sl.No. 1xiv should be equal to Sl.No. 5xv of schedule CYLA
+- **A605** — In Schedule BFLA, Sl.No. 2xiii should be equal to Sl.No. 10(xviii ) of CFL
+- **A606** — The amount of adjustment mentioned in CFL is not equal to amount of adjustment in BFLA. 36
+- **A607** — In Schedule BFLA, brought forward business loss as per Sl.No. 2(iii) and brought forward depreciation as per Sl. No. 3(iii) cannot be set off against the 44BB & 44BBD income
+- **A608** — In Schedule BFLA sum of column no 2 + 3 + 4 should not exceed amount as referred in column 1
+- **A609** — In Schedule BFLA, Col No. 5 "Current year’s Income remaining after set off" should be equal to the output of Col No. 1-2-3-4
+- **A610** — In Schedule BFLA, amount mentioned at Sl.No.5 should not exceed the amount mentioned at Sl.No.1
+- **A611** — Schedule BFLA, amount mentioned at Sl. No. 2(xvi) should not exceed the sum of amount mentioned at Sl no. 4xviii+5cxviii+6xviii+7xviii+8xviii +9xviii+10xviii+11xviii of CFL
+- **A612** — In Schedule BFLA, Sl.No. 1vi should be equal to Sl.No. 5vii of schedule CYLA
+- **A613** — In Schedule BFLA, Sl.No. 1x should be equal to Sl.No. 5xi of schedule CYLA
+- **A614** — In Schedule BFLA, Sl.No. 1vi should be equal to Sl.No. 5vii of schedule CYLA
+- **A615** — Short Term Capital Loss at Schedule CFL" should be equal to sum of "Short Term Capital Losses remaining after set off" at table E of Schedule CG.
+- **A616** — Long Term Capital Loss at Schedule CFL should be equal to sum of "Long Term Capital Losses remaining after set off" at table E of Schedule CG.
+- **A617** — House Property Loss at Schedule CFL should be equal to the amount at "House Property Loss remaining after set-off at Schedule CYLA".
+- **A618** — Business & Profession Loss (other than loss from speculative business and specified business ) at Schedule CFL should be equal to the amount at "Business & Profession Loss
+- **A619** — remaining after set-off at Schedule CYLA" Other sources loss at Schedule CFL should be equal to the amount at "Other Sources Loss remaining after set-off at Schedule CYLA".
+- **A620** — If "New Tax Regime" is not selected and in schedule CFL, Sl. No. 5b Amount as adjusted on account of opting for taxation u/s 115BAC should not be more than zero
+- **A621** — In Schedule CFL, SL. No. 5c should be equal to 5a - 5b
+- **A622** — Total of brought forward losses should be equal to amount provided in individual AYs
+- **A623** — In Schedule CFL, value at sl.no.xx should be equal to xvii-xviii+xix. If result is negative, restrict to "0"
+- **A624** — If "New Tax Regime" is not selected and In schedule UD, Sl. No. 3a Amount as adjusted on account of opting for taxation u/s 115BAC should not be more than zero
+- **A625** — In Schedule UD, value at Sl.No. 4 cannot be more than Sl.No. 3- Sl.No.3a in any of the row
+- **A626** — In Schedule UD, value at Sl.No.5 should be equal to Sl.No. 3- 3a - 4
+- **A627** — In Schedule UD, value at sl.no.8 should be equal to sl.no. 6 - Sl. No. 7 37
+- **A628** — In Schedule UD, sum of individual row should match with value at total fields for all columns i.e. column 3 to 8
+- **A629** — In Schedule UD, value at Sl. No. 5 for current assessment year should not exceed the value mentioned at Sl. No. 12iii of Schedule BP
+- **A630** — In Schedule ICDS, Sl.No. XI should be equal to the sum of (I+II+III+IV+V+VI+VII+VIII+IX+X)
+- **A631** — In Schedule ICDS, Sl.No. 5 - "Net Effect" should be equal to Sl.No. 3 (Increase in profit) Less Sl.No. 4 (Decrease in profit).
+- **A632** — In Schedule 10AA, value at field "Total deduction under section 10AA" should be equal to sum of column "Amount of deduction"
+- **A633** — Schedule 10AA should be blank if "New Tax Regime" is selected
+- **A634** — In Schedule 80G, amount of deduction computed should not be more than the eligible amount
+- **A635** — Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. A against one donee PAN.
+- **A636** — Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. B against one donee PAN.
+- **A637** — Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. C against one donee PAN.
+- **A638** — Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/- at Sl.No. D against one donee PAN.
+- **A639** — in Schedule 80G, Total Donation at point A should be equal to the sum of Donation in Cash and Donation in other mode
+- **A640** — in Schedule 80G, Total Donation at point B should be equal to the sum of Donation in Cash and Donation in other mode
+- **A641** — in Schedule 80G, Total Donation at point C should be equal to the sum of Donation in Cash and Donation in other mode
+- **A642** — in Schedule 80G, Total Donation at point D should be equal to the sum of Donation in Cash and Donation in other mode
+- **A643** — In Sch 80G, Total Donation at point E should be equal to the sum of (Aix+Bix+Cix+Dx)
+- **A644** — If deduction u/s 80G is claimed in Sch VIA then details should be provided in Schedule 80G
+- **A645** — In schedule 80G, If PAN is already entered in anyone of the set of blocks (i.e. 100%, 50%,with Qualifying limit, without Qualifying limit) then same PAN cannot be entered in
+- **A646** — any other block Schedule 80G should be blank if "New Tax Regime" is selected 38
+- **A647** — Transaction Reference number for UPI transfer / Cheque number/ IMPS/ NEFT/ RTGS reference number and/ or IFSC code of Bank should be filled for all entries of
+- **A648** — "contribution in other mode" in Schedule 80G PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G
+- **A649** — In Schedule 80GGA, Details of donation for scientific research are rural development "Total Donation" should be equal to sum of "Donation in cash" AND "Donation in other
+- **A650** — mode" in Schedule 80GGA, Total Donation should be equal to the sum of (i+ii)
+- **A651** — If "Old Tax Regime" is selected In Schedule VIA, if deduction u/s 80GGA is claimed then Schedule 80GGA must be filled
+- **A652** — Schedule 80GGA should be blank if "New Tax Regime" is selected
+- **A653** — In Sch 80GGA, Eligible Amount donated in cash should not exceed Rs. 2000
+- **A654** — Deduction u/s 80GGA can be allowed to a person who is a partner of firm and deriving only profit from the firm
+- **A655** — In Sch 80GGA Donee PAN is same as "Assessee PAN" or "PAN at Verification"
+- **A656** — In Schedule 80GGC, Sl. No. A "Contribution in cash" is not equal to sum of column iii
+- **A657** — In Schedule 80GGC, Sl. No. B "Contribution in other mode" is not equal to sum of column iv
+- **A658** — In Schedule 80GGC, Sl. No. C "Total Contribution" is not equal to sum of column v
+- **A659** — If Gross Total Income in Part B TI is negative, Sl. No. D "Eligible amount of Donation" can not be more than 0
+- **A660** — If deduction under section 80GGC claimed in sl. No (a) of Sch VI A then its mandatory to fill details in Schedule 80GGC
+- **A661** — In Part A General, "If New tax regime is selected " then Schedule 80GGC is not required to be filled.
+- **A662** — In Schedule 80GGC, if Sl. No. iii is greater than '0', then Sl. No. iv to viii are not required to be filled
+- **A663** — In Schedule 80GGC, Sl. No. D "Total Eligible Amount of Contribution" is not equal to total of column vi
+- **A664** — In Sch 80GGC, Total Contribution should be equal to the sum of (i+ii)
+- **A665** — In schedule 80GGC, If "Donation in other mode" is > 0, then details of such donation are required
+- **A666** — In Schedule 80GGC, Amount of deduction computed cannot be more than the eligible amount. Hence deduction u/s 80GGC is restricted to eligible amount of donation in schedule 80GGC 39
+- **A667** — In Schedule 80GGC, Sl. No. D "Eligible Amount of contribution" should be equal to sum of individual amounts restricted to GTI
+- **A668** — Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2025 to 31.03.2026 for AY 2026-27
+- **A669** — Name and PAN of the political party is necessary to claim deduction u/s 80GGC
+- **A670** — Amount that can be claimed for category "Dependent with disability" u/s 80DD should be equal to 75,000 in schedule 80DD. It cannot be either more or less.
+- **A671** — Deduction is available only if "Old Tax Regime" is selected In Schedule VI-A, Amount claimed for category "Dependent with severe disability" u/s 80DD should be equal to Rs. 1,25,000. It cannot be either more or less.
+- **A672** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80DD Value of SL.No ii is not equal to SL.no g of VIA under Part B- Deduction in respect of certain payments
+- **A673** — In Schedule 80DD SL. No i to iii and either from iv or v are mandatory if any one or multiple rows of SL. No i to viii is filled
+- **A674** — In schedule 80DD, If deduction is > 0, then details of such donation are required
+- **A675** — HUF can claim deductions u/s 80DD for dependent being "Member of HUF"
+- **A676** — Amount claimed for category "Self with disability" u/s 80U should be equal to Rs. 75,000. It cannot be either more or less.
+- **A677** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80DD, If Assessee is claiming deduction under section 80U, providing Nature of disability is mandatory
+- **A678** — In Schedule VIA, deduction that can be claimed for category "Self with severe disability" in schedule 80U should be equal to Rs. 1,25,000. It cannot be either more or less.
+- **A679** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80U Value of SL.no ii is not equal to SL.no iii of VIA under Part CA and D- Deduction in respect of other incomes/other deduction
+- **A680** — In Schedule 80U SL. No i and ii are mandatory if any one or multiple rows of SL. No i to iv are filled
+- **A681** — In schedule 80U, If deduction is > 0, then details of such donation are required
+- **A682** — Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively.
+- **A683** — In Schedule RA, Total donation should be equal to Donation in cash + Donation in other mode
+- **A684** — In Schedule RA, Total of column Donation in cash should be equal to the sum of individual value of donation in cash 40
+- **A685** — In Schedule RA, Total of column Donation in other mode should be equal to the sum of individual value of donation in other mode
+- **A686** — In Schedule RA, Total donation should be equal to sum of individual value of total donation
+- **A687** — Schedule RA should be blank if "New Tax Regime" is selected
+- **A688** — Schedule 80-IA/IB/IE should be blank if "New Tax Regime" is selected
+- **A689** — In "Schedule 80-IA" Total deductions under section 80-IA should be equal to the sum of individual values
+- **A690** — Deduction claimed u/s 80-IB in "Schedule VI-A" cannot be more than the amount in "Schedule 80-IB"
+- **A691** — In "Schedule 80-IB", Total deduction under section 80-IB should be equal to the value entered in (Total of a to d)
+- **A692** — In "Schedule 80IE" (ai)- Total of deduction for undertakings located in North-east should be equal to the sum of (Total of (a) to (h))
+- **A693** — Details such as Amount eligible for deduction u/s 80C, Policy number or Document Identification number are required to provide in schedule 80C to claim deduction
+- **A694** — Deduction u/s 80C claimed under chapter VIA should be same as the "Total Deduction u/s 80C"
+- **A695** — In schedule 80C the sum of individual rows for "Amount eligible for deduction u/s 80C" shall match with the "Total Deduction u/s 80C" as per the schedule 80C
+- **A696** — Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule, 80EEB
+- **A697** — schedule or Table 10(13A) In Schedule 80D, Deduction at Sl. No. 1a Self and Family will be allowed to the extent of 25000.
+- **A698** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii)
+- **A699** — Deduction of Preventive Health Check up under section 80D for Self and Family and/or Parents cannot be greater than 5000.
+- **A700** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80D, Deduction at Sl. No. 1b Self and Family (Senior Citizen) will be allowed to the extent of 50000.
+- **A701** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii)
+- **A702** — In Schedule 80D, Deduction at Sl. No. 2a Parents will be allowed to the extent of 25000. Deduction is available only if "Old Tax Regime" is selected
+- **A703** — In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii) 41
+- **A704** — In Schedule 80D, Deduction at Sl. No. 2b Parents (Senior Citizen) will be allowed to the extent of 50000.
+- **A705** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii)
+- **A706** — In Schedule 80D, Sl. No. 3 Eligible amount of deduction will be allowed to the extent of 100000.
+- **A707** — Deduction is available only if "Old Tax Regime" is selected In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b)
+- **A708** — If deduction u/s 80D is claimed in Sch VIA then details should be provided in Schedule 80D
+- **A709** — In Schedule VI-A, 80D claimed should be equal to Eligible amount of deduction of Schedule 80D subject to GTI
+- **A710** — Schedule 80D should be blank if "New Tax Regime" is selected
+- **A711** — In Schedule 80D, Deduction at sl.no.1a "Self and Family" can be claimed only if dropdown at sl.no.1 is selected as "No"
+- **A712** — In Schedule 80D, Deduction at sl.no.1b "Self & Family including Senior Citizen" can be claimed only if dropdown at sl.no.1 is selected as "Yes"
+- **A713** — In Schedule 80D, Deduction at sl.no.2a "Parents" can be claimed only if dropdown at sl.no.2 is selected as "No"
+- **A714** — In Schedule 80D, Deduction at sl.no.2b "Parents including Senior Citizen" can be claimed only if dropdown at sl.no.2 is selected as "Yes"
+- **A715** — In Schedule 80D, deduction can't be claimed in sl.no.1a and 1b if dropdown is selected as "Not claiming for Self /Family"
+- **A716** — In Schedule 80D, deduction can't be claimed in sl.no.2a and 2b if dropdown is selected as "Not claiming for Parents"
+- **A717** — HUF is not eligible for claiming deduction at sl.no.2 of Schedule 80D
+- **A718** — In schedule 80D, questions at sl.no.1 and sl.no.2 are to be selected (as applicable), to claim deduction
+- **A719** — In schedule 80D, breakup of individual rows for "Health Insurance amount" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A720** — sl.no.1a In schedule 80D, breakup of individual rows for "Health Insurance amount" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A721** — sl.no.1b In schedule 80D, breakup of individual rows for "Health Insurance amount" shall match with the Health insurance premium entered by the user under "Health insurance" at sl.no.2a 42
+- **A722** — In schedule 80D, breakup of individual rows for "Health Insurance amount" shall match with the Health insurance premium entered by the user under "Health insurance" at
+- **A723** — sl.no.2b Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)
+- **A724** — Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1b (i)
+- **A725** — Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2a (i)
+- **A726** — Name of the Insurer and Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2b (i)
+- **A727** — Details of loan needs to be provided for claiming deduction u/s 80E in schedule 80E
+- **A728** — Deduction u/s 80E in schedule VIA should match with the "Total Interest u/s 80E" as per schedule 80E
+- **A729** — In schedule 80E the sum of individual rows for "Interest u/s 80E" shall match with the "Total Interest u/s 80E" as per the schedule 80E
+- **A730** — Assessee having status as HUF is not eligible to fill any schedule out of 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule or Table 10(13A) for claiming
+- **A731** — respective deduction Details of loan needs to be provided for claiming deduction u/s 80EE in schedule 80EE
+- **A732** — Deduction u/s 80EE can be claimed only if maximum loan taken does not exceed Rs. 35 lakhs against the property
+- **A733** — Deduction u/s 80EE in schedule VIA should match with the "Total Interest u/s 80EE" as per schedule 80EE
+- **A734** — In schedule 80EE the sum of individual rows for "Interest u/s 80EE" shall match with the "Total Interest u/s 80EE" as per the schedule 80EE
+- **A735** — The Date of sanction of loan In schedule 80EE shall be between 1.4.16 and 31.3.17
+- **A736** — "Details of Bank from which loan is taken" needs to be provided for claiming deduction u/s 80EEA in schedule 80EEA
+- **A737** — Deduction u/s 80EEA can be claimed only on the residential house property having stamp value upto Rs.45 Lakhs
+- **A738** — The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22
+- **A739** — Deduction u/s 80EEA in schedule VIA should match with the "Total Interest u/s 80EEA" as per schedule 80EEA
+- **A740** — In schedule 80EEA the sum of individual rows for "Interest u/s 80EEA" shall match with the "Total Interest u/s 80EEA" as per the schedule 80EEA 43
+- **A741** — Details of loan needs to be provided for claiming deduction u/s 80EEB in schedule 80EEB
+- **A742** — The Date of sanction of loan under schedule 80EEB shall be between 1.4.19 and 31.3.23
+- **A743** — Deduction u/s 80EEB in schedule VIA should match with the "Total Interest u/s 80EEB" as per schedule 80EEB
+- **A744** — In schedule 80EEB the sum of individual rows for "Interest u/s 80EEB" shall match with the "Total Interest u/s 80EEB" as per the schedule 80EEB
+- **A745** — Amount of deduction claimed u/s 80-IA in schedule VIA cannot be more than the total amount at Schedule 80IA
+- **A746** — If Deduction u/s 80-IA claimed in "Schedule VI-A" then "Schedule 80-IA" is to be filled.
+- **A747** — Deduction is available only if option Old tax regime is selected In schedule VI-A, if deduction u/s 80-IB is claimed, then schedule 80-IB should be filled.
+- **A748** — Deduction is available only if option "Old Tax Regime" is selected Deduction u/s 80-IE claimed in "Schedule VI-A" cannot be more than the amount in Total of "Schedule 80-IE"
+- **A749** — If deduction u/s 80IE is claimed in schedule VI-A then "Schedule 80-IE" should be filled.
+- **A750** — Deduction is available only if option "Old Tax Regime" is selected Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than 1,50,000.
+- **A751** — Deduction is available only if option "Old Tax Regime" is selected If employer category is Pensioners - CG," "Pensioner - SG," Pensioner - PSU, "Pensioner - Other, then Deduction u/s 80CCD(1) should not be more than 20% of Gross total Income.
+- **A752** — Deduction is available only if "Old Tax Regime" is selected Assessee not being an individual cannot claim deduction u/s 80CCD(1)
+- **A753** — Assessee not being an individual cannot claim deduction u/s 80CCD(1B)
+- **A754** — Deduction u/s 80CCD(2) should not be more than 10% of salary for employer category "Public Sector Undertaking" or "Others" in case of Old tax regime
+- **A755** — Deduction u/s 80CCD(2) cannot be claimed by HUF.
+- **A756** — If Assessee is claiming deduction under section 80DDB providing eligible category description is mandatory
+- **A757** — Deduction u/s 80E cannot be claimed by HUF.
+- **A758** — Deduction u/s 80EE cannot be claimed by HUF.
+- **A759** — If deduction u/s 80G claimed, details should be provided in Schedule 80G. Deduction is available only if "Old Tax Regime" is selected 44
+- **A760** — In Schedule VIA, deduction claimed u/s 80G should not be more than the eligible amount of donation mentioned in Schedule 80G
+- **A761** — Maximum amount u/s 80GG can be claimed lower of 25% of Adjusted gross total income or Rs. 60,000.
+- **A762** — Deduction is available only if "Old Tax Regime" is selected Deduction u/s 80TTA should be restricted to interest income from Savings Account under Income from other sources and 5xii of BFLA.
+- **A763** — Deduction u/s 80TTA cannot be claimed by a resident or not ordinarily resident Individual Senior Citizen/ super senior citizen.
+- **A764** — Deduction u/s 80TTB is allowed only to resident senior citizen and super senior citizen.
+- **A765** — Deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources and 5xii of BFLA.
+- **A766** — Deduction is available only if "New Tax Regime" is not selected Deduction u/s 80U cannot claimed by HUF
+- **A767** — In Schedule VI-A, The maximum limit allowable under section 80CCD(1B) is Rs. 50,000.
+- **A768** — Deduction is available only if "Old Tax Regime" is selected In Schedule VI-A, Deduction u/s 80DDB for self and dependent will be allowed to the maximum limit of Rs.40,000.
+- **A769** — Deduction is available only if "Old Tax Regime" is selected In Schedule VI-A, Deduction u/s 80DDB for senior citizen self and dependent will be allowed to the maximum limit of Rs.1,00,000.
+- **A770** — Deduction is available only if "Old Tax Regime" is selected In Schedule VI-A , assessee cannot claim deduction u/s 80EE more than Rs. 50,000. Deduction is available only if "Old Tax Regime" is selected
+- **A771** — The maximum deduction allowable under section 80TTA is Rs. 10,000. Deduction is available only if "Old Tax Regime" is selected
+- **A772** — The maximum deduction allowable under section 80TTB is Rs. 50,000. Deduction is available only if "New Tax Regime" is not selected
+- **A773** — In case of multiple employer category if all the employer category is other than pensioners then deduction u/s 80CCD(1) cannot be claimed more than 10% of Salary.
+- **A774** — Deduction is available only if "Old Tax Regime" is selected Deduction u/s 80EEA in respect of interest on loan taken for certain house property cannot be more than 150,000.
+- **A775** — Deduction is available only if "Old Tax Regime" is selected Deduction u/s 80EEA cannot be claimed if deduction under section 80EE is claimed.
+- **A776** — Deduction u/s 80EEB in respect of purchase of electric vehicle cannot be more than 150,000. Deduction is available only if "Old Tax Regime" is selected 45
+- **A777** — Deduction u/s 80CCD(2) cannot be claimed by taxpayer who has selected all employer category as "Pensioners - CG", "Pensioners - SG, "Pensioners - PSU", "Pensioners -
+- **A778** — others" Deduction u/s 80EEA cannot be claimed by HUF
+- **A779** — Deduction u/s 80EEB cannot be claimed by HUF
+- **A780** — In Schedule VI-A, deduction u/s 80DD is only allowed to Resident or Resident but not ordinary resident assessee.
+- **A781** — In Schedule VI-A, deduction u/s 80DDB is only allowed to Resident or Resident but not ordinary resident assessee.
+- **A782** — In Schedule VI-A, deduction u/s 80U is only allowed to Resident or Resident but not ordinary resident assessee.
+- **A783** — Deduction u/s 80CCD(2) cannot be claimed more than 14% of salary for Central Government employee and State Government employee or more than 10% of salary in case of employer category selected other than "Pensioners" and Central Government &
+- **A784** — State Government" in case of Old tax regime In Schedule VI-A, 80QQB is only allowed to Resident or Resident but not ordinary resident assessee.
+- **A785** — In Schedule VI-A, 80QQB is only allowed to Individual
+- **A786** — In Schedule VI-A, 80RRB is only allowed to Resident or Resident but not ordinary resident
+- **A787** — In Schedule VI-A, 80RRB is only allowed to Individual.
+- **A788** — In Schedule VIA, deduction u/s 80RRB plus 80QQB cannot be claimed more than the sum of Sl.No. 15 of Schedule P&L account and Sl.No. 1e of Schedule OS
+- **A789** — In Schedule VI A, total deductions shown should be equal to total of individual deductions claimed
+- **A790** — In schedule chapter VI-A, “Part B- Deduction in respect of certain payments” should be equal to individual deductions claimed.
+- **A791** — In schedule chapter VI-A, “Part CA and D- Deduction in respect of certain incomes/other Deductions”, should be equal to individual deductions claimed.
+- **A792** — If "New Tax Regime" is selected, then in Chapter VI-A, deduction u/s 80C, 80CCC, 80CCD(1) , 80CCD(1B), 80D, 80DD, 80DDB, 80E, 80EE, 80EEA, 80EEB, 80G, 80GG, 80GGA, 80GGC, 80IA, 80IAB, 80IB, 80IBA, 80IC/IE, 80JJA, 80QQB, 80RRB, 80TTA,
+- **A793** — 80TTB, 80U cannot be claimed In Schedule VIA Sl.No. 2 "Part C - Deduction in respect of certain incomes" should be equal to total of Sl.No. p to Sl.No. x
+- **A794** — In schedule chapter VI-A, “Part C- Deduction in respect of certain incomes”, break up of deduction claimed is/are not consistent with the amount claimed in Total Deduction under Part C 46
+- **A795** — Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on date of joining of armed forces
+- **A796** — Deduction u/s 80CCH in Schedule VIA to be limited to 60% of salary u/s 17(1) other than the contributions made by central government as referred u/s 80CCH in Sl. No 17.
+- **A797** — Maximum amount allowed Rs. 288,000. Under New Tax Regime, deduction u/s 80CCD(2) should not exceed 14% of basic salary and dearness allowance
+- **A798** — PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1) or 80CCD(1B)
+- **A799** — Details of Form 10BA is required to provide to claim deduction u/s 80GG
+- **A800** — Details of specified decease is required to be provided to claim deduction u/s 80DDB
+- **A801** — Acknowledgement Number of Form 10CCD should be provided in schedule VIA to claim deduction u/s 80QQB
+- **A802** — Acknowledgement Number of Form 10CCE should be provided in schedule VIA to claim deduction u/s 80RRB
+- **A803** — Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount
+- **A804** — Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount
+- **A805** — Eligible amount of deduction claimed u/s 80CCD(1) should not be more than user enterable amount
+- **A806** — Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount
+- **A807** — Eligible amount of deduction claimed u/s 80CCD(2) should not be more than user enterable amount
+- **A808** — Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount
+- **A809** — Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount
+- **A810** — Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount
+- **A811** — Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount
+- **A812** — Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount
+- **A813** — Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount 47
+- **A814** — Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount
+- **A815** — Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount
+- **A816** — Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount
+- **A817** — Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount
+- **A818** — Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount
+- **A819** — Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount
+- **A820** — Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount
+- **A821** — Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount
+- **A822** — Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount
+- **A823** — Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" should not be more than 0 if
+- **A824** — new tax regime is selected. Eligible amount of deduction claimed u/s 80QQB should not be more than user enterable amount
+- **A825** — Eligible amount of deduction claimed u/s 80RRB should not be more than user enterable amount
+- **A826** — In Schedule VI A, for deductions u/s 80CCC the sum of individual rows for "Amount " shall match with the "Amount of Payment" as per the field 80CCC.
+- **A827** — If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for "Type of identifier", "Identifier No. and "Amount"
+- **A828** — If Old Tax Regime is selected and Deductions u/s 80EEA and 80EE cannot be claimed simultaneously
+- **A829** — Total Income at Schedule AMT is Negative. But the loss in Total Income can only arise because of the Specified business.
+- **A830** — In Schedule AMT, Tax payable under section 115JC should be equal to 9% of 3a for assessee falling within the IFSC area+ 18.5% of Sl.No.3b for assessee not falling within
+- **A831** — the IFSC area. In Schedule AMT, Sl.No. 1 should be equal to Sl.No. 14 of Part BTI 48
+- **A832** — In Schedule AMT, Sl.No. 2a should be equal to sum of system computed part C deductions under Schedule VIA.
+- **A833** — In Schedule AMT, Sl.No. 2d Adjustment as per section 115JC(2) should be equal to sum of Sl.No. 2a+2b+2c
+- **A834** — In Schedule AMT, Sl.No. 3 Adjusted Total Income under section 115JC should be equal to sum of Sl.No. 1+2d
+- **A835** — In Schedule AMT, Sl.No. 4 "Tax payable under section 115JC" shall be computed if Adjusted Total Income under section 115JC is more than Rs. 20 Lakh and Adjustment as
+- **A836** — per section 115JC(2) is more than zero. Schedule AMT should be blank if "New Tax Regime" is selected
+- **A837** — In Schedule AMT, Sl.no 3b should be difference of Sl.no 3-3a
+- **A838** — In Schedule AMT, Sl.no 3 should be equal to Sl.no 3a+3b
+- **A839** — In Schedule AMT, Sl.No. 2b should be equal to total deduction under section 10AA.
+- **A840** — In Schedule AMTC, Sl.No. 1 should be equal to Sl.No. 1d of Part B-TTI.
+- **A841** — In Schedule AMTC, Sl.No. 2 should be equal to Sl.No. 2i of Part B-TTI.
+- **A842** — In Schedule AMTC, Sl.No. 3 should be equal to Sl.No. 2-1
+- **A843** — In Schedule AMTC, Sl.No. 3 should be equal to zero when Sl.No. 2 is less than or equal to Sl.No. 1
+- **A844** — In Schedule AMTC, Sl.No. 5 "Amount of tax credit under section 115JD utilized during the year" should be equal to Total of Col 4(C).
+- **A845** — In Schedule AMTC, Sl.No. 6 "Amount of AMT liability available for credit in subsequent assessment years" should be equal to Total of Col 4(D).
+- **A846** — In Schedule AMTC, value at Sl. No. B2(xii) cannot be greater than zero i.e. set off in earlier assessment years cannot be claimed for AY 2025-26
+- **A847** — In Schedule Part B-TTI, AMT Credit u/s 115JD claimed should be equal to the amount of Credit at Schedule AMTC.
+- **A848** — In Schedule AMTC, values at column C and column D should not be more than zero if "New Tax Regime" is selected
+- **A849** — In Schedule SI, Column Income (i) for Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2ciii (Income Benefit) of Schedule OS
+- **A850** — In schedule SI, Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2civ (tax benefit) of Schedule OS 49
+- **A851** — In Schedule SI, Income u/s 115BB (Winnings from lotteries, puzzles, races, card games etc.) should be equal to Sl.No. 2a(i) after reducing corresponding DTAA income in Schedule OS Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A852** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. In Schedule SI, income u/s 115BBE (Income under section 68, 69, 69A, 69B, 69C or 69D) should be equal to Sl.No. 2b in schedule OS.
+- **A853** — In Schedule SI, Income u/s 115BBF (income from patent)-Income under head business or profession should be equal to Sl.No. 3e in schedule BP
+- **A854** — In Schedule SI, Income u/s 115BBG (income from patent)-Income under head business or profession should be equal to Sl.No. 3f in schedule BP
+- **A855** — Income from other sources chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(xiv) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is "Yes".
+- **A856** — If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule SI, Amount in column "tax thereon" should be equal to "taxable income * special rate" excluding for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (12.5%), 111A, 112 (proviso) or section
+- **A857** — 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA, STCG PTI@20% In Schedule SI, tax computed can not be null if income is greater than zero. Note : This rule is not applicable for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (12.5%), 111A, 112 (proviso) or
+- **A858** — section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA and 112 Long Term Capital Gains (with indexation), STCG PTI@20% In Schedule Part B-TTI Sl. No. 2b should be equal to the total of Col.(ii) of Schedule SI
+- **A859** — In schedule SI, sum of income u/s 115AD (STCG for FIIs on securities where STT not paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30%
+- **A860** — should be equal to Sl.No. 5vii of schedule BFLA Total of Income (i) of schedule SI should match with sum of individual line items
+- **A861** — Total of tax on special incomes at "Tax Thereon" (ii) should match with sum of individual line items 50
+- **A862** — Income selected in 2d "Any other income chargeable at special rate" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A863** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e "Pass through income in the nature of income from other sources chargeable at special rates" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A864** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e "Pass through income in the nature of income from other sources chargeable at special rates" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A865** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Income selected in 2e "Pass through income in the nature of income from other sources chargeable at special rates" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. 51
+- **A866** — Income selected in 2e "Pass through income in the nature of income from other sources chargeable at special rates" of schedule OS should match with the corresponding income in schedule SI Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A867** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. In Part B-TI, SL. No. 11 - Income chargeable to tax at special rate under section 111A, 112,112A etc. included in 10 should be equal to total of Sl. No. (i) of schedule SI
+- **A868** — In schedule SI, value of "Income u/s 115BBC-Anonymous Donations" cannot be more than "0"
+- **A869** — In Schedule SI, Income u/s 115BBJ (Winnings from online games) should be equal to Sl.No. 2a(ii) after reducing corresponding DTAA income in Schedule OS Note: If status in Part A general is Non-resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as
+- **A870** — referred to in 2f under given section provided TRC flag is "Yes" in case of non-resident . If status in Part A general is Resident, for the purpose of schedule SI, each of the special income under this category should be passed after reducing DTAA income as referred to in 2f under given section irrespective of the TRC flag. Sum of income u/s 112(1) (LTCG on listed securities/ units without indexation), 112(1)(c)(iii) (LTCG for non-resident on unlisted securities), 115AC (LTCG for non- resident on bonds/GDR), 115ACA (LTCG for an employee of specified company on GDR), 115AD (LTCG for FII on securities), 115E (LTCG for non-resident Indian on foreign exchange asset), 112 (LTCG on others) 112A or section 115AD(1)(iii)-Proviso
+- **A871** — (LTCG on sale of shares or units on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5%-u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5 - u/s other than 112A should be equal to corresponding income as per schedule BFLA In schedule SI, sum of income u/s 111A or 115AD(1)(b)(ii) proviso & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20% should be equal to
+- **A872** — Sl.No. 5vi of schedule BFLA Income from short term capital gains chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(ix) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. 52
+- **A873** — Income from long term capital gains chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(xi) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is "Yes".
+- **A874** — If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule PTI, Col. 9 should be equal to output of Col 7-8
+- **A875** — In Schedule PTI, Sl.No. iia Short Term should be equal to sum of ai+aii.
+- **A876** — In Schedule PTI, Sl. No. iia Long Term should be equal to sum of bi+bii
+- **A877** — In Schedule PTI, Sl. No. iii Other Sources should be equal to sum of a+b
+- **A878** — In Schedule PTI, Sl. No. iv Income claimed to be exempt should be equal to sum of a+b+c
+- **A879** — In Schedule TPSA, Income tax payable should be equal to 18% of amount of primary adjustment
+- **A880** — In Schedule TPSA, Surcharge should be equal to 12% of amount of Additional income tax payable
+- **A881** — In Schedule TPSA, Health & Education cess should be equal to 4% of (Additional income tax payable + Surcharge)
+- **A882** — In Schedule TPSA, total additional tax payable should be equal to sum of Additional income tax payable + Surcharge + Health & education cess
+- **A883** — In Schedule TPSA, Sl.No. 3 should be equal to sum of column 9 "Amount deposited"
+- **A884** — In Schedule TPSA, net tax payable should be equal to the difference of "Total additional tax payable" and "Taxes paid"
+- **A885** — In Schedule Part A-OI, "Whether assessee is exercising option under subsection 2A of section 92CE" is selected as "Yes" then schedule TPSA should be filled
+- **A886** — In schedule TPSA , Date at which tax is deposit cannot be after System Date
+- **A887** — In schedule FSI, column e should be lower of column c or column d
+- **A888** — Schedule FSI is not applicable if residential status is non resident
+- **A889** — In Schedule FSI, Total should be equal to sum of Sl. No. (i+ii+iii+iv+v) for b,c,d,e column.
+- **A890** — In Schedule FSI, if tax relief is claimed against salary income then amount shown in Gross salary under Schedule salary should not be less than the amount shown under salary in
+- **A891** — Schedule FSI in Schedule FSI If tax relief is claimed against House Property then amount shown in House property in Sl.no 1k+2 should not be less than the amount of income shown under House property in Schedule FSI 53
+- **A892** — In Schedule FSI if tax relief is claimed against Business or Profession then amount shown in Business Income in Sl.no. D of Trading Account + Positive values of Sl.no.14 of schedule Profit and loss or No books of account as the case may be, should not be less
+- **A893** — than the amount of income shown under Business or Profession in Schedule FSI in Schedule FSI, if tax relief is claimed against Capital Gains then amount of Income shown in Capital gains should not be less than the amount of income shown under Capital
+- **A894** — gains in Schedule FSI In Schedule FSI If tax relief is claimed against other sources then amount of Income shown in other sources should not be less than the amount of income shown under the
+- **A895** — head other sources In schedule TR, field 2 "Total Tax relief available in respect of country where DTAA is applicable (section 90/90A) (Part of total of 1(d))" should match with the sum of items in
+- **A896** — 1(d), wherever the corresponding 1(e) field is selected as Section 90/90A In schedule TR, Sl.No. 3 "Total Tax relief available in respect of country where DTAA is not applicable" should be equal to total of column (d) wherever section 91 is selected in
+- **A897** — column (e) In schedule TR, Sl.No. 2+3 should be equal to total of column 1d
+- **A898** — Schedule TR is not applicable if residential status is non resident
+- **A899** — In Schedule TR, Col C Total taxes paid outside India should be equal to total of Col. C of Schedule FSI in respect of each country
+- **A900** — In schedule TR field "Total tax relief available( total of (e) of Schedule FSI" in respect of each country" should match with total of column "Tax relief available in India (e)= (c) or
+- **A901** — (d) whichever is lower" in schedule FSI for each and every "Country code" Schedule FA has to be filled if SL.no.14 of Part B-TTI is selected as "Yes"
+- **A902** — Complete details of foreign assets should be provided in Schedule FA
+- **A903** — If assessee is governed by Portuguese Code then "PAN of Spouse" should be provided.
+- **A904** — In Schedule 5A, Sl. No. 5 Total should be equal to sum of Sl. No. (1+2+3+4)
+- **A905** — Total Income is greater than Rs. 1 crore then Schedule AL is required to be filled
+- **A906** — In Schedule ESOP "Balance amount of tax deferred to be carried forward to be next Assessment years" Sl.no 8 should be equal to Sl.no 3-7
+- **A907** — In Schedule ESOP "Balance amount of tax deferred to be carried forward to be next Assessment years" Sl.no 8 should be equal to Sl.no 3b of Part B-TTI
+- **A908** — In Schedule ESOP If Sl.no 4, option selected as 'Not sold' AND If in Sl.no 5, option selected as 'No', then Sl.no 7 should be as Zero
+- **A909** — In Schedule ESOP if Sl.No. 5 is selected as "Yes", then Sl.no 7 should be auto populated from Sl.no 3,
+- **A910** — In "Schedule IF", Total of Col "Amount of share in the profit" should be equal to sum of value entered in individual columns. 54
+- **A911** — In Schedule BP, Sl. No. A5a -Share of income from firm(s) can not be more than the “Amount of share in the profits” column of schedule IF
+- **A912** — As per Rule 37BA of the Income Tax Rules, 1962, read with Section 199 of the Income Tax Act, 1961, credit of tax deducted at source shall be given for the assessment year for which such income is assessable. Thus please ensure that the schedules contain the details of the receipts and are not left blank. (category – A)
+- **A913** — Further, ensure that all the receipts / income on which credit is claimed as per 26AS is appearing in the return. If tax computation is more than 0, GTI (Gross Total Income) should be disclosed mandatorily, It cannot be left as Nil or 0.
+- **A914** — In Schedule Part B-TI, amount at "Total Profits and Gains from Business or Profession" should be equal to sum of "Individual profits and Gains from Business and Profession"
+- **A915** — In Schedule Part B-TI, amount at "Total Short term Capital Gains" should be equal to the sum of "Individual Short Term Capital Gain amounts"
+- **A916** — In Schedule Part B-TI, amount at "Total Long term Capital Gains" should be equal to the sum of "Individual Long Term Capital Gain amounts".
+- **A917** — In Schedule Part B-TI, amount at "Total Capital Gains" should be equal to the sum of "Short Term and Long Term Capital Gains".
+- **A918** — In Schedule Part B-TI, , total Income from other sources should be equal to the sum of "Individual incomes from Other Sources head"
+- **A919** — In schedule Part B-TI, the value in Sl.No. 6 should be equal to total of Sl.No. (1 + 2 + 3v + 4e+ 5d)
+- **A920** — Income claimed under the head Salaries in Part BTI should be equal to Income as per Schedule Salary (sum of all employers).
+- **A921** — Income claimed under the head House Property in Part B TI should be equal to Income as per Schedule HP
+- **A922** — Income claimed under the head PGBP in Part B TI should be equal to the Income as per Schedule BP
+- **A923** — In Schedule Part B-TI, Income disclosed in Short term chargeable @30% should be equal to Sl.no. 8iii of Table E in Schedule CG.
+- **A924** — In Schedule Part B-TI, Income disclosed in Short term chargeable @ applicable rate should be equal to Sl.no. 8iv of Table E in Schedule CG.
+- **A925** — In Schedule Part B-TI, Income disclosed in Short term chargeable as per DTAA should be equal to Sl.no. 8v of Table E in Schedule CG.
+- **A926** — In Schedule Part B-TI, Income disclosed in Long term chargeable as per DTAA should be equal to Sl.no. 8vii of Table E in Schedule CG. 55
+- **A927** — In Schedule Part B-TI, Income from sources other than from owning Race Horses & Income chargeable at special rate should be equal to Sl.No. 6 of Schedule OS.
+- **A928** — In Schedule Part B-TI, Income chargeable to tax at special rate is should be equal to Sl.No. 2 of Schedule OS.
+- **A929** — In Schedule Part B-TI, Income from the activity of owning and maintaining race horses should be equal to Sl.No. 8e of Schedule OS.
+- **A930** — In Schedule Part B-TI, Losses of current year set off against income from all the heads should be equal to the "Total losses set off" at Schedule CYLA.
+- **A931** — In Schedule Part B-TI, Brought forward losses set off against Balance Income should be equal to "Total of brought forward losses set off" at Schedule BFLA.
+- **A932** — In Schedule Part B-TI, Gross Total Income should be equal to Sl.No. 8 - 9
+- **A933** — If deduction u/s 10AA is claimed in Part B-TI then Schedule 10AA should be filled.
+- **A934** — In Schedule Part B-TI, Losses of current year to be carried forward should be equal to the "Total of Current year losses" of Schedule CFL. OR
+- **A935** — If the original return is filed or being filed u/s 139(4) - after due date, carry forward of current year losses other than HP loss will not be allowed. In Schedule Part B-TI, Total Income should be equal to the Gross Total Income minus Chapter VI-A deductions.
+- **A936** — Note : Round off +5 and -5 is allowed. In Schedule Part B-TI, Income chargeable to tax at special rates(3e, 3f & 3g of Schedule BP) should be equal to income disclosed in Schedule BP.
+- **A937** — In Schedule Part B-TI, If deductions is claimed at Sl.No. 12(a) then Part-B, CA and D of Chapter VI-A should be filled
+- **A938** — In Schedule Part B-TI, If deductions is claimed at Sl.No. 12(b) then Part-C of Chapter VI- A should be filled
+- **A939** — "Income details" and "Tax computation" should be disclosed where details regarding “Taxes Paid” have been disclosed
+- **A940** — In Schedule Part B-TI, Net agricultural income for rate purpose should be equal to the value entered at Sl.No. 2 of Schedule EI
+- **A941** — In Schedule Part B-TI, Income chargeable to tax at special rate under section 111A, 112, 112A etc. included in Sl.No. 10 should be consistent with the total of special incomes of
+- **A942** — Schedule SI In Schedule Part B-TI, Deduction under chapter VI-A, Part-B, CA and D at Sl.No. 12(a) should be equal to 1+3 of Schedule VI-A
+- **A943** — In Schedule Part B-TI, deduction under chapter VI-A Part-C at Sl.No. 12(b) should be equal to Sl.No. 2 of schedule VI-A
+- **A944** — In "Schedule Part B-TI" '12(c)' Total should be equal to the value entered in (12a + 12b) 56
+- **A945** — In Schedule Part B-TI, Balance after set off current year losses should be equal to the output of Total Head wise Income less Losses of current year to be set off
+- **A946** — In Schedule Part B-TI, Sl.No. 17 Aggregate Income should be equal to Sl.No. 14-15+16
+- **A947** — In Schedule Part B-TI, Income chargeable to tax at special rate has been shown, details of the same should be provided in the applicable schedules ,viz., Schedule Capital Gain
+- **A948** — /Schedule Other sources and Schedule SI. In Schedule Part B-TI, Sl.No. 3(ii) Income disclosed under Profit and gains from speculative business should be equal to amount mentioned in Schedule BP
+- **A949** — In Schedule Part B-TI, Sl.No. 3(iii) Income disclosed under Profit and gains from specified business should be equal to amount mentioned in Schedule BP
+- **A950** — Exempt allowance u/s 10(10B) is claimed by Central Government employees, State government employees, CG-Pensioners, and SG- Pensioners
+- **A951** — In schedule salary, under nature of perquisites, income is given more than once against one dropdown, under each block.
+- **A952** — In schedule salary, under profit in lieu of salary, income is given more than once against one dropdown, under each block.
+- **A953** — In Schedule salary, Income from retirement benefit account maintained in a notified country u/s 89A is not equal to sum of amounts of income entered against individual
+- **A954** — country. In Schedule other sources, Income from retirement benefit account maintained in a notified country u/s 89A is not equal to sum of amounts of income entered against
+- **A955** — individual country. In schedule Part B-TI, Income offered in Capital gain chargeable @ 30% u/s 115BBH, is not matching with Sl. No. C2 of Sch CG
+- **A956** — Amount of "Total Capital Gains" is not equal to sum of Sl. No. 3c 'Sum of Short- term/Long-term capital gains' & 3d 'Capital gain chargeable @ 30% u/s 115BBH'.
+- **A957** — If Old tax regime is selected, then value in the field "Rebate u/s 87A" should not be more than Rs.12,500.
+- **A958** — In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl.no. 8ii of Table E in Schedule CG.
+- **A959** — In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl.no. 8vi of Table E in Schedule CG.
+- **A960** — Tax Payable on deemed total Income u/s 115JC in Part B TTI should be equal to the tax ascertained at Schedule AMT
+- **A961** — In Schedule Part B-TTI, tax payments claimed should be equal to the claims made in Schedule TDS/TCS/IT.
+- **A962** — In Schedule Part B-TTI, Total Tax Payable on Deemed Total Income u/s 115JC should be equal to (tax Payable on Deemed Income + Surcharge + Cess) 57
+- **A963** — In Schedule Part B-TTI, Tax Payable on Total Income should be equal to (Normal Tax + Special Tax - Rebate on Agricultural Income).
+- **A964** — In Schedule Part B-TTI, The amount at "Tax payable" should be equal to the amount of [Tax Payable on Total Income - Rebate u/s 87A]
+- **A965** — In Schedule Part B-TTI, The amount at "Gross tax liability" should be equal to the sum of (Tax Payable, Surcharge & Education Cess)
+- **A966** — In Schedule Part B-TTI, Relief claimed under section 90/90A should be equal to "Amount entered" in Schedule TR
+- **A967** — In Schedule Part B-TTI, Relief claimed under section 91 should be equal to "Amount entered" in Schedule TR
+- **A968** — In Schedule Part B-TTI, "Total Tax Relief" should be equal to sum of (Relief u/s 89, Relief u/s 90/90A and Relief u/s 91).
+- **A969** — In Schedule Part B-TTI, Total Interest & fee Payable should be equal to "Interest & fee u/s 234A + 234B + 234C+234F+234-I"
+- **A970** — In Schedule Part B-TTI, Aggregate liability should be equal to "Net tax liability" + "Total Interest & fee Payable"
+- **A971** — In Schedule Part B-TTI, Total Taxes Paid should be equal to the sum of "Advance Tax, TDS, TCS & Self-Assessment Tax"
+- **A972** — IFSC under “Bank Details” in Part BTTI and schedule 80G and schedule 80GGC should match with the RBI database
+- **A973** — In Schedule Part B-TTI, Sl.No.2e Rebate u/s 87A is only allowed to Resident or Resident but not ordinary resident
+- **A974** — In Schedule Part B-TTI, Sl.No.2e Rebate u/s. 87A is only allowed to Individual.
+- **A975** — Rebate u/s 87A cannot be claimed by Individual Resident or Non Ordinarily Resident Individual having Total income more than Rs 5 lakhs and if Old Tax Regime is selected
+- **A976** — In Schedule Part B-TTI, Refund claimed should match with the difference of “Total Taxes Paid” and “Aggregate Liability”.
+- **A977** — In Schedule Part B-TTI, Tax payable Amount is not matching with the difference of “Aggregate Liability” and “Total Taxes Paid”.
+- **A978** — In Schedule Part B-TI, Deemed income under section 115JC should be equal to Sl.no.3 of Schedule AMT
+- **A979** — In Schedule Part B-TTI, Gross tax payable (higher of 1d and 2i) should be higher of Sl.No. 1d or 2i
+- **A980** — In Schedule Part B-TTI, Tax payable after credit u/s 115JD (3a+3c-4) should be equal to sum of Sl.No. 3a+3c-4
+- **A981** — In Schedule Part B-TTI, Net tax liability should be equal to Sl.No. 5 - 6D
+- **A982** — Relief u/s 89 can be claimed only out of Income from salary or family pension 58
+- **A983** — If "New Tax Regime" is selected and In Schedule Part B TTI, Sl.No. 1a to 1d should not be more than zero.
+- **A984** — In Schedule Part B TTI, Sl.No. 3a + 3b should be equal to Sl.No.3.
+- **A985** — In Schedule Part B-TTI, Sl.no 3 should be equal to Sl.no 3a+3b
+- **A986** — In Schedule Part B-TTI, Sl. No. 10c "TCS" should be equal to the sum of column 7(i) of Schedule TCS
+- **A987** — In Schedule Part B-TTI, Sl. No. 10b "TDS" should be equal to the sum of column 5 of TDS 1, column 9 of Schedule TDS 2 & Schedule TDS 3
+- **A988** — Assessee with total income exceeding Rs. 12,00,000 subject to marginal relief (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax act, 1961.
+- **A989** — Maximum amount of Rebate should be computed as per the provisions of section 87A.
+- **A990** — Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5 lakh.
+- **A991** — Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5 lakh.
+- **A992** — In Schedule EI, Sl.No. 5 Pass through income not chargeable to tax should be equal to the amount of exempt income mentioned in Schedule PTI
+- **A993** — In Schedule EI, Sl.No. 6 should be equal to sum of Sl.No. 1+2(v)+3+4+5
+- **A994** — In Schedule EI, Sl.No. 2v should be equal to sum of Sl. No. i-ii-iii+iv
+- **A995** — In Schedule EI, Sl.No. 2(iv) Agricultural income portion relating to Rule 7, 7A, 7B(1), 7B(1A) and 8 should be equal to Sl.No. 38 of Schedule BP
+- **A996** — In Schedule EI, If net agricultural income for the year exceeds Rs.5 lakh, details of each agriculture land should be filled.
+- **A997** — If "New Tax Regime" is selected, then exempt income u/s 10(17)-Allowance MP/MLA/MLC cannot be claimed.
+- **A998** — In "Schedule EI" ' Total income claimed as not chargeable to tax as per DTAA' at Sl. No, 4 should be equal to the total of amount entered in "Amount of Income"
+- **A999** — In Schedule EI at Sl. No. 3, dropdowns of the same exemption should not be selected more than once. Exempt income u/s 10(4)(i), 10(4F), 10(4G), 10(4H), 10(6B), 10(6BB), 10(6D), 10(8A) and 10(23FF) cannot be reported by Residents Exempt income fields should be reported only for applicable sections and sub-categories In Schedule TDS2 and TDS3, If TDS b/f is claimed then year of tax deduction should be provided. 59
+
+## Category B
+
+- **B1** — Deduction u/s 80-IA or u/s 80-IAB or u/s 80-IB or u/s 80-IBA or u/s 80IE is claimed then Form 10CCB should be filed within due date
+- **B2** — In Schedule Part B-TI, Taxpayer cannot carry forward current year loss except HP loss and Specified business loss if return is filed after the due date allowed u/s 139(1)
+- **B3** — Income from 'Profits and Gains from Business or Profession” is greater than Rs. 2.50 lakh then Balance sheet should be filled.
+- **B4** — If assessee is liable for audit u/s 92E then Part A BS and Part A P&L should be filled
+- **B5** — Tax payer is claiming deduction under subsection (2AB) of section 35 of the Act relating to in-house scientific research and development facility but Form 3CLA-Report from an
+- **B6** — accountant is not filed In Part A Trading account, turnover is more than Rs. 10 crores or receipts from profession is more than Rs. 75/50 lakhs then assessee is liable to get books of accounts audited u/s 44AB
+- **B7** — To check the computation and liability for audit if any u/s 44AB/44AD(5) and fill up the audit information if any. Since Income is claimed less than 8% of Gross Turnover
+- **B8** — In Part A P&L, if Turnover is less than Rs.50/ 75 lakhs (as applicable) in case of profession and profit offered is less than 50% then audit information u/s 44AB is mandatory
+- **B9** — If assessee is liable to audit u/s 44AB then Form 3CA-3CD / Form 3CB-3CD should be filed.
+- **B10** — If assessee disclosed income under section 115BBF then furnishing of Form 3CFA is mandatory within due time allowed u/s 139(1)
+- **B11** — In schedule AMT , there is an inconsistency in the computation of Adjusted Total Income and as per the Form 29C ( Income will be increased if amount is more in Form 29C)
+- **B12** — Assessee liable for Audit u/s 44DA is required to file Form 3CE
+- **B13** — In schedule 10AA there is an inconsistency in the deduction claimed u/s 10AA and amount mentioned in Form 56F ( deduction will be reduced based on the entries in the form)
+- **B14** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80JJAA and amount mentioned in Form 10DA 62
+- **B15** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IA and amount mentioned in Form 10CCB ( Deduction will be reduced based on the entries in the form)
+- **B16** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IB and amount mentioned in Form 10CCB
+- **B17** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IAB and amount mentioned in Form 10CCB ( Deduction will be reduced based on the entries in the form)
+- **B18** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IE and amount mentioned in Form 10CCB( Deduction will be reduced based on the entries in the form)
+- **B19** — Form 10EE should be filed with the amount of Income claimed for relief from taxation u/s 89A.
+- **B20** — FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No" if Form 10F is not there.
+- **B21** — (this is as per DGIT Notification) In Schedule OS, the amount of dividend income mentioned cannot be more than the dividend income reduced from Schedule BP.
+- **B22** — Linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023
+- **B23** — Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar
+- **B24** — in eligible cases as per Circular 03/2023 Taxpayer filing Nil return is requested to check AIS / 26AS before proceeding further
+- **B25** — Deduction u/s 80GG shall be claimed for the period of stay for which the rent is actually paid, i.e., 5000 per month
+- **B26** — In schedule CG B1, for all blocks, check computation of indexed cost of acquisition, if not equal to Cost of acquisition * CII of year of sale/ CII of year of acquisition.
+- **B27** — Please ensure correct computation of Indexed cost of acquisition in Schedule CG In schedule CG B1, for all blocks, check computation of indexed cost of improvement, is more than Cost of improvement * CII of year of sale/ CII of year of improvement.
+- **B28** — Please ensure correct computation of Indexed cost of Improvement in Schedule CG Tax has been deducted at source against income derived by you from VDA( Virtual Digital Assets) in the FY. However, it is seen that the corresponding income from VDA has not been offered to tax or is not offered to tax completely in the return of income f iled. 63
+- **B29** — Tax has been deducted at source against income derived by you from Winnings from lotteries, crossword puzzles, races, card games etc. chargeable u/s 115BB in the FY. However, it is seen that the corresponding income from Winnings from lotteries, crossword
+- **B30** — puzzles, races, card games etc. chargeable u/s 115BB has not been offered to tax or is not offered to tax completely in the return of income filed. Tax has been deducted at source against income derived by you from the activity of owning and maintaining race horses in the FY. However, it is seen that the corresponding income from the activity of owning and maintaining race horses has not been offered to tax or is not
+- **B31** — offered to tax completely in the return of income filed. Tax has been deducted at source against income derived by you from Winnings from Online games chargeable u/s 115BBJ in the FY. However, it is seen that the corresponding income from the Winnings from Online games chargeable u/s 115BBJ has not been offered to tax or
+- **B32** — is not offered to tax completely in the return of income filed. The details of Form 10IEA should match with the details mentioned in Schedule Part A General
+- **B33** — The details of Form 10IEA as mentioned in Schedule Part A General is either not mentioned or not matching with the database
+- **B34** — Current year losses should not be more than ZERO if return is filed under 139(4)
+- **B35** — Deduction u/s 80G shall be claimed against valid Donee PANs only.
+- **B36** — Form 10BA should be filed for claiming deduction u/s 80GG
+- **B37** — In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IBA and amount mentioned in Form 10CCB (Deduction will be reduced based on the entries in the form)
+- **B38** — Interest expenditure u/s 57(1) at Sl.No. 3Ci should not be more than 20% of the dividend income included in the total income. Amount of dividend for this purpose will be computed by not considering the claim of deduction in Schedule OS. The computation is at the minimum of:
+- **B39** — a. Temporary calculated value at 5xii of BFLA (i.e., 5xii+ eligible amount of interest in Sl No 3Ci of schedule OS) b. 1a (1ai +1aii) of Schedule OS c. Temporary calculated values of (Sl.no.13 - sl.no.14) of Part BTI (i.e., 14-15 of Part BTI + eligible amount of interest in Sl No 3Ci of schedule OS) In "Schedule IF", Total of Col "Amount of interest due or received" should be equal to Sl. No. 14xi(b) of Schedule Profit & Loss Account
+- **B40** — In "Schedule IF", Total of Col "Amount of remuneration due or received" should be equal to Sl. No. 14xi(c) of Schedule Profit & Loss Account 64
+
+## Category D
+
+- **D1** — It is mandatory to file Form 29C- Report under section 115JC of the Income-tax Act, 1961 if AMT tax is more than Normal Tax if not opting for New Tax Regime
+- **D2** — If total income under section 115JC as per schedule AMT is less than or equal to Rs. 5000000, surcharge cannot be entered in Schedule B-TTI.
+- **D3** — In Schedule VIA, deduction u/s 80JJAA is claimed then Form 10DA is required to be filed.
+- **D4** — In Schedule VIA - Part C - Deduction can be claimed only if the original return is filed or being filed on or before the due date specified u/s 139(1).
+- **D5** — If assessee claiming relief u/s 90 & 91 then it is mandatory to file Form 67 within the due date allowed u/s 139(1)
+- **D6** — If deduction u/s 10AA is claimed in the Income Tax Return then Form 56F should be filed
+- **D7** — Deduction u/s 10AA shall be allowed only if return is filed within due date allowed u/s 139(1)
+- **D8** — In Part A P&L, tonnage of goods carriage cannot exceed 100MT
+- **D9** — Taxpayer having income under the head “Profits and gains of Business or Profession”, Balance Sheet and Profit and Loss Account has to be filled as required in explanation (d) under section139(9) read with section 44AA.
+- **D10** — If audit report u/s 44DA is mentioned then Form 3CE is should be filed.
+- **D11** — If assessee is liable to audit u/s 92E then Form 3CEB should be filed.
+- **D12** — If assessee is liable to pay AMT u/s 115JC then Form 29C should be filed.
+- **D13** — Form 3CFA should be filed within due date to claim the benefits under section 115BBF
+- **D14** — Form 10E is required to be filed to claim Relief u/s 89.
+- **D15** — If the "Total sales, Turnover or Gross Receipts" is more than Rs.50 Crore, then details regarding "Prescribed Payment Modes under section 269SU" should be provided in e-Filing Portal under "Compliance Module".
+- **D16** — Amount can be reduced from schedule BP at Sl.No. A4b i.e. Profit from activities covered under rule 7A, 7B(1), 7B(1A) and 8 only if business code is selected as 1003 , 1002, 1001 respectively
+- **D17** — For Resident taxpayers, DTAA benefit is not available, and the claim may not be allowed. Please re-check the claims made. 65

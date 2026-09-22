@@ -1,0 +1,7 @@
+sources/*/utility/
+sources/*/vba_text.txt
+logs/*/gate*run/
+logs/gate_output.txt
+node_modules/
+__pycache__/
+*.pyc

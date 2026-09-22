@@ -1,0 +1,182 @@
+[
+ {
+  "n": 518,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "56(2)(x) which is chargeable to tax \" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2a should not exceed the field 2a(i) \"Winnings from lotteries, crossword",
+  "clean": "",
+  "finding": "2f sum(2a) <= 2a(i) not checked"
+ },
+ {
+  "n": 519,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "puzzles etc. chargeable u/s 115BB\" In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2d should not exceed the field 2d \"Any other income chargeable at special rate\"",
+  "clean": "",
+  "finding": "2f sum(2d) <= 2d not checked"
+ },
+ {
+  "n": 520,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "In Schedule OS, Column 3 of table 2f, the sum of dropdown value of Col 2 Amount of Income of 2e should not exceed the field 2e \"Pass through income in the nature of income",
+  "clean": "",
+  "finding": "2f sum(2e) <= 2e not checked"
+ },
+ {
+  "n": 526,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to Sl. No. 1a (Dividend other than 2(22)(e) - DTAA Dividend other than 2(22)(e) - System calculated value Interest expenditure u/s 57 attributable to Dividend other than 2(22)(e)] of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is \"Yes\".",
+  "clean": "",
+  "finding": "Q dividend not reconciled to 1a(i)-DTAA-int"
+ },
+ {
+  "n": 528,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_who.js:240",
+  "text": "provided TRC flag is \"Yes\". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. If resident has not exercised option under 115H then ax benefits against the sections mentioned therein will not be allowed in Schedule OS",
+  "clean": "",
+  "finding": "115H flag exists but not used to gate OS special rates"
+ },
+ {
+  "n": 534,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend income taxable at DTAA rates should be equal to Dividend income selected at Sl.No. 2f of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is \"Yes\".",
+  "clean": "",
+  "finding": "Q div@DTAA not reconciled to 2f"
+ },
+ {
+  "n": 535,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag. In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115A(1)(a)(i) @ 20% (Including PTI Income) other than first proviso to section 115A(1)(a)(A) should",
+  "clean": "",
+  "finding": "Q div 115A(1)(a)(i) not reconciled to 2d+2e"
+ },
+ {
+  "n": 536,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 Dividend Income u/s 115AC @ 10% should be equal to Dividend income selected at Sl.No. 2d and Sl No 2e of Schedule OS",
+  "clean": "",
+  "finding": "Q div 115AC not reconciled to 2d+2e"
+ },
+ {
+  "n": 537,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income u/s 115ACA (1)(a) @ 10% (Including PTI Income) should be equal to Dividend income selected at Sl.No.",
+  "clean": "",
+  "finding": "Q div 115ACA not reconciled to 2d+2e"
+ },
+ {
+  "n": 538,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "2d and Sl No 2e of Schedule OS In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income (other than units referred to in section 115AB) u/s 115AD(1)(i) @ 20% (Including PTI Income) should be",
+  "clean": "",
+  "finding": "Q div 115AD(1)(i) not reconciled to 2d+2e"
+ },
+ {
+  "n": 540,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "notified country u/s 89A at Sl.No. 1e of Schedule OS. Quarterly breakup of \"Income from retirement benefit account maintained in a notified country u/s 89A\" must be equal to amount entered in \"Income from retirement benefit account maintained in a notified country u/s 89A \" - \"Income claimed for relief from",
+  "clean": "",
+  "finding": "Q 89A not reconciled to 1e 89A - relief"
+ },
+ {
+  "n": 543,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:300",
+  "text": "\". In Schedule OS, Sl. No 3ai Expenses / deductions other than \u201caii\u201d (in case of other than family pension) should not be allowed if income is not offered in Sl No 1(b) Interest / Sl No 1(c) Rental Income from Machinery, Plants, Buildings, etc., / Sl No 1(d) Income of",
+  "clean": "",
+  "finding": "A530 covers general case but omits 89A-income exclusion"
+ },
+ {
+  "n": 544,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:430",
+  "text": "the nature referred to in section 56(2)(x) which is chargeable to tax / Sl No 1(e) Any Other Income Other than Family Pension and 89A Income. In Schedule OS - column 3 of table 2f, the sum of dropdown value of 2a should not exceed the field 2a \"Winnings from lotteries, crossword puzzles etc. chargeable u/s 115BB\"",
+  "clean": "",
+  "finding": "2f sum(2a) <= 2a total not checked"
+ },
+ {
+  "n": 545,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "In Schedule OS, Sl. No. 10 the quarterly break up of \"Income by way of winnings from online games u/s 115BBJ\" should be equal to Sl. No. 2a(ii) -Income by way of winnings from online games u/s 115BBJ- DTAA 115BBJ respectively 33",
+  "clean": "",
+  "finding": "Q online-games not reconciled to 2a(ii)"
+ },
+ {
+  "n": 546,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "In Schedule OS, Sl. No. 10 the quarterly break up of \"Dividend Income under proviso to section 115A(1)(a)(A) @ 10% (Including PTI Income) should be equal to dividend",
+  "clean": "",
+  "finding": "Q div proviso 115A(1)(a)(A) not reconciled to 2d+2e"
+ },
+ {
+  "n": 547,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "70_sec_os.js:500",
+  "text": "income selected at Sl. No. 2d and Sl No 2e in Schedule OS In Schedule OS, quarterly break up of Dividend Income at 3b should be equal to \"Dividend Income referred in Sl. No. 1a(iii) - DTAA of Dividend\" in Schedule OS",
+  "clean": "",
+  "finding": "Q div 3b not reconciled to 1a(iii)-DTAA"
+ },
+ {
+  "n": 550,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "",
+  "text": "if buy back loss is claimed in schedule CG Business & Profession loss claimed at Sl.No. 3i in Schedule CYLA should be equal to the amount at Sl.No. 2v of Table E in Schedule BP.",
+  "clean": "",
+  "finding": "Buyback loss => CYLA 3i = BP Table E 2v not checked"
+ },
+ {
+  "n": 574,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "60_rules.js:329",
+  "text": "In Schedule CYLA, 'Total loss set off' cannot be more than the 'Loss to be set off'",
+  "clean": "",
+  "finding": "Checks HP+OS columns only; business set-off cap not asserted (engine caps it structurally)"
+ },
+ {
+  "n": 607,
+  "cat": "A",
+  "verdict": "GAP",
+  "ref": "\u2014",
+  "text": "In Schedule BFLA, brought forward business loss as per Sl.No. 2(iii) and brought forward depreciation as per Sl. No. 3(iii) cannot be set off against the 44BB & 44BBD income",
+  "clean": "",
+  "finding": "No block on BF business loss/depreciation set-off vs 44BB/44BBD income"
+ },
+ {
+  "n": 622,
+  "cat": "A",
+  "verdict": "WEAK",
+  "ref": "61_rules_g5.js:162",
+  "text": "Total of brought forward losses should be equal to amount provided in individual AYs",
+  "clean": "",
+  "finding": "Guard sums only 5 of 16 CFL AY nodes; total auto-computed so no filed error"
+ }
+]

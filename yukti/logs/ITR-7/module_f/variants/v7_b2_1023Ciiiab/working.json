@@ -1,0 +1,628 @@
+{
+ "meta": {
+  "app": "yukti",
+  "form": "ITR-7",
+  "ay": "2026-27",
+  "ver": 1,
+  "saved": "2026-09-22T16:41:23.390Z"
+ },
+ "pi": {
+  "status": "4",
+  "res": "RES",
+  "name": "",
+  "pan": "",
+  "doi": "",
+  "retsec": "139-4A",
+  "exsec": "11"
+ },
+ "fs": {
+  "optout": "No",
+  "sec": 11,
+  "filed": ""
+ },
+ "bank": [
+  {
+   "ifsc": "SBIN0040011",
+   "bank": "State Bank of India",
+   "acno": "30412345678",
+   "type": "SB",
+   "refund": "Y"
+  }
+ ],
+ "ver": {
+  "cap": "PO",
+  "name": "S SUDHIR",
+  "father": "SUDHIR NARAYANAN",
+  "pan": "TVOPS4373C",
+  "place": "Bengaluru",
+  "date": "15/10/2026",
+  "nacc": 1,
+  "bankFlag": "Y",
+  "assetOut": "NO"
+ },
+ "open": {},
+ "app": {
+  "a": {
+   "educational": {
+    "rev": 6000000,
+    "cap": 0
+   },
+   "medical": {
+    "rev": 1300000,
+    "cap": 0
+   }
+  },
+  "b": {},
+  "c": {},
+  "g": {},
+  "cOthers": [],
+  "iRows": [
+   {
+    "year": "2021",
+    "acc": 1000000,
+    "purpose": "Construction of a school building",
+    "applPY": 400000,
+    "txd": 0,
+    "appl8": 200000,
+    "appl9": 0,
+    "cred10": 0,
+    "inv12": 400000,
+    "inv13": 0,
+    "notUtil14": 0
+   }
+  ],
+  "iaRows": [],
+  "dRows": [],
+  "daRows": []
+ },
+ "fbank": [],
+ "bp": {
+  "pbt": 0,
+  "nplSpec": 0,
+  "nplSpecified": 0,
+  "a3a": 0,
+  "a3b": 0,
+  "a3ci": 0,
+  "a3cii": 0,
+  "a3d": 0,
+  "s44AE": 0,
+  "a5a": 0,
+  "a5b": 0,
+  "divExempt": 0,
+  "othExempt": [],
+  "e7a": 0,
+  "e7b": 0,
+  "e7c": 0,
+  "e7d": 0,
+  "depDebPL": 0,
+  "dep32ii": 0,
+  "dep32i": 0,
+  "d14": 0,
+  "d15": 0,
+  "d16": 0,
+  "d17": 0,
+  "d18": 0,
+  "d19": 0,
+  "d20": 0,
+  "d21": 0,
+  "d22": 0,
+  "d23": 0,
+  "d24": 0,
+  "k26": 0,
+  "k27": 0,
+  "k28": 0,
+  "k29": 0,
+  "k30": 0,
+  "k31": 0,
+  "k32": 0,
+  "dp44AE": 0,
+  "specAdd": 0,
+  "specDed": 0,
+  "spAdd": 0,
+  "spDed": 0,
+  "sp35AD": 0,
+  "clause": [
+   "",
+   ""
+  ]
+ },
+ "cg": {
+  "on": false,
+  "land": [],
+  "a2": {},
+  "a3i": {},
+  "a3ii": {},
+  "a4": {},
+  "a5": {},
+  "a6": {},
+  "a7": {
+   "deem": [],
+   "other": 0,
+   "unutFlag": ""
+  },
+  "a8": {},
+  "a9": [],
+  "aA": [],
+  "b2": {},
+  "b3": {},
+  "b4": {},
+  "b5": {},
+  "b6": [],
+  "b7": {},
+  "b8": {},
+  "b9": {
+   "deem": [],
+   "other": 0,
+   "unutFlag": ""
+  },
+  "b10": {},
+  "b11": [],
+  "bA": {},
+  "dclaim": {
+   "us54D": [],
+   "us54EC": [],
+   "us54G": [],
+   "us54GA": []
+  },
+  "editE": false,
+  "Eover": null,
+  "editF": false,
+  "Fover": null
+ },
+ "cyla": {
+  "edit": "",
+  "over": {}
+ },
+ "fa": {
+  "fsi": [],
+  "trFlag": "",
+  "trAmt": "",
+  "trAY": "",
+  "a1": [],
+  "a2": [],
+  "a3": [],
+  "a4": [],
+  "b": [],
+  "c": [],
+  "d": [],
+  "e": [],
+  "f": [],
+  "g": []
+ },
+ "funds": {
+  "bs": {
+   "SourcesOfFund": {
+    "OwnFund": {
+     "Corpus80G": 0,
+     "OtherCorpus": 5000000,
+     "AccumulatedInc": 3000000,
+     "AccumulatedIncUS10_11": 0,
+     "BalDeemedInc": 0,
+     "OtherReserve": [],
+     "TotalOtherReserve": 0,
+     "TotalFund": 8000000
+    },
+    "LongTermBorrowings": {
+     "SecuredLoan": 0,
+     "UnSecuredLoan": 1000000,
+     "TotalLoanFund": 1000000
+    },
+    "Advances": 0,
+    "TotSourceFund": 9000000
+   },
+   "ApplicationOfFunds": {
+    "FixedAsset": {
+     "GrossBlock": 6000000,
+     "Depreciation": 1000000,
+     "NetBlock": 5000000
+    },
+    "Investements": 2500000,
+    "CurrentAssetsLoanAdv": {
+     "CurrentAssets": {
+      "Inventory": 0,
+      "SundryDebtor": 0,
+      "CashNCashEquivalents": {
+       "BalWithBanks": 2000000,
+       "CashInHand": 100000,
+       "Others": 0,
+       "TotCashNCashEquivalents": 2100000
+      },
+      "OtherCurrAssets": 0,
+      "TotCurrAssets": 2100000
+     },
+     "LoansandAdvances": 0,
+     "CurrLiabilitiesProviosions": {
+      "CurrLiability": {
+       "SundryCreditor": 500000,
+       "OtherPayable": 100000,
+       "TotalCurrLiabilitiesProviosions": 600000
+      },
+      "Provisions": 0,
+      "TotCurrLiabilitiesandprovisions": 600000
+     },
+     "Total": 2100000,
+     "NetCurrAssets": 1500000
+    },
+    "AccBalAnyOthRes": 0,
+    "OutOf5InvModesUS11_5": 2500000,
+    "OutOf5InvModesOthUS11_5": 0,
+    "TotalApplicationOfFunds": 9000000
+   }
+  },
+  "j": {
+   "a1": [
+    {
+     "CorpusDonation": "OTIA",
+     "OpeningBlc": 5000000,
+     "ReceivedCorpus": 0,
+     "AppliedPY": 0,
+     "AmtDepositedBack": 0,
+     "TotAmtDepositedBack": 0,
+     "Investment_11_5": 5000000,
+     "AmtTxdAssYr22_23": 0,
+     "ClosingBlc": 5000000,
+     "Investment_11_5_Other": 0
+    },
+    {
+     "CorpusDonation": "OTHER",
+     "OpeningBlc": 3000000,
+     "ReceivedCorpus": 0,
+     "AppliedPY": 0,
+     "AmtDepositedBack": 0,
+     "TotAmtDepositedBack": 0,
+     "Investment_11_5": 3000000,
+     "AmtTxdAssYr22_23": 0,
+     "ClosingBlc": 3000000,
+     "Investment_11_5_Other": 0
+    }
+   ],
+   "a2": [],
+   "us11": [],
+   "us13": [],
+   "other": [],
+   "vc": [],
+   "a1Tot": {
+    "TotOpeningBlc": 8000000,
+    "TotReceivedCorpus": 0,
+    "TotAppliedPY": 0,
+    "TotAmtDepositedBack": 0,
+    "TotTotAmtDepositedBack": 0,
+    "TotClosingBlc": 8000000,
+    "TotInvestment_11_5": 8000000,
+    "TotAmtTxdAssYr22_23": 0,
+    "TotInvestment_11_5_Other": 0
+   },
+   "a2Tot": {
+    "TotOpeningBlc": 0,
+    "TotLoanBorrow": 0,
+    "TotAppliedPY": 0,
+    "TotRepayment": 0,
+    "TotTotRepOfLoan": 0,
+    "TotClosingBlc": 0
+   },
+   "us11Tot": {
+    "TotalInvestmentAmt": 0
+   },
+   "us13Tot": {
+    "TotalNoOfShares": 0,
+    "TotalValueOfInvestment": 0,
+    "TotalIncFromInvestment": 0
+   },
+   "otherTot": {
+    "TotalNoOfShares": 0,
+    "TotalValueOfInvestment": 0
+   },
+   "vcTot": {
+    "TotalValueOfContribution": 0,
+    "TotalValOfContrbnAppdTwrdsObj": 0,
+    "TotalAmtInvestedUs11": 0,
+    "TotalBalIncUs11": 0
+   }
+  },
+  "r": {
+   "ReasonsOfDiff": {
+    "PurchFixedAsset": {},
+    "Depreciation": {},
+    "AnyOthReason": {},
+    "TotalReasonsOfDiff": {
+     "CorpOutOf80G2b": 0,
+     "OthCorpReceived": 0,
+     "CorpOthThan": 0
+    }
+   },
+   "ClosngBalSchJ": {
+    "CorpOutOf80G2b": 0,
+    "OthCorpReceived": 5000000,
+    "CorpOthThan": 3000000
+   },
+   "ClosngBalBalSheet": {
+    "CorpOutOf80G2b": 0,
+    "OthCorpReceived": 5000000,
+    "CorpOthThan": 3000000
+   }
+  }
+ },
+ "hp": {
+  "on": "",
+  "pti": "",
+  "props": []
+ },
+ "ie": {
+  "rcpt": "",
+  "appl": "",
+  "accum": "",
+  "anyTax": "N",
+  "hp": "N",
+  "bp": "N",
+  "cg": "N",
+  "os": "N",
+  "i3": [],
+  "i4": []
+ },
+ "oa": {
+  "nob": [],
+  "bpFlag": "N",
+  "acctMeth": "MERC",
+  "acctChg": "N",
+  "vRaw": "1",
+  "vFin": "1",
+  "stkChg": "N"
+ },
+ "os": {
+  "divOth": "",
+  "div22e": "",
+  "div22f": "",
+  "intSaving": "",
+  "intDeposit": "",
+  "intRefund": "",
+  "intPTI": "",
+  "intOthers": "",
+  "rentMach": "",
+  "giftMoney": "",
+  "giftImmovWo": "",
+  "giftImmovInadeq": "",
+  "giftOthWo": "",
+  "giftOthInadeq": "",
+  "disallow10": "",
+  "sum562xii": "",
+  "others": [],
+  "win115BB": "",
+  "win115BBJ": "",
+  "cc68": "",
+  "ui69": "",
+  "um69a": "",
+  "udi69b": "",
+  "ue69c": "",
+  "hundi69d": "",
+  "spl": [],
+  "pti": [],
+  "dtaa": [],
+  "dExpenses": "",
+  "dDep": "",
+  "dIntClaimed": "",
+  "notDed58": "",
+  "profit59": "",
+  "horse": {
+   "receipts": "",
+   "ded57": "",
+   "notDed58": "",
+   "profit59": ""
+  },
+  "q": {}
+ },
+ "paid": {
+  "tds2": [
+   {
+    "who": "S",
+    "tan": "BLRD12345E",
+    "sec": "94A",
+    "yr": "",
+    "bf": 0,
+    "dedOwn": 50000,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 50000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 500000,
+    "head": "AI",
+    "_avail": 50000,
+    "_claimed": 50000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "tds3": [],
+  "tcs": [],
+  "it": [
+   {
+    "bsr": "0510308",
+    "dt": "15/06/2025",
+    "sn": "00121",
+    "amt": 7000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "15/09/2025",
+    "sn": "00337",
+    "amt": 13000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "15/12/2025",
+    "sn": "00519",
+    "amt": 12000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "15/03/2026",
+    "sn": "00742",
+    "amt": 8000
+   }
+  ]
+ },
+ "pti": {
+  "funds": []
+ },
+ "si": {
+  "edit": "",
+  "rows": []
+ },
+ "bbi": {},
+ "td": {
+  "challans": []
+ },
+ "tax": {
+  "filed": "15/10/2026"
+ },
+ "vc": {
+  "corpus80G2b": "",
+  "corpusOther": 2000000,
+  "grantsGovt": "",
+  "grantsCSR": 1000000,
+  "otherGrants": "",
+  "otherDon": 4500000,
+  "fCorpus80G2b": "",
+  "fCorpusOther": "",
+  "fOther": "",
+  "fPurpose": "",
+  "anonAgg": 500000,
+  "recMain": 3000000,
+  "recIncid": "",
+  "rent": 500000,
+  "comm": "",
+  "div": "",
+  "interest": 500000,
+  "agri": "",
+  "netConsid": "",
+  "pti": "",
+  "aiOthers": []
+ },
+ "vda": {
+  "rows": []
+ },
+ "who": {
+  "status": "5",
+  "substatus": "",
+  "name": "SUDHIR MEMORIAL CHARITABLE TRUST",
+  "pan": "AAATS4373C",
+  "doi": "05/11/2006",
+  "addr1": "No. 42, 3rd Cross",
+  "premises": "Sudhir Bhavan",
+  "road": "Richmond Road",
+  "locality": "Richmond Town",
+  "city": "Bengaluru",
+  "country": "91",
+  "state": "15",
+  "pin": "560025",
+  "zip": "",
+  "std": "080",
+  "phone": "25551234",
+  "mobileCc": "91",
+  "mobile": "9845012345",
+  "mobile2Cc": "91",
+  "mobile2": "9845067890",
+  "email": "s.sudhir.test@example.in",
+  "email2": "accounts.sudhir@example.in",
+  "addr2same": "Y",
+  "countryb": "91",
+  "addr1b": "",
+  "premisesb": "",
+  "roadb": "",
+  "localityb": "",
+  "cityb": "",
+  "stateb": "",
+  "pinb": "",
+  "zipb": "",
+  "retfurn": "139-4C",
+  "exsec": "23CIIIAB",
+  "projFlg": "Y",
+  "proj": [
+   {
+    "name": "Sudhir Vidya Kendra (school)",
+    "nature": "CHARITABLERELIGIOUS",
+    "cls": "iB"
+   },
+   {
+    "name": "Sudhir Arogya Clinic",
+    "nature": "CHARITABLERELIGIOUS",
+    "cls": "iC"
+   }
+  ],
+  "reg": [],
+  "regothFlg": "N",
+  "regoth": [],
+  "sec": "11",
+  "receipt": "",
+  "origdate": "",
+  "din": "",
+  "noticedate": "",
+  "resStatus": "RES",
+  "domcomp": "Y",
+  "claim90": "NO",
+  "repFlg": "N",
+  "repName": "",
+  "repEmail": "",
+  "repMobileCc": "91",
+  "repMobile": "",
+  "partnerFlg": "N",
+  "partners": [],
+  "lei": "",
+  "leiValid": "",
+  "unlistedFlg": "N",
+  "unlisted": []
+ },
+ "g2": {
+  "aud44": "Y",
+  "aud": {
+   "sec": "12A(1)(b)",
+   "flag": "Y",
+   "frmName": "Rao & Rao, Chartered Accountants",
+   "frmPAN": "AAAFR5566K",
+   "date": "12/09/2026",
+   "ack": "482910375612"
+  },
+  "othact": "N",
+  "othacts": [],
+  "members": [],
+  "authA": [],
+  "authB": [],
+  "contC": [],
+  "relD": [],
+  "od": {
+   "charPurpose": "N",
+   "act2_15": "N",
+   "pctTrade": "",
+   "rend2_15": "N",
+   "pctRend": "",
+   "aggInst": [],
+   "change": "N",
+   "changeDate": "",
+   "freshApplied": "N",
+   "freshGranted": "N",
+   "freshDate": "",
+   "firstRet": "N",
+   "prov1310": "N",
+   "clause15": "N",
+   "subI": "N",
+   "subII": "N",
+   "subSec1": "N"
+  }
+ },
+ "bodies": {
+  "pp": {
+   "on": ""
+  },
+  "et": {
+   "on": ""
+  },
+  "sh": {
+   "on": "",
+   "a": [],
+   "b": [],
+   "c": []
+  }
+ }
+}

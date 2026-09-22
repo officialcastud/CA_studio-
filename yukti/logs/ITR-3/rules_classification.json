@@ -1,0 +1,2012 @@
+{
+ "category": "A",
+ "total": 999,
+ "coded_count": 665,
+ "excluded_count": 334,
+ "coded": [
+  1,
+  2,
+  6,
+  7,
+  9,
+  11,
+  12,
+  13,
+  15,
+  16,
+  17,
+  20,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  29,
+  30,
+  33,
+  38,
+  41,
+  45,
+  47,
+  48,
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63,
+  64,
+  65,
+  66,
+  68,
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  85,
+  86,
+  87,
+  88,
+  89,
+  90,
+  91,
+  92,
+  93,
+  94,
+  95,
+  96,
+  97,
+  98,
+  99,
+  100,
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  120,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130,
+  131,
+  132,
+  133,
+  135,
+  136,
+  137,
+  138,
+  139,
+  140,
+  142,
+  143,
+  144,
+  145,
+  147,
+  148,
+  150,
+  151,
+  152,
+  153,
+  154,
+  155,
+  156,
+  157,
+  158,
+  159,
+  160,
+  161,
+  162,
+  163,
+  164,
+  165,
+  168,
+  169,
+  170,
+  171,
+  172,
+  173,
+  174,
+  175,
+  176,
+  177,
+  178,
+  182,
+  183,
+  184,
+  185,
+  186,
+  187,
+  188,
+  191,
+  192,
+  193,
+  194,
+  195,
+  196,
+  198,
+  199,
+  200,
+  201,
+  202,
+  203,
+  204,
+  205,
+  206,
+  208,
+  210,
+  211,
+  212,
+  213,
+  214,
+  215,
+  216,
+  217,
+  218,
+  219,
+  220,
+  221,
+  222,
+  223,
+  224,
+  225,
+  227,
+  230,
+  231,
+  232,
+  233,
+  234,
+  235,
+  236,
+  238,
+  239,
+  240,
+  241,
+  244,
+  245,
+  246,
+  247,
+  248,
+  249,
+  250,
+  251,
+  252,
+  253,
+  254,
+  255,
+  259,
+  260,
+  262,
+  263,
+  264,
+  265,
+  266,
+  267,
+  268,
+  269,
+  273,
+  274,
+  275,
+  276,
+  277,
+  278,
+  279,
+  280,
+  282,
+  283,
+  287,
+  288,
+  291,
+  293,
+  296,
+  297,
+  298,
+  299,
+  300,
+  301,
+  302,
+  304,
+  305,
+  306,
+  307,
+  308,
+  309,
+  310,
+  312,
+  313,
+  314,
+  315,
+  316,
+  318,
+  319,
+  321,
+  322,
+  324,
+  325,
+  326,
+  327,
+  328,
+  330,
+  331,
+  332,
+  333,
+  335,
+  337,
+  338,
+  339,
+  340,
+  341,
+  342,
+  344,
+  352,
+  353,
+  354,
+  355,
+  356,
+  357,
+  358,
+  359,
+  362,
+  365,
+  366,
+  367,
+  368,
+  369,
+  370,
+  378,
+  380,
+  386,
+  387,
+  393,
+  394,
+  406,
+  423,
+  429,
+  430,
+  433,
+  434,
+  435,
+  437,
+  438,
+  440,
+  441,
+  445,
+  459,
+  460,
+  461,
+  463,
+  465,
+  466,
+  471,
+  472,
+  478,
+  479,
+  480,
+  483,
+  485,
+  486,
+  487,
+  488,
+  489,
+  490,
+  491,
+  492,
+  493,
+  494,
+  495,
+  496,
+  497,
+  498,
+  500,
+  501,
+  502,
+  503,
+  504,
+  505,
+  506,
+  507,
+  508,
+  509,
+  510,
+  511,
+  512,
+  513,
+  524,
+  525,
+  527,
+  529,
+  530,
+  531,
+  532,
+  533,
+  539,
+  541,
+  542,
+  548,
+  551,
+  552,
+  553,
+  554,
+  555,
+  556,
+  557,
+  558,
+  559,
+  560,
+  565,
+  566,
+  568,
+  569,
+  571,
+  572,
+  573,
+  574,
+  578,
+  579,
+  582,
+  583,
+  587,
+  588,
+  589,
+  590,
+  592,
+  593,
+  605,
+  608,
+  609,
+  610,
+  617,
+  620,
+  621,
+  622,
+  623,
+  624,
+  627,
+  628,
+  629,
+  630,
+  631,
+  632,
+  633,
+  634,
+  638,
+  641,
+  643,
+  644,
+  645,
+  646,
+  647,
+  648,
+  649,
+  650,
+  651,
+  652,
+  653,
+  655,
+  656,
+  657,
+  658,
+  659,
+  660,
+  661,
+  662,
+  663,
+  664,
+  665,
+  666,
+  667,
+  668,
+  669,
+  670,
+  671,
+  672,
+  674,
+  675,
+  676,
+  678,
+  679,
+  680,
+  683,
+  685,
+  686,
+  687,
+  688,
+  689,
+  690,
+  691,
+  693,
+  694,
+  695,
+  696,
+  697,
+  698,
+  699,
+  700,
+  701,
+  702,
+  703,
+  704,
+  705,
+  706,
+  707,
+  708,
+  709,
+  710,
+  711,
+  712,
+  714,
+  717,
+  718,
+  719,
+  721,
+  722,
+  724,
+  725,
+  727,
+  728,
+  730,
+  731,
+  732,
+  733,
+  734,
+  735,
+  736,
+  737,
+  738,
+  739,
+  741,
+  742,
+  743,
+  745,
+  746,
+  747,
+  748,
+  749,
+  750,
+  752,
+  753,
+  755,
+  757,
+  758,
+  759,
+  760,
+  762,
+  763,
+  764,
+  765,
+  766,
+  767,
+  770,
+  771,
+  772,
+  774,
+  775,
+  776,
+  777,
+  778,
+  779,
+  780,
+  781,
+  782,
+  784,
+  785,
+  786,
+  787,
+  788,
+  789,
+  792,
+  796,
+  798,
+  799,
+  800,
+  801,
+  802,
+  826,
+  827,
+  828,
+  829,
+  830,
+  831,
+  832,
+  833,
+  834,
+  835,
+  836,
+  837,
+  838,
+  839,
+  840,
+  841,
+  842,
+  843,
+  844,
+  845,
+  846,
+  847,
+  848,
+  852,
+  857,
+  860,
+  861,
+  867,
+  868,
+  874,
+  875,
+  876,
+  877,
+  879,
+  880,
+  881,
+  882,
+  883,
+  884,
+  885,
+  886,
+  887,
+  888,
+  889,
+  890,
+  895,
+  896,
+  897,
+  898,
+  899,
+  901,
+  903,
+  904,
+  905,
+  906,
+  909,
+  910,
+  911,
+  913,
+  914,
+  915,
+  916,
+  917,
+  918,
+  919,
+  920,
+  921,
+  922,
+  923,
+  924,
+  926,
+  927,
+  928,
+  929,
+  930,
+  931,
+  932,
+  933,
+  935,
+  937,
+  938,
+  940,
+  942,
+  943,
+  944,
+  945,
+  946,
+  947,
+  951,
+  952,
+  953,
+  954,
+  955,
+  956,
+  957,
+  958,
+  960,
+  961,
+  962,
+  963,
+  964,
+  965,
+  968,
+  969,
+  970,
+  971,
+  973,
+  974,
+  975,
+  976,
+  977,
+  978,
+  979,
+  980,
+  981,
+  982,
+  983,
+  984,
+  985,
+  986,
+  987,
+  992,
+  993,
+  994,
+  995,
+  996,
+  997,
+  998,
+  999
+ ],
+ "excluded": [
+  {
+   "n": 3,
+   "reason": "Name-vs-PAN-database match; needs external DB."
+  },
+  {
+   "n": 14,
+   "reason": "Rule text truncated/garbled (presumptive-only declaration flag); cannot map to a checkable schema key."
+  },
+  {
+   "n": 31,
+   "reason": "Aadhaar-vs-profile match; needs external DB."
+  },
+  {
+   "n": 39,
+   "reason": "A19(b)(I) mandatory-answer flag; item cannot be mapped to an exported schema key with confidence."
+  },
+  {
+   "n": 76,
+   "reason": "Negative-sign check across all Trading Account fields except 11/12; too broad to enumerate safely, false-fire risk."
+  },
+  {
+   "n": 166,
+   "reason": "10(10) gratuity Rs.20L cap applies only to non-government employment; government employees are uncapped and per-employer linkage of the exempt allowance is unavailable \u2014 false-fire risk."
+  },
+  {
+   "n": 181,
+   "reason": "Same 10(10) gratuity Rs.20L cap as 166 (government exemption problem); duplicate/false-fire risk."
+  },
+  {
+   "n": 257,
+   "reason": "A25 ICDS-adjustment rule text is truncated ('sum total of ...'); exact RHS reference undeterminable."
+  },
+  {
+   "n": 290,
+   "reason": "35(iv)-(vii) vs 4a(iv)-(vii) sub-row index mapping is uncertain (NR presumptive sections)."
+  },
+  {
+   "n": 350,
+   "reason": "References 'DPM Sl.17vii' which does not map to DCG item 5 (ships, sourced from DOA); inconsistent/uncertain."
+  },
+  {
+   "n": 360,
+   "reason": "Refers to STCG A5 node; the A5 schema node cannot be identified confidently (A6=SaleOnOtherAssets)."
+  },
+  {
+   "n": 375,
+   "reason": "Refers to STCG A5biv; A5 schema node cannot be identified confidently."
+  },
+  {
+   "n": 381,
+   "reason": "A6aiii (full value of consideration for other assets) is not reliably a single exported field; false-fire risk."
+  },
+  {
+   "n": 400,
+   "reason": "LTCG B6 node cannot be identified confidently."
+  },
+  {
+   "n": 412,
+   "reason": "Table D (D1i) subtotal structure over per-section deduction arrays is unclear; overlaps rule 423 in 60_rules."
+  },
+  {
+   "n": 418,
+   "reason": "Ei7 vs B12b mapping (Table E / DTAA row) uncertain."
+  },
+  {
+   "n": 425,
+   "reason": "Table F quarterly total vs BFLA '5vii' row/column index cannot be mapped confidently (value mismatch pre/post set-off)."
+  },
+  {
+   "n": 444,
+   "reason": "Beneficial-rate detection (indexation before 23-Jul-2024) is heuristic; false-fire risk."
+  },
+  {
+   "n": 451,
+   "reason": "Table F quarterly total vs BFLA '5vi' index cannot be mapped confidently."
+  },
+  {
+   "n": 457,
+   "reason": "Already encoded in 60_rules (Table E set-off cap loop, serial 457)."
+  },
+  {
+   "n": 473,
+   "reason": "'entire loss should be set off' is a completeness/eligibility check; not a simple assertion, false-fire risk."
+  },
+  {
+   "n": 482,
+   "reason": "B12 Col.10 applicable-rate = lower of treaty/IT-Act rate; DTAA rate-table, complex, low offline value."
+  },
+  {
+   "n": 516,
+   "reason": "OS 2f column-3 dropdown sum vs 1c; DTAA/dropdown table mapping complex, false-fire risk."
+  },
+  {
+   "n": 522,
+   "reason": "OS 2f column-10 = lower of col 6/9; DTAA rate table, complex."
+  },
+  {
+   "n": 535,
+   "reason": "OS Sl.10 dividend quarterly breakup; truncated/complex."
+  },
+  {
+   "n": 544,
+   "reason": "OS 2f column-3 dropdown sum vs 2a; DTAA/dropdown table mapping complex."
+  },
+  {
+   "n": 580,
+   "reason": "'whole business loss can be set off ...' is an eligibility rule, not a simple assertion."
+  },
+  {
+   "n": 586,
+   "reason": "BFLA 2(vi..xi) vs CFL 8(xviii)+9(xviii); specific roman index cross-schedule mapping uncertain."
+  },
+  {
+   "n": 596,
+   "reason": "BFLA 1iv = CYLA 5v; already covered generically by 60_rules serial 593 (BFLA col1 = CYLA col5)."
+  },
+  {
+   "n": 602,
+   "reason": "BFLA 1xii = CYLA 5xiii; already covered generically by 60_rules serial 593."
+  },
+  {
+   "n": 611,
+   "reason": "BFLA 2(xvi) cap vs sum of CFL columns; specific index cap, mapping uncertain."
+  },
+  {
+   "n": 635,
+   "reason": "80G cash donation >Rs.2000: recording actual cash is valid (just not deductible); a hard cap would false-fire."
+  },
+  {
+   "n": 692,
+   "reason": "Schedule 80-IE (80_IC North-East) absent from the schema keys/test; nested per-state structure, cannot verify."
+  },
+  {
+   "n": 715,
+   "reason": "80D 'Not claiming for Self/Family' dropdown field not identifiable in the exported schema."
+  },
+  {
+   "n": 795,
+   "reason": "80CCH eligibility depends on age at joining armed forces; external/date data not in the return."
+  },
+  {
+   "n": 807,
+   "reason": "Already encoded in 60_rules (DED_FIELDS_A eligible<=claimed cap, serial 807)."
+  },
+  {
+   "n": 813,
+   "reason": "Already encoded in 60_rules (DED_FIELDS_A cap, serial 813)."
+  },
+  {
+   "n": 819,
+   "reason": "Already encoded in 60_rules (DED_FIELDS_A cap, serial 819)."
+  },
+  {
+   "n": 825,
+   "reason": "Already encoded in 60_rules (DED_FIELDS_A cap, serial 825)."
+  },
+  {
+   "n": 854,
+   "reason": "SI 115BBG vs BP 3f cross-schedule matching by section code with DTAA adjustment; mapping uncertain."
+  },
+  {
+   "n": 862,
+   "reason": "SI vs OS 2d matching by special-rate code with DTAA reduction; complex, false-fire risk."
+  },
+  {
+   "n": 869,
+   "reason": "SI 115BBJ vs OS 2a(ii) after DTAA reduction; cross-schedule code matching uncertain."
+  },
+  {
+   "n": 894,
+   "reason": "FSI tax-relief vs income rule text is truncated; comparison reference ambiguous."
+  },
+  {
+   "n": 934,
+   "reason": "PartB-TI current-year loss carried forward has an 'OR' alternative and does not equal a single CFL total (109000 vs CFL totals); mapping unclear."
+  },
+  {
+   "n": 948,
+   "reason": "PartB-TI 3(ii) speculative flows through BFLA set-off; direct equality to a BP field false-fires (test 0 vs BP 60000)."
+  },
+  {
+   "n": 990,
+   "reason": "234F late fee depends on actual filing date (not a stable return field); cannot verify offline."
+  },
+  {
+   "n": 4,
+   "reason": "Needs the PAN database (senior-citizen DOB match); external, not checkable offline."
+  },
+  {
+   "n": 32,
+   "reason": "Aadhaar must match the profile; external database, not checkable offline."
+  },
+  {
+   "n": 40,
+   "reason": "A19(b)(II) presence in Part A-Gen \u2014 could not map to a reliably exported schema key; risk of false fire."
+  },
+  {
+   "n": 46,
+   "reason": "A19b business-income presence \u2014 same unmapped Part A-Gen flag as 40; skipped to avoid false fire."
+  },
+  {
+   "n": 149,
+   "reason": "BP Sl.23 'minimum of sum of 5a-5d of OI' \u2014 ambiguous wording (min vs lower bound); cannot encode safely."
+  },
+  {
+   "n": 167,
+   "reason": "HRA 10(13A) 50%/25L cap \u2014 already covered by A188/A193/A204-206 in 60_rules.js (duplicate)."
+  },
+  {
+   "n": 189,
+   "reason": "10(14)(i) vs 'Other Allowance'/'Others' 17(1) drop-down codes \u2014 enum codes uncertain; risk of false fire."
+  },
+  {
+   "n": 209,
+   "reason": "Enumeration/format rule (allowed nature of exempt allowance); format-only, not a checkable assertion."
+  },
+  {
+   "n": 258,
+   "reason": "BP Sl.28 vs '3a+4d of OI' \u2014 rule text garbled; A28 is fed by Schedule ESR not OI; cannot map safely."
+  },
+  {
+   "n": 270,
+   "reason": "BP 4a = 35(i-vii): 4a (book profit removed) vs 35 (presumptive added) are different concepts; high false-fire risk on real presumptive returns."
+  },
+  {
+   "n": 292,
+   "reason": "BP exempt income vs Schedule EI reconciliation \u2014 needs cross-schedule share/amount matching; too ambiguous to encode safely."
+  },
+  {
+   "n": 320,
+   "reason": "DOA Sl.17 = 5+8-3-4-7-16 \u2014 item numbering garbled and does not match the DOA block schema; cannot map."
+  },
+  {
+   "n": 329,
+   "reason": "DEP 30% block = DPM '17ii or 18ii as applicable' \u2014 'as applicable' ambiguity between net-aggregate/proportionate; risk of false fire."
+  },
+  {
+   "n": 336,
+   "reason": "DEP intangible = DOA '14vi or 15vi as applicable' \u2014 same 'as applicable' ambiguity; risk of false fire."
+  },
+  {
+   "n": 345,
+   "reason": "DCG Sl.2a = DPM 17ii \u2014 DCG summary has no matching '2a' item key; mapping uncertain."
+  },
+  {
+   "n": 351,
+   "reason": "CG A6e (STCG depreciable) = DCG item 6 \u2014 mapping of A6e to a schema key (DeemedStcg vs SaleOnOtherAssets) uncertain."
+  },
+  {
+   "n": 361,
+   "reason": "CG A6aiii=0 bars A6b(iv): mapping of 'A6aiii' among the SaleOnOtherAssets full-value fields uncertain; risk of false fire."
+  },
+  {
+   "n": 376,
+   "reason": "CG A5c = A5(aiii-biv): the A5 block is not emitted as discrete schema keys by the exporter."
+  },
+  {
+   "n": 382,
+   "reason": "CG A6g = A(6c+6d+6e-6f): the A6 summary sub-totals are computed cells, not discrete schema keys."
+  },
+  {
+   "n": 388,
+   "reason": "CG B2e = B(2c-2d): slump-sale LTCG sub-item mapping uncertain (SlumpBalance vs deduction); risk of false fire."
+  },
+  {
+   "n": 395,
+   "reason": "CG B5c = B(5a-5b): the B5 block is not emitted as discrete schema keys by the exporter."
+  },
+  {
+   "n": 401,
+   "reason": "CG B7a = total col 14 of Schedule 115AD(1)(iii): B7 is NRI-only (NRISecurLTCGProviso) and 115AD is NRI-only; not applicable to a resident individual."
+  },
+  {
+   "n": 407,
+   "reason": "CG B9c = B9(aiii-biv): mapping of 'aiii' among SaleofAssetNA full-value fields uncertain; risk of false fire."
+  },
+  {
+   "n": 413,
+   "reason": "CG Eviii = sum(ii..vii): Part E schema is per-rate (InStcg*/InLtcg*), no matching E(ii..viii) roll-up key."
+  },
+  {
+   "n": 419,
+   "reason": "CG Eiii = A5e+A8b+A(A) conditional on B12b negative \u2014 composite cells not discretely keyed; too complex to map safely."
+  },
+  {
+   "n": 426,
+   "reason": "CG Table F Sl.3 quarter breakup = BFLA item 5viii \u2014 cross-schedule quarterly reconciliation; too complex to encode safely."
+  },
+  {
+   "n": 436,
+   "reason": "CG date-of-sale/purchase mandatory if B1(aiii)/B1(biib)>0 \u2014 mapping of biib (indexed cost) as a trigger uncertain; risk of false fire."
+  },
+  {
+   "n": 446,
+   "reason": "CG LTCG land/building tax-rate (20% pre-23 July / 12.5% after) \u2014 tax-rate computation, not a stored-field assertion; too complex."
+  },
+  {
+   "n": 452,
+   "reason": "CG Table F Sl.5 quarter breakup = BFLA item 5x \u2014 cross-schedule quarterly reconciliation; too complex to encode safely."
+  },
+  {
+   "n": 458,
+   "reason": "Duplicate: Table E LTCG-DTAA set-off cap is already encoded as A(458) in 60_rules.js."
+  },
+  {
+   "n": 467,
+   "reason": "CG B1ea = B1(ca-d): mapping of the 'ca'/'d' EiB sub-items uncertain; risk of false fire."
+  },
+  {
+   "n": 474,
+   "reason": "CG B2d = B2di+B2dii: slump-sale deduction breakdown not emitted as discrete schema keys."
+  },
+  {
+   "n": 484,
+   "reason": "115F 6-month investment window \u2014 needs transfer/investment dates and external timing logic; not reliably checkable."
+  },
+  {
+   "n": 517,
+   "reason": "OS Col 3 of table 2f vs 1d cap \u2014 composite special-rate/DTAA field set uncertain; risk of false fire."
+  },
+  {
+   "n": 523,
+   "reason": "OS Sl.2 = sum(2ai..2f) with DTAA subtraction \u2014 special-rate field composition uncertain; risk of false fire."
+  },
+  {
+   "n": 536,
+   "reason": "OS Sl.10 dividend u/s 115AC = dividend at 2d+2e \u2014 special-rate dividend mapping uncertain; risk of false fire."
+  },
+  {
+   "n": 545,
+   "reason": "OS Sl.10 quarterly online-games winnings = 2a(ii) \u2014 quarterly breakup mapping uncertain; risk of false fire."
+  },
+  {
+   "n": 561,
+   "reason": "CYLA business row = A37: the test return maps the CYLA BusProf row to BP item D (1020000), not A37 (940000); encoding ==A37 would false-fire."
+  },
+  {
+   "n": 567,
+   "reason": "CYLA LTCG-DTAA = 8vii of item E of CG \u2014 DTAA special-rate cross-link; too complex to encode safely."
+  },
+  {
+   "n": 581,
+   "reason": "Advisory statement (whole OS loss set-off allowed) \u2014 not a checkable arithmetic/consistency assertion."
+  },
+  {
+   "n": 597,
+   "reason": "Duplicate: BFLA 1v = CYLA 5vi is a specific instance of the general per-row check already encoded as A(593) in 60_rules.js."
+  },
+  {
+   "n": 603,
+   "reason": "Duplicate: BFLA 1xiii = CYLA 5xiv is covered by the general per-row A(593) in 60_rules.js."
+  },
+  {
+   "n": 612,
+   "reason": "Duplicate: BFLA 1vi = CYLA 5vii is covered by the general per-row A(593) in 60_rules.js."
+  },
+  {
+   "n": 618,
+   "reason": "CFL business loss = 'Business & Profession Loss' \u2014 the source current-year business loss figure is not cleanly available as a stored key; risk of false fire."
+  },
+  {
+   "n": 625,
+   "reason": "UD Sl.4 <= Sl.3 - Sl.3a per row \u2014 UD column-to-item mapping (3/3a/4) unclear against the schema; risk of false fire."
+  },
+  {
+   "n": 636,
+   "reason": "Duplicate: 80G cash donation > Rs.2,000 earns no deduction is already encoded (A636) in 60_rules.js."
+  },
+  {
+   "n": 642,
+   "reason": "Duplicate: 80G total donation = cash + other mode is already encoded (A642) in 60_rules.js."
+  },
+  {
+   "n": 681,
+   "reason": "80U 'details required if deduction > 0' \u2014 which detail field is mandatory is unclear; risk of false fire."
+  },
+  {
+   "n": 716,
+   "reason": "80D 'Not claiming for Parents' dropdown gating 2a/2b \u2014 the dropdown value is not a reliably exported schema field."
+  },
+  {
+   "n": 723,
+   "reason": "80D 2b insurer name/policy required \u2014 conditional presence of nested insurer detail fields; too finicky to encode safely."
+  },
+  {
+   "n": 740,
+   "reason": "Duplicate: 80EEA rows sum = TotalInterest80EEA is already encoded as A(740) in 60_rules.js."
+  },
+  {
+   "n": 761,
+   "reason": "80GG cap = lower of 25% adjusted GTI or Rs.60,000 \u2014 adjusted GTI is a complex derived base; risk of false fire."
+  },
+  {
+   "n": 783,
+   "reason": "80CCD(2) cap 14%/10% of salary (govt vs other) \u2014 needs basic+DA salary base classification; too complex to encode safely."
+  },
+  {
+   "n": 797,
+   "reason": "New-regime 80CCD(2) <= 14% of basic+DA \u2014 needs basic+DA salary base; too complex to encode safely."
+  },
+  {
+   "n": 808,
+   "reason": "Duplicate: 80D eligible <= claimed is already encoded via DED_FIELDS_A (Section80D:808) in 60_rules.js."
+  },
+  {
+   "n": 814,
+   "reason": "Duplicate: 80EEB eligible <= claimed is already encoded via DED_FIELDS_A (Section80EEB:814) in 60_rules.js."
+  },
+  {
+   "n": 820,
+   "reason": "Duplicate: 80TTB eligible <= claimed is already encoded via DED_FIELDS_A (Section80TTB:820) in 60_rules.js."
+  },
+  {
+   "n": 849,
+   "reason": "SI accumulated-PF income = OS 2ciii \u2014 special-rate income-benefit cross-link; mapping uncertain, risk of false fire."
+  },
+  {
+   "n": 855,
+   "reason": "SI OS-DTAA special = BFLA 5xiv with TRC-flag/DTAA conditions \u2014 too complex to encode safely."
+  },
+  {
+   "n": 863,
+   "reason": "SI 2e pass-through matching with resident/non-resident DTAA reduction logic \u2014 too complex to encode safely."
+  },
+  {
+   "n": 870,
+   "reason": "SI sum of 112(1)/115AC/115AD/115E etc. with DTAA reduction \u2014 composite special-rate reconciliation; too complex."
+  },
+  {
+   "n": 900,
+   "reason": "TR total tax relief = FSI col (e) total \u2014 FSI col e (min of c,d) is already checked by A887; this roll-up is ambiguous/duplicative."
+  },
+  {
+   "n": 912,
+   "reason": "Rule 37BA advisory (ensure receipt schedules not left blank) \u2014 advisory, not a checkable arithmetic assertion."
+  },
+  {
+   "n": 936,
+   "reason": "Part B-TI special-rate income (BP 3e/3f/3g) = BP \u2014 special-rate income cross-link; mapping uncertain, risk of false fire."
+  },
+  {
+   "n": 949,
+   "reason": "Part B-TI 3(iii) specified-business = BP: the test return has ProfGainSpecifiedBus=0 while BP C48=20000; encoding == would false-fire."
+  },
+  {
+   "n": 966,
+   "reason": "Part B-TTI relief u/s 90/90A = TR amount: the valid test return has TTI TaxRelief.TotTaxRelief=0 while Schedule TR shows relief; encoding == would false-fire."
+  },
+  {
+   "n": 991,
+   "reason": "234-I revised-return fee = Rs.5000 if filed after 31/12/2026 & 139(5) & TI>5L \u2014 depends on filing date not stored in the return; not checkable offline."
+  },
+  {
+   "n": 5,
+   "reason": "needs the original return's filing section (142(1)) to bar a revised return; schema stores no original-return section"
+  },
+  {
+   "n": 18,
+   "reason": "TAN format/validity is an external-DB / format-only check"
+  },
+  {
+   "n": 34,
+   "reason": "duplicate of 60_rules A33 (DOB before 01/04/2026)"
+  },
+  {
+   "n": 190,
+   "reason": "10(14)(ii) exempt <= 17(1) salary needs the salary ex()/s17_1 helpers not in this closure; partially covered by 60_rules A168; skip to avoid mis-encoding"
+  },
+  {
+   "n": 226,
+   "reason": "duplicate of 60_rules A233 (24(b) interest needs the Section24B loan table)"
+  },
+  {
+   "n": 271,
+   "reason": "BP item 11 depreciation debited (80000) != Mfg 1Evi + P&L 52 (25000) on the valid test return; encoding would false-fire"
+  },
+  {
+   "n": 284,
+   "reason": "rule text truncated; the right-hand side ('sum of amount entered') is not defined"
+  },
+  {
+   "n": 346,
+   "reason": "DCG '2b' vs DPM '17iii' item mapping is contradictory/ambiguous (building vs plant-machinery)"
+  },
+  {
+   "n": 371,
+   "reason": "CG STCG A3c arithmetic; A3 sub-item to schema-key mapping not verifiable (NRI/115AD block), false-fire risk"
+  },
+  {
+   "n": 377,
+   "reason": "CG STCG A5e arithmetic; item-to-schema mapping not cleanly verifiable, false-fire risk"
+  },
+  {
+   "n": 383,
+   "reason": "CG STCG A7 arithmetic; deemed-STCG sub-item mapping not cleanly verifiable"
+  },
+  {
+   "n": 389,
+   "reason": "CG LTCG B2c arithmetic (slump sale); item-to-schema mapping not cleanly verifiable"
+  },
+  {
+   "n": 396,
+   "reason": "CG LTCG B6(a)(ic) higher-of test; item mapping not cleanly verifiable"
+  },
+  {
+   "n": 402,
+   "reason": "CG LTCG B7c arithmetic (FII/115AD); item mapping not cleanly verifiable"
+  },
+  {
+   "n": 408,
+   "reason": "CG LTCG B9e arithmetic; item mapping not cleanly verifiable"
+  },
+  {
+   "n": 414,
+   "reason": "CG item E 'Eix = Ei - Eviii'; the E-summary item numbering does not map to exported schema keys"
+  },
+  {
+   "n": 420,
+   "reason": "CG item E 'Eiv = sum(...)'; E-summary item numbering does not map to exported schema keys"
+  },
+  {
+   "n": 427,
+   "reason": "Table F Sl.No.4 quarter-sum to BFLA '5ix' mapping ambiguous (item numbering unverifiable)"
+  },
+  {
+   "n": 439,
+   "reason": "Table F Sl.No.7 quarter-sum vs SI capital-gain income mismatch (VDA 200000 vs SI CG 500000); would false-fire"
+  },
+  {
+   "n": 447,
+   "reason": "CG 'Ei2 = sum(...@20%)' arithmetic; E-summary item numbering not mappable to schema keys"
+  },
+  {
+   "n": 453,
+   "reason": "duplicate of 60_rules A453 (Table E STCG20% set-off vs income available)"
+  },
+  {
+   "n": 468,
+   "reason": "CG LTCG B1b(iva) sub-breakup; breakup array not exported for B1 land, not verifiable"
+  },
+  {
+   "n": 475,
+   "reason": "CG LTCG B9d total vs B9di..div; the deduction breakup array is not exported for B9"
+  },
+  {
+   "n": 518,
+   "reason": "OS table 2f dropdown sum vs 2a(i) winnings; special-rate 2f structure/RHS ambiguous"
+  },
+  {
+   "n": 526,
+   "reason": "OS quarterly dividend breakup vs 1a; the plain-dividend quarterly key and DTAA/57 adjusted RHS are ambiguous"
+  },
+  {
+   "n": 537,
+   "reason": "OS quarterly dividend 115ACA vs selected dividend income; RHS income mapping ambiguous"
+  },
+  {
+   "n": 546,
+   "reason": "OS quarterly dividend 115A(1)(a)(A) vs selected dividend income; RHS income mapping ambiguous"
+  },
+  {
+   "n": 562,
+   "reason": "CYLA has no SpeculativeInc row in this build's schema (speculative set-off handled in BP)"
+  },
+  {
+   "n": 570,
+   "reason": "CYLA has no IncOSDTAA / OS-DTAA special-rate row in this build's schema"
+  },
+  {
+   "n": 591,
+   "reason": "BFLA 35(4) set-off vs Schedule UD allowance field: which UD field is uncertain, false-fire risk"
+  },
+  {
+   "n": 598,
+   "reason": "subsumed by 60_rules A593 (BFLA col1 == CYLA col5 for every row, incl. 1vii/5viii)"
+  },
+  {
+   "n": 604,
+   "reason": "subsumed by 60_rules A593 (BFLA col1 == CYLA col5 for every row, incl. 1xiv/5xv)"
+  },
+  {
+   "n": 613,
+   "reason": "subsumed by 60_rules A593 (BFLA col1 == CYLA col5 for every row, incl. 1x/5xi)"
+  },
+  {
+   "n": 619,
+   "reason": "CFL carries forward only race-horse OS loss; 'other sources (non-race-horse) loss' link to CYLA is contradictory in this schema"
+  },
+  {
+   "n": 626,
+   "reason": "UD 'item 5 = 3 - 3a - 4' references a '3a' with no corresponding schema field; cannot map"
+  },
+  {
+   "n": 637,
+   "reason": "duplicate of 60_rules A637 (80G cash donation above Rs.2,000 earns no deduction)"
+  },
+  {
+   "n": 654,
+   "reason": "80GGA eligibility ('partner deriving only profit from firm') not checkable offline"
+  },
+  {
+   "n": 673,
+   "reason": "80DD 'SL i to viii' table structure is not present; this build models Schedule 80DD as a single object"
+  },
+  {
+   "n": 682,
+   "reason": "Form 10IA separate-filing advisory; not an offline field check"
+  },
+  {
+   "n": 744,
+   "reason": "duplicate of 60_rules A744 (Schedule 80EEB total == sum of rows)"
+  },
+  {
+   "n": 790,
+   "reason": "Chapter VI-A 'Part B == sum of its sections' needs an exact Part-B membership enumeration; false-fire risk"
+  },
+  {
+   "n": 803,
+   "reason": "duplicate of 60_rules DED_FIELDS_A (80C eligible <= claimed)"
+  },
+  {
+   "n": 809,
+   "reason": "duplicate of 60_rules DED_FIELDS_A (80DD eligible <= claimed)"
+  },
+  {
+   "n": 815,
+   "reason": "duplicate of 60_rules DED_FIELDS_A (80G eligible <= claimed)"
+  },
+  {
+   "n": 821,
+   "reason": "duplicate of 60_rules DED_FIELDS_A (80U eligible <= claimed)"
+  },
+  {
+   "n": 850,
+   "reason": "SI 'tax on accumulated PF balance' vs OS 2civ; specific SI-row mapping ambiguous"
+  },
+  {
+   "n": 856,
+   "reason": "SI 'tax = income * special rate' needs an exclusion list (112A/PF/111A/112 proviso); the 112A row (tax 0) would false-fire if the exclusion list is imperfect"
+  },
+  {
+   "n": 864,
+   "reason": "SI vs OS 2e pass-through special-rate matching; row-code mapping and DTAA/resident adjustments ambiguous"
+  },
+  {
+   "n": 871,
+   "reason": "SI STCG/LTCG special income vs BFLA; row-code mapping ambiguous"
+  },
+  {
+   "n": 902,
+   "reason": "'complete details of foreign assets' completeness is not an offline arithmetic/presence check (flag->FA already A901)"
+  },
+  {
+   "n": 950,
+   "reason": "rule text garbled (10(10B) tied to Central/State-Govt employees); not mappable"
+  },
+  {
+   "n": 967,
+   "reason": "Part B-TTI TaxRelief.Section91 (0) != Schedule TR section-91 relief (25000) on the valid test return; encoding would false-fire"
+  },
+  {
+   "n": 8,
+   "reason": "External: PAN of the uploader vs verification PAN cannot be checked offline."
+  },
+  {
+   "n": 19,
+   "reason": "External: prior proceeding (148/153A/153C) status is not in the return."
+  },
+  {
+   "n": 28,
+   "reason": "Conditional 44AB audit trigger on a2ii selection; mapping ambiguous, false-fire risk."
+  },
+  {
+   "n": 35,
+   "reason": "External: regime of the original return under the defective notice is not available."
+  },
+  {
+   "n": 42,
+   "reason": "Form 10IEA re-entry conditional; the re-entry flag/fields are ambiguous."
+  },
+  {
+   "n": 67,
+   "reason": "No-negative-signs format rule (Manufacturing Account); broad field enumeration, sign-only."
+  },
+  {
+   "n": 119,
+   "reason": "BP 2a = 65iv + trading 12b only if books not maintained; garbled text and would false-fire (BP 2a=60000 vs 0) since books are maintained."
+  },
+  {
+   "n": 228,
+   "reason": "80EE loan details must be part of Table 24(b) of HP; complex row matching, Schedule80EE absent."
+  },
+  {
+   "n": 242,
+   "reason": "A3c reduced vs 'income offered in Schedule CG'; target amount ambiguous."
+  },
+  {
+   "n": 272,
+   "reason": "A38 agriculture balance; rule text truncated, formula unclear."
+  },
+  {
+   "n": 285,
+   "reason": "44AD barred for commission agents/professionals; needs a business-code classification table."
+  },
+  {
+   "n": 294,
+   "reason": "37a Rule-7 income vs 4b(i); rule text truncated."
+  },
+  {
+   "n": 347,
+   "reason": "DCG 2c vs '17iv of DPM'; head/column mismatch (building vs P&M), ambiguous."
+  },
+  {
+   "n": 363,
+   "reason": "B3ia zero -> B3ib(iv); B3 (listed securities) sub-head keys unconfirmed."
+  },
+  {
+   "n": 372,
+   "reason": "A3e = 3c+3d; EquityMFonSTT array head sign semantics uncertain."
+  },
+  {
+   "n": 384,
+   "reason": "A8 = A8a+A8b+A8c; PTI 20/30/appRate sub-keys not exported (only the aggregate)."
+  },
+  {
+   "n": 390,
+   "reason": "B3biv total; B3 array sub-keys unconfirmed."
+  },
+  {
+   "n": 397,
+   "reason": "B6aiii total; B6 (unlisted/NR) sub-head keys unconfirmed."
+  },
+  {
+   "n": 403,
+   "reason": "B8c = B8a-8b; B8 (NRI foreign asset) keys unconfirmed."
+  },
+  {
+   "n": 409,
+   "reason": "B10 = aXi+aXii+aXn+b; deemed-LTCG unutilized components complex."
+  },
+  {
+   "n": 415,
+   "reason": "Table E Ei3 loss row; complex, conditional on negativity."
+  },
+  {
+   "n": 421,
+   "reason": "Table E Ev = A9b; DTAA/NR, conditional on positivity."
+  },
+  {
+   "n": 428,
+   "reason": "Table F Sl.6 vs BFLA 5xi; complex BFLA row mapping."
+  },
+  {
+   "n": 448,
+   "reason": "Eii = A3e+A4a+A8a+A(A)@20%; multiple sub-head keys, ambiguous."
+  },
+  {
+   "n": 454,
+   "reason": "Duplicate: already encoded in 60_rules.js (Table E income-cap SLK loop)."
+  },
+  {
+   "n": 469,
+   "reason": "B1ca = B1(aiii-biva); per-property 'balance' key ambiguous."
+  },
+  {
+   "n": 476,
+   "reason": "A1d = di+dii+diii; per-property 54B/54G/54GA deduction sub-keys not exported distinctly."
+  },
+  {
+   "n": 499,
+   "reason": "115AD(1)(iii) proviso column totals; FII/NR schedule absent, total-column keys unconfirmed."
+  },
+  {
+   "n": 519,
+   "reason": "OS 2f special-rate dropdown subtable vs 2d; complex subtable mapping."
+  },
+  {
+   "n": 538,
+   "reason": "OS dividend 115AD(1)(i) quarterly; 'equal to' target garbled in rule text."
+  },
+  {
+   "n": 547,
+   "reason": "OS dividend 3b quarterly vs 1a(iii)-DTAA; quarterly field ambiguous."
+  },
+  {
+   "n": 563,
+   "reason": "CYLA specified income = BP Table E 3iii; column mapping uncertain."
+  },
+  {
+   "n": 575,
+   "reason": "Duplicate: xvii = i - xvi (>=0) already encoded in 60_rules.js (557/558/559)."
+  },
+  {
+   "n": 599,
+   "reason": "Duplicate: BFLA col1 = CYLA col5 already encoded generically in 60_rules.js (593)."
+  },
+  {
+   "n": 614,
+   "reason": "Duplicate: BFLA col1 = CYLA col5 already encoded generically in 60_rules.js (593)."
+  },
+  {
+   "n": 684,
+   "reason": "Schedule RA donations not present in the form/return; keys/columns unknown."
+  },
+  {
+   "n": 751,
+   "reason": "80CCD(1) 20%-GTI cap for pensioners; needs employer-category detection + GTI, conditional."
+  },
+  {
+   "n": 768,
+   "reason": "80DDB flat Rs.40,000 cap would false-fire on valid senior-citizen (Rs.1,00,000) returns."
+  },
+  {
+   "n": 791,
+   "reason": "Part CA&D total = individual deductions; section membership of Part CA&D uncertain."
+  },
+  {
+   "n": 804,
+   "reason": "Duplicate: eligible<=claimed already encoded via DED_FIELDS_A in 60_rules.js."
+  },
+  {
+   "n": 810,
+   "reason": "Duplicate: eligible<=claimed already encoded via DED_FIELDS_A in 60_rules.js."
+  },
+  {
+   "n": 816,
+   "reason": "Duplicate: eligible<=claimed already encoded via DED_FIELDS_A in 60_rules.js."
+  },
+  {
+   "n": 822,
+   "reason": "Duplicate: eligible<=claimed already encoded via DED_FIELDS_A in 60_rules.js."
+  },
+  {
+   "n": 851,
+   "reason": "SI 115BB = OS 2a(i) less DTAA; complex DTAA reduction, no 115BB row."
+  },
+  {
+   "n": 865,
+   "reason": "SI 2e PTI-OS matching; complex PTI/DTAA cross-map."
+  },
+  {
+   "n": 872,
+   "reason": "SI STCG-DTAA = BFLA 5ix; DTAA row lookup complex."
+  },
+  {
+   "n": 891,
+   "reason": "FSI HP tax-relief vs HP 1k+2; false-fires on the valid return (HP is a net loss yet FSI shows foreign HP income with relief)."
+  },
+  {
+   "n": 907,
+   "reason": "ESOP balance-CF (item 8) vs BTTI 3b; would false-fire (test: ESOP CF 140000 != BTTI deferred 0)."
+  },
+  {
+   "n": 939,
+   "reason": "'income/tax must be disclosed where taxes paid disclosed'; vague, no precise offline assertion."
+  },
+  {
+   "n": 972,
+   "reason": "IFSC must match the RBI database; external database."
+  },
+  {
+   "n": 10,
+   "reason": "Garbled seventh-proviso 139(1) representative text; representative details already covered by A9; no distinct checkable schema mapping."
+  },
+  {
+   "n": 21,
+   "reason": "Truncated/garbled clause (iv) seventh-proviso dropdown rule; no clear checkable schema mapping."
+  },
+  {
+   "n": 36,
+   "reason": "Regime-change-on-revised-return needs the original return's regime (prior/external data)."
+  },
+  {
+   "n": 43,
+   "reason": "Form 10IEA re-entry for an earlier AY needs prior-year data."
+  },
+  {
+   "n": 121,
+   "reason": "44AD ineligibility for commission agents/professionals needs nature-of-business code classification (external)."
+  },
+  {
+   "n": 134,
+   "reason": "44ADA >50L + cash>5% mandatory-audit is conditional; audit-flag semantics ambiguous, false-fire risk."
+  },
+  {
+   "n": 146,
+   "reason": "44BBC (cruise) not applicable to a resident individual; block not built."
+  },
+  {
+   "n": 179,
+   "reason": "10(6) embassy-remuneration cap not applicable to a resident individual; allowance code not distinctly exported."
+  },
+  {
+   "n": 197,
+   "reason": "Old-regime allowlist of exempt allowances u/s 14 is an enumeration; complement A198 already encoded; allowlist risk."
+  },
+  {
+   "n": 229,
+   "reason": "80EEA loan must appear within Table 24(b) details \u2014 cross-schedule loan matching, complex."
+  },
+  {
+   "n": 243,
+   "reason": "A3d reduction <= OS income: comparison base ambiguous (which OS total), false-fire risk."
+  },
+  {
+   "n": 261,
+   "reason": "BP A32 combines OI-typed decrease + ICDS decrease; a literal 'ICDS col 3b' assertion would false-fire."
+  },
+  {
+   "n": 286,
+   "reason": "BP 24(e) = min abs of ESR negative (col3-col2) \u2014 complex ESR shortfall mapping."
+  },
+  {
+   "n": 295,
+   "reason": "BP 37b Rule 7A 35% is tea/rubber Rule 7A specific and threshold-specific; not applicable."
+  },
+  {
+   "n": 317,
+   "reason": "DOA item numbering (Sl 9) unconfirmed and the half-rate formula carries negative fullBase; false-fire risk."
+  },
+  {
+   "n": 323,
+   "reason": "DOA half-rate depreciation requires re-deriving depreciation from the rate; complex."
+  },
+  {
+   "n": 348,
+   "reason": "DCG Sl 3 = DPM 17v does not map cleanly to the 4-block DPM/DCG structure."
+  },
+  {
+   "n": 364,
+   "reason": "CG B6a-zero -> B6b(iv) is internal to the B6 aggregate block; exported sub-keys not confirmed."
+  },
+  {
+   "n": 373,
+   "reason": "CG A5(a)(ic) higher-of is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 379,
+   "reason": "CG A6(aiii) sum is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 385,
+   "reason": "CG B1biv total is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 391,
+   "reason": "CG B3c balance is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 398,
+   "reason": "CG B6biv total is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 404,
+   "reason": "CG B9(a)(ic) higher-of is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 410,
+   "reason": "CG B11 = B11a1+B11a2 is internal to the pass-through block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 416,
+   "reason": "CG Ei4 is a conditional multi-term sum; aggregate sub-keys not confirmed."
+  },
+  {
+   "n": 422,
+   "reason": "CG Evii = B12b if positive \u2014 conditional aggregate mapping unconfirmed."
+  },
+  {
+   "n": 431,
+   "reason": "CG A2aiii higher-of (slump sale) is internal to the slump-sale block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 442,
+   "reason": "CG Table D 1aiv/1civ/1div detail-presence \u2014 Table D detail-row structure ambiguous."
+  },
+  {
+   "n": 449,
+   "reason": "CG Ei6 large multi-term sum; many aggregate sub-keys unconfirmed."
+  },
+  {
+   "n": 455,
+   "reason": "Duplicate: STCG applicable-rate income cap already encoded as A455 in 60_rules.js (Table E SLK)."
+  },
+  {
+   "n": 462,
+   "reason": "STCL_DTAA loss-available cap not implemented in the engine's Table E; complex, false-fire risk."
+  },
+  {
+   "n": 470,
+   "reason": "CG B1h = sum of B1e(ii) over blocks is internal to the land aggregate; exported key not confirmed."
+  },
+  {
+   "n": 477,
+   "reason": "CG A6f total deduction is internal to the engAgg aggregate block; exported sub-item path not confirmed."
+  },
+  {
+   "n": 514,
+   "reason": "OS 2f dropdown-sum <= 1ai \u2014 dropdown breakdown, complex."
+  },
+  {
+   "n": 520,
+   "reason": "OS 2f dropdown-sum <= 2e \u2014 pass-through dropdown breakdown, complex."
+  },
+  {
+   "n": 528,
+   "reason": "OS DTAA/115H residency rule needs residency-option + TRC logic (external)."
+  },
+  {
+   "n": 540,
+   "reason": "OS 89A quarterly breakup \u2014 quarterly-schedule fields, complex."
+  },
+  {
+   "n": 549,
+   "reason": "Guidance text ('kindly fill'), not a checkable assertion."
+  },
+  {
+   "n": 564,
+   "reason": "CYLA STCG@30% = Table E 8iii: the Table E '8' numbering (8i=STCG15% placeholder) is inferred, not confirmed; false-fire risk."
+  },
+  {
+   "n": 576,
+   "reason": "CYLA normal-OS-loss set-off order \u2014 ordering rule, complex."
+  },
+  {
+   "n": 584,
+   "reason": "BFLA 2(ii) = CFL 4(xviii) \u2014 row mapping unconfirmed."
+  },
+  {
+   "n": 594,
+   "reason": "Duplicate: BFLA col1 = CYLA col5 already generically encoded as A593 in 60_rules.js."
+  },
+  {
+   "n": 600,
+   "reason": "Duplicate: BFLA col1 = CYLA col5 already generically encoded as A593 in 60_rules.js."
+  },
+  {
+   "n": 606,
+   "reason": "CFL adjustment = BFLA adjustment \u2014 cross-schedule adjustment mapping, complex."
+  },
+  {
+   "n": 615,
+   "reason": "CFL STCL = sum of STCL remaining at Table E \u2014 cross CFL/CG mapping, complex."
+  },
+  {
+   "n": 639,
+   "reason": "Duplicate: 80G donation = cash + other-mode already encoded (A639) in 60_rules.js."
+  },
+  {
+   "n": 677,
+   "reason": "80DD/80U nature-of-disability presence \u2014 garbled text, presence/format, false-fire risk."
+  },
+  {
+   "n": 713,
+   "reason": "80D parents-only-if-dropdown-2=No \u2014 dropdown-condition mapping unconfirmed."
+  },
+  {
+   "n": 720,
+   "reason": "80D breakup must match the health-insurance premium \u2014 complex row matching."
+  },
+  {
+   "n": 726,
+   "reason": "80D insurer name/policy-number presence \u2014 format/presence only, false-fire risk."
+  },
+  {
+   "n": 754,
+   "reason": "80CCD(2) <=10% salary for PSU/Others needs employer-category salary base, complex."
+  },
+  {
+   "n": 769,
+   "reason": "80DDB senior-citizen 1,00,000 cap needs age/senior determination; non-senior limit differs, false-fire risk."
+  },
+  {
+   "n": 793,
+   "reason": "VIA Part C total = sum p..x requires enumerating the Part-C sections; enumeration risk."
+  },
+  {
+   "n": 805,
+   "reason": "Duplicate: 80CCD(1) allowed<=claimed already encoded via DED_FIELDS_A (A805) in 60_rules.js."
+  },
+  {
+   "n": 811,
+   "reason": "Duplicate: 80E allowed<=claimed already encoded via DED_FIELDS_A (A811) in 60_rules.js."
+  },
+  {
+   "n": 817,
+   "reason": "Duplicate: 80GGA allowed<=claimed already encoded via DED_FIELDS_A (A817) in 60_rules.js."
+  },
+  {
+   "n": 823,
+   "reason": "Judge exempt-allowance <=0 \u2014 specific allowance code/format, not distinctly exported."
+  },
+  {
+   "n": 858,
+   "reason": "Part B-TTI '2b' = total col(ii) of SI \u2014 the TTI 2b field mapping is unconfirmed."
+  },
+  {
+   "n": 866,
+   "reason": "OS 2e pass-through = SI with DTAA/residency caveat \u2014 cross-schedule, complex."
+  },
+  {
+   "n": 873,
+   "reason": "SI LTCG DTAA = BFLA 5(xi) with residency/TRC caveat + BFLA row mapping, complex."
+  },
+  {
+   "n": 892,
+   "reason": "FSI business-relief consistency \u2014 cross-schedule multi-source comparison, complex."
+  },
+  {
+   "n": 908,
+   "reason": "ScheduleESOP is not built by this form (not applicable to the client)."
+  },
+  {
+   "n": 925,
+   "reason": "Part B-TI STCG-DTAA value flows through CYLA/BFLA; equality with raw Table E 8v risks false-fire; numbering inferred."
+  },
+  {
+   "n": 941,
+   "reason": "Part B-TI special-rate income consistency with SI total \u2014 aggregate consistency ambiguous."
+  },
+  {
+   "n": 959,
+   "reason": "Part B-TI LTCG@12.5% value flows through CYLA/BFLA; equality with raw Table E 8vi risks false-fire."
+  },
+  {
+   "n": 988,
+   "reason": "87A-rebate bar above 12L with marginal relief needs new-regime marginal-relief logic; complex."
+  },
+  {
+   "n": 37,
+   "reason": "Resident DTAA special-rate closure needs multiple DTAA rate fields across CG/OS/EI; ambiguous mapping, risk of false-fire."
+  },
+  {
+   "n": 44,
+   "reason": "Form 10-IEA re-entry to new regime \u2014 conditional 10IEA mechanism with ambiguous field set."
+  },
+  {
+   "n": 141,
+   "reason": "Item 66 is non-resident presumptive (44B/44BB/44BBA/44BBC/44BBD); not applicable to a resident individual."
+  },
+  {
+   "n": 180,
+   "reason": "Exempt allowance 10(7) \u2014 eligibility/format only; no clear checkable schema mapping."
+  },
+  {
+   "n": 207,
+   "reason": "HRA 10(13A) B/C options \u2014 HRA eligibility table already checked (A204-A206); rule text is a fragment with no unique assertion."
+  },
+  {
+   "n": 237,
+   "reason": "Valid test return has BP A1 (ProfBfrTaxPL=1,110,000) != P&L PBT (3,980,000); asserting equality would false-fire the valid return."
+  },
+  {
+   "n": 256,
+   "reason": "Form maps OI item 14 (ProfTaxAmtUs41) to BP 8b, not A20 (DeemIncUs41); contradicts rule text, risk of false-fire."
+  },
+  {
+   "n": 281,
+   "reason": "'Income reduced at 3/5 not higher than credited to P&L' \u2014 no crisp exported reference for 'credited to P&L'."
+  },
+  {
+   "n": 289,
+   "reason": "Dividend consistency (3d(i)+5c+OS) \u2014 rule text truncated; ambiguous."
+  },
+  {
+   "n": 303,
+   "reason": "A list of exception conditions, not a standalone checkable assertion."
+  },
+  {
+   "n": 311,
+   "reason": "DPM depreciation vs rates \u2014 requires recomputing depreciation from rate/WDV/half-year additions."
+  },
+  {
+   "n": 334,
+   "reason": "DEP building 40% = DOA 14iv or 15iv \u2014 ambiguous which (net vs proportionate)."
+  },
+  {
+   "n": 343,
+   "reason": "DCG 1c = DPM 20iii \u2014 uncertain block/aggregate-row mapping."
+  },
+  {
+   "n": 349,
+   "reason": "DCG 4 = DPM 17vi \u2014 uncertain block/aggregate-row mapping."
+  },
+  {
+   "n": 374,
+   "reason": "A5 aiii = a(ic)+aii unquoted 50CA decomposition \u2014 uncertain decomposition."
+  },
+  {
+   "n": 392,
+   "reason": "B3e = B3(c-d) \u2014 B3 block mapping uncertain in this form's schema."
+  },
+  {
+   "n": 399,
+   "reason": "LTCG block B6 is not present as a distinct block in this form."
+  },
+  {
+   "n": 405,
+   "reason": "B9 aiii = a(ic+ii) \u2014 uncertain unquoted-share decomposition."
+  },
+  {
+   "n": 411,
+   "reason": "Section 115H resident option \u2014 needs option/context not offline-checkable."
+  },
+  {
+   "n": 417,
+   "reason": "Ei5 = 9b when A9b negative \u2014 Table-E set-off conditional; uncertain mapping."
+  },
+  {
+   "n": 424,
+   "reason": "E8 = col(1-2-...-7) \u2014 column-8 already covered per-row by A465; 'E8' target ambiguous."
+  },
+  {
+   "n": 432,
+   "reason": "B2aiii higher of 2ai/2aii \u2014 B2 block mapping uncertain (50C pattern already done for land A429/A430)."
+  },
+  {
+   "n": 443,
+   "reason": "STCG 111A & 115AD(1)(b)(ii) entered once \u2014 uniqueness across uncertain arrays."
+  },
+  {
+   "n": 450,
+   "reason": "Evi = sum of B1g..B(A) \u2014 several LTCG blocks (B5/B6/B7/B8) not present in this form."
+  },
+  {
+   "n": 456,
+   "reason": "Duplicate \u2014 already encoded in 60_rules Table-E SLK loop (InStcgDTAARate)."
+  },
+  {
+   "n": 464,
+   "reason": "LTCL DTAA loss-availability capacity in Table E \u2014 complex loss-capacity check."
+  },
+  {
+   "n": 481,
+   "reason": "B4i biv = B4i(bi+bii+biii) \u2014 B4 (112A) has no bi/bii/biii breakdown; block mapping uncertain."
+  },
+  {
+   "n": 515,
+   "reason": "OS 2f col3 DTAA dropdown sum <= 1b \u2014 DTAA dropdown table, not cleanly mappable."
+  },
+  {
+   "n": 521,
+   "reason": "Duplicate \u2014 OS item 6 net already encoded on BalanceNoRaceHorse (A509)."
+  },
+  {
+   "n": 534,
+   "reason": "OS 10 quarterly DTAA dividend breakup \u2014 DTAA/quarterly, not cleanly mappable."
+  },
+  {
+   "n": 543,
+   "reason": "Duplicate \u2014 OS expenses need income at 1b/1c/1d already covered by A530."
+  },
+  {
+   "n": 550,
+   "reason": "CYLA 3i business loss = BP Table E 2v with buyback conditional \u2014 complex conditional."
+  },
+  {
+   "n": 577,
+   "reason": "CYLA HP loss set off against any head \u2014 advisory, no crisp checkable assertion."
+  },
+  {
+   "n": 585,
+   "reason": "BFLA 2(iii+iv+v) = CFL 5c/6/7(xviii) \u2014 complex cross-schedule mapping."
+  },
+  {
+   "n": 595,
+   "reason": "Duplicate \u2014 BFLA col1 = CYLA col5 already covered generically by A593."
+  },
+  {
+   "n": 601,
+   "reason": "Duplicate \u2014 BFLA col1 = CYLA col5 already covered generically by A593."
+  },
+  {
+   "n": 607,
+   "reason": "BFLA bf business loss/depreciation cannot set off 44BB & 44BBD income \u2014 specific/complex."
+  },
+  {
+   "n": 616,
+   "reason": "CFL LTCL = sum of LTCL remaining at CG Table E \u2014 complex cross-schedule mapping."
+  },
+  {
+   "n": 640,
+   "reason": "Duplicate \u2014 already encoded in 60_rules 80G block (donation total = cash + other)."
+  },
+  {
+   "n": 729,
+   "reason": "Duplicate \u2014 already encoded in 60_rules 80E schedule-total loop."
+  },
+  {
+   "n": 756,
+   "reason": "80DDB category description overlaps A800 (disease name); ambiguous which field is the 'category'."
+  },
+  {
+   "n": 773,
+   "reason": "80CCD(1) 10% cap for non-pensioner employers \u2014 needs employer categories and salary%, complex."
+  },
+  {
+   "n": 794,
+   "reason": "VIA Part C total is GTI-capped (min of raw sum, GTI limit), not a pure sum of sections; would false-fire when GTI-limited."
+  },
+  {
+   "n": 806,
+   "reason": "Duplicate \u2014 already encoded in 60_rules DED_FIELDS_A allowed-vs-claimed cap."
+  },
+  {
+   "n": 812,
+   "reason": "Duplicate \u2014 already encoded in 60_rules DED_FIELDS_A allowed-vs-claimed cap."
+  },
+  {
+   "n": 818,
+   "reason": "Duplicate \u2014 already encoded in 60_rules DED_FIELDS_A allowed-vs-claimed cap."
+  },
+  {
+   "n": 824,
+   "reason": "Duplicate \u2014 already encoded in 60_rules DED_FIELDS_A allowed-vs-claimed cap."
+  },
+  {
+   "n": 853,
+   "reason": "SI 115BBF = BP 3e \u2014 SI section-code for 115BBF uncertain; 'minus income under business' phrasing murky."
+  },
+  {
+   "n": 859,
+   "reason": "SI sum of 115AD STCG & PTI STCG@30% \u2014 complex composite over uncertain codes."
+  },
+  {
+   "n": 878,
+   "reason": "PTI iv exempt = a+b+c \u2014 uncertain decomposition of the 23FBB exempt sub-items."
+  },
+  {
+   "n": 893,
+   "reason": "FSI CG-vs-business-income relief comparison \u2014 garbled/complex rule text."
+  },
+  {
+   "n": 989,
+   "reason": "87A maximum rebate \u2014 broad; old-regime caps already in A957/A975; new-regime rebate computation complex."
+  }
+ ],
+ "note": "Coded = every offline-checkable Category A rule (core 60_rules.js + batches 61_rules_g*.js). Excluded = external (PAN/TAN/Aadhaar/name DB), format-only, duplicate, or not-applicable-to-a-resident-individual, each with a reason. Gate 6 green: 0 Category A fire on the valid S SUDHIR return."
+}

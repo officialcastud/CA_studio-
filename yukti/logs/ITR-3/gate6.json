@@ -1,0 +1,18 @@
+{
+ "gate": 6,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "category_A_coded": 777,
+  "category_A_total": 999,
+  "D_notices": [
+   "D1 AMT exceeds the normal tax in the old regime \u2014 Form 29C (report u/s 115JC) is mandatory.",
+   "D12 Liable to pay AMT u/s 115JC \u2014 Form 29C should be filed.",
+   "D3 Deduction u/s 80JJAA is claimed \u2014 Form 10DA is required.",
+   "D5 Relief u/s 90/90A/91 is claimed \u2014 Form 67 must be filed within the 139(1) due date.",
+   "D6 Deduction u/s 10AA is claimed \u2014 Form 56F should be filed.",
+   "D1 B1: deduction u/s 80-IA/80-IAB/80-IB/80-IBA/80-IE is claimed \u2014 Form 10CCB must be filed within the due date.",
+   "D1 Tax u/s 115JC (AMT, with surcharge and cess) exceeds the normal tax under the old regime \u2014 Form 29C (report u/s 115JC) must be filed."
+  ]
+ }
+}

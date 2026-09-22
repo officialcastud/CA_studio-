@@ -1,0 +1,33 @@
+{
+ "form": "ITR-7",
+ "html": "forms/ITR-7/Yukti_ITR7.html",
+ "boot_errors": [],
+ "checks_err": [],
+ "figures": {
+  "gti": 790000,
+  "ti": 790000,
+  "tax": 187200,
+  "net": 187200,
+  "balance": 108760,
+  "refund": 0
+ },
+ "rules": [
+  {
+   "cat": "A",
+   "n": 451,
+   "msg": "Schedule 115BBI: Sl. No. 1 (deemed income u/s Explanation 4 to the third proviso to s.10(23C) or s.11(3)) must equal the total of Column 15 of Schedule I."
+  },
+  {
+   "cat": "A",
+   "n": 483,
+   "msg": "Part B-TI (Part-B1): Sl. 7(ix) Total must equal the sum of 7i to 7viii."
+  }
+ ],
+ "exported": false,
+ "export_block": "The portal would reject this return \u2014 2 Category A rules fail:\n\nA451 \u00b7 Schedule 115BBI: Sl. No. 1 (deemed income u/s Explanation 4 to the third proviso to s.10(23C) or s.11(3)) must equal the total of Column 15 of Schedule I.\nA483 \u00b7 Part B-TI (Part-B1): Sl. 7(ix) Total must equal the sum of 7i to 7viii.",
+ "saved": true,
+ "page_errors": [],
+ "alerts": [
+  "The portal would reject this return \u2014 2 Category A rules fail:\n\nA451 \u00b7 Schedule 115BBI: Sl. No. 1 (deemed income u/s Explanation 4 to the third proviso to s.10(23C) or s.11(3)) must equal the total of"
+ ]
+}

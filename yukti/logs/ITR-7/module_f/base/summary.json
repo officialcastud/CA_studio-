@@ -1,0 +1,19 @@
+{
+ "form": "ITR-7",
+ "html": "forms/ITR-7/Yukti_ITR7.html",
+ "boot_errors": [],
+ "checks_err": [],
+ "figures": {
+  "gti": 790000,
+  "ti": 790000,
+  "tax": 83720,
+  "net": 83720,
+  "balance": 0,
+  "refund": 6280
+ },
+ "rules": [],
+ "exported": true,
+ "saved": true,
+ "page_errors": [],
+ "alerts": []
+}

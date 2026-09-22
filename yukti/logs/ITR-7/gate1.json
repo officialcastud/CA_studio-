@@ -1,0 +1,28 @@
+{
+ "gate": 1,
+ "ok": true,
+ "failing": [],
+ "extra": {
+  "sections": [
+   "app",
+   "bank",
+   "bodies",
+   "bp",
+   "cg",
+   "cyla",
+   "fa",
+   "funds",
+   "hp",
+   "ie",
+   "oa",
+   "os",
+   "paid",
+   "pti",
+   "si",
+   "tax",
+   "vc",
+   "vda",
+   "who"
+  ]
+ }
+}

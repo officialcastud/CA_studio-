@@ -1,0 +1,181 @@
+{
+ "root": "ITR7",
+ "blocks": [
+  {
+   "name": "CreationInfo",
+   "required": true
+  },
+  {
+   "name": "Form_ITR7",
+   "required": true
+  },
+  {
+   "name": "PartA_GEN1",
+   "required": true
+  },
+  {
+   "name": "PartA_GEN2",
+   "required": true
+  },
+  {
+   "name": "ITRScheduleI",
+   "required": false
+  },
+  {
+   "name": "ITRScheduleIA",
+   "required": false
+  },
+  {
+   "name": "ITRScheduleD",
+   "required": false
+  },
+  {
+   "name": "ITRScheduleDA",
+   "required": false
+  },
+  {
+   "name": "ITRScheduleJ",
+   "required": false
+  },
+  {
+   "name": "PARTA_BS",
+   "required": true
+  },
+  {
+   "name": "ITRScheduleR",
+   "required": false
+  },
+  {
+   "name": "ScheduleVDA",
+   "required": false
+  },
+  {
+   "name": "SchedulePP",
+   "required": false
+  },
+  {
+   "name": "ScheduleET",
+   "required": false
+  },
+  {
+   "name": "ScheduleVC",
+   "required": false
+  },
+  {
+   "name": "ScheduleAI",
+   "required": false
+  },
+  {
+   "name": "ScheduleA",
+   "required": false
+  },
+  {
+   "name": "ScheduleIE_I",
+   "required": false
+  },
+  {
+   "name": "ScheduleIE_II",
+   "required": false
+  },
+  {
+   "name": "ScheduleIE_III",
+   "required": false
+  },
+  {
+   "name": "ScheduleIE_IV",
+   "required": false
+  },
+  {
+   "name": "ScheduleHP",
+   "required": false
+  },
+  {
+   "name": "ScheduleCG",
+   "required": false
+  },
+  {
+   "name": "ScheduleOS",
+   "required": false
+  },
+  {
+   "name": "ScheduleOA",
+   "required": false
+  },
+  {
+   "name": "CorpScheduleBP",
+   "required": false
+  },
+  {
+   "name": "ScheduleCYLA",
+   "required": false
+  },
+  {
+   "name": "SchedulePTI",
+   "required": false
+  },
+  {
+   "name": "ScheduleSI",
+   "required": false
+  },
+  {
+   "name": "Schedule115TD",
+   "required": false
+  },
+  {
+   "name": "Schedule115BBI",
+   "required": false
+  },
+  {
+   "name": "ScheduleFSI",
+   "required": false
+  },
+  {
+   "name": "ScheduleTR1",
+   "required": false
+  },
+  {
+   "name": "ScheduleFA",
+   "required": false
+  },
+  {
+   "name": "ScheduleSH",
+   "required": false
+  },
+  {
+   "name": "PartB_TI",
+   "required": false
+  },
+  {
+   "name": "PartB_TI2",
+   "required": false
+  },
+  {
+   "name": "PartB_TI3",
+   "required": false
+  },
+  {
+   "name": "PartB_TTI",
+   "required": true
+  },
+  {
+   "name": "ScheduleIT",
+   "required": false
+  },
+  {
+   "name": "ScheduleTDS2",
+   "required": false
+  },
+  {
+   "name": "ScheduleTDS3",
+   "required": false
+  },
+  {
+   "name": "ScheduleTCS",
+   "required": false
+  },
+  {
+   "name": "Verification",
+   "required": true
+  }
+ ]
+}
