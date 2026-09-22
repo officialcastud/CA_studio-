@@ -1,0 +1,2657 @@
+{
+ "meta": {
+  "app": "yukti",
+  "form": "ITR-6",
+  "ay": "2026-27",
+  "ver": 1,
+  "saved": "2026-09-22T15:03:49.624Z"
+ },
+ "pi": {
+  "name": "S SUDHIR INDUSTRIES PRIVATE LIMITED",
+  "nameChg": "N",
+  "oldName": "",
+  "pan": "TVOPS4373C",
+  "cin": "U29100KA2006PTC043730",
+  "res": "RES",
+  "doi": "05/11/2006",
+  "bizStart": "01/04/2007",
+  "status": "7",
+  "domestic": "Y",
+  "addr1": "No. 42, 3rd Cross",
+  "premises": "Sudhir Towers",
+  "road": "Richmond Road",
+  "locality": "Richmond Town",
+  "city": "Bengaluru",
+  "country": "91",
+  "state": "15",
+  "pin": "560025",
+  "email": "s.sudhir.test@example.in",
+  "email2": "accounts.sudhir@example.in",
+  "mobileCc": "91",
+  "mobile": "9845012345",
+  "mobile2Cc": "91",
+  "mobile2": "9845067890",
+  "std": "080",
+  "phone": "25551234",
+  "addr2same": "N",
+  "addr1b": "Plot 18, KIADB Industrial Area",
+  "premisesb": "Sudhir Works",
+  "roadb": "Hoskote Road",
+  "localityb": "Narasapura",
+  "cityb": "Kolar",
+  "countryb": "91",
+  "stateb": "15",
+  "pinb": "563133"
+ },
+ "fs": {
+  "sec": "11",
+  "due": "2026-10-31",
+  "filed": "15/10/2026",
+  "resStatus": "RES",
+  "grossRcpt": "N",
+  "grossReceipt": "N",
+  "resSec90": "N",
+  "s115": "NA",
+  "s115Curr": "N",
+  "regLaw": "Y",
+  "actDesc": "Companies Act, 2013",
+  "actRegNo": "U29100KA2006PTC043730",
+  "actRegDate": "05/11/2006",
+  "finStmt": "N",
+  "ifsc": "N",
+  "underLiq": "N",
+  "fpi": "N",
+  "producer": "N",
+  "rep": "N",
+  "startup": "N",
+  "msme": "Y",
+  "msmeNo": "UDYAM-KR-03-0012345",
+  "lei": "3358005G7M7VX2ZUXX88",
+  "leiValid": "31/12/2027",
+  "cnd44AB": "bi"
+ },
+ "ver": {
+  "bankFlag": "Y",
+  "nacc": 2,
+  "assetOut": "YES",
+  "name": "S SUDHIR",
+  "father": "SUDHIR NARAYANAN",
+  "pan": "TVOPS4373C",
+  "cap": "MD",
+  "place": "Bengaluru",
+  "date": "15/10/2026"
+ },
+ "bank": [
+  {
+   "ifsc": "SBIN0040011",
+   "bank": "State Bank of India",
+   "acno": "30412345678",
+   "type": "CA",
+   "refund": "Y"
+  },
+  {
+   "ifsc": "HDFC0000123",
+   "bank": "HDFC Bank Limited",
+   "acno": "50200012345678",
+   "type": "CC",
+   "refund": "N"
+  }
+ ],
+ "open": {},
+ "accounts": {
+  "basis": "reg",
+  "bsOn": true,
+  "mfgOn": false,
+  "trdOn": true,
+  "plOn": true,
+  "biasOn": false,
+  "mfgiasOn": false,
+  "trdiasOn": false,
+  "pliasOn": false,
+  "oiOn": true,
+  "qdOn": false,
+  "olOn": false,
+  "bs": {
+   "EquityAndLiablities": {
+    "ShareHolderFund": {
+     "ShareCapital": {
+      "IssuedSubsPaidUp": 20000000,
+      "TotShareCapital": 20000000
+     },
+     "ResrNSurp": {
+      "CapResr": 35935000,
+      "OtherResrvDtls": [],
+      "OtherResrvTotal": 0,
+      "PLAccount": 10265000,
+      "TotResrNSurp": 46200000
+     },
+     "TotShareHolderFund": 66200000
+    },
+    "NonCurrLiabilities": {
+     "LongTermBorrowings": {
+      "TermLoans": {
+       "RupeeLoans": {
+        "FromBanks": 28000000,
+        "Total": 28000000
+       },
+       "TotalTermLoans": 28000000
+      },
+      "BondsDebentures": {
+       "Total": 0
+      },
+      "TotalLTBorrowings": 28000000
+     },
+     "NetDefferedTaxLiability": 1500000,
+     "LongTermProvisions": {
+      "ProvEmpBenefits": 2000000,
+      "Total": 2000000
+     },
+     "OthLongTermLiablities": {
+      "TotalOthLtLiabilities": 0
+     },
+     "TotalNonCurrLiabilites": 31500000
+    },
+    "CurrentLiabilities": {
+     "ShortTrmBorrowings": {
+      "LoansRepaybleOnDemand": {
+       "FromBanks": 9000000,
+       "TotLoansRepaybleOnDemand": 9000000
+      },
+      "TotShortTrmBorrowings": 9000000
+     },
+     "TradePayables": {
+      "Others": 12400000,
+      "TotalTradePayables": 12400000
+     },
+     "OthCurrLiabilities": {
+      "OthPayables": 3600000,
+      "TotOthCurrLiabilities": 3600000
+     },
+     "ShortTermProv": {
+      "ITProvision": 4300000,
+      "TotShortTermProvisions": 4300000
+     },
+     "TotCurrLiabilitiesProvision": 29300000
+    },
+    "ShareAppMoneyAllot": {
+     "Total": 0
+    },
+    "TotEquityAndLiabilities": 127000000
+   },
+   "Assets": {
+    "NonCurrAssets": {
+     "FixedAsset": {
+      "Tangible": {
+       "GrossBlock": 54000000,
+       "NetBlock": 54000000
+      },
+      "InTangible": {
+       "GrossBlock": 900000,
+       "NetBlock": 900000
+      },
+      "CapWrkProg": 3000000,
+      "TotFixedAsset": 57900000
+     },
+     "NonCurrInvstmnts": {
+      "OtherInvstmnts": 18000000,
+      "EquityInstruments": {
+       "Total": 0
+      },
+      "TotNonCurrInvstmnts": 18000000
+     },
+     "LongTrmLoanAdv": {
+      "OthLoanAdv": 4000000,
+      "TotLTLoanAdv": 4000000
+     },
+     "OthNonCurrAssets": {
+      "Others": 1100000,
+      "LTTradeReceivables": {
+       "TotOthNonCurrAssets": 0
+      },
+      "Total": 1100000
+     },
+     "TotNonCurrAssets": 81000000
+    },
+    "CurrentAssets": {
+     "CurrInvstmnts": {
+      "OtherInvstmnts": 6000000,
+      "EquityInstruments": {
+       "Total": 0
+      },
+      "TotCurrInvstmnts": 6000000
+     },
+     "Inventories": {
+      "RawMatl": 14500000,
+      "TotInventries": 14500000
+     },
+     "TradeReceivables": {
+      "Others": 17200000,
+      "TotalTradeReceivables": 17200000
+     },
+     "CashNCashEquivalents": {
+      "BalWithBanks": 5800000,
+      "TotCashNCashEquivalents": 5800000
+     },
+     "TotShortTermLoanAdv": {
+      "Others": 2300000,
+      "TotShrtTermLoans": 2300000
+     },
+     "OtherCurrAssets": 200000,
+     "TotCurrAssets": 46000000
+    }
+   },
+   "TotalAssets": 127000000
+  },
+  "mfg": {
+   "OpeningInventory": {
+    "OpngInvntryTotal": 0,
+    "DirectExpenses": 0,
+    "TotalFactoryOverheads": 0,
+    "TotalDebtsManfctrngAcc": 0
+   },
+   "ClosingStock": {
+    "ClsngStckTotal": 0
+   },
+   "CostOfGoodsPrdcd": 0
+  },
+  "bsias": {
+   "EquityAndLiablities": {
+    "Equity": {
+     "EquityShareCapital": {
+      "TotShareCapital": 0
+     },
+     "OtherEquityReserv": {
+      "OthersTotal": 0,
+      "TotalOtherResrv": 0,
+      "RetainedEarngs": 0,
+      "TotResrNRetEar": 0,
+      "TotalEquity": 0
+     }
+    },
+    "Liabilities": {
+     "NonCurrLiabilities": {
+      "FinancialLiabilities": {
+       "BondsDebentures": {
+        "Total": 0
+       },
+       "TermLoans": {
+        "RupeeLoans": {
+         "Total": 0
+        },
+        "TotalTermLoans": 0
+       },
+       "TotalLTBorrowings": 0
+      },
+      "Provisions": {
+       "OthersTotal": 0,
+       "TotalProvisions": 0
+      },
+      "OtherNonCurLiabilites": {
+       "OthersTotal": 0,
+       "TotalOthNonCurrLiab": 0
+      },
+      "TotalNonCurrLiab": 0
+     },
+     "CurrentLiabilities": {
+      "FinancialLiabBorrowings": {
+       "LoansRepaybleOnDemand": {
+        "TotLoansRepaybleOnDemand": 0
+       },
+       "OthersTotal": 0,
+       "TotalBorrowings": 0
+      },
+      "OthFinancialLiabilities": {
+       "OthersTotal": 0,
+       "TotOthFinancialLiab": 0
+      },
+      "TottalFinancialLiab": 0,
+      "OtherCuurLiabilities": {
+       "OthersAdvTotal": 0,
+       "OthersTotal": 0,
+       "TotalOthCurrLiab": 0
+      },
+      "Provosions": {
+       "OthersTotal": 0,
+       "TotalProvosions": 0
+      },
+      "TotalCurrentLiab": 0,
+      "TotalEquityLiab": 0
+     }
+    }
+   },
+   "Assets": {
+    "NonCurrAssets": {
+     "PropertyPlantEquip": {
+      "NetBlock": 0,
+      "InvstPropNetBlock": 0,
+      "GoodWlNetBlock": 0,
+      "OthIntAstNetBlock": 0,
+      "BioAstNetBlock": 0,
+      "FinancialAssets": {
+       "Investments": {
+        "Total": 0,
+        "OthersTotal": 0,
+        "TotalNonCurrentInvst": 0
+       },
+       "TradeReceivables": {
+        "TotalTradeReceivbls": 0
+       },
+       "Loans": {
+        "OthersTotal": 0,
+        "TotalLoans": 0
+       },
+       "OtherFinacialAssets": {
+        "TotalOthFinancialAsst": 0
+       },
+       "OtherNonCurrentAssets": {
+        "OthersTotal": 0,
+        "TotalNonCurrAsst": 0
+       },
+       "TotalNonCurrntAsst": 0
+      }
+     }
+    },
+    "CurrentAssets": {
+     "Inventories": {
+      "TotalInventories": 0
+     },
+     "FinancialAssets": {
+      "Investments": {
+       "Total": 0,
+       "TotalCurrentInvst": 0
+      },
+      "TradeReceivables": {
+       "TotalTradeReceivbls": 0
+      },
+      "CashEquivalents": {
+       "OthersTotal": 0,
+       "TotalCashEquivalents": 0
+      },
+      "Loans": {
+       "OthersTotal": 0,
+       "TotalLoans": 0
+      },
+      "TotalFinancialAsst": 0,
+      "OtherCurrentAssets": {
+       "OthersTotal": 0,
+       "TotalOthCurrentAsst": 0,
+       "TotalCurrAsst": 0
+      }
+     }
+    }
+   },
+   "TotalAssets": 0
+  },
+  "mfgias": {
+   "OpeningInventory": {
+    "OpngInvntryTotal": 0,
+    "DirectExpenses": 0,
+    "TotalFactoryOverheads": 0,
+    "TotalDebtsManfctrngAcc": 0
+   },
+   "ClosingStock": {
+    "ClsngStckTotal": 0
+   },
+   "CostOfGoodsPrdcd": 0
+  },
+  "trdias": {
+   "OperatingRevenueTotal": 0,
+   "SalesGrossReceiptsTotal": 0,
+   "ExciseCustomsVAT": {
+    "TotExciseCustomsVAT": 0
+   },
+   "TotRevenueFrmOperations": 0,
+   "TardingAccTotCred": 0,
+   "TotOthDirectExpenses": 0,
+   "DirectExpenses": 0,
+   "DutyTaxPay": {
+    "ExciseCustomsVAT": {
+     "TotExciseCustomsVAT": 0
+    }
+   },
+   "GoodsCostPrdcdFrmMA": 0,
+   "GrossProfitFrmBusProf": 0
+  },
+  "plias": {
+   "CreditsToPL": {
+    "GrossProfitTrnsfFrmTrdAcc": 0,
+    "OthIncome": {
+     "MiscOthIncome": 0,
+     "TotOthIncome": 0
+    },
+    "TotCreditsToPL": 0
+   },
+   "DebitsToPL": {
+    "DebitPlAcnt": {
+     "EmployeeComp": {
+      "TotEmployeeComp": 0
+     },
+     "Insurances": {
+      "TotInsurances": 0
+     },
+     "CommissionExpdrDtls": {
+      "Total": 0
+     },
+     "RoyalityDtls": {
+      "Total": 0
+     },
+     "ProfessionalConstDtls": {
+      "Total": 0
+     },
+     "RatesTaxesPays": {
+      "ExciseCustomsVAT": {
+       "TotExciseCustomsVAT": 0
+      }
+     },
+     "OtherExpenses": 0,
+     "BadDebtDtls": {
+      "BadDebtAmtDtlsTotal": 0,
+      "OthersPANNotAvlblDtlTotal": 0,
+      "BadDebt": 0
+     },
+     "PBIDTA": 0,
+     "InterestExpdrtDtls": {
+      "InterestExpdr": 0
+     },
+     "PBT": 0
+    },
+    "TaxProvAppr": {
+     "ProfitAfterTax": 0,
+     "AmtAvlAppr": 0,
+     "Appropriations": {
+      "TotAppropriations": 0
+     },
+     "PartnerAccBalTrf": 0
+    }
+   },
+   "OtherComprnsvInc": {
+    "ItemsNotReclsfdPnL": {
+     "OthersTotal": 0,
+     "TotalNotPnL": 0
+    },
+    "ItemsReclsfdPnL": {
+     "OthersTotal": 0,
+     "TotalPnL": 0
+    },
+    "TotalComprIncome": 0
+   }
+  },
+  "trd": {
+   "SaleOfGoods": 62000000,
+   "Purchases": 38000000,
+   "OperatingRevenueTotal": 0,
+   "SalesGrossReceiptsTotal": 62000000,
+   "ExciseCustomsVAT": {
+    "TotExciseCustomsVAT": 0
+   },
+   "TotRevenueFrmOperations": 62000000,
+   "TardingAccTotCred": 62000000,
+   "TotOthDirectExpenses": 0,
+   "DirectExpenses": 0,
+   "DutyTaxPay": {
+    "ExciseCustomsVAT": {
+     "TotExciseCustomsVAT": 0
+    }
+   },
+   "GoodsCostPrdcdFrmMA": 0,
+   "GrossProfitFrmBusProf": 24000000
+  },
+  "pl": {
+   "CreditsToPL": {
+    "OthIncome": {
+     "RentInc": 2700000,
+     "Dividends": 1200000,
+     "InterestInc": 475000,
+     "ProfitOnOthInv": 3000000,
+     "AmtofInterest": 120000,
+     "OtherIncDtls": [
+      {
+       "NatureOfIncome": "Misc",
+       "Amount": 180000
+      },
+      {
+       "NatureOfIncome": "Scrap",
+       "Amount": 60000
+      },
+      {
+       "NatureOfIncome": "Other",
+       "Amount": 80000
+      }
+     ],
+     "MiscOthIncome": 440000,
+     "TotOthIncome": 7815000
+    },
+    "GrossProfitTrnsfFrmTrdAcc": 24000000,
+    "TotCreditsToPL": 31815000
+   },
+   "DebitsToPL": {
+    "DebitPlAcnt": {
+     "EmployeeComp": {
+      "SalsWages": 9000000,
+      "TotEmployeeComp": 9000000
+     },
+     "OtherExpensesDtls": [
+      {
+       "ExpenseNature": "Admin",
+       "Amount": 6000000
+      }
+     ],
+     "InterestExpdrtDtls": {
+      "Others": 1200000,
+      "InterestExpdr": 1200000
+     },
+     "DepreciationAmort": 2800000,
+     "Insurances": {
+      "TotInsurances": 0
+     },
+     "CommissionExpdrDtls": {
+      "Total": 0
+     },
+     "RoyalityDtls": {
+      "Total": 0
+     },
+     "ProfessionalConstDtls": {
+      "Total": 0
+     },
+     "RatesTaxesPays": {
+      "ExciseCustomsVAT": {
+       "TotExciseCustomsVAT": 0
+      }
+     },
+     "OtherExpenses": 6000000,
+     "BadDebtDtls": {
+      "BadDebtAmtDtlsTotal": 0,
+      "OthersPANNotAvlblDtlTotal": 0,
+      "BadDebt": 0
+     },
+     "PBIDTA": 16815000,
+     "PBT": 12815000
+    },
+    "TaxProvAppr": {
+     "ProvForCurrTax": 2400000,
+     "ProvDefTax": 150000,
+     "ProfitAfterTax": 10265000,
+     "AmtAvlAppr": 10265000,
+     "Appropriations": {
+      "TotAppropriations": 0
+     },
+     "PartnerAccBalTrf": 10265000
+    }
+   }
+  },
+  "oi": {
+   "MethodOfAcct": "MERC",
+   "ChangeInAcctMethFlg": "N",
+   "MethodOfValClgStk": {
+    "ValRawMaterial": "1",
+    "ValFinishedGoods": "1",
+    "ChngStockValMetFlg": "N",
+    "EffectOnPL": 0,
+    "DecProOrIncLossUs145_A": 0
+   },
+   "AmtDisallUs36": {
+    "AnyOthDisallowance": 50000,
+    "TotAmtDisallUs36": 50000,
+    "NoOfEmployeesEmployed": {
+     "Total": 0
+    }
+   },
+   "AmtDisallUs37": {
+    "OthPenalFineExp": 80000,
+    "TotAmtDisallUs37": 80000
+   },
+   "AmtDisallUs40": {
+    "NonComp40aiaChapXVIIBAmt": 120000,
+    "TotAmtDisallUs40": 120000
+   },
+   "AmtDisallUs40A": {
+    "AmtGT20kCash": 60000,
+    "TotAmtDisallUs40A": 60000
+   },
+   "AmtDisall43B": {
+    "AmtUs43B": {
+     "TaxDutyCesAmt": 150000,
+     "TotAmtUs43b": 150000
+    }
+   },
+   "AmtDisallUs43BPyNowAll": {
+    "AmtUs43B": {
+     "TaxDutyCesAmt": 110000,
+     "TotAmtUs43b": 110000
+    }
+   },
+   "ProfTaxAmtUs41": 25000,
+   "AmountOfExpDisAllwUs14A": 15000,
+   "NoCredToPLAmt": {
+    "TotNoCredToPLAmt": 0
+   },
+   "AmtExciseCustomsVATOutstanding": {
+    "ExciseCustomsVAT": {
+     "TotExciseCustomsVAT": 0
+    }
+   },
+   "DeemedProfUs33ABs": 0,
+   "ProfDeviatDueAcctMeth": 220000,
+   "DecProOrIncLossUs145_2": 80000
+  },
+  "qd": {
+   "trd": [],
+   "raw": [],
+   "fin": []
+  },
+  "ol": {
+   "OpeningBal": {
+    "TotalOpenBal": 0
+   },
+   "Receipts": {
+    "TotalSaleofAssets": 0,
+    "TotOthersReceiptsOnly": 0,
+    "TotalOfReceipts": 0
+   },
+   "TotalOpenReceipts": 0,
+   "Payments": {
+    "TotalOthersPayments": 0,
+    "TotalPayments": 0
+   },
+   "ClosingStock": {
+    "TotalClBal": 0
+   },
+   "TotalClPaymnts": 0
+  }
+ },
+ "fbank": [],
+ "bp": {
+  "pbt": 12815000,
+  "nplSpec": 150000,
+  "nplSpecified": 200000,
+  "a3a": 2400000,
+  "a3b": 3000000,
+  "a3ci": 1200000,
+  "a3cii": 835000,
+  "a3d": 0,
+  "a3e": 0,
+  "a3f": 0,
+  "p44AE": 0,
+  "p44B": 0,
+  "p44BB": 0,
+  "p44BBA": 0,
+  "p44BBB": 0,
+  "p44BBC": 0,
+  "p44BBD": 0,
+  "p44D": 0,
+  "p44DA": 0,
+  "pXIIG": 0,
+  "pFirstSch": 0,
+  "p115B": 0,
+  "r7": 0,
+  "r7A": 0,
+  "r7B1": 0,
+  "r7B1A": 0,
+  "r8": 0,
+  "pElig10TIA": 0,
+  "a5a": 180000,
+  "a5b": 0,
+  "divExempt": 0,
+  "othExempt": [
+   {
+    "name": "Interest on tax-free bonds exempt u/s 10(15)",
+    "amt": 80000
+   }
+  ],
+  "a5A": 0,
+  "e7a": 550000,
+  "e7b": 0,
+  "e7c": 140000,
+  "e7d": 0,
+  "e7e": 0,
+  "e8a": 20000,
+  "e8b": 15000,
+  "depDebPL": 2800000,
+  "dep32_1_i": 0,
+  "d14": 50000,
+  "d15": 80000,
+  "d16": 120000,
+  "d17": 60000,
+  "d18": 150000,
+  "d19": 0,
+  "deem41": 25000,
+  "d21_32AC": 0,
+  "d21_32AD": 0,
+  "d21_33AB": 40000,
+  "d21_33ABA": 0,
+  "d21_35ABA": 0,
+  "d21_35ABB": 0,
+  "d21_35AC": 0,
+  "d21_40A3A": 0,
+  "d21_33AC": 0,
+  "d21_72A": 0,
+  "d21_80HHD": 0,
+  "d21_80IA": 0,
+  "d22": 0,
+  "d23": 0,
+  "i24a": 0,
+  "i24b": 0,
+  "i24c": 0,
+  "d27": 0,
+  "d28_32AC": 0,
+  "d30": 70000,
+  "d31": 110000,
+  "d32": 0,
+  "dp44AE": 0,
+  "dp44B": 0,
+  "dp44BB": 0,
+  "dp44BBA": 0,
+  "dp44BBB": 0,
+  "dp44BBC": 0,
+  "dp44BBD": 0,
+  "dp44D": 0,
+  "dp44DA": 0,
+  "dpXIIG": 0,
+  "dpFirstSch": 0,
+  "r38a": 0,
+  "r38b": 0,
+  "r38c": 0,
+  "r38d": 0,
+  "r38e": 0,
+  "s41": 0,
+  "s42": 0,
+  "sp45": 0,
+  "sp46": 0,
+  "sp48": 0,
+  "clause": [
+   "ah",
+   ""
+  ]
+ },
+ "dpm": {
+  "r15": {
+   "WDVFirstDay": 8000000,
+   "AdditionsGrThan180Days": 2000000,
+   "AdditionsLessThan180Days": 1000000,
+   "RealizationTotalPeriod": 0,
+   "RealizationPeriodDuringYear": 0,
+   "AddlnDeprOnGT180DayAdditions": 400000,
+   "AddlnDeprDuringYearAdditions": 0,
+   "AddlnDeprOnLessThan180DayAdditions": 100000,
+   "DepDisAllowUs38_2": 0,
+   "ProportionateAggDepreciation": 0,
+   "ExpdrOnTrforSaleAsset": 0
+  },
+  "r30": {
+   "WDVFirstDay": 600000
+  },
+  "r40": {
+   "WDVFirstDay": 500000,
+   "AdditionsGrThan180Days": 300000,
+   "RealizationTotalPeriod": 100000
+  },
+  "r45": {
+   "WDVFirstDay": 200000
+  }
+ },
+ "doa": {
+  "land": {
+   "WDVFirstDay": 5000000
+  },
+  "b5": {
+   "WDVFirstDay": 12000000
+  },
+  "b10": {
+   "WDVFirstDay": 1000000
+  },
+  "b40": {},
+  "furn": {
+   "WDVFirstDay": 800000,
+   "AdditionsLessThan180Days": 200000
+  },
+  "intang": {
+   "WDVFirstDay": 1200000
+  },
+  "ships": {}
+ },
+ "esr": {
+  "i": {
+   "deb": 500000,
+   "allow": 500000
+  },
+  "ii": {
+   "deb": 200000,
+   "allow": 200000
+  },
+  "iii": {
+   "deb": 0,
+   "allow": 0
+  },
+  "iv": {
+   "deb": 0,
+   "allow": 0
+  },
+  "v": {
+   "deb": 0,
+   "allow": 0
+  },
+  "vi": {
+   "deb": 300000,
+   "allow": 300000
+  },
+  "vii": {
+   "deb": 0,
+   "allow": 0
+  },
+  "viii": {
+   "deb": 0,
+   "allow": 0
+  },
+  "ix": {
+   "deb": 100000,
+   "allow": 100000
+  }
+ },
+ "icds": {
+  "acc": {
+   "inc": 60000,
+   "dec": 0
+  },
+  "inv": {
+   "inc": 0,
+   "dec": 0
+  },
+  "cons": {
+   "inc": 90000,
+   "dec": 0
+  },
+  "rev": {
+   "inc": 0,
+   "dec": 50000
+  },
+  "tfa": {
+   "inc": 0,
+   "dec": 0
+  },
+  "fx": {
+   "inc": 25000,
+   "dec": 0
+  },
+  "grant": {
+   "inc": 0,
+   "dec": 0
+  },
+  "sec": {
+   "inc": 0,
+   "dec": 0
+  },
+  "borr": {
+   "inc": 0,
+   "dec": 30000
+  },
+  "prov": {
+   "inc": 45000,
+   "dec": 0
+  }
+ },
+ "cg": {
+  "on": true,
+  "land": [
+   {
+    "buy": "05/05/2024",
+    "sale": "15/09/2025",
+    "lt": "Short",
+    "cons": 3000000,
+    "sdv": 3000000,
+    "cost": 2500000,
+    "improve": 0,
+    "exp": 50000,
+    "ded": {},
+    "paddr": "Shed 4, Peenya 2nd Stage",
+    "pstate": "15",
+    "ppin": "560058",
+    "pcountry": "91",
+    "buyers": [
+     {
+      "name": "Nandi Steels Private Limited",
+      "pan": "AAACN1234B",
+      "aadhaar": "",
+      "share": 100,
+      "amt": 3000000
+     }
+    ],
+    "_": {
+     "isLT": false,
+     "value": 3000000,
+     "safe": true,
+     "biv": 2550000,
+     "c": 450000,
+     "dedTot": 0,
+     "e": 450000,
+     "gain": 450000
+    },
+    "_i": 0
+   },
+   {
+    "buy": "10/06/2015",
+    "sale": "20/11/2025",
+    "lt": "Long",
+    "cons": 9000000,
+    "sdv": 9200000,
+    "cost": 4000000,
+    "improve": 500000,
+    "exp": 200000,
+    "ded": {
+     "s54D": 0,
+     "s54EC": 800000,
+     "s54G": 0,
+     "s54GA": 0
+    },
+    "paddr": "Survey 112, Bommasandra Industrial Area",
+    "pstate": "15",
+    "ppin": "560099",
+    "pcountry": "91",
+    "buyers": [
+     {
+      "name": "Greenfield Realty Private Limited",
+      "pan": "AABCG7788C",
+      "aadhaar": "",
+      "share": 100,
+      "amt": 9000000
+     }
+    ],
+    "_": {
+     "isLT": true,
+     "value": 9000000,
+     "safe": true,
+     "biv": 4700000,
+     "c": 4300000,
+     "dedTot": 800000,
+     "e": 3500000,
+     "gain": 3500000
+    },
+    "_i": 1
+   }
+  ],
+  "a2": {},
+  "a3i": {
+   "cons": 900000,
+   "cost": 700000,
+   "improve": 0,
+   "exp": 5000,
+   "loss94": 0
+  },
+  "a3ii": {},
+  "a4": {},
+  "a5": {},
+  "a6": {
+   "unqCons": 0,
+   "unqFmv": 0,
+   "othCons": 500000,
+   "cost": 400000,
+   "improve": 0,
+   "exp": 10000,
+   "loss94": 0,
+   "dcg": 0,
+   "ded": {}
+  },
+  "a7": {
+   "deem": [
+    {
+     "py": "2023-24",
+     "sec": "54G",
+     "yracq": "2024",
+     "util": 200000,
+     "unused": 100000
+    }
+   ],
+   "other": 0,
+   "unutFlag": ""
+  },
+  "a8": {
+   "r20": 60000,
+   "r30": 0,
+   "rApp": 40000
+  },
+  "a9": [],
+  "aA": [
+   {
+    "rate": "STL20",
+    "amt": 50000
+   }
+  ],
+  "b2": {},
+  "b3": {
+   "cons": 1000000,
+   "cost": 700000,
+   "improve": 0,
+   "exp": 0
+  },
+  "b4": {},
+  "b5": {},
+  "b6": [],
+  "b7": {},
+  "b8": {
+   "ded": {}
+  },
+  "b9": {
+   "deem": [],
+   "other": 0,
+   "unutFlag": ""
+  },
+  "b10": {
+   "r125a": 120000,
+   "r125o": 80000
+  },
+  "b11": [],
+  "bA": {},
+  "s112a": [
+   {
+    "pre18": "AE",
+    "after23": "AF",
+    "isin": "INE009A01021",
+    "name": "Infosys Limited",
+    "qty": 0,
+    "price": 0,
+    "sale6": 2000000,
+    "cost": 1200000,
+    "fmv18": 0,
+    "exp": 10000,
+    "_": {
+     "sale": 2000000,
+     "fmvTot": 0,
+     "col9": 0,
+     "cwo": 1200000,
+     "cost": 1200000,
+     "exp": 10000,
+     "totded": 1210000,
+     "bal": 790000
+    }
+   },
+   {
+    "pre18": "BE",
+    "after23": "AF",
+    "isin": "INE002A01018",
+    "name": "Reliance Industries Limited",
+    "qty": 5000,
+    "price": 300,
+    "sale6": 0,
+    "cost": 600000,
+    "fmv18": 200,
+    "exp": 5000,
+    "_": {
+     "sale": 1500000,
+     "fmvTot": 1000000,
+     "col9": 1000000,
+     "cwo": 1000000,
+     "cost": 600000,
+     "exp": 5000,
+     "totded": 1005000,
+     "bal": 495000
+    }
+   }
+  ],
+  "s115ad": [],
+  "vda": [
+   {
+    "buy": "10/05/2025",
+    "sale": "20/12/2025",
+    "head": "CG",
+    "cost": 400000,
+    "cons": 650000,
+    "_": {
+     "inc": 250000,
+     "q": 3
+    }
+   },
+   {
+    "buy": "01/06/2024",
+    "sale": "15/01/2026",
+    "head": "CG",
+    "cost": 300000,
+    "cons": 260000,
+    "_": {
+     "inc": 0,
+     "q": 3
+    }
+   }
+  ],
+  "dclaim": {
+   "us54D": [],
+   "us54EC": [
+    {
+     "transfer": "20/11/2025",
+     "invested": 800000,
+     "invdate": "15/01/2026",
+     "amt": 800000
+    }
+   ],
+   "us54G": [],
+   "us54GA": []
+  },
+  "editE": false,
+  "Eover": null,
+  "editF": false,
+  "Fover": null
+ },
+ "ded": {
+  "v": {
+   "iab": 0,
+   "iba": 0,
+   "jja": 0,
+   "jjaa": 400000,
+   "pa": 0
+  },
+  "g80": [
+   {
+    "bucket": "A",
+    "name": "Prime Minister's National Relief Fund",
+    "addr": "South Block, Raisina Hill",
+    "city": "New Delhi",
+    "state": "09",
+    "pin": "110011",
+    "pan": "AACTP4637Q",
+    "arn": "",
+    "cash": 0,
+    "other": 200000,
+    "ref": "UTR SBIN25091200451",
+    "ifsc": "SBIN0040011"
+   },
+   {
+    "bucket": "B",
+    "name": "Jawaharlal Nehru Memorial Fund",
+    "addr": "Teen Murti House",
+    "city": "New Delhi",
+    "state": "09",
+    "pin": "110011",
+    "pan": "AAATJ0602E",
+    "arn": "",
+    "cash": 0,
+    "other": 100000,
+    "ref": "UTR SBIN25091200452",
+    "ifsc": "SBIN0040011"
+   },
+   {
+    "bucket": "C",
+    "name": "Karnataka State Disaster Response Fund",
+    "addr": "Vidhana Soudha",
+    "city": "Bengaluru",
+    "state": "15",
+    "pin": "560001",
+    "pan": "AAAGK1122L",
+    "arn": "AAAGK1122LF2024901",
+    "cash": 0,
+    "other": 300000,
+    "ref": "UTR SBIN25100300117",
+    "ifsc": "SBIN0040011"
+   },
+   {
+    "bucket": "D",
+    "name": "Sneha Charitable Trust",
+    "addr": "No. 18, 8th Main, Malleswaram",
+    "city": "Bengaluru",
+    "state": "15",
+    "pin": "560003",
+    "pan": "AAATS9911R",
+    "arn": "AAATS9911RF2024122",
+    "cash": 2000,
+    "other": 48000,
+    "ref": "UTR SBIN25110700245",
+    "ifsc": "SBIN0040011"
+   }
+  ],
+  "gga": [
+   {
+    "clause": "80GGA2b",
+    "name": "Gramin Vikas Sansthan",
+    "addr": "12, Civil Lines",
+    "city": "Nagpur",
+    "state": "19",
+    "pin": "440001",
+    "pan": "AAATG3344M",
+    "cashdt": "",
+    "cash": 0,
+    "other": 100000
+   }
+  ],
+  "ra": [
+   {
+    "name": "Indian Institute of Science",
+    "addr": "CV Raman Road",
+    "city": "Bengaluru",
+    "state": "15",
+    "pin": "560012",
+    "pan": "AAATI0596J",
+    "cash": 0,
+    "other": 200000
+   },
+   {
+    "name": "CSIR National Aerospace Laboratories",
+    "addr": "Old Airport Road, Kodihalli",
+    "city": "Bengaluru",
+    "state": "15",
+    "pin": "560017",
+    "pan": "AAATC1919P",
+    "cash": 0,
+    "other": 300000
+   }
+  ],
+  "ggb": [
+   {
+    "dt": "18/08/2025",
+    "cash": 0,
+    "other": 250000,
+    "name": "Bharatiya Janata Party",
+    "pan": "AAABB0930E",
+    "ref": "UTR SBIN25081800912",
+    "ifsc": "SBIN0040011"
+   }
+  ],
+  "ggc": [],
+  "m80": [
+   {
+    "dt": "15/09/2026",
+    "amt": 900000,
+    "type": "ScheduleOS"
+   }
+  ],
+  "la": [],
+  "iac": {},
+  "aa10": [
+   {
+    "ay": "2015-16",
+    "amt": 500000
+   }
+  ],
+  "ia": {
+   "i": {
+    "loc": "INFRAFAC"
+   },
+   "iv": {
+    "loc": "POWER",
+    "rows": [
+     {
+      "amt": 300000
+     }
+    ]
+   },
+   "v": {
+    "loc": "REVIVAL_POWER_PLNT"
+   }
+  },
+  "ib": {
+   "oil": {
+    "loc": "COMM_PROD"
+   },
+   "hous": {
+    "loc": "HOUSING_PROJECT"
+   },
+   "fruit": {
+    "loc": "FRIUTS_VEGTBLE",
+    "rows": [
+     {
+      "amt": 150000
+     }
+    ]
+   },
+   "food": {
+    "loc": "STOR_TRANS"
+   }
+  },
+  "ie": {
+   "assam": {
+    "loc": "INDSRTL_ASSAM",
+    "rows": [
+     {
+      "amt": 200000
+     }
+    ]
+   },
+   "arun": {
+    "loc": "INDSRTL_ARUNPRADESH"
+   },
+   "manip": {
+    "loc": "INDSRTL_MANIPUR"
+   },
+   "mizo": {
+    "loc": "INDSRTL_MIZORAM"
+   },
+   "megh": {
+    "loc": "INDSRTL_MEGHALAYA"
+   },
+   "naga": {
+    "loc": "INDSRTL_NAGALND"
+   },
+   "trip": {
+    "loc": "INDSRTL_TRIPURA"
+   },
+   "sikk": {
+    "loc": "INDSRTL_SIKKIM"
+   }
+  }
+ },
+ "ei": {
+  "interest": 80000,
+  "grossAgri": 0,
+  "expAgri": 0,
+  "unabAgri": 0,
+  "land": [],
+  "others": [
+   {
+    "cat": "OTH",
+    "sub": "10(2A)",
+    "desc": "",
+    "amt": 180000
+   }
+  ],
+  "dtaa": [],
+  "passThr": 200000
+ },
+ "fa": {
+  "fsi": [
+   {
+    "code": "65",
+    "tin": "SG-UEN-201612345K",
+    "sec": "90",
+    "hp": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "bus": {
+     "b": 800000,
+     "c": 120000,
+     "d": 200000,
+     "art": "7"
+    },
+    "cg": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "os": {
+     "b": 100000,
+     "c": 10000,
+     "d": 25000,
+     "art": "11"
+    }
+   },
+   {
+    "code": "1",
+    "tin": "CA-BN-778899001",
+    "sec": "91",
+    "hp": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "bus": {
+     "b": 200000,
+     "c": 30000,
+     "d": 50000,
+     "art": ""
+    },
+    "cg": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    },
+    "os": {
+     "b": 0,
+     "c": 0,
+     "d": 0,
+     "art": ""
+    }
+   }
+  ],
+  "trFlag": "NO",
+  "trAmt": "",
+  "trAY": "",
+  "a1": [
+   {
+    "code": "65",
+    "Bankname": "DBS Bank Limited",
+    "AddressOfBank": "12 Marina Boulevard, Singapore",
+    "ZipCode": "018982",
+    "ForeignAccountNumber": "0021234567",
+    "OwnerStatus": "OWNER",
+    "AccOpenDate": "14/07/2018",
+    "PeakBalanceDuringYear": 4200000,
+    "ClosingBalance": 3800000,
+    "IntrstAccured": 96000
+   }
+  ],
+  "a2": [
+   {
+    "code": "2",
+    "FinancialInstName": "Charles Schwab & Co.",
+    "FinancialInstAddress": "211 Main Street, San Francisco",
+    "ZipCode": "94105",
+    "AccountNumber": "CS-8890123",
+    "Status": "OWNER",
+    "AccOpenDate": "03/02/2020",
+    "PeakBalanceDuringPeriod": 2600000,
+    "ClosingBalance": 2400000,
+    "NatureOfAmount": "D",
+    "GrossAmtPaidCredited": 54000
+   }
+  ],
+  "a3": [
+   {
+    "code": "44",
+    "NameOfEntity": "Sudhir Industries UK Limited",
+    "AddressOfEntity": "5 Fleet Place, London",
+    "ZipCode": "EC4M7RD",
+    "NatureOfEntity": "Private limited company",
+    "InterestAcquiringDate": "09/05/2019",
+    "InitialValOfInvstmnt": 3000000,
+    "PeakBalanceDuringPeriod": 3400000,
+    "ClosingBalance": 3400000,
+    "TotGrossAmtPaidCredited": 0,
+    "TotGrossProceeds": 0
+   }
+  ],
+  "a4": [
+   {
+    "code": "65",
+    "FinancialInstName": "Great Eastern Life Assurance",
+    "FinancialInstAddress": "1 Pickering Street, Singapore",
+    "ZipCode": "048659",
+    "ContractDate": "22/11/2021",
+    "CashValOrSurrenderVal": 850000,
+    "TotGrossAmtPaidCredited": 0
+   }
+  ],
+  "b": [
+   {
+    "code": "44",
+    "ZipCode": "EC4M7RD",
+    "NatureOfEntity": "Wholly owned subsidiary",
+    "NameOfEntity": "Sudhir Industries UK Limited",
+    "AddressOfEntity": "5 Fleet Place, London",
+    "NatureOfInt": "DIRECT",
+    "DateHeld": "09/05/2019",
+    "TotalInvestment": 3000000,
+    "IncFromInt": 0,
+    "NatureOfInc": "No income during the year",
+    "IncTaxAmt": 0,
+    "IncTaxSch": "NI",
+    "IncTaxSchNo": "-"
+   }
+  ],
+  "c": [
+   {
+    "code": "65",
+    "ZipCode": "189702",
+    "AddressOfProperty": "21 Beach Road, #08-02, Singapore",
+    "Ownership": "DIRECT",
+    "DateOfAcq": "18/03/2022",
+    "TotalInvestment": 9600000,
+    "IncDrvProperty": 0,
+    "NatureOfInc": "No income during the year",
+    "IncTaxAmt": 0,
+    "IncTaxSch": "NI",
+    "IncTaxSchNo": "-"
+   }
+  ],
+  "d": [
+   {
+    "code": "2",
+    "ZipCode": "94105",
+    "NatureOfAsset": "Listed equity shares held abroad",
+    "Ownership": "DIRECT",
+    "DateOfAcq": "03/02/2020",
+    "TotalInvestment": 2400000,
+    "IncDrvAsset": 0,
+    "NatureOfInc": "No income during the year",
+    "IncTaxAmt": 0,
+    "IncTaxSch": "NI",
+    "IncTaxSchNo": "-"
+   }
+  ],
+  "e": [
+   {
+    "NameOfInstitution": "HSBC Bank Middle East",
+    "AddressOfInstitution": "Downtown, Dubai",
+    "code": "971",
+    "ZipCode": "00000",
+    "NameMentionedInAccnt": "Sudhir Industries FZE",
+    "InstitutionAccountNumber": "AE070331234567890123456",
+    "PeakBalanceOrInvestment": 1200000,
+    "IncAccuredTaxFlag": "N",
+    "IncAccuredInAcc": 0,
+    "IncOfferedAmt": 0,
+    "IncOfferedSch": "NI",
+    "IncOfferedSchNo": "-"
+   }
+  ],
+  "f": [
+   {
+    "code": "44",
+    "ZipCode": "EC4M7RD",
+    "NameOfTrust": "Sudhir Family Welfare Trust",
+    "AddressOfTrust": "5 Fleet Place, London",
+    "NameOfOtherTrustees": "Lakshmi Sudhir",
+    "AddressOfOtherTrustees": "No. 42, 3rd Cross, Richmond Town, Bengaluru",
+    "NameOfSettlor": "S Sudhir",
+    "AddressOfSettlor": "No. 42, 3rd Cross, Richmond Town, Bengaluru",
+    "NameOfBeneficiaries": "Employees of the UK subsidiary",
+    "AddressOfBeneficiaries": "5 Fleet Place, London",
+    "DateHeld": "01/09/2022",
+    "IncDrvTaxFlag": "N",
+    "IncDrvFromTrust": 0,
+    "IncOfferedAmt": 0,
+    "IncOfferedSch": "NI",
+    "IncOfferedSchNo": "-"
+   }
+  ],
+  "g": [
+   {
+    "code": "65",
+    "ZipCode": "018982",
+    "NameOfPerson": "Asia Pacific Engineering Pte Ltd",
+    "AddressOfPerson": "3 Fusionopolis Way, Singapore",
+    "IncDerived": 100000,
+    "NatureOfInc": "Interest on a deposit with a bank outside India",
+    "IncDrvTaxFlag": "Y",
+    "IncOfferedAmt": 100000,
+    "IncOfferedSch": "OS",
+    "IncOfferedSchNo": "1b(ii)"
+   }
+  ]
+ },
+ "gen": {
+  "aud": {
+   "sec44AA": "Y",
+   "incDclrdUs": "N",
+   "salesBand": "MoreThan10CR",
+   "sec44AB": "Y",
+   "acctFlg": "Y",
+   "repDate": "12/09/2026",
+   "repAck": "482910375612",
+   "frmName": "Rao & Rao, Chartered Accountants",
+   "frmPAN": "AAAFR5566K",
+   "sec92E": "N",
+   "acct92E": "",
+   "date92E": "",
+   "ack92E": "",
+   "oth": [
+    {
+     "sec": "10AA",
+     "otherSec": "",
+     "flag": "Y",
+     "date": "12/09/2026",
+     "ack": "482910375613"
+    },
+    {
+     "sec": "80-IA",
+     "otherSec": "",
+     "flag": "Y",
+     "date": "12/09/2026",
+     "ack": "482910375614"
+    },
+    {
+     "sec": "115JB",
+     "otherSec": "",
+     "flag": "Y",
+     "date": "12/09/2026",
+     "ack": "482910375615"
+    }
+   ],
+   "act": [
+    {
+     "act": "6",
+     "actOther": "",
+     "sec": "143",
+     "othFlag": "Y",
+     "date": "28/08/2026"
+    },
+    {
+     "act": "4",
+     "actOther": "",
+     "sec": "35(5)",
+     "othFlag": "Y",
+     "date": "20/12/2025"
+    }
+   ]
+  },
+  "hold": {
+   "natFlg": "1",
+   "holding": [],
+   "subsid": [
+    {
+     "name": "Sudhir Components Private Limited",
+     "pan": "AAECS1122F",
+     "addr": "Plot 9, KIADB Industrial Area, Narasapura",
+     "city": "Kolar",
+     "state": "15",
+     "country": "91",
+     "pin": "563133",
+     "zip": "",
+     "pct": 100
+    },
+    {
+     "name": "Sudhir Logistics Private Limited",
+     "pan": "AAFCS3344G",
+     "addr": "No. 7, Mysore Road",
+     "city": "Bengaluru",
+     "state": "15",
+     "country": "91",
+     "pin": "560026",
+     "zip": "",
+     "pct": 72
+    }
+   ]
+  },
+  "busorg": [
+   {
+    "type": "AMALGAMATED",
+    "name": "Narasapura Tooling Private Limited",
+    "addr": "Plot 4, KIADB Area",
+    "city": "Kolar",
+    "state": "15",
+    "country": "91",
+    "pin": "563133",
+    "zip": "",
+    "pan": "AACCN7788H",
+    "date": "01/04/2024"
+   }
+  ],
+  "keyp": [
+   {
+    "name": "S SUDHIR",
+    "desig": "MD",
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "TVOPS4373C",
+    "aadhaar": "734519826041",
+    "din": "01234567"
+   },
+   {
+    "name": "LAKSHMI SUDHIR",
+    "desig": "DIR",
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "AKPPL2211M",
+    "aadhaar": "612345678901",
+    "din": "01234568"
+   },
+   {
+    "name": "R VENKATESH",
+    "desig": "CFO",
+    "addr": "No. 118, 5th Main, Jayanagar",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560041",
+    "zip": "",
+    "pan": "AFRPV9988L",
+    "aadhaar": "501234567890",
+    "din": ""
+   },
+   {
+    "name": "MEERA NAIR",
+    "desig": "SEC",
+    "addr": "No. 3, Cunningham Road",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560052",
+    "zip": "",
+    "pan": "BKRPN4455J",
+    "aadhaar": "401234567891",
+    "din": ""
+   }
+  ],
+  "shr": [
+   {
+    "name": "S SUDHIR",
+    "pct": 62,
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "TVOPS4373C",
+    "aadhaar": "734519826041"
+   },
+   {
+    "name": "LAKSHMI SUDHIR",
+    "pct": 23,
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "AKPPL2211M",
+    "aadhaar": "612345678901"
+   },
+   {
+    "name": "KAVERI CAPITAL LLP",
+    "pct": 15,
+    "addr": "No. 9, Lavelle Road",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560001",
+    "zip": "",
+    "pan": "AAEFK6677N",
+    "aadhaar": ""
+   }
+  ],
+  "own": [
+   {
+    "name": "S SUDHIR",
+    "pct": 62,
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "TVOPS4373C",
+    "aadhaar": "734519826041"
+   },
+   {
+    "name": "LAKSHMI SUDHIR",
+    "pct": 23,
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "state": "15",
+    "country": "91",
+    "pin": "560025",
+    "zip": "",
+    "pan": "AKPPL2211M",
+    "aadhaar": "612345678901"
+   }
+  ],
+  "frnImm": [],
+  "frnUlt": [],
+  "nat": {
+   "pubSect": "N",
+   "rbi": "N",
+   "gov40": "N",
+   "bank": "N",
+   "schedBank": "N",
+   "irda": "N",
+   "nbfi": "N",
+   "unlisted": "Y"
+  },
+  "nob": [
+   {
+    "code": "04066",
+    "trade": "Sudhir Industries",
+    "desc": "Manufacture of other general purpose machinery"
+   },
+   {
+    "code": "09009",
+    "trade": "Sudhir Trading Division",
+    "desc": "Wholesale of metals and metal ores"
+   },
+   {
+    "code": "11013",
+    "trade": "Sudhir Cold Chain",
+    "desc": "Storage and warehousing (specified business u/s 35AD)"
+   }
+  ]
+ },
+ "hp": {
+  "on": "1",
+  "pti": "",
+  "props": [
+   {
+    "addr": "No. 42, 3rd Cross, Richmond Town",
+    "city": "Bengaluru",
+    "country": "91",
+    "state": "15",
+    "pin": "560025",
+    "owner": "SE",
+    "co": "NO",
+    "type": "Y",
+    "tenants": [
+     {
+      "name": "Arjun Technologies Private Limited",
+      "pan": "AADCA5566P",
+      "aadhaar": "",
+      "pantan": "AADCA5566P"
+     }
+    ],
+    "coowners": [],
+    "rent": 2400000,
+    "unreal": 0,
+    "taxes": 120000,
+    "arrears": 0,
+    "loans": [
+     {
+      "from": "B",
+      "name": "State Bank of India",
+      "acno": "HL30412345678",
+      "dt": "12/04/2019",
+      "amt": 25000000,
+      "os": 18400000,
+      "interest": 400000
+     }
+    ],
+    "_": {
+     "co": false,
+     "coShare": 0,
+     "share": 100,
+     "a": 2400000,
+     "b": 0,
+     "c": 120000,
+     "d": 120000,
+     "e": 2280000,
+     "f": 2280000,
+     "g": 684000,
+     "hRaw": 400000,
+     "h": 400000,
+     "guard": true,
+     "barredBAB": false,
+     "barredGuard": false,
+     "i": 1084000,
+     "j": 0,
+     "k": 1196000,
+     "nLoans": 1
+    },
+    "_i": 0
+   },
+   {
+    "addr": "Plot 18, KIADB Industrial Area, Narasapura",
+    "city": "Kolar",
+    "country": "91",
+    "state": "15",
+    "pin": "563133",
+    "owner": "SE",
+    "co": "YES",
+    "type": "D",
+    "coowners": [
+     {
+      "name": "Sudhir Components Private Limited",
+      "pan": "AAECS1122F",
+      "aadhaar": "",
+      "share": 30
+     }
+    ],
+    "tenants": [],
+    "rent": 600000,
+    "unreal": 0,
+    "taxes": 30000,
+    "arrears": 0,
+    "loans": [],
+    "_": {
+     "co": true,
+     "coShare": 30,
+     "share": 70,
+     "a": 600000,
+     "b": 0,
+     "c": 30000,
+     "d": 30000,
+     "e": 570000,
+     "f": 399000,
+     "g": 119700,
+     "hRaw": 0,
+     "h": 0,
+     "guard": true,
+     "barredBAB": false,
+     "barredGuard": false,
+     "i": 119700,
+     "j": 0,
+     "k": 279300,
+     "nLoans": 0
+    },
+    "_i": 1
+   }
+  ]
+ },
+ "loss": {
+  "cfl": {
+   "2019-20": {
+    "dt": "15/10/2019",
+    "specified": 300000
+   },
+   "2021-22": {
+    "dt": "20/12/2021",
+    "hp": 120000
+   },
+   "2022-23": {
+    "dt": "28/09/2022",
+    "spec": 80000
+   },
+   "2023-24": {
+    "dt": "25/09/2023",
+    "bus5a": 400000,
+    "bus5b": 0
+   },
+   "2024-25": {
+    "dt": "30/10/2024",
+    "st": 150000,
+    "lt": 250000
+   }
+  },
+  "ud": [
+   {
+    "ay": "2026-27",
+    "bfud": 900000,
+    "adj115": 0,
+    "soc": 0,
+    "bfallow": 150000,
+    "allowsoc": 0
+   },
+   {
+    "ay": "2020-21",
+    "bfud": 250000,
+    "adj115": 0,
+    "soc": 0,
+    "bfallow": 0,
+    "allowsoc": 0
+   }
+  ],
+  "editC": "",
+  "editB": "",
+  "cylaOver": {},
+  "busOver": {},
+  "osOver": {},
+  "bflaOver": {}
+ },
+ "mat": {
+  "q1": "1",
+  "q2": "1",
+  "q3": "1",
+  "pat": 10265000,
+  "add": {
+   "a": 2550000,
+   "c": 100000,
+   "f": 20000
+  },
+  "ded": {
+   "b": 260000,
+   "i": 300000
+  },
+  "indas": "N",
+  "a8": {},
+  "b8": {},
+  "ifsc": 0,
+  "matc": {
+   "rows": [
+    {
+     "ay": "2011-12",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2012-13",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2013-14",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2014-15",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2015-16",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2016-17",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2017-18",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2018-19",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2019-20",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2020-21",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2021-22",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2022-23",
+     "gross": 400000,
+     "setoff": 0
+    },
+    {
+     "ay": "2023-24",
+     "gross": 250000,
+     "setoff": 50000
+    },
+    {
+     "ay": "2024-25",
+     "gross": "",
+     "setoff": ""
+    },
+    {
+     "ay": "2025-26",
+     "gross": "",
+     "setoff": ""
+    }
+   ]
+  },
+  "_seeded": 1
+ },
+ "os": {
+  "divOth": 1100000,
+  "div22e": 0,
+  "div22f": 100000,
+  "intSaving": 0,
+  "intDeposit": 450000,
+  "intRefund": 25000,
+  "intPTI": 0,
+  "intOthers": 0,
+  "rentMach": 300000,
+  "giftMoney": 0,
+  "giftImmovWo": 0,
+  "giftImmovInadeq": 0,
+  "giftOthWo": 0,
+  "giftOthInadeq": 0,
+  "sum562xii": 0,
+  "others": [
+   {
+    "nat": "Miscellaneous receipts (scrap, insurance claims)",
+    "amt": 60000
+   }
+  ],
+  "win115BB": 0,
+  "win115BBJ": 0,
+  "cc68": 0,
+  "ui69": 0,
+  "um69a": 0,
+  "udi69b": 0,
+  "ue69c": 0,
+  "hundi69d": 0,
+  "spl": [],
+  "pti": [],
+  "dtaa": [],
+  "dExpenses": 40000,
+  "dDep": 60000,
+  "dIntClaimed": 100000,
+  "notDed58": 0,
+  "profit59": 0,
+  "horse": {
+   "receipts": "",
+   "ded57": "",
+   "notDed58": "",
+   "profit59": ""
+  },
+  "q": {
+   "d115bbda": {
+    "Upto15Of6": 300000,
+    "Up16Of6To15Of9": 300000,
+    "Up16Of9To15Of12": 300000,
+    "Up16Of12To15Of3": 50000,
+    "Up16Of3To31Of3": 50000
+   },
+   "d115bbdaaiii": {
+    "Upto15Of6": 0,
+    "Up16Of6To15Of9": 0,
+    "Up16Of9To15Of12": 0,
+    "Up16Of12To15Of3": 100000,
+    "Up16Of3To31Of3": 0
+   }
+  }
+ },
+ "other": {
+  "if": [
+   {
+    "name": "Sudhir & Associates",
+    "ftype": "Partnership Firm",
+    "pan": "AAJFS7788L",
+    "audit": "Yes",
+    "sec92e": "No",
+    "pct": 25,
+    "profit": 180000,
+    "interest": 120000,
+    "capbal": 1500000
+   }
+  ],
+  "pti": [
+   {
+    "kind": "Section 115UA",
+    "name": "Embassy Office Parks REIT",
+    "pan": "AABCE1234F",
+    "hp": {
+     "inc": 150000,
+     "loss": 0,
+     "tds": 15000
+    },
+    "st111a": {
+     "inc": 60000,
+     "loss": 0,
+     "tds": 0
+    },
+    "stOth": {
+     "inc": 40000,
+     "loss": 0,
+     "tds": 0
+    },
+    "lt112a": {
+     "inc": 120000,
+     "loss": 0,
+     "tds": 0
+    },
+    "ltOth": {
+     "inc": 80000,
+     "loss": 0,
+     "tds": 0
+    },
+    "osDiv": {
+     "inc": 0,
+     "tds": 0
+    },
+    "osOth": {
+     "inc": 0,
+     "tds": 0
+    },
+    "ex23fbb": {
+     "inc": 0,
+     "tds": 0
+    },
+    "exBcode": "10(23FD)",
+    "exB": {
+     "inc": 200000,
+     "tds": 0
+    },
+    "exCcode": "",
+    "exC": {
+     "inc": 0,
+     "tds": 0
+    }
+   }
+  ],
+  "tpsa": {
+   "adj": "",
+   "challans": []
+  },
+  "td": {
+   "fmv": "",
+   "liab": "",
+   "fmv4i": "",
+   "fmv4ii": "",
+   "fmv4iii": "",
+   "liab4": "",
+   "addtax": "",
+   "interest": "",
+   "specdate": "",
+   "challans": []
+  },
+  "gst": [
+   {
+    "gstin": "29TVOPS4373C1ZK",
+    "amt": 55000000
+   },
+   {
+    "gstin": "18TVOPS4373C1ZJ",
+    "amt": 7000000
+   }
+  ],
+  "fd": {
+   "payCap": "",
+   "payRev": "",
+   "rcptCap": "",
+   "rcptRev": ""
+  }
+ },
+ "paid": {
+  "tds2": [
+   {
+    "who": "S",
+    "tan": "BLRD12345E",
+    "sec": "194",
+    "yr": "",
+    "bf": 0,
+    "dedOwn": 120000,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 120000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 1200000,
+    "head": "OS",
+    "_avail": 120000,
+    "_claimed": 120000,
+    "_cf": 0,
+    "_over": false
+   },
+   {
+    "who": "S",
+    "tan": "MUMR09876F",
+    "sec": "94A",
+    "yr": "",
+    "bf": 0,
+    "dedOwn": 45000,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 45000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 450000,
+    "head": "OS",
+    "_avail": 45000,
+    "_claimed": 45000,
+    "_cf": 0,
+    "_over": false
+   },
+   {
+    "who": "S",
+    "tan": "BLRC55555G",
+    "sec": "94C",
+    "yr": "",
+    "bf": 0,
+    "dedOwn": 60000,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 60000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 3000000,
+    "head": "BP",
+    "_avail": 60000,
+    "_claimed": 60000,
+    "_cf": 0,
+    "_over": false
+   },
+   {
+    "who": "S",
+    "tan": "DELH11111H",
+    "sec": "4-IB",
+    "yr": "2024",
+    "bf": 25000,
+    "dedOwn": 0,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 25000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 240000,
+    "head": "HP",
+    "_avail": 25000,
+    "_claimed": 25000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "tds3": [
+   {
+    "who": "S",
+    "pan": "AABCG7788C",
+    "aadh": "",
+    "sec": "4IA",
+    "yr": "",
+    "bf": 0,
+    "dedOwn": 90000,
+    "dedOthInc": 0,
+    "dedOthTds": 0,
+    "claimOwn": 90000,
+    "claimOthInc": 0,
+    "claimOthTds": 0,
+    "claimOthPan": "",
+    "claimOthAadh": "",
+    "gross": 9000000,
+    "head": "CG",
+    "_avail": 90000,
+    "_claimed": 90000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "tcs": [
+   {
+    "who": "S",
+    "tan": "BLRT77777J",
+    "othPan": "",
+    "yr": "",
+    "bf": 0,
+    "collOwn": 15000,
+    "collOth": 0,
+    "claimOwn": 15000,
+    "claimOth": 0,
+    "claimOthPan": "",
+    "_avail": 15000,
+    "_claimed": 15000,
+    "_cf": 0,
+    "_over": false
+   }
+  ],
+  "it": [
+   {
+    "bsr": "0510308",
+    "dt": "15/06/2025",
+    "sn": "00121",
+    "amt": 310000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "15/09/2025",
+    "sn": "00337",
+    "amt": 600000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "15/12/2025",
+    "sn": "00519",
+    "amt": 940000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "14/03/2026",
+    "sn": "00742",
+    "amt": 500000
+   },
+   {
+    "bsr": "0510308",
+    "dt": "12/10/2026",
+    "sn": "00981",
+    "amt": 170000
+   }
+  ]
+ },
+ "si": {
+  "edit": "Yes",
+  "rows": [
+   {
+    "code": "1A",
+    "rate": "20",
+    "inc": 145000
+   },
+   {
+    "code": "21",
+    "rate": "12.5",
+    "inc": 3250000
+   },
+   {
+    "code": "22",
+    "rate": "12.5",
+    "inc": 300000
+   },
+   {
+    "code": "2A",
+    "rate": "12.5",
+    "inc": 1285000
+   },
+   {
+    "code": "PTI_STCG20P",
+    "rate": "20",
+    "inc": 60000
+   },
+   {
+    "code": "PTI_LTCG12_5P112A",
+    "rate": "12.5",
+    "inc": 120000
+   },
+   {
+    "code": "PTI_LTCG12_5P",
+    "rate": "12.5",
+    "inc": 80000
+   },
+   {
+    "code": "5BBH",
+    "rate": "30",
+    "inc": 250000
+   }
+  ]
+ },
+ "tax": {},
+ "al": {
+  "sh": {
+   "sec8": "N",
+   "ucFlag": "Y",
+   "suGate": "N",
+   "DtlsSHEndPreviousYearUC": [
+    {
+     "ShareholderName": "S SUDHIR",
+     "ResidentialStatus": "RES",
+     "ShareType": "ES",
+     "ShareTypeOthers": "",
+     "PAN": "TVOPS4373C",
+     "Aadhaar": "734519826041",
+     "AllotmentDate": "05/11/2006",
+     "NumberOfSharesHeld": 1240000,
+     "FaceValuePerShare": 10,
+     "IssuePricePerShare": 10,
+     "AmountReceived": 12400000
+    },
+    {
+     "ShareholderName": "LAKSHMI SUDHIR",
+     "ResidentialStatus": "RES",
+     "ShareType": "ES",
+     "ShareTypeOthers": "",
+     "PAN": "AKPPL2211M",
+     "Aadhaar": "612345678901",
+     "AllotmentDate": "05/11/2006",
+     "NumberOfSharesHeld": 460000,
+     "FaceValuePerShare": 10,
+     "IssuePricePerShare": 10,
+     "AmountReceived": 4600000
+    },
+    {
+     "ShareholderName": "KAVERI CAPITAL LLP",
+     "ResidentialStatus": "RES",
+     "ShareType": "PS",
+     "ShareTypeOthers": "",
+     "PAN": "AAEFK6677N",
+     "Aadhaar": "",
+     "AllotmentDate": "12/06/2019",
+     "NumberOfSharesHeld": 300000,
+     "FaceValuePerShare": 10,
+     "IssuePricePerShare": 10,
+     "AmountReceived": 3000000
+    }
+   ],
+   "DtlsEquityShareEndPrvYr": [
+    {
+     "ApplicantName": "NANDI GROWTH FUND",
+     "ResidentialStatus": "RES",
+     "ShareType": "ES",
+     "ShareTypeOthers": "",
+     "PAN": "AABTN5544Q",
+     "Aadhaar": "",
+     "ApplicationDate": "20/03/2026",
+     "NumberOfSharesApplied": 50000,
+     "ApplicationMoneyReceived": 2500000,
+     "FaceValuePerShare": 10,
+     "ProposedIssuePrice": 50
+    }
+   ],
+   "SHDtlsAnyTimePrevYearUC": [
+    {
+     "ShareholderName": "RAVI PRAKASH",
+     "ResidentialStatus": "RES",
+     "ShareType": "ES",
+     "PAN": "AGJPR7766T",
+     "Aadhaar": "701234567892",
+     "NumberOfSharesHeld": 100000,
+     "FaceValuePerShare": 10,
+     "IssuePricePerShare": 10,
+     "AmountReceived": 1000000,
+     "AllotmentDate": "15/07/2016",
+     "CeaseShareholderDate": "28/08/2025",
+     "CessationMode": "TS",
+     "NewShareholderPAN": "TVOPS4373C",
+     "NewShareholderAadhaar": "734519826041"
+    }
+   ],
+   "DtlsSHEndPreviousYearSU": [],
+   "DtlsShareAppMoneyAlltEndPrvYr": [],
+   "SHDtlsAnyTimePrevYearSU": []
+  },
+  "al1": {
+   "flag": "Y",
+   "DtlsBldLandResHouseUC": [
+    {
+     "Address": "No. 42, 3rd Cross, Richmond Town, Bengaluru",
+     "PinCode": 560025,
+     "AcquisitionDate": "12/04/2019",
+     "AcquisitionCost": 24000000,
+     "Purpose": "RE"
+    }
+   ],
+   "DtlsBldLandNotResHouseUC": [
+    {
+     "Address": "Plot 18, KIADB Industrial Area, Narasapura, Kolar",
+     "PinCode": 563133,
+     "AcquisitionDate": "08/08/2012",
+     "AcquisitionCost": 18000000,
+     "Purpose": "FA"
+    }
+   ],
+   "DtlsListedEquitySharesUC": [
+    {
+     "OpenBalNumberOfShares": 40000,
+     "OpenBalShareType": "ES",
+     "OpenBalAcquisitionCost": 4200000,
+     "ShrsAcqNumberOfShares": 0,
+     "ShrsAcqShareType": "ES",
+     "ShrsAcqAcquisitionCost": 0,
+     "ShrsTrsNumberOfShares": 15000,
+     "ShrsTrsShareType": "ES",
+     "ShrsTrsSaleConsdr": 3500000,
+     "ClBalNumberOfShares": 25000,
+     "ClBalShareType": "ES",
+     "ClBalAcquisitionCost": 2400000
+    }
+   ],
+   "DtlsUnListedEquitySharesUC": [
+    {
+     "CompanyName": "Sudhir Components Private Limited",
+     "PAN": "AAECS1122F",
+     "OpenBalNumberOfShares": 100000,
+     "OpenBalAcquisitionCost": 1000000,
+     "ShrsAcqNumberOfShares": 0,
+     "SubscriptionPurchaseDate": "",
+     "FaceValuePerShare": 10,
+     "IssuePricePerShare": 0,
+     "PurchasePricePerShare": 0,
+     "ShrsTrsNumberOfShares": 0,
+     "SaleConsideration": 0,
+     "ClBalNumberOfShares": 100000,
+     "ClBalAcquisitionCost": 1000000
+    }
+   ],
+   "DtlsOtherSecuritiesUC": [
+    {
+     "SecuritiesType": "B",
+     "SecuritiesTypeOthers": "",
+     "ListedUnlistedFlag": "L",
+     "OpenBalNumberOfSecurities": 500,
+     "OpenBalAcquisitionCost": 5000000,
+     "ShrsAcqNumberOfSecurities": 80,
+     "SubscriptionPurchaseDate": "15/01/2026",
+     "FaceValuePerShare": 10000,
+     "IssuePriceSecurity": 10000,
+     "PurchasePricePerSecurity": 0,
+     "ShrsTrsNumberOfSecurities": 0,
+     "SaleConsideration": 0,
+     "ClBalNumberOfSecurities": 580,
+     "ClBalAcquisitionCost": 5800000
+    }
+   ],
+   "DtlsCapitalContributionOthEntityUC": [
+    {
+     "EntityName": "Sudhir & Associates",
+     "PAN": "AAJFS7788L",
+     "OpeningBalance": 1400000,
+     "AmtContributedDrgTheYr": 0,
+     "AmtWithdrawnDrgTheYr": 180000,
+     "AmtprofitLossDividend": 280000,
+     "ClosingBalance": 1500000
+    }
+   ],
+   "DtlsLoansAdvancesUC": [
+    {
+     "PersonName": "Sudhir Logistics Private Limited",
+     "PAN": "AAFCS3344G",
+     "OpeningBalance": 2000000,
+     "AmountReceived": 500000,
+     "AmountPaid": 0,
+     "InterestCredited": 180000,
+     "ClosingBalance": 1680000,
+     "InterestRate": 9
+    }
+   ],
+   "DtlsVehiclestransportUC": [
+    {
+     "AssetParticulars": "M",
+     "AssetParticularsOthers": "",
+     "RegNumVehicle": "KA01MJ4373",
+     "AcquisitionCost": 4200000,
+     "AcquisitionDate": "20/09/2023",
+     "Purpose": "DU"
+    }
+   ],
+   "DtlsJewelleryArchCollectionsUC": [
+    {
+     "AssetParticulars": "PA",
+     "AssetParticularsOthers": "",
+     "Quantity": 4,
+     "AcquisitionCost": 600000,
+     "AcquisitionDate": "11/02/2021",
+     "Purpose": "IN"
+    }
+   ],
+   "DtlsLiabilitiesUC": [
+    {
+     "PersonName": "S SUDHIR",
+     "PAN": "TVOPS4373C",
+     "OpeningBalance": 5000000,
+     "AmountReceived": 1000000,
+     "AmountPaid": 2000000,
+     "InterestCredited": 420000,
+     "ClosingBalance": 4420000,
+     "InterestRate": 9
+    }
+   ]
+  },
+  "al2": {
+   "flag": "N",
+   "DtlsBldLandResHouseSU": [],
+   "DtlsBldLandNotResHouseSU": [],
+   "DtlsLoansAdvancesSU": [],
+   "DtlsCapitalContributionSU": [],
+   "DtlsAcqustSharesSecuritiesSU": [],
+   "DtlsVehiclestransportSU": [],
+   "DtlsJewelleryAcquiredSU": [],
+   "DtlsArchaeologicalCollctSU": [],
+   "DtlsLiabilitiesSU": []
+  }
+ }
+}

@@ -54,8 +54,11 @@ function taxDrivers(){
   var domestic = (domVal==null) ? true                           /* default: a domestic company */
     : (typeof domVal==="boolean") ? domVal                       /* engWho publishes S.C.who.domestic as a BOOLEAN (who.js:84) */
     : st0(domVal).charAt(0).toUpperCase()==="Y";                 /* tolerate a raw "Y"/"N" input */
-  var secRaw = st0(taxGet("C.gen.sec115","C.who.sec115","who.sec115","who.section115","who.opt115",
-    "who.Section115CurrAY","who.Section115BA","fs.sec115","gen.sec115")||"");
+  /* the concessional regime is resolved by engWho and republished as
+     S.C.who.regime115 ("" | 115BA | 115BAA | 115BAB); fall back to the raw
+     filing-status input S.fs.s115 ("NA" | 115BA | 115BAA | 115BAB) when the
+     who engine has not published yet (D-F1). */
+  var secRaw = st0(taxGet("C.who.regime115","fs.s115")||"");
   var s = secRaw.replace(/[^0-9A-Za-z]/g,"").toUpperCase();
   var sec = /115BAB/.test(s)?"115BAB": /115BAA/.test(s)?"115BAA": /115BA/.test(s)?"115BA":"";
   if(!domestic) sec="";                                          /* rule 9-10: a foreign co. cannot opt */
@@ -115,6 +118,15 @@ function taxCorpTax(normalInc, ri, bab15){
    never relieved; 2dii tiered on the rest, relieved). `taxAtTIfn(x)` gives
    the corporate tax if total income were x (bbe tax held constant). ---- */
 function taxCoSurcharge(ti, tax2c, bbeTax, dr, taxAtTIfn){
+  /* D-F2 — under §115BAA / §115BAB the domestic-company surcharge is a FLAT
+     10 % of the income-tax, irrespective of income (no 7 %/12 % tiering, no
+     marginal relief). The 115BBE flat-25 % surcharge (2di) still overrides and
+     is never relieved. */
+  if(dr.sec==="115BAA"||dr.sec==="115BAB"){
+    var surIc = R(Math.max(0,bbeTax)*0.25);                        /* 2di — flat 25 % on 115BBE */
+    var surIIc= R(Math.max(0, tax2c - bbeTax)*0.10);               /* 2dii — flat 10 %, no relief */
+    return {surI:surIc, surII:surIIc, rate:0.10, mr:0};
+  }
   var rate = ti>100000000?(dr.domestic?0.12:0.05): ti>10000000?(dr.domestic?0.07:0.02):0;
   var surI = R(Math.max(0,bbeTax)*0.25);                          /* 2di — flat 25 %, never relieved */
   var restTax = Math.max(0, tax2c - bbeTax);

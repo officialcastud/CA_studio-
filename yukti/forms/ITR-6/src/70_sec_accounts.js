@@ -45,6 +45,10 @@ const ACC_YN2=[["Y","Y"],["N","N"]];            /* P&L 22xiia AnyCompPaidToNonRe
 const ACC_ACCT=[["MERC","Mercantile"],["CASH","Cash"]];  /* OI item 1 */
 const ACC_VAL=[["1","1 — Cost or market rate, whichever is less"],["2","2 — At cost"],["3","3 — At market rate"]]; /* OI 4a/4b */
 const ACC_RC=[["R","Revenue"],["C","Capital"]]; /* OL 2v TypeOfIncome — schema enum R/C */
+/* item 61 · section 44AE presumptive goods carriage — the two dropdowns
+   (schema enums; codes verbatim from books/ITR-6/enums.json / the schema) */
+const ACC_44AE_CODE=[["08001","08001-Renting of land transport equipment"],["11002","11002-Packers and movers"],["11008","11008-Freight transport by road"],["11010","11010-Forwarding of freight"],["11011","11011-Receiving and acceptance of freight"],["11012","11012-Cargo handling"],["11015","11015-Other Transport & Logistics services n.e.c"]]; /* NatOfBus44AE.CodeAE */
+const ACC_44AE_OWN=[["OWN","Owned"],["LEASE","Leased"],["HIRED","Hired"]]; /* GoodsDtlsUs44AE.OwnedLeasedHiredFlag */
 
 /* ---- state: S.accounts mirrors each schema block's nested shape. The
    engine writes computed totals back onto the same paths, so S.accounts is
@@ -184,6 +188,27 @@ function engAccounts(){
   }
   const R1=engPL("pl", gpTr, "Amount");
   const R2=engPL("plias", gpTrias, "OthersAmount");
+
+  /* ---------- P&L item 61 — presumptive income u/s 44AE (goods carriages) ----------
+     Per goods carriage: @ ₹1,000 per MT per month where tonnage exceeds 12 MT,
+     otherwise a flat ₹7,500 per month (PROFIT_LOSS.md §6, floor ₹7,500).
+     Totals feed TotalNumOfMonths / TotalPrsumptvIncUs44EGoods / the item-61
+     total TotalPrsumptvIncUs44E. Computed only when carriage rows exist, so the
+     no-44AE return keeps PARTA_PL byte-identical. */
+  (function eng44AE(){
+    const goods=A("pl.GoodsDtlsUs44AE"); if(!goods.length) return;
+    let totMonths=0, totInc=0;
+    goods.forEach(r=>{
+      const ton=Math.round(N(r.TonnageCapacity)), mo=Math.max(0,Math.round(N(r.HoldingPeriod)));
+      r.TonnageCapacity=ton; r.HoldingPeriod=mo;                          /* coerce UI strings → integers (schema) */
+      const inc=Math.max(7500, mo*(ton>12?1000*ton:7500));               /* row 5, floor ₹7,500 */
+      r.PresumptiveIncome=R(inc);
+      totMonths+=mo; totInc+=inc;
+    });
+    St("pl.TotalNumOfMonths", Math.min(120, totMonths));                  /* J206 (schema cap 120) */
+    St("pl.TotalPrsumptvIncUs44EGoods", totInc);                         /* K206 */
+    St("pl.TotalPrsumptvIncUs44E", totInc);                              /* item 61(ii) = PL_TIncome */
+  })();
 
   /* ---------- P&L Ind-AS · Other Comprehensive Income (61A/61B/62) ---------- */
   const na="plias.OtherComprnsvInc.ItemsNotReclsfdPnL.", re="plias.OtherComprnsvInc.ItemsReclsfdPnL.";
@@ -663,6 +688,30 @@ function accPL(pf, isIas){
   s+=_acRc("59vi — Total appropriations",tp+"Appropriations.TotAppropriations","59vi");
   s+=_acRc("60 — Balance carried to balance sheet (58 − 59vi)",tp+"PartnerAccBalTrf","60",{hint:"feeds Balance Sheet 1Bviii"});
   if(isIas) s+=accOCI();
+  else s+=acc44AE(pf);
+  return s;
+}
+
+/* ---------- item 61 — presumptive income u/s 44AE (regular P&L only) ---------- */
+function acc44AE(pf){
+  let s=sub("61(i) — Computation of presumptive income from goods carriages under section 44AE");
+  s+=note("Applies only where the assessee opts for the presumptive scheme u/s 44AE. If the profit is lower than prescribed, or more than ten goods carriages were owned / leased / hired at any time, books must be maintained and audited.","warn");
+  s+=grid("accounts."+pf+".NatOfBus44AE",
+    [{k:"NameOfBusiness",h:"Name of business",t:"txt",w:"auto",req:1,max:75},
+     {k:"CodeAE",h:"Business code",t:"sel",opts:ACC_44AE_CODE,req:1},
+     {k:"Description",h:"Description",t:"txt",w:"auto",max:75}],
+    _acArr(pf+".NatOfBus44AE"),{min:"560px",empty:"No nature-of-business row.",add:"Add nature of business",max:3});
+  s+=grid("accounts."+pf+".GoodsDtlsUs44AE",
+    [{k:"RegNumberGoodsCarriage",h:"Registration no.",t:"txt",w:"150px",req:1,max:11},
+     {k:"OwnedLeasedHiredFlag",h:"Owned / leased / hired",t:"sel",opts:ACC_44AE_OWN,req:1},
+     {k:"TonnageCapacity",h:"Tonnage (MT)",t:"num",w:"120px",req:1},
+     {k:"HoldingPeriod",h:"Months held (1–12)",t:"num",w:"120px",req:1},
+     {k:"PresumptiveIncome",h:"Presumptive income",t:"calc",w:"150px",
+       f:r=>{const ton=N(r.TonnageCapacity),mo=Math.max(0,N(r.HoldingPeriod));return R(Math.max(7500,mo*(ton>12?1000*ton:7500)));}}],
+    _acArr(pf+".GoodsDtlsUs44AE"),{min:"680px",empty:"No goods carriage listed.",add:"Add goods carriage"});
+  s+=_acRc("Total number of months (col 4)",pf+".TotalNumOfMonths","206a");
+  s+=_acRc("Total presumptive income from goods carriages (col 5)",pf+".TotalPrsumptvIncUs44EGoods","206b");
+  s+=_acRc("61(ii) — Total presumptive income from goods carriage u/s 44AE",pf+".TotalPrsumptvIncUs44E","61ii",{cls:"grand"});
   return s;
 }
 

@@ -6,7 +6,7 @@ Every CBDT ITR-6 validation serial in `books/ITR-6/rules.json` is classified int
 
 - **ENFORCED-target** — offline-checkable against a schema key that exists on the built return; will be encoded as `A(serial, cond, msg)` (cond TRUE on a lawful return, FALSE on a violation).
 - **NA** — not this form's job: resolved by the e-filing portal, by AIS/26AS, by a server clock, or by another form. Nothing to encode offline.
-- **OFFLINE-IMPOSSIBLE** — would require an external database not shipped, or a schema field that does not exist in ITR-6.
+- **OFFLINE-IMPOSSIBLE** — would require an external database not shipped, a schema field that does not exist in ITR-6, or a value the built return never separately carries (e.g. a line the department utility files only as an aggregate) so the rule has nothing to test against on the JSON.
 - **MISSING** — a serial with no bucket. Must be **0**. This census leaves none.
 
 ## Counts
@@ -19,7 +19,7 @@ Every CBDT ITR-6 validation serial in `books/ITR-6/rules.json` is classified int
 
 MISSING (A) = 868 − 851 − 11 − 6 = **0**.  MISSING (B) = 27 − 12 − 6 − 9 = **0**.  MISSING (D) = 23 − 22 − 0 − 1 = **0**.
 
-> **Fan-out reconciliation (Phase 6).** During encoding, 6 Category-A / 4 Category-B / 1 Category-D serials were honestly re-filed **ENFORCED → OFFLINE-IMPOSSIBLE** because the rule's own target field is absent from the ITR-6 schema (verified against `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` and each encoder's file header). No rule was weakened or faked; the buckets below and the per-serial appendix reflect these re-files, so **MISSING stays 0**.
+> **Fan-out reconciliation (Phase 6).** During encoding, 6 Category-A / 4 Category-B / 1 Category-D serials were honestly re-filed **ENFORCED → OFFLINE-IMPOSSIBLE** (verified against `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` and each encoder's file header). For all but one the rule's own target field is absent from the ITR-6 schema; the exception is **A233**, whose sub-line keys do exist but are not separately filed on the built return (item 21 is filed only as its aggregate total — see its entry). No rule was weakened or faked; the buckets below and the per-serial appendix reflect these re-files, so **MISSING stays 0**.
 >
 > A → OFFLINE (6): **A213, A216, A228, A232, A233** (re-filed in fan-out) + **A765** (pre-existing).
 > B → OFFLINE (9): **B3, B4, B5, B8, B9** (pre-existing) + **B17, B18, B19, B20** (re-filed in fan-out).
@@ -46,9 +46,9 @@ MISSING (A) = 868 − 851 − 11 − 6 = **0**.  MISSING (B) = 27 − 12 − 6 �
 - **A216** — "BP 11 = 1Evi of Manufacturing account + 52 of P&L": ITR-6's `ManufacturingAccount` carries only `{OpeningInventory, ClosingStock, CostOfGoodsPrdcd}` — there is **no 1Evi depreciation line** (nor in the Ind-AS variant). The RHS component is absent. (enc_05)
 - **A228** — "depreciation u/s 32(1)(i) only if nature of business = power sector": `PartA_GEN2For6.NatOfBus` carries the business Code but the schema ships **no power-sector classifier**, so "power sector" cannot be tested offline without an external code master. (enc_05)
 - **A232** — "exempt income reduced from PGBP does not tally with Schedule EI & share of profits from Schedule IF": the **allocation of BP item-5 exempt components across Schedule EI vs Schedule IF is unstated** by the rule; a sound offline equality cannot be built without guessing the mapping (would false-fire on lawful returns). (enc_05)
-- **A233** — "A21 = sum of A(21a…21l)": `CorpScheduleBP` stores item 21 as **one total leaf** (`DeemIncUs3380HHD80IA`); the twelve 21a–21l sub-lines have **no schema keys**, so the footing has nothing to sum. (enc_05)
+- **A233** — "A21 = sum of A(21a…21l)": the twelve 21a–21l sub-line keys (`DeemIncUs32AC`, `…Us32AD`, `…Us33AB`, `…Us33ABA`, `…Us35ABA`, `…Us35ABB`, `…Us35AC`, `…Us40A3A`, `…Us33AC`, `…Us72A`, `…Us80HHD`, `…Us80IA`) **do exist** in `CorpScheduleBP.BusinessIncOthThanSpec`, but — matching the department utility — the built return files item 21 **only as the aggregate total** (`DeemIncUs3380HHD80IA`). The form captures the twelve sub-lines on-screen and sums them into that total (`70_sec_bp.js`: `_21 = Σ d21_*`), yet does **not** emit the sub-line leaves onto the JSON, so the footing has no per-line fields on the built return to sum. Un-enforceable on the built return, not for want of schema keys. (enc_05)
 
-> Where a rule names a field, the field was located in `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` (verified block-by-block). During fan-out encoding, **five** Category-A serials whose target proves absent (A213, A216, A228, A232, A233 — all in the `CorpScheduleBP` band, encoded file `61_rules_enc_05.js`) were re-filed above as OFFLINE-IMPOSSIBLE with the reason — never faked. All other Category-A serials target a schema field that exists on the built return.
+> Where a rule names a field, the field was located in `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` (verified block-by-block). During fan-out encoding, **four** Category-A serials whose target proves absent (A213, A216, A228, A232 — all in the `CorpScheduleBP` band, encoded file `61_rules_enc_05.js`) were re-filed above as OFFLINE-IMPOSSIBLE with the reason — never faked. A fifth `CorpScheduleBP`-band serial, **A233**, is also OFFLINE-IMPOSSIBLE, but for a different reason: its sub-line keys exist, yet the return files item 21 only as an aggregate, so the built JSON carries nothing to foot against (see its entry above). All other Category-A serials target a schema field that exists on the built return.
 
 ## Category-A by schema block (ENFORCED-target)
 
@@ -435,7 +435,7 @@ Smoke test (single-scope eval with the shell's `N/RG/REQ/ruleset`): empty `{}` f
 | A230 | ENF | CorpScheduleBP.* |
 | A231 | ENF | CorpScheduleBP.* |
 | A232 | OFF | EI/IF exempt-allocation of BP item-5 unstated by the rule — enc_05 |
-| A233 | OFF | item 21 stored as one total (DeemIncUs3380HHD80IA), no 21a–21l sub-keys — enc_05 |
+| A233 | OFF | 21a–21l sub-keys exist but return files item 21 only as the aggregate (DeemIncUs3380HHD80IA); no per-line fields on the built JSON to sum — enc_05 |
 | A234 | ENF | CorpScheduleBP.* |
 | A235 | ENF | CorpScheduleBP.* |
 | A236 | ENF | CorpScheduleBP.* |

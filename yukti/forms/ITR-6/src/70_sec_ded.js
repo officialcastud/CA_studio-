@@ -128,9 +128,10 @@ const DED_CONC_SURV={jjaa:1};
 function dedGet(o,p){try{return p.split(".").reduce((t,k)=>t==null?undefined:t[k],o);}catch(e){return undefined;}}
 /* concessional regime → "115BAA" | "115BAB" | "115BA" | "" */
 function dedConc(){
-  const cand=[dedGet(S,"C.conc"),dedGet(S,"C.regime"),dedGet(S,"C.who.conc"),dedGet(S,"who.s115ba"),
-    dedGet(S,"who.sec115"),dedGet(S,"who.regime"),dedGet(S,"fs.s115ba"),dedGet(S,"fs.sec115"),
-    dedGet(S,"pi.s115ba"),dedGet(S,"pi.sec115")];
+  /* D-F1 — read the regime engWho resolves and republishes as
+     S.C.who.regime115 ("" | 115BA | 115BAA | 115BAB), falling back to the raw
+     filing-status input S.fs.s115 ("NA" | 115BA | 115BAA | 115BAB). */
+  const cand=[dedGet(S,"C.who.regime115"),dedGet(S,"fs.s115")];
   for(const raw of cand){ if(raw==null||raw==="")continue;
     const s=String(raw).replace(/[^0-9A-Za-z]/g,"").toUpperCase();
     if(s.indexOf("115BAB")>=0)return "115BAB";
