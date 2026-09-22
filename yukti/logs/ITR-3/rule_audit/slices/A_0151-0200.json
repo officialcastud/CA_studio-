@@ -1,0 +1,252 @@
+[
+{
+"n": 151,
+"cat": "A",
+"text": "145(2)\" should be equal to the amount mentioned in the field XI(3) In Schedule Part A-OI, Sl.No. 3b \"Decrease in the profit or increase in loss because of deviation, if any, as per Income Computation Disclosure Standards notified under section"
+},
+{
+"n": 152,
+"cat": "A",
+"text": "145(2)\" should be equal to the amount mentioned in the field XI(4) In Schedule Part A-OI, Sl.No. 5f \"Total of amounts not credited to profit and loss account\" should be equal to sum of Sl.No. 5a+5b+5c+5d+5e"
+},
+{
+"n": 153,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No.6s \"Total amount disallowable under section 36 (total of 6a to 6r)\" should be equal to sum of Sl.No. 6a to Sl.No. 6r"
+},
+{
+"n": 154,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No.7j \"Total amount disallowable under section 37 (total of 7a to 7i )\" should be equal to sum of Sl.No. 7a to Sl.No. 7i"
+},
+{
+"n": 155,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No. 8Aj \"Total amount disallowable under section 40 (total of 8Aa to 8Al)\" should be equal to sum of Sl.No. 8Aa to Sl.No.8Al"
+},
+{
+"n": 156,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No.9f \"Total amount disallowable under section 40A (total of 9a to 9e)\" should be equal to sum of Sl.No. 9a to Sl.No. 9e"
+},
+{
+"n": 157,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No. 10g \"Total amount allowable under section 43B\" should be equal to sum of Sl.No. 10a to Sl.No. 10h"
+},
+{
+"n": 158,
+"cat": "A",
+"text": "In Schedule Part A-OI, Sl.No. 11i \"Total amount disallowable under section 43B\" should be equal to sum of Sl.No. 11a to Sl.No. 11h"
+},
+{
+"n": 159,
+"cat": "A",
+"text": "In Schedule OI, Sl.No. 12i should be equal to sum of Sl.No. 12a to 12h"
+},
+{
+"n": 160,
+"cat": "A",
+"text": "In Schedule S, Sl.no 1 Gross Salary (1a + 1b + 1c +1d+1e+1f) should be equal to the sum of Sl.no 1a+1b+1c +1d+1e+1f"
+},
+{
+"n": 161,
+"cat": "A",
+"text": "In Schedule S, Sl.No. 2 Total Gross Salary(from all employers) should be sum of Sl.No. 1 +2+3\u2026."
+},
+{
+"n": 162,
+"cat": "A",
+"text": "In Schedule S, Sl.No. 3 Allowances to the extent exempt u/s 10 should be equal to the sum of all the dropdowns"
+},
+{
+"n": 163,
+"cat": "A",
+"text": "In Schedule S , Sl. No. 4 Net Salary should be output of Sl.No. 2 - 2a - 3"
+},
+{
+"n": 164,
+"cat": "A",
+"text": "In Schedule S, Sl. No. 5 \"Deductions u/s 16 (5a+5b+5c)\" should be sum of 5a+5b+5c"
+},
+{
+"n": 165,
+"cat": "A",
+"text": "In Schedule S, Sl.no. 6 \"Income chargeable under Salaries\" should be output of Sl.No. 4- 5 12"
+},
+{
+"n": 166,
+"cat": "A",
+"text": "Exemption u/s 10(10) for gratuity shall not exceed income offered under the head Salary u/s 17(1) under sub head gratuity receipt and cannot exceed (i) Rs20 lakhs in case of Nature of employment is \"Public Sector Undertaking\", \"PSU- Pensioners\", \"Others-Pensioners\" or \"Others\""
+},
+{
+"n": 167,
+"cat": "A",
+"text": "(ii) Rs 25 lakhs in case of Nature of employment is \"Central Government\", \"State Government\", \"CG-Pensioners\" or \"SG-Pensioners\" Exempt Allowance u/s 10(13A)-Allowance to meet expenditure incurred on house rent in no case can be more than minimum of : a) 50% of Basic + DA as per drop downs of Salary as per section 17(1) or"
+},
+{
+"n": 168,
+"cat": "A",
+"text": "b) HRA as per drop down of salary as per section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Total of exempt allowances excluding HRA shall not exceed total of Sl.No. 1(a)+1(b)+1(c) as reduced by HRA"
+},
+{
+"n": 169,
+"cat": "A",
+"text": "In Schedule Salary, Sum of Drop downs in Sl. No. 1a should be equal to sum of individual dropdowns at Sl No. 1a"
+},
+{
+"n": 170,
+"cat": "A",
+"text": "In Schedule Salary, Sum of Drop downs in Sl. No. 1b should be equal to sum of individual dropdowns at Sl No. 1b"
+},
+{
+"n": 171,
+"cat": "A",
+"text": "In Schedule Salary, Sum of Drop downs in Sl. No. 1c should be equal to sum of individual dropdowns at Sl No. 1c"
+},
+{
+"n": 172,
+"cat": "A",
+"text": "In Schedule Salary, Entertainment allowance 16(ii) will not be allowed for employees other than Central and State government and PSU (If none of the employer is Central or"
+},
+{
+"n": 173,
+"cat": "A",
+"text": "State Government or PSU) In Schedule Salary, For Central and State Govt and PSU employees, Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of Basic salary,"
+},
+{
+"n": 174,
+"cat": "A",
+"text": "whichever is lower. Deduction is available only if old tax regime is opted Professional tax u/s 16(iii) will be allowed only to the extent of Rs 5000 Deduction is available only if old tax regime is opted"
+},
+{
+"n": 175,
+"cat": "A",
+"text": "In Schedule Salary, Exemption u/s 10(10) shall not be allowed against more than one Employer."
+},
+{
+"n": 176,
+"cat": "A",
+"text": "In Schedule Salary, Exemption u/s 10(10A) shall not be allowed against more than one Employer."
+},
+{
+"n": 177,
+"cat": "A",
+"text": "In Schedule Salary, standard deduction u/s 16(ia) should not exceed Rs 50,000 or salary whichever is less in Old tax regime."
+},
+{
+"n": 178,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(5)-Leave Travel concession/assistance received cannot be more than Salary as per section 17(1)."
+},
+{
+"n": 179,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc.\" can not be more than Gross Salary 13"
+},
+{
+"n": 180,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service"
+},
+{
+"n": 181,
+"cat": "A",
+"text": "outside India can not be more than Gross salary In Schedule Salary, Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received can not be more than (i) Rs20 lakhs in case of Nature of employment is \"Public Sector Undertaking\", \"PSU- Pensioners\", \"Others-Pensioners\" or \"Others\""
+},
+{
+"n": 182,
+"cat": "A",
+"text": "(ii) Rs 25 lakhs in case of Nature of employment is \u201cCentral Government\", \"State Government\", \"CG-Pensioners\" or \"SG-Pensioners\" In Schedule Salary, Exempt allowance u/s 10(10A)-Commuted value of pension received can not be more than Salary as per section 17(1)"
+},
+{
+"n": 183,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(10AA)-Earned leave encashment cannot be more than \"Leave Encashment\" dropdown in Section 17(1)"
+},
+{
+"n": 184,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(10B)(ii)-Retrenchment Compensation received in respect of approved scheme can not exceed Rs.5,00,000"
+},
+{
+"n": 185,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(10C)-Amount received/receivable on voluntary retirement or termination of service can not exceed Rs. 5,00,000"
+},
+{
+"n": 186,
+"cat": "A",
+"text": "In Schedule Salary, exempt allowances in Section 10(10B)(i) OR Section 10(10B)(ii) OR Section 10(10C), only one can be claimed"
+},
+{
+"n": 187,
+"cat": "A",
+"text": "In Schedule Salary, Exempt Allowance u/s 10(10CC)-Tax paid by employer on non- monetary perquisite cannot be more than Value of perquisites as per section 17(2)"
+},
+{
+"n": 188,
+"cat": "A",
+"text": "In Schedule Salary, Exempt Allowance u/s 10(13A)-Allowance to meet expenditure incurred on house rent cannot be more than Salary as per section 17(1)"
+},
+{
+"n": 189,
+"cat": "A",
+"text": "In Schedule Salary, Exempt allowance u/s 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment cannot be more than the value of Salary under \"Other Allowance\" & \"Others\""
+},
+{
+"n": 190,
+"cat": "A",
+"text": "in Section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Exempt allowance u/s 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living cannot be more than the value of Salary under"
+},
+{
+"n": 191,
+"cat": "A",
+"text": "\"Other Allowance\" & \"Others\" in Section 17(1) Deduction is available only if old tax regime is opted In Schedule Salary, Sl.No. 3 \"exempt allowance\" Same dropdown can be selected more than once"
+},
+{
+"n": 192,
+"cat": "A",
+"text": "If exempt allowance u/s 10(13A) is claimed, then deduction u/s 80GG cannot be claimed for the period for which income of the nature of 10(13A) is received."
+},
+{
+"n": 193,
+"cat": "A",
+"text": "Assessee cannot claim deduction u/s 10(10AA) more than the maximum limit of Rs 2500000/- for employer category other than \"Central and State Government\" 14"
+},
+{
+"n": 194,
+"cat": "A",
+"text": "If New Tax Regime is opted Entertainment allowance u/s 16(ii) cannot be claimed."
+},
+{
+"n": 195,
+"cat": "A",
+"text": "If New Tax Regime is opted, Professional allowance u/s 16(iii) cannot be claimed."
+},
+{
+"n": 196,
+"cat": "A",
+"text": "Exempt allowance u/s 10(14)(ii) \"Transport allowance granted to certain physically handicapped assessee\" cannot exceed Rs 38,400"
+},
+{
+"n": 197,
+"cat": "A",
+"text": "Only the following allowances can be claimed as exempt u/s 14, if old tax regime is selected \u2022 \"Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB\""
+},
+{
+"n": 198,
+"cat": "A",
+"text": "\u2022 \"Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee\" If New Tax Regime is selected then following allowances cannot be claimed as exempt: \u2022 \"Sec 10(5)-Leave Travel concession/assistance\" \u2022 \"Sec 10(13A)-Allowance to meet expenditure incurred on house rent\" \u2022 \"Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the"
+},
+{
+"n": 199,
+"cat": "A",
+"text": "extent actually incurred, in performance of duties of office or employment\" \u2022 \"Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living\" Schedule Salary should be blank if HUF is selected in status."
+},
+{
+"n": 200,
+"cat": "A",
+"text": "Relief u/s 89A at Sl.No. 2a of Sch Salary cannot be claimed by taxpayer if Sl.no 1d of Schedule Salary is Zero"
+}
+]

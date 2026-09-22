@@ -1,0 +1,252 @@
+[
+{
+"n": 351,
+"cat": "A",
+"text": "In Schedule CG, STCG on depreciable assets at Sl.No. A6e should be equal to Sl.No. 6 of Schedule DCG"
+},
+{
+"n": 352,
+"cat": "A",
+"text": "In Schedule ESR, Sl.No.4 \"Amount of deduction in excess of the amount debited to profit and loss account (4)=(3)-(2)\" should be equal to Sl.No.3-Sl.No.2"
+},
+{
+"n": 353,
+"cat": "A",
+"text": "In Schedule ESR, Sl.No. x should be equal to sum of Sl.No. i+ii+iii+iv+v+vi+vii+viii+ix"
+},
+{
+"n": 354,
+"cat": "A",
+"text": "If \"New Tax Regime\" is selected, then in schedule ESR at column 3, amount cannot be more than zero for section 35(1)(ii), 35(1)(iia), 35(1)(iii), 35(2AA) and 35(CCC)."
+},
+{
+"n": 355,
+"cat": "A",
+"text": "Total of STCG in Schedule CG should be equal to the individual breakup of STCG in Schedule CG"
+},
+{
+"n": 356,
+"cat": "A",
+"text": "Total of LTCG in Schedule CG should be equal to the individual breakup of LTCG in Schedule CG"
+},
+{
+"n": 357,
+"cat": "A",
+"text": "In Schedule CG, SL.no. C1 Income chargeable under the head \"Capital Gain\" is not equal to the sum of Capital Gains in Table E"
+},
+{
+"n": 358,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No.A1aiii) is zero then expenses (Sl.No. A1b(iv) cannot be claimed"
+},
+{
+"n": 359,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. A3aiii) is zero then expenses (Sl.No. A3b(iv) cannot be claimed"
+},
+{
+"n": 360,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. A5aiii) is zero than expenses (Sl.No. A5b(iv) cannot be claimed"
+},
+{
+"n": 361,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. A6aiii) is zero than expenses (Sl.No. A6b(iv) cannot be claimed"
+},
+{
+"n": 362,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. B1aiii) is zero than expenses(Sl.No. B1b(iv) cannot be claimed 23"
+},
+{
+"n": 363,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. B3ia) is zero than expenses (Sl.No. B3ib(iv) cannot be claimed"
+},
+{
+"n": 364,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration(Sl.No. B6a) is zero than expenses (Sl.No.B6b(iv) cannot be claimed"
+},
+{
+"n": 365,
+"cat": "A",
+"text": "In Schedule CG, Full Value of Consideration (Sl.No. B9aiii) is zero and expenses (Sl.No.B9b(iv) cannot be claimed"
+},
+{
+"n": 366,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A1biv of STCG Total should be equal to sum of A1(bi+bii+biii)"
+},
+{
+"n": 367,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A1c of STCG Balance should be equal to A1(aiii-biv)"
+},
+{
+"n": 368,
+"cat": "A",
+"text": "In Schedule CG Sl.no. A1e of STCG should be equal to A(1c-1d)"
+},
+{
+"n": 369,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A2c of STCG should be equal to A(2aiii-2b)"
+},
+{
+"n": 370,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A3biv of STCG Total should be equal to sum of A3(bi+bii+biii)"
+},
+{
+"n": 371,
+"cat": "A",
+"text": "In schedule CG, Sl.No. A3c of STCG Balance should be equal to A(3a-biv)"
+},
+{
+"n": 372,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A3e of STCG should be equal to the sum of A(3c+3d)"
+},
+{
+"n": 373,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A5(a)(ic) should be higher of A5(a)(ia) or A5(a)(ib)"
+},
+{
+"n": 374,
+"cat": "A",
+"text": "In Schedule CG, Sl. No. A5(aiii) should be equal to sum of A5[(a)(ic)+(aii)]"
+},
+{
+"n": 375,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A5biv Total should be equal to sum of A5(bi+bii+biii)"
+},
+{
+"n": 376,
+"cat": "A",
+"text": "In schedule CG, Sl. No. A5c Balance should be equal to A5(aiii-biv)"
+},
+{
+"n": 377,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A5e of STCG should be equal to the sum of A(5c+5d)"
+},
+{
+"n": 378,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A6(a)(ic) should be higher of A6(a)(ia) or A6(a)(ib)"
+},
+{
+"n": 379,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. A6(aiii) should be equal to sum of A6[(a)(ic)+(aii)]"
+},
+{
+"n": 380,
+"cat": "A",
+"text": "In schedule CG, Sl.No. A6biv Total should be equal to sum of A6(bi+bii+biii)"
+},
+{
+"n": 381,
+"cat": "A",
+"text": "In schedule CG, Sl.No. A6c Balance should be equal to A6(aiii-biv)"
+},
+{
+"n": 382,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A6g should be equal to the sum of A(6c+6d+6e-6f)"
+},
+{
+"n": 383,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A7 of STCG should be equal to the sum of A(aXi +aXii+aXn + b)"
+},
+{
+"n": 384,
+"cat": "A",
+"text": "In Schedule CG Sl.No. A8 should be equal to the sum of (A8a+ A8b + A8c)"
+},
+{
+"n": 385,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1 (bi + \u2211biib(a) + biii)"
+},
+{
+"n": 386,
+"cat": "A",
+"text": "In schedule CG, Sl. No. B1c of LTCG Balance should be equal to B1(aiii-biv)"
+},
+{
+"n": 387,
+"cat": "A",
+"text": "In Schedule CG Sl.No. B1e of LTCG should be the difference of B(1c-1d)"
+},
+{
+"n": 388,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B2e of LTCG should be the difference of B(2c-2d)"
+},
+{
+"n": 389,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B2c of LTCG should be equal to B(2aiii-2b)"
+},
+{
+"n": 390,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B3 biv Total should be equal to sum of B3 (bi+bii+biii) 24"
+},
+{
+"n": 391,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B3c Balance should be equal to B(3a-biv)"
+},
+{
+"n": 392,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B3e of LTCG should be equal to B3 (c-d)"
+},
+{
+"n": 393,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B4a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A"
+},
+{
+"n": 394,
+"cat": "A",
+"text": "In Schedule CG, Sl.No. B4c of LTCG should be equal to B(4a-4b)"
+},
+{
+"n": 395,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B5c LTCG on share or debenture should be equal to B(5a-5b)"
+},
+{
+"n": 396,
+"cat": "A",
+"text": "In Schedule CG Sl.No. B6 (a)(ic) should be higher of B6 (a)(ia) or B6 (a)(ib)"
+},
+{
+"n": 397,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B6 aiii Total should be equal to sum of B6 (a)(ic+ii)"
+},
+{
+"n": 398,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B6biv Total should be equal to sum of B6 (bi+bii+biii)"
+},
+{
+"n": 399,
+"cat": "A",
+"text": "In schedule CG, Sl.No. B6c Balance should be equal to B(6aiii-biv)"
+},
+{
+"n": 400,
+"cat": "A",
+"text": "In Schedule CG Sl.No. B6e of LTCG should be equal to B(6c-6d)"
+}
+]

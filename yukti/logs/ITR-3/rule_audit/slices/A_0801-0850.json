@@ -1,0 +1,252 @@
+[
+{
+"n": 801,
+"cat": "A",
+"text": "Acknowledgement Number of Form 10CCD should be provided in schedule VIA to claim deduction u/s 80QQB"
+},
+{
+"n": 802,
+"cat": "A",
+"text": "Acknowledgement Number of Form 10CCE should be provided in schedule VIA to claim deduction u/s 80RRB"
+},
+{
+"n": 803,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount"
+},
+{
+"n": 804,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount"
+},
+{
+"n": 805,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD(1) should not be more than user enterable amount"
+},
+{
+"n": 806,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount"
+},
+{
+"n": 807,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD(2) should not be more than user enterable amount"
+},
+{
+"n": 808,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount"
+},
+{
+"n": 809,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount"
+},
+{
+"n": 810,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount"
+},
+{
+"n": 811,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount"
+},
+{
+"n": 812,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount"
+},
+{
+"n": 813,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount 47"
+},
+{
+"n": 814,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount"
+},
+{
+"n": 815,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount"
+},
+{
+"n": 816,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount"
+},
+{
+"n": 817,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount"
+},
+{
+"n": 818,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount"
+},
+{
+"n": 819,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount"
+},
+{
+"n": 820,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount"
+},
+{
+"n": 821,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount"
+},
+{
+"n": 822,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount"
+},
+{
+"n": 823,
+"cat": "A",
+"text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" should not be more than 0 if"
+},
+{
+"n": 824,
+"cat": "A",
+"text": "new tax regime is selected. Eligible amount of deduction claimed u/s 80QQB should not be more than user enterable amount"
+},
+{
+"n": 825,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80RRB should not be more than user enterable amount"
+},
+{
+"n": 826,
+"cat": "A",
+"text": "In Schedule VI A, for deductions u/s 80CCC the sum of individual rows for \"Amount \" shall match with the \"Amount of Payment\" as per the field 80CCC."
+},
+{
+"n": 827,
+"cat": "A",
+"text": "If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for \"Type of identifier\", \"Identifier No. and \"Amount\""
+},
+{
+"n": 828,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Deductions u/s 80EEA and 80EE cannot be claimed simultaneously"
+},
+{
+"n": 829,
+"cat": "A",
+"text": "Total Income at Schedule AMT is Negative. But the loss in Total Income can only arise because of the Specified business."
+},
+{
+"n": 830,
+"cat": "A",
+"text": "In Schedule AMT, Tax payable under section 115JC should be equal to 9% of 3a for assessee falling within the IFSC area+ 18.5% of Sl.No.3b for assessee not falling within"
+},
+{
+"n": 831,
+"cat": "A",
+"text": "the IFSC area. In Schedule AMT, Sl.No. 1 should be equal to Sl.No. 14 of Part BTI 48"
+},
+{
+"n": 832,
+"cat": "A",
+"text": "In Schedule AMT, Sl.No. 2a should be equal to sum of system computed part C deductions under Schedule VIA."
+},
+{
+"n": 833,
+"cat": "A",
+"text": "In Schedule AMT, Sl.No. 2d Adjustment as per section 115JC(2) should be equal to sum of Sl.No. 2a+2b+2c"
+},
+{
+"n": 834,
+"cat": "A",
+"text": "In Schedule AMT, Sl.No. 3 Adjusted Total Income under section 115JC should be equal to sum of Sl.No. 1+2d"
+},
+{
+"n": 835,
+"cat": "A",
+"text": "In Schedule AMT, Sl.No. 4 \"Tax payable under section 115JC\" shall be computed if Adjusted Total Income under section 115JC is more than Rs. 20 Lakh and Adjustment as"
+},
+{
+"n": 836,
+"cat": "A",
+"text": "per section 115JC(2) is more than zero. Schedule AMT should be blank if \"New Tax Regime\" is selected"
+},
+{
+"n": 837,
+"cat": "A",
+"text": "In Schedule AMT, Sl.no 3b should be difference of Sl.no 3-3a"
+},
+{
+"n": 838,
+"cat": "A",
+"text": "In Schedule AMT, Sl.no 3 should be equal to Sl.no 3a+3b"
+},
+{
+"n": 839,
+"cat": "A",
+"text": "In Schedule AMT, Sl.No. 2b should be equal to total deduction under section 10AA."
+},
+{
+"n": 840,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 1 should be equal to Sl.No. 1d of Part B-TTI."
+},
+{
+"n": 841,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 2 should be equal to Sl.No. 2i of Part B-TTI."
+},
+{
+"n": 842,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 3 should be equal to Sl.No. 2-1"
+},
+{
+"n": 843,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 3 should be equal to zero when Sl.No. 2 is less than or equal to Sl.No. 1"
+},
+{
+"n": 844,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 5 \"Amount of tax credit under section 115JD utilized during the year\" should be equal to Total of Col 4(C)."
+},
+{
+"n": 845,
+"cat": "A",
+"text": "In Schedule AMTC, Sl.No. 6 \"Amount of AMT liability available for credit in subsequent assessment years\" should be equal to Total of Col 4(D)."
+},
+{
+"n": 846,
+"cat": "A",
+"text": "In Schedule AMTC, value at Sl. No. B2(xii) cannot be greater than zero i.e. set off in earlier assessment years cannot be claimed for AY 2025-26"
+},
+{
+"n": 847,
+"cat": "A",
+"text": "In Schedule Part B-TTI, AMT Credit u/s 115JD claimed should be equal to the amount of Credit at Schedule AMTC."
+},
+{
+"n": 848,
+"cat": "A",
+"text": "In Schedule AMTC, values at column C and column D should not be more than zero if \"New Tax Regime\" is selected"
+},
+{
+"n": 849,
+"cat": "A",
+"text": "In Schedule SI, Column Income (i) for Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2ciii (Income Benefit) of Schedule OS"
+},
+{
+"n": 850,
+"cat": "A",
+"text": "In schedule SI, Tax on accumulated balance of recognized provident fund should be equal to Sl.No. 2civ (tax benefit) of Schedule OS 49"
+}
+]

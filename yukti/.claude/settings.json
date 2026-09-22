@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)", "Bash(python3:*)", "Bash(node:*)", "Bash(pip:*)", "Bash(npm:*)", "Bash(git:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(grep:*)", "Bash(mkdir:*)", "Bash(cp:*)", "Bash(mv:*)", "Bash(unzip:*)", "Bash(rm:*)", "Bash(sed:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)", "Bash(find:*)", "Bash(gh:*)",
+      "Read", "Write", "Edit", "Glob", "Grep", "Agent"
+    ],
+    "deny": ["Bash(rm -rf /:*)", "Bash(git push --force:*)"]
+  },
+  "env": { "PLAYWRIGHT_BROWSERS_PATH": "0" }
+}
