@@ -1,0 +1,165 @@
+{
+ "CreationInfo": {
+  "SWVersionNo": "na",
+  "SWCreatedBy": "na",
+  "JSONCreatedBy": "na",
+  "JSONCreationDate": "2026-01-01",
+  "IntermediaryCity": "na",
+  "Digest": "na"
+ },
+ "Form_ITR7": {
+  "FormName": "na",
+  "Description": "na",
+  "AssessmentYear": "na",
+  "SchemaVer": "na",
+  "FormVer": "na"
+ },
+ "PartA_GEN1": {
+  "OrgFirmInfo": {
+   "AssesseeName": {
+    "SurNameOrOrgName": "na"
+   },
+   "PAN": "na",
+   "Address": {
+    "ResidenceNo": "na",
+    "LocalityOrArea": "na",
+    "CityOrTownOrDistrict": "na",
+    "StateCode": "01",
+    "CountryCodeMobile": 0,
+    "MobileNo": 0,
+    "EmailAddress": "na"
+   },
+   "DateOFFormOrIncorp": "2026-01-01",
+   "StatusOrCompanyType": "4",
+   "ReturnFurnishedSec": "139-4A",
+   "SecExemptionClaimed": "11"
+  },
+  "FilingStatus": {
+   "ReturnFileSec": {
+    "IncomeTaxSec": 11
+   },
+   "ResidentialStatus": "RES",
+   "PartnerInFirmFlg": "Y",
+   "HeldUnlistedEqShrPrYrFlg": "Y",
+   "AsseseeRepFlg": "Y"
+  }
+ },
+ "PartA_GEN2": {
+  "LiableSec44ABflg": "N",
+  "LiableAnyOthThnINTActflg": "N"
+ },
+ "PARTA_BS": {
+  "SourcesOfFund": {
+   "OwnFund": {
+    "Corpus80G": 0,
+    "OtherCorpus": 0,
+    "AccumulatedInc": 0,
+    "AccumulatedIncUS10_11": 0,
+    "BalDeemedInc": 0,
+    "TotalOtherReserve": 0,
+    "TotalFund": 0
+   },
+   "LongTermBorrowings": {
+    "SecuredLoan": 0,
+    "UnSecuredLoan": 0,
+    "TotalLoanFund": 0
+   },
+   "Advances": 0,
+   "TotSourceFund": 0
+  },
+  "ApplicationOfFunds": {
+   "FixedAsset": {
+    "GrossBlock": 0,
+    "Depreciation": 0,
+    "NetBlock": 0
+   },
+   "CurrentAssetsLoanAdv": {
+    "CurrentAssets": {
+     "Inventory": 0,
+     "SundryDebtor": 0,
+     "CashNCashEquivalents": {
+      "BalWithBanks": 0,
+      "CashInHand": 0,
+      "Others": 0,
+      "TotCashNCashEquivalents": 0
+     },
+     "OtherCurrAssets": 0,
+     "TotCurrAssets": 0
+    },
+    "LoansandAdvances": 0,
+    "Total": 0,
+    "CurrLiabilitiesProviosions": {
+     "CurrLiability": {
+      "SundryCreditor": 0,
+      "OtherPayable": 0,
+      "TotalCurrLiabilitiesProviosions": 0
+     },
+     "Provisions": 0,
+     "TotCurrLiabilitiesandprovisions": 0
+    },
+    "NetCurrAssets": 0
+   },
+   "TotalApplicationOfFunds": 0
+  }
+ },
+ "PartB_TTI": {
+  "ComputationOfTaxLiability": {
+   "TaxPayableOnTI": {
+    "TaxAtNormalRates": 0,
+    "TaxAtSpecialRates": 0,
+    "DonationUs115BC": 0,
+    "TaxAtMarginalRate": 0,
+    "TaxPayableOnTotInc": 0,
+    "TaxIncChargUs115BBI": 0,
+    "RebateOnAgricultureInc": 0
+   },
+   "Surcharge25ofSI": 0,
+   "SurchargeOnTaxPayable": 0,
+   "TotalSurcharge": 0,
+   "EducationCess": 0,
+   "GrossTaxLiability": 0,
+   "TaxRelief": {
+    "Section90": 0,
+    "Section91": 0,
+    "TotTaxRelief": 0
+   },
+   "NetTaxLiability": 0,
+   "IntrstPay": {
+    "IntrstPayUs234A": 0,
+    "IntrstPayUs234B": 0,
+    "IntrstPayUs234C": 0,
+    "LateFilingFee234F": 0,
+    "TotalIntrstPay": 0
+   },
+   "AggregateTaxInterestLiability": 0
+  },
+  "TaxPaid": {
+   "TaxesPaid": {
+    "AdvanceTax": 0,
+    "TDS": 0,
+    "TCS": 0,
+    "SelfAssessmentTax": 0,
+    "TotalTaxesPaid": 0
+   },
+   "BalTaxPayable": 0
+  },
+  "Refund": {
+   "RefundDue": 0,
+   "NetTaxPyblOn115TDInc": 0,
+   "BankAccountDtls": {
+    "BankDtlsFlag": "Y"
+   }
+  },
+  "AssetOutsideIndiaFlg": "YES"
+ },
+ "Verification": {
+  "Date": "2026-01-01",
+  "Declaration": {
+   "AssesseeVerName": "na",
+   "FatherName": "na",
+   "AssesseeVerPAN": "na",
+   "Capacity": "MD"
+  },
+  "Place": "na"
+ }
+}
