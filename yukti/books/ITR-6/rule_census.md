@@ -13,11 +13,17 @@ Every CBDT ITR-6 validation serial in `books/ITR-6/rules.json` is classified int
 
 | Category | ENFORCED-target | NA | OFFLINE-IMPOSSIBLE | Total |
 |---|--:|--:|--:|--:|
-| **A** (blocking) | 856 | 11 | 1 | 868 |
-| **B** (advisory) | 16 | 6 | 5 | 27 |
-| **D** (advisory, follow-up forms) | 23 | 0 | 0 | 23 |
+| **A** (blocking) | 851 | 11 | 6 | 868 |
+| **B** (advisory) | 12 | 6 | 9 | 27 |
+| **D** (advisory, follow-up forms) | 22 | 0 | 1 | 23 |
 
-MISSING (A) = 868 − 856 − 11 − 1 = **0**.  MISSING (B) = 27 − 16 − 6 − 5 = **0**.
+MISSING (A) = 868 − 851 − 11 − 6 = **0**.  MISSING (B) = 27 − 12 − 6 − 9 = **0**.  MISSING (D) = 23 − 22 − 0 − 1 = **0**.
+
+> **Fan-out reconciliation (Phase 6).** During encoding, 6 Category-A / 4 Category-B / 1 Category-D serials were honestly re-filed **ENFORCED → OFFLINE-IMPOSSIBLE** because the rule's own target field is absent from the ITR-6 schema (verified against `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` and each encoder's file header). No rule was weakened or faked; the buckets below and the per-serial appendix reflect these re-files, so **MISSING stays 0**.
+>
+> A → OFFLINE (6): **A213, A216, A228, A232, A233** (re-filed in fan-out) + **A765** (pre-existing).
+> B → OFFLINE (9): **B3, B4, B5, B8, B9** (pre-existing) + **B17, B18, B19, B20** (re-filed in fan-out).
+> D → OFFLINE (1): **D23** (re-filed in fan-out).
 
 ### Category-A NA serials (11)
 
@@ -33,11 +39,16 @@ MISSING (A) = 868 − 856 − 11 − 1 = **0**.  MISSING (B) = 27 − 16 − 6 �
 - **A783** — 234F/234-I fee keyed to the actual filing date — portal timestamp
 - **A784** — 234F/234-I fee keyed to the actual filing date — portal timestamp
 
-### Category-A OFFLINE-IMPOSSIBLE serials (1)
+### Category-A OFFLINE-IMPOSSIBLE serials (6)
 
 - **A765** — IFSC must tally with the live RBI IFSC database — external DB, no offline table shipped
+- **A213** — "A30 = Sl.8B of Part A-OI": PARTA_OI ships **no 8B field** (no "amount disallowed u/s 40 in a preceding year, now allowable"). Its only u/s-40 keys are `AmtDisallUs40` (8Aj) and `AmtDisallUs40A` (9f); BP item 30 (`AmtDisallUs40NowAllow`) has no OI counterpart to equate. (enc_05)
+- **A216** — "BP 11 = 1Evi of Manufacturing account + 52 of P&L": ITR-6's `ManufacturingAccount` carries only `{OpeningInventory, ClosingStock, CostOfGoodsPrdcd}` — there is **no 1Evi depreciation line** (nor in the Ind-AS variant). The RHS component is absent. (enc_05)
+- **A228** — "depreciation u/s 32(1)(i) only if nature of business = power sector": `PartA_GEN2For6.NatOfBus` carries the business Code but the schema ships **no power-sector classifier**, so "power sector" cannot be tested offline without an external code master. (enc_05)
+- **A232** — "exempt income reduced from PGBP does not tally with Schedule EI & share of profits from Schedule IF": the **allocation of BP item-5 exempt components across Schedule EI vs Schedule IF is unstated** by the rule; a sound offline equality cannot be built without guessing the mapping (would false-fire on lawful returns). (enc_05)
+- **A233** — "A21 = sum of A(21a…21l)": `CorpScheduleBP` stores item 21 as **one total leaf** (`DeemIncUs3380HHD80IA`); the twelve 21a–21l sub-lines have **no schema keys**, so the footing has nothing to sum. (enc_05)
 
-> No Category-A serial targets a schema field that is absent from ITR-6. Where a rule names a field, the field was located in `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` (verified block-by-block). If, during fan-out encoding, a serial's target proves absent, it must be re-filed here as OFFLINE-IMPOSSIBLE with the reason — never faked.
+> Where a rule names a field, the field was located in `sources/ITR-6/ITR-6_2026_Main_V1_0_schema.json` (verified block-by-block). During fan-out encoding, **five** Category-A serials whose target proves absent (A213, A216, A228, A232, A233 — all in the `CorpScheduleBP` band, encoded file `61_rules_enc_05.js`) were re-filed above as OFFLINE-IMPOSSIBLE with the reason — never faked. All other Category-A serials target a schema field that exists on the built return.
 
 ## Category-A by schema block (ENFORCED-target)
 
@@ -53,7 +64,7 @@ MISSING (A) = 868 − 856 − 11 − 1 = **0**.  MISSING (B) = 27 − 16 − 6 �
 | `PARTA_OI.*` | A163–A173 | 11 | — |
 | `PARTA_OL.*` | A174 | 1 | — |
 | `ScheduleHP.*` | A175–A194 | 20 | — |
-| `CorpScheduleBP.*` | A195–A269 | 75 | — |
+| `CorpScheduleBP.*` | A195–A269 | 70 | A213(OF), A216(OF), A228(OF), A232(OF), A233(OF) |
 | `ScheduleDPM.*` | A270–A286 | 17 | — |
 | `ScheduleDOA.*` | A287–A303 | 17 | — |
 | `ScheduleDEP.*` | A304–A316 | 13 | — |
@@ -120,10 +131,10 @@ MISSING (A) = 868 − 856 − 11 − 1 = **0**.  MISSING (B) = 27 − 16 − 6 �
 | B14 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
 | B15 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
 | B16 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
-| B17 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
-| B18 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
-| B19 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
-| B20 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
+| B17 | OFFLINE-IMPOSSIBLE | TDS rows (ScheduleTDS2/3) preserve only broad `HeadOfIncome`, not the income sub-nature (VDA) the rule must match — re-filed in fan-out (enc_19) |
+| B18 | OFFLINE-IMPOSSIBLE | TDS rows preserve only broad `HeadOfIncome`, not the §115BB lottery sub-nature — re-filed in fan-out (enc_19) |
+| B19 | OFFLINE-IMPOSSIBLE | TDS rows preserve only broad `HeadOfIncome`, not the race-horse sub-nature — re-filed in fan-out (enc_19) |
+| B20 | OFFLINE-IMPOSSIBLE | TDS rows preserve only broad `HeadOfIncome`, not the §115BBJ online-games sub-nature — re-filed in fan-out (enc_19) |
 | B21 | NA | other person must disclose the TDS in their own ITR — external |
 | B22 | NA | file Form 29B — separate form |
 | B23 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
@@ -132,11 +143,32 @@ MISSING (A) = 868 − 856 − 11 − 1 = **0**.  MISSING (B) = 27 − 16 − 6 �
 | B26 | NA | check AIS / 26AS — external data |
 | B27 | ENFORCED-target (advisory → Dd/warn) | see rule text — cross-checkable within the return |
 
-Category-D (23) are all **ENFORCED-target** as `Dd(serial, cond, msg)` follow-up notices (each names the form/return to file); they never block the export.
+## Category-D census (23)
+
+Category-D serials **D1–D22** are **ENFORCED-target** as `Dd(serial, cond, msg)` follow-up notices (each names the form/return to file, silent unless the return makes the triggering claim); they never block the export. Encoded in `61_rules_enc_20.js`.
+
+| Serial | Bucket | Target key / reason |
+|---|---|---|
+| D1–D22 | ENFORCED-target (advisory → Dd) | in-return trigger cross-check (each names the follow-up form to furnish) |
+| D23 | OFFLINE-IMPOSSIBLE | "all effects in the audit report Form 3CD route through Schedule OI & BP per the mappings" — **Form 3CD is an external audit report** not present in the built return, so there is no in-return field to assert against — re-filed in fan-out (enc_20) |
+
+MISSING (D) = 23 − 22 − 0 − 1 = **0**.
 
 ## Batch plan — ENFORCED Category-A serials, ~50 per file
 
-The 856 ENFORCED-target Category-A serials are partitioned into 18 contiguous serial-range files `forms/ITR-6/src/61_rules_enc_NN.js`, each registered with `ruleset(fn)` (disjoint files → parallel fan-out, no merge conflicts). NA/OFFLINE serials inside a range are simply skipped (they are bucketed above).
+The 851 ENFORCED-target Category-A serials are partitioned into 18 contiguous serial-range files `forms/ITR-6/src/61_rules_enc_NN.js`, each registered with `ruleset(fn)` (disjoint files → parallel fan-out, no merge conflicts). NA/OFFLINE serials inside a range are simply skipped (they are bucketed above). The serial *ranges* per file are unchanged; only the ENFORCED count of `enc_05` dropped by 5 (A213/A216/A228/A232/A233 → OFFLINE).
+
+### Note — ENFORCED-via-parametrized-helper (do not undercount)
+
+About **56** Category-A serials are enforced not by a literal `A(<serial>,…)` call but through **DRY helpers / loops that emit computed serials**. They *are* enforced and fire on a violating return; only a literal-serial `grep` undercounts them. These are counted as ENFORCED above:
+
+| Serials | Mechanism | File |
+|---|---|---|
+| A64–A70, A75–A96 | `trdChecks(sheet, indAS, off)` emits `A(off+N, …)` — offset 64 (regular Trading), offset 75 (Ind-AS Trading + Manufacturing) | `enc_02` |
+| A279–A282, A294–A299 | dynamic-serial `forEach` over DPM/DOA depreciation blocks | `enc_06` |
+| A537–A550 | `BROWS.forEach((k,i)=>…)` over Schedule BFLA rows | `enc_11` |
+| A661 | per-fund `SchedulePTIDtls[].forEach` emitting `A(661,…)` across every HP/CG leaf | `enc_14` |
+| A791–A792 | per-row `TDS2/TDS3[].forEach` emitting `A(791|792,…)` | `enc_16` |
 
 | File | Serial range | ENFORCED serials | Schedules covered |
 |---|---|--:|---|
@@ -144,7 +176,7 @@ The 856 ENFORCED-target Category-A serials are partitioned into 18 contiguous se
 | `61_rules_enc_02.js` | A57–A106 | 50 | Balance Sheet (Ind-AS) · Trading · Manufacturing · P&L |
 | `61_rules_enc_03.js` | A107–A156 | 50 | P&L · P&L Ind-AS |
 | `61_rules_enc_04.js` | A157–A206 | 50 | P&L Ind-AS · Part A-OI · Part A-OL · Schedule HP · Schedule BP |
-| `61_rules_enc_05.js` | A207–A256 | 50 | Schedule BP |
+| `61_rules_enc_05.js` | A207–A256 | 45 | Schedule BP (5 re-filed OFFLINE: A213/A216/A228/A232/A233) |
 | `61_rules_enc_06.js` | A257–A306 | 50 | Schedule BP · DPM · DOA |
 | `61_rules_enc_07.js` | A307–A356 | 50 | DOA · DEP · DCG |
 | `61_rules_enc_08.js` | A357–A406 | 50 | Schedule CG |
@@ -383,10 +415,10 @@ Smoke test (single-scope eval with the shell's `N/RG/REQ/ruleset`): empty `{}` f
 | A210 | ENF | CorpScheduleBP.* |
 | A211 | ENF | CorpScheduleBP.* |
 | A212 | ENF | CorpScheduleBP.* |
-| A213 | ENF | CorpScheduleBP.* |
+| A213 | OFF | PARTA_OI has no 8B field (u/s-40 now-allowable line absent) — enc_05 |
 | A214 | ENF | CorpScheduleBP.* |
 | A215 | ENF | CorpScheduleBP.* |
-| A216 | ENF | CorpScheduleBP.* |
+| A216 | OFF | ManufacturingAccount has no 1Evi depreciation line — enc_05 |
 | A217 | ENF | CorpScheduleBP.* |
 | A218 | ENF | CorpScheduleBP.* |
 | A219 | ENF | CorpScheduleBP.* |
@@ -398,12 +430,12 @@ Smoke test (single-scope eval with the shell's `N/RG/REQ/ruleset`): empty `{}` f
 | A225 | ENF | CorpScheduleBP.* |
 | A226 | ENF | CorpScheduleBP.* |
 | A227 | ENF | CorpScheduleBP.* |
-| A228 | ENF | CorpScheduleBP.* |
+| A228 | OFF | no power-sector classifier in schema (needs external code master) — enc_05 |
 | A229 | ENF | CorpScheduleBP.* |
 | A230 | ENF | CorpScheduleBP.* |
 | A231 | ENF | CorpScheduleBP.* |
-| A232 | ENF | CorpScheduleBP.* |
-| A233 | ENF | CorpScheduleBP.* |
+| A232 | OFF | EI/IF exempt-allocation of BP item-5 unstated by the rule — enc_05 |
+| A233 | OFF | item 21 stored as one total (DeemIncUs3380HHD80IA), no 21a–21l sub-keys — enc_05 |
 | A234 | ENF | CorpScheduleBP.* |
 | A235 | ENF | CorpScheduleBP.* |
 | A236 | ENF | CorpScheduleBP.* |
