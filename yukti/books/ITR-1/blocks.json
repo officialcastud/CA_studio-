@@ -1,0 +1,113 @@
+{
+ "root": "ITR1",
+ "blocks": [
+  {
+   "name": "CreationInfo",
+   "required": true
+  },
+  {
+   "name": "Form_ITR1",
+   "required": true
+  },
+  {
+   "name": "PersonalInfo",
+   "required": true
+  },
+  {
+   "name": "FilingStatus",
+   "required": true
+  },
+  {
+   "name": "ITR1_IncomeDeductions",
+   "required": true
+  },
+  {
+   "name": "ITR1_TaxComputation",
+   "required": true
+  },
+  {
+   "name": "LTCG112A",
+   "required": true
+  },
+  {
+   "name": "TaxPaid",
+   "required": true
+  },
+  {
+   "name": "Refund",
+   "required": true
+  },
+  {
+   "name": "Verification",
+   "required": true
+  },
+  {
+   "name": "TDSonSalaries",
+   "required": true
+  },
+  {
+   "name": "TDSonOthThanSals",
+   "required": true
+  },
+  {
+   "name": "ScheduleTDS3Dtls",
+   "required": true
+  },
+  {
+   "name": "ScheduleTCS",
+   "required": true
+  },
+  {
+   "name": "TaxPayments",
+   "required": true
+  },
+  {
+   "name": "PartA_139_8A",
+   "required": false
+  },
+  {
+   "name": "PartB-ATI",
+   "required": false
+  },
+  {
+   "name": "LTCG112A_New",
+   "required": false
+  },
+  {
+   "name": "ScheduleEA10_13A",
+   "required": false
+  },
+  {
+   "name": "Schedule80C",
+   "required": false
+  },
+  {
+   "name": "Schedule80D",
+   "required": false
+  },
+  {
+   "name": "Schedule80DD",
+   "required": false
+  },
+  {
+   "name": "Schedule80U",
+   "required": false
+  },
+  {
+   "name": "Schedule80G",
+   "required": false
+  },
+  {
+   "name": "Schedule80GGA",
+   "required": false
+  },
+  {
+   "name": "Schedule80GGC",
+   "required": false
+  },
+  {
+   "name": "TaxReturnPreparer",
+   "required": false
+  }
+ ]
+}

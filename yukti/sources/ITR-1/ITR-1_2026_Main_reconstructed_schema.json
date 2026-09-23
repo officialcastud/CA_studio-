@@ -1,0 +1,1012 @@
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "title": "ITR-1 AY 2026-27 return schema (reconstructed from books/ITR-1/schema_tree.md)",
+ "type": "object",
+ "required": [
+  "ITR"
+ ],
+ "additionalProperties": true,
+ "properties": {
+  "ITR": {
+   "type": "object",
+   "required": [
+    "ITR1"
+   ],
+   "additionalProperties": true,
+   "properties": {
+    "ITR1": {
+     "type": "object",
+     "properties": {
+      "CreationInfo": {
+       "type": "object",
+       "properties": {
+        "SWVersionNo": {
+         "type": "string"
+        },
+        "SWCreatedBy": {
+         "type": "string"
+        },
+        "JSONCreatedBy": {
+         "type": "string"
+        },
+        "JSONCreationDate": {
+         "type": "string"
+        },
+        "IntermediaryCity": {
+         "type": "string"
+        },
+        "Digest": {
+         "type": "string"
+        }
+       },
+       "additionalProperties": true
+      },
+      "Form_ITR1": {
+       "type": "object",
+       "properties": {
+        "FormName": {
+         "type": "string"
+        },
+        "Description": {
+         "type": "string"
+        },
+        "AssessmentYear": {
+         "type": "string"
+        },
+        "SchemaVer": {
+         "type": "string"
+        },
+        "FormVer": {
+         "type": "string"
+        }
+       },
+       "additionalProperties": true
+      },
+      "PersonalInfo": {
+       "type": "object",
+       "properties": {
+        "AssesseeName": {
+         "type": "object",
+         "properties": {
+          "SurNameOrOrgName": {
+           "type": "string"
+          },
+          "FirstName": {
+           "type": "string"
+          }
+         },
+         "additionalProperties": true
+        },
+        "PAN": {
+         "type": "string"
+        },
+        "Address": {
+         "type": "object",
+         "properties": {
+          "ResidenceNo": {
+           "type": "string"
+          },
+          "LocalityOrArea": {
+           "type": "string"
+          },
+          "CityOrTownOrDistrict": {
+           "type": "string"
+          },
+          "StateCode": {
+           "type": "string",
+           "enum": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "99"
+           ]
+          },
+          "CountryCode": {
+           "type": "string",
+           "enum": [
+            "...",
+            "91"
+           ]
+          },
+          "PinCode": {
+           "type": "number"
+          },
+          "CountryCodeMobile": {
+           "type": "number"
+          },
+          "MobileNo": {
+           "type": "number"
+          },
+          "EmailAddress": {
+           "type": "string"
+          },
+          "ResidenceName": {
+           "type": "string"
+          },
+          "RoadOrStreet": {
+           "type": "string"
+          },
+          "CountryCodeMobileNoSec": {
+           "type": "number"
+          },
+          "MobileNoSec": {
+           "type": "number"
+          },
+          "EmailAddressSec": {
+           "type": "string"
+          }
+         },
+         "additionalProperties": true
+        },
+        "SecondaryAdd": {
+         "type": "string"
+        },
+        "DOB": {
+         "type": "string"
+        },
+        "EmployerCategory": {
+         "type": "string",
+         "enum": [
+          "CGOV",
+          "NA",
+          "OTH",
+          "PE",
+          "PEO",
+          "PEPS",
+          "PESG",
+          "PSU",
+          "SGOV"
+         ]
+        },
+        "AadhaarCardNo": {
+         "type": "string"
+        }
+       },
+       "additionalProperties": true
+      },
+      "FilingStatus": {
+       "type": "object",
+       "properties": {
+        "ReturnFileSec": {
+         "type": "number"
+        },
+        "SeventhProvisio139": {
+         "type": "string"
+        },
+        "OptOutNewTaxRegime": {
+         "type": "string"
+        },
+        "clauseiv7provisio139i": {
+         "type": "string"
+        },
+        "AsseseeRepFlg": {
+         "type": "string"
+        },
+        "ItrFilingDueDate": {
+         "type": "string"
+        }
+       },
+       "additionalProperties": true
+      },
+      "ITR1_IncomeDeductions": {
+       "type": "object",
+       "properties": {
+        "GrossSalary": {
+         "type": "number"
+        },
+        "Salary": {
+         "type": "number"
+        },
+        "PerquisitesValue": {
+         "type": "number"
+        },
+        "ProfitsInSalary": {
+         "type": "number"
+        },
+        "NetSalary": {
+         "type": "number"
+        },
+        "DeductionUs16": {
+         "type": "number"
+        },
+        "DeductionUs16ia": {
+         "type": "number"
+        },
+        "EntertainmentAlw16ii": {
+         "type": "number"
+        },
+        "ProfessionalTaxUs16iii": {
+         "type": "number"
+        },
+        "IncomeFromSal": {
+         "type": "number"
+        },
+        "TotalIncomeOfHP": {
+         "type": "number"
+        },
+        "IncomeOthSrc": {
+         "type": "number"
+        },
+        "DeductionUs57iia": {
+         "type": "number"
+        },
+        "GrossTotIncome": {
+         "type": "number"
+        },
+        "GrossTotIncomeIncLTCG112A": {
+         "type": "number"
+        },
+        "UsrDeductUndChapVIA": {
+         "type": "object",
+         "properties": {
+          "Section80C": {
+           "type": "number"
+          },
+          "Section80CCC": {
+           "type": "number"
+          },
+          "Section80CCDEmployeeOrSE": {
+           "type": "number"
+          },
+          "Section80CCD1B": {
+           "type": "number"
+          },
+          "Section80CCDEmployer": {
+           "type": "number"
+          },
+          "Section80D": {
+           "type": "number"
+          },
+          "Section80DD": {
+           "type": "number"
+          },
+          "Section80DDB": {
+           "type": "number"
+          },
+          "Section80E": {
+           "type": "number"
+          },
+          "Section80EE": {
+           "type": "number"
+          },
+          "Section80EEA": {
+           "type": "number"
+          },
+          "Section80EEB": {
+           "type": "number"
+          },
+          "Section80G": {
+           "type": "number"
+          },
+          "Section80GG": {
+           "type": "number"
+          },
+          "Section80GGA": {
+           "type": "number"
+          },
+          "Section80GGC": {
+           "type": "number"
+          },
+          "Section80U": {
+           "type": "number"
+          },
+          "Section80TTA": {
+           "type": "number"
+          },
+          "Section80TTB": {
+           "type": "number"
+          },
+          "AnyOthSec80CCH": {
+           "type": "number"
+          },
+          "TotalChapVIADeductions": {
+           "type": "number"
+          }
+         },
+         "additionalProperties": true
+        },
+        "DeductUndChapVIA": {
+         "type": "object",
+         "properties": {
+          "Section80C": {
+           "type": "number"
+          },
+          "Section80CCC": {
+           "type": "number"
+          },
+          "Section80CCDEmployeeOrSE": {
+           "type": "number"
+          },
+          "Section80CCD1B": {
+           "type": "number"
+          },
+          "Section80CCDEmployer": {
+           "type": "number"
+          },
+          "Section80D": {
+           "type": "number"
+          },
+          "Section80DD": {
+           "type": "number"
+          },
+          "Section80DDB": {
+           "type": "number"
+          },
+          "Section80E": {
+           "type": "number"
+          },
+          "Section80EE": {
+           "type": "number"
+          },
+          "Section80EEA": {
+           "type": "number"
+          },
+          "Section80EEB": {
+           "type": "number"
+          },
+          "Section80G": {
+           "type": "number"
+          },
+          "Section80GG": {
+           "type": "number"
+          },
+          "Section80GGA": {
+           "type": "number"
+          },
+          "Section80GGC": {
+           "type": "number"
+          },
+          "Section80U": {
+           "type": "number"
+          },
+          "Section80TTA": {
+           "type": "number"
+          },
+          "Section80TTB": {
+           "type": "number"
+          },
+          "AnyOthSec80CCH": {
+           "type": "number"
+          },
+          "TotalChapVIADeductions": {
+           "type": "number"
+          }
+         },
+         "additionalProperties": true
+        },
+        "TotalIncome": {
+         "type": "number"
+        },
+        "PropertyDetails": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "properties": {
+           "HPSNo": {
+            "type": "number"
+           },
+           "AddressDetailWithZipCode": {
+            "type": "object",
+            "properties": {
+             "AddrDetail": {
+              "type": "string"
+             },
+             "CityOrTownOrDistrict": {
+              "type": "string"
+             },
+             "StateCode": {
+              "type": "string",
+              "enum": [
+               "01",
+               "02",
+               "03",
+               "04",
+               "05",
+               "06",
+               "07",
+               "08",
+               "09",
+               "10",
+               "11",
+               "12",
+               "13",
+               "14",
+               "15",
+               "16",
+               "17",
+               "18",
+               "19",
+               "20",
+               "21",
+               "22",
+               "23",
+               "24",
+               "25",
+               "26",
+               "27",
+               "28",
+               "29",
+               "30",
+               "31",
+               "32",
+               "33",
+               "34",
+               "35",
+               "36",
+               "37",
+               "99"
+              ]
+             },
+             "CountryCode": {
+              "type": "string",
+              "enum": [
+               "...",
+               "91"
+              ]
+             },
+             "PinCode": {
+              "type": "number"
+             }
+            },
+            "additionalProperties": true
+           },
+           "PropertyOwner": {
+            "type": "string",
+            "enum": [
+             "MI",
+             "OT",
+             "SE",
+             "SP"
+            ]
+           },
+           "PropCoOwnedFlg": {
+            "type": "string"
+           },
+           "AsseseeShareProperty": {
+            "type": "number"
+           },
+           "ifLetOut": {
+            "type": "string",
+            "enum": [
+             "D",
+             "L",
+             "S"
+            ]
+           },
+           "Rentdetails": {
+            "type": "object",
+            "properties": {
+             "AnnualLetableValue": {
+              "type": "number"
+             },
+             "RentNotRealized": {
+              "type": "number"
+             },
+             "LocalTaxes": {
+              "type": "number"
+             },
+             "TotalUnrealizedAndTax": {
+              "type": "number"
+             },
+             "BalanceALV": {
+              "type": "number"
+             },
+             "AnnualOfPropOwned": {
+              "type": "number"
+             },
+             "ThirtyPercentOfBalance": {
+              "type": "number"
+             },
+             "IntOnBorwCap": {
+              "type": "number"
+             },
+             "TotalDeduct": {
+              "type": "number"
+             },
+             "ArrearsUnrealizedRentRcvd": {
+              "type": "number"
+             },
+             "IncomeOfHP": {
+              "type": "number"
+             },
+             "Section24B": {
+              "type": "object",
+              "properties": {
+               "Section24BDtls": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "LoanTknFrom": {
+                   "type": "string",
+                   "enum": [
+                    "B",
+                    "I"
+                   ]
+                  },
+                  "BankOrInstnName": {
+                   "type": "string"
+                  },
+                  "InterestUs24B": {
+                   "type": "number"
+                  },
+                  "LoanAccNoOfBankOrInstnRefNo": {
+                   "type": "string"
+                  },
+                  "DateofLoan": {
+                   "type": "string"
+                  },
+                  "TotalLoanAmt": {
+                   "type": "number"
+                  },
+                  "LoanOutstndngAmt": {
+                   "type": "number"
+                  }
+                 },
+                 "additionalProperties": true
+                }
+               },
+               "TotalInterestUs24B": {
+                "type": "number"
+               }
+              },
+              "additionalProperties": true
+             }
+            },
+            "additionalProperties": true
+           }
+          },
+          "additionalProperties": true
+         }
+        },
+        "TotalIncomeChargeableUnHP": {
+         "type": "number"
+        },
+        "OthersInc": {
+         "type": "object",
+         "properties": {
+          "OthersIncDtlsOthSrc": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "OthSrcNatureDesc": {
+              "type": "string",
+              "enum": [
+               "10(11)(iP)",
+               "10(11)(iiP)",
+               "10(12)(iP)",
+               "10(12)(iiP)",
+               "DIV",
+               "FAP",
+               "IFD",
+               "OII",
+               "OTH",
+               "SAV",
+               "TAX"
+              ]
+             },
+             "OthSrcOthAmount": {
+              "type": "number"
+             }
+            },
+            "additionalProperties": true
+           }
+          }
+         },
+         "additionalProperties": true
+        }
+       },
+       "additionalProperties": true
+      },
+      "ITR1_TaxComputation": {
+       "type": "object",
+       "properties": {
+        "TotalTaxPayable": {
+         "type": "number"
+        },
+        "Rebate87A": {
+         "type": "number"
+        },
+        "TaxPayableOnRebate": {
+         "type": "number"
+        },
+        "EducationCess": {
+         "type": "number"
+        },
+        "GrossTaxLiability": {
+         "type": "number"
+        },
+        "Section89": {
+         "type": "number"
+        },
+        "NetTaxLiability": {
+         "type": "number"
+        },
+        "TotalIntrstPay": {
+         "type": "number"
+        },
+        "IntrstPay": {
+         "type": "object",
+         "properties": {
+          "IntrstPayUs234A": {
+           "type": "number"
+          },
+          "IntrstPayUs234B": {
+           "type": "number"
+          },
+          "IntrstPayUs234C": {
+           "type": "number"
+          },
+          "LateFilingFee234F": {
+           "type": "number"
+          },
+          "FeeFurnish234I": {
+           "type": "number"
+          }
+         },
+         "additionalProperties": true
+        },
+        "TotTaxPlusIntrstPay": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "LTCG112A": {
+       "type": "object",
+       "properties": {
+        "TotSaleCnsdrn": {
+         "type": "number"
+        },
+        "TotCstAcqisn": {
+         "type": "number"
+        },
+        "LongCap112A": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "TaxPaid": {
+       "type": "object",
+       "properties": {
+        "TaxesPaid": {
+         "type": "object",
+         "properties": {
+          "AdvanceTax": {
+           "type": "number"
+          },
+          "TDS": {
+           "type": "number"
+          },
+          "TCS": {
+           "type": "number"
+          },
+          "SelfAssessmentTax": {
+           "type": "number"
+          },
+          "TotalTaxesPaid": {
+           "type": "number"
+          }
+         },
+         "additionalProperties": true
+        },
+        "BalTaxPayable": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "Refund": {
+       "type": "object",
+       "properties": {
+        "RefundDue": {
+         "type": "number"
+        },
+        "BankAccountDtls": {
+         "type": "object",
+         "properties": {
+          "AddtnlBankDetails": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "IFSCCode": {
+              "type": "string"
+             },
+             "BankName": {
+              "type": "string"
+             },
+             "BankAccountNo": {
+              "type": "string"
+             },
+             "AccountType": {
+              "type": "string",
+              "enum": [
+               "CA",
+               "CC",
+               "NRO",
+               "OD",
+               "OTH",
+               "SB"
+              ]
+             },
+             "UseForRefund": {
+              "type": "string"
+             }
+            },
+            "additionalProperties": true
+           }
+          }
+         },
+         "additionalProperties": true
+        }
+       },
+       "additionalProperties": true
+      },
+      "Verification": {
+       "type": "object",
+       "properties": {
+        "Declaration": {
+         "type": "object",
+         "properties": {
+          "AssesseeVerName": {
+           "type": "string"
+          },
+          "FatherName": {
+           "type": "string"
+          },
+          "AssesseeVerPAN": {
+           "type": "string"
+          }
+         },
+         "additionalProperties": true
+        },
+        "Capacity": {
+         "type": "string"
+        },
+        "Place": {
+         "type": "string"
+        }
+       },
+       "additionalProperties": true
+      },
+      "TDSonSalaries": {
+       "type": "object",
+       "properties": {
+        "TotalTDSonSalaries": {
+         "type": "number"
+        },
+        "TDSonSalary": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "properties": {
+           "EmployerOrDeductorOrCollectDetl": {
+            "type": "object",
+            "properties": {
+             "TAN": {
+              "type": "string"
+             },
+             "EmployerOrDeductorOrCollecterName": {
+              "type": "string"
+             }
+            },
+            "additionalProperties": true
+           },
+           "IncChrgSal": {
+            "type": "number"
+           },
+           "TotalTDSSal": {
+            "type": "number"
+           }
+          },
+          "additionalProperties": true
+         }
+        }
+       },
+       "additionalProperties": true
+      },
+      "TDSonOthThanSals": {
+       "type": "object",
+       "properties": {
+        "TotalTDSonOthThanSals": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "ScheduleTDS3Dtls": {
+       "type": "object",
+       "properties": {
+        "TotalTDS3Details": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "ScheduleTCS": {
+       "type": "object",
+       "properties": {
+        "TotalSchTCS": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "TaxPayments": {
+       "type": "object",
+       "properties": {
+        "TotalTaxPayments": {
+         "type": "number"
+        },
+        "TaxPayment": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "properties": {
+           "BSRCode": {
+            "type": "string"
+           },
+           "DateDep": {
+            "type": "string"
+           },
+           "SrlNoOfChaln": {
+            "type": "number"
+           },
+           "Amt": {
+            "type": "number"
+           }
+          },
+          "additionalProperties": true
+         }
+        }
+       },
+       "additionalProperties": true
+      },
+      "Schedule80C": {
+       "type": "object",
+       "properties": {
+        "Schedule80CDtls": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "properties": {
+           "Amount": {
+            "type": "number"
+           },
+           "IdentificationNo": {
+            "type": "string"
+           }
+          },
+          "additionalProperties": true
+         }
+        },
+        "TotalAmt": {
+         "type": "number"
+        }
+       },
+       "additionalProperties": true
+      },
+      "Schedule80D": {
+       "type": "object",
+       "properties": {
+        "Sec80DSelfFamSrCtznHealth": {
+         "type": "object",
+         "properties": {
+          "SeniorCitizenFlag": {
+           "type": "string"
+          },
+          "SelfAndFamily": {
+           "type": "number"
+          },
+          "HealthInsPremSlfFam": {
+           "type": "number"
+          },
+          "PrevHlthChckUpSlfFam": {
+           "type": "number"
+          },
+          "SelfAndFamilySeniorCitizen": {
+           "type": "number"
+          },
+          "HlthInsPremSlfFamSrCtzn": {
+           "type": "number"
+          },
+          "PrevHlthChckUpSlfFamSrCtzn": {
+           "type": "number"
+          },
+          "MedicalExpSlfFamSrCtzn": {
+           "type": "number"
+          },
+          "ParentsSeniorCitizenFlag": {
+           "type": "string"
+          },
+          "Parents": {
+           "type": "number"
+          },
+          "HlthInsPremParents": {
+           "type": "number"
+          },
+          "PrevHlthChckUpParents": {
+           "type": "number"
+          },
+          "ParentsSeniorCitizen": {
+           "type": "number"
+          },
+          "HlthInsPremParentsSrCtzn": {
+           "type": "number"
+          },
+          "PrevHlthChckUpParentsSrCtzn": {
+           "type": "number"
+          },
+          "MedicalExpParentsSrCtzn": {
+           "type": "number"
+          },
+          "EligibleAmountOfDedn": {
+           "type": "number"
+          }
+         },
+         "additionalProperties": true
+        }
+       },
+       "additionalProperties": true
+      }
+     },
+     "additionalProperties": true,
+     "required": [
+      "CreationInfo",
+      "Form_ITR1",
+      "PersonalInfo",
+      "FilingStatus",
+      "ITR1_IncomeDeductions",
+      "ITR1_TaxComputation",
+      "LTCG112A",
+      "TaxPaid",
+      "Refund",
+      "Verification",
+      "TDSonSalaries",
+      "TDSonOthThanSals",
+      "ScheduleTDS3Dtls",
+      "ScheduleTCS",
+      "TaxPayments"
+     ]
+    }
+   }
+  }
+ }
+}

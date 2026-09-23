@@ -1,0 +1,97 @@
+{
+ "Income Details": {
+  "section": "tax",
+  "blocks": []
+ },
+ "HP": {
+  "section": "hp",
+  "blocks": []
+ },
+ "Schedule EA 10(13A)": {
+  "section": "sal",
+  "blocks": [],
+  "why_built": "hidden until HRA 10(13A) is claimed (old regime)"
+ },
+ "Schedule 24(b)": {
+  "section": "hp",
+  "blocks": [],
+  "why_built": "hidden until a 24(b) housing-loan interest is claimed"
+ },
+ "Part A Gen_139(8A)": {
+  "section": "ret",
+  "blocks": [],
+  "why_built": "hidden until ReturnFileSec 139(8A) updated return is selected"
+ },
+ "TDS": {
+  "section": "paid",
+  "blocks": []
+ },
+ "TCS": {
+  "section": "paid",
+  "blocks": []
+ },
+ "Taxes Paid and Verification": {
+  "section": "paid",
+  "blocks": []
+ },
+ "Part B ATI": {
+  "section": "ret",
+  "blocks": [],
+  "why_built": "hidden until 139(8A) updated return is selected"
+ },
+ "80D": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80D is claimed (old regime)"
+ },
+ "80G": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80G is claimed (old regime)"
+ },
+ "80GGA": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80GGA is claimed (old regime)"
+ },
+ "80GGC": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80GGC is claimed (old regime)"
+ },
+ "80U-80DD": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80U/80DD is claimed (old regime)"
+ },
+ "80C": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80C is claimed (old regime)"
+ },
+ "80E_80EE_80EEA_80EEB": {
+  "section": "ded",
+  "blocks": [],
+  "why_built": "hidden until 80E/80EE/80EEA/80EEB is claimed (old regime)"
+ },
+ "BankCode": {
+  "section": "excluded",
+  "reason": "lookup table (no schema block)"
+ },
+ "IFSC": {
+  "section": "excluded",
+  "reason": "lookup table (no schema block)"
+ },
+ "DataBase": {
+  "section": "excluded",
+  "reason": "master data (no schema block)"
+ },
+ "SUMMARY": {
+  "section": "excluded",
+  "reason": "internal preview"
+ },
+ "Help": {
+  "section": "excluded",
+  "reason": "instructions"
+ }
+}

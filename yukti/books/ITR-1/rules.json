@@ -1,0 +1,1742 @@
+[
+{
+"n": 1,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) cannot be more than Rs. 1,50,000. If Old Tax is selected and employer category is \"CG-Pensioners\""
+},
+{
+"n": 2,
+"cat": "A",
+"text": "\"SG-Pensioners\" \"PSU-Pensioners\" \"Other Pensioners” or Not Applicable, then Deduction u/s 80CCD (1) should not be more than 20% of Gross total Income"
+},
+{
+"n": 3,
+"cat": "A",
+"text": "If Old Tax is selected and If the employer category is other than \"CG-Pensioners\" \"SG-Pensioners\" \"PSU-Pensioners\" \"Other Pensioners” or Not applicable, then Maximum amount that can be claimed for u/s"
+},
+{
+"n": 4,
+"cat": "A",
+"text": "80CCD (1) is 10% of Salary Deduction u/s 80CCD (2) should not be more than 10% of salary by an employer other than Central Government or State Government in case of Old tax regime."
+},
+{
+"n": 5,
+"cat": "A",
+"text": "If Old tax Regime is selected, and 80DDB - Resident assessee has claimed more than the maximum limit of Rs.1,00,000/-',"
+},
+{
+"n": 6,
+"cat": "A",
+"text": "If Old tax Regime is selected and Assessee is claiming deduction under section 80DDB, but eligible category description not provided"
+},
+{
+"n": 7,
+"cat": "A",
+"text": "If Old tax Regime is selected, then Maximum amount that can be claimed for category \"Self or Dependent\" u/s 80DDB is Rs. 40,000"
+},
+{
+"n": 8,
+"cat": "A",
+"text": "If Old tax Regime is selected and Deduction u/s 80G claimed but details are not provided in Schedule 80G"
+},
+{
+"n": 9,
+"cat": "A",
+"text": "If Old tax Regime is selected, then In Schedule 80G, in Table F, Donation should be equal to sum of donation entitled for 100% deduction without qualifying limit + donation entitled for 50% without qualifying limit +donation entitled for 100% deduction subject to qualifying limit + donation entitled for 50% subject to qualifying limit"
+},
+{
+"n": 10,
+"cat": "A",
+"text": "If Old tax Regime is selected, then In Schedule VIA, deduction claimed u/s 80G is more than the eligible amount of donation mentioned in Schedule 80G"
+},
+{
+"n": 11,
+"cat": "A",
+"text": "If Old tax Regime is selected, then Assessee can claim deduction under section 80TTA to the maximum limit of Rs.10,000/-"
+},
+{
+"n": 12,
+"cat": "A",
+"text": "If Old tax Regime is selected, then Deduction u/s 80TTA is restricted to the savings account interest income from other sources."
+},
+{
+"n": 13,
+"cat": "A",
+"text": "Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966"
+},
+{
+"n": 14,
+"cat": "A",
+"text": "If Old tax Regime is selected, then Assessee can claim deduction under section 80TTB to the maximum limit of Rs.50,000/-"
+},
+{
+"n": 15,
+"cat": "A",
+"text": "Assessee being less than 60 years of age cannot claim deduction under section 80TTB (date of birth is before 02.04.1966)"
+},
+{
+"n": 16,
+"cat": "A",
+"text": "If Old tax Regime is selected, and Assessee being senior citizen and claiming deduction under section 80TTB on other than interest income from other source"
+},
+{
+"n": 17,
+"cat": "A",
+"text": "Total of chapter VI-A deductions should match with sum of individual deductions restricted to GTI"
+},
+{
+"n": 18,
+"cat": "A",
+"text": "Deductions claimed under Chapter VI-A is should not be more than “Gross Total Income”"
+},
+{
+"n": 19,
+"cat": "A",
+"text": "ITR-1 -\"Name\" of taxpayer in ITR does not match with the \"Name\" as per the PAN data base (This will be verified at the time of upload. To ensure that the name entered is as appearing in the PAN card)"
+},
+{
+"n": 20,
+"cat": "A",
+"text": "In the return filed \"Gross Total Income\" and all the heads of income is entered should be more than zero if tax liability has been computed and paid"
+},
+{
+"n": 21,
+"cat": "A",
+"text": "\"Income details\" and \"Tax computation\" should be disclosed where details regarding “Taxes Paid” have been disclosed."
+},
+{
+"n": 22,
+"cat": "A",
+"text": "If Old Tax Regime is selected and Gross Total Income is not equal to the Total of Incomes from Salary, House Property & Other Sources & Long-term capital gains as per sec 112A."
+},
+{
+"n": 23,
+"cat": "A",
+"text": "If Old tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income including LTCG 7a(iii) u/s 112A of more than Rs. 5,00,000"
+},
+{
+"n": 24,
+"cat": "A",
+"text": "Total income should be the difference between \"Gross total income\" and \"Total deductions\" OR Zero if the gross total income minus deduction is negative"
+},
+{
+"n": 25,
+"cat": "A",
+"text": "The amount of \"Tax after Rebate \" should be equal to \"Tax payable on total income\" Minus \"Rebate u/s 87A\""
+},
+{
+"n": 26,
+"cat": "A",
+"text": "The amount at “Total tax and Cess” should be equal to sum of \"Tax after Rebate\" and “Heath & Education Cess"
+},
+{
+"n": 27,
+"cat": "A",
+"text": "“Total Tax, Fees & Interest” should be equal to the sum of“Total Tax & Cess + Interest u/s 234A + 234B+ 234C + Fees u/s 234-I + 234F- Relief u/s 89”"
+},
+{
+"n": 28,
+"cat": "A",
+"text": "In \"Schedule Income Details\" Total Interest, Fee Payable should be equal to the sum of Interest u/s 234 A+ Interest u/s 234 B+ Interest u/s 234 C+ Fee u/s 234F + Fees u/s 234-I"
+},
+{
+"n": 29,
+"cat": "A",
+"text": "Agriculture Income shown as exempt cannot be more than Rs 5000/-"
+},
+{
+"n": 30,
+"cat": "A",
+"text": "In \"schedule \"Income Details” Exempt income should be equal to sum of amount entered in individual col. Of exempt income."
+},
+{
+"n": 31,
+"cat": "A",
+"text": "Sec 10(10BC)-Any amount from the Central/State Govt./local authority by way of compensation on account of any disaster drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 32,
+"cat": "A",
+"text": "Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D)\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 33,
+"cat": "A",
+"text": "Sec 10(11)-Statutory Provident Fund received drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 34,
+"cat": "A",
+"text": "Sec 10(12)-Recognized Provident Fund received drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 35,
+"cat": "A",
+"text": "Sec 10(13)-Approved superannuation fund received drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 36,
+"cat": "A",
+"text": "Sec 10(16)-Scholarships granted to meet the cost of education drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 37,
+"cat": "A",
+"text": "If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt Allowances under salary schedule."
+},
+{
+"n": 38,
+"cat": "A",
+"text": "Sec 10(18)-Pension received by winner of “PARAM Vir Chakra or \"Maha Vir Chakra\" or \"Vir Chakra\" or such other gallantry award\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 39,
+"cat": "A",
+"text": "Defense Medical Disability Pension drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 40,
+"cat": "A",
+"text": "Sec 10(19)-Armed Forces Family pension in case of death during operational duty drop- down cannot be selected more than one time under Exempt Income"
+},
+{
+"n": 41,
+"cat": "A",
+"text": "Sec 10(26)-Any income as referred to in section 10(26) drop-down cannot be selected more than one time under Exempt Income. (Message to be shown to the taxpayers while preparing the return that this deduction is available only for certain category of assesses of NE Region and Ladakh)"
+},
+{
+"n": 42,
+"cat": "A",
+"text": "Sec 10(26AAA)-Any income as referred to in section 10(26AAA) drop-down cannot be selected more than one time under Exempt Income. (Message to be shown to the taxpayers while preparing the return that this deduction is available only for certain Sikkimese"
+},
+{
+"n": 43,
+"cat": "A",
+"text": "assessees) Standard deduction allowed on House property should be equal to 30% of Annual value."
+},
+{
+"n": 44,
+"cat": "A",
+"text": "Gross rent received/ receivable/ lettable value should be more than zero or null where assessee is claiming municipal tax"
+},
+{
+"n": 45,
+"cat": "A",
+"text": "Taxpayer has selected type of property as let-out or deemed let out then Gross rent received/ receivable/ lettable value should be more than zero"
+},
+{
+"n": 46,
+"cat": "A",
+"text": "In Schedule Gross Total Income, Sl.no B2iii. Annual Value should be output of SL.no B2i- B2ii"
+},
+{
+"n": 47,
+"cat": "A",
+"text": "In Schedule Gross total Income, Sl.no B2vii.Income chargeable under the head ‘House Property’ (iii – iv-v + vi) should be equal to sum of B2iii- B2iv-B2v+B2vi or the sum of Individual values under the head of House Property cannot be different from the \"Income chargeable under the head House Property\"."
+},
+{
+"n": 48,
+"cat": "A",
+"text": "If Old Tax Regime is selected then In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied\", then the assessee cannot claim interest on borrowed capital more than Rs 2,00,000."
+},
+{
+"n": 49,
+"cat": "A",
+"text": "In \"Schedule Income Details\" Tax paid to local authorities shall not be allowed for Type of House Property as \"Self-Occupied\""
+},
+{
+"n": 50,
+"cat": "A",
+"text": "\"Interest from savings account\" drop-down cannot be selected more than one time under Income from other sources"
+},
+{
+"n": 51,
+"cat": "A",
+"text": "\"Interest from Deposits (Bank/Post Office/Cooperative Society)\" drop-down cannot be selected more than one time under Income from other sources"
+},
+{
+"n": 52,
+"cat": "A",
+"text": "In schedule \"Income Details” Income from other sources should be equal to sum of amounts entered in individual col. of income from other sources"
+},
+{
+"n": 53,
+"cat": "A",
+"text": "In \"Schedule Income Details\" Deduction u/s 57(iia) shall be allowed only if \"Family pension\" is offered to tax and option 'No' is selected for 'Are you opting for new tax regime u/s 115BAC?"
+},
+{
+"n": 54,
+"cat": "A",
+"text": "In case of \"Old Tax Regime\"- Deduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000. Note: Rounding off +1 and -1."
+},
+{
+"n": 55,
+"cat": "A",
+"text": "Interest from Income Tax Refund drop-down cannot be selected more than one time under Income from other sources."
+},
+{
+"n": 56,
+"cat": "A",
+"text": "Family pension drop-down cannot be selected more than one time under Income from other sources."
+},
+{
+"n": 57,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then for Central and State Govt, PSU employees, the Entertainment allowance u/s 16(ii) will be allowed to the extent of Rs 5000 or 1/5th of Salary whichever is lower"
+},
+{
+"n": 58,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then No Entertainment allowance u/s 16(ii) will be allowed to employees other than Central, State Government and PSU"
+},
+{
+"n": 59,
+"cat": "A",
+"text": "Gross salary should be total of salary as per section 17(1) and value of perquisites as per section 17(2) and profits in lieu of salary as per section 17(3)"
+},
+{
+"n": 60,
+"cat": "A",
+"text": "In the Schedule “Gross total Income\", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10'"
+},
+{
+"n": 61,
+"cat": "A",
+"text": "In Schedule Gross Total Income, B1 (iv) Deductions u/s 16 should be sum of B1 (iva+ivb+ivc)"
+},
+{
+"n": 62,
+"cat": "A",
+"text": "In Schedule Gross Total Income, Sl.no B1v Income chargeable under Salaries should be (B1iii– B1iv)"
+},
+{
+"n": 63,
+"cat": "A",
+"text": "“Total of all allowances to the extent exempt u/s 10 cannot be more than Gross Salary''"
+},
+{
+"n": 64,
+"cat": "A",
+"text": "If Old Tax Regime is selcted, then Exemption u/Sec 10(5)- Leave Travel concession/assistance cannot be more than respective income in Salary as per section 17(1)"
+},
+{
+"n": 65,
+"cat": "A",
+"text": "Exempt allowance Sec 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc.\" cannot be more than Gross Salary"
+},
+{
+"n": 66,
+"cat": "A",
+"text": "Exempt allowance u/s 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India cannot be more than Gross salary"
+},
+{
+"n": 67,
+"cat": "A",
+"text": "Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than Rs. 20,00,000 if nature of employment is Public Sector Undertaking, PSU - Pensioners, others - Pensioners, Others"
+},
+{
+"n": 68,
+"cat": "A",
+"text": "Exempt Allowance u/s Sec 10(10A)-Commuted value of pension received cannot be more than Salary as per sec 17(1)"
+},
+{
+"n": 69,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10AA)-Earned leave encashment on retirement cannot more than Salary as per sec 17(1) (Message to be shown to the tax payers while preparing the return that maximum deduction for a non- Government employees including PSU employee is only Rs 25 lakh)"
+},
+{
+"n": 70,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10B)-First Proviso- Compensation limit notified by CG in the Official Gazette cannot exceed Rs.500,000"
+},
+{
+"n": 71,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10C)-Amount received/receivable on voluntary retirement or termination of service cannot exceed Rs. 5,00,000"
+},
+{
+"n": 72,
+"cat": "A",
+"text": "In exempt allowances only Sec 10(10B) (i) OR Sec 10(10B) (ii) OR Sec 10(10C) can be selected."
+},
+{
+"n": 73,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10CC)-Tax paid by employer on non-monetary perquisite cannot be more than Value of perquisites as per section 17(2)"
+},
+{
+"n": 74,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Exempt Allowance Sec 10(13A)-Allowance to meet expenditure incurred on house rent cannot be more than Salary as per section 17(1) If Old Tax Regime is selected, then Exempt Allowances -Sec 10(14)(i) Prescribed"
+},
+{
+"n": 75,
+"cat": "A",
+"text": "Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment cannot be more than Value of Salary as per section 17(1) at sr. no B1(ia)"
+},
+{
+"n": 76,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Exempt Allowance -Sec 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living cannot be more than Value of Salary as per section 17(1) at sr no (ia)"
+},
+{
+"n": 77,
+"cat": "A",
+"text": "In Schedule \"Income Details\" allowance to extent exempt u/s 10 should be equal to sum of individual values entered."
+},
+{
+"n": 78,
+"cat": "A",
+"text": "In Sch 80G Donee PAN should not be same as \"Assessee PAN\" or \"PAN at Verification\""
+},
+{
+"n": 79,
+"cat": "A",
+"text": "In Schedule 80G in table (A) \"Donations entitled for 100% deduction without qualifying limit\" donation in cash or donation in other mode is to be entered mandatory without which total deduction column should not be entered"
+},
+{
+"n": 80,
+"cat": "A",
+"text": "In Schedule 80G in table (B) \"Donations entitled for 50% deduction without qualifying limit\" donation in cash or donation in other mode is to be entered mandatory without which total deduction column should not be entered"
+},
+{
+"n": 81,
+"cat": "A",
+"text": "In Schedule 80G in table (c) \"Donations entitled for 100% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered mandatory without which total deduction column should not be entered"
+},
+{
+"n": 82,
+"cat": "A",
+"text": "In Schedule 80G in table (D) “Donations entitled for 50% deduction Subject to Qualifying Limit\" Donation in cash or Donation in other mode is to be entered mandatory without which total deduction column should not be entered"
+},
+{
+"n": 83,
+"cat": "A",
+"text": "In Schedule 80G in table (E) Donations should be equal to the sum of (Donations entitled for 100% deduction without qualifying limit +Donations entitled for 50% deduction without qualifying limit+ Donations entitled for 100% deduction subject to qualifying limit +Donations entitled for 100% deduction subject to qualifying limit)"
+},
+{
+"n": 84,
+"cat": "A",
+"text": "Total Donation should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (A)\"Donations entitled for 100% deduction without qualifying limit\""
+},
+{
+"n": 85,
+"cat": "A",
+"text": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (B)\"Donations entitled for 50% deduction without qualifying limit\""
+},
+{
+"n": 86,
+"cat": "A",
+"text": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (C)\"Donations entitled for 100% deduction subject to qualifying limit\""
+},
+{
+"n": 87,
+"cat": "A",
+"text": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80G) (D)\"Donations entitled for 50% deduction subject to qualifying limit\" If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are under donation"
+},
+{
+"n": 88,
+"cat": "A",
+"text": "in cash with same PAN then more than Rs 2,000 then amount entered in donation in cash will not be considered for calculation of Eligible amount of donation.if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0"
+},
+{
+"n": 89,
+"cat": "A",
+"text": "or in case of individual entry is more than Rs. 2000 in In \"Schedule 80GGA\" \"Donation in cash\" or \"Donation in other mode\" is to be entered mandatory without which total deduction column should not be entered"
+},
+{
+"n": 90,
+"cat": "A",
+"text": "Total Donation' should be equal to sum of \"Donation in cash\" AND \"Donation in other mode\" in table (80GGA)"
+},
+{
+"n": 91,
+"cat": "A",
+"text": "If Deduction u/s 80GGA is claimed, details should be provided in Schedule 80GGA."
+},
+{
+"n": 92,
+"cat": "A",
+"text": "In Schedule 80GGA, 'Eligible amount of Donations' cannot be more than the 'Total Donations'."
+},
+{
+"n": 93,
+"cat": "A",
+"text": "In Schedule VIA, deduction claimed u/s 80GGA cannot be more than the eligible amount of donation mentioned in Schedule 80GGA"
+},
+{
+"n": 94,
+"cat": "A",
+"text": "Donee PAN mentioned in Schedule 80GGA cannot be same as the assessee PAN or the verification PAN"
+},
+{
+"n": 95,
+"cat": "A",
+"text": "In Schedule IT total of col 4 Tax Paid should be equal to sum of individual values"
+},
+{
+"n": 96,
+"cat": "A",
+"text": "In Schedule TCS, “The Amount of TCS claimed this year” should not be more than “Tax collected”."
+},
+{
+"n": 97,
+"cat": "A",
+"text": "In Schedule TCS total of col 6 TCS credit out of (5) being claimed this year should be equal to sum of individual values"
+},
+{
+"n": 98,
+"cat": "A",
+"text": "In Schedule TDS2 (Other than salary), “The Amount of TDS claimed this year” should not be more than “Tax deducted”."
+},
+{
+"n": 99,
+"cat": "A",
+"text": "In Schedule TDS (2), TDS (3)/TCS year of tax deduction cannot be '0' / 'null ' if there is a claim of TDS / TCS"
+},
+{
+"n": 100,
+"cat": "A",
+"text": "In Schedule TDS1 total of col 5 'Total Tax deducted\" should be equal to sum of individual values of col 5"
+},
+{
+"n": 101,
+"cat": "A",
+"text": "In Schedule TDS2 total of col 6 'TDS Credit out of (5) claimed this year\" should be equal to sum of individual values of col 6"
+},
+{
+"n": 102,
+"cat": "A",
+"text": "In Schedule TDS3 total of col 7' 'TDS Credit out of (5) claimed this year should be equal to sum of individual values of col 7"
+},
+{
+"n": 103,
+"cat": "A",
+"text": "TDS, TCS or Tax paid claimed in “Taxes Paid and Verification” should be equal to the details of tax amount paid provided in Schedule IT, Schedule TDS1, Schedule TDS2 and Schedule TCS."
+},
+{
+"n": 104,
+"cat": "A",
+"text": "The sum of amounts claimed at TDS, TCS, Advance Tax and Self-Assessment Tax should be equal to the amount claimed at “Total Taxes Paid”."
+},
+{
+"n": 105,
+"cat": "A",
+"text": "Refund claimed should be equal to “Total Taxes Paid” minus “Total Tax and Interest payable”."
+},
+{
+"n": 106,
+"cat": "A",
+"text": "Tax payable Amount should be equal to “Total Tax and Interest payable” minus “Total Taxes Paid”."
+},
+{
+"n": 107,
+"cat": "A",
+"text": "IFSC under “Bank Details” Schedule 80G and in schedule 80GGC should match with the RBI database / GIFT IFSC codes."
+},
+{
+"n": 108,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total TDS Claimed should be equal to the sum of total TDS claimed in TDS 1, 2 & 3"
+},
+{
+"n": 109,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total TCS Claimed should be equal to the sum of total TCS claimed in TCS schedule"
+},
+{
+"n": 110,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total Advance Tax paid is not equal to the sum of total Tax Paid in schedule IT where date of deposit is between 1/04/20XX and 31/03/20XX of PY for which return is being filed."
+},
+{
+"n": 111,
+"cat": "A",
+"text": "In \"Schedule Taxes Paid and Verification\" Total Self-Assessment Tax Paid is not equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31/03/20XX of AY for which return is being filed."
+},
+{
+"n": 112,
+"cat": "A",
+"text": "In case of Old Tax Regime, taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 50000."
+},
+{
+"n": 113,
+"cat": "A",
+"text": "Credit for TDS has been claimed in the return of income, but the corresponding receipts/income has been omitted to be offered for taxation. (Receipts/ Income should be offered to tax in one or the schedules in the return. Further, receipts as appearing in Form 26AS to be offered to tax in one or the schedules in the return)"
+},
+{
+"n": 114,
+"cat": "A",
+"text": "In Schedule Income Details, the maximum limit allowable under section 80GG is: Rs.60,000/- or 25% of his total income excluding LTCG before allowing deduction of this expenditure, whichever is less."
+},
+{
+"n": 115,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then the maximum limit allowable under section 80CCD(1B) is Rs.50,000/-"
+},
+{
+"n": 116,
+"cat": "A",
+"text": "Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as \"CG-Pensioners\" \"SG-Pensioners\" \"PSU-Pensioners\""
+},
+{
+"n": 117,
+"cat": "A",
+"text": "Total income excluding LTCG C3 (a)(iii) should not be greater than Rs 50 lakhs."
+},
+{
+"n": 118,
+"cat": "A",
+"text": "In schedule 80GGA, if donation is made in cash same PAN of Donee cannot appear more than once"
+},
+{
+"n": 119,
+"cat": "A",
+"text": "House rent allowance (HRA u/s.10(13A)) is claimed, hence deduction u/s.80GG is not allowed for the corresponding period."
+},
+{
+"n": 120,
+"cat": "A",
+"text": "In case of Old Tax Regime - Deduction u/s 80CCD (2) should not be more than 14% of salary if any of the employer category is Central Government or state government"
+},
+{
+"n": 121,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Assessee claiming deduction u/s 80EE more than the maximum limit of Rs 50000/-"
+},
+{
+"n": 122,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Assessee claiming deduction u/s 80EEA more than the maximum limit of Rs 150000/-"
+},
+{
+"n": 123,
+"cat": "A",
+"text": "Only one of the deductions u/s 80EE/ 80EEA is allowed. Thus, if deductions claimed under section 80EEA is greater than “Zero\" deductions claimed under section 80EE cannot be greater than “Zero\""
+},
+{
+"n": 124,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Assessee claiming deduction u/s 80EEB cannot be more than Rs 150000/-"
+},
+{
+"n": 125,
+"cat": "A",
+"text": "Relief u/s 89 cannot be claimed by taxpayer if details of salary as per 17(1), Value of perquisite as per 17(2) and Profit in lieu of salary as per 17(3) or family pension are \"zero\"/ \"blank\""
+},
+{
+"n": 126,
+"cat": "A",
+"text": "If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139 (Will be checked at upload level)"
+},
+{
+"n": 127,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1a Self and Family will be allowed to the extent of Rs.25000"
+},
+{
+"n": 128,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 1a should be equal to sum of Sl. No (i+ii) Note: This validation to be checked if value of (i+ii) at Sl. No. 1a is less than 25000"
+},
+{
+"n": 129,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, the amount of preventive health checkup of all the fields combined together should not exceed 5000."
+},
+{
+"n": 130,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 1b Self and Family (Senior Citizen) will be allowed to the extent of Rs. 50000"
+},
+{
+"n": 131,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 1b should be equal to sum of Sl. No (i+ii+iii) Note: This validation to be checked if value of (i+ii+iii) at Sl. No. 1b is less than 50000"
+},
+{
+"n": 132,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then In Schedule 80D, Deduction at Sl. No. 2a Parents will be allowed to the extent of Rs. 25000 In Schedule 80D, Deduction at Sl. No. 2a should be equal to sum of Sl. No (i+ii)"
+},
+{
+"n": 133,
+"cat": "A",
+"text": "Note: This rule will be applicable If Old Tax Regime is selected."
+},
+{
+"n": 134,
+"cat": "A",
+"text": "Note: If sum is greater than 25000, then 2a should be restricted to 25000 If Old Tax Regime is selected and In Schedule 80D, value at field 2b is greater than Rs. 50000"
+},
+{
+"n": 135,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at Sl. No. 2b should be equal to sum of Sl. No (i+ii+iii) Note: This validation to be checked if value of (i+ii+iii) Sl. No. 2b is less than 50000"
+},
+{
+"n": 136,
+"cat": "A",
+"text": "If Old tax Regime is selected and In Schedule 80D, Sl. No. 3 Eligible amount of deduction is greater than Rs. 100000"
+},
+{
+"n": 137,
+"cat": "A",
+"text": "In Schedule 80D, Eligible amount of deduction at Sl. No. 3 should be equal to sum of Sl. No (1a+1b+2a+2b) subject to GTI Note: This validation to be checked if value of Sl. No. (1a+1b+2a+2b) at Sl. No. 3 is less than or equal to 100000"
+},
+{
+"n": 138,
+"cat": "A",
+"text": "If 80D claimed in Income Details Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80D"
+},
+{
+"n": 139,
+"cat": "A",
+"text": "In Schedule 80G, 'Eligible amount of Donations' cannot be more than the 'Total Donations'."
+},
+{
+"n": 140,
+"cat": "A",
+"text": "In \"Schedule Income Details \" Total Tax, Fee & Interest should be equal to sum of Balance Tax after Relief +Total Interest, Fee Payable"
+},
+{
+"n": 141,
+"cat": "A",
+"text": "\"Sec 10(17A)-Award instituted by Government\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 142,
+"cat": "A",
+"text": "If exempt allowance is claimed u/s. 10(10AA) above Rs.25 Lakhs for employer category other \"Central and state government, CG- Pensioners, SG- Pensioner\""
+},
+{
+"n": 143,
+"cat": "A",
+"text": "Deduction u/s 80GGA is not allowed for donation made in cash above Rs. 2000/-."
+},
+{
+"n": 144,
+"cat": "A",
+"text": "In schedule 80GGA, if donation is made, same PAN of Donee cannot appear more than once"
+},
+{
+"n": 145,
+"cat": "A",
+"text": "In income details total of Dividend income should be equal to sum of “Quarterly breakup of Dividend Income\""
+},
+{
+"n": 146,
+"cat": "A",
+"text": "If option Yes is selected for 'Are you opting for new tax regime u/s 115BAC?' then Part C – Deductions and Taxable Total Income, Deduction at B5(a), B5(b), B5(c ), B5(d),B5(f),B5(g),B5(h),B5(i),B5(j),B5(k),B5(l),B5(m),B5(n),B5(o),B5(p),B5(q),B5(r),B5 (s) should not be more than \"0\""
+},
+{
+"n": 147,
+"cat": "A",
+"text": "In schedule 80G, If PAN is already entered in anyone of the set of blocks (i.e. 100%, 50%, with Qualifying limit, without Qualifying limit) then same PAN cannot be entered in any other block"
+},
+{
+"n": 148,
+"cat": "A",
+"text": "If New Tax Regime is selected, exempt allowance under Section 10(14)(ii) - “Transport allowance granted to certain physically handicapped assessee\" should not exceed Rs 38,400 If New Tax Regime is selected and Exempt allowances under \"Sec 10(5)-Leave Travel concession/assistance\""
+},
+{
+"n": 149,
+"cat": "A",
+"text": "\"Sec 10(13A)-Allowance to meet expenditure incurred on house rent\" \"Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment\" \"Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living\""
+},
+{
+"n": 150,
+"cat": "A",
+"text": "is more than \"0\" If Old Tax Regime is selected and Exempt allowances under \"Section 10(14)(i) - Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB\" \"Section 10(14)(ii) - Transport allowance granted to certain physically handicapped assessee\""
+},
+{
+"n": 151,
+"cat": "A",
+"text": "is more than \"0\" Old Tax Regime cannot be selected after the due date of filing of return mentioned u/s 139(1)"
+},
+{
+"n": 152,
+"cat": "A",
+"text": "Once a proceeding is initiated u/s148, no other return can be filed u/s 139 (Will be blocked at upload level)"
+},
+{
+"n": 153,
+"cat": "A",
+"text": "If New Tax Regime is selected and the Sum of deductions claimed u/s 80C, 80CCC & 80CCD (1) should not be more than zero."
+},
+{
+"n": 154,
+"cat": "A",
+"text": "If New tax Regime is selected then In Schedule VIA, deduction claimed u/s 80DD should not be more than \"0\""
+},
+{
+"n": 155,
+"cat": "A",
+"text": "If New Tax regime is selected, then deduction claimed u/s 80DDB should not be more than \"0\""
+},
+{
+"n": 156,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80G claimed should not be more than \"0\". Further, no details should not be provided in schedule 80G"
+},
+{
+"n": 157,
+"cat": "A",
+"text": "If New Tax Regime is selected Then In Schedule VIA, the deduction claimed u/s 80TTA should not be more than \"0\""
+},
+{
+"n": 158,
+"cat": "A",
+"text": "If New tax Regime is selected Then In Schedule VIA, deduction claimed u/s 80TTB should not be more than \"0\""
+},
+{
+"n": 159,
+"cat": "A",
+"text": "If New tax Regime is selected Then In Schedule VIA, deduction claimed u/s 80U should not be more than \"0\""
+},
+{
+"n": 160,
+"cat": "A",
+"text": "If New tax Regime is selected Then in case of house property loss, Gross Total Income should be equal to the Total of Incomes from Salary and Other Sources."
+},
+{
+"n": 161,
+"cat": "A",
+"text": "If New Tax Regime is selected, then exempt allowance income u/s 10(17)-Allowance MP/MLA/MLC should not be more than Zero"
+},
+{
+"n": 162,
+"cat": "A",
+"text": "If New Tax Regime is selected and In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied”, then the interest on borrowed capital should not be more than \"0”,"
+},
+{
+"n": 163,
+"cat": "A",
+"text": "If New Tax Regime is selected, then Entertainment allowance u/s 16(ii) should not be more than \"0\""
+},
+{
+"n": 164,
+"cat": "A",
+"text": "If New Tax Regime is selected, Then Exemption u/Sec 10(5)- Leave Travel concession/assistance should not be more than \"0\""
+},
+{
+"n": 165,
+"cat": "A",
+"text": "If New Tax Regime is selected, Then Exempt Allowance Sec 10(13A)-Allowance to meet expenditure incurred on house rent should not be more than \"0\""
+},
+{
+"n": 166,
+"cat": "A",
+"text": "If New Tax Regime is selected Then Exempt Allowances -Sec 10(14)(i) Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment should not be more than \"0\""
+},
+{
+"n": 167,
+"cat": "A",
+"text": "If New Tax Regime is selected, Then Exempt Allowance -Sec 10(14)(ii) Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living should not be more than \"0\""
+},
+{
+"n": 168,
+"cat": "A",
+"text": "If New Tax Regime is selected then In Schedule VIA, Professional tax u/s 16(iii) should not be more than \"0\""
+},
+{
+"n": 169,
+"cat": "A",
+"text": "If New Tax Regime is selected then In Schedule VIA, deduction under section 80CCD(1B) should not be more than \"0\""
+},
+{
+"n": 170,
+"cat": "A",
+"text": "If New Tax Regime is selected then In Schedule VIA, deduction under section 80EE should not be more than \"0\""
+},
+{
+"n": 171,
+"cat": "A",
+"text": "If New Tax Regime is selected then In Schedule VIA, deduction under section 80EEA should not be more than \"0\""
+},
+{
+"n": 172,
+"cat": "A",
+"text": "If New Tax Regime is selected then In Schedule VIA, deduction under section 80EEB should not be more than \"0\""
+},
+{
+"n": 173,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80D claimed should not be more than \"0\" and details should not be provided in schedule 80D"
+},
+{
+"n": 174,
+"cat": "A",
+"text": "If New Tax Regime is selected and Income from house property is positive then Gross Total Income is not equal to the Total of Incomes from Salary, House Property & Other Sources & LTCG u/s 112A."
+},
+{
+"n": 175,
+"cat": "A",
+"text": "If New Tax Regime is selected, then deduction u/s 80GGA claimed should not be more than \"0\" and details should not be provided in schedule 80GGA"
+},
+{
+"n": 176,
+"cat": "A",
+"text": "If Old Tax Regime is selected, then Exempt Allowance Sec 10(13A)-Allowance to meet expenditure incurred on house rent cannot be more than 1/3rd of Salary as per section 17(1)"
+},
+{
+"n": 177,
+"cat": "A",
+"text": "Exempt allowance u/s 10(10CC) cannot be more than the TDS claimed u/s 192 in schedule TDS1"
+},
+{
+"n": 178,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.1a \"Self and Family\" can be claimed only if dropdown at sl.no.1 ‘Whether you or any of your family member (excluding parents) is a senior citizen?’ is selected as \"No\""
+},
+{
+"n": 179,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.1b \"Self & Family including Senior Citizen\" can be claimed only if dropdown at Sl.no.1 ‘Whether you or any of your family member (excluding parents) is a senior citizen? ‘is selected as \"Yes\""
+},
+{
+"n": 180,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.2a \"Parents\" can be claimed only if dropdown at sl.no.2 ‘Whether any one of your parents is a senior citizen’ is selected as \"No\""
+},
+{
+"n": 181,
+"cat": "A",
+"text": "In Schedule 80D, Deduction at sl.no.2b \"Parents including Senior Citizen\" can be claimed only if dropdown at sl.no.2 ‘Whether any one of your parents is a senior citizen’ is selected as \"Yes\""
+},
+{
+"n": 182,
+"cat": "A",
+"text": "In Schedule 80D, deduction cannot be claimed in sl.no.1a and 1b if dropdown is selected as \"Not claiming for Self /Family\""
+},
+{
+"n": 183,
+"cat": "A",
+"text": "In Schedule 80D, deduction cannot be claimed in sl.no.2a and 2b if dropdown is selected as \"Not claiming for Parents\""
+},
+{
+"n": 184,
+"cat": "A",
+"text": "Any drop-down of nature of income cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 185,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10B) (i) and 10(10B) (ii) Should not be allowed to Central Government employees, state government employees, CG-Pensioners, SG- Pensioners, PSU-Pensioners, or Others-Pensioners"
+},
+{
+"n": 186,
+"cat": "A",
+"text": "Deduction u/s 80CCH should not exceed 46.2% of Salary u/s 17(1)"
+},
+{
+"n": 187,
+"cat": "A",
+"text": "Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on date of joining of armed forces."
+},
+{
+"n": 188,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(10B)-Second proviso- Compensation under scheme approved by the Central Government cannot exceed Rs.500,000"
+},
+{
+"n": 189,
+"cat": "A",
+"text": "If Return is filed u/s 139(5) and original return was filed u/s 139(4) then Old Tax Regime cannot be selected."
+},
+{
+"n": 190,
+"cat": "A",
+"text": "Option to withdraw from New Tax Regime is not available after due date of filing of return as mentioned u/s 139(1)"
+},
+{
+"n": 191,
+"cat": "A",
+"text": "If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than Rs.12,70,590."
+},
+{
+"n": 192,
+"cat": "A",
+"text": "Rebate u/s 87A can be claimed to the extent of Rs.12500 by Resident Individual having Total income of Rs. 5,00,000 under old tax regime"
+},
+{
+"n": 193,
+"cat": "A",
+"text": "If 80GGC is claimed in Income Details Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80GGC"
+},
+{
+"n": 194,
+"cat": "A",
+"text": "In Schedule 80GGC, 'Eligible amount of contributions' for each row shall be equal to \"contribution in other mode\" to the extent of Gross total income"
+},
+{
+"n": 195,
+"cat": "A",
+"text": "Total Contribution' should be equal to sum of \"Contribution in cash\" AND \"Contribution in other mode\" in table (80GGC)"
+},
+{
+"n": 196,
+"cat": "A",
+"text": "In schedule 80GGC, Sl no. D \"Eligible Amount of contribution” should be equal to sum of individual amounts restricted to GTI"
+},
+{
+"n": 197,
+"cat": "A",
+"text": "In schedule 80GGC, Values at sl.no.A - total contribution in Cash, B-contribution in other mode and C-Total contribution should be equal to sum of individual amounts entered"
+},
+{
+"n": 198,
+"cat": "A",
+"text": "Date of contribution is mandatory for contribution made under 80GGC"
+},
+{
+"n": 199,
+"cat": "A",
+"text": "Details of contribution made in other mode are required in schedule 80GGC"
+},
+{
+"n": 200,
+"cat": "A",
+"text": "If Old Tax Regime is selected, And In the schedule 80U value at i- 'Nature of disability' is selected as \"self with severe disability\" and the value at field ii-'Amount if deduction' is less or more than 125,000 subject to GTI."
+},
+{
+"n": 201,
+"cat": "A",
+"text": "If Old Tax Regime is selected, And In the schedule 80U value at i- 'Nature of disability' is selected as \"self with disability\" and the value at field ii-'Amount of deduction' is less or"
+},
+{
+"n": 202,
+"cat": "A",
+"text": "more than 75,000 subject to GTI. If 80U claimed in Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80U"
+},
+{
+"n": 203,
+"cat": "A",
+"text": "If Old Tax Regime is selected, And If drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with disability' and amount is less or more Rs. 75000 subject to GTI."
+},
+{
+"n": 204,
+"cat": "A",
+"text": "If Old Tax Regime is selected, And If drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with severe disability' and amount is less or more Rs. 125000 subject to GTI."
+},
+{
+"n": 205,
+"cat": "A",
+"text": "If 80DD is claimed in Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80DD"
+},
+{
+"n": 206,
+"cat": "A",
+"text": "In schedule 80DD, If deduction is > 0, then details of such deduction is required"
+},
+{
+"n": 207,
+"cat": "A",
+"text": "In schedule 80U, If deduction is > 0, then details of such deduction is required"
+},
+{
+"n": 208,
+"cat": "A",
+"text": "In schedule 80U, If deduction is > 0, then details of such donation are required"
+},
+{
+"n": 209,
+"cat": "A",
+"text": "In schedule 80DD, If deduction is > 0, then details of such donation are required"
+},
+{
+"n": 210,
+"cat": "A",
+"text": "When details of Salary Income are given then 'Nature of employment' cannot be selected as 'Not Applicable',"
+},
+{
+"n": 211,
+"cat": "A",
+"text": "Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04. 2025 to 31.03. 2026 for AY 2026-27"
+},
+{
+"n": 212,
+"cat": "A",
+"text": "Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile"
+},
+{
+"n": 213,
+"cat": "A",
+"text": "\"Exempt Allowances\" in Salary under each section should be disclosed in one dropdown"
+},
+{
+"n": 214,
+"cat": "A",
+"text": "In case of new tax regime, deduction u/s 57(iia) can be availed upto 1/3rd of Family pension maximum of Rs. 25,000"
+},
+{
+"n": 215,
+"cat": "A",
+"text": "In case of New Tax Regime: Taxpayer being an employee can claim Standard deduction u/s 16ia only to the extent of Rs 75000."
+},
+{
+"n": 216,
+"cat": "A",
+"text": "In case of New Tax Regime, deduction u/s 80CCD (2) should not be more than 14% of salary if the employer category is selected as PSU”, “Others\", \"Central Govt\" or \"State Govt\""
+},
+{
+"n": 217,
+"cat": "A",
+"text": "Under Exempt Income, Sl. No. iii Long term capital gains as per sec 112A should not be more than 1,25,000"
+},
+{
+"n": 218,
+"cat": "A",
+"text": "In Exempt Income, Sl. No. iii Long term capital gains as per sec 112A should be output of Sl. No. (i - ii)"
+},
+{
+"n": 219,
+"cat": "A",
+"text": "In Part A General, Filing section is selected as 139(9) and the responses for A23 in 139(9) is not matching with the responses of A23 question in the ITR against which defective response is getting submitted."
+},
+{
+"n": 220,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" needs to be provided for claiming Interest on borrowed capital u/s 24(b) in schedule Interest u/s 24(b)"
+},
+{
+"n": 221,
+"cat": "A",
+"text": "Deduction u/s 80EE / 80EEA can be claimed when the limit u/s 24(b) is exhausted."
+},
+{
+"n": 222,
+"cat": "A",
+"text": "As the deduction u/s 80EE can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EE should be part of the details disclosed in schedule 24(b)"
+},
+{
+"n": 223,
+"cat": "A",
+"text": "As the deduction u/s 80EEA can be claimed over and above deduction u/s 24(b), \"Details of bank from which loan is taken\" in schedule 80EEA should be part of the details disclosed in schedule 24(b)"
+},
+{
+"n": 224,
+"cat": "A",
+"text": "Details such as Amount eligible for deduction u/s 80C, Identification Number of supporting document are required to provide in schedule 80C to claim deduction"
+},
+{
+"n": 225,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80EE in schedule 80EE"
+},
+{
+"n": 226,
+"cat": "A",
+"text": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or 80CCD(1B)"
+},
+{
+"n": 227,
+"cat": "A",
+"text": "Deduction u/s 80EE can be claimed only if maximum loan taken does not exceed Rs. 35 lakhs against the property"
+},
+{
+"n": 228,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" needs to be provided for claiming deduction u/s 80EEA in schedule 80EEA"
+},
+{
+"n": 229,
+"cat": "A",
+"text": "Deduction u/s 80EEA can be claimed only on the residential house property having stamp duty value upto Rs.45 Lakhs"
+},
+{
+"n": 230,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEA shall be between 1.4.19 and 31.3.22"
+},
+{
+"n": 231,
+"cat": "A",
+"text": "\"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80EEB in schedule 80EEB"
+},
+{
+"n": 232,
+"cat": "A",
+"text": "The Date of sanction of loan under schedule 80EEB shall be between 1.4.19 and 31.3.23"
+},
+{
+"n": 233,
+"cat": "A",
+"text": "Details of Form 10BA is required to provide to claim deduction u/s 80GG"
+},
+{
+"n": 234,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.1a"
+},
+{
+"n": 235,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.1b"
+},
+{
+"n": 236,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.2a"
+},
+{
+"n": 237,
+"cat": "A",
+"text": "In schedule 80D, breakup of individual rows for \"amount of premium paid\" shall match with the Health insurance premium entered by the user under \"Health insurance\" at sl.no.2b"
+},
+{
+"n": 238,
+"cat": "A",
+"text": "Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively."
+},
+{
+"n": 239,
+"cat": "A",
+"text": "Details of specified disease is required to be provided to claim deduction u/s 80DDB"
+},
+{
+"n": 240,
+"cat": "A",
+"text": "In schedule House property, value of \"interest on borrowed capital\" should be same as the \"total of interest paid u/s 24(b)\" as per schedule 24(b)"
+},
+{
+"n": 241,
+"cat": "A",
+"text": "Deduction u/s 80C claimed under chapter VIA should be same as the “Total of payment made as per schedule 80C \""
+},
+{
+"n": 242,
+"cat": "A",
+"text": "Deduction u/s 80E in schedule VIA should match with the \"Total of interest paid\" as per schedule 80E"
+},
+{
+"n": 243,
+"cat": "A",
+"text": "Deduction u/s 80EE in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EE"
+},
+{
+"n": 244,
+"cat": "A",
+"text": "Deduction u/s 80EEA in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEA"
+},
+{
+"n": 245,
+"cat": "A",
+"text": "Deduction u/s 80EEB in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEB"
+},
+{
+"n": 246,
+"cat": "A",
+"text": "In schedule 24(b) the sum of individual rows for \"Interest paid during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 24(b)"
+},
+{
+"n": 247,
+"cat": "A",
+"text": "In schedule 80C the sum of individual rows for \"Amount of payment\" (ii) shall match with the \"Total of Payments\" as per the schedule 80C"
+},
+{
+"n": 248,
+"cat": "A",
+"text": "In schedule 80E the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80E"
+},
+{
+"n": 249,
+"cat": "A",
+"text": "In schedule 80EE the sum of individual rows for \"Interest paid during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 80EE"
+},
+{
+"n": 250,
+"cat": "A",
+"text": "In schedule 80EEA the sum of individual rows for \"Amount of interest paid\" (ix) shall match with the \"Total of Payments\" as per the schedule 80EEA"
+},
+{
+"n": 251,
+"cat": "A",
+"text": "In schedule 80EEB the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80EEB"
+},
+{
+"n": 252,
+"cat": "A",
+"text": "The Date of sanction of loan In schedule 80EE shall be between 1.4.16 and 31.3.17"
+},
+{
+"n": 253,
+"cat": "A",
+"text": "Interest on borrowed capital In schedule 24(b) can’t be claimed in case of Self occupied house property under new tax regime"
+},
+{
+"n": 254,
+"cat": "A",
+"text": "If Old Tax Regime is selected, and Deduction u/s 80D is claimed but details not provided in Schedule 80D"
+},
+{
+"n": 255,
+"cat": "A",
+"text": "Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 10(13A) schedule, 80E schedule, 80EE schedule, 80EEA schedule or 80EEB schedule"
+},
+{
+"n": 256,
+"cat": "A",
+"text": "Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)"
+},
+{
+"n": 257,
+"cat": "A",
+"text": "Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1b (i)"
+},
+{
+"n": 258,
+"cat": "A",
+"text": "Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2a (i)"
+},
+{
+"n": 259,
+"cat": "A",
+"text": "Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2b (i)"
+},
+{
+"n": 260,
+"cat": "A",
+"text": "Section 192 applicable to Tax deducted on salary income is selected as the dropdown under schedule TDS 2, or 3 which are for details of TDS on other than salary income."
+},
+{
+"n": 261,
+"cat": "A",
+"text": "HRA u/s 10(13A) shall not be more than Actual rent paid after deducting 10% of basic salary and DA"
+},
+{
+"n": 262,
+"cat": "A",
+"text": "HRA u/s 10(13A) shall not be more than 40% of basic salary and DA for those living in non-metro cities or, shall not be more than 50% of basic salary and DA for those living in metro cities (as applicable)"
+},
+{
+"n": 263,
+"cat": "A",
+"text": "In schedule 10(13A) the lowest of the following amounts shall be claimed as HRA exemption: A) Actual HRA received B) Actual rent paid-10% of (salary+DA)"
+},
+{
+"n": 264,
+"cat": "A",
+"text": "C) 40% or 50% of (salary+DA) Taxpayers having salary income and exempt allowances needs to provide \"Nature of employment\""
+},
+{
+"n": 265,
+"cat": "A",
+"text": "\"Schedule 10(13A) needs to be filled for claiming exempt allowance u/s 10(13A)"
+},
+{
+"n": 266,
+"cat": "A",
+"text": "Sum of Basic salary, dearness allowance as per schedule 10(13A) and actual HRA received shall not be more than salary as per section 17(1) under Income details"
+},
+{
+"n": 267,
+"cat": "A",
+"text": "Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than 25,00,000 if nature of employment is \"CG\", \"CG-Pensioners\", \"Sg\" or \"SG-Pensioners\""
+},
+{
+"n": 268,
+"cat": "A",
+"text": "Status selected is Individual and having date of formation on or after 01/04/2008 shall not be allowed to file return for AY 26-27"
+},
+{
+"n": 269,
+"cat": "A",
+"text": "Exempt Allowance u/s 10(13A) in schedule Salary should match with the \"Eligible allowance u/s 10(13A)\" as per schedule 10(13A)"
+},
+{
+"n": 270,
+"cat": "A",
+"text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" can be claimed only by CG/SG employees"
+},
+{
+"n": 271,
+"cat": "A",
+"text": "\"Type of house property\" shall be mandatory if interest on borrowed capital u/s 24(b) is claimed."
+},
+{
+"n": 272,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount"
+},
+{
+"n": 273,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount"
+},
+{
+"n": 274,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD (1) should not be more than user enterable amount"
+},
+{
+"n": 275,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount"
+},
+{
+"n": 276,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCD (2) should not be more than user enterable amount"
+},
+{
+"n": 277,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount"
+},
+{
+"n": 278,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount"
+},
+{
+"n": 279,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount"
+},
+{
+"n": 280,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount"
+},
+{
+"n": 281,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount"
+},
+{
+"n": 282,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount"
+},
+{
+"n": 283,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount"
+},
+{
+"n": 284,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount"
+},
+{
+"n": 285,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount"
+},
+{
+"n": 286,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount"
+},
+{
+"n": 287,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount"
+},
+{
+"n": 288,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount"
+},
+{
+"n": 289,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount"
+},
+{
+"n": 290,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount"
+},
+{
+"n": 291,
+"cat": "A",
+"text": "Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount"
+},
+{
+"n": 292,
+"cat": "A",
+"text": "LTCG u/s 112A shall be equal to difference between GTI including LTCG and GTI exceluding LTCG"
+},
+{
+"n": 293,
+"cat": "A",
+"text": "In Part A General \"Name of the representative, Email ID of the representative, Contact No. are mandatory if in Part- Verification capacity is selected as \"Representative\" from drop down"
+},
+{
+"n": 294,
+"cat": "A",
+"text": "Whether this return is being filed by a representative assessee? Flag is Y then details should be provided"
+},
+{
+"n": 295,
+"cat": "A",
+"text": "In case of Co-owned property, the total of assessee's share and other co-owner's share should be equal to 100%"
+},
+{
+"n": 296,
+"cat": "A",
+"text": "In Schedule HP, In case of co-owned property Annual value of the property owned should be own percentage share *Annual value."
+},
+{
+"n": 297,
+"cat": "A",
+"text": "Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero',"
+},
+{
+"n": 298,
+"cat": "A",
+"text": "In Schedule HP, Sl.no 1d -Total should be output of SL.no (1b+1c)"
+},
+{
+"n": 299,
+"cat": "A",
+"text": "In Schedule HP, Sl.no 1i -Total should be output of SL.no (1g+1h)"
+},
+{
+"n": 300,
+"cat": "A",
+"text": "In case of co-owned house property, Asseesee PAN & other Co-owners PAN cannot be same"
+},
+{
+"n": 301,
+"cat": "A",
+"text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" can't be more than 0 is new tax regime is selected."
+},
+{
+"n": 302,
+"cat": "A",
+"text": "If in 80CCC the sum of individual rows for \"Amount\" is not equal to Total of \"Amounts\" as per field 80CCC in Income details."
+},
+{
+"n": 303,
+"cat": "A",
+"text": "\"Sec 10(2) Member’s share from HUF\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 304,
+"cat": "A",
+"text": "\"Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 305,
+"cat": "A",
+"text": "\"Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 306,
+"cat": "A",
+"text": "\"Sec 10(12A) NPS partial withdrawal\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 307,
+"cat": "A",
+"text": "\"Sec 10(12AA) any payment from the National Pension System Trust\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 308,
+"cat": "A",
+"text": "\"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 309,
+"cat": "A",
+"text": "\"Sec 10(12B) NPS lumpsum at exit/closure (portion)\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 310,
+"cat": "A",
+"text": "\"Sec 10(12BA) partial withdrawal made from the National Pension System\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 311,
+"cat": "A",
+"text": "\"Sec 10(12C) Agniveer Corpus Fund income\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 312,
+"cat": "A",
+"text": "\"Sec 10(15) Interest on specified securities/investments\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 313,
+"cat": "A",
+"text": "\"Sec 10(19A) Annual value of one palace in occupation of ex-ruler\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 314,
+"cat": "A",
+"text": "\"Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 315,
+"cat": "A",
+"text": "\"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund” drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 316,
+"cat": "A",
+"text": "\"Sec 10(23FD) Unit holder income from Business Trust (certain parts\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 317,
+"cat": "A",
+"text": "\"Sec 10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension fund\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 318,
+"cat": "A",
+"text": "\"Minor child’s income—small exemption\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 319,
+"cat": "A",
+"text": "\"Sec 10(35) Income from specified Mutual Funds\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 320,
+"cat": "A",
+"text": "\"Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 321,
+"cat": "A",
+"text": "\"Sec 10(43) Reverse mortgage—payments to senior citizens\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 322,
+"cat": "A",
+"text": "\"Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts\" drop-down cannot be selected more than one time under Exempt Income."
+},
+{
+"n": 323,
+"cat": "A",
+"text": "If New tax regime is selected, then exempt income u/s 10(32)-Minor child’s income should not be more than Zero"
+},
+{
+"n": 324,
+"cat": "A",
+"text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs."
+},
+{
+"n": 325,
+"cat": "A",
+"text": "IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash."
+},
+{
+"n": 326,
+"cat": "A",
+"text": "IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash."
+},
+{
+"n": 327,
+"cat": "A",
+"text": "If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are there under donation in cash with same PAN then if sum of all such cash donation does not exceeds Rs. 2000 then eligible amount of donation shall be allowed to the extent of Rs. 2000 or claimed whichever is lower"
+},
+{
+"n": 328,
+"cat": "A",
+"text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs."
+},
+{
+"n": 329,
+"cat": "A",
+"text": "Name and PAN of the political party is necessary to claim deduction u/s 80GGC"
+},
+{
+"n": 330,
+"cat": "A",
+"text": "Either cash donation or donation in other mode shall be entered under any row."
+},
+{
+"n": 331,
+"cat": "A",
+"text": "In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of taxpayer."
+},
+{
+"n": 332,
+"cat": "A",
+"text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Assessee’s percentage of share in the Property (%) should be less than 100%"
+},
+{
+"n": 333,
+"cat": "A",
+"text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%"
+},
+{
+"n": 334,
+"cat": "A",
+"text": "In case of property is not Co-owned the assessee's share should be equal to 100%"
+},
+{
+"n": 335,
+"cat": "A",
+"text": "If PRAN is entered but amount entered in 80CCD (1) and 80CCD(1B) is equal to 0"
+},
+{
+"n": 336,
+"cat": "A",
+"text": "\"The amount of rent which cannot be realized\" cannot be more than Gross rent received/ receivable/ lettable during the year"
+},
+{
+"n": 337,
+"cat": "A",
+"text": "If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for \"Type of identifier\", \"Identifier No. and \"Amount\""
+},
+{
+"n": 338,
+"cat": "A",
+"text": "Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income"
+},
+{
+"n": 339,
+"cat": "A",
+"text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information"
+},
+{
+"n": 1,
+"cat": "D",
+"text": "Aadhar in eligible cases as per Circular 03/2023 Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also Publishing Document The assessee has claimed relief u/s 89(1) without furnishing of Form 10E"
+},
+{
+"n": 2,
+"cat": "D",
+"text": "linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023 TDS section code such 194B, 194BB, 194BA,194IA,194IC,194LA or 194S as is selected under Schedule \"TDS2 Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\""
+},
+{
+"n": 3,
+"cat": "D",
+"text": "or Assessee having income under special rate is not eligible to file ITR-1 TDS section code such 194B, 194BB, 194BA, 194IA,194IC,194LA, or 194S as is selected under Schedule \"TDS3 Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\""
+},
+{
+"n": 4,
+"cat": "D",
+"text": "or Assessee having income under special rate is not eligible to file ITR-1. TDS section code such as"
+},
+{
+"n": 5,
+"cat": "D",
+"text": "194E,194LB,194LC,194LBA(a),194LBA(b),194LBA©,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS2 Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" TDS section code such as"
+},
+{
+"n": 6,
+"cat": "D",
+"text": "194E,194LB,194LC,194LBA(a),194LBA(b),194LBA©,195,196A,196B,196C,196D or 196D(1A) is selected under Schedule \"TDS3 Details of Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" TDS section code such as 194Q, 194C or 194R is selected under Schedule \"TDS2 Details of"
+},
+{
+"n": 7,
+"cat": "D",
+"text": "Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" for which ITR 1 is not applicable TDS section code such as 194Q,194C or 194R is selected under Schedule \"TDS3 Details of"
+},
+{
+"n": 8,
+"cat": "D",
+"text": "Tax Deducted at Source on Income Other than Salary\" at field 2a \"Section under which TDS deducted\" for which ITR 1 is not applicable TDS deducted value in schedule TDS 1 CANNOT BE MORE THAN value in schedule"
+},
+{
+"n": 9,
+"cat": "D",
+"text": "Salary \"Total Gross salary\" D:"
+}
+]
