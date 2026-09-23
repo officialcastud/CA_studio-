@@ -53,6 +53,12 @@ S.ded = S.ded || {};
   if(d.ccd2===undefined)  d.ccd2="";          /* 80CCD(2) employer */
   if(d.cch===undefined)   d.cch="";           /* 80CCH(2) Agniveer */
   d.d80 = d.d80 || {selfSr:"N", parSr:"P"};   /* 80D flat amounts + flags */
+  /* 80D per-insurer detail rows {name,policy,amt} for the four sub-blocks
+     (Sch80DInsDtls[]): self/family, self/family senior, parents, parents senior */
+  if(!Array.isArray(d.d80.insSelf))   d.d80.insSelf=[];
+  if(!Array.isArray(d.d80.insSelfSr)) d.d80.insSelfSr=[];
+  if(!Array.isArray(d.d80.insPar))    d.d80.insPar=[];
+  if(!Array.isArray(d.d80.insParSr))  d.d80.insParSr=[];
   d.dd  = d.dd  || {};                         /* 80DD */
   d.u   = d.u   || {};                         /* 80U */
   d.ddb = d.ddb || {};                         /* 80DDB */
@@ -92,6 +98,9 @@ const DED_DISEASE = [["a","Dementia"],["b","Dystonia Musculorum Deformans"],
   ["c","Motor Neuron Disease"],["d","Ataxia"],["e","Chorea"],["f","Hemiballismus"],
   ["g","Aphasia"],["h","Parkinsons Disease"],["i","Malignant Cancers"],["j","Full Blown AIDS"],
   ["k","Chronic Renal failure"],["l","Hematological disorders"],["m","Hemophilia"],["n","Thalassaemia"]];
+/* Section80DDBUsrType — SELECT80DDB / DataBase!L3:L5 (patient category) */
+const DED_80DDB_USR = [["1","Self or Dependent"],
+  ["2","Self or Dependent — Senior Citizen (60 or above)"]];
 const DED_SELFSR = [["N","No"],["Y","Yes — self / family includes a senior citizen"],
   ["S","Not claiming for self / family"]];
 const DED_PARSR = [["P","Not claiming for parents"],["N","No"],
@@ -242,8 +251,8 @@ function engDed(){
       ent.Section80CCD1B>50000?"capped at ₹50,000":"");
     set("Section80D", d80.total);
     set("Section80DD", ent.Section80DD);
-    set("Section80DDB", Math.min(ent.Section80DDB, ((D.ddb||{}).senior==="Y")?100000:40000),
-      ent.Section80DDB>(((D.ddb||{}).senior==="Y")?100000:40000)?"capped at "+RS(((D.ddb||{}).senior==="Y")?100000:40000):"");
+    set("Section80DDB", Math.min(ent.Section80DDB, ((D.ddb||{}).usrType==="2")?100000:40000),
+      ent.Section80DDB>(((D.ddb||{}).usrType==="2")?100000:40000)?"capped at "+RS(((D.ddb||{}).usrType==="2")?100000:40000):"");
     set("Section80U", ent.Section80U);
     set("Section80E", ent.Section80E);
     set("Section80EE", Math.min(ent.Section80EE,50000), ent.Section80EE>50000?"capped at ₹50,000":"");
@@ -358,18 +367,28 @@ function secDed(){
       sel("ded.d80.selfSr",DED_SELFSR,{blank:false}),{req:1})+
     sub("Self and family")+
     row("Health insurance premium (non-senior)",inp("ded.d80.hiSelf",{n:1}),{ind:1})+
+    sub("Insurer-wise detail (name, policy number and amount) — sl. 1a(i)")+
+    ded_80DinsGrid("ded.d80.insSelf",D.d80.insSelf)+
     row("Preventive health check-up (non-senior)",inp("ded.d80.phcSelf",{n:1}),{ind:1,hint:"within ₹5,000"})+
     row("Health insurance premium (senior)",inp("ded.d80.hiSelfSr",{n:1}),{ind:1})+
+    sub("Insurer-wise detail (name, policy number and amount) — sl. 1b(i)")+
+    ded_80DinsGrid("ded.d80.insSelfSr",D.d80.insSelfSr)+
     row("Preventive health check-up (senior)",inp("ded.d80.phcSelfSr",{n:1}),{ind:1,hint:"within ₹5,000"})+
     row("Medical expenditure — senior, where no health insurance",inp("ded.d80.medSelfSr",{n:1}),{ind:1})+
     row("Is any one of the parents a senior citizen?",sel("ded.d80.parSr",DED_PARSR,{blank:false}),{req:1})+
     sub("Parents")+
     row("Health insurance premium (non-senior)",inp("ded.d80.hiPar",{n:1}),{ind:1})+
+    sub("Insurer-wise detail (name, policy number and amount) — sl. 2a(i)")+
+    ded_80DinsGrid("ded.d80.insPar",D.d80.insPar)+
     row("Preventive health check-up (non-senior)",inp("ded.d80.phcPar",{n:1}),{ind:1,hint:"within ₹5,000"})+
     row("Health insurance premium (senior)",inp("ded.d80.hiParSr",{n:1}),{ind:1})+
+    sub("Insurer-wise detail (name, policy number and amount) — sl. 2b(i)")+
+    ded_80DinsGrid("ded.d80.insParSr",D.d80.insParSr)+
     row("Preventive health check-up (senior)",inp("ded.d80.phcParSr",{n:1}),{ind:1,hint:"within ₹5,000"})+
     row("Medical expenditure — senior, where no health insurance",inp("ded.d80.medParSr",{n:1}),{ind:1})+
     row("80D eligible — computed",cell(alw.Section80D),{cls:"tot"})+
+    note("Where a health-insurance premium is claimed, list each insurer with the policy number and the "+
+      "amount — the name of the insurer and the policy number are mandatory for each row.","warn")+
     note("The ceiling is ₹25,000 for self and family, ₹50,000 where a senior citizen is covered, "+
       "and the same again for parents. Preventive health check-up sits inside those ceilings."));
 
@@ -393,8 +412,8 @@ function secDed(){
   if(N((D.ddb||{}).amt))
     h += fold("d_80ddb","","80DDB — specified disease","",
       row("Name of the specified disease",sel("ded.ddb.disease",DED_DISEASE),{req:1})+
-      row("Is the patient a senior citizen (60 or above)?",
-        sel("ded.ddb.senior",[["N","No"],["Y","Yes"]],{blank:false}),{req:1})+
+      row("Patient category",sel("ded.ddb.usrType",DED_80DDB_USR),
+        {req:1,ref:"Section80DDBUsrType",hint:"a senior-citizen patient raises the ceiling to ₹1,00,000"})+
       formNote("A prescription from a specialist under rule 11DD has to be kept on record."));
 
   /* 80E / 80EE / 80EEA / 80EEB */
@@ -497,6 +516,15 @@ function secDed(){
   return h;
 }
 
+/* a shared 80D per-insurer detail grid (Sch80DInsDtls[]): name / policy / amount */
+function ded_80DinsGrid(key,rows){
+  return grid(key,[
+    {k:"name",h:"Name of the insurer",t:"txt",w:"auto",req:1},
+    {k:"policy",h:"Policy number",t:"txt",w:"200px",req:1},
+    {k:"amt",h:"Amount",t:"num",w:"140px",req:1}],
+    rows,{min:"680px",empty:"No insurer / policy listed.",add:"Add an insurer / policy",
+      foot:[{l:1,v:"Total payments",span:2},{v:(rows||[]).reduce((a,r)=>a+n0(r.amt),0)}]});
+}
 /* a shared loan-table grid (80E/80EE/80EEA/80EEB); vehReg adds the reg number */
 function ded_loanGrid(key,rows,vehReg){
   const cols=[
@@ -567,6 +595,8 @@ function expDed(j){
     if(pran.length) put(j, base+"UsrDeductUndChapVIA.PRANDtls", pran);
     if(N((D.ddb||{}).amt) && DED_DISEASE.some(x=>x[0]===(D.ddb||{}).disease))
       put(j, base+"UsrDeductUndChapVIA.NameOfSpecDisease80DDB", (D.ddb||{}).disease);
+    if(N((D.ddb||{}).amt) && DED_80DDB_USR.some(x=>x[0]===(D.ddb||{}).usrType))
+      put(j, base+"UsrDeductUndChapVIA.Section80DDBUsrType", (D.ddb||{}).usrType);
     if(N((D.gg||{}).amt) && sv((D.gg||{}).ack))
       put(j, base+"UsrDeductUndChapVIA.Form10BAAckNum", sv((D.gg||{}).ack));
   }
@@ -603,6 +633,26 @@ function expDed(j){
       PrevHlthChckUpParentsSrCtzn: n0(d.phcParSr),
       MedicalExpParentsSrCtzn: n0(d.medParSr),
       EligibleAmountOfDedn: n0(alw.Section80D) };
+    /* per-insurer detail sub-blocks (Sch80DInsDtls[] + TotalPayments) — one per
+       health-insurance-premium slot; emitted only when at least one row is filled */
+    const insBlock=rows=>{
+      const rr=(rows||[]).filter(r=>sv(r.name)||sv(r.policy)||N(r.amt));
+      if(!rr.length) return null;
+      /* emit the insurer name / policy number VERBATIM (no "NA" placeholder):
+         a blank must survive so rule A256-A259 can catch a premium claimed
+         without the mandatory insurer name and policy number. */
+      return { Sch80DInsDtls: rr.map(r=>({
+                 InsurerName:(sv(r.name)||"").slice(0,75),
+                 PolicyNo:(sv(r.policy)||"").slice(0,50),
+                 HealthInsAmt:n0(r.amt) })),
+               TotalPayments: n0(rr.reduce((a,r)=>a+n0(r.amt),0)) };
+    };
+    const ib1=insBlock(d.insSelf),   ib2=insBlock(d.insSelfSr),
+          ib3=insBlock(d.insPar),    ib4=insBlock(d.insParSr);
+    if(ib1) b.Sec80DSelfFamHIDtls=ib1;
+    if(ib2) b.Sec80DSelfFamSrCtznHIDtls=ib2;
+    if(ib3) b.Sec80DParentsHIDtls=ib3;
+    if(ib4) b.Sec80DParentsSrCtznHIDtls=ib4;
     j.Schedule80D={ Sec80DSelfFamSrCtznHealth:b };
   }
 
@@ -771,6 +821,7 @@ function impDed(I){
   if(N(usr.Section80TTB))    D.ttb=String(usr.Section80TTB);
   if(N(usr.Section80DDB))    (D.ddb=D.ddb||{}).amt=String(usr.Section80DDB);
   if(usr.NameOfSpecDisease80DDB) (D.ddb=D.ddb||{}).disease=usr.NameOfSpecDisease80DDB;
+  if(usr.Section80DDBUsrType!=null) (D.ddb=D.ddb||{}).usrType=String(usr.Section80DDBUsrType);
   if(usr.Form10BAAckNum)     (D.gg=D.gg||{}).ack=usr.Form10BAAckNum;
   if(Array.isArray(usr.PensionContribution80CCC))
     D.pen=usr.PensionContribution80CCC.map(r=>({type:r.TypeofIdentifier||"PRAN",
@@ -792,7 +843,15 @@ function impDed(I){
     hiSelfSr:String(d8.HlthInsPremSlfFamSrCtzn||""),phcSelfSr:String(d8.PrevHlthChckUpSlfFamSrCtzn||""),
     medSelfSr:String(d8.MedicalExpSlfFamSrCtzn||""),hiPar:String(d8.HlthInsPremParents||""),
     phcPar:String(d8.PrevHlthChckUpParents||""),hiParSr:String(d8.HlthInsPremParentsSrCtzn||""),
-    phcParSr:String(d8.PrevHlthChckUpParentsSrCtzn||""),medParSr:String(d8.MedicalExpParentsSrCtzn||"")}; read.push("80D"); }
+    phcParSr:String(d8.PrevHlthChckUpParentsSrCtzn||""),medParSr:String(d8.MedicalExpParentsSrCtzn||"")};
+    /* per-insurer detail sub-blocks (round-trip) */
+    const insIn=blk=>(RG(d8,blk+".Sch80DInsDtls",[])||[]).map(r=>({
+      name:r.InsurerName||"",policy:r.PolicyNo||"",amt:r.HealthInsAmt!=null?String(r.HealthInsAmt):""}));
+    D.d80.insSelf=insIn("Sec80DSelfFamHIDtls");
+    D.d80.insSelfSr=insIn("Sec80DSelfFamSrCtznHIDtls");
+    D.d80.insPar=insIn("Sec80DParentsHIDtls");
+    D.d80.insParSr=insIn("Sec80DParentsSrCtznHIDtls");
+    read.push("80D"); }
   const loanIn=(sch,dtls,intK)=>{const a=g(I,sch+"."+dtls);
     if(!Array.isArray(a))return null;
     return a.map(r=>({from:r.LoanTknFrom||"B",name:r.BankOrInstnName||"",acno:r.LoanAccNoOfBankOrInstnRefNo||"",
