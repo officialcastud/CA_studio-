@@ -57,6 +57,13 @@ const WHO1_EMPCAT=[
   ["NA","Not Applicable (eg. Family pension etc)"]];
 /* SecondaryAdd — enums.json SecondaryAdd */
 const WHO1_YN=[["Y","Yes"],["N","No"]];
+/* Residential status — ResidentLis (DataBase!X3:X5). ITR-1 is for a RESIDENT
+   AND ORDINARILY RESIDENT individual only; the utility offers just these two
+   and blocks NOR. It is an eligibility GATE, NOT an exported leaf (the schema
+   FilingStatus block has no residential-status field). */
+const WHO1_RESSTATUS=[
+  ["RES","RES — Resident (ordinarily resident)"],
+  ["NOR","NOR — Resident but not ordinarily resident (not eligible for ITR-1)"]];
 /* StateCode — enums.json StateCode (38 states/UTs + 99 foreign) VERBATIM */
 const WHO1_STATE=[
   ["01","ANDAMAN AND NICOBAR ISLANDS"],["02","ANDHRA PRADESH"],["03","ARUNACHAL PRADESH"],
@@ -89,6 +96,7 @@ S.who = S.who || {};
   d("addr1b",""); d("premisesb",""); d("roadb",""); d("localityb",""); d("cityb","");
   d("stateb",""); d("countryb","91"); d("pinb",""); d("zipb","");
   d("empcat","OTH");                         /* EmployerCategory */
+  d("resStatus","RES");                       /* residential status gate (ROR only) */
 })(S.who);
 
 /* =====================================================================
@@ -114,6 +122,8 @@ function engWho(){
   C.superSenior= age>=80;                     /* >=80  : basic exemption 5,00,000 (old) */
   C.seniorAny  = age>=60;                      /* helper: 234B/234C exemption (bacage>59) */
   C.employerCat= st0(W.empcat)||"OTH";         /* HRA schedule + 16(ii) gate */
+  C.resStatus  = (st0(W.resStatus)==="NOR")?"NOR":"RES";  /* eligibility gate */
+  C.resident   = C.resStatus==="RES";           /* ROR — the only ITR-1-eligible status */
   C.pan        = st0(W.pan).toUpperCase();
   C.name       = [st0(W.first),st0(W.mid),st0(W.last)].filter(Boolean).join(" ");
   C.income=0;
@@ -149,6 +159,14 @@ function secWho(){
    if(C.age)h+=note("On the date of birth entered, the assessee is <b>"+C.age+
      "</b> as on 31 March 2026 — "+(C.superSenior?"a <b>super-senior citizen</b> (≥80)":
        C.senior?"a <b>senior citizen</b> (60–79)":"not a senior citizen")+".");}
+
+  /* ===================== Residential status (eligibility gate) ============ */
+  h+=sub("Residential status");
+  h+=row("Residential status for the year",sel("who.resStatus",WHO1_RESSTATUS,{blank:false}),
+    {req:1,hint:"ITR-1 can be filed only by a resident and ordinarily resident individual"});
+  if(st0(W.resStatus)==="NOR")
+    h+=note("<b>A resident but not ordinarily resident (RNOR) individual cannot file ITR-1.</b> "+
+      "File <b>ITR-2</b> instead. (A non-resident is likewise not eligible for ITR-1.)","stop");
 
   /* ===================== Employer category ===================== */
   h+=sub("Nature of employment");
@@ -346,11 +364,13 @@ function chkWho(){
   if(!st0(W.last)) out.push({lvl:"err",t:"Name required",m:"The last name / surname is mandatory.",sec:"who"});
   if(!pan) out.push({lvl:"err",t:"PAN required",m:"Enter the PAN of the individual.",sec:"who"});
   else if(!PAN_RE.test(pan)) out.push({lvl:"err",t:"PAN not valid",m:"The PAN must be five letters, four digits and a letter.",sec:"who"});
-  else if(pan.charAt(3)!=="P") out.push({lvl:"warn",t:"PAN not an individual's",m:"The fourth letter of an individual's PAN is P — ITR-1 is for an individual only.",sec:"who"});
+  else if(pan.charAt(3)!=="P") out.push({lvl:"err",t:"PAN not an individual's",m:"ITR-1 is for an individual only: the fourth letter of the PAN must be P (it is '"+pan.charAt(3)+"' here — a "+({C:"company",H:"HUF",F:"firm",A:"AOP/BOI",T:"trust",B:"BOI",L:"local authority",J:"artificial juridical person",G:"government"}[pan.charAt(3)]||"non-individual")+" cannot file ITR-1).",sec:"who"});
 
   if(!st0(W.dob)) out.push({lvl:"err",t:"Date of birth required",m:"Enter the date of birth in "+DF+" — it settles the slab.",sec:"who"});
   else if(!(typeof D==="function"&&D(W.dob))) out.push({lvl:"err",t:"Date of birth",m:"The date of birth is not a valid "+DF+" date.",sec:"who"});
   else if(D(W.dob)>WHO1_AGEREF) out.push({lvl:"err",t:"Date of birth",m:"The date of birth must be on or before 31 March 2026.",sec:"who"});
+
+  if(st0(W.resStatus)==="NOR") out.push({lvl:"err",t:"Not eligible for ITR-1",m:"A resident but not ordinarily resident (RNOR) individual cannot file ITR-1 — file ITR-2. (A non-resident is also not eligible.)",sec:"who"});
 
   if(st0(W.aadhaar)&&!AADH.test(st0(W.aadhaar))) out.push({lvl:"err",t:"Aadhaar",m:"The Aadhaar number must be twelve digits.",sec:"who"});
   if(!WHO1_EMPCAT.some(e=>e[0]===st0(W.empcat))) out.push({lvl:"err",t:"Employer category required",m:"Select the nature of employment.",sec:"who"});
