@@ -1,0 +1,87 @@
+<!-- ITR-4: convert AY 2026-27 build -> AY 2025-26 -->
+### 4c. CHANGE — same rule, different logic/limits
+
+- **A-34 → A-33** (similarity 87.5999984741211)
+  - 2026-27: If Old Tax Regime is selected and Deduction u/is 80G claimed but however details are not provided in Schedule 80G
+  - 2025-26: If Old Tax Regime is selected and Deduction u/s 80G claimed but however details are not provided in Schedule 80G
+  - diff: If Old Tax Regime is selected and Deduction ~~u/is~~ **u/s** 80G claimed but however details are not provided in Schedule 80G
+- **A-39 → A-38** (similarity 81.5)
+  - 2026-27: If Old Tax Regime is selected, Deduction under section 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966)
+  - 2025-26: If Old Tax Regime is selected, Deduction under section 80TTA cannot be claimed by Senior Citizen
+  - diff: If Old Tax Regime is selected, Deduction under section 80TTA cannot be claimed by Senior Citizen ~~(date of birth is on or Before 01.04.1966)~~
+- **A-40 → A-39** (similarity 84.19999694824219)
+  - 2026-27: If Old Tax Regime is selected and Assessee not being a senior citizen cannot claim deduction under section 80TTB (date of birth is on or after 02.04.1966)
+  - 2025-26: If Old Tax Regime is selected and Assessee not being a senior citizen cannot claim deduction under section 80TTB
+  - diff: If Old Tax Regime is selected and Assessee not being a senior citizen cannot claim deduction under section 80TTB ~~(date of birth is on or after 02.04.1966)~~
+- **A-54 → A-54** (similarity 85.30000305175781)
+  - 2026-27: Total Tax, Fee, and Interest" must be equal to the sum of "Balance Tax After Relief" and "Interest u/s 234A, 234B, 234C, Fees u/s 234-I & Fee u/s 234F"
+  - 2025-26: Total Tax, Fee and Interest" must be equal to the sum of "Balance Tax After Relief" and "Interest u/s 234A, 234B, 234C & Fee u/s 234F"
+  - diff: Total Tax, ~~Fee,~~ **Fee** and Interest" must be equal to the sum of "Balance Tax After Relief" and "Interest u/s 234A, 234B, ~~234C, Fees u/s 234-I~~ **234C** & Fee u/s 234F"
+- **A-88 → A-88** (similarity 91.80000305175781)
+  - 2026-27: If Old Tax Regime is selected, "Sec 10(17)-Allowance MP/MLA/MLC" drop-down cannot be selected more than one time under Exempt Allowances under salary schedule.
+  - 2025-26: If Old Tax Regime is selected, “Sec 10(17)-Allowance MP/MLA/MLC" drop-down cannot be selected more than one time under Exempt Income.
+  - diff: If Old Tax Regime is selected, ~~"Sec~~ **“Sec** 10(17)-Allowance MP/MLA/MLC" drop-down cannot be selected more than one time under Exempt ~~Allowances under salary schedule.~~ **Income.**
+- **A-218 → A-218** (similarity 89.0)
+  - 2026-27: In Schedule 80D, Deduction at sl.no.2a "Parents" can be claimed only if dropdown at
+  - 2025-26: In Schedule 80D, Deduction at sl.no.2a "Parents" can be claimed only if dropdown at sl.no.2 is selected as "No"
+  - diff: In Schedule 80D, Deduction at sl.no.2a "Parents" can be claimed only if dropdown at **sl.no.2 is selected as "No"**
+- **A-238 → A-253** (similarity 91.5)
+  - 2026-27: If Gross Receipts u/s 44ADA are more than Rs.5000000 and cash receipts are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are applicable
+  - 2025-26: If Gross Receipts u/s 44ADA are more than Rs.5000000 and sum of cash receipts & receipts in any other mode are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are applicable
+  - diff: If Gross Receipts u/s 44ADA are more than Rs.5000000 and **sum of** cash receipts **& receipts in any other mode** are more than 5% of total receipts, it is mandatory to have a tax audit under 44AB. So, ITR 3/ ITR 5 are applicable
+- **A-264 → A-281** (similarity 98.5)
+  - 2026-27: For assessee Firm (other than LLP), any field in A23 has any value "Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2026- 27? "'
+  - 2025-26: For assessee Firm (other than LLP), any field in A23 has any value "Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY 2024-25? "'
+  - diff: For assessee Firm (other than LLP), any field in A23 has any value "Have you exercised the option u/s 115BAC (6) of Opting out of new tax regime in Form 10-IEA in AY ~~2026- 27?~~ **2024-25?** "'
+- **A-266 → A-294** (similarity 91.0)
+  - 2026-27: In Schedule EI, Sl. No. iii Long term capital gains as per sec 112A should be output of
+  - 2025-26: In Schedule EI, Sl. No. iii Long term capital gains as per sec 112A should be output of Sl. No. (i - ii)
+  - diff: In Schedule EI, Sl. No. iii Long term capital gains as per sec 112A should be output of **Sl. No. (i - ii)**
+- **A-273 → A-303** (similarity 86.5999984741211)
+  - 2026-27: Details such as nature of payment, Amount eligible for deduction u/s 80C, Policy no. or Document Identification Number of supporting document are required to provide in schedule 80C to claim deduction
+  - 2025-26: Details such as Amount eligible for deduction u/s 80C, Policy number or Document Identification number are required to provide in schedule 80C to claim deduction
+  - diff: Details such as ~~nature of payment,~~ Amount eligible for deduction u/s 80C, Policy ~~no.~~ **number** or Document Identification ~~Number of supporting document~~ **number** are required to provide in schedule 80C to claim deduction
+- **A-283 → A-314** (similarity 97.30000305175781)
+  - 2026-27: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+  - 2025-26: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at sl.no.1a
+  - diff: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at **sl.no.1a**
+- **A-284 → A-315** (similarity 97.30000305175781)
+  - 2026-27: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+  - 2025-26: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at sl.no.1b
+  - diff: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at **sl.no.1b**
+- **A-285 → A-316** (similarity 97.30000305175781)
+  - 2026-27: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+  - 2025-26: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at sl.no.2a
+  - diff: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at **sl.no.2a**
+- **A-286 → A-317** (similarity 97.30000305175781)
+  - 2026-27: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at
+  - 2025-26: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at sl.no.2b
+  - diff: In schedule 80D, breakup of individual rows for "amount of premium paid" shall match with the Health insurance premium entered by the user under "Health insurance" at **sl.no.2b**
+- **A-297 → A-328** (similarity 84.0)
+  - 2026-27: In schedule 80E the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80E
+  - 2025-26: In schedule 80E the sum of individual rows for "Amount of interest u/s 80E" (x) shall match with the "Total of Payments" as per the schedule 80E
+  - diff: In schedule 80E the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80E"** (x) shall match with the "Total of Payments" as per the schedule 80E
+- **A-299 → A-330** (similarity 84.19999694824219)
+  - 2026-27: In schedule 80EEA the sum of individual rows for "Amount of interest paid" (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+  - 2025-26: In schedule 80EEA the sum of individual rows for "Amount of interest u/s 80EEA" (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+  - diff: In schedule 80EEA the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80EEA"** (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+- **A-300 → A-331** (similarity 83.5)
+  - 2026-27: In schedule 80EEB the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80EEB
+  - 2025-26: In schedule 80EEB the sum of individual rows for "Amount of interest u/s 80EEB" (x) shall match with the "Total of Payments" as per the schedule 80EEB
+  - diff: In schedule 80EEB the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80EEB"** (x) shall match with the "Total of Payments" as per the schedule 80EEB
+- **A-304 → A-335** (similarity 97.30000305175781)
+  - 2026-27: Assessee having status as HUF is not eligible to fill any schedule out of 80CCC Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule for claiming respective deduction
+  - 2025-26: Assessee having status as HUF is not eligible to fill any schedule out of 10(13A) Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule for claiming respective deduction
+  - diff: Assessee having status as HUF is not eligible to fill any schedule out of ~~80CCC~~ **10(13A)** Schedule, 80E Schedule, 80EE Schedule, 80EEA Schedule or 80EEB Schedule for claiming respective deduction
+- **A-305 → A-336** (similarity 91.5)
+  - 2026-27: Assessee having status as Individual and opting new tax regime have filled any of the schedules amongst 80C schedule, 80E schedule, 80EE schedule, 80EEA schedule, 80EEB schedule or 10(13A)
+  - 2025-26: Assessee having status as Individual and opting new tax reime have filled any of the schedules amongst 80C schedule,10(13A) schedule, 80E schedule, 80EE schedule, 80EEA schedule or 80EEB schedule
+  - diff: Assessee having status as Individual and opting new tax ~~regime~~ **reime** have filled any of the schedules amongst 80C **schedule,10(13A)** schedule, 80E schedule, 80EE schedule, 80EEA ~~schedule,~~ **schedule or** 80EEB schedule ~~or 10(13A)~~
+- **A-306 → A-339** (similarity 99.30000305175781)
+  - 2026-27: Details such as name of the Insurer, Policy number, are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 1a (i)
+  - 2025-26: Details such as name of the Insurer, Policy number are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. 2a (i)
+  - diff: Details such as name of the Insurer, Policy ~~number,~~ **number** are required to be provided in schedule 80D to claim deduction for health insurance at sl. No. ~~1a~~ **2a** (i)
+- **A-321 → A-352** (similarity 91.0999984741211)
+  - 2026-27: Based on Response provided in A23, taxpayer shall response to the only one applicable question A23A or A23B.
+  - 2025-26: Based on Response provided in A23 , taxpayer shall response to the only one applicable question A23(a)(i) or A23(b)(i) or A23©(i).
+  - diff: Based on Response provided in ~~A23,~~ **A23 ,** taxpayer shall response to the only one applicable question ~~A23A~~ **A23(a)(i)** or ~~A23B.~~ **A23(b)(i) or A23©(i).**

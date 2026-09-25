@@ -1,0 +1,131 @@
+<!-- ITR-2: convert AY 2026-27 build -> AY 2025-26 -->
+### 4a. DISABLE — rules that exist only in 2026-27
+
+- **A-38** (p8): In Schedule Salary, at Sl. No. 1a- (Salary as per section 17(1) - Gratuity shall not be allowed against more than one Employer.
+- **A-39** (p8): In Schedule Salary, at Sl. No. 1a- (Salary as per section 17(1) - Commuted pension shall not be allowed against more than one Employer.
+- **A-151** (p14): In Schedule CG, Sl. No. B10 should be equal to B10a1+ B10a2
+- **A-442** (p30): In schedule FSI tax relief available should be lower of tax paid outside India or Tax payable on such income under normal provisions in India
+- **A-494** (p33): Income claimed under the head Salaries in Part BTI should be equal to Income as per Schedule Salary (sum of all employers).
+- **A-495** (p33): Income claimed under the head House Property in Part B TI should be equal to Income as per Schedule HP.
+- **A-496** (p34): Income claimed in STCG chargeable @30%, should match with income mentioned at "Table E (STCG @30%) in Schedule CG"
+- **A-497** (p34): Income claimed in STCG is chargeable at applicable rate should match with income mentioned at "Table E (STCG at applicable rates) in Schedule CG" should be filled
+- **A-501** (p34): "Income chargeable to tax at special rate" is claimed at Schedule Part B TI should be consistent with income offered in, “Schedule OS"
+- **A-505** (p34): Gross Total Income should be equal to Total (Sl. No. 5) - Current year losses set off (Sl. No. 6) - brought forward losses set off (Sl. No. 8) in Schedule Part B TI.
+- **A-532** (p36): IFSC under "Bank Details" in Part BTTI, schedule 80G, schedule 80GGC should match with the RBI database
+- **A-570** (p38): Indexation should not be allowed in case of Non Residents.
+- **A-575** (p38): Value at field Ei6 should be equal to the sum of sl. No (B1g*+ B2e+ B3c*+ B4c* +B5e* + B6c* +B7c*+ B8e*+ B9*+ B10a1*+ B10a2* + B(A)
+- **A-576** (p38): Value at field Eviii should be equal to the sum of sl. No (B1g*+B2e+ B3c*+ B4c* + B5e* + B6c* + B7c*+ B8e*+ B9*+ B10a1*+ B10a2* + B(A)
+- **A-584** (p38): Sum of capital gains from all properties should be correctly reflected at B1g
+- **A-654** (p43): In Schedule PTI Col. 9 should be equal to output of Col 7-8
+- **A-655** (p43): In Schedule PTI, Sl. No. iia Short Term should be equal to sum of ai+aii
+- **A-657** (p43): In Schedule PTI, Sl. No. iii Other Sources should be equal to sum of a+b
+- **A-658** (p43): In Schedule PTI, Sl. No. iv Income claimed to be exempt should be equal to sum of a+b+c
+- **A-659** (p43): Deduction u/s 80CCH can be claimed if Nature of employment is 'Central Government' and age is from 17 years to 27 years as on 1st day of April of AY
+- **A-660** (p43): In Schedule CYLA, income is available for setoff of losses but house property loss is not fully setoff
+- **A-661** (p43): STCG @ 15 % - 111A & 115AD(1)(b)(ii) can only be entered once
+- **A-662** (p43): CGAS Bank Account details is not added in or is not matching with Bank Details in Schedule Part A General, with account type being CGAS
+- **A-663** (p43): Maximum amount of Rebate should be computed as per the provisions of section 87A.
+- **A-664** (p43): Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A-665** (p43): Aadhaar number in Part A general information schedule should match with Aadhaar number as per profile
+- **A-666** (p43): Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount
+- **A-667** (p43): Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount
+- **A-668** (p43): Eligible amount of deduction claimed u/s 80CCD(1) should not be more than user enterable amount
+- **A-669** (p43): Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount
+- **A-670** (p43): Eligible amount of deduction claimed u/s 80CCD(2) should not be more than user enterable amount
+- **A-671** (p43): Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount
+- **A-672** (p43): Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount
+- **A-673** (p44): Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount
+- **A-674** (p44): Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount
+- **A-675** (p44): Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount
+- **A-676** (p44): Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount
+- **A-677** (p44): Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount
+- **A-678** (p44): Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount
+- **A-679** (p44): Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount
+- **A-680** (p44): Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount
+- **A-681** (p44): Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount
+- **A-682** (p44): Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount
+- **A-683** (p44): Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount
+- **A-684** (p44): Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount
+- **A-685** (p44): Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount
+- **A-686** (p44): Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" can't be more than 0 is new tax regime is selected.
+- **A-687** (p44): In schedule 80G, Sl no A, If "contribution in other mode" is > 0, then details of such contribution are required
+- **A-688** (p44): In schedule 80G, Sl no. B, If "contribution in other mode" is > 0, then details of such contribution are required
+- **A-689** (p44): In schedule 80G, Sl. No. C, If "contribution in other mode" is > 0, then details of such contribution are required
+- **A-690** (p45): In schedule 80G, Sl No. D, If "contribution in other mode" is > 0, then details of such contribution are required
+- **A-691** (p45): Eligible amount of deduction claimed u/s 80QQB should not be more than user enterable amount
+- **A-692** (p45): Eligible amount of deduction claimed u/s 80RRB should not be more than user enterable amount
+- **A-693** (p45): In Schedule VI A, for deductions u/s 80CCC the sum of individual rows for "Amount " shall match with the "Amount of Payment" as per the field 80CCC.
+- **A-694** (p45): Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5lakh.
+- **A-695** (p45): Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5lakh.
+- **A-696** (p45): PAN of donee shall be mandatory in case donation amount is more than 0 in schedule 80G
+- **A-697** (p45): Name and PAN of the political party is necessary to claim deduction u/s 80GGC
+- **A-698** (p45): In Schedule EI, "Sec 10(2) Member’s share from HUF, drop-down cannot be selected more than one time under Other Exempt Income
+- **A-699** (p45): In Schedule EI, "10(4)(i)-Interest on specified bonds; NRE account interest", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-700** (p45): In Schedule EI, "10(4B)-Interest on specified savings certificates", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-701** (p45): In Schedule EI, "10(4C)-Interest on Rupee denominated bonds (specific window)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-702** (p45): In Schedule EI, "10(4E)-Non-deliverable forwards/ODI/OTC with IFSC OBU", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-703** (p45): In Schedule EI, "10(4F)-Royalty/interest on lease of aircraft/ship by IFSC unit", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-704** (p45): In Schedule EI, "10(4G)-Portfolio income managed in IFSC OBU accruing outside India", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-705** (p45): In Schedule EI, "10(6B)-Tax paid under Govt/international agreements (non-salary)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-706** (p45): In Schedule EI, "10(6D)-Royalty/FTS to non-resident for services to NTRO", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-707** (p45): In Schedule EI, "10(10BB)-payments made under the Bhopal Gas Leak Disaster", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-708** (p46): In Schedule EI, "10(10BC)-amount from the Central/State Govt./local authority by way of compensation on account of any disaster", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-709** (p46): In Schedule EI, "10(10D)-Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub- clause (a) to (d) of Sec.10(10D)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-710** (p46): In Schedule EI, "10(11)-Statutory Provident Fund received", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-711** (p46): In Schedule EI, "10(11A)-Sum received from an account opened under the Sukanya Samriddhi Yojana", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-712** (p46): In Schedule EI, "10(12)-Recognized Provident Fund received", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-713** (p46): In Schedule EI, "10(12A)-Any payment from the National Pension System Trust to an assessee", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-714** (p46): In Schedule EI, "10(12A)-Any payment from the National Pension System Trust to an assessee", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-715** (p46): In Schedule EI, "10(12AA)-any payment from the National Pension System Trust ", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-716** (p46): In Schedule EI, "10(12AB)-any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-717** (p46): In Schedule EI, "10(12B)-Any payment from the National Pension System Trust to a Central Govt. Employee", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-718** (p46): In Schedule EI, "10(12BA)-partial withdrawal made from the National Pension System", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-719** (p46): In Schedule EI, "10(12C)-Agniveer Corpus Fund income", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-720** (p46): In Schedule EI, "10(13)-Approved superannuation fund received", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-721** (p46): In Schedule EI, "10(15)-Interest on specified securities/investments", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-722** (p47): In Schedule EI, "10(16)-Scholarships for education", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-723** (p47): In Schedule EI, "10(17A)-Award instituted by Government", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-724** (p47): In Schedule EI, "10(18)-Pension received by winner of "Param Vir Chakra" or "Maha Vir Chakra" or "Vir Chakra" or such other gallantry award", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-725** (p47): In Schedule EI, "10(19)-Armed Forces Family pension in case of death during operational duty", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-726** (p47): In Schedule EI, "10(19A)-Annual value of one palace in occupation of ex-ruler", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-727** (p47): In Schedule EI, "10(23AA)-Sum received by any person on behalf of any Fund established by the armed forces", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-728** (p47): In Schedule EI, "10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-729** (p47): In Schedule EI, "10(23FBC) Any income from a unit holder from a specified fund or on transfer of units in a specified fund", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-730** (p47): In Schedule EI, "10(23FD) Unit holder income from Business Trust (certain parts)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-731** (p47): In Schedule EI, "10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension funds", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-732** (p47): In Schedule EI, "10(26)-Any income as referred to in section 10(26)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-733** (p47): In Schedule EI, "10(26AAA)-Any income as referred to in section 10(26AAA)", drop- down cannot be selected more than one time under Other Exempt Income
+- **A-734** (p47): In Schedule EI, "10(30)-subsidy received from or through the Tea Board", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-735** (p47): In Schedule EI, "10(31)-Subsidy received for Rubber/Coffee/Tea replantation, replacement, rejuvenation etc.", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-736** (p47): In Schedule EI, "10(32)-Minor child’s income—small exemption", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-737** (p48): In Schedule EI, "10(33) Income from transfer of capital asset being a unit of the Unit Scheme, 1964", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-738** (p48): In Schedule EI, "10(35)-Income from specified Mutual Funds ", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-739** (p48): In Schedule EI, "10(35A)-distributed income referred to in section 115TA received from a securitization trust", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-740** (p48): In Schedule EI, "10(36)-LTCG on certain listed shares (public issue)", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-741** (p48): In Schedule EI, "10(37) Capital gains on compulsory acquisition of urban agricultural land", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-742** (p48): In Schedule EI, "10(37A)-any income chargeable under the head "Capital gains" in respect of transfer of a specified capital asset", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-743** (p48): In Schedule EI, "10(43)-Reverse mortgage—payments to senior citizens", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-744** (p48): In Schedule EI, "10(44)-Income received by any person for, or on behalf of, the New Pension System Trust", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-745** (p48): In Schedule EI, "Defence Medical Disability Pension", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-746** (p48): Schedule FA has to be filled if SL.no.19 of Part B-TTI is selected as "Yes"
+- **A-747** (p48): In Part A General, Email id and contact no of the representative assessee should not match with email id (primary and secondary) and contact no (primary and secondary) of taxpayer.
+- **A-748** (p48): In Schedule CFL, value at sl.no.xii should be equal to ix-x+xi. If result is negative, restrict to "0"
+- **A-749** (p48): In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year
+- **A-750** (p48): In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of financial year
+- **A-751** (p48): In Schedule HP, if "Is property co-owned" is selected as Yes, then Assessee’s percentage of share in the Property(%) should be less than 100%
+- **A-752** (p48): In Schedule HP, if "Is property co-owned" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%
+- **A-753** (p49): In case of property is not Co-owned the assessee's share should be equal to 100%
+- **A-754** (p49): Deduction under section 115F shall be allowed only if the investment in the new specified asset or savings certificate is made within 6 months from the date of transfer of the original foreign exchange asset.
+- **A-755** (p49): In Schedule EI, "10(4)(ii)- NRE account interest", drop-down cannot be selected more than one time under Other Exempt Income
+- **A-756** (p49): If PRAN is entered but amount entered in 80CCD(1) and 80CCD(1B) is equal to 0
+- **A-757** (p49): "The amount of rent which cannot be realized" cannot be more than Gross rent received/ receivable/ lettable during the year
+- **A-758** (p49): If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for "Type of identifier", "Identifier No. and "Amount"
+- **A-759** (p49): If Old Tax Regime is selected and Deductions claimed under section 80EEA is greater than “Zero" and Deductions claimed under section 80EE is greater than “Zero"
+- **B/D-19** (p51): Form 10EE should be filed with the amount of Income claimed for relief from taxation u/s 89A.
+- **B/D-20** (p51): If S. No. 17-"Refund" in Part B-TTI is greater than 50 Crores then In Part A General, S. No. k "LEI Number" and "Valid up to date" is mandatorily to be given.
+- **B/D-21** (p51): FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No" if Form 10F is not there.
+- **B/D-22** (p51): TDS has been deducted and claimed u/s 194M, but ITR 2 has been filed.
+- **B/D-23** (p51): Linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023
+- **B/D-24** (p51): Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023
+- **B/D-25** (p51): In schedule CG B1, for all blocks, check computation of indexed cost of acquisition, if not equal to Cost of acquisition * CII of year of sale/ CII of year of acquisition. Please ensure correct computation of Indexed cost of acquisition in Schedule CG
+- **B/D-26** (p51): Current year losses (STCL & LTCL) should not be more than ZERO if return is filed under 139(4)

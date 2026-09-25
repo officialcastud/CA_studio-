@@ -1,0 +1,93 @@
+<!-- ITR-4: convert AY 2026-27 build -> AY 2025-26 -->
+### 3a. REMOVE — present in 2026-27, absent in 2025-26
+
+- `FilingStatus.AssYrF10IEANewTaxReg`
+- `FilingStatus.AssesseeRep.CountryCodeRepMobileNo`
+- `FilingStatus.AssesseeRep.RepEmailID`
+- `FilingStatus.AssesseeRep.RepMobileNo`
+- `FilingStatus.F10IEAAckNoCurrAYNewTax`
+- `FilingStatus.F10IEAAckNoCurrAYOldTax`
+- `FilingStatus.F10IEACurrAYNewRegime`
+- `FilingStatus.F10IEACurrAYOldRegime`
+- `FilingStatus.F10IEADateCurrAYNewTax`
+- `FilingStatus.F10IEADateCurrAYOldTax`
+- `FilingStatus.F10IEAEarlierAYNewRegime`
+- `FilingStatus.Form10IEAAssYear`
+- `FilingStatus.Form10IEAEarlierAYAckNewRegime`
+- `FilingStatus.Form10IEAEarlierAYAckOldRegime`
+- `FilingStatus.Form10IEAEarlierAYOldRegime`
+- **`IncomeDeductions.PropertyDetails[]`** (whole block, 41 fields)
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.AddrDetail`
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.CityOrTownOrDistrict`
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.CountryCode`
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.PinCode`
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.StateCode`
+  - `IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.ZipCode`
+  - `IncomeDeductions.PropertyDetails[].AsseseeShareProperty`
+  - `IncomeDeductions.PropertyDetails[].CoOwners[].Aadhaar_CoOwner`
+  - `IncomeDeductions.PropertyDetails[].CoOwners[].CoOwnersSNo`
+  - `IncomeDeductions.PropertyDetails[].CoOwners[].NameCoOwner`
+  - `IncomeDeductions.PropertyDetails[].CoOwners[].PAN_CoOwner`
+  - `IncomeDeductions.PropertyDetails[].CoOwners[].PercentShareProperty`
+  - `IncomeDeductions.PropertyDetails[].HPSNo`
+  - `IncomeDeductions.PropertyDetails[].PropCoOwnedFlg`
+  - `IncomeDeductions.PropertyDetails[].PropertyOwner`
+  - `IncomeDeductions.PropertyDetails[].PropertyOwnerOther`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.AnnualLetableValue`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.AnnualOfPropOwned`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.ArrearsUnrealizedRentRcvd`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.BalanceALV`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.IncomeOfHP`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.IntOnBorwCap`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.LocalTaxes`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.RentNotRealized`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].BankOrInstnName`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].DateofLoan`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].InterestUs24B`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanAccNoOfBankOrInstnRefNo`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanOutstndngAmt`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanTknFrom`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].TotalLoanAmt`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.TotalInterestUs24B`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.ThirtyPercentOfBalance`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.TotalDeduct`
+  - `IncomeDeductions.PropertyDetails[].Rentdetails.TotalUnrealizedAndTax`
+  - `IncomeDeductions.PropertyDetails[].TenantDetails[].AadhaarofTenant`
+  - `IncomeDeductions.PropertyDetails[].TenantDetails[].NameofTenant`
+  - `IncomeDeductions.PropertyDetails[].TenantDetails[].PANTANofTenant`
+  - `IncomeDeductions.PropertyDetails[].TenantDetails[].PANofTenant`
+  - `IncomeDeductions.PropertyDetails[].TenantDetails[].TenantSNo`
+  - `IncomeDeductions.PropertyDetails[].ifLetOut`
+- `IncomeDeductions.TotalIncomeChargeableUnHP`
+- **`IncomeDeductions.UsrDeductUndChapVIA.PRANDtls[]`** (whole block, 1 fields)
+  - `IncomeDeductions.UsrDeductUndChapVIA.PRANDtls[].PRANNum`
+- **`IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[]`** (whole block, 3 fields)
+  - `IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].Amount`
+  - `IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].NameofIdentifier`
+  - `IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].TypeofIdentifier`
+- **`PersonalInfo.AlternateAddress`** (whole block, 9 fields)
+  - `PersonalInfo.AlternateAddress.CityOrTownOrDistrict`
+  - `PersonalInfo.AlternateAddress.CountryCode`
+  - `PersonalInfo.AlternateAddress.LocalityOrArea`
+  - `PersonalInfo.AlternateAddress.PinCode`
+  - `PersonalInfo.AlternateAddress.ResidenceName`
+  - `PersonalInfo.AlternateAddress.ResidenceNo`
+  - `PersonalInfo.AlternateAddress.RoadOrStreet`
+  - `PersonalInfo.AlternateAddress.StateCode`
+  - `PersonalInfo.AlternateAddress.ZipCode`
+- `PersonalInfo.SecondaryAdd`
+- `Schedule80G.Don100Percent.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don100Percent.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don100PercentApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don100PercentApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don50PercentApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don50PercentApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyName`
+- `Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyPAN`
+- `ScheduleBP.FinanclPartclrOfBusiness.Investments`
+- `TaxComputation.IntrstPay.FeeFurnish234I`
+- `TaxExmpIntIncDtls.OthersInc.OthersIncDtls[].Category`
+- `TaxExmpIntIncDtls.OthersInc.OthersIncDtls[].Description`
+- `TaxExmpIntIncDtls.OthersInc.OthersIncDtls[].SubCategory`

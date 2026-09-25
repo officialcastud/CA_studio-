@@ -1,0 +1,110 @@
+<!-- ITR-3: convert AY 2026-27 build -> AY 2025-26 -->
+### 3a. REMOVE — present in 2026-27, absent in 2025-26
+
+- `ITR3ScheduleBP.BusinessIncOthThanSpec.DeemedProfitBusUs.Section44BBD`
+- `ITR3ScheduleBP.BusinessIncOthThanSpec.IncCredPLNotChargable`
+- `ITR3ScheduleBP.BusinessIncOthThanSpec.ProfitLossInclRefrdSec.ProfitLossUs44BBD`
+- `PARTA_OI.InterestDisAllowUs23SMEAct`
+- `PARTA_PL.CreditsToPL.OthIncome.AmtofInterest`
+- `PARTA_PL.CreditsToPL.OthIncome.AmtofRem`
+- **`PARTA_PL.NonResidentPL`** (whole block, 2 fields)
+  - `PARTA_PL.NonResidentPL.GrossReceipt`
+  - `PARTA_PL.NonResidentPL.NetProfit`
+- **`PARTA_PL.NonResidentPLDetails[]`** (whole block, 3 fields)
+  - `PARTA_PL.NonResidentPLDetails[].GrossReceipt`
+  - `PARTA_PL.NonResidentPLDetails[].NetProfit`
+  - `PARTA_PL.NonResidentPLDetails[].Section`
+- `PartA_GEN1.FilingStatus.AssYrF10IEANewTaxReg`
+- `PartA_GEN1.FilingStatus.AssesseeRep.CountryCodeRepMobileNo`
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepEmailID`
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepMobileNo`
+- `PartA_GEN1.FilingStatus.F10IEAAckNoCurrAYNewTax`
+- `PartA_GEN1.FilingStatus.F10IEAAckNoCurrAYOldTax`
+- `PartA_GEN1.FilingStatus.F10IEACurrAYNewRegime`
+- `PartA_GEN1.FilingStatus.F10IEACurrAYOldRegime`
+- `PartA_GEN1.FilingStatus.F10IEADateCurrAYNewTax`
+- `PartA_GEN1.FilingStatus.F10IEADateCurrAYOldTax`
+- `PartA_GEN1.FilingStatus.F10IEAEarlierAYNewRegime`
+- `PartA_GEN1.FilingStatus.Form10IEAAssYear`
+- `PartA_GEN1.FilingStatus.Form10IEAEarlierAYAckNewRegime`
+- `PartA_GEN1.FilingStatus.Form10IEAEarlierAYAckOldRegime`
+- `PartA_GEN1.FilingStatus.Form10IEAEarlierAYOldRegime`
+- `PartA_GEN1.FilingStatus.IncFrmBusOrProf`
+- `PartA_GEN1.FilingStatus.OptOldRegimeCurrAY`
+- **`PartA_GEN1.PersonalInfo.AlternateAddress`** (whole block, 9 fields)
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.CityOrTownOrDistrict`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.CountryCode`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.LocalityOrArea`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.PinCode`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.ResidenceName`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.ResidenceNo`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.RoadOrStreet`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.StateCode`
+  - `PartA_GEN1.PersonalInfo.AlternateAddress.ZipCode`
+- `PartA_GEN1.PersonalInfo.SecondaryAdd`
+- `PartB_TTI.ComputationOfTaxLiability.IntrstPay.FeeFurnish234I`
+- `Schedule80G.Don100Percent.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don100Percent.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don100PercentApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don100PercentApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don50PercentApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don50PercentApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].IFSCCode`
+- `Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].TransactionRefNum`
+- `Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyName`
+- `Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyPAN`
+- `ScheduleBFLA.EditAutopoulatedDetail`
+- **`ScheduleCFL.LossCFCurrentAssmntYear2026`** (whole block, 10 fields)
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.AdjustAccTax115BACAmt`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.BrtFwdBusLoss`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.BusLossOthThanSpecLossCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.DateOfFiling`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.LossFrmSpecBusCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.LossFrmSpecifiedBusCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.OthSrcLossRaceHorseCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.TotalHPPTILossCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.TotalLTCGPTILossCF`
+  - `ScheduleCFL.LossCFCurrentAssmntYear2026.CarryFwdLossDetail.TotalSTCGPTILossCF`
+- `ScheduleCGFor23.EditAutopoulatedDetail`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].BalanceCG`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].CapgainonAssets`
+- **`ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductSec48`** (whole block, 4 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductSec48.AquisitCost`
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductSec48.ExpOnTrans`
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductSec48.ImproveCost`
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductSec48.TotalDedn`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].DeductionUs54F`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].FairMrktValueUnqshr`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].FullConsideration`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].FullValueConsdOthUnqshr`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].FullValueConsdRecvUnqshr`
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].FullValueConsdSec50CA`
+- `ScheduleCYLA.EditAutopoulatedDetail`
+- `ScheduleEI.OthersInc.OthersIncDtls[].Category`
+- `ScheduleEI.OthersInc.OthersIncDtls[].Description`
+- `ScheduleEI.OthersInc.OthersIncDtls[].SubCategory`
+- **`ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls`** (whole block, 5 fields)
+  - `ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls.CeasedEmployee`
+  - `ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls.DateOfCeasing`
+  - `ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls.ScheduleESOPEventDtlsType[].Date`
+  - `ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls.ScheduleESOPEventDtlsType[].TaxAttributedAmt`
+  - `ScheduleESOP.ScheduleESOP2526_Type.ScheduleESOPEventDtls.SecurityType`
+- `ScheduleESOP.ScheduleESOP2526_Type.TaxDeferredBFEarlierAY`
+- `ScheduleESOP.ScheduleESOP2526_Type.TaxPayableCurrentAY`
+- `ScheduleESOP.ScheduleESOP2526_Type.TotalTaxAttributedAmt25`
+- **`ScheduleESOP.ScheduleESOP2627_Type`** (whole block, 2 fields)
+  - `ScheduleESOP.ScheduleESOP2627_Type.AssessmentYear`
+  - `ScheduleESOP.ScheduleESOP2627_Type.BalanceTaxCF`
+- `ScheduleIF.PartnerFirmDetails[].IntrstAmtDueOrRecv`
+- `ScheduleIF.PartnerFirmDetails[].RemunernAmtDueOrRecv`
+- `ScheduleIF.TotalIntrstAmtDueOrRecv`
+- `ScheduleIF.TotalRemunernAmtDueOrRecv`
+- `ScheduleSI.EditAutopoulatedDetail`
+- **`ScheduleVIA.UsrDeductUndChapVIA.PRANDtls[]`** (whole block, 1 fields)
+  - `ScheduleVIA.UsrDeductUndChapVIA.PRANDtls[].PRANNum`
+- **`ScheduleVIA.UsrDeductUndChapVIA.PensionContribution80CCC[]`** (whole block, 3 fields)
+  - `ScheduleVIA.UsrDeductUndChapVIA.PensionContribution80CCC[].Amount`
+  - `ScheduleVIA.UsrDeductUndChapVIA.PensionContribution80CCC[].NameofIdentifier`
+  - `ScheduleVIA.UsrDeductUndChapVIA.PensionContribution80CCC[].TypeofIdentifier`
+- `TradingAccount.IncomeFutureTrd`
+- `TradingAccount.TurnoverFutureTrd`

@@ -1,0 +1,387 @@
+<!-- ITR-3: convert AY 2026-27 build -> AY 2025-26 -->
+### 3b. ADD — required by 2025-26 schema
+
+- `PARTA_PL.CreditsToPL.OthIncome.Otherincomenotturnover` — type=integer, maximum=99999999999999
+- **`PartA_139_8A`** (whole block, 17 fields)
+  - `PartA_139_8A.AadhaarCardNo` — type=string, pattern=[0-9]{12}
+  - `PartA_139_8A.Applicable_139_8A.AcknowledgementNo` — type=string, maxLength=15, pattern=[0-9]{15}, REQUIRED
+  - `PartA_139_8A.Applicable_139_8A.ITRForm` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['ITR1', 'ITR2', 'ITR3', 'ITR4', 'ITR5', 'ITR6', 'ITR7']
+  - `PartA_139_8A.Applicable_139_8A.OrigRetFiledDate` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])), REQUIRED
+  - `PartA_139_8A.AssessmentYear` — type=string, pattern=2025, REQUIRED
+  - `PartA_139_8A.ITRFormUpdatingInc` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['ITR3'], REQUIRED
+  - `PartA_139_8A.LaidOutIn_139_8A` — type=string, pattern=Y|N, REQUIRED
+  - `PartA_139_8A.Name` — type=string, maxLength=125, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), REQUIRED
+  - `PartA_139_8A.PAN` — type=string, pattern=[A-Z]{5}[0-9]{4}[A-Z], REQUIRED
+  - `PartA_139_8A.PreviouslyFiledForThisAY` — type=string, pattern=Y|N, REQUIRED
+  - `PartA_139_8A.PreviouslyFiledForThisAY_139_8A` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['1', '2']
+  - `PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].RevisedReturnFile` — type=string, pattern=Y|N
+  - `PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].UnabsorbedDepreciationYear` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['2026', '2027'], REQUIRED
+  - `PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].UpdatedReturnFile` — type=string, pattern=Y|N
+  - `PartA_139_8A.RetrntoRedCarriedFL.UnabsorbedDepreciation` — type=string, pattern=Y|N, REQUIRED
+  - `PartA_139_8A.UpdatedReturnDuringPeriod` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['1', '2', '3', '4'], REQUIRED
+  - `PartA_139_8A.UpdatingInc.ReasonsForUpdatingIncDtls[].ReasonsForUpdatingIncome` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['1', '2', '3', '4', '5', '6', '7', 'OTH'], REQUIRED
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepAadhaar` — type=string, pattern=[0-9]{12}
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepAddress` — type=string, minLength=1, maxLength=250, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), REQUIRED
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepCapacity` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['L', 'M', 'G', 'O']  
+  _L - Legal Heir; M - Manager; G - Guardian; O - Other_
+- `PartA_GEN1.FilingStatus.AssesseeRep.RepPAN` — type=string, pattern=[A-Z]{5}[0-9]{4}[A-Z]
+- `PartA_GEN1.FilingStatus.Form10IEAAckNo` — type=integer, minimum=100000000000000, maximum=999999999999999  
+  _Acknowledgement number of Form 10IEA filed for AY 2025-26_
+- `PartA_GEN1.FilingStatus.Form10IEAAckNo_AY24_25` — type=integer, minimum=100000000000000, maximum=999999999999999
+- `PartA_GEN1.FilingStatus.Form10IEADate` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))  
+  _Form 10IEA filing date for AY 2025-26 in YYYY-MM-DD format_
+- `PartA_GEN1.FilingStatus.Form10IEADate_AY24_25` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))  
+  _Form 10IEA filing date in YYYY-MM-DD format_
+- `PartA_GEN1.FilingStatus.NA_OptOutNewTaxReg` — type=string, enum=['Y', 'N']  
+  _Y : Yes, N : No_
+- `PartA_GEN1.FilingStatus.No_OptOutNewTaxReg` — type=string, enum=['Y', 'N']  
+  _Y : Yes, N : No_
+- `PartA_GEN1.FilingStatus.OptOutNewTaxRegime_Form10IEA_AY24_25` — type=string, enum=['Y', 'N', 'NA']  
+  _Y : Yes, N : No, NA : Not applicable_
+- `PartA_GEN1.FilingStatus.OptOutNewTaxRegime_Method` — type=string, enum=['BY10IEA', 'OPTINRETURN'], REQUIRED  
+  _BY10IEA : by filing 10IEA; OPTINRETURN: by exercising the option in the return of income only_
+- `PartA_GEN1.FilingStatus.SetOptOutNewTaxReg` — type=string, enum=['Y', 'N']  
+  _Y : Yes, N : No_
+- `PartA_GEN1.FilingStatus.Yes_ContOptOutNewTaxReg` — type=string, enum=['Y', 'N']  
+  _Y : Yes, N : No_
+- `PartA_GEN2.AuditInfo.AudFrmRegNo` — type=string, maxLength=8, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*)
+- `PartA_GEN2.AuditInfo.AuditDate` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))  
+  _Date in format YYYY-MM-DD on or after 2025-04-01_
+- `PartA_GEN2.AuditInfo.AuditorMemNo` — type=string, pattern=\d\d\d\d\d\d
+- `PartA_GEN2.AuditInfo.AuditorName` — type=string, maxLength=125, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*)
+- `PartA_GEN2.AuditInfo.UDIN` — type=string, minLength=18, maxLength=18, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*)
+- **`PartB-ATI`** (whole block, 34 fields)
+  - `PartB-ATI.AddtnlIncTax` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.AggrLiabilityNoRefund` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.AggrLiabilityRefund` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.AmtPayable` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.AmtRefundable` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.FeeIncUS234F` — type=integer, minimum=0, maximum=5000, REQUIRED
+  - `PartB-ATI.HeadOfInc.IncomeFromBP` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.HeadOfInc.IncomeFromCG` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.HeadOfInc.IncomeFromHP` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.HeadOfInc.IncomeFromOS` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.HeadOfInc.Salaries` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.HeadOfInc.Total` — type=integer, minimum=-99999999999999, maximum=99999999999999
+  - `PartB-ATI.LastAmtPayable` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.LatestTotInc` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.NetPayable` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.Refund` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.RegAssessementTAX` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.ReleifUS89` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.ScheduleIT1.TaxPayment1.TaxPayments[].Amt` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.ScheduleIT1.TaxPayment1.TaxPayments[].BSRCode` — type=string, pattern=[0-9]{3}[0-9A-Z]{4}, REQUIRED
+  - `PartB-ATI.ScheduleIT1.TaxPayment1.TaxPayments[].DateDep` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])), REQUIRED
+  - `PartB-ATI.ScheduleIT1.TaxPayment1.TaxPayments[].SrlNoOfChaln` — type=integer, minimum=0, maximum=99999, REQUIRED
+  - `PartB-ATI.ScheduleIT1.TaxPayment1.TaxPayments[].slno` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.ScheduleIT1.Total` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.ScheduleIT2.TaxPayment2.TaxPayments[].Amt` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.ScheduleIT2.TaxPayment2.TaxPayments[].BSRCode` — type=string, pattern=[0-9]{3}[0-9A-Z]{4}, REQUIRED
+  - `PartB-ATI.ScheduleIT2.TaxPayment2.TaxPayments[].DateDep` — type=string, pattern=([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])), REQUIRED
+  - `PartB-ATI.ScheduleIT2.TaxPayment2.TaxPayments[].SrlNoOfChaln` — type=integer, minimum=0, maximum=99999, REQUIRED
+  - `PartB-ATI.ScheduleIT2.TaxPayment2.TaxPayments[].slno` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.ScheduleIT2.Total` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.TaxDue10_11` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.TaxUS140B` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `PartB-ATI.TotRefund` — type=integer, minimum=0, maximum=99999999999999
+  - `PartB-ATI.UpdatedTotInc` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `PartB-TI.CapGain.LongTerm.LongTerm10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `PartB-TI.CapGain.LongTerm.LongTerm20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `PartB-TI.CapGain.ShortTerm.ShortTerm15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED  
+  _Schedule CG_
+- `Schedule112A.Balance112AAE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `Schedule112A.Balance112ABE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `Schedule112A.Schedule112ADtls[].ShareTransferredOnOrBefore` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['BE', 'AE'], REQUIRED  
+  _BE - Before 23rd July 2024; AE - On or after 23rd July 2024_
+- `Schedule112A.TotalBalance112A` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `Schedule115AD.Balance115ADAE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `Schedule115AD.Balance115ADBE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `Schedule115AD.Schedule115ADDtls[].ShareTransferredOnOrBefore` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['BE', 'AE'], REQUIRED  
+  _BE - Before 23rd July 2024; AE - On or after 23rd July 2024_
+- `Schedule115AD.TotalBalance115AD` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- **`ScheduleBFLA.LTCG10Per`** (whole block, 5 fields)
+  - `ScheduleBFLA.LTCG10Per.IncBFLA.BFAllUs35Cl4Setoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG10Per.IncBFLA.BFUnabsorbedDeprSetoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG10Per.IncBFLA.BFlossPrevYrUndSameHeadSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleBFLA.LTCG10Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG10Per.IncBFLA.IncOfCurYrUndHeadFromCYLA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleBFLA.LTCG20Per`** (whole block, 5 fields)
+  - `ScheduleBFLA.LTCG20Per.IncBFLA.BFAllUs35Cl4Setoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG20Per.IncBFLA.BFUnabsorbedDeprSetoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG20Per.IncBFLA.BFlossPrevYrUndSameHeadSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleBFLA.LTCG20Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.LTCG20Per.IncBFLA.IncOfCurYrUndHeadFromCYLA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleBFLA.STCG15Per`** (whole block, 5 fields)
+  - `ScheduleBFLA.STCG15Per.IncBFLA.BFAllUs35Cl4Setoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.STCG15Per.IncBFLA.BFUnabsorbedDeprSetoff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.STCG15Per.IncBFLA.BFlossPrevYrUndSameHeadSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleBFLA.STCG15Per.IncBFLA.IncOfCurYrAfterSetOffBFLosses` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleBFLA.STCG15Per.IncBFLA.IncOfCurYrUndHeadFromCYLA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCFL.LossCFCurrentAssmntYear2022.CarryFwdLossDetail.LossFrmSpecBusCF` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFCurrentAssmntYear2022.CarryFwdLossDetail.OthSrcLossRaceHorseCF` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.AdjustAccTax115BACAmt` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.BrtFwdBusLoss` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.BusLossOthThanSpecLossCF` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.TotalHPPTILossCF` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.TotalLTCGPTILossCF` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCFL.LossCFFromPrev2ndYearFromAY.CarryFwdLossDetail.TotalSTCGPTILossCF` — type=integer, minimum=0, maximum=99999999999999
+- **`ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per`** (whole block, 5 fields)
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per.DateRange.Up16Of12To15Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per.DateRange.Up16Of3To31Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per.DateRange.Up16Of9To15Of12` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per.DateRange.Upto15Of6` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder10Per.DateRange.Upto15Of9` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per`** (whole block, 5 fields)
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per.DateRange.Up16Of12To15Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per.DateRange.Up16Of3To31Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per.DateRange.Up16Of9To15Of12` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per.DateRange.Upto15Of6` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.LongTermUnder20Per.DateRange.Upto15Of9` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per`** (whole block, 5 fields)
+  - `ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per.DateRange.Up16Of12To15Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per.DateRange.Up16Of3To31Of3` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per.DateRange.Up16Of9To15Of12` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per.DateRange.Upto15Of6` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.AccruOrRecOfCG.ShortTermUnder15Per.DateRange.Upto15Of9` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLossSetOff.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLossSetOff.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLossSetOff.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.CurrYrLosses.InLtcg10Per`** (whole block, 10 fields)
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.CurrYearIncome` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.CurrYrCapGain` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.LtclSetOff12_5Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.LtclSetOffDTAARate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.StclSetoff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.StclSetoff30Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.StclSetoffAppRate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg10Per.StclSetoffDTAARate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcg12_5Per.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcg12_5Per.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcg12_5Per.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.CurrYrLosses.InLtcg20Per`** (whole block, 10 fields)
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.CurrYearIncome` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.CurrYrCapGain` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.LtclSetOff12_5Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.LtclSetOffDTAARate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.StclSetoff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.StclSetoff30Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.StclSetoffAppRate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InLtcg20Per.StclSetoffDTAARate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcgDTAARate.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcgDTAARate.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InLtcgDTAARate.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.CurrYrLosses.InStcg15Per`** (whole block, 6 fields)
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.CurrYearIncome` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.CurrYrCapGain` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.StclSetoff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.StclSetoff30Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.StclSetoffAppRate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.CurrYrLosses.InStcg15Per.StclSetoffDTAARate` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InStcg20Per.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InStcg30Per.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InStcgAppRate.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.InStcgDTAARate.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.LossRemainSetOff.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.LossRemainSetOff.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.LossRemainSetOff.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.TotLossSetOff.LtclSetOff10Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.TotLossSetOff.LtclSetOff20Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.CurrYrLosses.TotLossSetOff.StclSetoff15Per` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.AmtDeemedLtcgTransferAE` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.AmtDeemedLtcgTransferBE` — type=integer, minimum=0, maximum=99999999999999
+- **`ScheduleCGFor23.LongTermCapGain23.CapitalLossBuyBackShares.CapitalLossBuyBackSharesDtls[]`** (whole block, 2 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.CapitalLossBuyBackShares.CapitalLossBuyBackSharesDtls[].Amount` — type=integer, minimum=-99999999999999, maximum=0, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.CapitalLossBuyBackShares.CapitalLossBuyBackSharesDtls[].Rate` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['LTL10', 'LTL12_5'], REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE`** (whole block, 12 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.FairMrktValueUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.FullValueConsdOthUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.FullValueConsdRecvUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_AE.FullValueConsdSec50CA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE`** (whole block, 12 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.FairMrktValueUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.FullValueConsdOthUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.FullValueConsdRecvUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec112and115Dtls[].NRIOnSec112and115Dtls_BE.FullValueConsdSec50CA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[]`** (whole block, 13 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].FairMrktValueUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].FullValueConsdOthUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].FullValueConsdRecvUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].FullValueConsdSec50CA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.NRIOnSec115ADDtls[].SectionCode` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['5ADiii'], REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIOnSec112and115.TotalNRIOnSec112and115` — type=integer, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.BalanceCGTransferAE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.BalanceCGTransferBE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.BalanceCGTransferBEListDb` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.DeductionUs54FTransferAE` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.DeductionUs54FTransferBE` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.DeductionUs54FTransferBEListDb` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.LTCGWithoutBenefitTransferAE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.LTCGWithoutBenefitTransferBE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRIProvisoSec48.LTCGWithoutBenefitTransferBEListDb` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.BalanceCGTransferAE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.BalanceCGTransferBE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.CapgainonAssetsTransferAE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.CapgainonAssetsTransferBE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.DeductionUs54FAE` — type=integer, minimum=0, maximum=100000000, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleOfEquityShareUs112A.DeductionUs54FBE` — type=integer, minimum=0, maximum=100000000, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.BalonSpeciAssetTransferAE` — type=integer, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.BalonSpeciAssetTransferBE` — type=integer, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.DednSpecAssetus115AE` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.DednSpecAssetus115BE` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.SaleonSpecAssetTransferAE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.NRISaleofForeignAsset.SaleonSpecAssetTransferBE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.PassThrIncNatureLTCG10Per` — type=integer  
+  _Pass Through Income/Loss in the nature of Long Term Capital Gain, chargeable @10% - under sections other than u/s. 112A_
+- `ScheduleCGFor23.LongTermCapGain23.PassThrIncNatureLTCG20Per` — type=integer
+- `ScheduleCGFor23.LongTermCapGain23.PassThrIncNatureLTCGUs112A` — type=integer, REQUIRED  
+  _Pass Through Income/Loss in the nature of Long Term Capital Gain, chargeable @10%_
+- `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE`** (whole block, 16 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.BalanceCGForExcess` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.CapgainonAssetsForExcess` — type=integer, minimum=0, maximum=9999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.AquisitCostIndexed` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.ImproveCostIndexed` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductSec48.TotalDednForExcess` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.ExcessTax` — type=integer, minimum=0, maximum=9999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.Tax_S1121P_10` — type=integer, minimum=0, maximum=9999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable[].Proviso112Applicabledtls_BE.Tax_S1121_20` — type=integer, minimum=0, maximum=9999999999999, REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA`** (whole block, 18 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112Applicabledtls_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.Proviso112Applicable_115ACA.Proviso112SectionCode` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['5ACA1b'], REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.BalanceCGTransferAE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.BalanceCGTransferBE` — type=integer, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.CapgainonAssetsTransferAE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.CapgainonAssetsTransferBE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.DeductionUs54FAE` — type=integer, minimum=0, maximum=100000000, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleOfEquityShareUs112A.DeductionUs54FBE` — type=integer, minimum=0, maximum=100000000, REQUIRED
+- **`ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE`** (whole block, 14 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.CapgainonAssets` — type=integer, maximum=99999999999999
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.ExemptionOrDednUs54.ExemptionGrandTotal` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls[].ExemptionAmount` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls[].ExemptionSecCode` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['54D', '54F', '54G', '54GA'], REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.FairMrktValueUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.FullValueConsdOthUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.FullValueConsdRecvUnqshr` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.SaleofAssetNA_BE.FullValueConsdSec50CA` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleofAssetNADtls.TotalCapgainonAssets` — type=integer, maximum=99999999999999
+- **`ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr`** (whole block, 8 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.DeductionUs54F` — type=integer, minimum=0, maximum=100000000, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SaleofBondsDebntr.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.SaleofLandBuild.TotalLTCGImmblPrprtyAE` — type=integer, minimum=-99999999999999, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.SaleofLandBuild.TotalLTCGImmblPrprtyBE` — type=integer, minimum=-99999999999999, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.CapgainonAssets_TOTSlump` — type=integer, maximum=99999999999999
+- **`ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE`** (whole block, 9 fields)
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.CapgainonAssets_BE` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.ExemptionOrDednUs54.ExemptionGrandTotal` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls[].ExemptionAmount` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.ExemptionOrDednUs54.ExemptionOrDednUs54Dtls[].ExemptionSecCode` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['54EC', '54F'], REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.FMV11UAEii` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.FMV11UAEiii` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.NetWorthOfDivision` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.LongTermCapGain23.SlumpSaleInLtcgDtls.SlumpSaleInLtcg_BE.SlumpBalance` — type=integer, REQUIRED
+- `ScheduleCGFor23.LongTermCapGain23.TotalAmtDeemedLtcgTransferAE` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.TotalAmtDeemedLtcgTransferBE` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleCGFor23.LongTermCapGain23.UnutilizedCg.UnutilizedCgPrvYrDtls[].DateofWithdrawalBE` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['Y', 'N'], REQUIRED  
+  _Y - Yes; N - No_
+- **`ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE`** (whole block, 8 fields)
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.BalanceCG` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.CapgainonAssets` — type=integer, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.DeductSec48.AquisitCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.DeductSec48.ExpOnTrans` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.DeductSec48.ImproveCost` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.DeductSec48.TotalDedn` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.FullConsideration` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].EquityMFonSTTDtls_BE.LossSec94of7Or94of8` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.ShortTermCapGainFor23.EquityMFonSTT[].TotalCapGainonassets` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.ShortTermCapGainFor23.NRITransacSec48Dtl.NRItaxSTTPaidTransferAE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.ShortTermCapGainFor23.NRITransacSec48Dtl.NRItaxSTTPaidTransferBE` — type=integer, minimum=-99999999999999, maximum=99999999999999, REQUIRED
+- `ScheduleCGFor23.ShortTermCapGainFor23.PassThrIncNatureSTCG15Per` — type=integer, maximum=99999999999999
+- **`ScheduleCYLA.LTCG10Per`** (whole block, 5 fields)
+  - `ScheduleCYLA.LTCG10Per.IncCYLA.BusLossSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.LTCG10Per.IncCYLA.HPlossCurYrSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.LTCG10Per.IncCYLA.IncOfCurYrAfterSetOff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.LTCG10Per.IncCYLA.IncOfCurYrUnderThatHead` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.LTCG10Per.IncCYLA.OthSrcLossNoRaceHorseSetoff` — type=integer, minimum=0, maximum=99999999999999
+- **`ScheduleCYLA.LTCG20Per`** (whole block, 5 fields)
+  - `ScheduleCYLA.LTCG20Per.IncCYLA.BusLossSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.LTCG20Per.IncCYLA.HPlossCurYrSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.LTCG20Per.IncCYLA.IncOfCurYrAfterSetOff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.LTCG20Per.IncCYLA.IncOfCurYrUnderThatHead` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.LTCG20Per.IncCYLA.OthSrcLossNoRaceHorseSetoff` — type=integer, minimum=0, maximum=99999999999999
+- **`ScheduleCYLA.STCG15Per`** (whole block, 5 fields)
+  - `ScheduleCYLA.STCG15Per.IncCYLA.BusLossSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.STCG15Per.IncCYLA.HPlossCurYrSetoff` — type=integer, minimum=0, maximum=99999999999999
+  - `ScheduleCYLA.STCG15Per.IncCYLA.IncOfCurYrAfterSetOff` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.STCG15Per.IncCYLA.IncOfCurYrUnderThatHead` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+  - `ScheduleCYLA.STCG15Per.IncCYLA.OthSrcLossNoRaceHorseSetoff` — type=integer, minimum=0, maximum=99999999999999
+- `ScheduleEI.OthersInc.NatureofDescDivName` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['Dividend'], REQUIRED
+- `ScheduleEI.OthersInc.OthDividendAmt` — type=integer, minimum=0, maximum=99999999999999, REQUIRED
+- `ScheduleEI.OthersInc.OthersIncDtls[].NatureDesc` — type=string, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*), enum=['10(10BC)', '10(10D)', '10(11)', '10(12)', '10(12A)', '10(12B)', '10(12C)', '10(13)', '10(16)', '10(17)', '10(17A)', '10(18)', 'DMDP', '10(19)', '10(26)', '10(…], REQUIRED  
+  _10(10BC): Sec 10(10BC)-Any amount from the Central/State Govt./local authority by way of compensation on account of any disaster 10(10D) : Sec 10(10D)- Any sum received under a life insurance policy except mentioned in sub-clause (a) to (d) 10(11) : Sec 10(11)-Statuory Provident Fund received 10(12)_
+- `ScheduleEI.OthersInc.OthersIncDtls[].OthNatOfInc` — type=string, maxLength=50, pattern=|(\s*([\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&][\s\w\d_=!@#$%\^*\(\){}\[\]\|\\:;',\.\?/~`\-\+<>&]*)\s*)
+- `ScheduleVIA.UsrDeductUndChapVIA.PRANNum` — type=string, minLength=1, maxLength=125

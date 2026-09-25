@@ -1,0 +1,2708 @@
+{
+ "form": "ITR-1",
+ "from_ay": "2026-27",
+ "to_ay": "2025-26",
+ "schema": {
+  "stats": {
+   "src_fields": 448,
+   "dst_fields": 454,
+   "remove": 78,
+   "add": 84,
+   "changed": 9,
+   "description_only": 3
+  },
+  "remove": {
+   "ITR.ITR1.FilingStatus.AsseseeRepFlg": [
+    "ITR.ITR1.FilingStatus.AsseseeRepFlg"
+   ],
+   "ITR.ITR1.FilingStatus.AssesseeRep": [
+    "ITR.ITR1.FilingStatus.AssesseeRep.CountryCodeRepMobileNo",
+    "ITR.ITR1.FilingStatus.AssesseeRep.RepEmailID",
+    "ITR.ITR1.FilingStatus.AssesseeRep.RepMobileNo",
+    "ITR.ITR1.FilingStatus.AssesseeRep.RepName"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].Category": [
+    "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].Category"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].Description": [
+    "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].Description"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].SubCategory": [
+    "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].SubCategory"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[]": [
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.AddrDetail",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.CityOrTownOrDistrict",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.CountryCode",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.PinCode",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.StateCode",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AddressDetailWithZipCode.ZipCode",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].AsseseeShareProperty",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].CoOwners[].Aadhaar_CoOwner",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].CoOwners[].CoOwnersSNo",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].CoOwners[].NameCoOwner",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].CoOwners[].PAN_CoOwner",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].CoOwners[].PercentShareProperty",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].HPSNo",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].PropCoOwnedFlg",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].PropertyOwner",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].PropertyOwnerOther",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.AnnualLetableValue",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.AnnualOfPropOwned",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.ArrearsUnrealizedRentRcvd",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.BalanceALV",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.IncomeOfHP",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.IntOnBorwCap",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.LocalTaxes",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.RentNotRealized",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].BankOrInstnName",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].DateofLoan",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].InterestUs24B",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanAccNoOfBankOrInstnRefNo",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanOutstndngAmt",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].LoanTknFrom",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.Section24BDtls[].TotalLoanAmt",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.Section24B.TotalInterestUs24B",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.ThirtyPercentOfBalance",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.TotalDeduct",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].Rentdetails.TotalUnrealizedAndTax",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].TenantDetails[].AadhaarofTenant",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].TenantDetails[].NameofTenant",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].TenantDetails[].PANTANofTenant",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].TenantDetails[].PANofTenant",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].TenantDetails[].TenantSNo",
+    "ITR.ITR1.ITR1_IncomeDeductions.PropertyDetails[].ifLetOut"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.TotalIncomeChargeableUnHP": [
+    "ITR.ITR1.ITR1_IncomeDeductions.TotalIncomeChargeableUnHP"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PRANDtls[]": [
+    "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PRANDtls[].PRANNum"
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[]": [
+    "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].Amount",
+    "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].NameofIdentifier",
+    "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PensionContribution80CCC[].TypeofIdentifier"
+   ],
+   "ITR.ITR1.ITR1_TaxComputation.IntrstPay.FeeFurnish234I": [
+    "ITR.ITR1.ITR1_TaxComputation.IntrstPay.FeeFurnish234I"
+   ],
+   "ITR.ITR1.PersonalInfo.Address.CountryCodeMobileNoSec": [
+    "ITR.ITR1.PersonalInfo.Address.CountryCodeMobileNoSec"
+   ],
+   "ITR.ITR1.PersonalInfo.Address.EmailAddressSec": [
+    "ITR.ITR1.PersonalInfo.Address.EmailAddressSec"
+   ],
+   "ITR.ITR1.PersonalInfo.Address.MobileNoSec": [
+    "ITR.ITR1.PersonalInfo.Address.MobileNoSec"
+   ],
+   "ITR.ITR1.PersonalInfo.AlternateAddress": [
+    "ITR.ITR1.PersonalInfo.AlternateAddress.CityOrTownOrDistrict",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.CountryCode",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.LocalityOrArea",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.PinCode",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.ResidenceName",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.ResidenceNo",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.RoadOrStreet",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.StateCode",
+    "ITR.ITR1.PersonalInfo.AlternateAddress.ZipCode"
+   ],
+   "ITR.ITR1.PersonalInfo.SecondaryAdd": [
+    "ITR.ITR1.PersonalInfo.SecondaryAdd"
+   ],
+   "ITR.ITR1.Schedule80G.Don100Percent.DoneeWithPan[].IFSCCode": [
+    "ITR.ITR1.Schedule80G.Don100Percent.DoneeWithPan[].IFSCCode"
+   ],
+   "ITR.ITR1.Schedule80G.Don100Percent.DoneeWithPan[].TransactionRefNum": [
+    "ITR.ITR1.Schedule80G.Don100Percent.DoneeWithPan[].TransactionRefNum"
+   ],
+   "ITR.ITR1.Schedule80G.Don100PercentApprReqd.DoneeWithPan[].IFSCCode": [
+    "ITR.ITR1.Schedule80G.Don100PercentApprReqd.DoneeWithPan[].IFSCCode"
+   ],
+   "ITR.ITR1.Schedule80G.Don100PercentApprReqd.DoneeWithPan[].TransactionRefNum": [
+    "ITR.ITR1.Schedule80G.Don100PercentApprReqd.DoneeWithPan[].TransactionRefNum"
+   ],
+   "ITR.ITR1.Schedule80G.Don50PercentApprReqd.DoneeWithPan[].IFSCCode": [
+    "ITR.ITR1.Schedule80G.Don50PercentApprReqd.DoneeWithPan[].IFSCCode"
+   ],
+   "ITR.ITR1.Schedule80G.Don50PercentApprReqd.DoneeWithPan[].TransactionRefNum": [
+    "ITR.ITR1.Schedule80G.Don50PercentApprReqd.DoneeWithPan[].TransactionRefNum"
+   ],
+   "ITR.ITR1.Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].IFSCCode": [
+    "ITR.ITR1.Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].IFSCCode"
+   ],
+   "ITR.ITR1.Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].TransactionRefNum": [
+    "ITR.ITR1.Schedule80G.Don50PercentNoApprReqd.DoneeWithPan[].TransactionRefNum"
+   ],
+   "ITR.ITR1.Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyName": [
+    "ITR.ITR1.Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyName"
+   ],
+   "ITR.ITR1.Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyPAN": [
+    "ITR.ITR1.Schedule80GGC.Schedule80GGCDetails[].PoliticalPartyPAN"
+   ]
+  },
+  "add": {
+   "ITR.ITR1.ITR1_IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls[].SalOthNatOfInc": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls[].SalOthNatOfInc",
+     "type": "string",
+     "maxLength": 125,
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.AnnualValue": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.AnnualValue",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ArrearsUnrealizedRentRcvd": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.ArrearsUnrealizedRentRcvd",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].NatureDesc": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].NatureDesc",
+     "type": "string",
+     "enum": [
+      "AGRI",
+      "10(10BC)",
+      "10(10D)",
+      "10(11)",
+      "10(12)",
+      "10(12C)",
+      "10(13)",
+      "10(16)",
+      "10(17)",
+      "10(17A)",
+      "10(18)",
+      "DMDP",
+      "10(19)",
+      "10(26)",
+      "10(26AAA)",
+      "OTH"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "AGRI : Agriculture Income (<= Rs.5000); 10(10BC): Sec 10(10BC)-Any amount from the Central/State Govt./local authority by way of compensation on account of any disaster; 10(10D) : Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D); 10(11) : Sec 10(11)-Statuory Provident Fund received; 10(12) : Sec 10(12)-Recognised Provident Fund received;10(12C) : Sec 10(12C)-Any payment from the Agniveer Corpus Fund to a person enrolled under the Agnipath Scheme, or to his nominee.; 10(13) : Sec 10(13)-Approved superannuation fund received; 10(16) : Sec 10(16)-Scholarships granted to meet the cost of education; 10(17) : Sec 10(17)-Allowance MP/MLA/MLC; 10(17A) : Sec 10(17A)-Award instituted by Government; 10(18) : Sec 10(18)-Pension received by winner of \"Param Vir Chakra\" or \"Maha Vir Chakra\" or \"Vir Chakra\" or such other gallantry award; DMDP : Defense medical disability pension; 10(19) : Sec 10(19)-Armed Forces Family pension in case of death during operational duty; 10(26) : Sec 10(26)-Any income as referred to in section 10(26); 10(26AAA): Sec 10(26AAA)-Any income as referred to in section 10(26AAA) ; OTH : Any Other",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].OthNatOfInc": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls[].OthNatOfInc",
+     "type": "string",
+     "maxLength": 125,
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.GrossRentReceived": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.GrossRentReceived",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotified89A": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotified89A",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotified89AType[]": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotified89AType[].NOT89AAmount",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotified89AType[].NOT89ACountrycode",
+     "type": "string",
+     "enum": [
+      "US",
+      "UK",
+      "CA"
+     ],
+     "description": "US - United States; UK - United Kingdom; CA - Canada",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotifiedOther89A": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.IncomeNotifiedOther89A",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.Increliefus89A": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.Increliefus89A",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.Increliefus89AOS": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.Increliefus89AOS",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.InterestPayable": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.InterestPayable",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc.DateRange.Up16Of12To15Of3",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc.DateRange.Up16Of3To31Of3",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc.DateRange.Up16Of9To15Of12",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc.DateRange.Upto15Of6",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89AInc.DateRange.Upto15Of9",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89A[]": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89A[].NOT89AAmount",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].NOT89A[].NOT89ACountrycode",
+     "type": "string",
+     "enum": [
+      "US",
+      "UK",
+      "CA"
+     ],
+     "description": "US - United States; UK - United Kingdom; CA - Canada",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.StandardDeduction": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.StandardDeduction",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "description": "This field refers to Part-B B2 iv - 30% of Annual Value",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.TaxPaidlocalAuth": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.TaxPaidlocalAuth",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.TotalIncomeOfHP": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.TotalIncomeOfHP",
+     "type": "integer",
+     "minimum": -200000,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "description": "House Property income",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.TypeOfHP": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.TypeOfHP",
+     "type": "string",
+     "pattern": "S|L|D",
+     "description": "House Property income Type - S:Self Occupied; L:Let Out; D:Deemed let out",
+     "required": false
+    }
+   ],
+   "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PRANNum": [
+    {
+     "path": "ITR.ITR1.ITR1_IncomeDeductions.UsrDeductUndChapVIA.PRANNum",
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 125,
+     "required": false
+    }
+   ],
+   "ITR.ITR1.PartA_139_8A": [
+    {
+     "path": "ITR.ITR1.PartA_139_8A.AadhaarCardNo",
+     "type": "string",
+     "pattern": "[0-9]{12}",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.Applicable_139_8A.AcknowledgementNo",
+     "type": "string",
+     "maxLength": 15,
+     "pattern": "[0-9]{15}",
+     "description": "Enter Acknowledgment No. of Original return",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.Applicable_139_8A.ITRForm",
+     "type": "string",
+     "enum": [
+      "ITR1",
+      "ITR2",
+      "ITR3",
+      "ITR4",
+      "ITR5",
+      "ITR6",
+      "ITR7"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "ITR1 - ITR1; ITR2 - ITR2; ITR3 - ITR3; ITR4 - ITR4; ITR5 - ITR5; ITR6 - ITR6; ITR7 - ITR7;",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.Applicable_139_8A.OrigRetFiledDate",
+     "type": "string",
+     "pattern": "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))",
+     "description": "Enter Date of filing of Original return in YYYY-MM-DD format",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.AssessmentYear",
+     "type": "string",
+     "pattern": "2025",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.ITRFormUpdatingInc",
+     "type": "string",
+     "enum": [
+      "ITR1"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "ITR1 - ITR1",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.LaidOutIn_139_8A",
+     "type": "string",
+     "pattern": "Y|N",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.Name",
+     "type": "string",
+     "maxLength": 125,
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.PAN",
+     "type": "string",
+     "pattern": "[A-Z]{5}[0-9]{4}[A-Z]",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.PreviouslyFiledForThisAY",
+     "type": "string",
+     "pattern": "Y|N",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.PreviouslyFiledForThisAY_139_8A",
+     "type": "string",
+     "enum": [
+      "1",
+      "2"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "1 - 139(1); 2 - Other",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].RevisedReturnFile",
+     "type": "string",
+     "pattern": "Y|N",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].UnabsorbedDepreciationYear",
+     "type": "string",
+     "enum": [
+      "2026",
+      "2027"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "2026; 2027",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.RetrntoRedCarriedFL.UDYear.UnabsorbedDepreciationYearDtls[].UpdatedReturnFile",
+     "type": "string",
+     "pattern": "Y|N",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.RetrntoRedCarriedFL.UnabsorbedDepreciation",
+     "type": "string",
+     "pattern": "Y|N",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.UpdatedReturnDuringPeriod",
+     "type": "string",
+     "enum": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "1 - Up to 12 months from the end of Relevant Assessment Year; 2 - Between 12 to 24 Months from the end of Relevant Assessment Year; 3 - Between 24 to 36 Months from the end of Relevant Assessment Year; 4 - Between 36 to 48 Months from the end of Relevant Assessment Year",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartA_139_8A.UpdatingInc.ReasonsForUpdatingIncDtls[].ReasonsForUpdatingIncome",
+     "type": "string",
+     "enum": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "OTH"
+     ],
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "description": "1 - Return previously not filed; 2 - Income not reported correctly; 3 - Wrong heads of income chosen; 4 - Reduction of carried forward loss; 5 - Reduction of unabsorbed depreciation; 6 - Reduction of tax credit u/s 115JB/115JC; 7 - Wrong rate of tax; OTH-Others",
+     "required": true
+    }
+   ],
+   "ITR.ITR1.PartB-ATI": [
+    {
+     "path": "ITR.ITR1.PartB-ATI.AddtnlIncTax",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.AggrLiabilityNoRefund",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.AggrLiabilityRefund",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.AmtPayable",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.AmtRefundable",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.FeeIncUS234F",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 5000,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.IncomeFromBP",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "description": "Income from Business or Profession",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.IncomeFromCG",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "description": "Income from Capital Gains",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.IncomeFromHP",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "description": "Income from house property",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.IncomeFromOS",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "description": "Income from Other Sources",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.Salaries",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "description": "Income from Salary",
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.HeadOfInc.Total",
+     "type": "integer",
+     "minimum": -99999999999999,
+     "maximum": 99999999999999,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.LastAmtPayable",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.LatestTotInc",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.NetPayable",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.Refund",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.RegAssessementTAX",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ReleifUS89",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.TaxPayment1.ITTaxPayments[].Amt",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.TaxPayment1.ITTaxPayments[].BSRCode",
+     "type": "string",
+     "pattern": "[0-9]{3}[0-9A-Z]{4}",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.TaxPayment1.ITTaxPayments[].DateDep",
+     "type": "string",
+     "pattern": "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))",
+     "description": "Date in YYYY-MM-DD format on or after 2022-04-01",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.TaxPayment1.ITTaxPayments[].SrlNoOfChaln",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.TaxPayment1.ITTaxPayments[].slno",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT1.Total",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.TaxPayment2.ITTaxPayments[].Amt",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.TaxPayment2.ITTaxPayments[].BSRCode",
+     "type": "string",
+     "pattern": "[0-9]{3}[0-9A-Z]{4}",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.TaxPayment2.ITTaxPayments[].DateDep",
+     "type": "string",
+     "pattern": "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))",
+     "description": "Date in YYYY-MM-DD format on or after 2022-04-01",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.TaxPayment2.ITTaxPayments[].SrlNoOfChaln",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.TaxPayment2.ITTaxPayments[].slno",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.ScheduleIT2.Total",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.TaxDue10_11",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.TaxUS140B",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.TotRefund",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": false
+    },
+    {
+     "path": "ITR.ITR1.PartB-ATI.UpdatedTotInc",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "required": true
+    }
+   ],
+   "ITR.ITR1.ScheduleUs24B": [
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].BankOrInstnName",
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 125,
+     "pattern": "|(\\s*([\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"][\\s\\w\\d_=!@#$%\\^*\\(\\){}\\[\\]\\|\\\\:;',\\.\\?/~`\\-\\+<>&\"]*)\\s*)",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].DateofLoan",
+     "type": "string",
+     "pattern": "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))",
+     "description": "Date in YYYY-MM-DD format",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].InterestUs24B",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].LoanAccNoOfBankOrInstnRefNo",
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 20,
+     "pattern": "[a-zA-Z0-9]([/-]?(((\\d*[1-9]\\d*)*[a-zA-Z/-])|(\\d*[1-9]\\d*[a-zA-Z]*))+)*[0-9]*",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].LoanOutstndngAmt",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].LoanTknFrom",
+     "type": "string",
+     "enum": [
+      "B",
+      "I"
+     ],
+     "description": "B: Bank, I: Other than Bank",
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.ScheduleUs24BDtls[].TotalLoanAmt",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    },
+    {
+     "path": "ITR.ITR1.ScheduleUs24B.TotalInterestUs24B",
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 99999999999999,
+     "exclusiveMinimum": false,
+     "default": 0,
+     "required": true
+    }
+   ]
+  },
+  "change": [
+   {
+    "path": "ITR.ITR1.FilingStatus.ItrFilingDueDate",
+    "diff": {
+     "pattern": {
+      "from": "2026-07-31",
+      "to": "2025-07-31"
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.FilingStatus.ReturnFileSec",
+    "diff": {
+     "description": {
+      "from": "11 : 139(1)-On or before due date, 12 : 139(4)-After due date, 13 : 142(1), 14 : 148, 16 : 153C, 17 : 139(5)-Revised , 18 : 139(9), 20 : 119(2)(b)-After condonation of delay",
+      "to": "11 : 139(1)-On or before due date, 12 : 139(4)-After due date, 13 : 142(1), 14 : 148, 16 : 153C, 17 : 139(5)-Revised , 18 : 139(9), 20 : 119(2)(b)-After condonation of delay, 21 : 139(8A)-Updated Return"
+     },
+     "enum": {
+      "remove_values": [],
+      "add_values": [
+       21
+      ]
+     },
+     "maximum": {
+      "from": 20,
+      "to": 21
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.Form_ITR1.AssessmentYear",
+    "diff": {
+     "pattern": {
+      "from": "2026",
+      "to": "2025"
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.ITR1_IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls[].SalNatureDesc",
+    "diff": {
+     "description": {
+      "from": "10(5) - Sec 10(5)-Leave Travel concession/assistance; 10(6) - Sec 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc.; 10(7) - Sec 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India; 10(10) - Sec 10(10)-Death-cum-retirement gratuity received ; 10(10A) - Sec 10(10A)-Commuted value of pension received; 10(10AA) - Sec 10(10AA)-Earned leave encashment on Retirement; 10(10B)(i) - Sec 10(10B)-First proviso - Compensation limit notified by CG in the Official Gazette; 10(10B)(ii) - Sec 10(10B)-Second proviso - Compensation under scheme approved by the Central Government; 10(10C) - Sec 10(10C)- Amount received/receivable on voluntary retirement or termination of service; 10(10CC) - Sec 10(10CC)-Tax paid by employer on non-monetary perquisite; 10(13A) - Sec 10(13A)-Allowance to meet expenditure incurred on house rent; 10(14)(i) - Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment; 10(14)(ii) - Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living. ; 10(14)(i)(115BAC) - Sec 10(14)(i) -Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB ; 10(14)(ii)(115BAC) - Sec 10(14)(ii) -Transport allowance granted to certain physically handicapped assessee ; EIC - Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules ; 10(17):Sec 10(17)- Allowance MP/MLA/MLC",
+      "to": "10(5) - Sec 10(5)-Leave Travel concession/assistance; 10(6) - Sec 10(6)-Remuneration received as an official, by whatever name called, of an embassy, high commission etc.; 10(7) - Sec 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India; 10(10) - Sec 10(10)-Death-cum-retirement gratuity received ; 10(10A) - Sec 10(10A)-Commuted value of pension received; 10(10AA) - Sec 10(10AA)-Earned leave encashment on Retirement; 10(10B)(i) - Sec 10(10B)-First proviso - Compensation limit notified by CG in the Official Gazette; 10(10B)(ii) - Sec 10(10B)-Second proviso - Compensation under scheme approved by the Central Government; 10(10C) - Sec 10(10C)- Amount received/receivable on voluntary retirement or termination of service; 10(10CC) - Sec 10(10CC)-Tax paid by employer on non-monetary perquisite; 10(13A) - Sec 10(13A)-Allowance to meet expenditure incurred on house rent; 10(14)(i) - Sec 10(14)(i)- Prescribed Allowances or benefits (not in a nature of perquisite) specifically granted to meet expenses wholly, necessarily and exclusively and to the extent actually incurred, in performance of duties of office or employment; 10(14)(ii) - Sec 10(14)(ii) -Prescribed Allowances or benefits granted to meet personal expenses in performance of duties of office or employment or to compensate him for increased cost of living. ; 10(14)(i)(115BAC) - Sec 10(14)(i) -Allowances referred in sub-clauses (a) to (c) of sub-rule (1) in Rule 2BB ; 10(14)(ii)(115BAC) - Sec 10(14)(ii) -Transport allowance granted to certain physically handicapped assessee ; EIC - Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules ; OTH - Any Other"
+     },
+     "enum": {
+      "remove_values": [
+       "10(17)"
+      ],
+      "add_values": [
+       "OTH"
+      ]
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc[].OthSrcNatureDesc",
+    "diff": {
+     "description": {
+      "from": "SAV : Interest from Saving Account; IFD : Interest from Deposit(Bank/Post Office/Cooperative Society); TAX : Interest from Income Tax Refund; FAP : Family pension; DIV : Dividend; 10(11)(iP) : Interest accrued on contributions to provident fund to the extent taxable as per first proviso to section 10(11); 10(11)(iiP) : Interest accrued on contributions to provident fund to the extent taxable as per second proviso to section 10(11); 10(12)(iP) : Interest accrued on contributions to provident fund to the extent taxable as per first proviso to section 10(12); 10(12)(iiP) : Interest accrued on contributions to provident fund to the extent taxable as per second proviso to section 10(12); OTH : Any Other",
+      "to": "SAV : Interest from Saving Account; IFD : Interest from Deposit(Bank/Post Office/Cooperative Society); TAX : Interest from Income Tax Refund; FAP : Family pension; DIV : Dividend; 10(11)(iP) : Interest accrued on contributions to provident fund to the extent taxable as per first proviso to section 10(11); 10(11)(iiP) : Interest accrued on contributions to provident fund to the extent taxable as per second proviso to section 10(11); 10(12)(iP) : Interest accrued on contributions to provident fund to the extent taxable as per first proviso to section 10(12); 10(12)(iiP) : Interest accrued on contributions to provident fund to the extent taxable as per second proviso to section 10(12); NOT89A : Income from retirement benefit account maintained in a notified country u/s 89A ; OTHNOT89A : Income from retirement benefit account maintained in a country other than a country notified u/s 89A ; OTH : Any Other"
+     },
+     "enum": {
+      "remove_values": [],
+      "add_values": [
+       "NOT89A",
+       "OTHNOT89A"
+      ]
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.ITR1_TaxComputation.Rebate87A",
+    "diff": {
+     "maximum": {
+      "from": 60000,
+      "to": 25000
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.ScheduleTCS.TCS[].CollectedYr",
+    "diff": {
+     "description": {
+      "from": "2025: 2025-26; 2024: 2024-25; 2023: 2023-24; 2022: 2022-23; 2021: 2021-22; 2020: 2020-21; 2019: 2019-20; 2018: 2018-19; 2017: 2017-18; 2016: 2016-17; 2015: 2015-16; 2014: 2014-15; 2013: 2013-14; 2012: 2012-13; 2011: 2011-12; 2010: 2010-11; 2009: 2009-10; 2008: 2008-09",
+      "to": "2024: 2024-25; 2023: 2023-24; 2022: 2022-23; 2021: 2021-22; 2020: 2020-21; 2019: 2019-20; 2018: 2018-19; 2017: 2017-18; 2016: 2016-17; 2015: 2015-16; 2014: 2014-15; 2013: 2013-14; 2012: 2012-13; 2011: 2011-12; 2010: 2010-11; 2009: 2009-10; 2008: 2008-09"
+     },
+     "enum": {
+      "remove_values": [
+       "2025"
+      ],
+      "add_values": []
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.ScheduleTDS3Dtls.TDS3Details[].DeductedYr",
+    "diff": {
+     "description": {
+      "from": "2025: 2025-26; 2024:2024-25; 2023:2023-24; 2022:2022-23; 2021:2021-22; 2020:2020-21; 2019:2019-20; 2018:2018-19; 2017:2017-18;",
+      "to": "2024:2024-25; 2023:2023-24; 2022:2022-23; 2021:2021-22; 2020:2020-21; 2019:2019-20; 2018:2018-19; 2017:2017-18;"
+     },
+     "enum": {
+      "remove_values": [
+       "2025"
+      ],
+      "add_values": []
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.TDSonOthThanSals.TDSonOthThanSal[].DeductedYr",
+    "diff": {
+     "description": {
+      "from": "2025: 2025-26; 2024: 2024-25; 2023: 2023-24; 2022: 2022-23; 2021: 2021-22; 2020: 2020-21; 2019: 2019-20; 2018: 2018-19; 2017: 2017-18; 2016: 2016-17; 2015: 2015-16; 2014: 2014-15; 2013: 2013-14; 2012: 2012-13; 2011: 2011-12; 2010: 2010-11; 2009: 2009-10; 2008: 2008-09",
+      "to": "2024: 2024-25; 2023: 2023-24; 2022: 2022-23; 2021: 2021-22; 2020: 2020-21; 2019: 2019-20; 2018: 2018-19; 2017: 2017-18; 2016: 2016-17; 2015: 2015-16; 2014: 2014-15; 2013: 2013-14; 2012: 2012-13; 2011: 2011-12; 2010: 2010-11; 2009: 2009-10; 2008: 2008-09"
+     },
+     "enum": {
+      "remove_values": [
+       "2025"
+      ],
+      "add_values": []
+     }
+    }
+   }
+  ],
+  "description_only": [
+   {
+    "path": "ITR.ITR1.PersonalInfo.DOB",
+    "diff": {
+     "description": {
+      "from": "Date of Birth of the Assessee format YYYY-MM-DD; maximum date allowed 2026-03-31",
+      "to": "Date of Birth of the Assessee format YYYY-MM-DD; maximum date allowed 2025-03-31"
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.PersonalInfo.EmployerCategory",
+    "diff": {
+     "description": {
+      "from": "CGOV:Central Government, SGOV:State Government, PSU:Public Sector Undertaking, PE:Pensioners - Central Government, PESG:Pensioners - State Government, PEPS:Pensioners - Public sector undertaking, PEO:Pensioners - Others, OTH:Others, NA:Not Applicable",
+      "to": "CGOV:Central Government, SGOV:State Government, PSU:Public Sector Unit, PE:Pensioners - Central Government, PESG:Pensioners - State Government, PEPS:Pensioners - Public sector undertaking, PEO:Pensioners - Others, OTH:Others, NA:Not Applicable"
+     }
+    }
+   },
+   {
+    "path": "ITR.ITR1.TaxPayments.TaxPayment[].DateDep",
+    "diff": {
+     "description": {
+      "from": "Date of deposit should be on or after 2025-04-01 in YYYY-MM-DD format",
+      "to": "Date of deposit should be on or after 2024-04-01 in YYYY-MM-DD format"
+     }
+    }
+   }
+  ],
+  "container_change": [],
+  "possible_renames": []
+ },
+ "rules": {
+  "unchanged": 228,
+  "renumbered": [
+   {
+    "src_id": "A-118",
+    "dst_id": "A-119"
+   },
+   {
+    "src_id": "A-119",
+    "dst_id": "A-120"
+   },
+   {
+    "src_id": "A-120",
+    "dst_id": "A-121"
+   },
+   {
+    "src_id": "A-121",
+    "dst_id": "A-122"
+   },
+   {
+    "src_id": "A-122",
+    "dst_id": "A-123"
+   },
+   {
+    "src_id": "A-123",
+    "dst_id": "A-124"
+   },
+   {
+    "src_id": "A-124",
+    "dst_id": "A-125"
+   },
+   {
+    "src_id": "A-125",
+    "dst_id": "A-126"
+   },
+   {
+    "src_id": "A-127",
+    "dst_id": "A-128"
+   },
+   {
+    "src_id": "A-128",
+    "dst_id": "A-129"
+   },
+   {
+    "src_id": "A-130",
+    "dst_id": "A-131"
+   },
+   {
+    "src_id": "A-131",
+    "dst_id": "A-132"
+   },
+   {
+    "src_id": "A-132",
+    "dst_id": "A-133"
+   },
+   {
+    "src_id": "A-133",
+    "dst_id": "A-134"
+   },
+   {
+    "src_id": "A-134",
+    "dst_id": "A-135"
+   },
+   {
+    "src_id": "A-135",
+    "dst_id": "A-136"
+   },
+   {
+    "src_id": "A-136",
+    "dst_id": "A-137"
+   },
+   {
+    "src_id": "A-137",
+    "dst_id": "A-138"
+   },
+   {
+    "src_id": "A-138",
+    "dst_id": "A-139"
+   },
+   {
+    "src_id": "A-139",
+    "dst_id": "A-140"
+   },
+   {
+    "src_id": "A-140",
+    "dst_id": "A-141"
+   },
+   {
+    "src_id": "A-141",
+    "dst_id": "A-142"
+   },
+   {
+    "src_id": "A-142",
+    "dst_id": "A-143"
+   },
+   {
+    "src_id": "A-143",
+    "dst_id": "A-144"
+   },
+   {
+    "src_id": "A-144",
+    "dst_id": "A-145"
+   },
+   {
+    "src_id": "A-145",
+    "dst_id": "A-146"
+   },
+   {
+    "src_id": "A-147",
+    "dst_id": "A-148"
+   },
+   {
+    "src_id": "A-148",
+    "dst_id": "A-149"
+   },
+   {
+    "src_id": "A-149",
+    "dst_id": "A-150"
+   },
+   {
+    "src_id": "A-150",
+    "dst_id": "A-151"
+   },
+   {
+    "src_id": "A-151",
+    "dst_id": "A-152"
+   },
+   {
+    "src_id": "A-153",
+    "dst_id": "A-154"
+   },
+   {
+    "src_id": "A-154",
+    "dst_id": "A-155"
+   },
+   {
+    "src_id": "A-155",
+    "dst_id": "A-156"
+   },
+   {
+    "src_id": "A-156",
+    "dst_id": "A-157"
+   },
+   {
+    "src_id": "A-157",
+    "dst_id": "A-158"
+   },
+   {
+    "src_id": "A-158",
+    "dst_id": "A-159"
+   },
+   {
+    "src_id": "A-159",
+    "dst_id": "A-160"
+   },
+   {
+    "src_id": "A-160",
+    "dst_id": "A-161"
+   },
+   {
+    "src_id": "A-162",
+    "dst_id": "A-163"
+   },
+   {
+    "src_id": "A-163",
+    "dst_id": "A-164"
+   },
+   {
+    "src_id": "A-164",
+    "dst_id": "A-165"
+   },
+   {
+    "src_id": "A-165",
+    "dst_id": "A-166"
+   },
+   {
+    "src_id": "A-166",
+    "dst_id": "A-167"
+   },
+   {
+    "src_id": "A-167",
+    "dst_id": "A-168"
+   },
+   {
+    "src_id": "A-168",
+    "dst_id": "A-169"
+   },
+   {
+    "src_id": "A-169",
+    "dst_id": "A-170"
+   },
+   {
+    "src_id": "A-170",
+    "dst_id": "A-171"
+   },
+   {
+    "src_id": "A-171",
+    "dst_id": "A-172"
+   },
+   {
+    "src_id": "A-172",
+    "dst_id": "A-173"
+   },
+   {
+    "src_id": "A-173",
+    "dst_id": "A-174"
+   },
+   {
+    "src_id": "A-174",
+    "dst_id": "A-175"
+   },
+   {
+    "src_id": "A-175",
+    "dst_id": "A-176"
+   },
+   {
+    "src_id": "A-176",
+    "dst_id": "A-177"
+   },
+   {
+    "src_id": "A-177",
+    "dst_id": "A-178"
+   },
+   {
+    "src_id": "A-178",
+    "dst_id": "A-179"
+   },
+   {
+    "src_id": "A-179",
+    "dst_id": "A-180"
+   },
+   {
+    "src_id": "A-180",
+    "dst_id": "A-181"
+   },
+   {
+    "src_id": "A-181",
+    "dst_id": "A-182"
+   },
+   {
+    "src_id": "A-182",
+    "dst_id": "A-183"
+   },
+   {
+    "src_id": "A-183",
+    "dst_id": "A-184"
+   },
+   {
+    "src_id": "A-184",
+    "dst_id": "A-185"
+   },
+   {
+    "src_id": "B-9",
+    "dst_id": "A-193"
+   },
+   {
+    "src_id": "A-185",
+    "dst_id": "A-194"
+   },
+   {
+    "src_id": "A-186",
+    "dst_id": "A-195"
+   },
+   {
+    "src_id": "A-187",
+    "dst_id": "A-196"
+   },
+   {
+    "src_id": "A-188",
+    "dst_id": "A-197"
+   },
+   {
+    "src_id": "A-189",
+    "dst_id": "A-198"
+   },
+   {
+    "src_id": "A-190",
+    "dst_id": "A-199"
+   },
+   {
+    "src_id": "A-192",
+    "dst_id": "A-201"
+   },
+   {
+    "src_id": "A-195",
+    "dst_id": "A-204"
+   },
+   {
+    "src_id": "A-196",
+    "dst_id": "A-205"
+   },
+   {
+    "src_id": "A-198",
+    "dst_id": "A-207"
+   },
+   {
+    "src_id": "A-199",
+    "dst_id": "A-208"
+   },
+   {
+    "src_id": "A-200",
+    "dst_id": "A-209"
+   },
+   {
+    "src_id": "A-201",
+    "dst_id": "A-210"
+   },
+   {
+    "src_id": "A-202",
+    "dst_id": "A-211"
+   },
+   {
+    "src_id": "A-206",
+    "dst_id": "A-215"
+   },
+   {
+    "src_id": "A-207",
+    "dst_id": "A-216"
+   },
+   {
+    "src_id": "A-208",
+    "dst_id": "A-217"
+   },
+   {
+    "src_id": "A-209",
+    "dst_id": "A-218"
+   },
+   {
+    "src_id": "A-212",
+    "dst_id": "A-221"
+   },
+   {
+    "src_id": "A-213",
+    "dst_id": "A-222"
+   },
+   {
+    "src_id": "A-214",
+    "dst_id": "A-223"
+   },
+   {
+    "src_id": "A-215",
+    "dst_id": "A-224"
+   },
+   {
+    "src_id": "A-216",
+    "dst_id": "A-225"
+   },
+   {
+    "src_id": "A-217",
+    "dst_id": "A-226"
+   },
+   {
+    "src_id": "A-218",
+    "dst_id": "A-227"
+   },
+   {
+    "src_id": "A-219",
+    "dst_id": "A-228"
+   },
+   {
+    "src_id": "A-220",
+    "dst_id": "A-229"
+   },
+   {
+    "src_id": "A-221",
+    "dst_id": "A-230"
+   },
+   {
+    "src_id": "A-222",
+    "dst_id": "A-231"
+   },
+   {
+    "src_id": "A-223",
+    "dst_id": "A-232"
+   },
+   {
+    "src_id": "A-224",
+    "dst_id": "A-233"
+   },
+   {
+    "src_id": "A-225",
+    "dst_id": "A-236"
+   },
+   {
+    "src_id": "A-227",
+    "dst_id": "A-237"
+   },
+   {
+    "src_id": "A-228",
+    "dst_id": "A-238"
+   },
+   {
+    "src_id": "A-229",
+    "dst_id": "A-239"
+   },
+   {
+    "src_id": "A-230",
+    "dst_id": "A-240"
+   },
+   {
+    "src_id": "A-231",
+    "dst_id": "A-241"
+   },
+   {
+    "src_id": "A-232",
+    "dst_id": "A-242"
+   },
+   {
+    "src_id": "A-233",
+    "dst_id": "A-243"
+   },
+   {
+    "src_id": "A-234",
+    "dst_id": "A-244"
+   },
+   {
+    "src_id": "A-235",
+    "dst_id": "A-245"
+   },
+   {
+    "src_id": "A-236",
+    "dst_id": "A-246"
+   },
+   {
+    "src_id": "A-237",
+    "dst_id": "A-247"
+   },
+   {
+    "src_id": "A-239",
+    "dst_id": "A-249"
+   },
+   {
+    "src_id": "A-240",
+    "dst_id": "A-250"
+   },
+   {
+    "src_id": "A-241",
+    "dst_id": "A-251"
+   },
+   {
+    "src_id": "A-247",
+    "dst_id": "A-257"
+   },
+   {
+    "src_id": "A-252",
+    "dst_id": "A-262"
+   },
+   {
+    "src_id": "A-253",
+    "dst_id": "A-263"
+   },
+   {
+    "src_id": "A-254",
+    "dst_id": "A-264"
+   },
+   {
+    "src_id": "A-255",
+    "dst_id": "A-265"
+   },
+   {
+    "src_id": "A-256",
+    "dst_id": "A-266"
+   },
+   {
+    "src_id": "A-257",
+    "dst_id": "A-267"
+   },
+   {
+    "src_id": "A-258",
+    "dst_id": "A-268"
+   },
+   {
+    "src_id": "A-259",
+    "dst_id": "A-269"
+   },
+   {
+    "src_id": "A-260",
+    "dst_id": "A-270"
+   },
+   {
+    "src_id": "A-261",
+    "dst_id": "A-271"
+   },
+   {
+    "src_id": "A-264",
+    "dst_id": "A-274"
+   },
+   {
+    "src_id": "A-265",
+    "dst_id": "A-275"
+   },
+   {
+    "src_id": "A-266",
+    "dst_id": "A-276"
+   },
+   {
+    "src_id": "A-269",
+    "dst_id": "A-278"
+   },
+   {
+    "src_id": "D-1",
+    "dst_id": "D-3"
+   }
+  ],
+  "year_shift": [
+   {
+    "src_id": "A-211",
+    "dst_id": "A-220",
+    "score": "95.7",
+    "src_text": "Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04. 2025 to 31.03. 2026 for AY 2026-27",
+    "dst_text": "Deduction u/s 80GGC can be claimed for the Contributions made between period 01.04.2024 to 31.03.2025 for AY 2025-26",
+    "numbers_removed": [
+     "2026",
+     "27"
+    ],
+    "numbers_added": [
+     "2024",
+     "26"
+    ]
+   }
+  ],
+  "wording": [
+   {
+    "src_id": "A-10",
+    "dst_id": "A-10",
+    "score": 99.9,
+    "src_text": "If Old tax Regime is selected, then In Schedule VIA, deduction claimed u/s 80G is more t han the eligible amount of donation mentioned in Schedule 80G",
+    "dst_text": "If Old tax Regime is selected, then In Schedule VIA, deduction claimed u/s 80G is more than the e ligible amount of donation mentioned in Schedule 80G",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-28",
+    "dst_id": "A-28",
+    "score": "97.8",
+    "src_text": "In \"Schedule Income Details\" Total Interest, Fee Payable should be equal to the sum of Interest u/s 234 A+ Interest u/s 234 B+ Interest u/s 234 C+ Fee u/s 234F + Fees u/s 234-I",
+    "dst_text": "In \"Schedule Income Details\" Total Interest, Fee Payable should be equal to the sum of Interest u/s 234 A+ Interest u/s 234 B+ Interest u/s 234 C+ Fee u/s 234F",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-32",
+    "dst_id": "A-32",
+    "score": 99.9,
+    "src_text": "Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D)\" drop-down cannot be selected more than one time under Exempt Income.",
+    "dst_text": "Sec 10(10D)- Any sum received under a life insurance policy, including the sum allocated by way of bonus on such policy except sum as mentioned in sub-clause (a) to (d) of Sec.10(10D)\" drop- down cannot be selected more than one time under Exempt Income.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-40",
+    "dst_id": "A-40",
+    "score": 99.9,
+    "src_text": "Sec 10(19)-Armed Forces Family pension in case of death during operational duty drop- down cannot be selected more than one time under Exempt Income",
+    "dst_text": "Sec 10(19)-Armed Forces Family pension in case of death during operational duty drop-down cannot be selected more than one time under Exempt Income",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-46",
+    "dst_id": "A-46",
+    "score": 99.9,
+    "src_text": "In Schedule Gross Total Income, Sl.no B2iii. Annual Value should be output of SL.no B2i- B2ii",
+    "dst_text": "In Schedule Gross Total Income, Sl.no B2iii. Annual Value should be output of SL.no B2i-B2ii",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-48",
+    "dst_id": "A-48",
+    "score": 99.9,
+    "src_text": "If Old Tax Regime is selected then In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied\", then the assessee cannot claim interest on borrowed capital more than Rs 2,00,000.",
+    "dst_text": "If Old Tax Regime is selected then In Schedule HP, if \"Type of House Property\" is selected as \"Self-Occupied”, then the assessee cannot claim interest on borrowed capital more than Rs 2,00,000,",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-64",
+    "dst_id": "A-64",
+    "score": 99.9,
+    "src_text": "If Old Tax Regime is selcted, then Exemption u/Sec 10(5)- Leave Travel concession/assistance cannot be more than respective income in Salary as per section 17(1)",
+    "dst_text": "If Old Tax Regime is selected, then Exemption u/Sec 10(5)- Leave Travel concession/assistance cannot be more than respective income in Salary as per section 17(1)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-69",
+    "dst_id": "A-69",
+    "score": 99.9,
+    "src_text": "Exempt Allowance u/s 10(10AA)-Earned leave encashment on retirement cannot more than Salary as per sec 17(1) (Message to be shown to the tax payers while preparing the return that maximum deduction for a non- Government employees including PSU employee is only Rs 25 lakh)",
+    "dst_text": "Exempt Allowance u/s 10(10AA)-Earned leave encashment on retirement cannot more than Salary as per sec 17(1) (Message to be shown to the taxpayers while preparing the return that maximum deduction for a non- Government employees including PSU employee is only Rs 25 lakh)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-107",
+    "dst_id": "A-107",
+    "score": "96.8",
+    "src_text": "IFSC under “Bank Details” Schedule 80G and in schedule 80GGC should match with the RBI database / GIFT IFSC codes.",
+    "dst_text": "IFSC under “Bank Details” and in schedule 80GGC should match with the RBI database / GIFT IFSC codes.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-129",
+    "dst_id": "A-130",
+    "score": "96.9",
+    "src_text": "If Old Tax Regime is selected, then In Schedule 80D, the amount of preventive health checkup of all the fields combined together should not exceed 5000.",
+    "dst_text": "If Old Tax Regime is selected, then In Schedule 80D, the amount of preventive health checkup of all the fields combined should not exceed 5000.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-146",
+    "dst_id": "A-147",
+    "score": "99.8",
+    "src_text": "If option Yes is selected for 'Are you opting for new tax regime u/s 115BAC?' then Part C – Deductions and Taxable Total Income, Deduction at B5(a), B5(b), B5(c ), B5(d),B5(f),B5(g),B5(h),B5(i),B5(j),B5(k),B5(l),B5(m),B5(n),B5(o),B5(p),B5(q),B5(r),B5 (s) should not be more than \"0\"",
+    "dst_text": "If option Yes is selected for 'Are you opting for new tax regime u/s 115BAC?' then Part C – Deductions and Taxable Total Income, Deduction at B5(a), B5(b), B5(c ), B5(d),B5(f),B5(g),B5(h),B5(i),B5(j),B5(k),B5(l),B5(m),B5(n),B5(o),B5(p),B5(q),B5(r),B5(s) should not be more than \"0\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-161",
+    "dst_id": "A-162",
+    "score": "95.6",
+    "src_text": "If New Tax Regime is selected, then exempt allowance income u/s 10(17)-Allowance MP/MLA/MLC should not be more than Zero",
+    "dst_text": "If New Tax Regime is selected, then exempt income u/s 10(17)-Allowance MP/MLA/MLC should not be more than zero",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-193",
+    "dst_id": "A-202",
+    "score": "98.8",
+    "src_text": "If 80GGC is claimed in Income Details Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80GGC",
+    "dst_text": "If 80GGC claimed in Income Details Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80GGC",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-194",
+    "dst_id": "A-203",
+    "score": "96.5",
+    "src_text": "In Schedule 80GGC, 'Eligible amount of contributions' for each row shall be equal to \"contribution in other mode\" to the extent of Gross total income",
+    "dst_text": "In Schedule 80GGC, 'Eligible number of contributions' for each row shall be equal to \"contribution in other mode\" to the extent of Gross total income",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-197",
+    "dst_id": "A-206",
+    "score": "99.7",
+    "src_text": "In schedule 80GGC, Values at sl.no.A - total contribution in Cash, B-contribution in other mode and C-Total contribution should be equal to sum of individual amounts entered",
+    "dst_text": "In schedule 80GGC, Values at sl.no. A - total contribution in Cash, B-contribution in other mode and C-Total contribution should be equal to sum of individual amounts entered",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-203",
+    "dst_id": "A-212",
+    "score": "98.0",
+    "src_text": "If Old Tax Regime is selected, And If drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with disability' and amount is less or more Rs. 75000 subject to GTI.",
+    "dst_text": "If Old Tax Regime is selected, and if drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with disability' and amount is less or more than 75000 subjects to GTI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-204",
+    "dst_id": "A-213",
+    "score": "98.3",
+    "src_text": "If Old Tax Regime is selected, And If drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with severe disability' and amount is less or more Rs. 125000 subject to GTI.",
+    "dst_text": "If Old Tax Regime is selected, and if drop down selected at sl no (i)-Nature of disability' of schedule 80DD is 'dependent person with severe disability' and amount is less or more than 125000 subject to GTI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-205",
+    "dst_id": "A-214",
+    "score": "98.7",
+    "src_text": "If 80DD is claimed in Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80DD",
+    "dst_text": "If 80DD claimed in Deduction under Chapter VIA, then same amount and details should be provided in Schedule 80DD",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-226",
+    "dst_id": "A-234",
+    "score": "97.6",
+    "src_text": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD(1), or 80CCD(1B)",
+    "dst_text": "PRAN should be provided in schedule VIA to claim deduction u/s 80CCD (1), 80CCD(1B)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-242",
+    "dst_id": "A-252",
+    "score": "94.5",
+    "src_text": "Deduction u/s 80E in schedule VIA should match with the \"Total of interest paid\" as per schedule 80E",
+    "dst_text": "Deduction u/s 80E in schedule VIA should match with the \"Total of interest u/s 80E\" as per schedule 80E",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-243",
+    "dst_id": "A-253",
+    "score": "94.1",
+    "src_text": "Deduction u/s 80EE in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EE",
+    "dst_text": "Deduction u/s 80EE in schedule VIA should match with the \"Total of interest u/s 80EE\" as per schedule 80EE",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-244",
+    "dst_id": "A-254",
+    "score": "94.7",
+    "src_text": "Deduction u/s 80EEA in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEA",
+    "dst_text": "Deduction u/s 80EEA in schedule VIA should match with the \"Total of interest u/s 80EEA\" as per schedule 80EEA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-245",
+    "dst_id": "A-255",
+    "score": "93.8",
+    "src_text": "Deduction u/s 80EEB in schedule VIA should match with the \"Total of interest paid\" as per schedule 80EEB",
+    "dst_text": "Deduction u/s 80EEB in schedule VIA should match with the \"Total of interest u/s 80EEB\" as per schedule 80EEB",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-246",
+    "dst_id": "A-256",
+    "score": "98.3",
+    "src_text": "In schedule 24(b) the sum of individual rows for \"Interest paid during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 24(b)",
+    "dst_text": "In schedule 24(b) the sum of individual rows for \"Interest during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 24(b)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-249",
+    "dst_id": "A-259",
+    "score": "98.2",
+    "src_text": "In schedule 80EE the sum of individual rows for \"Interest paid during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 80EE",
+    "dst_text": "In schedule 80EE the sum of individual rows for \"Interest during the year\" (x) shall match with the \"Total of Payments\" as per the schedule 80EE",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-263",
+    "dst_id": "A-273",
+    "score": "99.4",
+    "src_text": "In schedule 10(13A) the lowest of the following amounts shall be claimed as HRA exemption: A) Actual HRA received B) Actual rent paid-10% of (salary+DA) C) 40% or 50% of (salary+DA)",
+    "dst_text": "In schedule 10(13A) the lowest of the following amounts shall be claimed as HRA exemption: A) Actual HRA received B) Actual rent paid 10% of (salary+DA) C) 40% or 50% of (salary+DA)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-267",
+    "dst_id": "A-279",
+    "score": "99.4",
+    "src_text": "Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than 25,00,000 if nature of employment is \"CG\", \"CG-Pensioners\", \"Sg\" or \"SG-Pensioners\"",
+    "dst_text": "Exempt allowance u/s 10(10)-Death-cum-retirement gratuity received cannot be more than 25,00,000 if nature of employment is \"CG\", \"CG-Pensioners\", \"SG\" or \"SG-Pensioners\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-2",
+    "dst_id": "B-2",
+    "score": 99.9,
+    "src_text": "Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and also linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023",
+    "dst_text": "Quoting of Aadhar in ITR is required as per section 139(AA)in applicable cases and linking of Aadhar and PAN is required to avoid consequences of not linking PAN and Aadhar in eligible cases as per Circular 03/2023",
+    "numbers_removed": [],
+    "numbers_added": []
+   }
+  ],
+  "changed": [
+   {
+    "src_id": "A-13",
+    "dst_id": "A-13",
+    "score": "99.5",
+    "src_text": "Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966",
+    "dst_text": "Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 02.04.1964 1965",
+    "numbers_removed": [
+     "01.04",
+     "1966"
+    ],
+    "numbers_added": [
+     "02.04",
+     "1964",
+     "1965"
+    ]
+   },
+   {
+    "src_id": "A-15",
+    "dst_id": "A-15",
+    "score": "84.8",
+    "src_text": "Assessee being less than 60 years of age cannot claim deduction under section 80TTB (date of birth is before 02.04.1966)",
+    "dst_text": "Assessee being less than 60 years of age cannot claim deduction under section 80TTB",
+    "numbers_removed": [
+     "02.04",
+     "1966"
+    ],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-27",
+    "dst_id": "A-27",
+    "score": "84.5",
+    "src_text": "“Total Tax, Fees & Interest” should be equal to the sum of“Total Tax & Cess + Interest u/s 234A + 234B+ 234C + Fees u/s 234-I + 234F- Relief u/s 89”",
+    "dst_text": "“Total Tax, Fees & Interest” should be equal to the sum of “Total Tax & Cess + Interest u/s 234A + 234B+ 234C + 234F- Relief u/s 89”",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-37",
+    "dst_id": "A-37",
+    "score": "92.2",
+    "src_text": "If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt Allowances under salary schedule.",
+    "dst_text": "If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt Income.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-54",
+    "dst_id": "A-54",
+    "score": "91.5",
+    "src_text": "In case of \"Old Tax Regime\"- Deduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000. Note: Rounding off +1 and -1.",
+    "dst_text": "In case of \"Old Tax Regime\"- D eduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-60",
+    "dst_id": "A-60",
+    "score": "84.4",
+    "src_text": "In the Schedule “Gross total Income\", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10'",
+    "dst_text": "In the Schedule “Gross total Income\", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10' and Relief u/s 89A'",
+    "numbers_removed": [],
+    "numbers_added": [
+     "89"
+    ]
+   },
+   {
+    "src_id": "A-116",
+    "dst_id": "A-116",
+    "score": "91.4",
+    "src_text": "Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as \"CG-Pensioners\" \"SG-Pensioners\" \"PSU-Pensioners\"",
+    "dst_text": "Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as \"CG-Pensioners\" \"SG-Pensioners\" \"PSU-Pensioners\" \"Other Pensioners \" or \"Not Applicable\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-117",
+    "dst_id": "A-117",
+    "score": "99.8",
+    "src_text": "Total income excluding LTCG C3 (a)(iii) should not be greater than Rs 50 lakhs.",
+    "dst_text": "Total income excluding LTCG B7(a)(iii) should not be greater than Rs 50 lakhs.",
+    "numbers_removed": [
+     "3"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-126",
+    "dst_id": "A-127",
+    "score": "84.8",
+    "src_text": "If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139 (Will be checked at upload level)",
+    "dst_text": "If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-152",
+    "dst_id": "A-153",
+    "score": "81.3",
+    "src_text": "Once a proceeding is initiated u/s148, no other return can be filed u/s 139 (Will be blocked at upload level)",
+    "dst_text": "Once a proceeding is initiated u/s148, no other return can be filed u/s 139",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-191",
+    "dst_id": "A-200",
+    "score": "96.4",
+    "src_text": "If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than Rs.12,70,590.",
+    "dst_text": "If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than Rs.7,22,230",
+    "numbers_removed": [
+     "1270590"
+    ],
+    "numbers_added": [
+     "722230"
+    ]
+   },
+   {
+    "src_id": "A-248",
+    "dst_id": "A-258",
+    "score": "84.0",
+    "src_text": "In schedule 80E the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80E",
+    "dst_text": "In schedule 80E the sum of individual rows for \"Amount of interest u/s 80E\" (x) shall match with the \"Total of Payments\" as per the schedule 80E",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-250",
+    "dst_id": "A-260",
+    "score": "84.2",
+    "src_text": "In schedule 80EEA the sum of individual rows for \"Amount of interest paid\" (ix) shall match with the \"Total of Payments\" as per the schedule 80EEA",
+    "dst_text": "In schedule 80EEA the sum of individual rows for \"Amount of interest u/s 80EEA\" (ix) shall match with the \"Total of Payments\" as per the schedule 80EEA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-251",
+    "dst_id": "A-261",
+    "score": "83.5",
+    "src_text": "In schedule 80EEB the sum of individual rows for \"Amount of interest paid\" (x) shall match with the \"Total of Payments\" as per the schedule 80EEB",
+    "dst_text": "In schedule 80EEB the sum of individual rows for \"Amount of interest u/s 80EEB\" (x) shall match with the \"Total of Payments\" as per the schedule 80EEB",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-268",
+    "dst_id": "A-277",
+    "score": "93.8",
+    "src_text": "Status selected is Individual and having date of formation on or after 01/04/2008 shall not be allowed to file return for AY 26-27",
+    "dst_text": "Status selected is Individual and having date of birth on or after 01/04/2007 shall not be allowed to file return for AY 25-26",
+    "numbers_removed": [
+     "2008",
+     "27"
+    ],
+    "numbers_added": [
+     "2007",
+     "25"
+    ]
+   }
+  ],
+  "disable": [
+   {
+    "cat": "A",
+    "no": "19",
+    "page": 6,
+    "text": "ITR-1 -\"Name\" of taxpayer in ITR does not match with the \"Name\" as per the PAN data base (This will be verified at the time of upload. To ensure that the name entered is as appearing in the PAN card)",
+    "id": "A-19"
+   },
+   {
+    "cat": "A",
+    "no": "42",
+    "page": 7,
+    "text": "Sec 10(26AAA)-Any income as referred to in section 10(26AAA) drop-down cannot be selected more than one time under Exempt Income. (Message to be shown to the taxpayers while preparing the return that this deduction is available only for certain Sikkimese assessees)",
+    "id": "A-42"
+   },
+   {
+    "cat": "A",
+    "no": "59",
+    "page": 8,
+    "text": "Gross salary should be total of salary as per section 17(1) and value of perquisites as per section 17(2) and profits in lieu of salary as per section 17(3)",
+    "id": "A-59"
+   },
+   {
+    "cat": "A",
+    "no": "88",
+    "page": 9,
+    "text": "If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are under donation in cash with same PAN then more than Rs 2,000 then amount entered in donation in cash will not be considered for calculation of Eligible amount of donation.if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0 or in case of individual entry is more than Rs. 2000 in",
+    "id": "A-88"
+   },
+   {
+    "cat": "A",
+    "no": "210",
+    "page": 15,
+    "text": "[text not extractable - see PDF page 15]",
+    "id": "A-210"
+   },
+   {
+    "cat": "A",
+    "no": "238",
+    "page": 17,
+    "text": "Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively.",
+    "id": "A-238"
+   },
+   {
+    "cat": "A",
+    "no": "262",
+    "page": 18,
+    "text": "HRA u/s 10(13A) shall not be more than 40% of basic salary and DA for those living in non-metro cities or, shall not be more than 50% of basic salary and DA for those living in metro cities (as applicable)",
+    "id": "A-262"
+   },
+   {
+    "cat": "A",
+    "no": "270",
+    "page": 18,
+    "text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" can be claimed only by CG/SG employees",
+    "id": "A-270"
+   },
+   {
+    "cat": "A",
+    "no": "271",
+    "page": 18,
+    "text": "\"Type of house property\" shall be mandatory if interest on borrowed capital u/s 24(b) is claimed.",
+    "id": "A-271"
+   },
+   {
+    "cat": "A",
+    "no": "272",
+    "page": 18,
+    "text": "Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount",
+    "id": "A-272"
+   },
+   {
+    "cat": "A",
+    "no": "273",
+    "page": 18,
+    "text": "Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount",
+    "id": "A-273"
+   },
+   {
+    "cat": "A",
+    "no": "274",
+    "page": 18,
+    "text": "Eligible amount of deduction claimed u/s 80CCD (1) should not be more than user enterable amount",
+    "id": "A-274"
+   },
+   {
+    "cat": "A",
+    "no": "275",
+    "page": 18,
+    "text": "Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount",
+    "id": "A-275"
+   },
+   {
+    "cat": "A",
+    "no": "276",
+    "page": 18,
+    "text": "Eligible amount of deduction claimed u/s 80CCD (2) should not be more than user enterable amount",
+    "id": "A-276"
+   },
+   {
+    "cat": "A",
+    "no": "277",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount",
+    "id": "A-277"
+   },
+   {
+    "cat": "A",
+    "no": "278",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount",
+    "id": "A-278"
+   },
+   {
+    "cat": "A",
+    "no": "279",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount",
+    "id": "A-279"
+   },
+   {
+    "cat": "A",
+    "no": "280",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount",
+    "id": "A-280"
+   },
+   {
+    "cat": "A",
+    "no": "281",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount",
+    "id": "A-281"
+   },
+   {
+    "cat": "A",
+    "no": "282",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount",
+    "id": "A-282"
+   },
+   {
+    "cat": "A",
+    "no": "283",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount",
+    "id": "A-283"
+   },
+   {
+    "cat": "A",
+    "no": "284",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount",
+    "id": "A-284"
+   },
+   {
+    "cat": "A",
+    "no": "285",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount",
+    "id": "A-285"
+   },
+   {
+    "cat": "A",
+    "no": "286",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount",
+    "id": "A-286"
+   },
+   {
+    "cat": "A",
+    "no": "287",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount",
+    "id": "A-287"
+   },
+   {
+    "cat": "A",
+    "no": "288",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount",
+    "id": "A-288"
+   },
+   {
+    "cat": "A",
+    "no": "289",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount",
+    "id": "A-289"
+   },
+   {
+    "cat": "A",
+    "no": "290",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount",
+    "id": "A-290"
+   },
+   {
+    "cat": "A",
+    "no": "291",
+    "page": 19,
+    "text": "Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount",
+    "id": "A-291"
+   },
+   {
+    "cat": "A",
+    "no": "292",
+    "page": 19,
+    "text": "LTCG u/s 112A shall be equal to difference between GTI including LTCG and GTI exceluding LTCG",
+    "id": "A-292"
+   },
+   {
+    "cat": "A",
+    "no": "293",
+    "page": 19,
+    "text": "In Part A General \"Name of the representative, Email ID of the representative, Contact No. are mandatory if in Part- Verification capacity is selected as \"Representative\" from drop down",
+    "id": "A-293"
+   },
+   {
+    "cat": "A",
+    "no": "294",
+    "page": 19,
+    "text": "Whether this return is being filed by a representative assessee? Flag is Y then details should be provided",
+    "id": "A-294"
+   },
+   {
+    "cat": "A",
+    "no": "295",
+    "page": 19,
+    "text": "In case of Co-owned property, the total of assessee's share and other co-owner's share should be equal to 100%",
+    "id": "A-295"
+   },
+   {
+    "cat": "A",
+    "no": "296",
+    "page": 19,
+    "text": "In Schedule HP, In case of co-owned property Annual value of the property owned should be own percentage share *Annual value.",
+    "id": "A-296"
+   },
+   {
+    "cat": "A",
+    "no": "297",
+    "page": 19,
+    "text": "Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero',",
+    "id": "A-297"
+   },
+   {
+    "cat": "A",
+    "no": "298",
+    "page": 19,
+    "text": "In Schedule HP, Sl.no 1d -Total should be output of SL.no (1b+1c)",
+    "id": "A-298"
+   },
+   {
+    "cat": "A",
+    "no": "299",
+    "page": 20,
+    "text": "In Schedule HP, Sl.no 1i -Total should be output of SL.no (1g+1h)",
+    "id": "A-299"
+   },
+   {
+    "cat": "A",
+    "no": "300",
+    "page": 20,
+    "text": "In case of co-owned house property, Asseesee PAN & other Co-owners PAN cannot be same",
+    "id": "A-300"
+   },
+   {
+    "cat": "A",
+    "no": "301",
+    "page": 20,
+    "text": "Exempt Allowance \"Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules\" can't be more than 0 is new tax regime is selected.",
+    "id": "A-301"
+   },
+   {
+    "cat": "A",
+    "no": "302",
+    "page": 20,
+    "text": "If in 80CCC the sum of individual rows for \"Amount\" is not equal to Total of \"Amounts\" as per field 80CCC in Income details.",
+    "id": "A-302"
+   },
+   {
+    "cat": "A",
+    "no": "303",
+    "page": 20,
+    "text": "\"Sec 10(2) Member’s share from HUF\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-303"
+   },
+   {
+    "cat": "A",
+    "no": "304",
+    "page": 20,
+    "text": "\"Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-304"
+   },
+   {
+    "cat": "A",
+    "no": "305",
+    "page": 20,
+    "text": "\"Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-305"
+   },
+   {
+    "cat": "A",
+    "no": "306",
+    "page": 20,
+    "text": "\"Sec 10(12A) NPS partial withdrawal\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-306"
+   },
+   {
+    "cat": "A",
+    "no": "307",
+    "page": 20,
+    "text": "\"Sec 10(12AA) any payment from the National Pension System Trust\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-307"
+   },
+   {
+    "cat": "A",
+    "no": "308",
+    "page": 20,
+    "text": "\"Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-308"
+   },
+   {
+    "cat": "A",
+    "no": "309",
+    "page": 20,
+    "text": "\"Sec 10(12B) NPS lumpsum at exit/closure (portion)\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-309"
+   },
+   {
+    "cat": "A",
+    "no": "310",
+    "page": 20,
+    "text": "\"Sec 10(12BA) partial withdrawal made from the National Pension System\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-310"
+   },
+   {
+    "cat": "A",
+    "no": "311",
+    "page": 20,
+    "text": "\"Sec 10(12C) Agniveer Corpus Fund income\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-311"
+   },
+   {
+    "cat": "A",
+    "no": "312",
+    "page": 20,
+    "text": "\"Sec 10(15) Interest on specified securities/investments\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-312"
+   },
+   {
+    "cat": "A",
+    "no": "313",
+    "page": 20,
+    "text": "\"Sec 10(19A) Annual value of one palace in occupation of ex-ruler\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-313"
+   },
+   {
+    "cat": "A",
+    "no": "314",
+    "page": 20,
+    "text": "\"Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-314"
+   },
+   {
+    "cat": "A",
+    "no": "315",
+    "page": 20,
+    "text": "\"Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund” drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-315"
+   },
+   {
+    "cat": "A",
+    "no": "316",
+    "page": 20,
+    "text": "\"Sec 10(23FD) Unit holder income from Business Trust (certain parts\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-316"
+   },
+   {
+    "cat": "A",
+    "no": "317",
+    "page": 20,
+    "text": "\"Sec 10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension fund\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-317"
+   },
+   {
+    "cat": "A",
+    "no": "318",
+    "page": 20,
+    "text": "\"Minor child’s income—small exemption\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-318"
+   },
+   {
+    "cat": "A",
+    "no": "319",
+    "page": 20,
+    "text": "\"Sec 10(35) Income from specified Mutual Funds\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-319"
+   },
+   {
+    "cat": "A",
+    "no": "320",
+    "page": 21,
+    "text": "\"Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-320"
+   },
+   {
+    "cat": "A",
+    "no": "321",
+    "page": 21,
+    "text": "\"Sec 10(43) Reverse mortgage—payments to senior citizens\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-321"
+   },
+   {
+    "cat": "A",
+    "no": "322",
+    "page": 21,
+    "text": "\"Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts\" drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-322"
+   },
+   {
+    "cat": "A",
+    "no": "323",
+    "page": 21,
+    "text": "If New tax regime is selected, then exempt income u/s 10(32)-Minor child’s income should not be more than Zero",
+    "id": "A-323"
+   },
+   {
+    "cat": "A",
+    "no": "324",
+    "page": 21,
+    "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs.",
+    "id": "A-324"
+   },
+   {
+    "cat": "A",
+    "no": "325",
+    "page": 21,
+    "text": "IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash.",
+    "id": "A-325"
+   },
+   {
+    "cat": "A",
+    "no": "326",
+    "page": 21,
+    "text": "IFSC and \"Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash.",
+    "id": "A-326"
+   },
+   {
+    "cat": "A",
+    "no": "327",
+    "page": 21,
+    "text": "If Old Tax Regime is selected, and In \"schedule 80G\" if multiple entries are there under donation in cash with same PAN then if sum of all such cash donation does not exceeds Rs. 2000 then eligible amount of donation shall be allowed to the extent of Rs. 2000 or claimed whichever is lower",
+    "id": "A-327"
+   },
+   {
+    "cat": "A",
+    "no": "328",
+    "page": 21,
+    "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs.",
+    "id": "A-328"
+   },
+   {
+    "cat": "A",
+    "no": "329",
+    "page": 21,
+    "text": "Name and PAN of the political party is necessary to claim deduction u/s 80GGC",
+    "id": "A-329"
+   },
+   {
+    "cat": "A",
+    "no": "330",
+    "page": 21,
+    "text": "Either cash donation or donation in other mode shall be entered under any row.",
+    "id": "A-330"
+   },
+   {
+    "cat": "A",
+    "no": "331",
+    "page": 21,
+    "text": "In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of taxpayer.",
+    "id": "A-331"
+   },
+   {
+    "cat": "A",
+    "no": "332",
+    "page": 21,
+    "text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Assessee’s percentage of share in the Property (%) should be less than 100%",
+    "id": "A-332"
+   },
+   {
+    "cat": "A",
+    "no": "333",
+    "page": 21,
+    "text": "In Schedule HP, if \"Is property co-owned\" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%",
+    "id": "A-333"
+   },
+   {
+    "cat": "A",
+    "no": "334",
+    "page": 21,
+    "text": "In case of property is not Co-owned the assessee's share should be equal to 100%",
+    "id": "A-334"
+   },
+   {
+    "cat": "A",
+    "no": "335",
+    "page": 21,
+    "text": "If PRAN is entered but amount entered in 80CCD (1) and 80CCD(1B) is equal to 0",
+    "id": "A-335"
+   },
+   {
+    "cat": "A",
+    "no": "336",
+    "page": 21,
+    "text": "\"The amount of rent which cannot be realized\" cannot be more than Gross rent received/ receivable/ lettable during the year",
+    "id": "A-336"
+   },
+   {
+    "cat": "A",
+    "no": "337",
+    "page": 21,
+    "text": "If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for \"Type of identifier\", \"Identifier No. and \"Amount\"",
+    "id": "A-337"
+   },
+   {
+    "cat": "A",
+    "no": "338",
+    "page": 21,
+    "text": "Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income",
+    "id": "A-338"
+   },
+   {
+    "cat": "A",
+    "no": "339",
+    "page": 21,
+    "text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information",
+    "id": "A-339"
+   }
+  ],
+  "add": [
+   {
+    "cat": "A",
+    "no": "19",
+    "page": 7,
+    "text": "ITR-1 -\"Name\" of taxpayer in ITR does not match with the \"Name\" as per the PAN data base",
+    "id": "A-19"
+   },
+   {
+    "cat": "A",
+    "no": "42",
+    "page": 8,
+    "text": "Sec 10(26AAA)-Any income as referred to in section 10(26AAA) drop-down cannot be selected more than one time under Exempt Income.",
+    "id": "A-42"
+   },
+   {
+    "cat": "A",
+    "no": "59",
+    "page": 8,
+    "text": "Gross salary should be total of salary as per section 17(1) and value of perquisites as per section 17(2) and profits in lieu of salary as per section 17(3) and Income from retirement benefit account maintained in a notified country u/s 89A and Income from retirement benefit account maintained in a country other than notified country u/s 89A",
+    "id": "A-59"
+   },
+   {
+    "cat": "A",
+    "no": "88",
+    "page": 10,
+    "text": "If Old Tax Regime is selected, then Deduction u/s 80G is not allowed for donation made in cash above Rs. 2,000/-.",
+    "id": "A-88"
+   },
+   {
+    "cat": "A",
+    "no": "118",
+    "page": 11,
+    "text": "In schedule 80G, if donation is made same PAN of Donee cannot appear more than once",
+    "id": "A-118"
+   },
+   {
+    "cat": "A",
+    "no": "186",
+    "page": 15,
+    "text": "In B(i)- Salary, Income claimed for relief from taxation u/s 89A cannot be claimed more than income offered in B(i)(d)",
+    "id": "A-186"
+   },
+   {
+    "cat": "A",
+    "no": "187",
+    "page": 15,
+    "text": "In B3- Income from other sources, Income claimed for relief from taxation u/s 89A cannot be claimed more than the income offered under Income from retirement benefit account maintained in a notified country u/s 89A",
+    "id": "A-187"
+   },
+   {
+    "cat": "A",
+    "no": "188",
+    "page": 15,
+    "text": "Sum of quarterly breakup of Income from retirement benefit account maintained in a notified country u/s 89A (taxable portion) should be equal to 'amount entered in Income from retirement benefit account maintained in a notified country u/s 89A- Income claimed for relief from taxation u/s 89A'",
+    "id": "A-188"
+   },
+   {
+    "cat": "A",
+    "no": "189",
+    "page": 15,
+    "text": "Interest from Income Tax Refund drop-down cannot be selected more than one time under Income from other sources.",
+    "id": "A-189"
+   },
+   {
+    "cat": "A",
+    "no": "190",
+    "page": 15,
+    "text": "Interest from Income Tax Refund drop-down cannot be selected more than one time under Income from other sources.",
+    "id": "A-190"
+   },
+   {
+    "cat": "A",
+    "no": "191",
+    "page": 15,
+    "text": "In Schedule Income from Other sources, under dropdown, \"Income from retirement benefit account maintained in a notified country u/s 89A \" in country drop-down, one country cannot be selected more than one time.",
+    "id": "A-191"
+   },
+   {
+    "cat": "A",
+    "no": "192",
+    "page": 15,
+    "text": "In Schedule Salary, under line item \"Income from retirement benefit account maintained in a notified country u/s 89A \" in country drop-down, one country cannot be selected more than one time.",
+    "id": "A-192"
+   },
+   {
+    "cat": "A",
+    "no": "219",
+    "page": 16,
+    "text": "When details of Salary Income are given then 'Nature of employment' cannot be selected as 'Not Applicable',",
+    "id": "A-219"
+   },
+   {
+    "cat": "A",
+    "no": "235",
+    "page": 17,
+    "text": "\"Details of Bank from which loan is taken\" need to be provided for claiming deduction u/s 80E in schedule 80E",
+    "id": "A-235"
+   },
+   {
+    "cat": "A",
+    "no": "248",
+    "page": 18,
+    "text": "Form 10IA filed for autism, cerebral palsy, multiple disabilities needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively.",
+    "id": "A-248"
+   },
+   {
+    "cat": "A",
+    "no": "272",
+    "page": 19,
+    "text": "HRA u/s 10(13A) shall not be more than 50% of basic salary and DA",
+    "id": "A-272"
+   },
+   {
+    "cat": "D",
+    "no": "1",
+    "page": 20,
+    "text": "Under Salary, assessee has claimed Income claimed for relief from taxation u/s 89A without furnishing of Form 10EE.",
+    "id": "D-1"
+   },
+   {
+    "cat": "D",
+    "no": "2",
+    "page": 20,
+    "text": "Under Income from Other Sources, assessee has claimed Income claimed for relief from taxation u/s 89A without furnishing of Form 10EE.",
+    "id": "D-2"
+   },
+   {
+    "cat": "D",
+    "no": "4",
+    "page": 20,
+    "text": "Deduction u/s 80GG shall be claimed for the period of stay for which the rent is actually paid, i.e., 5000 per month",
+    "id": "D-4"
+   }
+  ]
+ },
+ "changelog": {
+  "2025-26": [
+   {
+    "section": "2.1 Schema changes as on 30th July, 2025 to the Original",
+    "root": "UsrDeductUndChapVIA",
+    "element": "PRANNum",
+    "change": "Modified",
+    "description": "Length updated"
+   },
+   {
+    "section": "2.1 Schema changes as on 30th July, 2025 to the Original",
+    "root": "Sch80DInsDtls",
+    "element": "InsurerName",
+    "change": "Modified",
+    "description": "Length updated"
+   },
+   {
+    "section": "2.2 Schema changes as on 01st January, 2026 to the Last",
+    "root": "FilingStatus",
+    "element": "ReturnFileSec",
+    "change": "Modified",
+    "description": "New enum “21” is added for Return filing u/s 139(8A) and maximum value is updated"
+   },
+   {
+    "section": "2.2 Schema changes as on 01st January, 2026 to the Last",
+    "root": "ITR1",
+    "element": "PartA_139_8A",
+    "change": "Added",
+    "description": "New schedule “PartA_139_8A” is added in definitions and applicable fields are added inside “PartA_139_8A” as per notified form"
+   },
+   {
+    "section": "2.2 Schema changes as on 01st January, 2026 to the Last",
+    "root": "ITR1",
+    "element": "PartB-ATI",
+    "change": "Added",
+    "description": "New schedule “PartB-ATI” is added in definitions and applicable fields are added inside “PartB-ATI” as per notified form"
+   }
+  ]
+ }
+}

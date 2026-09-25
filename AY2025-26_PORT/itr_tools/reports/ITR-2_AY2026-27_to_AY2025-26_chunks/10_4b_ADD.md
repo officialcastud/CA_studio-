@@ -1,0 +1,88 @@
+<!-- ITR-2: convert AY 2026-27 build -> AY 2025-26 -->
+### 4b. ADD — rules that exist only in 2025-26
+
+- **A-38** (p8): In Schedule Salary, at Sl. No. 1a- Gratuity shall not be allowed against more than one Employer.
+- **A-39** (p8): In Schedule Salary, at Sl. No. 1a- Commuted pension shall not be allowed against more than one Employer.
+- **A-108** (p12): In Schedule CG, Full Value of Consideration (Sl. No. B6aiii) is zero then expenses (Sl. No. B(6)(biv)) should not be claimed
+- **A-129** (p13): In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1 (biia + ∑biib(c) + biii) - where transfer is before 23rd July 2024 and B1(bi + ∑biib(a) + biii) - where transfer is on or after 23rd July 2024
+- **A-134** (p13): In Schedule CG Sl.no. B2e of LTCG should be equal to B(2c-2d)
+- **A-136** (p13): In schedule CG, Sl. No. B3c of LTCG Balance should be equal to B(3a-biv)
+- **A-155** (p14): In Schedule CG, Sl. No. B11 should be equal to B11a1(i) + B11a1(ii) + B11a2(i)+ B11a2(ii)+B11b
+- **A-163** (p14): In Schedule CG, Value at field Ei2 should be equal to the sum of Sl. No. (A2ei+ A3ai+ A7ai)
+- **A-167** (p15): In Sch CG, value at field Ei7 should be equal to the sum of Sl. No. (B3(ii)ei + B4ci + B6ei+B6eiii + B7ci + B8ci + B11a1(i) + B11a2(i) + B(A))
+- **A-168** (p15): In Sch CG, value at field Ei9 should be equal to the sum of Sl. No. (B1ga+B2e+B3(i)ei+B5ci+ B9ei+B10i+ B11b)
+- **A-170** (p15): In Schedule CG, value at field Eii should be equal to the sum of Sl. No. (A2ei+A3ai+A7ai)
+- **A-174** (p15): In Sch CG, value at field Evii should be equal to the sum of Sl. No. (B3(ii)ei+B4ci+B5cii+B6ei+B6eiii+B7ci+B8ci+B11a1(i)+B11a2(i)+ B(A)_10%)
+- **A-175** (p15): In Sch CG, value at field Eix should be equal to the sum of Sl. No. (B1ga + B2e + B3(i)ei+B5ci + B9ei + B10i + B11b)
+- **A-179** (p15): In schedule CG at table F total of all the quarter of field "Short-term capital gains taxable at the rate of 15%" should match with field 3(iiia) of schedule BFLA "Short- term capital gain taxable @ 15% (Not applicable for Resident Senior Citizens)"
+- **A-183** (p16): In schedule CG at table F total of all the quarters of field "Long- term capital gains taxable at the rate of 10%" should match with field 3(viia) of schedule BFLA "Long- term capital gain taxable @ 10%" (Not applicable for Resident Senior Citizens)
+- **A-184** (p16): In schedule CG at table F total of all the quarter of field "Long- term capital gains taxable at the rate of 20%" should match with field 3(viii) of schedule BFLA "Long term capital gain taxable @ 20%" (Not applicable for Resident Senior Citizens)
+- **A-254** (p20): In schedule BFLA 1(iiia) "Short-term capital gain taxable @ 15%" should match with 4(iva) of schedule CYLA
+- **A-258** (p20): In schedule BFLA 1(viia) "Long-term capital gain taxable @ 10%" should match with 4(viiia) of schedule CYLA
+- **A-259** (p20): In schedule BFLA 1(viii) "Long term capital gain taxable @ 20%" should match with 4(ix) of schedule CYLA
+- **A-273** (p21): In Schedule CYLA Short term capital gain @15% should be equal to SL.no. 11ii of item E of Schedule CG
+- **A-277** (p21): In Schedule CYLA Long term capital gain taxable @10% should be equal to SL.no. 11vii of item E of Schedule CG
+- **A-278** (p21): In Schedule CYLA Long term capital gain taxable @20% should be equal to SL.no. 11ix of item E of Schedule CG
+- **A-394** (p28): Sum of income u/s 111A or section 115AD(1)(ii)- Proviso (STCG on shares/equity- oriented MF on which STT paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 15% in schedule SI should be equal to corresponding income as per schedule BFLA
+- **A-396** (p28): Sum of income u/s 112 (LTCG on others), Proviso to 112(1)( LTCG on listed securities/ units without indexation) & Pass Through Income in the nature of Long Term Capital Gain chargeable @ 20% should be equal to corresponding income as per schedule BFLA
+- **A-397** (p28): Sum of income u/s 112(1)(c)(iii) (LTCG for non-resident on unlisted securities or other than Listed debentures), 115AC (LTCG for non-resident on bonds/GDR), 115ACA (LTCG for an employee of specified company on GDR), 115AD (LTCG for FII on securities), 115E (LTCG for non-resident Indian on specified asset), 112A or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 10%-u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 10% - u/s other than 112A should be equal to corresponding income as per schedule BFLA
+- **A-464** (p32): In schedule FSI total of column e "Tax relief available in India(e)= (c) or (d) whichever is lower" should match with e(i) + e(ii) + e(iii) + e(iv) i.e. Salary + House Property + Capital Gains + Other Sources.
+- **A-467** (p32): If new tax regime is selected, then in schedule EI exempt income u/s 10(17)-Allowance MP/MLA/MLC cannot be claimed.
+- **A-517** (p35): Schedule Salary is mandatory to fill if Income claimed under the head Salaries in Part B-TI.
+- **A-518** (p35): Schedule HP is mandatory to fill if Income claimed under the head House Property in Part B TI.
+- **A-519** (p35): Income claimed in STCG chargeable @15%, "Table E in Schedule CG" should be filled.
+- **A-520** (p35): Income claimed in STCG chargeable @30%, then "Table E in Schedule CG" should be filled.
+- **A-521** (p35): Income claimed in STCG is chargeable at applicable rate, then "Table E in Schedule CG" should be filled
+- **A-523** (p35): Income claimed in LTCG chargeable @10%, then "Table E in Schedule CG" should be filled
+- **A-524** (p35): Income claimed in LTCG chargeable @20%, then "Table E in Schedule CG" should be filled
+- **A-527** (p36): "Income chargeable to tax at special rate" is claimed at Schedule Part B TI, then “Schedule OS" should be filled
+- **A-531** (p36): Gross Total Income should be equal to the sum of the Incomes individually offered.
+- **A-558** (p37): IFSC under "Bank Details" should match with the RBI database
+- **A-577** (p38): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 15%.
+- **A-582** (p39): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 10%.
+- **A-584** (p39): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 20%.
+- **A-586** (p39): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL15%.
+- **A-591** (p39): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 10%
+- **A-593** (p39): In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 20%
+- **A-602** (p40): Indexation should not be allowed if the asset is transferred On or after 23 July 2024 in case of Non Residents.
+- **A-605** (p40): In Schedule CG, Long Term Capital Gains from listed securities referred in proviso to 112(1) and GDR of Indian company before 23 July 2024 and on or after 23 July 2024 should be equal to the total Long Term Capital Gains from such assets
+- **A-606** (p40): In schedule CG, value at B3iie should be equal to B3iiei+B3iieii
+- **A-607** (p40): In Schedule CG, value of capital gains u/s 112A (where transfer is before 23 July 2024) should be equal to the corresponding amount mentioned for the same in Schedule 112A
+- **A-608** (p40): In Schedule CG, value of capital gains u/s 112A (where transfer is on or after 23 July 2024) should be equal to the corresponding amount mentioned for the same in Schedule 112A
+- **A-609** (p40): In Schedule CG, Long Term Capital Gains from sale of shares or debentures of Indian Company in hands of Non residents before 23rd July 2024 (for listed debentures and other than listed debentures) and on or after 23rd July 2024(only listed shares and debentures) should be equal to the total LTCG from such shares or debentures
+- **A-610** (p40): In schedule CG, value at sl.no. B5c should be same as B5ci+B5cii+B5ciii
+- **A-611** (p40): In schedule CG, value at B6e should be equal to B6ei+B6eii+B6eiii
+- **A-612** (p40): In Schedule CG, value of capital gains u/s 115AD(1)(b)(iii) proviso (where transfer is before 23 July 2024) should be equal to the corresponding amount mentioned for the same in Schedule 115AD(1)(b)(iii) proviso
+- **A-613** (p40): In Schedule CG, value of capital gains u/s 115AD(1)(b)(iii) proviso (where transfer is on or after 23 July 2024) should be equal to the corresponding amount mentioned for the same in Schedule 115AD(1)(b)(iii) proviso
+- **A-614** (p40): In schedule CG, value at sl.no. B8a should be same as B8ai+B8aii
+- **A-615** (p40): In schedule CG, value at sl.no. B8c should be same as B8ci+B8cii
+- **A-616** (p41): In schedule CG, value at sl.no. B8b should be same as B8bi+B8bii
+- **A-617** (p41): In schedule CG, value at B9e should be equal to B9ei+B9eii
+- **A-618** (p41): In Schedule CG, if any unutilized amount in Capital Gains Deposit Scheme is withdrawn then, whether date of limitation / withdrawal was before 23rd July 2024 should be mentioned
+- **A-619** (p41): In schedule CG, value at sl.no. B10b should be same as B10bi+B10bii
+- **A-620** (p41): In schedule CG, value at B10(i) should be equal to "B10bi + sum of B10a where date of limitation / withdrawal was before 23rd July 2024"
+- **A-621** (p41): In schedule CG, value at B10(ii) is not equal to "B10bii + sum of B10a where date of limitation / withdrawal was on or after 23rd July 2024"
+- **A-624** (p41): Value at field Ei8 should be equal to the sum of sl. no (B1gb+ B3(i)eii+B3(ii)eii+ B4cii+ B5ciii +B6eii + B7cii +B8cii+ B9eii+ B10ii+ B11a1 (ii)+ B11a2(ii) + B(A)12.5%)
+- **A-625** (p41): Value at field Eviii should be equal to the sum of sl. no (B1gb+ B3(i)eii+B3(ii)eii+ B4cii+ B5ciii +B6eii + B7cii +B8cii+ B9eii+ B10ii+ B11a1 (ii)+ B11a2(ii) + B(A)12.5%)
+- **A-633** (p42): Sum of capital gains from all properties where date of transfer was before 23rd July 2024 and where date of transfer was on or after 23rd July 2024 should be correctly reflected at B1g(a) and B1g(b) respectively
+- **A-634** (p42): In Schedule CG, B4a should be equal to sum of B4ai + B4aii.
+- **A-635** (p42): In Schedule CG, B4b should be equal to sum of B4bi + B4bii.
+- **A-636** (p42): In Schedule CG, B5b should be equal to sum of B5bi + B4bii+B5biii.
+- **A-637** (p42): In Schedule CG, B7a should be equal to sum of B7ai + B7aii.
+- **A-638** (p42): In Schedule CG, B7b should be equal to sum of B7bi + B7bii.
+- **A-639** (p42): In Schedule CG, B7c should be equal to sum of B7ci + B7cii.
+- **A-644** (p42): In schedule 112A, Value at field "Total of Col 14 where transfer was before 23rd July 2024 " is not matching with sum of individual fields of col 14 where dropdown is selected as "Before 23rd July 2024 " in 1b
+- **A-645** (p42): In schedule 115AD, Value at field "Total of Col 14 where transfer was before 23rd July 2024 " is not matching with sum of individual fields of col 14 where dropdown is selected as "Before 23rd July 2024 " in 1b
+- **A-647** (p42): Value at field B(A) should be equal to sum of values of drop down 12.5% or 10%
+- **A-649** (p43): In Schedule CG, Long Term Capital Gains from sale of Land or building or both before 23 July 2024 and on or after 23 July 2024 should be equal to the total Long Term Capital Gains from sale of Land or building or both
+- **A-660** (p43): In schedule CG, Sl. No. B3i biva of LTCG Total should be equal to sum of B3i(bia+biia+biiia)
+- **A-662** (p43): In schedule CG, Sl. No. B3(i)(ca) of LTCG Balance should be equal to B(3a-biva)
+- **A-663** (p43): In Schedule CG Sl.no. B3(i)ea of LTCG should be the difference of B(3ca-3d)
+- **A-664** (p43): In Schedule CG Sl.no. B3(i)e of LTCG should be equal to the sum of B3iei and B3ieii.
+- **A-665** (p43): In Schedule CG, tax on LTCG from sale listed securities (other than a unit) or zero coupon bonds should be 20% in case of transfer is before 23 July.
+- **A-666** (p43): In Schedule CG, tax on LTCG from sale listed securities (other than a unit) or zero coupon bonds as per 1st Proviso to section 112(1) should be 10% in case of transfer is before 23 July.
+- **A-667** (p44): In schedule CG, value at B3ih should be [B3(f) – B3(g)] if transfer was before 23rd July 2024
+- **A-668** (p44): In schedule CG,sl. No 2(i) of Table F Short-term capital gains taxable at the rate of 20% should not be more than zero
+- **A-669** (p44): In schedule CG,sl. No 7(i) of Table F Long- term capital gains taxable at the rate of 12.5% should not be more than zero
+- **A-720** (p47): In AY 25, In Schedule OS, Dividend u/s 2(22)(f) cannot be entered in Q1 & Q2
+- **A-721** (p47): In AY 25, In Schedule CG, STCG @15% cannot be entered in Q3, Q4 or Q5.

@@ -1,0 +1,331 @@
+<!-- ITR-3: convert AY 2026-27 build -> AY 2025-26 -->
+### 4c. CHANGE — same rule, different logic/limits
+
+- **A-28 → A-16** (similarity 93.9000015258789)
+  - 2026-27: You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as "More than 5%" in Part A General.
+  - 2025-26: You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as "No" in Part A General.
+  - diff: You are liable to audit u/s 44AB, since you have selected Sl. No. a2ii as ~~"More than 5%"~~ **"No"** in Part A General.
+- **A-29 → A-19** (similarity 94.0)
+  - 2026-27: You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as "More than 5%" in Part A General.
+  - 2025-26: You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as "No" in Part A General.
+  - diff: You are liable to audit u/s 44AB, since you have selected Sl. No. a2iii as ~~"More than 5%"~~ **"No"** in Part A General.
+- **A-136 → A-127** (similarity 93.0999984741211)
+  - 2026-27: Gross Receipts u/s 44ADA at sl.no.62 (i) should match with sum of 62 (i)a+62 (i)b+62 (i)c
+  - 2025-26: Gross Receipts u/s 44ADA at sl.no.63(i) should match with sum of 63(i)a+63(i)b+63(i)c
+  - diff: Gross Receipts u/s 44ADA at ~~sl.no.62 (i)~~ **sl.no.63(i)** should match with sum of ~~62 (i)a+62 (i)b+62 (i)c~~ **63(i)a+63(i)b+63(i)c**
+- **A-318 → A-234** (similarity 81.80000305175781)
+  - 2026-27: In Schedule DOA , Sl.No. 12 should be equal to sum of Sl.No. (10+11)
+  - 2025-26: In schedule BP, Sl.No. A12iii should be equal to Sl.No. A(12i+12ii)
+  - diff: In ~~Schedule DOA ,~~ **schedule BP,** Sl.No. ~~12~~ **A12iii** should be equal to ~~sum of~~ Sl.No. ~~(10+11)~~ **A(12i+12ii)**
+- **A-258 → A-243** (similarity 99.80000305175781)
+  - 2026-27: In Schedule BP, Sl.No. 28. "Amount of deduction under section 35 or 35CCC or 35CCD or 35ABA or 35ABB or 35CCA or 35D or 35DD or 35DDA or 35E in excess of the amount debited to P & L a/c" should be equal to Sl.No. X(4)of Schedule ESR
+  - 2025-26: In Schedule BP, Sl.No. 289. "Amount of deduction under section 35 or 35CCC or 35CCD or 35ABA or 35ABB or 35CCA or 35D or 35DD or 35DDA or 35E in excess of the amount debited to P & L a/c" should be equal to Sl.No. X(4)of Schedule ESR
+  - diff: In Schedule BP, Sl.No. ~~28.~~ **289.** "Amount of deduction under section 35 or 35CCC or 35CCD or 35ABA or 35ABB or 35CCA or 35D or 35DD or 35DDA or 35E in excess of the amount debited to P & L a/c" should be equal to Sl.No. X(4)of Schedule ESR
+- **A-263 → A-248** (similarity 98.5999984741211)
+  - 2026-27: In schedule BP, Sl.No. A35viii should be equal to sum of individual amounts entered in Sl.No. A35i to 35vii.
+  - 2025-26: In schedule BP, Sl.No. A356viii should be equal to sum of individual amounts entered in Sl.No. A356i to 356vii.
+  - diff: In schedule BP, Sl.No. ~~A35viii~~ **A356viii** should be equal to sum of individual amounts entered in Sl.No. ~~A35i~~ **A356i** to ~~35vii.~~ **356vii.**
+- **A-364 → A-347** (similarity 98.19999694824219)
+  - 2026-27: In Schedule CG, Full Value of Consideration(Sl.No. B6a) is zero than expenses (Sl.No.B6b(iv) cannot be claimed
+  - 2025-26: In Schedule CG, Full Value of Consideration(Sl.No. B7a) is zero than expenses (Sl.No.B7b(iv) cannot be claimed
+  - diff: In Schedule CG, Full Value of Consideration(Sl.No. ~~B6a)~~ **B7a)** is zero than expenses ~~(Sl.No.B6b(iv)~~ **(Sl.No.B7b(iv)** cannot be claimed
+- **A-365 → A-348** (similarity 97.30000305175781)
+  - 2026-27: In Schedule CG, Full Value of Consideration (Sl.No. B9aiii) is zero and expenses (Sl.No.B9b(iv) cannot be claimed
+  - 2025-26: In Schedule CG, Full Value of Consideration (Sl.No. B10aiii) is zero and expenses (Sl.No.B10b(iv) cannot be claimed
+  - diff: In Schedule CG, Full Value of Consideration (Sl.No. ~~B9aiii)~~ **B10aiii)** is zero and expenses ~~(Sl.No.B9b(iv)~~ **(Sl.No.B10b(iv)** cannot be claimed
+- **A-408 → A-373** (similarity 94.30000305175781)
+  - 2026-27: In Schedule CG, Sl.No. B9e should be equal to B(9c-9d)
+  - 2025-26: In Schedule CG Sl.No. B3e should be equal to B(3c-3d)
+  - diff: In Schedule ~~CG,~~ **CG** Sl.No. ~~B9e~~ **B3e** should be equal to ~~B(9c-9d)~~ **B(3c-3d)**
+- **A-393 → A-374** (similarity 98.9000015258789)
+  - 2026-27: In Schedule CG, Sl.No. B4a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A
+  - 2025-26: In Schedule CG, Sl.No. B5a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A
+  - diff: In Schedule CG, Sl.No. ~~B4a~~ **B5a** LTCG u/s 112A should be equal to total of Col. 14 of Schedule 112A
+- **A-394 → A-375** (similarity 95.0999984741211)
+  - 2026-27: In Schedule CG, Sl.No. B4c of LTCG should be equal to B(4a-4b)
+  - 2025-26: In Schedule CG, Sl.No. B5c of LTCG should be equal to B(5a-5b)
+  - diff: In Schedule CG, Sl.No. ~~B4c~~ **B5c** of LTCG should be equal to ~~B(4a-4b)~~ **B(5a-5b)**
+- **A-395 → A-376** (similarity 96.19999694824219)
+  - 2026-27: In schedule CG, Sl.No. B5c LTCG on share or debenture should be equal to B(5a-5b)
+  - 2025-26: In schedule CG, Sl.No. B6c LTCG on share or debenture should be equal to B(6a-6b)
+  - diff: In schedule CG, Sl.No. ~~B5c~~ **B6c** LTCG on share or debenture should be equal to ~~B(5a-5b)~~ **B(6a-6b)**
+- **A-404 → A-377** (similarity 94.0)
+  - 2026-27: In Schedule CG, Sl.No. B9 (a)(ic) should be higher of B9 (a)(ia) or B9 (a)(ib)
+  - 2025-26: In Schedule CG Sl.No. B7(a)(ic) should be higher of B7(a)(ia) or B7(a)(ib)
+  - diff: In Schedule ~~CG,~~ **CG** Sl.No. ~~B9 (a)(ic)~~ **B7(a)(ic)** should be higher of ~~B9 (a)(ia)~~ **B7(a)(ia)** or ~~B9 (a)(ib)~~ **B7(a)(ib)**
+- **A-397 → A-378** (similarity 96.5999984741211)
+  - 2026-27: In schedule CG, Sl.No. B6 aiii Total should be equal to sum of B6 (a)(ic+ii)
+  - 2025-26: In schedule CG, Sl.No. B7 aiii Total should be equal to sum of B7(a)(ic+ii)
+  - diff: In schedule CG, Sl.No. ~~B6~~ **B7** aiii Total should be equal to sum of ~~B6 (a)(ic+ii)~~ **B7(a)(ic+ii)**
+- **A-406 → A-379** (similarity 96.69999694824219)
+  - 2026-27: In schedule CG, Sl.No. B9biv Total should be equal to sum of B9 (bi+bii+biii)
+  - 2025-26: In schedule CG, Sl.No. B7biv Total should be equal to sum of B7(bi+bii+biii)
+  - diff: In schedule CG, Sl.No. ~~B9biv~~ **B7biv** Total should be equal to sum of ~~B9 (bi+bii+biii)~~ **B7(bi+bii+biii)**
+- **A-407 → A-380** (similarity 96.9000015258789)
+  - 2026-27: In schedule CG, Sl.No. B9c Balance should be equal to B(9aiii-biv)
+  - 2025-26: In schedule CG, Sl.No. B7c Balance should be equal to B(7aiii-biv)
+  - diff: In schedule CG, Sl.No. ~~B9c~~ **B7c** Balance should be equal to ~~B(9aiii-biv)~~ **B(7aiii-biv)**
+- **A-400 → A-381** (similarity 95.0999984741211)
+  - 2026-27: In Schedule CG Sl.No. B6e of LTCG should be equal to B(6c-6d)
+  - 2025-26: In Schedule CG Sl.No. B7e of LTCG should be equal to B(7c-7d)
+  - diff: In Schedule CG Sl.No. ~~B6e~~ **B7e** of LTCG should be equal to ~~B(6c-6d)~~ **B(7c-7d)**
+- **A-401 → A-382** (similarity 99.0)
+  - 2026-27: In Schedule CG, Sl.No. B7a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)
+  - 2025-26: In Schedule CG, Sl.No. B8a LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)
+  - diff: In Schedule CG, Sl.No. ~~B7a~~ **B8a** LTCG u/s 112A should be equal to total of Col. 14 of Schedule 115AD(1)(iii)
+- **A-402 → A-383** (similarity 95.0999984741211)
+  - 2026-27: In Schedule CG Sl.No. B7c of LTCG should be equal to B(7a-7b)
+  - 2025-26: In Schedule CG Sl.No. B8c of LTCG should be equal to B(8a-8b)
+  - diff: In Schedule CG Sl.No. ~~B7c~~ **B8c** of LTCG should be equal to ~~B(7a-7b)~~ **B(8a-8b)**
+- **A-403 → A-384** (similarity 96.30000305175781)
+  - 2026-27: In schedule CG, Sl.No. B8c LTCG on share or debenture should be equal to B(8a-8b).
+  - 2025-26: In schedule CG, Sl.No. B9c LTCG on share or debenture should be equal to B(9a-9b).
+  - diff: In schedule CG, Sl.No. ~~B8c~~ **B9c** LTCG on share or debenture should be equal to ~~B(8a-8b).~~ **B(9a-9b).**
+- **A-396 → A-385** (similarity 92.19999694824219)
+  - 2026-27: In Schedule CG Sl.No. B6 (a)(ic) should be higher of B6 (a)(ia) or B6 (a)(ib)
+  - 2025-26: In Schedule CG, Sl.No. B10(a)(ic) should be higher of B10(a)(ia) or B10(a)(ib)
+  - diff: In Schedule ~~CG~~ **CG,** Sl.No. ~~B6 (a)(ic)~~ **B10(a)(ic)** should be higher of ~~B6 (a)(ia)~~ **B10(a)(ia)** or ~~B6 (a)(ib)~~ **B10(a)(ib)**
+- **A-405 → A-386** (similarity 94.80000305175781)
+  - 2026-27: In schedule CG, Sl.No. B9 (aiii) Total should be equal to sum of B9 (a)(ic+ii)
+  - 2025-26: In schedule CG, Sl.No. B10(aiii) Total should be equal to sum of B10(a)(ic+ii)
+  - diff: In schedule CG, Sl.No. ~~B9 (aiii)~~ **B10(aiii)** Total should be equal to sum of ~~B9 (a)(ic+ii)~~ **B10(a)(ic+ii)**
+- **A-398 → A-387** (similarity 95.4000015258789)
+  - 2026-27: In schedule CG, Sl.No. B6biv Total should be equal to sum of B6 (bi+bii+biii)
+  - 2025-26: In schedule CG, Sl.No. B10biv Total should be equal to sum of B10(bi+bii+biii)
+  - diff: In schedule CG, Sl.No. ~~B6biv~~ **B10biv** Total should be equal to sum of ~~B6 (bi+bii+biii)~~ **B10(bi+bii+biii)**
+- **A-399 → A-388** (similarity 95.5)
+  - 2026-27: In schedule CG, Sl.No. B6c Balance should be equal to B(6aiii-biv)
+  - 2025-26: In schedule CG, Sl.No. B10c Balance should be equal to B(10aiii-biv)
+  - diff: In schedule CG, Sl.No. ~~B6c~~ **B10c** Balance should be equal to ~~B(6aiii-biv)~~ **B(10aiii-biv)**
+- **A-409 → A-390** (similarity 96.4000015258789)
+  - 2026-27: In Schedule CG, Sl.No. B10 should be equal to B10 (aXi + aXii +aXn+ b)
+  - 2025-26: In Schedule CG, Sl.No. B11 should be equal to B11(aXi + aXii +aXn+ b)
+  - diff: In Schedule CG, Sl.No. ~~B10~~ **B11** should be equal to ~~B10 (aXi~~ **B11(aXi** + aXii +aXn+ b)
+- **A-410 → A-391** (similarity 83.80000305175781)
+  - 2026-27: In Schedule CG, Sl. No. B11 should be equal to (B11a1+B11a2)
+  - 2025-26: In Schedule CG, Sl. No. B12 should be equal to (B12a1(i)+B12a1(ii)+B12a2+B12b)
+  - diff: In Schedule CG, Sl. No. ~~B11~~ **B12** should be equal to ~~(B11a1+B11a2)~~ **(B12a1(i)+B12a1(ii)+B12a2+B12b)**
+- **A-414 → A-394** (similarity 92.9000015258789)
+  - 2026-27: In Schedule CG, Sl.No. Eix should be equal Ei-Eviii
+  - 2025-26: In Schedule CG, Sl.No. Exii should be equal Ei-Exi
+  - diff: In Schedule CG, Sl.No. ~~Eix~~ **Exii** should be equal ~~Ei-Eviii~~ **Ei-Exi**
+- **A-422 → A-395** (similarity 96.69999694824219)
+  - 2026-27: In Schedule CG, Sl.No. Evii should be equal to Sl.No. B12b. Note: This rule will be applicable only if Sl.No. B12b is positive
+  - 2025-26: In Schedule CG, Sl.No. Ex should be equal to Sl.No. B13b. Note: This rule will be applicable only if Sl.No. B13b is positive
+  - diff: In Schedule CG, Sl.No. ~~Evii~~ **Ex** should be equal to Sl.No. ~~B12b.~~ **B13b.** Note: This rule will be applicable only if Sl.No. ~~B12b~~ **B13b** is positive
+- **A-443 → A-409** (similarity 96.5999984741211)
+  - 2026-27: In Schedule CG, STCG @ 20% - 111A & 115AD(1)(b)(ii) can only be entered once.
+  - 2025-26: In Schedule CG, STCG @ 15 % - 111A & 115AD(1)(b)(ii) can only be entered once.
+  - diff: In Schedule CG, STCG @ ~~20%~~ **15 %** - 111A & 115AD(1)(b)(ii) can only be entered once.
+- **A-385 → A-411** (similarity 85.0999984741211)
+  - 2026-27: In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1 (bi + ∑biib(a) + biii)
+  - 2025-26: In schedule CG, Sl.No. B4ii biv Total should be equal to sum of B4ii(bi+bii+biii)
+  - diff: In schedule CG, ~~Sl. No. B1~~ **Sl.No. B4ii** biv ~~of LTCG~~ Total should be equal to sum of ~~B1 (bi + ∑biib(a) + biii)~~ **B4ii(bi+bii+biii)**
+- **A-415 → A-414** (similarity 96.80000305175781)
+  - 2026-27: In Schedule CG, Sl.No. Ei3 should be equal to sum of Sl.No. (A5e+ A8b +A(A) for 30%)]) Note: This rule will be applicable only if the sum of Sl.No. (A5e+ A8b +A(A) for 30%)] is negative
+  - 2025-26: In Schedule CG, Sl.No. Ei3 i4 should be equal to sum of Sl.No. (A5e+ A8b + A(A)II for 30%) Note: This rule will be applicable only if the sum of Sl.No. (A5e+ A8b +A(A)II for 30%)] is negative .
+  - diff: In Schedule CG, Sl.No. Ei3 **i4** should be equal to sum of Sl.No. (A5e+ A8b ~~+A(A)~~ **+ A(A)II** for ~~30%)])~~ **30%)** Note: This rule will be applicable only if the sum of Sl.No. (A5e+ A8b ~~+A(A)~~ **+A(A)II** for 30%)] is negative **.**
+- **A-447 → A-419** (similarity 91.80000305175781)
+  - 2026-27: Value at field Ei2 should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A) @20%)
+  - 2025-26: Value at field Ei3 should be equal to the sum of sl no (A3e(ii)+ A4a(ii)+ A8a(ii)+A(A) @20%)
+  - diff: Value at field ~~Ei2~~ **Ei3** should be equal to the sum of sl no ~~(A3e+ A4a+ A8a+A(A)~~ **(A3e(ii)+ A4a(ii)+ A8a(ii)+A(A)** @20%)
+- **A-448 → A-420** (similarity 92.4000015258789)
+  - 2026-27: Value at field Eii should be equal to the sum of sl no (A3e+ A4a+ A8a+A(A)@20%)
+  - 2025-26: Value at field Eiii should be equal to the sum of sl no (A3e(ii)+ A4a(ii)+ A8a(ii)+A(A) @20%)
+  - diff: Value at field ~~Eii~~ **Eiii** should be equal to the sum of sl no ~~(A3e+ A4a+ A8a+A(A)@20%)~~ **(A3e(ii)+ A4a(ii)+ A8a(ii)+A(A) @20%)**
+- **A-449 → A-421** (similarity 80.0999984741211)
+  - 2026-27: Value at field Ei6 should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A)
+  - 2025-26: Value at field Ei8 should be equal to the sum of sl no B1g(b) + B2(e)(ii) + B4ieii + B4iieii + B5cii + B6ciii + B7eii + B8cii + B9cii + B10eii + B11ii+ B12a1(ii) + B12a2(ii) + B(A) @12.5%
+  - diff: Value at field ~~Ei6~~ **Ei8** should be equal to the sum of sl no ~~B1g~~ **B1g(b)** + ~~B2(e)~~ **B2(e)(ii)** + ~~B3e~~ **B4ieii** + ~~B4c~~ **B4iieii** + ~~B5c~~ **B5cii** + ~~B6e~~ **B6ciii** + ~~B7c~~ **B7eii** + ~~B8c~~ **B8cii** + ~~B9e~~ **B9cii** + ~~B10~~ **B10eii** + ~~B11a1+ B11a2~~ **B11ii+ B12a1(ii) + B12a2(ii)** + B(A) **@12.5%**
+- **A-450 → A-422** (similarity 80.19999694824219)
+  - 2026-27: Value at field Evi should be equal to the sum of sl no B1g + B2(e) + B3e + B4c + B5c + B6e + B7c + B8c + B9e + B10 + B11a1+ B11a2 + B(A)
+  - 2025-26: Value at field Eviii should be equal to the sum of sl no B1g(b) + B2(e)(ii) + B4ieii + B4iieii + B5cii + B6ciii + B7eii + B8cii + B9cii + B10eii + B11ii+ B12a1(ii) + B12a2(ii) + B(A) @12.5%
+  - diff: Value at field ~~Evi~~ **Eviii** should be equal to the sum of sl no ~~B1g~~ **B1g(b)** + ~~B2(e)~~ **B2(e)(ii)** + ~~B3e~~ **B4ieii** + ~~B4c~~ **B4iieii** + ~~B5c~~ **B5cii** + ~~B6e~~ **B6ciii** + ~~B7c~~ **B7eii** + ~~B8c~~ **B8cii** + ~~B9e~~ **B9cii** + ~~B10~~ **B10eii** + ~~B11a1+ B11a2~~ **B11ii+ B12a1(ii) + B12a2(ii)** + B(A) **@12.5%**
+- **A-475 → A-424** (similarity 96.30000305175781)
+  - 2026-27: In schedule CG, Sl. No. B9d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B9di to B9div
+  - 2025-26: In schedule CG, Sl. No. B10d of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. B10di to B10div
+  - diff: In schedule CG, Sl. No. ~~B9d~~ **B10d** of LTCG, Total deduction should be equal to sum of deduction mentioned at Sl. No. ~~B9di~~ **B10di** to ~~B9div~~ **B10div**
+- **A-392 → A-431** (similarity 94.30000305175781)
+  - 2026-27: In Schedule CG, Sl.No. B3e of LTCG should be equal to B3 (c-d)
+  - 2025-26: In Schedule CG, Sl.No. B4ie of LTCG should be equal to B4i(c-d)
+  - diff: In Schedule CG, Sl.No. ~~B3e~~ **B4ie** of LTCG should be equal to ~~B3 (c-d)~~ **B4i(c-d)**
+- **A-384 → A-435** (similarity 91.5999984741211)
+  - 2026-27: In Schedule CG Sl.No. A8 should be equal to the sum of (A8a+ A8b + A8c)
+  - 2025-26: In Schedule CG Sl.No. A8 should be equal to the sum of (A8a(i) + A8a(ii)+ A8b + A8c)
+  - diff: In Schedule CG Sl.No. A8 should be equal to the sum of ~~(A8a+~~ **(A8a(i) + A8a(ii)+** A8b + A8c)
+- **A-413 → A-436** (similarity 92.0)
+  - 2026-27: In Schedule CG, Sl.No. Eviii should be equal to the sum of sl no (ii + iii + iv + v + vi + vii)
+  - 2025-26: In Schedule CG, Sl.No. Eix Exi should be equal to the sum of sl no (ii + iii + iv + v + vi + vii+viii+ix+x)
+  - diff: In Schedule CG, Sl.No. ~~Eviii~~ **Eix Exi** should be equal to the sum of sl no (ii + iii + iv + v + vi + ~~vii)~~ **vii+viii+ix+x)**
+- **A-417 → A-439** (similarity 99.19999694824219)
+  - 2026-27: In Schedule CG, Sl.No. Ei5 should be equal to Sl.No. 9b Note: This rule will be applicable only if Sl.No. A9b is negative
+  - 2025-26: In Schedule CG, Sl.No. Ei6 should be equal to Sl.No. 9b Note: This rule will be applicable only if Sl.No. A9b is negative
+  - diff: In Schedule CG, Sl.No. ~~Ei5~~ **Ei6** should be equal to Sl.No. 9b Note: This rule will be applicable only if Sl.No. A9b is negative
+- **A-418 → A-440** (similarity 96.69999694824219)
+  - 2026-27: In Schedule CG, Sl.No. Ei7 should be equal to Sl.No. B12b. Note: This rule will be applicable only if Sl.No. B12bis negative
+  - 2025-26: In Schedule CG, Sl.No. Ei10 should be equal to Sl.No. B13b. Note: This rule will be applicable only if Sl.No. B13b is negative
+  - diff: In Schedule CG, Sl.No. ~~Ei7~~ **Ei10** should be equal to Sl.No. ~~B12b.~~ **B13b.** Note: This rule will be applicable only if Sl.No. ~~B12bis~~ **B13b is** negative
+- **A-424 → A-443** (similarity 93.19999694824219)
+  - 2026-27: In Sch CG, value at field E8 is not equal to the Col no (1-2-3-4-5-6-7)
+  - 2025-26: In Sch CG, value at field E11 is not equal to the Col no (1-2-3-4-5-6-7-8-9-10)
+  - diff: In Sch CG, value at field ~~E8~~ **E11** is not equal to the Col no ~~(1-2-3-4-5-6-7)~~ **(1-2-3-4-5-6-7-8-9-10)**
+- **A-428 → A-449** (similarity 99.19999694824219)
+  - 2026-27: In Schedule CG, Table F Sl.No.6 the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA
+  - 2025-26: In Schedule CG, Table F Sl.No.8 the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA
+  - diff: In Schedule CG, Table F ~~Sl.No.6~~ **Sl.No.8** the breakup of all the quarters should be equal to the value from item 5xi of schedule BFLA
+- **A-439 → A-451** (similarity 98.5999984741211)
+  - 2026-27: In Schedule CG, Table F Sl. No.7 the breakup of all the quarters should be equal to the value of 'Income under the head Capital Gain' of schedule SI
+  - 2025-26: In Schedule CG, Table F Sl. No. 10 the breakup of all the quarters should be equal to the value of 'Income under the head Capital Gain' of schedule SI
+  - diff: In Schedule CG, Table F Sl. ~~No.7~~ **No. 10** the breakup of all the quarters should be equal to the value of 'Income under the head Capital Gain' of schedule SI
+- **A-440 → A-452** (similarity 98.0999984741211)
+  - 2026-27: In Schedule CG, Table F Sl. No. 7 the breakup of all the quarters should be equal to the value at Sl. No. C2
+  - 2025-26: In Schedule CG, Table F Sl. N. 10 the breakup of all the quarters should be equal to the value at Sl. No. C2
+  - diff: In Schedule CG, Table F Sl. ~~No. 7~~ **N. 10** the breakup of all the quarters should be equal to the value at Sl. No. C2
+- **A-444 → A-453** (similarity 87.0999984741211)
+  - 2026-27: In Schedule CG, the beneficial rate of LTCG on sale of land or building or both is applicable only if the acquisition is before 23 July 2024
+  - 2025-26: In Schedule CG, the beneficial rate of LTCG on sale of land or building or both is applicable only if the acquisition is before 23 July 2024 and transfer is on or after 23 July 2024
+  - diff: In Schedule CG, the beneficial rate of LTCG on sale of land or building or both is applicable only if the acquisition is before 23 July 2024 **and transfer is on or after 23 July 2024**
+- **A-427 → A-463** (similarity 98.4000015258789)
+  - 2026-27: In Schedule CG, Table F Sl.No. 4 the breakup of all the quarters should be equal to the value from item 5ix of schedule BFLA
+  - 2025-26: In Schedule CG, Table F Sl.No. 7 the breakup of all the quarters should be equal to the value from item 5xb of schedule BFLA
+  - diff: In Schedule CG, Table F Sl.No. ~~4~~ **7** the breakup of all the quarters should be equal to the value from item ~~5ix~~ **5xb** of schedule BFLA
+- **A-465 → A-482** (similarity 94.19999694824219)
+  - 2026-27: In Table E of Schedule CG, Column 8 of each row should be equal to 1- (2+3+4+5+6+7)
+  - 2025-26: In Table E of Schedule CG, Column 11 of each row should be equal to 1- (2+3+4+5+6+7+8+9+10)
+  - diff: In Table E of Schedule CG, Column ~~8~~ **11** of each row should be equal to 1- ~~(2+3+4+5+6+7)~~ **(2+3+4+5+6+7+8+9+10)**
+- **A-872 → A-541** (similarity 78.19999694824219)
+  - 2026-27: Income from short term capital gains chargeable at special rates in India as per DTAA in Schedule SI should be equal to Sl.No. 5(ix) of Schedule BFLA Note: If status in Part A general is Non-resident, DTAA income shall be considered if TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag.
+  - 2025-26: In Schedule OS, Sl. No. 10 the quarterly break up of Dividend income taxable at DTAA rates should be equal to Dividend income selected at Sl.No. 2f of Schedule OS Note: If status in Part A general is Non-resident, DTAA income shall be considered provided TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag.
+  - diff: ~~Income from short term capital gains chargeable~~ **In Schedule OS, Sl. No. 10 the quarterly break up of Dividend income taxable** at ~~special~~ **DTAA** rates ~~in India as per DTAA in Schedule SI~~ should be equal to **Dividend income selected at** Sl.No. ~~5(ix)~~ **2f** of Schedule ~~BFLA~~ **OS** Note: If status in Part A general is Non-resident, DTAA income shall be considered ~~if~~ **provided** TRC flag is "Yes". If status in Part A general is Resident, DTAA income shall be considered irrespective of the TRC flag.
+- **A-565 → A-573** (similarity 98.4000015258789)
+  - 2026-27: In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.No. 8iv of item E of Schedule CG
+  - 2025-26: In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.No. 11v of item E of Schedule CG
+  - diff: In Schedule CYLA, Short term capital gain taxable at applicable rates should be equal to Sl.No. ~~8iv~~ **11v** of item E of Schedule CG
+- **A-566 → A-574** (similarity 98.5999984741211)
+  - 2026-27: In Schedule CYLA, Short term capital gain taxable at special rates in India as per DTAA should be equal to Sl.No. 8v of item E of Schedule CG
+  - 2025-26: In Schedule CYLA, Short term capital gain taxable at special rates in India as per DTAA should be equal to Sl.No. 11vi of item E of Schedule CG
+  - diff: In Schedule CYLA, Short term capital gain taxable at special rates in India as per DTAA should be equal to Sl.No. ~~8v~~ **11vi** of item E of Schedule CG
+- **A-567 → A-577** (similarity 97.30000305175781)
+  - 2026-27: In Schedule CYLA, Long term capital gain taxable as per DTAA @special rate should be equal to Sl.No. 8vii of item E of Schedule CG
+  - 2025-26: In Schedule CYLA, Long term capital gain taxable as per DTAA @special rate should be equal to Sl.No. 11x of item E of Schedule CG
+  - diff: In Schedule CYLA, Long term capital gain taxable as per DTAA @special rate should be equal to Sl.No. ~~8vii~~ **11x** of item E of Schedule CG
+- **A-555 → A-594** (similarity 92.9000015258789)
+  - 2026-27: In Schedule CYLA, Sl.No. 3xvi "Total loss set off" should be equal to sum of ( 3iii+ 3vii+ 3viii + 3ix + 3x+3xi+3xii +3xiii+3xiv+3xv)
+  - 2025-26: In Schedule CYLA, Sl.No. 3xvii "Total loss set off" should be equal to sum of ( 3iii+ 3viia+3viib + 3viii + 3ix + 3x+3xia+3xib+3xii +3xiii+3xiv+3xv+3xvi)
+  - diff: In Schedule CYLA, Sl.No. ~~3xvi~~ **3xvii** "Total loss set off" should be equal to sum of ( 3iii+ ~~3vii+~~ **3viia+3viib +** 3viii + 3ix + ~~3x+3xi+3xii +3xiii+3xiv+3xv)~~ **3x+3xia+3xib+3xii +3xiii+3xiv+3xv+3xvi)**
+- **A-582 → A-595** (similarity 98.0)
+  - 2026-27: In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. 8ii of item E of Schedule CG
+  - 2025-26: In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. 11iii of item E of Schedule CG
+  - diff: In Schedule CYLA, Short term capital gain @20% should be equal to Sl.No. ~~8ii~~ **11iii** of item E of Schedule CG
+- **A-586 → A-599** (similarity 91.80000305175781)
+  - 2026-27: In Schedule BFLA, Sl.No. 2(vi +vii+viii+ix+x +xi) should be equal to Sl.No. 8(xviii)+9(xviii) of CFL
+  - 2025-26: In Schedule BFLA, Sl.No. 2(via+vib+vii+viii+ix+xa+xb+xi+xii) should be equal to Sl.No. 8(xvii)+9(xvii) of CFL
+  - diff: In Schedule BFLA, Sl.No. ~~2(vi +vii+viii+ix+x +xi)~~ **2(via+vib+vii+viii+ix+xa+xb+xi+xii)** should be equal to Sl.No. ~~8(xviii)+9(xviii)~~ **8(xvii)+9(xvii)** of CFL
+- **A-589 → A-623** (similarity 92.80000305175781)
+  - 2026-27: In Schedule BFLA, Sl.No. 3xv should be equal to sum of Sl.No. (3ii + 3iii + 3iv + 3v + 3vi+ 3vii +3viii + 3ix + 3x+ 3xi+3xii+3xiii+3xiv )
+  - 2025-26: In Schedule BFLA, Sl.No. 3xvi should be equal to sum of Sl.No. (3ii + 3iii + 3iv + 3v + 3 via+3vib + 3vii +3viii + 3ix + 3 x a+3xb + 3xi+3xii+3xiii+3xiv+3xv )
+  - diff: In Schedule BFLA, Sl.No. ~~3xv~~ **3xvi** should be equal to sum of Sl.No. (3ii + 3iii + 3iv + 3v + ~~3vi+~~ **3 via+3vib +** 3vii +3viii + 3ix + ~~3x+ 3xi+3xii+3xiii+3xiv~~ **3 x a+3xb + 3xi+3xii+3xiii+3xiv+3xv** )
+- **A-302 → A-628** (similarity 84.0)
+  - 2026-27: In schedule BP, Sl.No. 19 should be equal to Sl.No. 17 of schedule Part A-OI
+  - 2025-26: In Schedule BFLA, Sl.No. 1xb should be equal to Sl.No. 5xib of schedule CYLA
+  - diff: In ~~schedule BP,~~ **Schedule BFLA,** Sl.No. ~~19~~ **1xb** should be equal to Sl.No. ~~17~~ **5xib** of schedule ~~Part A-OI~~ **CYLA**
+- **A-762 → A-669** (similarity 98.9000015258789)
+  - 2026-27: Deduction u/s 80TTA should be restricted to interest income from Savings Account under Income from other sources and 5xii of BFLA.
+  - 2025-26: Deduction u/s 80TTA should be restricted to interest income from Savings Account under Income from other sources and 3xiii of BFLA.
+  - diff: Deduction u/s 80TTA should be restricted to interest income from Savings Account under Income from other sources and ~~5xii~~ **3xiii** of BFLA.
+- **A-643 → A-710** (similarity 92.4000015258789)
+  - 2026-27: In Sch 80G, Total Donation at point E should be equal to the sum of (Aix+Bix+Cix+Dx)
+  - 2025-26: In Sch 80G, Total Donation at point E should be equal to the sum of (Aiii+Biii+Ciii+Diii)
+  - diff: In Sch 80G, Total Donation at point E should be equal to the sum of ~~(Aix+Bix+Cix+Dx)~~ **(Aiii+Biii+Ciii+Diii)**
+- **A-765 → A-776** (similarity 98.0999984741211)
+  - 2026-27: Deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources and 5xii of BFLA. Deduction is available only if "New Tax Regime" is not selected
+  - 2025-26: Deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources and 3xiii of BFLA. Deduction is available only if " New Old Tax Regime" is not selected
+  - diff: Deduction u/s 80TTB should be restricted to interest income (Savings & Deposits) from other sources and ~~5xii~~ **3xiii** of BFLA. Deduction is available only if ~~"New~~ **" New Old** Tax Regime" is not selected
+- **A-856 → A-821** (similarity 97.4000015258789)
+  - 2026-27: In Schedule SI, Amount in column "tax thereon" should be equal to "taxable income * special rate" excluding for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (12.5%), 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA, STCG PTI@20%
+  - 2025-26: In Schedule SI, Amount in column "tax thereon" should be equal to "taxable income * special rate" excluding for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (10% and 12.5%), 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA, , STCG PTI@20%, STCG PTI@15%
+  - diff: In Schedule SI, Amount in column "tax thereon" should be equal to "taxable income * special rate" excluding for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A ~~(12.5%),~~ **(10% and 12.5%),** 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA, **,** STCG ~~PTI@20%~~ **PTI@20%, STCG PTI@15%**
+- **A-857 → A-822** (similarity 98.19999694824219)
+  - 2026-27: In Schedule SI, tax computed can not be null if income is greater than zero. Note : This rule is not applicable for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (12.5%), 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA and 112 Long Term Capital Gains (with indexation), STCG PTI@20%
+  - 2025-26: In Schedule SI, tax computed can not be null if income is greater than zero. Note : This rule is not applicable for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A (10% and 12.5%), 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA and 112 Long Term Capital Gains (with indexation), STCG PTI@20% & PTI @15%
+  - diff: In Schedule SI, tax computed can not be null if income is greater than zero. Note : This rule is not applicable for field OS DTAA, Tax on accumulated balance of recognized provident fund and 112A and PTI 112A ~~(12.5%),~~ **(10% and 12.5%),** 111A, 112 (proviso) or section 115AD(1)(iii)-Proviso (LTCG on sale of shares or units on which STT is paid), STCG and LTCG chargeable at special rates in India as per DTAA and 112 Long Term Capital Gains (with indexation), STCG PTI@20% **& PTI @15%**
+- **A-846 → A-893** (similarity 98.30000305175781)
+  - 2026-27: In Schedule AMTC, value at Sl. No. B2(xii) cannot be greater than zero i.e. set off in earlier assessment years cannot be claimed for AY 2025-26
+  - 2025-26: In Schedule AMTC, value at Sl. No. B2(xiii) cannot be greater than zero i.e. set off in earlier assessment years cannot be claimed for AY 2024-25
+  - diff: In Schedule AMTC, value at Sl. No. ~~B2(xii)~~ **B2(xiii)** cannot be greater than zero i.e. set off in earlier assessment years cannot be claimed for AY ~~2025-26~~ **2024-25**
+- **A-913 → A-934** (similarity 90.69999694824219)
+  - 2026-27: If tax computation is more than 0, GTI (Gross Total Income) should be disclosed mandatorily, It cannot be left as Nil or 0.
+  - 2025-26: If tax computation has been disclosed. GTI (Gross Total Income) should be disclosed mandatorily, It cannot be left as Nil or 0.
+  - diff: If tax computation ~~is more than 0,~~ **has been disclosed.** GTI (Gross Total Income) should be disclosed mandatorily, It cannot be left as Nil or 0.
+- **A-923 → A-942** (similarity 98.80000305175781)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Short term chargeable @30% should be equal to Sl.no. 8iii of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Short term chargeable @30% should be equal to Sl.no. 11iii of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Short term chargeable @30% should be equal to Sl.no. ~~8iii~~ **11iii** of Table E in Schedule CG.
+- **A-924 → A-943** (similarity 98.9000015258789)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Short term chargeable @ applicable rate should be equal to Sl.no. 8iv of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Short term chargeable @ applicable rate should be equal to Sl.no. 11iv of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Short term chargeable @ applicable rate should be equal to Sl.no. ~~8iv~~ **11iv** of Table E in Schedule CG.
+- **A-925 → A-944** (similarity 98.9000015258789)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Short term chargeable as per DTAA should be equal to Sl.no. 8v of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Short term chargeable as per DTAA should be equal to Sl.no. 11v of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Short term chargeable as per DTAA should be equal to Sl.no. ~~8v~~ **11v** of Table E in Schedule CG.
+- **A-926 → A-947** (similarity 97.30000305175781)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Long term chargeable as per DTAA should be equal to Sl.no. 8vii of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Long term chargeable as per DTAA should be equal to Sl.no. 11x of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Long term chargeable as per DTAA should be equal to Sl.no. ~~8vii~~ **11x** of Table E in Schedule CG.
+- **A-976 → A-970** (similarity 85.80000305175781)
+  - 2026-27: In Schedule Part B-TTI, Refund claimed should match with the difference of “Total Taxes Paid” and “Aggregate Liability”.
+  - 2025-26: In Schedule Part B-TTI, Refund claimed should match with the difference of “Total Taxes Paid” and “Total Tax and Interest & fee payable”.
+  - diff: In Schedule Part B-TTI, Refund claimed should match with the difference of “Total Taxes Paid” and ~~“Aggregate Liability”.~~ **“Total Tax and Interest & fee payable”.**
+- **A-977 → A-971** (similarity 86.5999984741211)
+  - 2026-27: In Schedule Part B-TTI, Tax payable Amount is not matching with the difference of “Aggregate Liability” and “Total Taxes Paid”.
+  - 2025-26: In Schedule Part B-TTI, Tax payable Amount is not matching with the difference of “Total Tax and Interest & fee payable” and “Total Taxes Paid”.
+  - diff: In Schedule Part B-TTI, Tax payable Amount is not matching with the difference of ~~“Aggregate Liability”~~ **“Total Tax and Interest & fee payable”** and “Total Taxes Paid”.
+- **A-988 → A-991** (similarity 99.0999984741211)
+  - 2026-27: Assessee with total income exceeding Rs. 12,00,000 subject to marginal relief (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax act, 1961.
+  - 2025-26: Assessee with total income exceeding Rs. 7,00,000 subject to marginal relief (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax act, 1961.
+  - diff: Assessee with total income exceeding Rs. ~~12,00,000~~ **7,00,000** subject to marginal relief (if any) cannot claim Rebate u/s 87A. Please refer to section 87A of Income tax act, 1961.
+- **A-958 → A-997** (similarity 98.4000015258789)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl.no. 8ii of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl.no. 11iii of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Short term chargeable @20% should be equal to Sl.no. ~~8ii~~ **11iii** of Table E in Schedule CG.
+- **A-959 → A-998** (similarity 98.0)
+  - 2026-27: In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl.no. 8vi of Table E in Schedule CG.
+  - 2025-26: In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl.no. 11viii of Table E in Schedule CG.
+  - diff: In Schedule Part B-TI, Income disclosed in Long term chargeable @12.5% should be equal to Sl.no. ~~8vi~~ **11viii** of Table E in Schedule CG.
+- **A-1017 → A-1019** (similarity 80.0999984741211)
+  - 2026-27: In Schedule TDS from salary, “Total tax deducted" cannot be more than " Income chargeable under the head Salary" AND sum of "exempt incomes eligible as part of salary"
+  - 2025-26: In Schedule TDS from salary, “Total tax deducted" cannot be more than " Income chargeable under the head Salary".
+  - diff: In Schedule TDS from salary, “Total tax deducted" cannot be more than " Income chargeable under the head ~~Salary" AND sum of "exempt incomes eligible as part of salary"~~ **Salary".**
+- **B-20 → B-7** (similarity 89.0)
+  - 2026-27: FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No" if Form 10F is not there. (this is as per DGIT Notification)
+  - 2025-26: FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No" if Form 10F is not there.
+  - diff: FORM 10F is mandatory to be filed by Non residents, to claim benefit of preferable rate. TRC flag be considered as 'No" if Form 10F is not there. ~~(this is as per DGIT Notification)~~
+- **B-16 → B-12** (similarity 88.0)
+  - 2026-27: In schedule VI_A , there is an inconsistency in the deduction claimed u/s 80IB and amount mentioned in Form 10CCB
+  - 2025-26: In Schedule VI-A, there is an inconsistency in the deduction claimed u/s 80IB and amount mentioned in Form 10CCB/10CCBA/10CCBB/10CCBC/10CCBD
+  - diff: In ~~schedule VI_A ,~~ **Schedule VI-A,** there is an inconsistency in the deduction claimed u/s 80IB and amount mentioned in Form ~~10CCB~~ **10CCB/10CCBA/10CCBB/10CCBC/10CCBD**
+- **D-4 → D-10** (similarity 91.4000015258789)
+  - 2026-27: In Schedule VIA - Part C - Deduction can be claimed only if the original return is filed or being filed on or before the due date specified u/s 139(1).
+  - 2025-26: In Schedule VIA - Part C - Deduction can be claimed only if the return is filed on or before the due date specified u/s 139(1).
+  - diff: In Schedule VIA - Part C - Deduction can be claimed only if the ~~original~~ return is ~~filed or being~~ filed on or before the due date specified u/s 139(1).
+- **Annex1-7 → Annex1-8** (similarity 92.4000015258789)
+  - 2026-27: Schedule OI | Any other item of income | Sr. No. 5(d) | Form 3CD clause 16 (d) Section 36
+  - 2025-26: ITR | Any other item of income | Sr. No. 5(d) | Form 3CD clause 16 (d) Section 36
+  - diff: ~~Schedule OI~~ **ITR** | Any other item of income | Sr. No. 5(d) | Form 3CD clause 16 (d) Section 36
+- **Annex1-8 → Annex1-9** (similarity 89.0)
+  - 2026-27: Schedule OI | Any sum paid to an employee as bonus or commission for services rendered, where such sum was otherwise payable to him as profits or dividend.[36(1)(ii)] | Sr. No. 6(c) | Form 3CD clause 20(a) Schedule Name in ITR Field in ITR
+  - 2025-26: ITR | Any sum paid to an employee as bonus or commission for services rendered, where such sum was otherwise payable to him as profits or dividend.[36(1)(ii)] | Sr. No. 6(c) | Form 3CD clause 20(a)
+  - diff: ~~Schedule OI~~ **ITR** | Any sum paid to an employee as bonus or commission for services rendered, where such sum was otherwise payable to him as profits or dividend.[36(1)(ii)] | Sr. No. 6(c) | Form 3CD clause 20(a) ~~Schedule Name in ITR Field in ITR~~
+- **Annex1-31 → Annex1-33** (similarity 79.30000305175781)
+  - 2026-27: ITR | Any sum payable as interest on any loan or borrowing from a deposit taking non-banking financial company or systemically important non-deposit taking non-banking financial company, in accordance with the terms and conditions of the agreement governing such loan or borrowing | Sr.no 10(da) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(da) is selected
+  - 2025-26: ITR | Any sum payable as interest on any loan or borrowing from a deposit taking non-banking financial company or systemically important non-deposit taking non-banking financial company, in accordance | Sr.no 10(da) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(da) is selected with the terms and conditions of the agreement governing such loan or borrowing
+  - diff: ITR | Any sum payable as interest on any loan or borrowing from a deposit taking non-banking financial company or systemically important non-deposit taking non-banking financial company, in accordance ~~with the terms and conditions of the agreement governing such loan or borrowing~~ | Sr.no 10(da) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(da) is selected **with the terms and conditions of the agreement governing such loan or borrowing**
+- **Annex1-34 → Annex1-36** (similarity 81.0)
+  - 2026-27: ITR | Any sum payable to the Indian Railways for the use of railway assets | Sr.no 10(g) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(g) is selected
+  - 2025-26: ITR | Any sum payable to the Indian Railways for the use of railway assets | Sr.no 10(g) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(g) is selected Section 43B (Disallowable)
+  - diff: ITR | Any sum payable to the Indian Railways for the use of railway assets | Sr.no 10(g) | Form 3CD "Clause 26(A)(a)" Sum of figure mentioned at column "Amount" if clause 43B(g) is selected **Section 43B (Disallowable)**
+- **Annex1-48 → Annex1-49** (similarity 93.30000305175781)
+  - 2026-27: ITR | Interest disallowable under section 23 of the Micro, Small and Medium Enterprises Development Act,2006 | Sr. No. 17 | Form 3CD clause 22(i)
+  - 2025-26: Schedule BP | Interest disallowable under section 23 of the Micro, Small and Medium Enterprises Development Act,2006 | Sr. No 19 | Form 3CD clause 22(a)
+  - diff: ~~ITR~~ **Schedule BP** | Interest disallowable under section 23 of the Micro, Small and Medium Enterprises Development Act,2006 | Sr. ~~No. 17~~ **No 19** | Form 3CD clause ~~22(i)~~ **22(a)**
