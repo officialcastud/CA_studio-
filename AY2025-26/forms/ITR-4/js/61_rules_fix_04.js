@@ -37,9 +37,9 @@ ruleset(function(I,S_,A,Dd){
      && ["","N","NA"].indexOf(nz(FS.Form10IEAEarlierAYOldRegime).toUpperCase())>=0
      && !nz(FS.Form10IEAAssYear) && !(N(FS.Form10IEAEarlierAYAckOldRegime)>0)),
     "For a Firm (other than LLP) the option u/s 115BAC(6) / Form 10-IEA fields in A23 are not applicable and must not carry any value.");
-  /* 318: Firm/HUF formed on or after 01/04/2026 cannot file for AY 2026-27 */
-  A(318, status==="I" || !dob || dob < "2026-04-01",
-    "A Firm or HUF with date of formation on or after 01/04/2026 cannot file a return for AY 2026-27.");
+  /* 318: Firm/HUF formed on or after 01/04/2025 cannot file for AY 2025-26 (no P.Y. income) — AY 2025-26 (4d) date/label */
+  A(318, status==="I" || !dob || dob < "2025-04-01",
+    "A Firm or HUF with date of formation on or after 01/04/2025 cannot file a return for AY 2025-26.");
 
   /* ---------------- ITR-4 eligibility ceiling ---------------- */
   /* 267: total income excluding LTCG u/s 112A must be within Rs. 50 lakh */

@@ -108,9 +108,8 @@ ruleset(function(I,S_,A,Dd){
             + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234A",0))
             + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234B",0))
             + N(RG(I,"TaxComputation.IntrstPay.IntrstPayUs234C",0))
-            + N(RG(I,"TaxComputation.IntrstPay.LateFilingFee234F",0))
-            + N(RG(I,"TaxComputation.IntrstPay.FeeFurnish234I",0)), 2),
-    "Total Tax, Fee and Interest must equal Balance Tax After Relief plus interest u/s 234A/234B/234C and fees u/s 234F/234-I.");
+            + N(RG(I,"TaxComputation.IntrstPay.LateFilingFee234F",0)), 2),   /* AY 2025-26 (4c A-54): fee u/s 234-I dropped from the sum — the 234-I fee has no AY 2025-26 field */
+    "Total Tax, Fee and Interest must equal Balance Tax After Relief plus interest u/s 234A/234B/234C and fee u/s 234F.");
 
   A(111, TCS.every(function(r){ return N(r.AmtTCSClaimedThisYear) <= N(r.TotalTCS) + 1; }),
     "In Schedule TCS, the amount of TCS claimed this year cannot exceed the tax collected.");

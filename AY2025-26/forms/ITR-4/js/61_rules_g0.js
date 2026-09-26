@@ -96,8 +96,8 @@ ruleset(function(I,S_,A,Dd){
     "Exemptions u/s 10(10B)-first proviso, 10(10B)-second proviso and 10(10C) cannot be claimed simultaneously.");
   A(322, alwAmt("EIC")===0 || GOVT.indexOf(empcat)>=0,
     "Exempt income of a judge (10-EIC) can be claimed only by a Central/State Government employee or pensioner.");
-  A(88, isNew() || cntAlw("10(17)") <= 1,
-    "Old regime: the exempt allowance u/s 10(17) (MP/MLA/MLC) cannot be selected more than once.");
+  A(88, isNew() || cntSub("10(17)") <= 1,   /* AY 2025-26 (4c A-88): 10(17) MP/MLA/MLC moved from salary Exempt Allowances to Exempt Income */
+    "Old regime: exempt income u/s 10(17) (MP/MLA/MLC allowance) cannot be selected more than once.");
   A(184, !isNew() || (alwAmt("10(5)")===0 && alwAmt("10(13A)")===0 && alwAmt("10(14)(i)")===0 && alwAmt("10(14)(ii)")===0),
     "New regime: exempt allowances u/s 10(5), 10(13A), 10(14)(i) and 10(14)(ii) must be zero.");
   A(199, !isNew() || alwAmt("10(13A)")===0,
@@ -150,8 +150,8 @@ ruleset(function(I,S_,A,Dd){
   A(31, status!=="F" || N(ALW.Section80DDB)===0, "A Firm cannot claim deduction u/s 80DDB.");
   A(43, status==="I" || N(ALW.Section80U)===0, "A HUF or Firm cannot claim deduction u/s 80U.");
   A(163, status==="I" || N(ALW.Section80EEA)===0, "A HUF or Firm (other than LLP) cannot claim deduction u/s 80EEA.");
-  A(304, status!=="H" || (!I.Schedule80E && !I.Schedule80EE && !I.Schedule80EEA && !I.Schedule80EEB && N(ALW.Section80CCC)===0),
-    "A HUF cannot fill Schedule 80CCC/80E/80EE/80EEA/80EEB.");
+  A(304, status!=="H" || (!I.ScheduleEA10_13A && !I.Schedule80E && !I.Schedule80EE && !I.Schedule80EEA && !I.Schedule80EEB),   /* AY 2025-26 (4c A-304): HUF-ineligible set is 10(13A)/80E/80EE/80EEA/80EEB (80CCC dropped, 10(13A) added) */
+    "A HUF cannot fill Schedule 10(13A)/80E/80EE/80EEA/80EEB.");
   A(34, isNew() || !(N(ALW.Section80G)>0) || !!I.Schedule80G, "Old regime: deduction u/s 80G is claimed but the details in Schedule 80G are missing.");
   A(37, isNew() || N(ALW.Section80GG) <= 60000, "Old regime: deduction u/s 80GG cannot exceed Rs. 60,000.");
   A(40, isNew() || dob <= "1966-04-01" || N(ALW.Section80TTB)===0, "Old regime: a non-senior-citizen (born on/after 02.04.1966) cannot claim deduction u/s 80TTB.");

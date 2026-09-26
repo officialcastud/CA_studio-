@@ -14,16 +14,24 @@
    cross-checks. Disabling them here keeps their bodies intact for audit while
    removing them from the live run, so a removed-field rule cannot false-fire and
    block export. Source: itr_tools reports …_chunks/08_4a_DISABLE.md (all A-<n>).
-   A later rule-deviation pass (the parent's job) reconciles any that in fact have
-   an AY 2025-26 counterpart on surviving fields. */
+   A later rule-deviation pass (this reconciliation) un-disabled the 30 numbers that
+   in fact have an AY 2025-26 counterpart on surviving fields (verified against the
+   target ruleset rules_ITR-4_AY2025-26.json + the current flat field model):
+     37,49,63,64,67,72,79,82,90,97,103,108,126,140,144,149,154,161,170,184,196,200,
+     223,237,262,271,287,303,308,313.
+   The 100 that remain target genuinely-removed fields / 2026-only sections (the
+   80X "eligible <= user-enterable" family 324-342, the extra exempt-income single-
+   selects 367-390 for sections absent from the 2025 drop-down, the nested co-owner
+   HP model 346-351/404-406, the 2026 Form-10IEA/A23 nested structure 353-364, the
+   judge-EIC / LTCG-112A-diff / 234-I-after-31.12.2026 / rep-contact / secondary-
+   address / 80CCC-identifier / 80G-txn-ref rules) — none has an AY 2025-26
+   counterpart, so they stay disabled to keep the live set matching the target. */
 const RULES_DISABLED_2025 = new Set([
-  3,22,33,37,41,45,49,60,63,64,67,72,79,82,90,97,103,108,126,133,140,144,149,154,
-  161,170,174,176,184,196,200,223,227,228,237,258,262,268,271,287,303,308,313,322,
-  323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,
-  343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,
-  363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,
-  383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,403,404,405,
-  406,407,408,409,410,411]);
+  3,22,33,41,45,60,133,174,176,227,228,258,268,322,323,324,325,326,327,328,329,330,331,332,
+  333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,
+  357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,
+  381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,403,404,405,406,407,
+  408,409,410,411]);
 
 function runRules(I,S_){
   I=I||{};
