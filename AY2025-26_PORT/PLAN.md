@@ -144,9 +144,19 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
   4f renumber (125) against rules_ITR-1_AY2025-26.json; then gates + AY2025-26 test
   state (re-dated challans — settles OLD-regime refund 2,520 vs balance 2,480, a
   challan-date artifact of the un-re-dated golden, NOT a form defect).
+- ITR-1: STEP 2b DONE (functionally complete). Schema CLEAN both regimes (0/0/0),
+  export schema-only, regime-gating 0 defects (old-regime deductions dropped under new),
+  leaf coverage audited + 2 required leaves fixed, rules 4a(77 disabled)/4b(4 adds +
+  A-42/A-88 un-disabled)/4c(A-13* A-15* deferred, A-37/A-116/A-191 done)/NatureDesc+paths
+  repointed. Both regimes to the rupee (OLD refund 2,520 / NEW 6,160), round-trip 0-diff.
+  Deferred+documented: s.89A rules+input (rare), cosmetic 4f renumber (internal serials),
+  nested-HP rules no-op (engine enforces arithmetic), 12 offline/portal rules, A-13/A-15
+  senior DOB-cutoff (needs confirm, golden doesn't exercise). Two audit agents used.
 - ITR-2: NOT STARTED — chunks ready.
 - ITR-3: NOT STARTED — chunks ready.
-- ITR-4: NOT STARTED — chunks ready.
+- ITR-4: STEP 1 DONE (output-preserving multi-file split, byte-identical, agent-verified;
+  source commit ce0c2c4; layout 61_rules_fix_*/g*, 70_sec_{ded,inccore,paidbank}).
+  STEP 2a/2b NEXT (year overlay + schema/rule deltas from ITR-4 chunks; fix ITR-2 title stub).
 - ITR-5: BLOCKED — need AY 2025-26 sources.
 - ITR-6: PARTIAL — AY 2025-26 validation-rules PDF + schema-change doc provided;
   rules-only diff report done (135 disable / 128 add / 100 changed; 486 renumbered).
