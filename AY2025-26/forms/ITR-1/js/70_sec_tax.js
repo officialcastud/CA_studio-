@@ -29,19 +29,20 @@
      Also sets the footer scalars S.C.gti and S.C.ti.
 
    Tax ladder mirrors the prior builder's slab/engTax (which matches the
-   utility) — NEW 0/5/10/15/20/25/30% at 4/8/12/16/20/24L cumulative bases;
+   utility). The NEW-regime slab table and the §87A ceilings are the
+   year-specific values held in 05_year_config.js (YC) — for A.Y. 2025-26 the
+   NEW slabs are 0/5/10/15/20/30% at 3/7/10/12/15L cumulative bases and §87A
+   is total income ≤ ₹7,00,000 → min(tax, ₹25,000) with marginal relief
+   tax − (TI − ₹7,00,000) just above ₹7,00,000.
    OLD 2.5/5/10L with senior (3L) / super-senior (5L) basic exemption in the
-   OLD regime only (new regime forces age 55 → no age benefit). §87A uses
-   the LIVE AO177 rule (caps.md §6, fix D10/D11): NEW total income ≤ ₹12L →
-   min(tax, ₹60,000) with marginal relief tax − (TI − ₹12L) just above ₹12L;
-   OLD total income ≤ ₹5L → min(tax, ₹12,500). 4% health-&-education cess; NO
-   surcharge (ITR-1); total income rounded to the nearest ₹10 (§288B).
+   OLD regime only (new regime forces age 55 → no age benefit); OLD §87A total
+   income ≤ ₹5,00,000 → min(tax, ₹12,500) is unchanged year-to-year. 4% health-
+   &-education cess; NO surcharge (ITR-1); total income rounded to ₹10 (§288B).
    112A ≤ ₹1.25L is handled in "os"; §89 relief needs Form 10E.
    ===================================================================== */
 
 /* ---- the slabs (unique names; do not shadow any shell global) ------- */
-const TX_SLAB_NEW=[[400000,0],[800000,5],[1200000,10],[1600000,15],
-                   [2000000,20],[2400000,25],[Infinity,30]];
+const TX_SLAB_NEW=YC.slabNew;                                           /* NEW regime, year overlay (05_year_config) */
 const TX_SLAB_OLD=[[250000,0],[500000,5],[1000000,20],[Infinity,30]];
 const TX_SLAB_SR =[[300000,0],[500000,5],[1000000,20],[Infinity,30]];   /* senior 60-79, OLD only */
 const TX_SLAB_SSR=[[500000,0],[1000000,20],[Infinity,30]];              /* super-senior >=80, OLD only */
@@ -54,7 +55,7 @@ function _txSlab(inc,b){let t=0,l=0;
 
 /* ---- cross-section readers (guarded; nothing throws) ---------------- */
 /* new regime?  reads S.C.ret.regime ("new"/"old"), tolerating a boolean
-   or the raw opt-out flag; new is the AY2026-27 default */
+   or the raw opt-out flag; new regime is the default (no opt-out) */
 function _txRegNew(){
   const r=S.C.ret||{};
   if(r.regime==="new")return true;
@@ -104,16 +105,18 @@ function engTax(){
   const bands=regNew?TX_SLAB_NEW:(ssr?TX_SLAB_SSR:sr?TX_SLAB_SR:TX_SLAB_OLD);
   const grossTax=_txSlab(ti,bands);
 
-  /* §87A — the LIVE AO177 rule (not the stale 7L/25k back-up cell) */
+  /* §87A — year-specific ceilings from the overlay (05_year_config, YC). NEW:
+     total income within YC.rebateNewTI gets the full YC.rebateNewMax; just above,
+     marginal relief holds the tax to the excess over the ceiling. OLD unchanged. */
   let rebate=0,marginal=0;
   if(regNew){
-    if(ti<=1200000) rebate=Math.min(grossTax,60000);
-    else if(grossTax>ti-1200000){ marginal=grossTax-(ti-1200000); rebate=marginal; }
-  } else if(tiLT<=500000){
-    rebate=Math.min(grossTax,12500);
+    if(ti<=YC.rebateNewTI) rebate=Math.min(grossTax,YC.rebateNewMax);
+    else if(grossTax>ti-YC.rebateNewTI){ marginal=grossTax-(ti-YC.rebateNewTI); rebate=marginal; }
+  } else if(tiLT<=YC.rebateOldTI){
+    rebate=Math.min(grossTax,YC.rebateOldMax);
   }
   const after=Math.max(0,grossTax-rebate);             /* TaxPayableOnRebate */
-  const cess=R(after*0.04);                            /* 4% cess; NO surcharge */
+  const cess=R(after*YC.cessRate);                     /* health & education cess; NO surcharge */
   const grossTaxLiability=R(after+cess);
   const s89=N((S.tax||{}).s89);                        /* relief u/s 89 (Form 10E) */
   const netTaxLiability=Math.max(0,R(grossTaxLiability-s89));
@@ -137,7 +140,7 @@ function secTax(){
   h+=row("Regime",'<span class="c">'+esc(T.regime||"")+'</span>',
     {hint:T.regime==="Old"?(T.superSenior?"a very senior citizen — the first ₹5,00,000 is free"
       :T.senior?"a senior citizen — the first ₹3,00,000 is free":"the first ₹2,50,000 is free")
-      :"the new regime slabs start at ₹4,00,000"});
+      :"the new regime slabs start at "+RS(YC.slabNew[0][0])});
   h+=row("Gross total income",cell(T.gti),{ref:"B4"});
   if(T.ltcg)h+=row("Long-term gain under section 112A (added for the rebate test only)",
     cell(T.ltcg),{ref:"C3(a)",hint:"exempt up to ₹1,25,000 — reported in the exempt-income screen"});
@@ -163,8 +166,8 @@ function secTax(){
   h+=row("Tax payable on total income",cell(T.grossTax),{ref:"D1"});
   h+=row("Rebate under section 87A",cell(-T.rebate),{ref:"D2",
     hint:T.marginal?"marginal relief — the tax is held to the income above "+
-      RS(T.regime==="New"?1200000:500000)
-      :"where total income is not more than "+RS(T.regime==="New"?1200000:500000)});
+      RS(T.regime==="New"?YC.rebateNewTI:YC.rebateOldTI)
+      :"where total income is not more than "+RS(T.regime==="New"?YC.rebateNewTI:YC.rebateOldTI)});
   h+=row("Tax payable after the rebate",cell(T.taxPayableOnRebate),{cls:"tot",ref:"D3"});
   h+=row("Health and education cess at four per cent",cell(T.cess),{ref:"D4"});
   h+=row("Total tax and cess",cell(T.grossTaxLiability),{cls:"tot",ref:"D5"});
@@ -251,7 +254,7 @@ function chkTax(){
     out.push({lvl:"err",t:"Form 10E",m:"Relief under section 89 needs the fifteen-digit acknowledgement of Form 10E.",sec:"tax"});
   if(T.marginal>0)
     out.push({lvl:"ok",t:"Marginal relief under section 87A",
-      m:"Total income is just over ₹12,00,000, so the tax is held to the amount by which it exceeds that figure — relief of "+RS(T.marginal)+".",sec:"tax"});
+      m:"Total income is just over "+RS(YC.rebateNewTI)+", so the tax is held to the amount by which it exceeds that figure — relief of "+RS(T.marginal)+".",sec:"tax"});
   else if(T.rebate>0)
     out.push({lvl:"ok",t:"Rebate under section 87A",m:RS(T.rebate)+" of tax falls away.",sec:"tax"});
   if(N(T.ti)>5000000)

@@ -149,10 +149,11 @@ ruleset(function(I,S_,A,Dd){
   /* A210 — salary income disclosed ⇒ nature of employment cannot be "Not Applicable". */
   A(210, !salPresent || empcat!=="NA",
     "When details of salary income are given the nature of employment cannot be 'Not Applicable'.");
-  /* A211 — every 80GGC contribution must be dated between 01.04.2025 and 31.03.2026. */
+  /* A211 — every 80GGC contribution must be dated between 01.04.2024 and 31.03.2025
+     (P.Y. window, year overlay). Rule renumbers to A-220 for A.Y. 2025-26. */
   A(211, ggcRow.every(r=>!S0(r&&r.DonationDate) ||
-      (String(r.DonationDate)>="2025-04-01" && String(r.DonationDate)<="2026-03-31")),
-    "Deduction u/s 80GGC is allowed only for contributions made between 01.04.2025 and 31.03.2026 (A.Y. 2026-27).");
+      (String(r.DonationDate)>=(YC.fyStartYear+"-04-01") && String(r.DonationDate)<=(YC.fyEndYear+"-03-31"))),
+    "Deduction u/s 80GGC is allowed only for contributions made between 01.04.2024 and 31.03.2025 (A.Y. 2025-26).");
   /* A213 — each exempt salary allowance u/s 10 may be disclosed in exactly one dropdown. */
   A(213, new Set(alwCodes).size===alwCodes.length,
     "Each exempt allowance in salary (section 10) must be disclosed under exactly one dropdown, not more than once.");

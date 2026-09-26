@@ -154,7 +154,8 @@ function engPaid(){
   const s6079=_pdSenior(), ssr=_pdSuper(), age60=_pdAge60(), regNew=_pdRegNew();
   const filed=_pdFiled(), late=_pdLate(filed);
 
-  /* a challan on/before 31 Mar 2026 is advance tax, after that self-assessment */
+  /* a challan on/before the last day of the P.Y. (YREND, 31 Mar 2025) is
+     advance tax, after that self-assessment */
   const isSAT=c=>{const d=D(c.dt);return d?d>YREND:false;};
   const adv=(S.it||[]).filter(c=>!isSAT(c)).reduce((a,c)=>a+N(c.amt),0);
   const sat=(S.it||[]).filter(c=> isSAT(c)).reduce((a,c)=>a+N(c.amt),0);
@@ -178,8 +179,10 @@ function engPaid(){
      ₹10,000 floor is the statutory assessed-tax threshold */
   let i234b=0;
   if(!age60 && assessed>=10000 && adv<assessed*0.9){
-    const end=filed||new Date(2026,11,31);
-    i234b=R(Math.floor((assessed-adv)/100)*100*0.01*MPART(new Date(2026,3,1),end));
+    /* 234B runs from 1 April of the A.Y. (YC.fyEndYear+... = 01-04-2025) to the
+       date of filing, or to 31 Dec of the A.Y. year if not yet filed */
+    const end=filed||new Date(YC.fyEndYear,11,31);
+    i234b=R(Math.floor((assessed-adv)/100)*100*0.01*MPART(new Date(YC.fyEndYear,3,1),end));
   }
 
   /* 234C — instalment deferment; senior waived in BOTH regimes; nil below
@@ -192,8 +195,9 @@ function engPaid(){
     const dAfter=[dq.q2+dq.q3+dq.q4+dq.q5, dq.q3+dq.q4+dq.q5, dq.q4+dq.q5, dq.q5];
     const upto=d=>(S.it||[]).filter(c=>!isSAT(c)&&D(c.dt)&&D(c.dt)<=d)
       .reduce((a,c)=>a+N(c.amt),0);
-    const Q=[[new Date(2025,5,15),.15,3],[new Date(2025,8,15),.45,3],
-             [new Date(2025,11,15),.75,3],[new Date(2026,2,15),1,1]];
+    /* 234C instalment due dates for the P.Y. (F.Y. 2024-25): 15 Jun/Sep/Dec 2024, 15 Mar 2025 */
+    const Q=[[new Date(YC.fyStartYear,5,15),.15,3],[new Date(YC.fyStartYear,8,15),.45,3],
+             [new Date(YC.fyStartYear,11,15),.75,3],[new Date(YC.fyEndYear,2,15),1,1]];
     qs=Q.map((x,i)=>{const d=x[0],pc=x[1],mo=x[2];
       const base=Math.max(0,assessed-R(rate*dAfter[i]));
       const need=R(base*pc), got=upto(d), sh=Math.max(0,need-got);
@@ -274,7 +278,7 @@ function secPaid(){
     foot:[{l:1,v:"Credit claimed",span:5},{v:I.tcs}]});
 
   h+=sub("Advance tax and self-assessment tax — challans");
-  h+=note("Which of the two a challan is follows from its date — up to 31 March 2026 it is "+
+  h+=note("Which of the two a challan is follows from its date — up to "+DISP(YREND)+" it is "+
     "advance tax, after that self-assessment tax. Nothing to choose.");
   h+=grid("it",[{k:"bsr",h:"BSR code",t:"txt",w:"130px",max:7,req:1},
     {k:"dt",h:"Date of deposit",t:"date",w:"150px",req:1},

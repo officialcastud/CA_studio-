@@ -19,7 +19,7 @@
          + IncrExpAggAmt1LkElctrctyPrYrFlg / AmtSeventhProvisio139iii
        · NoticeNo / NoticeDateUnderSec (13/14/15/16/18/20)
        · ReceiptNo / OrigRetFiledDate (17/18/21)
-       · ItrFilingDueDate (auto 2026-07-31)
+       · ItrFilingDueDate (auto 2025-07-31)
        · clauseiv7provisio139i + clauseiv7provisio139iDtls[]{Nature, Amount}
        · AsseseeRepFlg + AssesseeRep{RepName, RepEmailID,
          CountryCodeRepMobileNo, RepMobileNo}
@@ -27,7 +27,7 @@
        the whole updated-return subtree — reasons, period, unabsorbed-
        depreciation years, head-wise income, the 140B additional-tax
        computation, Schedule IT-1 / IT-2 challans and relief u/s 89.
-       Emits PartA_139_8A.AssessmentYear "2026" (utility hard-codes 2025 — bug).
+       Emits PartA_139_8A.AssessmentYear "2025" (A.Y. 2025-26 schema pattern).
 
    PUBLISHES (S.C.ret.*):
      · regime   "new" | "old"     — the master gate (OptOutNewTaxRegime N/Y)
@@ -36,7 +36,7 @@
      · sec      int               — the chosen ReturnFileSec
      · secValid bool              — whether the section is legal for ITR-1
      · seventhProviso bool        — SeventhProvisio139 == Y (forces 234F)
-     · dueDate  "2026-07-31"      — ItrFilingDueDate (234A / 234F reference)
+     · dueDate  "2025-07-31"      — ItrFilingDueDate (234A / 234F reference)
      · filedDate (DD/MM/YYYY)     — actual filing date (not a schema leaf;
        published for the tax section's 234A month-count and 234F late test)
    ===================================================================== */
@@ -90,7 +90,7 @@ const RET1_PREVFILED8A=[["1","Yes"],["2","No"]];
    block; the utility stores a Yes/No (Mid 1). Y/N used. */
 const RET1_YESNO=[["Y","Yes"],["N","No"]];
 
-const RET1_DUEDATE="2026-07-31";             /* ItrFilingDueDate (auto) */
+const RET1_DUEDATE=YC.due;                   /* ItrFilingDueDate (auto) — year overlay (05_year_config): 2025-07-31 */
 
 /* ---- state (guarded seeds) ------------------------------------------- */
 S.ret = S.ret || {};
@@ -301,11 +301,11 @@ function secRet(){
     h+=sub("Updated return u/s 139(8A) — Part A 139(8A)");
     h+=note("An updated return u/s 139(8A) unlocks Part A 139(8A) and Part B-ATI. "+
       "It carries additional income and the additional income-tax u/s 140B. "+
-      "The assessment year is 2026-27.");
+      "The assessment year is "+YC.ay+".");
     h+=row("Aadhaar number",inp("ret.uAadhaar",{n:1,max:12}),{ref:"PartA_139_8A.AadhaarCardNo"});
     h+=row("Name (as in the updated return)",inp("ret.uName",{max:75}),{ref:"PartA_139_8A.Name"});
     h+=row("PAN",inp("ret.uPan",{max:10}),{ref:"PartA_139_8A.PAN"});
-    h+=row("Assessment year",cell2("2026 (AY 2026-27)"),{ref:"PartA_139_8A.AssessmentYear"});
+    h+=row("Assessment year",cell2(YC.ayYear+" (AY "+YC.ay+")"),{ref:"PartA_139_8A.AssessmentYear"});
     h+=row("Return previously filed for this assessment year?",
       sel("ret.prevFiled",RET1_YESNO,{blank:false}),{ref:"PartA_139_8A.PreviouslyFiledForThisAY"});
     h+=row("Whether a return was previously filed for this AY (139(8A))?",
@@ -458,7 +458,7 @@ function expRet(j){
   if(AADH.test(st0(R0.uAadhaar))) put(j,"PartA_139_8A.AadhaarCardNo",st0(R0.uAadhaar));
   put(j,"PartA_139_8A.Name",sv(R0.uName));
   put(j,"PartA_139_8A.PAN",UP(R0.uPan));
-  put(j,"PartA_139_8A.AssessmentYear","2026");           /* utility bug emits 2025; emit 2026 */
+  put(j,"PartA_139_8A.AssessmentYear",YC.ayYear);        /* A.Y. 2025-26 -> "2025" (schema pattern 2025) */
   put(j,"PartA_139_8A.PreviouslyFiledForThisAY",st0(R0.prevFiled)==="Y"?"Y":"N");
   put(j,"PartA_139_8A.PreviouslyFiledForThisAY_139_8A",st0(R0.prevFiled8A)==="1"?"1":"2");
   if(st0(R0.prevFiled8A)==="1"){

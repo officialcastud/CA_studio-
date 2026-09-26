@@ -14,10 +14,10 @@
    section's own seed runs. `bank` is both the shell array and the bank
    (verification) section's namespace, so it is seeded as [].
    Defaults below are the shell-contract identity for a resident individual:
-   OptOutNewTaxRegime "No" (new regime, the A.Y. 2026-27 default), filing
+   OptOutNewTaxRegime "No" (new regime, the A.Y. 2025-26 default), filing
    section 11 (139(1)), verification capacity "S" (self) — schema-valid. */
 const S={
-  meta:{app:"yukti",form:"ITR-1",ay:"2026-27",ver:1},
+  meta:{app:"yukti",form:"ITR-1",ay:"2025-26",ver:1},
   /* shell-contract identity: the individual's personal-info fields the shell reads */
   pi:{first:"",mid:"",last:"",name:"",pan:"",dob:"",aadhaar:"",
       addr:"",locality:"",city:"",state:"",pin:"",mobile:"",email:"",empcat:"OTH"},
@@ -32,9 +32,10 @@ const SEED={};
 
 /* SKEL — the schema's required-key skeleton; equals the ITR.ITR1 object of
    books/ITR-1/skeleton.json, with the CreationInfo/Form_ITR1 constants made
-   schema-valid: FormName "ITR-1", AssessmentYear "2026" (the utility hard-
-   codes 2025 — a utility bug; we emit 2026 per the schema/protocol),
-   SchemaVer/FormVer "Ver1.0", SWCreatedBy/JSONCreatedBy matching
+   schema-valid: FormName "ITR-1", AssessmentYear "2025" and ItrFilingDueDate
+   "2025-07-31" (A.Y. 2025-26 — the values the CBDT schema pattern-locks; the
+   year overlay in 05_year_config.js is the authority, and the who/ret export
+   writers stamp them from YC), SchemaVer/FormVer "Ver1.0", SWCreatedBy/JSONCreatedBy matching
    [S][W][0-9]{8}, Digest "-". Root object is ITR1; the return wrapper is
    {ITR:{ITR1:{...}}} (see 90_wiring.js). */
 const SKEL=
@@ -43,14 +44,14 @@ const SKEL=
     "SWVersionNo": "1.0",
     "SWCreatedBy": "SW10000000",
     "JSONCreatedBy": "SW10000000",
-    "JSONCreationDate": "2026-01-01",
+    "JSONCreationDate": "2025-07-01",
     "IntermediaryCity": "Delhi",
     "Digest": "-"
   },
   "Form_ITR1": {
     "FormName": "ITR-1",
     "Description": "For Individuals having Income from Salaries, one house property, other sources (Interest etc.) and having total income upto Rs.50 lakh",
-    "AssessmentYear": "2026",
+    "AssessmentYear": "2025",
     "SchemaVer": "Ver1.0",
     "FormVer": "Ver1.0"
   },
@@ -78,7 +79,7 @@ const SKEL=
     "OptOutNewTaxRegime": "N",
     "clauseiv7provisio139i": "N",
     "AsseseeRepFlg": "N",
-    "ItrFilingDueDate": "2026-07-31"
+    "ItrFilingDueDate": "2025-07-31"
   },
   "ITR1_IncomeDeductions": {
     "GrossSalary": 0,

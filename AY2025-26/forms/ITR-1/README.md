@@ -4,11 +4,20 @@ Multi-file build of the YUKTI ITR-1 form. **Entry point: `index.html`** — open
 offline by double-click (classic `<script src>` tags in dependency order; no ES
 modules, no `fetch`/XHR of local files, all data embedded as JS globals).
 
-> **Status: Step 1 complete — output-preserving split only.** The code in `js/`
-> is still the **AY 2026-27** build, split verbatim into one file per module. The
-> AY 2025-26 year delta (slab table, 87A, surcharge, due date, schema + rule
-> deltas) has **not** been applied yet — that is Step 2 in
-> `AY2025-26_PORT/PLAN.md §8`.
+> **Status: Step 1 done; Step 2 in progress — year overlay applied.**
+> - **Step 1 (done):** output-preserving multi-file split of the AY 2026-27 build.
+> - **Step 2a — year overlay (done, verified):** `js/05_year_config.js` now carries
+>   everything year-specific for A.Y. 2025-26 — NEW-regime slab table
+>   (0/5/10/15/20/30% at 3/7/10/12/15L), §87A (₹7,00,000 ceiling / ₹25,000 cap with
+>   marginal relief), assessment-year leaf `"2025"`, `ItrFilingDueDate 2025-07-31`,
+>   and the F.Y. 2024-25 boundary years that drive the age slab, the advance-vs-
+>   self-assessment challan split and the 234B/234C instalment dates. OLD-regime
+>   slabs/§87A are unchanged year-to-year.
+> - **Step 2b — schema + rule deltas (NOT yet applied):** the 78 field removals,
+>   84 additions, 9 constraint changes and the rule disable/add/change +
+>   renumbering from `AY2025-26_PORT/PLAN.md §8` and the diff chunks. The
+>   Category-A rule bodies in `js/61_rules_enc_*.js` still carry AY 2026-27 numbers
+>   and header labels; renumbering and the schema deltas are the next steps.
 
 ## Provenance
 
@@ -17,9 +26,12 @@ Ported from the AY 2026-27 single-file build by diff-porting, per
 
 - Source: `/home/user/ca-itr1/yukti` — `forms/ITR-1/` (branch `claude/itr-1`, PR #6)
 - Source commit: `4075c3b6e62fb9ee8efa32c59ff3da368cfdf889`
-- The 24 `js/` modules `00_form.js … 90_wiring.js` are byte-for-byte copies of that
-  build's `forms/ITR-1/src/*.js`. `js/95_shell.js` is a byte-for-byte copy of the
-  shared `shell/shell.js`. `css/shell.css` is a copy of the shared `shell/shell.css`.
+- At Step 1 the `js/` modules `00_form.js … 90_wiring.js` were byte-for-byte copies
+  of that build's `forms/ITR-1/src/*.js`, `js/95_shell.js` a copy of the shared
+  `shell/shell.js`, and `css/shell.css` a copy of `shell/shell.css`. Step 2a then
+  applied the A.Y. 2025-26 year overlay (new `js/05_year_config.js` plus targeted
+  edits to `00_form`, `10_state`, `70_sec_{tax,who,ret,paid,os,hp}`, `61_rules_enc_{03,05,07}`
+  and `95_shell`); `css/shell.css` is unchanged.
 
 ## Layout
 
@@ -40,7 +52,10 @@ last. This mirrors the AY 2026-27 pipeline's `assemble.py`, which concatenates
 `sorted(glob("src/*.js"))` and appends `shell.js`.
 
 ```
-00_form.js         FORM identity (id/name/ay/due/sw) + code tables (PIN2ST, BANK)
+00_form.js         FORM identity (id/name/sw) + code tables (PIN2ST, BANK)
+05_year_config.js  YEAR OVERLAY (A.Y. 2025-26): slab table, §87A ceilings, cess,
+                   assessment-year leaf, due date, F.Y. boundary years; overlays
+                   FORM.ay/FORM.due. The one file to edit for the next year.
 08_registry.js     reg()/ruleset() contract, _SECREG, SCREEN_ORDER, pf()
 10_state.js        S (the working state) + defaults
 30_sec_00_boot.js  placeholder registration for all 10 screen sections
@@ -72,5 +87,20 @@ proven against the golden test return (S SUDHIR, TVOPS4373C, old regime):
 - Figures identical: GTI 9,85,000 · TI 8,10,000 · tax 74,500 · refund 2,520.
 - Exported return JSON and working-file JSON **byte-identical** (minus timestamps).
 - Zero boot/page errors in both builds.
+
+## Verification (Step 2a — year overlay)
+
+Boot clean (no page errors); header shows **A.Y. 2025-26**; export stamps
+`Form_ITR1.AssessmentYear "2025"` and `FilingStatus.ItrFilingDueDate "2025-07-31"`.
+Tax computed against the golden return re-dated on-time (25/07/2025):
+
+- **OLD regime** (unchanged year-to-year): GTI 9,85,000 · TI 8,10,000 · tax 74,500 ·
+  cess 2,980 · net 77,480 · refund 2,520 — identical to the AY 2026-27 figures.
+- **NEW regime** (AY 2025-26 slabs): TI 11,40,000 · tax 71,000 (20,000 + 30,000 +
+  21,000) · no §87A (TI > ₹7,00,000) · cess 2,840 · net 73,840 · refund 6,160 —
+  correctly *different* from AY 2026-27 (which gave a full rebate → nil tax).
+- **§87A boundaries:** NEW TI 7,00,000 → full rebate 20,000 → nil; TI 7,10,000 →
+  marginal relief 11,000 → tax 10,400; TI 12,00,000 → no rebate. OLD TI 5,00,000 →
+  rebate 12,500 → nil; TI 5,10,000 → no rebate.
 
 Regenerate outputs after editing `js/` or `css/`: `python3 build.py`.

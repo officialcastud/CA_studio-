@@ -9,7 +9,9 @@ const $=id=>document.getElementById(id);
 const dmy=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso||""));return m?m[3]+"/"+m[2]+"/"+m[1]:"";};
 document.addEventListener("DOMContentLoaded",()=>{if($("frm"))$("frm").textContent=FORM.name;if($("ay"))$("ay").textContent="A.Y. "+FORM.ay;});
 /* the due date is per form: FORM.due as "YYYY-MM-DD" (ITR-3 differs from ITR-2; audit cases differ again). Take it from the utility's finalDuedate formula and the rules document. */
-const DUE=FORM.due?new Date(FORM.due+"T00:00:00"):new Date(2026,6,31), YREND=new Date(2026,2,31), DF="DD/MM/YYYY";
+/* YREND = last day of the previous year (from the year overlay, 05_year_config):
+   the age-as-on reference and the advance-vs-self-assessment challan cut-off. */
+const DUE=FORM.due?new Date(FORM.due+"T00:00:00"):new Date(YC.fyEndYear,6,31), YREND=new Date(YC.fyEndYear,2,31), DF="DD/MM/YYYY";
 /* ---- helpers ---- */
 const N=v=>{const n=parseFloat(String(v==null?"":v).replace(/[^0-9.\-]/g,""));return isFinite(n)?n:0;};
 const R=n=>Math.round(N(n));
@@ -243,7 +245,7 @@ function download(n,t){const b=new Blob([t],{type:"application/json"}),a=documen
   a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();
   a.remove();URL.revokeObjectURL(a.href);}
 function saveFile(){const o={};Object.keys(S).forEach(k=>{if(k!=="C")o[k]=S[k];});
-  o.meta={app:"yukti",form:FORM.id,ay:"2026-27",ver:1,saved:new Date().toISOString()};
+  o.meta={app:"yukti",form:FORM.id,ay:FORM.ay,ver:1,saved:new Date().toISOString()};
   download((S.pi.pan||FORM.id)+"_AY"+FORM.ay+".yukti.json",JSON.stringify(o,null,1));}
 $("b_save").addEventListener("click",saveFile);
 function deepFind(o,keys,d){d=d||0;if(!o||typeof o!=="object"||d>9)return undefined;

@@ -49,11 +49,11 @@ const OS_NAT_SET = new Set(OS_NAT.map(x=>x[0]));
 
 /* the five 234C dividend periods (enums.json DividendQuarters_DateRange) */
 const OS_QTR = [
-  ["q1","Upto15Of6","Up to 15 June 2025"],
-  ["q2","Upto15Of9","16 June to 15 September 2025"],
-  ["q3","Up16Of9To15Of12","16 September to 15 December 2025"],
-  ["q4","Up16Of12To15Of3","16 December 2025 to 15 March 2026"],
-  ["q5","Up16Of3To31Of3","16 March to 31 March 2026"]];
+  ["q1","Upto15Of6","Up to 15 June 2024"],
+  ["q2","Upto15Of9","16 June to 15 September 2024"],
+  ["q3","Up16Of9To15Of12","16 September to 15 December 2024"],
+  ["q4","Up16Of12To15Of3","16 December 2024 to 15 March 2025"],
+  ["q5","Up16Of3To31Of3","16 March to 31 March 2025"]];
 
 /* regime — read S.C.ret.regime, fall back to the shell's own flag */
 function os_regOld(){

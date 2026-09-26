@@ -41,7 +41,7 @@
    Serials in A301–A339 NOT encoded here, and why (bucketed in the census —
    books/ITR-1/rule_census.md — never faked):
      A324 — NA (census). 234-I fee = Rs.1,000 for a 139(5) revised return filed
-            after 31.12.2026 with total income <= Rs.5,00,000 — keyed to the
+            after 31.12.2025 with total income <= Rs.5,00,000 — keyed to the
             FILING TIMESTAMP, which the built return does not carry (the portal
             applies it at upload).
      A328 — NA (census). 234-I fee = Rs.5,000 for the same, total income >

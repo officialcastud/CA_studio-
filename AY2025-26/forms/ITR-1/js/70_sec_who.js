@@ -10,7 +10,7 @@
    Owns / writes on export (home EVERY leaf of these blocks):
      · CreationInfo.{SWVersionNo, SWCreatedBy, JSONCreatedBy, JSONCreationDate,
        IntermediaryCity, Digest}                              (§1, auto/meta)
-     · Form_ITR1.{FormName, Description, AssessmentYear "2026",
+     · Form_ITR1.{FormName, Description, AssessmentYear "2025",
        SchemaVer, FormVer}                                    (§2, auto/meta)
      · PersonalInfo.AssesseeName.{FirstName, MiddleName, SurNameOrOrgName}
      · PersonalInfo.PAN
@@ -26,7 +26,7 @@
      · PersonalInfo.EmployerCategory
      · PersonalInfo.AadhaarCardNo
 
-   PUBLISHES (S.C.who.*): age (as on 31-03-2026), senior (60-79),
+   PUBLISHES (S.C.who.*): age (as on 31-03-2025), senior (60-79),
    superSenior (>=80), employerCat, pan, name, income(=0). The tax section
    reads senior/superSenior for the 234A/B/C exemptions and the 87A/234F
    thresholds; the salary section reads employerCat for the HRA schedule and
@@ -80,8 +80,8 @@ const WHO1_STATE=[
    resident-individual return, so the communication country is India. */
 const WHO1_COUNTRY=[["91","India"]];
 
-/* ---- reference date for age (last day of PY 2025-26 / AY 2026-27) ----- */
-const WHO1_AGEREF=new Date(2026,2,31);       /* 31 March 2026 */
+/* ---- reference date for age (last day of the P.Y. / F.Y. 2024-25) ----- */
+const WHO1_AGEREF=new Date(YC.fyEndYear,2,31);   /* 31 March 2025 (year overlay, 05_year_config) */
 
 /* ---- state (guarded seeds; a {} placeholder would short-circuit ||) --- */
 S.who = S.who || {};
@@ -106,7 +106,7 @@ S.who = S.who || {};
 function engWho(){
   const W=S.who||{};
   const C=S.C.who={ income:0 };
-  /* age as on the last day of the previous year (31-03-2026). A person who
+  /* age as on the last day of the previous year (31-03-2025). A person who
      attains 60 (or 80) on or before that date is senior (super-senior) for
      the year — the "at any time during the PY" test. */
   const dob=(typeof D==="function")?D(W.dob):null;
@@ -157,7 +157,7 @@ function secWho(){
     {ref:"AadhaarCardNo",hint:"twelve digits; mandatory to be quoted with the PAN"});
   {const C=S.C.who||{};
    if(C.age)h+=note("On the date of birth entered, the assessee is <b>"+C.age+
-     "</b> as on 31 March 2026 — "+(C.superSenior?"a <b>super-senior citizen</b> (≥80)":
+     "</b> as on "+DISP(WHO1_AGEREF)+" — "+(C.superSenior?"a <b>super-senior citizen</b> (≥80)":
        C.senior?"a <b>senior citizen</b> (60–79)":"not a senior citizen")+".");}
 
   /* ===================== Residential status (eligibility gate) ============ */
@@ -248,10 +248,10 @@ function expWho(j){
   put(j,"CreationInfo.IntermediaryCity",(sv(W.city)||WHO1_INTCITY).slice(0,25));
   put(j,"CreationInfo.Digest","-");
 
-  /* ---------- §2 Form_ITR1 (auto/meta; AssessmentYear "2026") ---------- */
+  /* ---------- §2 Form_ITR1 (auto/meta; AssessmentYear from year overlay) ---------- */
   put(j,"Form_ITR1.FormName","ITR-1");
   put(j,"Form_ITR1.Description",WHO1_FORMDESC);
-  put(j,"Form_ITR1.AssessmentYear","2026");   /* utility hard-codes 2025 (bug); emit 2026 */
+  put(j,"Form_ITR1.AssessmentYear",YC.ayYear);   /* A.Y. 2025-26 -> "2025" (schema pattern 2025) */
   put(j,"Form_ITR1.SchemaVer","Ver1.0");
   put(j,"Form_ITR1.FormVer","Ver1.0");
 
@@ -368,7 +368,7 @@ function chkWho(){
 
   if(!st0(W.dob)) out.push({lvl:"err",t:"Date of birth required",m:"Enter the date of birth in "+DF+" — it settles the slab.",sec:"who"});
   else if(!(typeof D==="function"&&D(W.dob))) out.push({lvl:"err",t:"Date of birth",m:"The date of birth is not a valid "+DF+" date.",sec:"who"});
-  else if(D(W.dob)>WHO1_AGEREF) out.push({lvl:"err",t:"Date of birth",m:"The date of birth must be on or before 31 March 2026.",sec:"who"});
+  else if(D(W.dob)>WHO1_AGEREF) out.push({lvl:"err",t:"Date of birth",m:"The date of birth must be on or before "+DISP(WHO1_AGEREF)+".",sec:"who"});
 
   if(st0(W.resStatus)==="NOR") out.push({lvl:"err",t:"Not eligible for ITR-1",m:"A resident but not ordinarily resident (RNOR) individual cannot file ITR-1 — file ITR-2. (A non-resident is also not eligible.)",sec:"who"});
 

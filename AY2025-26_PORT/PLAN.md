@@ -128,8 +128,11 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
 
 ## 11. Status tracker (update as you go)
 - ITR-1: STEP 1 DONE (output-preserving multi-file split @ `AY2025-26/forms/ITR-1/`,
-  behaviour-identical to AY2026-27 build — DOM/figures/export byte-verified). Step 2
-  (year delta) next.
+  behaviour-identical to AY2026-27 build — DOM/figures/export byte-verified).
+  STEP 2a DONE (year overlay `js/05_year_config.js`: NEW slabs 3/7/10/12/15L, §87A
+  7L/25k+marginal, AssessmentYear "2025", due 2025-07-31, FY2024-25 challan/234BC
+  dates — both regimes + 87A boundaries verified). STEP 2b NEXT: schema deltas
+  (3a/3b/3d) + rule deltas (4a/4b/4c) + rule renumbering (4d/4f), then gates.
 - ITR-2: NOT STARTED — chunks ready.
 - ITR-3: NOT STARTED — chunks ready.
 - ITR-4: NOT STARTED — chunks ready.

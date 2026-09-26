@@ -65,7 +65,7 @@ function _salIsOld(){
   if(r==="old"||r==="Old"||r==="OLD"||r==="Y"||r==="y"||r===2||r==="2")return true;
   if(r==="new"||r==="New"||r==="NEW"||r==="N"||r==="n"||r===1||r==="1")return false;
   if(typeof isNew==="function"){try{return !isNew();}catch(e){}}
-  return false;                                   /* AY2026-27 default = new */
+  return false;                                   /* default = new regime (no opt-out) */
 }
 function _salIsNew(){return !_salIsOld();}
 function _salEmpcat(){return st0(RG(S,"pi.empcat","")).toUpperCase()||"OTH";}

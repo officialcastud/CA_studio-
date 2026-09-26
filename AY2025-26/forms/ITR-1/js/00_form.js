@@ -1,5 +1,5 @@
 /* =====================================================================
-   ITR-1 (SAHAJ) · A.Y. 2026-27 — base scaffold (STUB).
+   ITR-1 (SAHAJ) · A.Y. 2025-26 — base scaffold (STUB).
    ITR-1 is the return for a RESIDENT INDIVIDUAL (ordinarily resident,
    not a director, no unlisted equity, income up to Rs.50 lakh) with
    income from salary/pension, one house property, other sources
@@ -10,14 +10,16 @@
    Modelled on forms/ITR-7/src/00_form.js (the shell reg() contract) with
    the ITR-1 tax ladder from forms/ITR-1/Yukti_ITR1_prev.html.
    ===================================================================== */
-/* FORM.due = 2026-07-31 is the ITR-1 filer's ordinary 139(1) due date:
-   a resident individual filing ITR-1 has no accounts to audit and no 92E
-   report, so the utility's finalDuedate carries the 31/07/2026 literal.
-   (The audit / 92E branches of finalDuedate never apply to an ITR-1
-   filer — those cases fall out of ITR-1 eligibility entirely.)
+/* FORM.ay and FORM.due are the assessment year label and the ITR-1 filer's
+   ordinary 139(1) due date. They are set from the YEAR OVERLAY in
+   05_year_config.js (loaded next), which is the single source of everything
+   year-specific — for A.Y. 2025-26, ay "2025-26" and due "2025-07-31" (the
+   CBDT schema pattern-locks FilingStatus.ItrFilingDueDate to 2025-07-31; a
+   resident individual filing ITR-1 has no accounts to audit and no 92E
+   report, so finalDuedate carries that literal).
    FORM.sw is the CBDT software-vendor id emitted into CreationInfo; it
    matches the schema pattern [S][W][0-9]{8} and equals the SKEL default. */
-window.FORM={id:"ITR-1",name:"ITR-1",ay:"2026-27",sw:"SW10000000",due:"2026-07-31"};
+window.FORM={id:"ITR-1",name:"ITR-1",sw:"SW10000000"};   /* ay + due overlaid by 05_year_config.js */
 
 /* ---- code tables the shell's commit() reads (00_form.js contract) ----
    When the filer edits pi.pin the shell resolves the PIN's first two

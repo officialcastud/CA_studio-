@@ -131,16 +131,16 @@ ruleset(function(I,S_,A,Dd){
   /* A109 — Taxes-Paid TCS = the total of Schedule TCS. */
   A(109, REQ(N(TPP.TCS), N(SCTCS.TotalSchTCS), 2),
     "Total TCS claimed in 'Taxes Paid and Verification' must equal the total TCS claimed in the TCS schedule.");
-  /* A110 — Advance tax = the Schedule-IT challans deposited on or before 31 March 2026. */
+  /* A110 — Advance tax = the Schedule-IT challans deposited on or before 31 March 2025 (P.Y. end, year overlay). */
   A(110, REQ(N(TPP.AdvanceTax),
-      itRows.filter(r=>r&&S0(r.DateDep)&&String(r.DateDep)<="2026-03-31")
+      itRows.filter(r=>r&&S0(r.DateDep)&&String(r.DateDep)<=(YC.fyEndYear+"-03-31"))
             .reduce((a,r)=>a+N(r.Amt),0), 2),
-    "Total Advance Tax paid must equal the sum of the Schedule-IT challans deposited between 01/04/2025 and 31/03/2026.");
-  /* A111 — Self-assessment tax = the Schedule-IT challans deposited after 31 March 2026. */
+    "Total Advance Tax paid must equal the sum of the Schedule-IT challans deposited between 01/04/2024 and 31/03/2025.");
+  /* A111 — Self-assessment tax = the Schedule-IT challans deposited after 31 March 2025 (P.Y. end, year overlay). */
   A(111, REQ(N(TPP.SelfAssessmentTax),
-      itRows.filter(r=>r&&S0(r.DateDep)&&String(r.DateDep)>"2026-03-31")
+      itRows.filter(r=>r&&S0(r.DateDep)&&String(r.DateDep)>(YC.fyEndYear+"-03-31"))
             .reduce((a,r)=>a+N(r.Amt),0), 2),
-    "Total Self-Assessment Tax paid must equal the sum of the Schedule-IT challans deposited after 31/03/2026.");
+    "Total Self-Assessment Tax paid must equal the sum of the Schedule-IT challans deposited after 31/03/2025.");
 
   /* ===================== Salary — standard deduction 16(ia) ===================== */
   /* A112 — old: the standard deduction u/s 16(ia) is capped at Rs.50,000. */

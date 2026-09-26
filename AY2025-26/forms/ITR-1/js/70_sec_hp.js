@@ -49,7 +49,7 @@ function _hpIsOld(){
   if(r==="old"||r==="Old"||r==="OLD"||r==="Y"||r==="y"||r===2||r==="2")return true;
   if(r==="new"||r==="New"||r==="NEW"||r==="N"||r==="n"||r===1||r==="1")return false;
   if(typeof isNew==="function"){try{return !isNew();}catch(e){}}
-  return false;                                   /* AY2026-27 default = new */
+  return false;                                   /* default = new regime (no opt-out) */
 }
 function _hpIsNew(){return !_hpIsOld();}
 
@@ -161,7 +161,7 @@ function secHP(){
        {k:"acno",h:"Loan account / reference number",t:"txt",w:"180px"},
        {k:"dt",h:"Date the loan was taken",t:"date",w:"150px"},
        {k:"amt",h:"Total loan",t:"num",w:"130px"},
-       {k:"os",h:"Outstanding on 31-03-2026",t:"num",w:"160px"},
+       {k:"os",h:"Outstanding on 31-03-2025",t:"num",w:"160px"},
        {k:"int",h:"Interest for the year",t:"num",w:"150px",req:1}],
       p.loans||[],{min:"1340px",empty:"No loan listed.",add:"Add a loan"});
     b+=row("Interest allowed under section 24(b)",cell(r.interest),
