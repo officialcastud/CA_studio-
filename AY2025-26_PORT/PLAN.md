@@ -127,7 +127,9 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
 - Targeted edits; don't re-read whole forms.
 
 ## 11. Status tracker (update as you go)
-- ITR-1: NOT STARTED — chunks ready.
+- ITR-1: STEP 1 DONE (output-preserving multi-file split @ `AY2025-26/forms/ITR-1/`,
+  behaviour-identical to AY2026-27 build — DOM/figures/export byte-verified). Step 2
+  (year delta) next.
 - ITR-2: NOT STARTED — chunks ready.
 - ITR-3: NOT STARTED — chunks ready.
 - ITR-4: NOT STARTED — chunks ready.
