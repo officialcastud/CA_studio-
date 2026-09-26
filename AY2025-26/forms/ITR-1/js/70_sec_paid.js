@@ -351,6 +351,7 @@ function expPaid(j){
       NameOfTenant:(sv(r.name)||"NA").slice(0,125),
       TDSSection:PD_TDS3SEC.some(x=>x[0]===r.sec)?r.sec:"4IA",
       DeductedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2024",
+      GrsRcptToTaxDeduct:n0(r.gross),   /* REQUIRED: gross receipt on which tax was deducted (26QB) */
       TDSDeducted:n0(r.tds!=null&&r.tds!==""?r.tds:r.claim),
       TDSClaimed:n0(r.claim)};
     if(AADH.test(st0(r.aadhaar)))o.AadhaarofTenant=st0(r.aadhaar);
@@ -366,7 +367,7 @@ function expPaid(j){
       AmtTaxCollected:n0(r.coll),
       CollectedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2024",
       AmtTCSClaimedThisYear:n0(r.claim)};
-    if(N(r.bf))o.TotalTCS=n0(r.bf);
+    o.TotalTCS=n0(r.bf)+n0(r.coll);   /* REQUIRED: total TCS available (brought forward + collected this year) */
     return o;});
 
   /* TaxPayments[] — advance / self-assessment challans */
@@ -400,6 +401,7 @@ function impPaid(I){
   if(Array.isArray(s3)&&s3.length){S.tds3=s3.map(r=>({
     pan:st0(r.PANofTenant).toUpperCase(),aadhaar:r.AadhaarofTenant||"",
     name:r.NameOfTenant||"",sec:r.TDSSection||"4IA",yr:String(r.DeductedYr||"2024"),
+    gross:r.GrsRcptToTaxDeduct!=null?r.GrsRcptToTaxDeduct:"",
     tds:r.TDSDeducted||"",claim:r.TDSClaimed||r.TDSDeducted||""}));
     read.push("26QB TDS");}
 
