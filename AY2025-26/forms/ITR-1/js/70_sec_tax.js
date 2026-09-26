@@ -227,7 +227,7 @@ function expTax(j){
   put(TC,"IntrstPay.IntrstPayUs234B",i234b);
   put(TC,"IntrstPay.IntrstPayUs234C",i234c);
   put(TC,"IntrstPay.LateFilingFee234F",f234f);
-  put(TC,"IntrstPay.FeeFurnish234I",f234i);
+  /* AY 2025-26 (3a): IntrstPay.FeeFurnish234I removed from the schema — not emitted. */
   put(TC,"TotalIntrstPay",totInt);
   put(TC,"TotTaxPlusIntrstPay",n0(net+totInt));
   /* the required whole-number leaves are kept even at 0 */
@@ -235,8 +235,8 @@ function expTax(j){
    "GrossTaxLiability","Section89","NetTaxLiability","TotalIntrstPay",
    "TotTaxPlusIntrstPay"].forEach(k=>{if(TC[k]==null)TC[k]=0;});
   TC.IntrstPay=TC.IntrstPay||{};
-  ["IntrstPayUs234A","IntrstPayUs234B","IntrstPayUs234C","LateFilingFee234F",
-   "FeeFurnish234I"].forEach(k=>{if(TC.IntrstPay[k]==null)TC.IntrstPay[k]=0;});
+  ["IntrstPayUs234A","IntrstPayUs234B","IntrstPayUs234C","LateFilingFee234F"
+   ].forEach(k=>{if(TC.IntrstPay[k]==null)TC.IntrstPay[k]=0;});
 }
 
 /* ---- import (inverse; the return carries only Section89 of these) --- */

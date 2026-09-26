@@ -440,16 +440,9 @@ function expRet(j){
     if(st0(R0.cl2Flag)==="Y") cl.push({clauseiv7provisio139iNature:"2",clauseiv7provisio139iAmount:R(R0.cl2Amt)});
     if(cl.length) put(j,"FilingStatus.clauseiv7provisio139iDtls",cl);
   }
-  /* representative assessee */
-  put(j,"FilingStatus.AsseseeRepFlg",st0(R0.repFlg)==="Y"?"Y":"N");
-  if(st0(R0.repFlg)==="Y"){
-    put(j,"FilingStatus.AssesseeRep.RepName",sv(R0.repName));
-    put(j,"FilingStatus.AssesseeRep.RepEmailID",sv(R0.repEmail));
-    if(sv(R0.repMobile)){
-      put(j,"FilingStatus.AssesseeRep.CountryCodeRepMobileNo",R(R0.repMobileCc)||91);
-      put(j,"FilingStatus.AssesseeRep.RepMobileNo",R(R0.repMobile));
-    }
-  }
+  /* representative assessee — AY 2025-26 (3a): FilingStatus.AsseseeRepFlg and the
+     whole FilingStatus.AssesseeRep block are removed from the schema. UI rows stay
+     (UI unchanged); they are simply not exported. */
 
   /* ---------- §5 PartA_139_8A + §6 PartB-ATI (updated return only) ---------- */
   if(sec!==21) return;

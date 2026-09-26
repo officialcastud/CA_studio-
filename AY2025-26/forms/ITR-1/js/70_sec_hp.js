@@ -192,123 +192,82 @@ function secHP(){
 }
 
 /* ---- export -------------------------------------------------------- */
+/* AY 2025-26 ITR-1 is a FLAT single-house-property model: the head leaves
+   live directly on ITR1_IncomeDeductions and the 24(b) loan rows move to a
+   NEW top-level ScheduleUs24B (was the nested PropertyDetails[] of AY 2026-27,
+   removed in 3a). AnnualValue, StandardDeduction and TotalIncomeOfHP are
+   schema-REQUIRED at the IncomeDeductions level, so they are always emitted
+   (0 when there is no house property). The UI/engine are unchanged; the flat
+   leaves are mapped from the first property's computed row. */
 function expHP(j){
   const H=S.C.hp||engHP();
   const ID=j.ITR1_IncomeDeductions;
   const props=(S.hp&&S.hp.props)||[];
-  if(props.length){
-    ID.PropertyDetails=props.slice(0,2).map((p,i)=>{
-      const r=p._||_hpProp(p);
-      const co=st0(p.co)==="Y"||st0(p.co)==="YES";
-      const addr={AddrDetail:(sv(p.addr1)||"NA").slice(0,200),
-        CityOrTownOrDistrict:(sv(p.city)||"NA").slice(0,50),
-        StateCode:_HP_STATECODES.indexOf(st0(p.state))>=0?st0(p.state):"19",
-        CountryCode:"91"};
-      if(/^[1-9]\d{5}$/.test(st0(p.pin)))addr.PinCode=parseInt(p.pin,10);
-      const owner=_HP_OWNER.some(o=>o[0]===st0(p.owner))?st0(p.owner):"SE";
-      const node={
-        HPSNo:i+1,
-        AddressDetailWithZipCode:addr,
-        PropertyOwner:owner,
-        PropCoOwnedFlg:co?"YES":"NO",
-        AsseseeShareProperty:co?(N(p.share)||100):100,
-        ifLetOut:r.type,
-        Rentdetails:{
-          AnnualLetableValue:n0(r.alv),
-          RentNotRealized:n0(r.rentNotReal),
-          LocalTaxes:n0(r.taxes),
-          TotalUnrealizedAndTax:n0(r.unrealAndTax),
-          BalanceALV:n0(r.balanceALV),
-          AnnualOfPropOwned:n0(r.annualOwned),
-          ThirtyPercentOfBalance:n0(r.std),
-          IntOnBorwCap:n0(r.interest),
-          TotalDeduct:n0(r.totalDeduct),
-          ArrearsUnrealizedRentRcvd:n0(r.arrears),
-          IncomeOfHP:sg(r.income)}
-      };
-      if(owner==="OT" && sv(p.ownerOther))node.PropertyOwnerOther=sv(p.ownerOther).slice(0,100);
-      if(co){
-        const cos=(p.coowners||[]).filter(c=>sv(c.name));
-        if(cos.length)node.CoOwners=cos.map((c,ci)=>{
-          const o={CoOwnersSNo:ci+1, NameCoOwner:(sv(c.name)||"NA").slice(0,75),
-            PercentShareProperty:N(c.share)};
-          if(sv(c.pan))o.PAN_CoOwner=st0(c.pan).toUpperCase().slice(0,10);
-          if(/^[0-9]{12}$/.test(st0(c.aadhaar)))o.Aadhaar_CoOwner=st0(c.aadhaar);
-          return o;});
-      }
-      if(r.type!=="S"){
-        const tn=(p.tenants||[]).filter(t=>sv(t.name));
-        if(tn.length)node.TenantDetails=tn.map((t,ti)=>{
-          const o={TenantSNo:ti+1, NameofTenant:(sv(t.name)||"NA").slice(0,75)};
-          if(sv(t.pan))o.PANofTenant=st0(t.pan).toUpperCase().slice(0,10);
-          if(sv(t.tan))o.PANTANofTenant=st0(t.tan).toUpperCase().slice(0,10);
-          return o;});
-      }
-      /* Section24B loan table. When 24(b) interest is fully disallowed
-         (self-occupied under the new regime) the allowed interest r.interest
-         is 0 and IntOnBorwCap is emitted as 0 above — so the 24B interest
-         leaves must be 0 too, or rule A253 (self-occ 24(b) barred in the new
-         regime) fires on TotalInterestUs24B. The old-regime self-occupied
-         ceiling is applied in IntOnBorwCap only; the loan table keeps the
-         actual interest. */
-      const intDisallowed = r.self && _hpIsNew();  /* new regime, self-occupied */
-      const loans=(p.loans||[]).filter(l=>sv(l.lender)||N(l.int)||N(l.amt));
-      if(loans.length){
-        node.Rentdetails.Section24B={
-          Section24BDtls:loans.map(l=>{
-            const o={LoanTknFrom:_HP_LOAN.some(x=>x[0]===st0(l.type))?st0(l.type):"B",
-              BankOrInstnName:(sv(l.lender)||"NA").slice(0,75),
-              InterestUs24B:intDisallowed?0:n0(l.int)};
-            if(sv(l.acno))o.LoanAccNoOfBankOrInstnRefNo=st0(l.acno).slice(0,30);
-            if(ISO(l.dt))o.DateofLoan=ISO(l.dt);
-            if(N(l.amt))o.TotalLoanAmt=n0(l.amt);
-            if(N(l.os))o.LoanOutstndngAmt=n0(l.os);
-            return o;}),
-          TotalInterestUs24B:intDisallowed?0:n0(r.rawInt)};
-      }
-      return node;
-    });
-  }
-  /* head total — signed after the ₹2,00,000 cap; new regime drops a loss */
   const isNewR=_hpIsNew();
-  put(ID,"TotalIncomeChargeableUnHP", sg(isNewR?Math.max(0,H.total):H.total));
+  const p0=props[0];
+  const r=p0?(p0._||_hpProp(p0)):null;
+  if(r){
+    put(ID,"TypeOfHP", r.type);
+    if(r.alv)     put(ID,"GrossRentReceived",        n0(r.alv));
+    if(r.taxes)   put(ID,"TaxPaidlocalAuth",         n0(r.taxes));
+    if(r.arrears) put(ID,"ArrearsUnrealizedRentRcvd",n0(r.arrears));
+    if(r.interest)put(ID,"InterestPayable",          n0(r.interest));
+  }
+  put(ID,"AnnualValue",       n0(r?r.annualOwned:0));   /* REQUIRED (NAV) */
+  put(ID,"StandardDeduction", n0(r?r.std:0));           /* REQUIRED (30% of AV) */
+  /* head income after the ₹2,00,000 loss cap; new regime drops a loss to 0 */
+  put(ID,"TotalIncomeOfHP",   sg(isNewR?Math.max(0,H.total):H.total)); /* REQUIRED, min -2L */
+  /* IncomeNotified89A is schema-REQUIRED at the IncomeDeductions level (AY 2025-26 3b).
+     Stubbed 0 here; the full s.89A foreign-retirement handling (types, relief,
+     OthersInc NOT89A) is Sub-unit G in 70_sec_os / 70_sec_sal. put() will not
+     overwrite a non-zero value set there earlier in the export order. */
+  if(RG(ID,"IncomeNotified89A",null)==null) put(ID,"IncomeNotified89A",0);
+
+  /* ScheduleUs24B — top-level loan table (was PropertyDetails[].Rentdetails.Section24B).
+     When 24(b) interest is fully disallowed (self-occupied under the new regime)
+     both InterestUs24B and TotalInterestUs24B are emitted as 0, matching the 0
+     InterestPayable, so no self-occupied-new-regime rule fires. All ScheduleUs24BDtls
+     leaves are schema-REQUIRED, so each row carries every field. */
+  const intDisallowed = !!(r && r.self && isNewR);
+  const loans=p0?((p0.loans||[]).filter(l=>sv(l.lender)||N(l.int)||N(l.amt))):[];
+  if(loans.length){
+    j.ScheduleUs24B={
+      ScheduleUs24BDtls:loans.map(l=>({
+        LoanTknFrom:_HP_LOAN.some(x=>x[0]===st0(l.type))?st0(l.type):"B",
+        BankOrInstnName:(sv(l.lender)||"NA").slice(0,125),
+        LoanAccNoOfBankOrInstnRefNo:(sv(l.acno)||"NA").slice(0,20),
+        DateofLoan:ISO(l.dt)||"2024-04-01",
+        TotalLoanAmt:n0(l.amt),
+        LoanOutstndngAmt:n0(l.os),
+        InterestUs24B:intDisallowed?0:n0(l.int)})),
+      TotalInterestUs24B:intDisallowed?0:n0(r?r.rawInt:0)};
+  }
 }
 
-/* ---- import (inverse) ---------------------------------------------- */
+/* ---- import (inverse) — flat AY 2025-26 model ---------------------- */
 function impHP(I){
   const read=[]; const ID=I&&I.ITR1_IncomeDeductions;
-  const pd=ID&&ID.PropertyDetails;
-  if(Array.isArray(pd)&&pd.length){
-    S.hp=S.hp||{};
-    S.hp.props=pd.map(d=>{
-      const a=(d.AddressDetailWithZipCode)||{};
-      const rd=(d.Rentdetails)||{};
-      const co=d.PropCoOwnedFlg==="YES";
-      const p={
-        type:["S","L","D"].indexOf(d.ifLetOut)>=0?d.ifLetOut:"S",
-        owner:_HP_OWNER.some(o=>o[0]===d.PropertyOwner)?d.PropertyOwner:"SE",
-        ownerOther:d.PropertyOwnerOther||"",
-        addr1:a.AddrDetail||"", city:a.CityOrTownOrDistrict||"",
-        state:a.StateCode||"", pin:a.PinCode!=null?String(a.PinCode):"",
-        co:co?"Y":"N", share:d.AsseseeShareProperty!=null?d.AsseseeShareProperty:100,
-        rent:rd.AnnualLetableValue, rentNotReal:rd.RentNotRealized, taxes:rd.LocalTaxes,
-        arrears:rd.ArrearsUnrealizedRentRcvd,
-        coowners:[], tenants:[], loans:[]};
-      const cos=d.CoOwners||[];
-      if(Array.isArray(cos))p.coowners=cos.map(c=>({name:c.NameCoOwner||"",pan:c.PAN_CoOwner||"",
-        aadhaar:c.Aadhaar_CoOwner||"",share:c.PercentShareProperty}));
-      const tn=d.TenantDetails||[];
-      if(Array.isArray(tn))p.tenants=tn.map(t=>({name:t.NameofTenant||"",pan:t.PANofTenant||"",
-        tan:t.PANTANofTenant||""}));
-      const s24=rd.Section24B&&rd.Section24B.Section24BDtls;
-      if(Array.isArray(s24))p.loans=s24.map(l=>({type:l.LoanTknFrom||"B",lender:l.BankOrInstnName||"",
-        acno:l.LoanAccNoOfBankOrInstnRefNo||"",dt:dmy(l.DateofLoan)||"",amt:l.TotalLoanAmt,
-        os:l.LoanOutstndngAmt,int:l.InterestUs24B}));
-      /* self-occupied interest with no loan row -> keep as single field */
-      if(!p.loans.length && rd.IntOnBorwCap!=null)p.interest=rd.IntOnBorwCap;
-      return p;});
-    read.push("house property");
-  }
+  if(!ID)return read;
+  const s24=I.ScheduleUs24B&&I.ScheduleUs24B.ScheduleUs24BDtls;
+  const hasLoans=Array.isArray(s24)&&s24.length;
+  const hasHP = ID.TypeOfHP!=null || N(ID.TotalIncomeOfHP)!==0 || N(ID.AnnualValue)!==0 ||
+    N(ID.GrossRentReceived)!==0 || N(ID.InterestPayable)!==0 || hasLoans;
+  if(!hasHP)return read;
+  S.hp=S.hp||{};
+  const p={
+    type:["S","L","D"].indexOf(ID.TypeOfHP)>=0?ID.TypeOfHP:"S",
+    owner:"SE", ownerOther:"", addr1:"", city:"", state:"", pin:"",
+    co:"N", share:100,
+    rent:ID.GrossRentReceived, rentNotReal:0, taxes:ID.TaxPaidlocalAuth,
+    arrears:ID.ArrearsUnrealizedRentRcvd,
+    coowners:[], tenants:[], loans:[]};
+  if(hasLoans)p.loans=s24.map(l=>({type:l.LoanTknFrom||"B",lender:l.BankOrInstnName||"",
+    acno:l.LoanAccNoOfBankOrInstnRefNo||"",dt:dmy(l.DateofLoan)||"",amt:l.TotalLoanAmt,
+    os:l.LoanOutstndngAmt,int:l.InterestUs24B}));
+  /* interest with no loan row -> keep as the single interest field */
+  if(!p.loans.length && ID.InterestPayable!=null)p.interest=ID.InterestPayable;
+  S.hp.props=[p];
+  read.push("house property");
   return read;
 }
 

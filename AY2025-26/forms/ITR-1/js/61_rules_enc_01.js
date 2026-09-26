@@ -75,7 +75,7 @@ ruleset(function(I,S_,A,Dd){
   const gti   = N(ID.GrossTotIncome);                    /* GTI excl LTCG 112A */
   const gtiL  = N(ID.GrossTotIncomeIncLTCG112A);         /* GTI incl LTCG 112A */
   const totInc= N(ID.TotalIncome);
-  const incHP = N(ID.TotalIncomeChargeableUnHP);
+  const incHP = N(ID.TotalIncomeOfHP);
   const incOS = N(ID.IncomeOthSrc);
   const ltcg  = N(LT.LongCap112A);
   const tpPaid= N(RG(TP,"TaxesPaid.TotalTaxesPaid",0));

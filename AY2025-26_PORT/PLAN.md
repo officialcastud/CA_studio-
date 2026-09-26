@@ -127,12 +127,23 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
 - Targeted edits; don't re-read whole forms.
 
 ## 11. Status tracker (update as you go)
-- ITR-1: STEP 1 DONE (output-preserving multi-file split @ `AY2025-26/forms/ITR-1/`,
-  behaviour-identical to AY2026-27 build — DOM/figures/export byte-verified).
-  STEP 2a DONE (year overlay `js/05_year_config.js`: NEW slabs 3/7/10/12/15L, §87A
-  7L/25k+marginal, AssessmentYear "2025", due 2025-07-31, FY2024-25 challan/234BC
-  dates — both regimes + 87A boundaries verified). STEP 2b NEXT: schema deltas
-  (3a/3b/3d) + rule deltas (4a/4b/4c) + rule renumbering (4d/4f), then gates.
+- ITR-1: STEP 1 DONE (multi-file split). STEP 2a DONE (year overlay).
+  STEP 2b IN PROGRESS — schema now **CLEAN both regimes** (schema_conformance.py:
+  0 stray / 0 required-missing / 0 type-mismatch), export succeeds, 0 Category-A /
+  0 Category-D rules, round-trip 0-diff, figures to the rupee (OLD GTI 9,85,000 /
+  TI 8,10,000 / tax 74,500 / net 77,480; NEW GTI=TI 11,40,000 / tax 71,000 / net
+  73,840 — correct AY2025-26 new slabs + ₹7L/₹25k §87A, differs from AY2026-27 by design).
+  DONE: 3a HP flatten (Sub-unit A: PropertyDetails[]→flat leaves + top-level
+  ScheduleUs24B), 3a Sub-units B (secondary/alt address) C (representative) D (234-I),
+  3b Sub-unit G stub (IncomeNotified89A=0 required), 4a DISABLE (77 rules via
+  RULES_DISABLED_2025 set in 60_rules.js, keyed by AY2026-27 number, before 4f).
+  UI/engine untouched per user's UI-identical constraint — only export/import/SKEL/rules.
+  NEXT: non-golden-exercised code paths for 3a/3b Sub-units E (80CCC/PRAN), F (exempt
+  NatureDesc), H (80G/80GGC donee), I (PartA_139_8A / PartB-ATI updated-return),
+  full 89A (G), 3d constraint tweaks (J); then rules 4b ADD (19) / 4c CHANGE (15) /
+  4f renumber (125) against rules_ITR-1_AY2025-26.json; then gates + AY2025-26 test
+  state (re-dated challans — settles OLD-regime refund 2,520 vs balance 2,480, a
+  challan-date artifact of the un-re-dated golden, NOT a form defect).
 - ITR-2: NOT STARTED — chunks ready.
 - ITR-3: NOT STARTED — chunks ready.
 - ITR-4: NOT STARTED — chunks ready.

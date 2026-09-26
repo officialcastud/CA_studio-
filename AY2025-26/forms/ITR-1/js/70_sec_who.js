@@ -274,26 +274,11 @@ function expWho(j){
   else if(sv(W.zip)) put(j,"PersonalInfo.Address.ZipCode",sv(W.zip));
   put(j,"PersonalInfo.Address.CountryCodeMobile",R(W.mobileCc)||91);
   put(j,"PersonalInfo.Address.MobileNo",R(W.mobile)||9999999999);
-  if(sv(W.mobile2)){
-    put(j,"PersonalInfo.Address.CountryCodeMobileNoSec",R(W.mobile2Cc)||91);
-    put(j,"PersonalInfo.Address.MobileNoSec",R(W.mobile2));
-  }
   put(j,"PersonalInfo.Address.EmailAddress",sv(W.email)||"na@na.in");
-  put(j,"PersonalInfo.Address.EmailAddressSec",sv(W.email2));
-
-  /* SecondaryAdd + AlternateAddress */
-  put(j,"PersonalInfo.SecondaryAdd",sv(W.addr2same)||"N");
-  if(st0(W.addr2same)==="Y"){
-    put(j,"PersonalInfo.AlternateAddress.ResidenceNo",(sv(W.addr1b)||"NA").slice(0,50));
-    put(j,"PersonalInfo.AlternateAddress.ResidenceName",sv(W.premisesb));
-    put(j,"PersonalInfo.AlternateAddress.RoadOrStreet",sv(W.roadb));
-    put(j,"PersonalInfo.AlternateAddress.LocalityOrArea",(sv(W.localityb)||"NA").slice(0,50));
-    put(j,"PersonalInfo.AlternateAddress.CityOrTownOrDistrict",(sv(W.cityb)||"NA").slice(0,50));
-    put(j,"PersonalInfo.AlternateAddress.StateCode",sv(indiab?W.stateb:"99")||"19");
-    put(j,"PersonalInfo.AlternateAddress.CountryCode",sv(W.countryb)||"91");
-    if(indiab){ if(sv(W.pinb)) put(j,"PersonalInfo.AlternateAddress.PinCode",R(W.pinb)); }
-    else if(sv(W.zipb)) put(j,"PersonalInfo.AlternateAddress.ZipCode",sv(W.zipb));
-  }
+  /* AY 2025-26 (3a): the secondary mobile/email (Address.{CountryCodeMobileNoSec,
+     MobileNoSec,EmailAddressSec}), PersonalInfo.SecondaryAdd and the whole
+     PersonalInfo.AlternateAddress block are removed from the schema. The UI rows
+     stay (UI unchanged); they are simply not exported. */
 
   /* DOB + EmployerCategory */
   put(j,"PersonalInfo.DOB",ISO(W.dob)||"1990-01-01");

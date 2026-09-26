@@ -20,10 +20,24 @@
    RG / N / RSUM / REQ / isNew and the other helpers come from the shell
    (shell/shell.js); the rules do not redefine them.
    ===================================================================== */
+/* AY 2025-26 port · 4a DISABLE — the 77 Category-A rules that exist only in the
+   AY 2026-27 ruleset (no AY 2025-26 counterpart), keyed by their AY 2026-27
+   coded number. They target fields removed in AY 2025-26 (representative
+   assessee, secondary/alternate address, the nested PropertyDetails co-owner/
+   tenant model, 80CCC identifier rows/PRAN rows, 234-I revised-return fee, and
+   the assorted 2026-27-only cross-checks). Disabling them here (before the 4f
+   renumber of the survivors) keeps their bodies intact for audit while removing
+   them from the live run. Source: itr_tools reports …_chunks/08_4a_DISABLE.md. */
+const RULES_DISABLED_2025 = new Set([
+  19,42,59,88,210,238,262,270,271,272,273,274,275,276,277,278,279,280,281,282,
+  283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,
+  302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,
+  321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339]);
 function runRules(I,S_){
   I=I||{};
   const out=[];
   const fire=(cat,n,cond,msg)=>{
+    if(cat==="A" && RULES_DISABLED_2025.has(n)) return;   /* 4a: no AY 2025-26 counterpart */
     let c;
     try{ c=(typeof cond==="function")?cond():cond; }
     catch(e){ out.push({cat:"D", n:n, msg:"[rule "+n+" skipped — "+((e&&e.message)||e)+"]"}); return; }  /* a throwing rule is skipped & recorded, never aborts its siblings */

@@ -69,7 +69,6 @@ const SKEL=
       "MobileNo": 9999999999,
       "EmailAddress": "na@na.in"
     },
-    "SecondaryAdd": "N",
     "DOB": "1990-01-01",
     "EmployerCategory": "OTH"
   },
@@ -78,7 +77,6 @@ const SKEL=
     "SeventhProvisio139": "N",
     "OptOutNewTaxRegime": "N",
     "clauseiv7provisio139i": "N",
-    "AsseseeRepFlg": "N",
     "ItrFilingDueDate": "2025-07-31"
   },
   "ITR1_IncomeDeductions": {
@@ -158,8 +156,7 @@ const SKEL=
       "IntrstPayUs234A": 0,
       "IntrstPayUs234B": 0,
       "IntrstPayUs234C": 0,
-      "LateFilingFee234F": 0,
-      "FeeFurnish234I": 0
+      "LateFilingFee234F": 0
     },
     "TotTaxPlusIntrstPay": 0
   },
