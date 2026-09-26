@@ -137,8 +137,12 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
 - ITR-3: NOT STARTED — chunks ready.
 - ITR-4: NOT STARTED — chunks ready.
 - ITR-5: BLOCKED — need AY 2025-26 sources.
-- ITR-6: BLOCKED — need AY 2025-26 sources.
-- ITR-7: BLOCKED — need AY 2025-26 sources.
+- ITR-6: PARTIAL — AY 2025-26 validation-rules PDF + schema-change doc provided;
+  rules-only diff report done (135 disable / 128 add / 100 changed; 486 renumbered).
+  Still need AY 2025-26 **schema JSON** for the field-level 3a/3b/3d diff.
+- ITR-7: PARTIAL — AY 2025-26 validation-rules PDF provided; rules-only diff report
+  done (55 disable / 68 add / 70 changed / 6 year-only; 326 renumbered). Still need
+  AY 2025-26 **schema JSON** for the field-level diff.
 
 ## 12. Background note
 Prior session also runs a PR-watch loop on PRs #3/#4/#5/#6 (AY 2026-27 drafts). That is separate

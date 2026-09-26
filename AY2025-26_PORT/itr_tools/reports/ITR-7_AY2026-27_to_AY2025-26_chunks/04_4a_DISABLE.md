@@ -1,0 +1,58 @@
+<!-- ITR-7: convert AY 2026-27 build -> AY 2025-26 -->
+### 4a. DISABLE — rules that exist only in 2026-27
+
+- **A-56** (p9): In Schedule "PI”, status is selected as Company then sub-status should be selected as "Domestic Company" or "Foreign Company"
+- **A-57** (p9): In Schedule Part A-General, Sl. No. A24(i) should be filled up with appropriate option.
+- **A-58** (p9): In Schedule "PI", Sl no. A26(a)/(b)/(c)/(d) is selected as "Yes” then A26 should be selected as "Yes"
+- **A-59** (p9): In Part A General 2- Sl no. A23i(a)(i) and A23i(b)(i) shall be mandatory in case A23(i) is selected as Yes"
+- **A-60** (p9): In Part A General, Email id and contact no of the representative assessee should not match with email id and contact no. of taxpayer.
+- **A-61** (p9): If return is being filed by Representative Assessee then PAN quoted in return should be same as the PAN who is trying to upload the return.
+- **A-62** (p9): In Part A General "Name of the representative, Email ID and contact number of the representative assessee" is mandatory if in schedule "Verification” Verification capacity is selected as "Representative" from drop down.
+- **A-63** (p9): Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income
+- **A-64** (p9): Secondary address should not be same as Primary address if "No" is mentioned for "Is the secondary address same as primary address?" in Schedule Part A General Information
+- **A-65** (p9): In schedule PartA-General section under which exemption is claimed is 10(23C)(iv)/(v)/(vi)/(via) then sl. No 6(iv) of PartB1 of PartB-TI should not be greater than zero.
+- **A-80** (p10): In "Schedule D", Sl. No. 3 "Any other reason" is selected then FY in sl no.1 "Year in which income is deemed to be applied " should not be other than FY 2024-25 and 2025-26
+- **A-95** (p11): In "Schedule J" A2(7) ' Details of loan and borrowings 'should be equal to sum of A2[(1+2-6)].
+- **A-138** (p13): In Schedule PP, Sl no. 7a " Total voluntary contributions received by the party during the F.Y." should be equal to sl no. C of Schedule VC "Total Contributions (Aiii + Biii)".
+- **A-139** (p13): In Schedule PP, Sl no. 4a"date of submission of the report" and Sl no. 4b "Election Commission of India or State Election Commission to whom the report has been submitted" are mandatory if Sl no. 4 "Whether the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 for the financial year has been submitted? is selected as "Yes"
+- **A-154** (p14): In Schedule A - Sl. No. A(11) "Cost of new asset for claim of Exemption u/s 11(1A)"should not be more than "0" for revenue field.
+- **A-191** (p16): Details of loan taken needs to be provided for claiming Interest on borrowed capital u/s 24(b) in Table 24(b) of Schedule HP
+- **A-192** (p16): In Table 24(b) of Schedule HP, the sum of individual rows for "Interest on Borrowed capital u/s 24(b)" shall match with the "Total Interest on borrowed capital u/s 24(b)" as per Table 24(b)
+- **A-193** (p16): In Schedule HP, Details of Interest on borrowed capital u/s 24(b) is mandatory to claim the deduction.
+- **A-194** (p16): In case of property is not Co-owned,the assessee's share should be equal to 100%
+- **A-195** (p16): "The amount of rent which cannot be realized" should not be more than Gross rent received/ receivable/ lettable during the year
+- **A-200** (p16): Value at field "C1" in "Schedule CG" should be equal to the sum of value (8ii + 8iii + 8iv + 8v + 8vi + 8vii) of Table E.
+- **A-253** (p19): In Schedule CG, Sl. No. B10 should be equal to B10a1+B10a2
+- **A-275** (p20): Schedule CG sl no Eii should be equal to sum of sl no (A3e+A4a+A8a+A(A) @20%)
+- **A-276** (p20): In Schedule CG, Sl. No. Ei6 should be equal to sl no (B1g + B2e + B3c + B4 + B5 + B6c + B7 + B8e + B9 + B10a1 + B10a2 + B(A)@12.5%)).
+- **A-277** (p21): In Schedule CG, Sl. No. Evi should be equal to Sl. No. (B1g + B2e + B3c + B4 + B5 + B6c+ B7 + B8e+B9 +B10a1+ B10a2+B(A)@12.5%)
+- **A-297** (p21): In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of financial year
+- **A-323** (p23): In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(iii) i.e., Dividend income u/s 2(22)(f) - DTAA for Dividend subject to TRC
+- **A-325** (p23): Interest expenditure u/s 57(1) should not be more than 20% of the dividend income at Sl. No. 1ai + Sl. No. 1aii in Schedule OS.
+- **A-329** (p24): In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year
+- **A-418** (p28): Special income "Interest referred to in Proviso to section 194LC(1)” offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI
+- **A-419** (p28): Special income "Interest referred to in Proviso to section 194LC(1)" offered u/s.115A(1)(a)(iiaa) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI
+- **A-427** (p29): Sum of income u/s 112(1) (LTCG on listed securities/ units without indexation) 112(1)(c)(iii)- Long term capital gains on transfer of unlisted securities in the case of non-residents 115AB (LTCG for non-resident on units referred in section115AB), 115AC (LTCG for non-resident on bonds/GDR), 112 (LTCG on others), 112A or section 115AD(1)(b)(iii)-Proviso (LTCG on equity shares/units of equity- oriented fund/units of business trust on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% - u/s other than 112A 115AD (LTCG for FII on securities) in schedule SI should be equal to Sl. No. 5ix schedule CYLA
+- **A-429** (p29): Special income "Income received by non-resident as referred in second proviso to section 194LC(1)" offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI
+- **A-430** (p29): Special income "Income received by non-resident as referred in second proviso to section 194LC(1)" offered u/s 115A(1)(a)(iiaa) in sl.no.2d of schedule OS is not equal to corresponding income in schedule SI
+- **A-431** (p29): Income under "111A-Short term capital gains on equity share or equity oriented fund chargeable to STT" in schedule SI should not be more than income offered in sch CG at Sl. No. A3ie or A4a after reducing DTAA income if any.
+- **A-432** (p29): Income under "115AD(1)(b)(ii) Proviso- Short term capital gains referred to in section 111A- by FII" in schedule SI should not be more than income offered in sch CG at Sl. No. A3iie after reducing DTAA income if any
+- **A-433** (p29): Income under "112(1) (LTCG on listed securities/ units)" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B3c after reducing DTAA income if any
+- **A-434** (p29): Income under "112(1)(c)(iii) - LTCG for non-resident on unlisted securities or other than Listed debentures" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6ic after reducing DTAA income if any
+- **A-435** (p29): Income under "112A- LTCG on equity shares/units of equity-oriented fund/units of business trust on which STT is paid"in Schedule SI should not be more than income offered in schedule CG at Sl. No. B4 or Col 14 of Schedule 112A after reducing DTAA income if any
+- **A-436** (p30): Income under "115AB(1)(b)- Income by way of long-term capital gains arising from the transfer of units purchased in foreign currency by a off-shore fund" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6iic after reducing DTAA income if any
+- **A-437** (p30): Income under "115AC(1)(c)- Long term capital gains arising from their transfer of bonds or GDR purchased in foreign currency in case of a non-resident" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6iiic after reducing DTAA income if any
+- **A-438** (p30): Income under "115AD(1)(b)(ii)- Short term capital gains (other than on equity share or equity oriented mutual fund referred to in section 111A) by an FII" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A5e after reducing DTAA income if any
+- **A-439** (p30): Income under "115AD(1)(b)(iii)- Long term capital gains (other than on equity share or equity oriented mutual fund referred to in section 112A) by an FII" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6ivc after reducing DTAA income if any
+- **A-440** (p30): Income under "115AD(1)(b)(iii) Proviso- For NON-RESIDENTS from sale of equity share in a company or unit of equity-oriented fund or unit of a business trust on which STT is paid under section 112A" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B7 after reducing DTAA income if any
+- **A-441** (p30): Income under "Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20%" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A8a after reducing DTAA income if any
+- **A-442** (p30): Income under "Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30%" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A8b after reducing DTAA income if any.
+- **A-443** (p30): Income under "Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B10a1 after reducing DTAA income if any.
+- **A-444** (p30): Income under "Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% other than section 112A" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B10a2 after reducing DTAA income if any.
+- **A-585** (p38): In schedule Part B-TI (Part B2), Sl. No. 1 "Amount eligible for exemption under sections 10(21), 10(23AAA), 10(23B), 10(23D), 10(23DA), 10(23EC), 10(23ED), 10(23EE), 10(23FB), 10(29A), 10(46), 10(46A), 10(46B), 10(47) " Should be equal to sum of Sl. No. 1a to 1n
+- **A-586** (p38): In schedule Part B-TI (Part B2), Sl. No. 2 "Amount eligible for exemption under sections 10(23A), 10(23C)(iiiab), 10(23C)(iiiac), 10(23C)(iiiad), 10(23C)(iiiae), 10(24) " should be equal to sum of Sl. No. 2a to 2f
+- **A-638** (p41): Schedule FA has to be filled if SL. Nno.14 of Part B-TTI is selected as "Yes"
+- **A-639** (p41): Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5lakh.
+- **A-640** (p41): Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5lakh.
+- **B-1** (p43): Assessee is claiming exemption under section 11, having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%. Income should be computed in accordance with the provisions of Section 13(10) of the Income Tax Act and PartB-3 of PartB-TI is applicable.
+- **B-25** (p44): Assessee is claiming exemption under section 10(23C)(iv) or 10(23C)(v) having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%. Income should be computed in accordance with the provisions twenty second proviso to Section 10(23C) of the Income Tax Act and PartB-3 of PartB-TI is applicable.
