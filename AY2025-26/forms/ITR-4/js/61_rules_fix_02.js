@@ -90,7 +90,7 @@ ruleset(function(I,S_,A,Dd){
   var headOffered = function(h){
     if(h==="BP") return g("IncomeDeductions.IncomeFromBusinessProf")>0 || g("ScheduleBP.PersumptiveInc44AD.GrsTotalTrnOver")>0
                      || g("ScheduleBP.PersumptiveInc44ADA.GrsReceipt")>0 || g("ScheduleBP.PersumptiveInc44AE.TotPersumInc44AE")>0;
-    if(h==="HP") return arr("IncomeDeductions.PropertyDetails").length>0 || g("IncomeDeductions.TotalIncomeChargeableUnHP")!==0;
+    if(h==="HP") return g("IncomeDeductions.TotalIncomeOfHP")!==0;
     if(h==="OS") return g("IncomeDeductions.IncomeOthSrc")>0 || osRows.length>0;
     if(h==="EI") return arr("TaxExmpIntIncDtls.OthersInc.OthersIncDtls").length>0 || g("TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe")>0;
     return true; };                                                   /* NA (194N) / unknown head: no income head to test */

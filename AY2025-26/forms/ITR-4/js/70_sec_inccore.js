@@ -33,7 +33,7 @@
    D8–D11a (interest u/s 234A/234B/234C, fee 234F/234-I) as INPUTS, not
    computed ("only D6 relief, D8–D11a interest/fee are inputs"); only the
    slab tax (D1), 87A rebate (D2), tax after rebate (D3), cess (D4), total
-   tax & cess (D5) and D7/D12 sums are computed. The AY 2026-27 slab rates
+   tax & cess (D5) and D7/D12 sums are computed. The A.Y. 2025-26 slab rates
    themselves are not in ITR-4's books (no TaxCalc book / empty REGIME.md);
    they are the Finance Act 2025 statutory slabs, encoded below with the
    rebate caps confirmed by rules.json #1135/#1145 and the schema
@@ -54,7 +54,7 @@ S.fs = S.fs || {};
 if(S.fs.optout===undefined) S.fs.optout="No";      /* master regime switch → isNew() */
 if(S.fs.sec===undefined)    S.fs.sec=11;           /* FilingStatus.ReturnFileSec (11=139(1)) */
 if(S.fs.f10ieaEarlier===undefined) S.fs.f10ieaEarlier="NA"; /* Form10IEAEarlierAYOldRegime (mandatory) */
-if(S.fs.duedate===undefined)S.fs.duedate="2026-08-31";      /* ItrFilingDueDate — non-audit (finalDuedate) */
+if(S.fs.duedate===undefined)S.fs.duedate=YC.due;            /* ItrFilingDueDate — non-audit (year overlay 05_year_config): 2025-07-31 */
 if(S.fs.seventh===undefined)S.fs.seventh="N";      /* SeventhProvisio139 */
 if(S.fs.rep===undefined)    S.fs.rep="N";          /* AsseseeRepFlg */
 S.fs.clause7 = S.fs.clause7 || [];                 /* clauseiv7provisio139iDtls[] */
@@ -109,7 +109,10 @@ const RES_STAT=[["RES","Resident"],["NRI","Non-Resident"],["NOR","Resident but n
 const RET_SEC=[["11","139(1)-On or before due date"],["12","139(4)-After due date"],
   ["13","142(1)"],["14","148"],["16","153C"],["17","139(5)-Revised Return"],
   ["18","139(9)"],["20","119(2)(b)-After condonation of delay"]];
-const DUE_DATES=[["2026-08-31","31/08/2026"],["2026-10-31","31/10/2026"],["2026-11-30","30/11/2026"]];
+/* ItrFilingDueDate options — the CBDT AY 2025-26 ITR-4 schema pattern-locks
+   FilingStatus.ItrFilingDueDate to 2025-07-31 (fields_ITR-4_AY2025-26.tsv), so
+   the sole valid due date for a Sugam filer is 31/07/2025 (year overlay). */
+const DUE_DATES=[[YC.due,"31/07/2025"]];
 const YN=[["Y","Yes"],["N","No"]];
 const YNNA=[["Y","Yes"],["N","No"],["NA","Not applicable"]];
 const AY10IEA=[["2024-25","2024-25"],["2025-26","2025-26"]];
@@ -152,6 +155,19 @@ const EXMP_CAT=[["AGRI","Agricultural & related incomes"],
   ["SRSC","Sums received by Senior Citizens/Minors"],
   ["SRST","Sums received by specified Category of Taxpayers"],
   ["SRPC","Sums from policies/contributions (LIC/NPS/PF/SSY)"],["OTH","Other Incomes"]];
+/* AY 2025-26 exempt-income NatureDesc enum (TaxExmpIntIncDtls.OthersInc.OthersIncDtls[].NatureDesc). */
+const EI_NATUREDESC=new Set(["AGRI","10(10BC)","10(10D)","10(11)","10(12)","10(12C)",
+  "10(13)","10(16)","10(17)","10(17A)","10(18)","DMDP","10(19)","10(26)","10(26AAA)","OTH"]);
+/* Map a UI exempt row {cat, sub, desc} to the AY 2025-26 {NatureDesc, OthNatOfInc?}.
+   AGRI category (or the 10(1) agri clause) -> "AGRI"; a section-10 clause that is a
+   NatureDesc enum value maps straight through; everything else -> "OTH" + free text. */
+function _exmpNature(r){
+  const sub=st0(r.sub), cat=st0(r.cat);
+  if(cat==="AGRI" || sub==="10(1)") return {NatureDesc:"AGRI"};
+  if(sub==="DMD")                   return {NatureDesc:"DMDP"};
+  if(EI_NATUREDESC.has(sub) && sub!=="OTH") return {NatureDesc:sub};
+  return {NatureDesc:"OTH", OthNatOfInc:(sv(r.desc)||sv(r.sub)||"Other exempt income").slice(0,125)};
+}
 const STATE_CODES=[["01","01-Andaman and Nicobar islands"],["02","02-Andhra Pradesh"],
   ["03","03-Arunachal Pradesh"],["04","04-Assam"],["05","05-Bihar"],["06","06-Chandigarh"],
   ["07","07-Dadra & Nagar Haveli and Daman & Diu"],["09","09-Delhi"],["10","10-Goa"],
@@ -166,7 +182,7 @@ const STATE_CODES=[["01","01-Andaman and Nicobar islands"],["02","02-Andhra Prad
 /* =====================================================================
    ENGINE HELPERS — tax on the slabs (Finance Act 2025; see NOTE above)
    ===================================================================== */
-function icAge(){                                  /* age at 31-Mar-2026 (shell YREND) */
+function icAge(){                                  /* age at 31-Mar-2025 (shell YREND, year overlay) */
   return (typeof age==="function")?age():0;
 }
 function icBrackets(brks,ti){                        /* progressive tax over [lo,hi,rate] triples */
@@ -176,10 +192,11 @@ function icBrackets(brks,ti){                        /* progressive tax over [lo
     t+=seg*rate; prev=Math.max(prev,lim); }
   return R(t);
 }
-/* NEW regime 115BAC(1A), AY 2026-27 — individual & HUF, no age benefit */
+/* NEW regime 115BAC(1A) — individual & HUF, no age benefit. The slab table is
+   the year-specific value in 05_year_config.js (YC.slabNew) — for A.Y. 2025-26
+   the F.Y. 2024-25 bands 0/5/10/15/20/30% at 3/7/10/12/15L. */
 function icTaxNew(ti){
-  return icBrackets([[400000,0],[800000,0.05],[1200000,0.10],[1600000,0.15],
-    [2000000,0.20],[2400000,0.25],[Infinity,0.30]], ti);
+  return icBrackets(YC.slabNew, ti);
 }
 /* OLD regime — individual (age slab) / HUF (uses <60 basic exemption) */
 function icTaxOld(ti){
@@ -313,18 +330,21 @@ function engTax(){
   if(status==="F"){ d1=R(0.30*base); }                            /* firm — flat 30% */
   else { d1 = isNew()?icTaxNew(base):icTaxOld(base); }
 
-  /* D2 rebate 87A — resident individual only (rules #1135 new / #1145 old) */
+  /* D2 rebate 87A — resident individual only (rules #1135 new / #1145 old).
+     Year-specific ceilings from the overlay (05_year_config, YC). NEW: total
+     income within YC.rebateNewTI gets the full YC.rebateNewMax; just above,
+     marginal relief holds the tax to the excess over the ceiling. OLD unchanged. */
   let d2=0;
   if(status==="I" && resident){
     if(isNew()){
-      if(base<=1200000) d2=Math.min(d1,60000);
-      else { const marg=d1-(base-1200000); if(marg>0) d2=Math.min(d1,marg); }  /* marginal rebate */
+      if(base<=YC.rebateNewTI) d2=Math.min(d1,YC.rebateNewMax);
+      else { const marg=d1-(base-YC.rebateNewTI); if(marg>0) d2=Math.min(d1,marg); }  /* marginal rebate */
     } else {
-      if(base<=500000) d2=Math.min(d1,12500);
+      if(base<=YC.rebateOldTI) d2=Math.min(d1,YC.rebateOldMax);
     }
   }
   const d3=Math.max(0, d1-d2);                                     /* D3 tax after rebate = D1 − D2  [#260] */
-  const d4=R(0.04*d3);                                            /* D4 cess @ 4% on D3 */
+  const d4=R(YC.cessRate*d3);                                     /* D4 health & education cess on D3 */
   const d5=d3+d4;                                                 /* D5 total tax & cess = D3 + D4  [#265] */
   const d6=N(IC.d.relief89);                                      /* D6 relief u/s 89 (input) */
   const d7=Math.max(0, d5-d6);                                    /* D7 balance tax after relief = D5 − D6  [#280] */
@@ -358,7 +378,7 @@ function secWho(){
   h+=row((S.pi.status==="F"?"Name of firm":"Last name / Surname"),inp("pi.last",{max:75}),{req:1,ref:"W6"});
   h+=row("PAN",inp("pi.pan",{max:10}),{req:1});
   h+=row("Aadhaar Number [linked to PAN]",inp("pi.aadhaar",{max:12}),{ref:"E32"});
-  h+=row("Date of Birth / Incorporation",dte("pi.dob"),{req:1,hint:"maximum date 31/03/2026"});
+  h+=row("Date of Birth / Incorporation",dte("pi.dob"),{req:1,hint:"maximum date "+DISP(YREND)});
   h+=row("Nature of Employment (Status)",sel("pi.empcat",EMPCAT,{blank:false}),{req:1,ref:"E36",
     hint:"'Not Applicable' greys off the salary schedule"});
 
@@ -405,7 +425,7 @@ function secRet(){
     hint:"ITR-4 (Sugam) is for a Resident"});
 
   h+=sub("Tax regime — section 115BAC");
-  h+=row("Do you wish to opt for the OLD tax regime for AY 2026-27? (115BAC(6))",
+  h+=row("Do you wish to opt for the OLD tax regime for AY "+YC.ay+"? (115BAC(6))",
     sel("fs.optout",[["No","No — stay in the new regime (default)"],["Yes","Yes — opt out to the old regime"]],{blank:false}),
     {req:1,ref:"E72",hint:"the default is the new regime u/s 115BAC(1A)"});
   h+=row("Have you filed Form 10-IEA within due date for any earlier AY (old regime)?",
@@ -417,8 +437,8 @@ function secRet(){
   if(S.fs.optout==="Yes"){
     h+=note("Opting out of the new regime is exercised through Form 10-IEA and is sticky. "+
       "Furnish its current-AY acknowledgement and date.","warn");
-    h+=row("Date of filing Form 10-IEA for AY 2026-27 (old regime)",dte("fs.f10ieaDateCur"),{req:1,ind:1,ref:"H69"});
-    h+=row("Acknowledgement number of Form 10-IEA (AY 2026-27, old regime)",inp("fs.f10ieaAckCur",{max:15}),{req:1,ind:1,ref:"H70"});
+    h+=row("Date of filing Form 10-IEA for AY "+YC.ay+" (old regime)",dte("fs.f10ieaDateCur"),{req:1,ind:1,ref:"H69"});
+    h+=row("Acknowledgement number of Form 10-IEA (AY "+YC.ay+", old regime)",inp("fs.f10ieaAckCur",{max:15}),{req:1,ind:1,ref:"H70"});
   } else {
     h+=note("New regime u/s 115BAC(1A). Standard deduction ₹75,000 and family-pension "+
       "deduction remain; HRA/other exempt allowances, s.16(ii)/16(iii), self-occupied "+
@@ -537,7 +557,7 @@ function secInc(){
       {k:"amt",h:"Annual value of outward supplies per GST return",t:"num",w:"260px",req:1}],
       S.ic.bp.gstn||[],{min:"520px",empty:"No GSTIN reported.",add:"Add a GSTIN"})+
     /* Financial particulars E11–E25 */
-    sub("Financial particulars of the business (as on 31-Mar-2026)")+
+    sub("Financial particulars of the business (as on "+DISP(YREND)+")")+
     row("E15 Sundry creditors",inp("ic.bp.fin.creditors",{n:1}),{req:1})+
     row("E19 Inventories",inp("ic.bp.fin.inventories",{n:1}),{req:1})+
     row("E20 Sundry debtors",inp("ic.bp.fin.debtors",{n:1}),{req:1})+
@@ -557,11 +577,11 @@ function secInc(){
        note("Enter the dividend across the five statutory periods; each dividend row's amount is the sum of its quarters."))
       :"")+
     (S.ic.os.rows||[]).map((r,i)=> r.nat==="DIV"?(
-       row("Dividend row "+(i+1)+" — up to 15/06/2025",inp("ic.os.rows."+i+".q1",{n:1}),{ind:1,ref:"H164"})+
-       row("16/06–15/09/2025",inp("ic.os.rows."+i+".q2",{n:1}),{ind:1,ref:"H165"})+
-       row("16/09–15/12/2025",inp("ic.os.rows."+i+".q3",{n:1}),{ind:1,ref:"H166"})+
-       row("16/12/2025–15/03/2026",inp("ic.os.rows."+i+".q4",{n:1}),{ind:1,ref:"H167"})+
-       row("16/03–31/03/2026",inp("ic.os.rows."+i+".q5",{n:1}),{ind:1,ref:"H168"})
+       row("Dividend row "+(i+1)+" — up to 15/06/2024",inp("ic.os.rows."+i+".q1",{n:1}),{ind:1,ref:"H164"})+
+       row("16/06–15/09/2024",inp("ic.os.rows."+i+".q2",{n:1}),{ind:1,ref:"H165"})+
+       row("16/09–15/12/2024",inp("ic.os.rows."+i+".q3",{n:1}),{ind:1,ref:"H166"})+
+       row("16/12/2024–15/03/2025",inp("ic.os.rows."+i+".q4",{n:1}),{ind:1,ref:"H167"})+
+       row("16/03–31/03/2025",inp("ic.os.rows."+i+".q5",{n:1}),{ind:1,ref:"H168"})
     ):"").join("")+
     (nw?row("Less: Deduction u/s 57(iia) (family pension)",cell(0),{ref:"F170",hint:"closed in the new regime"})
        :row("Less: Deduction u/s 57(iia) (family pension only)",inp("ic.os.fp57",{n:1}),{ref:"F170",
@@ -731,13 +751,8 @@ function expInc(j){
   if(N(S.pi.mobile)) put(j,"PersonalInfo.Address.MobileNo",R(N(S.pi.mobile)));
   put(j,"PersonalInfo.Address.EmailAddress",sv(S.pi.email));
   put(j,"PersonalInfo.Address.EmailAddressSec",sv(S.pi.emailSec));
-  put(j,"PersonalInfo.SecondaryAdd",sv(S.pi.secAdd||"Y"));
-  if(S.pi.secAdd==="N"){
-    put(j,"PersonalInfo.AlternateAddress.ResidenceNo",sv(S.pi.altRes));
-    put(j,"PersonalInfo.AlternateAddress.LocalityOrArea",sv(S.pi.altLoc));
-    put(j,"PersonalInfo.AlternateAddress.CityOrTownOrDistrict",sv(S.pi.altCity));
-    put(j,"PersonalInfo.AlternateAddress.StateCode",sv(S.pi.altState));
-  }
+  /* AY 2025-26 (3a): PersonalInfo.SecondaryAdd and the PersonalInfo.AlternateAddress
+     block are removed from the schema — not emitted. The UI keeps the fields. */
   put(j,"PersonalInfo.DOB",ISO(S.pi.dob));
   put(j,"PersonalInfo.EmployerCategory",sv(S.pi.empcat||"OTH"));
   put(j,"PersonalInfo.Status",sv(S.pi.status||"I"));
@@ -745,15 +760,20 @@ function expInc(j){
 
   /* ---- FilingStatus ---- */
   put(j,"FilingStatus.ReturnFileSec",R(N(S.fs.sec)||11));
-  put(j,"FilingStatus.Form10IEAEarlierAYOldRegime",sv(S.fs.f10ieaEarlier||"NA"));
-  if(S.fs.f10ieaEarlier==="Y"){
-    put(j,"FilingStatus.Form10IEAAssYear",sv(S.fs.f10ieaAY));
-    if(N(S.fs.f10ieaAck)) put(j,"FilingStatus.Form10IEAEarlierAYAckOldRegime",R(N(S.fs.f10ieaAck)));
-  }
+  /* AY 2025-26 (3a/3b) Form-10IEA / 115BAC(6) opt-out block. The AY 2026-27 leaves
+     (Form10IEAEarlierAYOldRegime, F10IEACurrAYOldRegime, F10IEADateCurrAYOldTax,
+     F10IEAAckNoCurrAYOldTax, Form10IEAAssYear, Form10IEAEarlierAYAckOldRegime, and the
+     new-regime variants) are removed. In their place:
+       · OptOutNewTaxRegime_Form10IEA_AY24_25 (REQUIRED, Y/N/NA) — did the assessee
+         exercise the 115BAC(6) opt-out in Form 10-IEA in the earlier A.Y. 2024-25?
+         mapped from the same UI flag that drove Form10IEAEarlierAYOldRegime.
+       · when the OLD regime is chosen for the current year (optout "Yes"): the
+         current-year Form 10-IEA date and acknowledgement (Form10IEADate / Form10IEAAckNo). */
+  put(j,"FilingStatus.OptOutNewTaxRegime_Form10IEA_AY24_25",
+      (["Y","N","NA"].indexOf(sv(S.fs.f10ieaEarlier))>=0)?sv(S.fs.f10ieaEarlier):"NA");
   if(S.fs.optout==="Yes"){
-    put(j,"FilingStatus.F10IEACurrAYOldRegime","Y");
-    put(j,"FilingStatus.F10IEADateCurrAYOldTax",ISO(S.fs.f10ieaDateCur));
-    if(N(S.fs.f10ieaAckCur)) put(j,"FilingStatus.F10IEAAckNoCurrAYOldTax",R(N(S.fs.f10ieaAckCur)));
+    if(ISO(S.fs.f10ieaDateCur)) put(j,"FilingStatus.Form10IEADate",ISO(S.fs.f10ieaDateCur));
+    if(N(S.fs.f10ieaAckCur)) put(j,"FilingStatus.Form10IEAAckNo",R(N(S.fs.f10ieaAckCur)));
   }
   put(j,"FilingStatus.SeventhProvisio139",sv(S.fs.seventh));
   if(S.fs.seventh==="Y"){
@@ -778,12 +798,15 @@ function expInc(j){
   }
   put(j,"FilingStatus.AsseseeRepFlg",sv(S.fs.rep||"N"));
   if(S.fs.rep==="Y"){
+    /* AY 2025-26 (3a/3b): the representative's e-mail and mobile leaves are removed;
+       RepName, RepCapacity, RepAddress and RepPAN are REQUIRED, RepAadhaar optional. */
     put(j,"FilingStatus.AssesseeRep.RepName",sv(S.fs.repName));
-    put(j,"FilingStatus.AssesseeRep.RepEmailID",sv(S.fs.repEmail));
-    put(j,"FilingStatus.AssesseeRep.CountryCodeRepMobileNo",91);
-    if(N(S.fs.repMobile)) put(j,"FilingStatus.AssesseeRep.RepMobileNo",R(N(S.fs.repMobile)));
+    if(sv(S.fs.repCapacity)) put(j,"FilingStatus.AssesseeRep.RepCapacity",sv(S.fs.repCapacity));
+    if(sv(S.fs.repAddr))     put(j,"FilingStatus.AssesseeRep.RepAddress",sv(S.fs.repAddr));
+    if(sv(S.fs.repPan))      put(j,"FilingStatus.AssesseeRep.RepPAN",sv(S.fs.repPan).toUpperCase());
+    if(sv(S.fs.repAadhaar))  put(j,"FilingStatus.AssesseeRep.RepAadhaar",sv(S.fs.repAadhaar));
   }
-  put(j,"FilingStatus.ItrFilingDueDate",sv(S.fs.duedate||"2026-08-31"));
+  put(j,"FilingStatus.ItrFilingDueDate",sv(S.fs.duedate||YC.due));
 
   /* ---- IncomeDeductions ---- */
   put(j,"IncomeDeductions.IncomeFromBusinessProf",n0(D.e8));
@@ -808,38 +831,46 @@ function expInc(j){
   if(N(D.ptax))   put(j,"IncomeDeductions.ProfessionalTaxUs16iii",n0(D.ptax));
   put(j,"IncomeDeductions.IncomeFromSal",n0(D.incSal));
 
-  /* PropertyDetails[] — native array */
-  const props=(IC.hp||[]).map((p,i)=>{
-    const c=calc[i]||{};
-    const el={};
-    el.HPSNo=i+1;
-    el.AddressDetailWithZipCode=ob({AddrDetail:sv(p.addr),CityOrTownOrDistrict:sv(p.city),
-      StateCode:sv(p.state),CountryCode:sv(p.country||"91"),PinCode:N(p.pin)?R(N(p.pin)):undefined});
-    if(sv(p.owner)) el.PropertyOwner=sv(p.owner);
-    if(p.owner==="OT"&&sv(p.ownerOth)) el.PropertyOwnerOther=sv(p.ownerOth);
-    el.PropCoOwnedFlg=sv(p.co||"NO");
-    if(p.share!==""&&p.share!=null) el.AsseseeShareProperty=N(p.share);
-    const co=(p.coown||[]).filter(o=>st0(o.name)).map((o,k)=>ob({CoOwnersSNo:k+1,NameCoOwner:sv(o.name),
-      PAN_CoOwner:sv(o.pan),Aadhaar_CoOwner:sv(o.aadhaar),PercentShareProperty:(o.share!==""&&o.share!=null)?N(o.share):undefined}));
-    if(co.length) el.CoOwners=co;
-    if(sv(p.let)) el.ifLetOut=sv(p.let);
-    const tn=(p.tenant||[]).filter(x=>st0(x.name)).map((x,k)=>ob({TenantSNo:k+1,NameofTenant:sv(x.name),
-      PANofTenant:sv(x.pan),AadhaarofTenant:sv(x.aadhaar),PANTANofTenant:sv(x.pantan)}));
-    if(tn.length) el.TenantDetails=tn;
-    const loans=(p.loans||[]).filter(l=>st0(l.name)||N(l.intr)).map(l=>ob({LoanTknFrom:sv(l.from),
-      BankOrInstnName:sv(l.name),LoanAccNoOfBankOrInstnRefNo:sv(l.accno),DateofLoan:ISO(l.date),
-      TotalLoanAmt:R(N(l.total)),LoanOutstndngAmt:R(N(l.outst)),InterestUs24B:R(N(l.intr))}));
-    const rd=ob({AnnualLetableValue:n0(c.a),RentNotRealized:N(c.b)?n0(c.b):undefined,
-      LocalTaxes:N(c.c)?n0(c.c):undefined,TotalUnrealizedAndTax:n0(c.d),BalanceALV:n0(c.e),
-      AnnualOfPropOwned:n0(c.f),ThirtyPercentOfBalance:n0(c.g),IntOnBorwCap:n0(c.intr),
-      TotalDeduct:n0(c.totDed),ArrearsUnrealizedRentRcvd:N(c.j)?n0(c.j):undefined,IncomeOfHP:sg(c.k)});
-    rd.Section24B=ob({TotalInterestUs24B:n0(c.intr)});
-    if(loans.length) rd.Section24B.Section24BDtls=loans;
-    el.Rentdetails=rd;
-    return el;
-  });
-  if(props.length) put(j,"IncomeDeductions.PropertyDetails",props);
-  put(j,"IncomeDeductions.TotalIncomeChargeableUnHP",sg(hp.income));
+  /* ---- House property — FLAT single-HP model (AY 2025-26, 3a/3b) ----
+     AY 2026-27's nested IncomeDeductions.PropertyDetails[] (co-owners, tenants,
+     per-property Rentdetails/Section24B) and IncomeDeductions.TotalIncomeChargeableUnHP
+     are gone; the head leaves now live directly on IncomeDeductions and the 24(b)
+     loan rows move to a NEW top-level ScheduleUs24B. AnnualValue, AnnualValue30Percent
+     and TotalIncomeOfHP are schema-REQUIRED, so they are always emitted (0 when there
+     is no HP). The UI/engine (up to two properties) are unchanged; the flat leaves
+     aggregate the computed per-property rows and every loan goes into ScheduleUs24B. */
+  {
+    let grossRent=0, localTax=0, annualVal=0, av30=0, arrears=0, interest=0;
+    const loanRows=[];
+    (IC.hp||[]).forEach((p,i)=>{
+      const c=calc[i]||{};
+      grossRent+=N(c.a); localTax+=N(c.c); annualVal+=N(c.f); av30+=N(c.g);
+      arrears+=N(c.j); interest+=N(c.intr);
+      (p.loans||[]).filter(l=>st0(l.name)||N(l.intr)).forEach(l=>loanRows.push(ob({
+        LoanTknFrom:(["B","I"].indexOf(st0(l.from))>=0)?st0(l.from):"B",
+        BankOrInstnName:(sv(l.name)||"NA").slice(0,125),
+        LoanAccNoOfBankOrInstnRefNo:(sv(l.accno)||"NA").slice(0,20),
+        DateofLoan:ISO(l.date)||(YC.fyStartYear+"-04-01"),
+        TotalLoanAmt:R(N(l.total)), LoanOutstndngAmt:R(N(l.outst)),
+        InterestUs24B:R(N(l.intr))})));
+    });
+    const p0=(IC.hp||[])[0];
+    if(p0 && sv(p0.let)) put(j,"IncomeDeductions.TypeOfHP",sv(p0.let));
+    if(grossRent) put(j,"IncomeDeductions.GrossRentReceived",n0(grossRent));
+    if(localTax)  put(j,"IncomeDeductions.TaxPaidlocalAuth",n0(localTax));
+    put(j,"IncomeDeductions.AnnualValue",n0(annualVal));            /* REQUIRED (NAV of property owned) */
+    put(j,"IncomeDeductions.AnnualValue30Percent",n0(av30));        /* REQUIRED (30% of annual value) */
+    if(arrears)   put(j,"IncomeDeductions.ArrearsUnrealizedRentRcvd",n0(arrears));
+    if(interest)  put(j,"IncomeDeductions.InterestPayable",n0(interest));
+    put(j,"IncomeDeductions.TotalIncomeOfHP",sg(hp.income));        /* REQUIRED, min -2L */
+    if(loanRows.length){
+      put(j,"ScheduleUs24B.ScheduleUs24BDtls",loanRows);
+      put(j,"ScheduleUs24B.TotalInterestUs24B",R(interest));
+    }
+  }
+  /* IncomeNotified89A — schema-REQUIRED (AY 2025-26 3b). Stubbed 0; the full
+     s.89A foreign-retirement handling (types, relief, OthersInc NOT89A) is deferred. */
+  if(RG(j,"IncomeDeductions.IncomeNotified89A",null)==null) put(j,"IncomeDeductions.IncomeNotified89A",0);
 
   /* OthersInc (other sources) — native array */
   put(j,"IncomeDeductions.IncomeOthSrc",n0(D.incOS));
@@ -923,10 +954,15 @@ function expInc(j){
   put(j,"LTCG112A.TotCstAcqisn",n0(N(IC.ltcg.cost)));
   put(j,"LTCG112A.LongCap112A",n0(D.long112a));
 
-  /* ---- TaxExmpIntIncDtls (D20 exempt income) ---- */
+  /* ---- TaxExmpIntIncDtls (D20 exempt income) ----
+     AY 2025-26 (3a/3b): the {Category, SubCategory, Description} triple is replaced
+     by {NatureDesc (enum), OthNatOfInc (free text)}. The UI keeps the cat/sub/desc
+     model (UI-identical); on export the section-10 sub-category is mapped to the
+     NatureDesc enum, and anything outside it becomes NatureDesc "OTH" with the free
+     text carried in OthNatOfInc. Round-trip-safe (see impInc). */
   let exemptTot=0;
   const exArr=(IC.exmp||[]).filter(r=>N(r.amt)||st0(r.cat)).map(r=>{exemptTot+=N(r.amt);
-    return ob({Category:sv(r.cat),SubCategory:sv(r.sub),Description:sv(r.desc),OthAmount:R(N(r.amt))});});
+    return Object.assign(_exmpNature(r), {OthAmount:R(N(r.amt))});});
   if(exArr.length){
     put(j,"TaxExmpIntIncDtls.OthersInc.OthersIncDtls",exArr);
     put(j,"TaxExmpIntIncDtls.OthersInc.OthersTotalTaxExe",R(exemptTot));
@@ -949,18 +985,20 @@ function impInc(I4){
     if(a.Phone){ S.pi.std=a.Phone.STDcode!=null?String(a.Phone.STDcode):""; S.pi.phone=a.Phone.PhoneNo||""; }
     S.pi.mobcc=a.CountryCodeMobile!=null?String(a.CountryCodeMobile):"91";
     S.pi.mobile=a.MobileNo!=null?String(a.MobileNo):""; S.pi.email=a.EmailAddress||""; S.pi.emailSec=a.EmailAddressSec||"";
-    S.pi.secAdd=P.SecondaryAdd||"Y";
-    const alt=P.AlternateAddress||{}; S.pi.altRes=alt.ResidenceNo||""; S.pi.altLoc=alt.LocalityOrArea||"";
-    S.pi.altCity=alt.CityOrTownOrDistrict||""; S.pi.altState=alt.StateCode||"";
+    /* AY 2025-26 (3a): SecondaryAdd / AlternateAddress removed from the schema; the
+       UI flag/state defaults are kept but no longer read from the return. */
+    S.pi.secAdd=P.SecondaryAdd||S.pi.secAdd||"Y";
     S.pi.dob=dmy(P.DOB)||S.pi.dob; S.pi.empcat=P.EmployerCategory||"OTH"; S.pi.status=P.Status||"I"; S.pi.aadhaar=P.AadhaarCardNo||"";
     read.push("personal info");
   }
   if(FSt){
     S.fs.sec=FSt.ReturnFileSec!=null?FSt.ReturnFileSec:11;
-    S.fs.f10ieaEarlier=FSt.Form10IEAEarlierAYOldRegime||"NA";
-    S.fs.f10ieaAY=FSt.Form10IEAAssYear||""; S.fs.f10ieaAck=FSt.Form10IEAEarlierAYAckOldRegime||"";
-    S.fs.optout=(FSt.F10IEACurrAYOldRegime==="Y")?"Yes":"No";
-    S.fs.f10ieaDateCur=dmy(FSt.F10IEADateCurrAYOldTax)||""; S.fs.f10ieaAckCur=FSt.F10IEAAckNoCurrAYOldTax||"";
+    /* AY 2025-26 (3a/3b): earlier-AY opt-out flag is OptOutNewTaxRegime_Form10IEA_AY24_25;
+       the current-year Form 10-IEA date/ack are Form10IEADate / Form10IEAAckNo. */
+    S.fs.f10ieaEarlier=FSt.OptOutNewTaxRegime_Form10IEA_AY24_25||FSt.Form10IEAEarlierAYOldRegime||"NA";
+    S.fs.f10ieaDateCur=dmy(FSt.Form10IEADate||FSt.F10IEADateCurrAYOldTax)||"";
+    S.fs.f10ieaAckCur=FSt.Form10IEAAckNo||FSt.F10IEAAckNoCurrAYOldTax||"";
+    S.fs.optout=(S.fs.f10ieaDateCur||N(S.fs.f10ieaAckCur)||FSt.F10IEACurrAYOldRegime==="Y")?"Yes":"No";
     S.fs.seventh=FSt.SeventhProvisio139||"N";
     S.fs.dep1cr=FSt.DepAmtAggAmtExcd1CrPrYrFlg||""; S.fs.dep1crAmt=FSt.AmtSeventhProvisio139i||"";
     S.fs.trv2l=FSt.IncrExpAggAmt2LkTrvFrgnCntryFlg||""; S.fs.trv2lAmt=FSt.AmtSeventhProvisio139ii||"";
@@ -970,8 +1008,10 @@ function impInc(I4){
     S.fs.noticeNo=FSt.NoticeNo||""; S.fs.noticeDate=dmy(FSt.NoticeDateUnderSec)||"";
     S.fs.receipt=FSt.ReceiptNo||""; S.fs.origDate=dmy(FSt.OrigRetFiledDate)||"";
     S.fs.rep=FSt.AsseseeRepFlg||"N";
-    const rp=FSt.AssesseeRep||{}; S.fs.repName=rp.RepName||""; S.fs.repEmail=rp.RepEmailID||""; S.fs.repMobile=rp.RepMobileNo!=null?String(rp.RepMobileNo):"";
-    S.fs.duedate=FSt.ItrFilingDueDate||"2026-08-31";
+    const rp=FSt.AssesseeRep||{}; S.fs.repName=rp.RepName||"";
+    S.fs.repCapacity=rp.RepCapacity||""; S.fs.repAddr=rp.RepAddress||"";
+    S.fs.repPan=rp.RepPAN||""; S.fs.repAadhaar=rp.RepAadhaar||"";
+    S.fs.duedate=FSt.ItrFilingDueDate||YC.due;
     read.push("filing status & regime");
   }
   if(ID){
@@ -979,19 +1019,24 @@ function impInc(I4){
     S.ic.sal.ent=ID.EntertainmntalwncUs16ii||""; S.ic.sal.ptax=ID.ProfessionalTaxUs16iii||"";
     const alw=(ID.AllwncExemptUs10||{}).AllwncExemptUs10Dtls||[];
     S.ic.sal.alw=alw.map(r=>({nat:r.SalNatureDesc||"",amt:r.SalOthAmount||""}));
-    S.ic.hp=(ID.PropertyDetails||[]).map(p=>{
-      const rd=p.Rentdetails||{}, ad=p.AddressDetailWithZipCode||{}, s24=(rd.Section24B||{}).Section24BDtls||[];
-      return { addr:ad.AddrDetail||"", city:ad.CityOrTownOrDistrict||"", state:ad.StateCode||"",
-        country:ad.CountryCode||"91", pin:ad.PinCode!=null?String(ad.PinCode):"",
-        owner:p.PropertyOwner||"", ownerOth:p.PropertyOwnerOther||"", co:p.PropCoOwnedFlg||"NO",
-        share:p.AsseseeShareProperty!=null?p.AsseseeShareProperty:"", let:p.ifLetOut||"",
-        coown:(p.CoOwners||[]).map(o=>({name:o.NameCoOwner||"",pan:o.PAN_CoOwner||"",aadhaar:o.Aadhaar_CoOwner||"",share:o.PercentShareProperty!=null?o.PercentShareProperty:""})),
-        tenant:(p.TenantDetails||[]).map(tn=>({name:tn.NameofTenant||"",pan:tn.PANofTenant||"",aadhaar:tn.AadhaarofTenant||"",pantan:tn.PANTANofTenant||""})),
-        gross:rd.AnnualLetableValue||"", notReal:rd.RentNotRealized||"", localTax:rd.LocalTaxes||"",
-        arrears:rd.ArrearsUnrealizedRentRcvd||"",
-        loans:s24.map(l=>({from:l.LoanTknFrom||"",name:l.BankOrInstnName||"",accno:l.LoanAccNoOfBankOrInstnRefNo||"",
-          date:dmy(l.DateofLoan)||"",total:l.TotalLoanAmt||"",outst:l.LoanOutstndngAmt||"",intr:l.InterestUs24B||""})) };
-    });
+    /* House property — FLAT single-HP model (AY 2025-26): reconstruct one property
+       from the IncomeDeductions leaves + the top-level ScheduleUs24B loan table
+       (the AY 2026-27 nested PropertyDetails[] is gone). */
+    const s24=((I4.ScheduleUs24B||{}).ScheduleUs24BDtls)||[];
+    const hasLoans=s24.length>0;
+    const hasHP = ID.TypeOfHP!=null || N(ID.TotalIncomeOfHP)!==0 || N(ID.AnnualValue)!==0 ||
+      N(ID.GrossRentReceived)!==0 || N(ID.InterestPayable)!==0 || hasLoans;
+    S.ic.hp = hasHP ? [{
+      addr:"", city:"", state:"", country:"91", pin:"",
+      owner:"", ownerOth:"", co:"NO", share:"",
+      let:(["S","L","D"].indexOf(ID.TypeOfHP)>=0)?ID.TypeOfHP:"S",
+      coown:[], tenant:[],
+      gross:ID.GrossRentReceived||"", notReal:"", localTax:ID.TaxPaidlocalAuth||"",
+      arrears:ID.ArrearsUnrealizedRentRcvd||"",
+      loans:s24.map(l=>({from:l.LoanTknFrom||"B",name:l.BankOrInstnName||"",
+        accno:l.LoanAccNoOfBankOrInstnRefNo||"",date:dmy(l.DateofLoan)||"",
+        total:l.TotalLoanAmt||"",outst:l.LoanOutstndngAmt||"",intr:l.InterestUs24B||""}))
+    }] : [];
     const os=(ID.OthersInc||{}).OthersIncDtlsOthSrc||[];
     S.ic.os.rows=os.map(r=>{ const dr=(r.DividendInc||{}).DateRange||{};
       return { nat:r.OthSrcNatureDesc||"", desc:r.OthSrcOthNatOfInc||"", amt:r.OthSrcOthAmount||"",
@@ -1018,7 +1063,14 @@ function impInc(I4){
     read.push("tax computation");
   }
   if(LT){ S.ic.ltcg={sale:LT.TotSaleCnsdrn||"",cost:LT.TotCstAcqisn||""}; read.push("LTCG 112A"); }
-  if(EX){ S.ic.exmp=((EX.OthersInc||{}).OthersIncDtls||[]).map(r=>({cat:r.Category||"",sub:r.SubCategory||"",desc:r.Description||"",amt:r.OthAmount||""})); read.push("exempt income"); }
+  if(EX){ S.ic.exmp=((EX.OthersInc||{}).OthersIncDtls||[]).map(r=>{
+    /* inverse of _exmpNature (AY 2025-26 NatureDesc -> UI cat/sub/desc), round-trip-safe */
+    const nd=st0(r.NatureDesc);
+    if(nd==="AGRI") return {cat:"AGRI", sub:"10(1)", desc:"", amt:r.OthAmount||""};
+    if(nd==="DMDP") return {cat:"OTH",  sub:"DMD",   desc:"", amt:r.OthAmount||""};
+    if(nd==="OTH"||!EI_NATUREDESC.has(nd)) return {cat:"OTH", sub:"OTH", desc:r.OthNatOfInc||"", amt:r.OthAmount||""};
+    return {cat:"OTH", sub:nd, desc:"", amt:r.OthAmount||""};
+  }); read.push("exempt income"); }
   return read;
 }
 
@@ -1038,7 +1090,7 @@ function chkRet(){
   if(!st0(S.fs.f10ieaEarlier)) out.push({lvl:"err",t:"Form 10-IEA (earlier AY) required",m:"Answer whether Form 10-IEA was filed within the due date for an earlier AY (mandatory).",sec:"ret"});
   if(S.fs.optout==="Yes"){
     if(!st0(S.fs.f10ieaAckCur)) out.push({lvl:"err",t:"Form 10-IEA acknowledgement required",m:"Opting out of the new regime is exercised only through Form 10-IEA — furnish its acknowledgement number.",sec:"ret"});
-    if(!D(S.fs.f10ieaDateCur)) out.push({lvl:"err",t:"Form 10-IEA date required",m:"Furnish the date of filing of Form 10-IEA for AY 2026-27.",sec:"ret"});
+    if(!D(S.fs.f10ieaDateCur)) out.push({lvl:"err",t:"Form 10-IEA date required",m:"Furnish the date of filing of Form 10-IEA for AY "+YC.ay+".",sec:"ret"});
   }
   if([13,14,16,18,20].indexOf(sec)>=0 && !st0(S.fs.noticeNo)) out.push({lvl:"err",t:"DIN required",m:"A return filed against a 142(1)/148/153C/139(9) notice or 119(2)(b) order needs the DIN.",sec:"ret"});
   if(sec===17 && !st0(S.fs.receipt)) out.push({lvl:"err",t:"Receipt number required",m:"A revised return (139(5)) needs the receipt number of the original return.",sec:"ret"});

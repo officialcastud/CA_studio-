@@ -4,7 +4,7 @@
 /* S — the working state. meta/pi/fs/bank/ver seeded enough that compute()
    and buildReturn() never throw; every real field is added in Phase 4. */
 const S={
-  meta:{app:"yukti",form:"ITR-4",ay:"2026-27",ver:1},
+  meta:{app:"yukti",form:"ITR-4",ay:"2025-26",ver:1},
   pi:{status:"I",res:"RES",first:"",last:"",pan:"",dob:""},
   fs:{optout:"No",sec:11,filed:""},
   bank:[],
@@ -23,14 +23,14 @@ const SKEL=
   "SWVersionNo": "1.0",
   "SWCreatedBy": "SW10000000",
   "JSONCreatedBy": "SW10000000",
-  "JSONCreationDate": "2026-01-01",
+  "JSONCreationDate": "2025-07-01",
   "IntermediaryCity": "na",
   "Digest": "-"
  },
  "Form_ITR4": {
   "FormName": "ITR-4",
   "Description": "For presumptive income from Business & Profession (44AD/44ADA/44AE)",
-  "AssessmentYear": "2026",
+  "AssessmentYear": "2025",
   "SchemaVer": "Ver1.0",
   "FormVer": "Ver1.0"
  },
@@ -49,14 +49,12 @@ const SKEL=
    "MobileNo": 0,
    "EmailAddress": "na@na.in"
   },
-  "SecondaryAdd": "Y",
   "DOB": "2026-01-01",
   "EmployerCategory": "CGOV",
   "Status": "I"
  },
  "FilingStatus": {
   "ReturnFileSec": 11,
-  "Form10IEAEarlierAYOldRegime": "Y",
   "AsseseeRepFlg": "Y",
   "ItrFilingDueDate": "na"
  },
@@ -67,7 +65,6 @@ const SKEL=
   "DeductionUs16": 0,
   "IncomeFromSal": 0,
   "IncomeOthSrc": 0,
-  "TotalIncomeChargeableUnHP": 0,
   "GrossTotIncome": 0,
   "GrossTotIncomeIncLTCG112A": 0,
   "UsrDeductUndChapVIA": {

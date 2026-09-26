@@ -49,9 +49,9 @@ ruleset(function(I,S_,A,Dd){
   /* ---------------- Gross total income / total income / tax roll-up ---------------- */
   A(46, REQ(g("IncomeDeductions.TotalIncome"), Math.max(0, g("IncomeDeductions.GrossTotIncomeIncLTCG112A")-N(RG(I,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions")))),
     "Total income must equal Gross Total Income minus total Chapter VI-A deductions.");
-  A(49, isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeChargeableUnHP")+g("LTCG112A.LongCap112A")),
+  A(49, isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeOfHP")+g("LTCG112A.LongCap112A")),
     "Gross Total Income must equal the sum of income from Business/Profession, Salary, House Property, Other Sources and LTCG.");
-  A(196, !isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeChargeableUnHP")+g("LTCG112A.LongCap112A")),
+  A(196, !isNew() || REQ(g("IncomeDeductions.GrossTotIncomeIncLTCG112A"), g("IncomeDeductions.IncomeFromSal")+g("IncomeDeductions.IncomeFromBusinessProf")+g("IncomeDeductions.IncomeOthSrc")+g("IncomeDeductions.TotalIncomeOfHP")+g("LTCG112A.LongCap112A")),
     "New regime: Gross Total Income must equal the sum of income from Business/Profession, Salary, House Property, Other Sources and LTCG.");
   A(19, N(RG(I,"IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions")) <= g("IncomeDeductions.GrossTotIncomeIncLTCG112A")+1,
     "Deductions claimed under Chapter VI-A cannot be greater than Gross Total Income.");
@@ -186,8 +186,8 @@ ruleset(function(I,S_,A,Dd){
     A(244, REQ(RG(I,"Schedule80GGC.TotalEligibleDonationAmt80GGC"), Math.min(RSUM(RG(I,"Schedule80GGC.Schedule80GGCDetails",[]),"EligibleDonationAmt"), g("IncomeDeductions.GrossTotIncome"))),
       "Schedule 80GGC: eligible amount (D) must equal the sum of individual eligible amounts restricted to Gross Total Income.");
     RG(I,"Schedule80GGC.Schedule80GGCDetails",[]).forEach(function(r,i){ if(!r) return;
-      A(256, !r.DonationDate || (r.DonationDate>="2025-04-01" && r.DonationDate<="2026-03-31"),
-        "Schedule 80GGC row "+(i+1)+": the contribution date must fall within 01.04.2025 to 31.03.2026.");
+      A(256, !r.DonationDate || (r.DonationDate>=(YC.fyStartYear+"-04-01") && r.DonationDate<=(YC.fyEndYear+"-03-31")),
+        "Schedule 80GGC row "+(i+1)+": the contribution date must fall within 01.04.2024 to 31.03.2025.");
     });
   }
 

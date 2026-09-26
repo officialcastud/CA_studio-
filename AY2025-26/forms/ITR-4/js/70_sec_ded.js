@@ -264,13 +264,14 @@ function engDed(){
   /* qualifier fields the UsrDeductUndChapVIA schema carries beside the amounts;
      only when the matching claim survives (all close under 115BAC). impDed reads
      each back, so writing them here is what makes the return round-trip. */
-  if(usr.Section80CCD1B&&/^\d{12}$/.test(st0(S.ded.v.pran)))usr.PRANDtls=[{PRANNum:st0(S.ded.v.pran)}];
+  /* AY 2025-26 (3a/3b): the PRANDtls[] array is replaced by a scalar
+     UsrDeductUndChapVIA.PRANNum (still tied to the 80CCD(1)/80CCD(1B) claim). */
+  if((usr.Section80CCD1B||usr.Section80CCDEmployeeOrSE)&&st0(S.ded.v.pran))usr.PRANNum=st0(S.ded.v.pran).slice(0,125);
   if(usr.Section80DDB){if(st0(S.ded.v.ddb_type))usr.Section80DDBUsrType=st0(S.ded.v.ddb_type)==="2"?"2":"1";
     if(st0(S.ded.v.ddb_disease))usr.NameOfSpecDisease80DDB=st0(S.ded.v.ddb_disease);}
   if(usr.Section80GG&&/^\d{15}$/.test(st0(S.ded.v.ack10ba)))usr.Form10BAAckNum=st0(S.ded.v.ack10ba);
-  if(usr.Section80CCC){const pc=(S.ded.pen80ccc||[]).filter(r=>N(r.amt)).map(r=>({
-      TypeofIdentifier:r.type==="OTHPRAN"?"OTHPRAN":"PRAN",NameofIdentifier:(sv(r.id)||"NA").slice(0,125),Amount:n0(r.amt)}));
-    if(pc.length)usr.PensionContribution80CCC=pc;}
+  /* AY 2025-26 (3a): the 80CCC identifier rows (PensionContribution80CCC[]) are removed;
+     Section80CCC survives as the scalar amount only. */
   const usrTotal=keys.reduce((a,k)=>a+(regOpen(k)?R(claim(k)):0),0);
   usr.TotalChapVIADeductions=n0(usrTotal);
   cap.TotalChapVIADeductions=n0(allowed);
@@ -489,8 +490,8 @@ function expDed(j){
       DonationAmtCash:n0(r.cash),DonationAmtOtherMode:n0(r.other),
       DonationAmt:n0(N(r.amt)||N(r.cash)+N(r.other)),EligibleDonationAmt:n0(N(r.cash)>2000?N(r.other):N(r.amt)||N(r.cash)+N(r.other))};
       if(sv(r.arn))o.ArnNbr=sv(r.arn).slice(0,25);
-      if(sv(r.ref))o.TransactionRefNum=sv(r.ref).slice(0,50);
-      if(sv(r.ifsc))o.IFSCCode=st0(r.ifsc).toUpperCase().slice(0,11);return o;};
+      /* AY 2025-26 (3a): Schedule80G donee TransactionRefNum & IFSCCode are removed. */
+      return o;};
     const bkt={A:{arr:"Don100Percent",tc:"TotDon100PercentCash",to:"TotDon100PercentOtherMode",tt:"TotDon100Percent",te:"TotEligibleDon100Percent"},
       B:{arr:"Don50PercentNoApprReqd",tc:"TotDon50PercentNoApprReqdCash",to:"TotDon50PercentNoApprReqdOtherMode",tt:"TotDon50PercentNoApprReqd",te:"TotEligibleDon50Percent"},
       C:{arr:"Don100PercentApprReqd",tc:"TotDon100PercentApprReqdCash",to:"TotDon100PercentApprReqdOtherMode",tt:"TotDon100PercentApprReqd",te:"TotEligibleDon100PercentApprReqd"},
@@ -506,10 +507,11 @@ function expDed(j){
   /* ---- Schedule80GGC ---- */
   {const rows=(S.ded.ggc||[]).filter(r=>N(r.amt));
    if(rows.length){const cash=rows.reduce((a,r)=>a+(r.mode==="CASH"?N(r.amt):0),0),oth=rows.reduce((a,r)=>a+(r.mode!=="CASH"?N(r.amt):0),0);
-    j.Schedule80GGC={Schedule80GGCDetails:rows.map(r=>{const o={DonationDate:ISO(r.dt)||"2025-04-01",
+    j.Schedule80GGC={Schedule80GGCDetails:rows.map(r=>{const o={DonationDate:ISO(r.dt)||(YC.fyStartYear+"-04-01"),
       DonationAmtCash:n0(r.mode==="CASH"?r.amt:0),DonationAmtOtherMode:n0(r.mode!=="CASH"?r.amt:0),
-      DonationAmt:n0(r.amt),EligibleDonationAmt:n0(r.mode==="CASH"?0:N(r.amt)),
-      PoliticalPartyName:(sv(r.name)||"NA").slice(0,125),PoliticalPartyPAN:(st0(r.pan)||"NA").toUpperCase()};
+      DonationAmt:n0(r.amt),EligibleDonationAmt:n0(r.mode==="CASH"?0:N(r.amt))};
+      /* AY 2025-26 (3a): Schedule80GGC PoliticalPartyName & PoliticalPartyPAN are removed;
+         TransactionRefNum and IFSCCode survive. */
       if(sv(r.ref))o.TransactionRefNum=sv(r.ref).slice(0,50);if(sv(r.ifsc))o.IFSCCode=st0(r.ifsc).toUpperCase().slice(0,11);return o;}),
       TotalDonationAmtCash80GGC:n0(cash),TotalDonationAmtOtherMode80GGC:n0(oth),TotalDonationsUs80GGC:n0(cash+oth),
       TotalEligibleDonationAmt80GGC:n0(out.c80ggc)};}}
@@ -536,7 +538,8 @@ function impDed(I4){
       Section80DDB:"c80ddb",Section80GG:"c80gg",Section80TTA:"c80tta",Section80TTB:"c80ttb"};
     Object.keys(RMAP).forEach(k=>{if(U[k])S.ded.v[RMAP[k]]=U[k];});
     if(U.AnyOthSec80CCH)S.ded.v.c80cch=U.AnyOthSec80CCH;
-    S.ded.v.pran=g_(U,"PRANDtls.0.PRANNum")||S.ded.v.pran||"";
+    /* AY 2025-26 (3a/3b): PRAN is the scalar UsrDeductUndChapVIA.PRANNum (was PRANDtls[0].PRANNum). */
+    S.ded.v.pran=U.PRANNum||g_(U,"PRANDtls.0.PRANNum")||S.ded.v.pran||"";
     if(U.Section80DDBUsrType)S.ded.v.ddb_type=U.Section80DDBUsrType;
     if(U.NameOfSpecDisease80DDB)S.ded.v.ddb_disease=U.NameOfSpecDisease80DDB;
     if(U.Form10BAAckNum)S.ded.v.ack10ba=U.Form10BAAckNum;

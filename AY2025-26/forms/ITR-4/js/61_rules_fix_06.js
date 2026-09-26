@@ -56,7 +56,8 @@ ruleset(function(I,S_,A,Dd){
 
   /* ---------------- 80CCD(1) — PRAN (WEAK: 70_sec_ded.js:589 covers only 80CCD(1B)) ---------------- */
   /* IncomeDeductions.UsrDeductUndChapVIA.Section80CCDEmployeeOrSE and .PRANDtls[].PRANNum (70_sec_ded.js:267) */
-  var pranOK = (RG(I,"IncomeDeductions.UsrDeductUndChapVIA.PRANDtls",[])||[]).some(function(p){ return p && /^\d{12}$/.test(str(p.PRANNum)); });
+  /* AY 2025-26 (3a/3b): PRAN is the scalar UsrDeductUndChapVIA.PRANNum (was PRANDtls[].PRANNum). */
+  var pranOK = /^\d{12}$/.test(str(RG(I,"IncomeDeductions.UsrDeductUndChapVIA.PRANNum","")));
   A(402, !(N(USR.Section80CCDEmployeeOrSE)>0) || pranOK,
     "A 12-digit PRAN must be provided in Schedule VIA to claim the deduction u/s 80CCD(1).");
 

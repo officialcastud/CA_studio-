@@ -19,14 +19,16 @@ ruleset(function(I,S_,A,Dd){
   var alwAmt = function(code){ return RSUM(alwRows.filter(function(r){return r&&r.SalNatureDesc===code;}),"SalOthAmount"); };
   var E80EE  = RG(I,"Schedule80EE.Schedule80EEDtls",[])||[];
   var E80EEA = RG(I,"Schedule80EEA.Schedule80EEADtls",[])||[];
-  /* every 24(b) loan row across all house properties (bank name / account keys) */
-  var S24=[]; HP.forEach(function(p){ if(!p) return; (RG(p,"Rentdetails.Section24B.Section24BDtls",[])||[]).forEach(function(l){ if(l) S24.push(l); }); });
+  /* AY 2025-26: the 24(b) loan rows are the top-level ScheduleUs24B table (was the
+     nested PropertyDetails[].Rentdetails.Section24B), and the aggregate 24(b) interest
+     is the flat IncomeDeductions.InterestPayable. */
+  var S24=RG(I,"ScheduleUs24B.ScheduleUs24BDtls",[])||[];
   var s24Names = S24.map(function(l){ return key(l.BankOrInstnName); }).filter(function(s){ return s && s!=="NA"; });
   var s24Accts = S24.map(function(l){ return key(l.LoanAccNoOfBankOrInstnRefNo); }).filter(function(s){ return s && s!=="NA"; });
   var inS24 = function(r){ if(!r) return true;
     var nm=key(r.BankOrInstnName), ac=key(r.LoanAccNoOfBankOrInstnRefNo);
     return (!!nm && s24Names.indexOf(nm)>=0) || (!!ac && s24Accts.indexOf(ac)>=0); };
-  var sumInt24 = HP.reduce(function(s,p){ return s + (p?N(RG(p,"Rentdetails.IntOnBorwCap")):0); }, 0);
+  var sumInt24 = N(RG(I,"IncomeDeductions.InterestPayable",0));
 
   /* ---------------- Part A — status / regime / formation ---------------- */
   /* 264: a Firm is outside 115BAC — A23 (Form 10-IEA opt-out) must carry no value */

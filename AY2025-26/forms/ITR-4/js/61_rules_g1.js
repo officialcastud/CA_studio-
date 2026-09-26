@@ -207,8 +207,8 @@ ruleset(function(I,S_,A,Dd){
             g("TDSonSalaries.TotalTDSonSalaries")+g("TDSonOthThanSals.TotalTDSonOthThanSals")+g("ScheduleTDS3Dtls.TotalTDS3Details")),
     "Total TDS claimed must equal the sum of TDS claimed in TDS1, TDS2(i) and TDS2(ii).");
   A(134, REQ(g("TaxPaid.TaxesPaid.SelfAssessmentTax"),
-            RSUM(RG(I,"ScheduleIT.TaxPayment",[]).filter(function(c){return c&&String(c.DateDep)>"2026-03-31";}),"Amt")),
-    "Total self-assessment tax must equal the tax paid in Schedule IT for challans deposited after 31 March 2026.");
+            RSUM(RG(I,"ScheduleIT.TaxPayment",[]).filter(function(c){return c&&String(c.DateDep)>(YC.fyEndYear+"-03-31");}),"Amt")),
+    "Total self-assessment tax must equal the tax paid in Schedule IT for challans deposited after 31 March 2025.");
 
   /* ---------------- House property ---------------- */
   RG(I,"IncomeDeductions.PropertyDetails",[]).forEach(function(p,i){ var L="House property "+(i+1)+": "; if(!p) return; var rd=p.Rentdetails||{};

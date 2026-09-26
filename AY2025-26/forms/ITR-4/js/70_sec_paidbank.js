@@ -171,7 +171,7 @@ function engPaid(){
   const tcs=(S.paid.tcs||[]).reduce((a,r)=>a+N(r.claim),0);
 
   /* Schedule IT — advance vs self-assessment split by deposit date (FormulaOFS):
-     a challan on or before 31 Mar 2026 (YREND) is advance tax; on/after 1 Apr 2026
+     a challan on or before 31 Mar 2025 (YREND) is advance tax; on/after 1 Apr 2025
      is self-assessment tax. H12=SUM(Amt)=TotalTaxPayments; O5=SAT total; Q5=advance. */
   const isSAT=c=>{const d=D(c.dt);return d?d>YREND:false;};
   const challans=(S.paid.it||[]).map(c=>({amt:R(N(c.amt)),dt:c.dt,sat:isSAT(c),valid:!!D(c.dt)}));
@@ -250,7 +250,7 @@ function secPaid(){
 
   /* Sch IT — challans; advance/self-assessment split by date */
   h+='<div class="cgband">Sch IT — Advance tax and self-assessment tax</div>';
-  h+=note("A challan dated <b>on or before 31 March 2026</b> is advance tax (→ D13); one dated <b>on or after 1 April 2026</b> is self-assessment tax (→ D14). The split is by date — there is no dropdown. The date of deposit must be on or after 1 April 2025.");
+  h+=note("A challan dated <b>on or before "+DISP(YREND)+"</b> is advance tax (→ D13); one dated <b>on or after "+DISP(new Date(YC.fyEndYear,3,1))+"</b> is self-assessment tax (→ D14). The split is by date — there is no dropdown. The date of deposit must be on or after "+DISP(new Date(YC.fyStartYear,3,1))+".");
   h+=grid("paid.it",[
     {k:"bsr",h:"BSR code",t:"txt",w:"130px",max:7,req:1},
     {k:"dt",h:"Date of deposit",t:"date",w:"150px",req:1},
@@ -320,7 +320,7 @@ function expPaid(j){
       EmployerOrDeductorOrCollecterName:(sv(r.name)||"NA").slice(0,125)},
     Amtfrom26AS:n0(r.paid26),TotalTCS:n0(r.coll),AmtTCSClaimedThisYear:n0(r.claim)}));
 
-  /* ScheduleIT — DateDep as YYYY-MM-DD, on/after 2025-04-01 */
+  /* ScheduleIT — DateDep as YYYY-MM-DD, on/after 01-04 of the P.Y. (year overlay) */
   const ch=(S.paid.it||[]).filter(c=>N(c.amt)&&BSR.test(st0(c.bsr).toUpperCase())&&ISO(c.dt)&&/^\d{1,5}$/.test(st0(c.sn)));
   j.ScheduleIT={TotalTaxPayments:n0(P.itTotal)};
   if(ch.length)j.ScheduleIT.TaxPayment=ch.map(c=>({BSRCode:st0(c.bsr).toUpperCase(),
@@ -397,13 +397,13 @@ function chkPaid(){
     if((N(r.claim)||N(r.coll))&&!TAN_RE.test(st0(r.tan).toUpperCase()))
       out.push({lvl:"err",t:"Sch TCS row "+(i+1),m:"A valid TAN of the collector is required.",sec:"paid"});});
   /* Sch IT — date lower bound 01/04/2025 and BSR format */
-  const APR1_25=new Date(2025,3,1);
+  const APR1_25=new Date(YC.fyStartYear,3,1);   /* start of the P.Y. (01-04-2024) — year overlay */
   (S.paid.it||[]).forEach((c,i)=>{
     const d=D(c.dt);
     if(N(c.amt)&&!d)
       out.push({lvl:"warn",t:"Challan "+(i+1),m:"An amount is entered but the date of deposit is missing or not "+DF+" — advance vs self-assessment cannot be decided.",sec:"paid"});
     else if(N(c.amt)&&d&&d<APR1_25)
-      out.push({lvl:"err",t:"Challan "+(i+1),m:"The date of deposit cannot be before 01/04/2025.",sec:"paid"});
+      out.push({lvl:"err",t:"Challan "+(i+1),m:"The date of deposit cannot be before "+DISP(APR1_25)+".",sec:"paid"});
     if(N(c.amt)&&!BSR.test(st0(c.bsr).toUpperCase()))
       out.push({lvl:"warn",t:"Challan "+(i+1),m:"The BSR code should be 7 characters.",sec:"paid"});});
   const P=S.C.paid||{};
