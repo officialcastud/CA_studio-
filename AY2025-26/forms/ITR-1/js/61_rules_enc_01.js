@@ -90,7 +90,10 @@ ruleset(function(I,S_,A,Dd){
   const osAmt   = code => osRows.filter(r=>r&&String(r.OthSrcNatureDesc)===code)
                                 .reduce((a,r)=>a+N(r.OthSrcOthAmount),0);
   const osCount = code => osRows.filter(r=>r&&String(r.OthSrcNatureDesc)===code).length;
-  const eiCount = code => eiRows.filter(r=>r&&String(r.SubCategory)===code).length;
+  /* AY 2025-26: exempt-income rows carry NatureDesc (was SubCategory); agri "10(1)"->
+     "AGRI", "DMD"->"DMDP". eiCount takes the old-code and maps to the NatureDesc value. */
+  const _eiND = c => c==="10(1)"?"AGRI":(c==="DMD"?"DMDP":c);
+  const eiCount = code => eiRows.filter(r=>r&&String(r.NatureDesc)===_eiND(code)).length;
   const allwCnt = code => allw10.filter(r=>r&&String(r.SalNatureDesc)===code).length;
 
   /* the allowed 20 VI-A section keys (schema_tree §7.7) */
@@ -199,7 +202,7 @@ ruleset(function(I,S_,A,Dd){
 
   /* ===================== Exempt income ===================== */
   /* A29 — agricultural income (10(1)) shown as exempt cannot exceed Rs.5,000. */
-  const agri = eiRows.filter(r=>r&&String(r.SubCategory)==="10(1)").reduce((a,r)=>a+N(r.OthAmount),0);
+  const agri = eiRows.filter(r=>r&&String(r.NatureDesc)==="AGRI").reduce((a,r)=>a+N(r.OthAmount),0);
   A(29, agri<=5000,
     "Agricultural income shown as exempt cannot be more than Rs.5,000 (above that the return must go on ITR-2).");
   /* A30 — exempt income total = sum of the individual exempt-income amounts. */
@@ -212,7 +215,7 @@ ruleset(function(I,S_,A,Dd){
   A(34, eiCount("10(12)")<=1,   "Exempt income: Sec 10(12) (Recognized Provident Fund) can be selected only once.");
   A(35, eiCount("10(13)")<=1,   "Exempt income: Sec 10(13) (approved superannuation fund) can be selected only once.");
   A(36, eiCount("10(16)")<=1,   "Exempt income: Sec 10(16) (scholarships) can be selected only once.");
-  A(37, allwCnt("10(17)")<=1,   "Exempt allowances (salary): Sec 10(17) (MP/MLA/MLC allowance) can be selected only once.");
+  A(37, eiCount("10(17)")<=1,   "Exempt income: Sec 10(17) (MP/MLA/MLC allowance) can be selected only once.");  /* AY 2025-26 (4c): 10(17) moved from salary allowances to Exempt Income (NatureDesc) */
   A(38, eiCount("10(18)")<=1,   "Exempt income: Sec 10(18) (gallantry-award pension) can be selected only once.");
   A(39, eiCount("DMD")<=1,      "Exempt income: Defence Medical Disability Pension can be selected only once.");
   A(40, eiCount("10(19)")<=1,   "Exempt income: Sec 10(19) (armed-forces family pension) can be selected only once.");

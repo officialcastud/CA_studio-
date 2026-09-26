@@ -66,7 +66,7 @@ ruleset(function(I,S_,A,Dd){
   const old    = String(FS.OptOutNewTaxRegime)==="Y";   /* Y = OLD regime */
   const empcat = String(PI.EmployerCategory==null?"":PI.EmployerCategory);
   const GOVT   = ["CGOV","SGOV"];                        /* Central / State Government */
-  const CGSGPSU_PEN = ["PE","PESG","PEPS"];              /* CG / SG / PSU pensioners */
+  const CGSGPSU_PEN = ["PE","PESG","PEPS","PEO","NA"];   /* AY 2025-26 (4c A-116): + Other Pensioners (PEO) & Not Applicable (NA) */
   const GOVT_PEN10AA= ["CGOV","SGOV","PE","PESG"];       /* govt + CG/SG pensioners (10(10AA) high limit) */
 
   /* salary head */

@@ -222,9 +222,10 @@ ruleset(function(I,S_,A,Dd){
     "Schedule 80D: no deduction may be claimed at Sl.2a/2b when the drop-down is 'Not claiming for Parents'.");
 
   /* ===================== Rebate 87A regime ceilings ===================== */
-  /* A191 — new: rebate 87A barred when total income excl LTCG exceeds Rs.12,70,590. */
-  A(191, old || !(tiExL>1270590) || N(TC.Rebate87A)<=tol,
-    "New regime: rebate u/s 87A cannot be claimed when total income (excluding LTCG u/s 112A) exceeds Rs.12,70,590.");
+  /* A191 — new: rebate 87A barred when total income excl LTCG exceeds the AY 2025-26
+     marginal-relief breakeven Rs.7,22,230 (FY2024-25: Rs.25,000 rebate ceiling at Rs.7L). */
+  A(191, old || !(tiExL>722230) || N(TC.Rebate87A)<=tol,
+    "New regime: rebate u/s 87A cannot be claimed when total income (excluding LTCG u/s 112A) exceeds Rs.7,22,230.");
   /* A192 — old: rebate 87A cannot exceed Rs.12,500. */
   A(192, !old || N(TC.Rebate87A)<=12500+tol,
     "Old regime: rebate u/s 87A can be claimed only to the extent of Rs.12,500 (total income up to Rs.5,00,000).");

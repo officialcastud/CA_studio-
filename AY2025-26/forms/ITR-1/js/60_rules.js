@@ -28,8 +28,10 @@
    the assorted 2026-27-only cross-checks). Disabling them here (before the 4f
    renumber of the survivors) keeps their bodies intact for audit while removing
    them from the live run. Source: itr_tools reports …_chunks/08_4a_DISABLE.md. */
+/* 42 and 88 un-disabled: they have AY 2025-26 counterparts (A-42 10(26AAA) exempt
+   single-select — now reads NatureDesc; A-88 80G cash donation > Rs.2,000 barred). */
 const RULES_DISABLED_2025 = new Set([
-  19,42,59,88,210,238,262,270,271,272,273,274,275,276,277,278,279,280,281,282,
+  19,59,210,238,262,270,271,272,273,274,275,276,277,278,279,280,281,282,
   283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,
   302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,
   321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339]);
