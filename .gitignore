@@ -31,3 +31,7 @@ tsconfig.tsbuildinfo
 # Dev-only tools (not part of the app)
 mcp-server/dist/
 mcp-server/node_modules/
+
+# Python bytecode
+__pycache__/
+*.pyc
