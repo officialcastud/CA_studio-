@@ -1,0 +1,295 @@
+{
+ "ITR": {
+  "ITR1": {
+   "CreationInfo": {
+    "SWVersionNo": "1.0",
+    "SWCreatedBy": "SW10000000",
+    "JSONCreatedBy": "SW10000000",
+    "JSONCreationDate": "2026-09-26",
+    "IntermediaryCity": "Bengaluru",
+    "Digest": "-"
+   },
+   "Form_ITR1": {
+    "FormName": "ITR-1",
+    "Description": "For Individuals having Income from Salaries, one house property, other sources (Interest etc.) and having total income upto Rs.50 lakh",
+    "AssessmentYear": "2025",
+    "SchemaVer": "Ver1.0",
+    "FormVer": "Ver1.0"
+   },
+   "PersonalInfo": {
+    "AssesseeName": {
+     "SurNameOrOrgName": "SUDHIR",
+     "FirstName": "S"
+    },
+    "PAN": "TVOPS4373C",
+    "Address": {
+     "ResidenceNo": "No. 42, 3rd Cross",
+     "LocalityOrArea": "Richmond Town",
+     "CityOrTownOrDistrict": "Bengaluru",
+     "StateCode": "15",
+     "CountryCode": "91",
+     "PinCode": 560025,
+     "CountryCodeMobile": 91,
+     "MobileNo": 9845012345,
+     "EmailAddress": "s.sudhir.test@example.in",
+     "ResidenceName": "Sudhir Bhavan",
+     "RoadOrStreet": "Richmond Road",
+     "CountryCodeMobileNoSec": 91,
+     "MobileNoSec": 9845067890,
+     "EmailAddressSec": "accounts.sudhir@example.in"
+    },
+    "SecondaryAdd": "N",
+    "DOB": "1985-06-15",
+    "EmployerCategory": "OTH",
+    "AadhaarCardNo": "123412341234"
+   },
+   "FilingStatus": {
+    "ReturnFileSec": 11,
+    "SeventhProvisio139": "N",
+    "OptOutNewTaxRegime": "Y",
+    "clauseiv7provisio139i": "N",
+    "AsseseeRepFlg": "N",
+    "ItrFilingDueDate": "2025-07-31"
+   },
+   "ITR1_IncomeDeductions": {
+    "GrossSalary": 1200000,
+    "Salary": 1200000,
+    "PerquisitesValue": 0,
+    "ProfitsInSalary": 0,
+    "NetSalary": 1200000,
+    "DeductionUs16": 50000,
+    "DeductionUs16ia": 50000,
+    "EntertainmentAlw16ii": 0,
+    "ProfessionalTaxUs16iii": 0,
+    "IncomeFromSal": 1150000,
+    "TotalIncomeOfHP": 0,
+    "IncomeOthSrc": 15000,
+    "DeductionUs57iia": 0,
+    "GrossTotIncome": 985000,
+    "GrossTotIncomeIncLTCG112A": 985000,
+    "UsrDeductUndChapVIA": {
+     "Section80C": 150000,
+     "Section80CCC": 0,
+     "Section80CCDEmployeeOrSE": 0,
+     "Section80CCD1B": 0,
+     "Section80CCDEmployer": 0,
+     "Section80D": 25000,
+     "Section80DD": 0,
+     "Section80DDB": 0,
+     "Section80E": 0,
+     "Section80EE": 0,
+     "Section80EEA": 0,
+     "Section80EEB": 0,
+     "Section80G": 0,
+     "Section80GG": 0,
+     "Section80GGA": 0,
+     "Section80GGC": 0,
+     "Section80U": 0,
+     "Section80TTA": 0,
+     "Section80TTB": 0,
+     "AnyOthSec80CCH": 0,
+     "TotalChapVIADeductions": 175000
+    },
+    "DeductUndChapVIA": {
+     "Section80C": 150000,
+     "Section80CCC": 0,
+     "Section80CCDEmployeeOrSE": 0,
+     "Section80CCD1B": 0,
+     "Section80CCDEmployer": 0,
+     "Section80D": 25000,
+     "Section80DD": 0,
+     "Section80DDB": 0,
+     "Section80E": 0,
+     "Section80EE": 0,
+     "Section80EEA": 0,
+     "Section80EEB": 0,
+     "Section80G": 0,
+     "Section80GG": 0,
+     "Section80GGA": 0,
+     "Section80GGC": 0,
+     "Section80U": 0,
+     "Section80TTA": 0,
+     "Section80TTB": 0,
+     "AnyOthSec80CCH": 0,
+     "TotalChapVIADeductions": 175000
+    },
+    "TotalIncome": 810000,
+    "PropertyDetails": [
+     {
+      "HPSNo": 1,
+      "AddressDetailWithZipCode": {
+       "AddrDetail": "No. 42, 3rd Cross",
+       "CityOrTownOrDistrict": "Bengaluru",
+       "StateCode": "15",
+       "CountryCode": "91",
+       "PinCode": 560025
+      },
+      "PropertyOwner": "SE",
+      "PropCoOwnedFlg": "NO",
+      "AsseseeShareProperty": 100,
+      "ifLetOut": "S",
+      "Rentdetails": {
+       "AnnualLetableValue": 0,
+       "RentNotRealized": 0,
+       "LocalTaxes": 0,
+       "TotalUnrealizedAndTax": 0,
+       "BalanceALV": 0,
+       "AnnualOfPropOwned": 0,
+       "ThirtyPercentOfBalance": 0,
+       "IntOnBorwCap": 180000,
+       "TotalDeduct": 180000,
+       "ArrearsUnrealizedRentRcvd": 0,
+       "IncomeOfHP": -180000,
+       "Section24B": {
+        "Section24BDtls": [
+         {
+          "LoanTknFrom": "B",
+          "BankOrInstnName": "State Bank of India",
+          "InterestUs24B": 180000,
+          "LoanAccNoOfBankOrInstnRefNo": "HL30412345678",
+          "DateofLoan": "2019-04-05",
+          "TotalLoanAmt": 3000000,
+          "LoanOutstndngAmt": 2200000
+         }
+        ],
+        "TotalInterestUs24B": 180000
+       }
+      }
+     }
+    ],
+    "TotalIncomeChargeableUnHP": -180000,
+    "OthersInc": {
+     "OthersIncDtlsOthSrc": [
+      {
+       "OthSrcNatureDesc": "SAV",
+       "OthSrcOthAmount": 15000
+      }
+     ]
+    }
+   },
+   "ITR1_TaxComputation": {
+    "TotalTaxPayable": 74500,
+    "Rebate87A": 0,
+    "TaxPayableOnRebate": 74500,
+    "EducationCess": 2980,
+    "GrossTaxLiability": 77480,
+    "Section89": 0,
+    "NetTaxLiability": 77480,
+    "TotalIntrstPay": 0,
+    "IntrstPay": {
+     "IntrstPayUs234A": 0,
+     "IntrstPayUs234B": 0,
+     "IntrstPayUs234C": 0,
+     "LateFilingFee234F": 0,
+     "FeeFurnish234I": 0
+    },
+    "TotTaxPlusIntrstPay": 77480
+   },
+   "LTCG112A": {
+    "TotSaleCnsdrn": 0,
+    "TotCstAcqisn": 0,
+    "LongCap112A": 0
+   },
+   "TaxPaid": {
+    "TaxesPaid": {
+     "AdvanceTax": 0,
+     "TDS": 70000,
+     "TCS": 0,
+     "SelfAssessmentTax": 10000,
+     "TotalTaxesPaid": 80000
+    },
+    "BalTaxPayable": 0
+   },
+   "Refund": {
+    "RefundDue": 2520,
+    "BankAccountDtls": {
+     "AddtnlBankDetails": [
+      {
+       "IFSCCode": "SBIN0040011",
+       "BankName": "State Bank of India",
+       "BankAccountNo": "30412345678",
+       "AccountType": "SB",
+       "UseForRefund": "true"
+      }
+     ]
+    }
+   },
+   "Verification": {
+    "Declaration": {
+     "AssesseeVerName": "S SUDHIR",
+     "FatherName": "SUDHIR NARAYANAN",
+     "AssesseeVerPAN": "TVOPS4373C"
+    },
+    "Capacity": "S",
+    "Place": "Bengaluru"
+   },
+   "TDSonSalaries": {
+    "TotalTDSonSalaries": 70000,
+    "TDSonSalary": [
+     {
+      "EmployerOrDeductorOrCollectDetl": {
+       "TAN": "BLRS12345E",
+       "EmployerOrDeductorOrCollecterName": "Yukti Software Services Private Limited"
+      },
+      "IncChrgSal": 1150000,
+      "TotalTDSSal": 70000
+     }
+    ]
+   },
+   "TDSonOthThanSals": {
+    "TotalTDSonOthThanSals": 0
+   },
+   "ScheduleTDS3Dtls": {
+    "TotalTDS3Details": 0
+   },
+   "ScheduleTCS": {
+    "TotalSchTCS": 0
+   },
+   "TaxPayments": {
+    "TotalTaxPayments": 10000,
+    "TaxPayment": [
+     {
+      "BSRCode": "0510308",
+      "DateDep": "2026-03-15",
+      "SrlNoOfChaln": 742,
+      "Amt": 10000
+     }
+    ]
+   },
+   "Schedule80C": {
+    "Schedule80CDtls": [
+     {
+      "Amount": 100000,
+      "IdentificationNo": "LIC-889012"
+     },
+     {
+      "Amount": 50000,
+      "IdentificationNo": "PPF-40011"
+     }
+    ],
+    "TotalAmt": 150000
+   },
+   "Schedule80D": {
+    "Sec80DSelfFamSrCtznHealth": {
+     "SeniorCitizenFlag": "N",
+     "SelfAndFamily": 25000,
+     "HealthInsPremSlfFam": 25000,
+     "PrevHlthChckUpSlfFam": 0,
+     "SelfAndFamilySeniorCitizen": 0,
+     "HlthInsPremSlfFamSrCtzn": 0,
+     "PrevHlthChckUpSlfFamSrCtzn": 0,
+     "MedicalExpSlfFamSrCtzn": 0,
+     "ParentsSeniorCitizenFlag": "P",
+     "Parents": 0,
+     "HlthInsPremParents": 0,
+     "PrevHlthChckUpParents": 0,
+     "ParentsSeniorCitizen": 0,
+     "HlthInsPremParentsSrCtzn": 0,
+     "PrevHlthChckUpParentsSrCtzn": 0,
+     "MedicalExpParentsSrCtzn": 0,
+     "EligibleAmountOfDedn": 25000
+    }
+   }
+  }
+ }
+}
