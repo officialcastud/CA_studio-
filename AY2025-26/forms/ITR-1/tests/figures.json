@@ -1,0 +1,8 @@
+{
+  "form": "ITR-1",
+  "ay": "2025-26",
+  "client": "S SUDHIR (TVOPS4373C) — re-dated to F.Y. 2024-25 (filed 25/07/2025, advance tax 15/03/2025)",
+  "note": "Hand-verified goldens for the AY2025-26 port. GTI/TI/tax/cess identical to the AY2026-27 client in the old regime; the new-regime tax differs by design (FY2024-25 slabs 3/7/10/12/15L, Rs.7L/Rs.25k s.87A).",
+  "old_regime": { "gti": 985000, "ti": 810000, "gross_tax": 74500, "net_tax_plus_cess": 77480, "late_fee_234F": 0, "taxes_paid": 80000, "refund": 2520 },
+  "new_regime": { "gti": 1140000, "ti": 1140000, "gross_tax": 71000, "net_tax_plus_cess": 73840, "late_fee_234F": 0, "taxes_paid": 80000, "refund": 6160 }
+}
