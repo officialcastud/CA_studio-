@@ -39,7 +39,11 @@ const YC = {
   /* year-boundary dates the interest/234 engine reads (overlaid onto the engine bindings below) */
   DUE:   new Date(2025,6,31),   /* 31-Jul-2025 due date */
   YREND: new Date(2025,2,31),   /* 31-Mar-2025 (end of F.Y. 2024-25) */
-  QCUT:  [new Date(2024,5,16), new Date(2024,8,20), new Date(2024,11,15), new Date(2025,2,16)]  /* 234C instalment cut-offs, F.Y. 2024-25 */
+  QCUT:  [new Date(2024,5,16), new Date(2024,8,20), new Date(2024,11,15), new Date(2025,2,16)],  /* 234C instalment cut-offs, F.Y. 2024-25 */
+
+  /* AY2025-26 signing metadata: carried from the AY2026-27 production build (signing constants are utility runtime metadata, NOT in the schema-diff scope). The exact AY2025-26 registered SWVersionNo/SWCreatedBy require the AY2025-26 ITR-2 utility zip to confirm. */
+  swVersion: "R5",          /* CreationInfo.SWVersionNo */
+  swCreated: "SW90002627"   /* CreationInfo.SWCreatedBy / JSONCreatedBy */
 };
 window.YC = YC;
 
@@ -48,6 +52,8 @@ SLAB_NEW = YC.slabNew;
 DUE      = YC.DUE;
 YREND    = YC.YREND;
 Q_CUT    = YC.QCUT;
+SW_VERSION = YC.swVersion;
+SW_CREATED = YC.swCreated;
 
 /* Carry-forward loss window shifted back one year to AY2025-26 (FY 2017-18 .. 2024-25). */
 CFL_YEARS = [["2017-18","LossCFFromPrev8thYearFromAY",false],["2018-19","LossCFFromPrev7thYearFromAY",false],

@@ -53,7 +53,8 @@ S.cg=Object.assign(JSON.parse(JSON.stringify(CG_STATE_DEFAULT)),{on:"1",
  s112a:[{isin:"INE009A01021",name:"Infosys Ltd",pre18:"BE",qty:1500,price:1850,cost:1200000,fmv18:1150,exp:2000},{isin:"INE467B01029",name:"TCS Ltd",pre18:"AE",qty:300,price:4100,cost:900000,exp:800},{isin:"INF109K01Y41",name:"Nifty 50 Index Fund",pre18:"AE",qty:20000,price:180,cost:2500000,exp:0}],
  vda:[{buy:"14/07/2024",sale:"09/02/2025",cost:600000,cons:950000},{buy:"01/10/2024",sale:"15/03/2025",cost:300000,cons:280000}],
  dedD:{"54":[{transfer:"18/08/2024",cost:6000000,purchase:"10/01/2025",dep:0}],
-       "54EC":[{transfer:"18/08/2024",cost:4700000,purchase:"30/11/2024"},{transfer:"05/10/2024",cost:300000,purchase:"20/12/2024"}]}});
+       "54EC":[{transfer:"18/08/2024",cost:4700000,purchase:"30/11/2024"}],
+       "54F":[{transfer:"05/10/2024",cost:300000,purchase:"20/12/2024"}]}});
 /* ---- Schedule OS — every item ---- */
 S.os2=Object.assign(JSON.parse(JSON.stringify(OS_STATE_DEFAULT)),{on:"1",
  d:{ord:640000,e22:50000,f22:120000},

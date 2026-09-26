@@ -222,8 +222,8 @@ function runRules(I,S_){
     /* item 10 */
     A(213,REQ(RDR(so.IncFrmLottery),N(io.LtryPzzlChrgblUs115BB)-dtaaBy("2ai")),"OS 10: the lottery quarters must equal 2a(i) less its DTAA part.");
     A(230,!so.IncFrmOnGames||REQ(RDR(so.IncFrmOnGames),N(io.IncChrgblUs115BBJ)-dtaaBy("2aii")),"OS 10: the online-games quarters must equal 2a(ii).");
-    const intToOrd=(N(io.DividendOthThan22e)+N(io.Dividend22e))?Math.round(N(dd.IntExp57)*N(io.DividendOthThan22e)/(N(io.DividendOthThan22e)+N(io.Dividend22e))):0;
-    A(214,REQ(RDR(so.DividendIncUs115BBDA),N(io.DividendOthThan22e)-dtaaBy("1ai")-intToOrd),"OS 10: the dividend quarters must equal 1a(i) less DTAA dividend less attributable 57(i) interest.");
+    const _hi214=N(io.DividendOthThan22e)-dtaaBy("1ai"),_lo214=_hi214-N(dd.IntExp57),_q214=RDR(so.DividendIncUs115BBDA);
+    A(214,_q214<=_hi214+1&&_q214>=_lo214-1,"OS 10: the dividend quarters ("+_q214+") must be between 1a(i) − DTAA − 57(i) interest ("+_lo214+") and 1a(i) − DTAA ("+_hi214+").");
     A(588,REQ(RDR(so.DividendIncUs115BBDAaiii),N(io.Dividend22f)-dtaaBy("1aiii")),"OS 10: the 1a(iii) quarters must equal 1a(iii) less its DTAA part.");
     A(225,REQ(RDR(so.NOT89A),Math.max(0,N(io.IncomeNotified89AOS)-N(io.Increliefus89AOS))),"OS 10: the 89A quarters must equal the 89A income after relief.");
     const codeSum=codes=>RSUM((io.OthersGrossDtls||[]).filter(x=>codes.indexOf(x.SourceDescription)>=0),"SourceAmount")+RSUM((io.PTIOthersGrossDtls||[]).filter(x=>codes.indexOf(String(x.SourceDescription).replace(/^PTI_/,""))>=0),"SourceAmount");

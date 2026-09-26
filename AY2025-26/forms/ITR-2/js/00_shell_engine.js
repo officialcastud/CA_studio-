@@ -1,5 +1,25 @@
 "use strict";
-const SKEL={"CreationInfo":{"SWVersionNo":"1.0","SWCreatedBy":"SW10000000","JSONCreatedBy":"SW10000000","JSONCreationDate":"2026-01-01","IntermediaryCity":"Delhi","Digest":"-"},"Form_ITR2":{"FormName":"ITR-2","Description":"na@na.in","AssessmentYear":"2025","SchemaVer":"Ver1.0","FormVer":"Ver1.0"},"PartA_GEN1":{"PersonalInfo":{"AssesseeName":{"SurNameOrOrgName":"na@na.in"},"PAN":"AAAPA0000A","Address":{"ResidenceNo":"na@na.in","LocalityOrArea":"na@na.in","CityOrTownOrDistrict":"na@na.in","StateCode":"01","CountryCode":"93","CountryCodeMobile":0,"MobileNo":0,"EmailAddress":"na@na.in"},"DOB":"2025-01-01","Status":"I"},"FilingStatus":{"ReturnFileSec":11,"OptOutNewTaxRegime":"N","SeventhProvisio139":"NA","ResidentialStatus":"RES","HeldUnlistedEqShrPrYrFlg":"Y","FiiFpiFlag":"Y","ItrFilingDueDate":"2025-07-31"}},"ScheduleCYLA":{"STCG20Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCG30Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCGAppRate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCGDTAARate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"LTCG12_5Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"LTCGDTAARate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"TotalCurYr":{"TotHPlossCurYr":0,"TotOthSrcLossNoRaceHorse":0},"TotalLossSetOff":{"TotHPlossCurYrSetoff":0,"TotOthSrcLossNoRaceHorseSetoff":0},"LossRemAftSetOff":{"BalHPlossCurYrAftSetoff":0,"BalOthSrcLossNoRaceHorseAftSetoff":0}},"ScheduleBFLA":{"Salary":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0}},"STCG20Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCG30Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCGAppRate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCGDTAARate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"LTCG12_5Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"LTCGDTAARate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"IncomeOfCurrYrAftCYLABFLA":0,"TotalBFLossSetOff":{"TotBFLossSetoff":0}},"PartB-TI":{"Salaries":0,"IncomeFromHP":0,"CapGain":{"ShortTerm":{"ShortTerm20Per":0,"ShortTerm30Per":0,"ShortTermAppRate":0,"ShortTermSplRateDTAA":0,"TotalShortTerm":0},"LongTerm":{"LongTerm12_5Per":0,"LongTermSplRateDTAA":0,"TotalLongTerm":0},"ShortTermLongTermTotal":0,"CapGains30Per115BBH":0,"TotalCapGains":0},"IncFromOS":{"OtherSrcThanOwnRaceHorse":0,"IncChargblSplRate":0,"FromOwnRaceHorse":0,"TotIncFromOS":0},"TotalTI":0,"CurrentYearLoss":0,"BalanceAfterSetoffLosses":0,"BroughtFwdLossesSetoff":0,"GrossTotalIncome":0,"IncChargeTaxSplRate111A112":0,"DeductionsUnderScheduleVIA":0,"TotalIncome":0,"IncChargeableTaxSplRates":0,"NetAgricultureIncomeOrOtherIncomeForRate":0,"AggregateIncome":0,"LossesOfCurrentYearCarriedFwd":0,"DeemedIncomeUs115JC":0},"PartB_TTI":{"TaxPayDeemedTotIncUs115JC":0,"Surcharge":0,"HealthEduCess":0,"TotalTaxPayablDeemedTotInc":0,"ComputationOfTaxLiability":{"TaxPayableOnTI":{"TaxAtNormalRatesOnAggrInc":0,"TaxAtSpecialRates":0,"RebateOnAgriInc":0,"TaxPayableOnTotInc":0},"Rebate87A":0,"TaxPayableOnRebate":0,"Surcharge25ofSI":0,"SurchargeOnAboveCrore":0,"Surcharge25ofSIBeforeMarginal":0,"SurchargeOnAboveCroreBeforeMarginal":0,"TotalSurcharge":0,"EducationCess":0,"GrossTaxLiability":0,"GrossTaxPayable":0,"CreditUS115JD":0,"TaxPayAfterCreditUs115JD":0,"NetTaxLiability":0,"IntrstPay":{"IntrstPayUs234A":0,"IntrstPayUs234B":0,"IntrstPayUs234C":0,"LateFilingFee234F":0,"TotalIntrstPay":0},"AggregateTaxInterestLiability":0},"TaxPaid":{"TaxesPaid":{"AdvanceTax":0,"TDS":0,"TCS":0,"SelfAssessmentTax":0,"TotalTaxesPaid":0}},"Refund":{"RefundDue":0,"BankAccountDtls":{"BankDtlsFlag":"Y"}},"AssetOutIndiaFlag":"NO"},"Verification":{"Declaration":{"AssesseeVerName":"na@na.in","FatherName":"na@na.in","AssesseeVerPAN":"AAAPA0000A"},"Capacity":"S"}};
+const SKEL={"CreationInfo":{"SWVersionNo":"R5","SWCreatedBy":"SW90002627","JSONCreatedBy":"SW90002627","JSONCreationDate":"2026-01-01","IntermediaryCity":"Delhi","Digest":"-"},"Form_ITR2":{"FormName":"ITR-2","Description":"For Individuals and HUFs not having income from profits and gains of business or profession","AssessmentYear":"2025","SchemaVer":"Ver1.0","FormVer":"Ver1.0"},"PartA_GEN1":{"PersonalInfo":{"AssesseeName":{"SurNameOrOrgName":"na@na.in"},"PAN":"AAAPA0000A","Address":{"ResidenceNo":"na@na.in","LocalityOrArea":"na@na.in","CityOrTownOrDistrict":"na@na.in","StateCode":"01","CountryCode":"93","CountryCodeMobile":0,"MobileNo":0,"EmailAddress":"na@na.in"},"DOB":"2025-01-01","Status":"I"},"FilingStatus":{"ReturnFileSec":11,"OptOutNewTaxRegime":"N","SeventhProvisio139":"NA","ResidentialStatus":"RES","HeldUnlistedEqShrPrYrFlg":"Y","FiiFpiFlag":"Y","ItrFilingDueDate":"2025-07-31"}},"ScheduleCYLA":{"STCG20Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCG30Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCGAppRate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"STCGDTAARate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"LTCG12_5Per":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"LTCGDTAARate":{"IncCYLA":{"IncOfCurYrUnderThatHead":0,"IncOfCurYrAfterSetOff":0}},"TotalCurYr":{"TotHPlossCurYr":0,"TotOthSrcLossNoRaceHorse":0},"TotalLossSetOff":{"TotHPlossCurYrSetoff":0,"TotOthSrcLossNoRaceHorseSetoff":0},"LossRemAftSetOff":{"BalHPlossCurYrAftSetoff":0,"BalOthSrcLossNoRaceHorseAftSetoff":0}},"ScheduleBFLA":{"Salary":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0}},"STCG20Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCG30Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCGAppRate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"STCGDTAARate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"LTCG12_5Per":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"LTCGDTAARate":{"IncBFLA":{"IncOfCurYrUndHeadFromCYLA":0,"IncOfCurYrAfterSetOffBFLosses":0,"BFlossPrevYrUndSameHeadSetoff":0}},"IncomeOfCurrYrAftCYLABFLA":0,"TotalBFLossSetOff":{"TotBFLossSetoff":0}},"PartB-TI":{"Salaries":0,"IncomeFromHP":0,"CapGain":{"ShortTerm":{"ShortTerm20Per":0,"ShortTerm30Per":0,"ShortTermAppRate":0,"ShortTermSplRateDTAA":0,"TotalShortTerm":0},"LongTerm":{"LongTerm12_5Per":0,"LongTermSplRateDTAA":0,"TotalLongTerm":0},"ShortTermLongTermTotal":0,"CapGains30Per115BBH":0,"TotalCapGains":0},"IncFromOS":{"OtherSrcThanOwnRaceHorse":0,"IncChargblSplRate":0,"FromOwnRaceHorse":0,"TotIncFromOS":0},"TotalTI":0,"CurrentYearLoss":0,"BalanceAfterSetoffLosses":0,"BroughtFwdLossesSetoff":0,"GrossTotalIncome":0,"IncChargeTaxSplRate111A112":0,"DeductionsUnderScheduleVIA":0,"TotalIncome":0,"IncChargeableTaxSplRates":0,"NetAgricultureIncomeOrOtherIncomeForRate":0,"AggregateIncome":0,"LossesOfCurrentYearCarriedFwd":0,"DeemedIncomeUs115JC":0},"PartB_TTI":{"TaxPayDeemedTotIncUs115JC":0,"Surcharge":0,"HealthEduCess":0,"TotalTaxPayablDeemedTotInc":0,"ComputationOfTaxLiability":{"TaxPayableOnTI":{"TaxAtNormalRatesOnAggrInc":0,"TaxAtSpecialRates":0,"RebateOnAgriInc":0,"TaxPayableOnTotInc":0},"Rebate87A":0,"TaxPayableOnRebate":0,"Surcharge25ofSI":0,"SurchargeOnAboveCrore":0,"Surcharge25ofSIBeforeMarginal":0,"SurchargeOnAboveCroreBeforeMarginal":0,"TotalSurcharge":0,"EducationCess":0,"GrossTaxLiability":0,"GrossTaxPayable":0,"CreditUS115JD":0,"TaxPayAfterCreditUs115JD":0,"NetTaxLiability":0,"IntrstPay":{"IntrstPayUs234A":0,"IntrstPayUs234B":0,"IntrstPayUs234C":0,"LateFilingFee234F":0,"TotalIntrstPay":0},"AggregateTaxInterestLiability":0},"TaxPaid":{"TaxesPaid":{"AdvanceTax":0,"TDS":0,"TCS":0,"SelfAssessmentTax":0,"TotalTaxesPaid":0}},"Refund":{"RefundDue":0,"BankAccountDtls":{"BankDtlsFlag":"Y"}},"AssetOutIndiaFlag":"NO"},"Verification":{"Declaration":{"AssesseeVerName":"na@na.in","FatherName":"na@na.in","AssesseeVerPAN":"AAAPA0000A"},"Capacity":"S"}};
+
+/* ---- ITR-2 signing (utility HMAC) — ported from the AY2026-27 production build.
+   The HMAC algorithm/key/iterations are shared and year-agnostic (define as const).
+   SW_VERSION / SW_CREATED are YEAR-SPECIFIC signing metadata (declared let here,
+   set from js/05_year_config.js via the YC overlay pattern used for SLAB_NEW/DUE).
+   The Digest is an HMAC-SHA256 of the compact JSON with Digest "-", re-hashed
+   HASH_ITER×, base64. crypto.subtle works in file:// (secure context in Chromium). */
+const HASH_KEY="HZX4oKH11zARYIb2";
+const HASH_ITER=1988;
+let SW_VERSION, SW_CREATED;           // year-specific: set in 05_year_config.js
+async function computeDigest(compactJson){
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey("raw",enc.encode(HASH_KEY),
+    {name:"HMAC",hash:"SHA-256"},false,["sign"]);
+  let bytes=new Uint8Array(await crypto.subtle.sign("HMAC",key,enc.encode(compactJson)));
+  for(let i=0;i<HASH_ITER;i++)
+    bytes=new Uint8Array(await crypto.subtle.sign("HMAC",key,bytes));
+  let bin="";for(const b of bytes)bin+=String.fromCharCode(b);
+  return btoa(bin);
+}
 
 /* ==================================================================
    1 · CODE TABLES — from the ITR-2 utility's DropDownValues
@@ -241,6 +261,8 @@ const S={
   bank:[], ver:{cap:"S"},
   open:{}, C:{}
 };
+const S_DEFAULT=JSON.parse(JSON.stringify(S));   /* pristine starting state — used to fully reset S when a new file is opened */
+function resetState(){Object.keys(S).forEach(k=>{if(k!=="C")delete S[k];});Object.assign(S,JSON.parse(JSON.stringify(S_DEFAULT)));}
 
 /* ==================================================================
    3 · HELPERS
@@ -446,17 +468,18 @@ function engLand(p){
   const canIndex=isLT&&S.pi.res==="RES"&&buy&&buy<CUT;
   const fyB=FYof(p.buy),fyS=FYof(p.sale)||YC.fy;   /* AY2025-26 default FY of sale: 2024-25 */
   const idx=(amt,fy)=>{const b=CII[fy]||CII[fyB],s=CII[fyS];return (b&&s)?R(N(amt)*s/b):N(amt);};
-  const costIdx=canIndex?idx(p.cost,fyB):N(p.cost);
-  const impRows=imps.map(x=>({amt:N(x.amt),yr:x.yr,idx:canIndex?idx(x.amt,x.yr&&CII[x.yr]?x.yr:fyB):N(x.amt)}));
+  const nrLand=isLT&&S.pi.res!=="RES";   /* non-resident: no indexation (rule 570) — the indexed fields must be zero */
+  const costIdx=canIndex?idx(p.cost,fyB):(nrLand?0:N(p.cost));
+  const impRows=imps.map(x=>({amt:N(x.amt),yr:x.yr,idx:canIndex?idx(x.amt,x.yr&&CII[x.yr]?x.yr:fyB):(nrLand?0:N(x.amt))}));
   const impIdx=impRows.reduce((a,x)=>a+x.idx,0);
   const biv=N(p.cost)+impNo+N(p.exp);         /* un-indexed total */
-  const biva=costIdx+impIdx+N(p.exp);         /* indexed total, for eiB */
+  const biva=nrLand?0:(costIdx+impIdx+N(p.exp));         /* indexed total, for eiB — zero for a non-resident */
   const c=R(c50.value-biv);
-  const ca=R(c50.value-biva);
+  const ca=nrLand?0:R(c50.value-biva);
   const d=p.ded||{};
   const dedTot=isLT?(N(d.s54)+N(d.s54B)+N(d.s54EC)+N(d.s54EE)+N(d.s54F)+N(d.s54GB)):N(d.s54B);
   const e=R(c-Math.min(dedTot,Math.max(0,c)));
-  const ea=R(ca-Math.min(dedTot,Math.max(0,ca)));
+  const ea=nrLand?0:R(ca-Math.min(dedTot,Math.max(0,ca)));
   /* second proviso to 112(1)(a): a resident on a pre-July acquisition pays the lower of
      12.5% un-indexed and 20% indexed; the excess is ignored */
   let taxA=0,taxB=0,excess=0;
@@ -538,7 +561,8 @@ function engCG(){
   const s115ad=eng112A(C.s115ad);
   B.b7=nri?{gain:R(s115ad.bal-Math.min(N((C.b7||{}).b),Math.max(0,s115ad.bal)))}:{gain:0};
   B.b8=nri?{gain:R(N((C.b8||{}).a)-N((C.b8||{}).b)+N((C.b8||{}).d))}:{gain:0};
-  B.b9=engAgg(C.b9,{unq:1,deds:["s54D","s54EC","s54EE","s54F","s54G","s54GA"]});
+  if(C.b9&&C.b9.ded){const t9=Object.values(C.b9.ded).reduce((a,v)=>a+N(v),0);C.b9.ded=t9?{s54F:t9}:{};}
+  B.b9=engAgg(C.b9,{unq:1,deds:["s54F"]});
   const b10t=(C.b10&&C.b10.deem||[]).reduce((a,x)=>a+N(x.unused),0)+N((C.b10||{}).other);
   B.b10={gain:R(b10t)};
   if(S.C.pti&&S.C.pti.blocks){C.b11=C.b11||{};C.b11.r125a=S.C.pti.h.lt112a.net;C.b11.r125o=S.C.pti.h.ltOth.net;}
@@ -735,9 +759,9 @@ function engOS(){
   const loss=R(Math.max(0,-six));            /* normal-rate loss → CYLA */
   const horseLoss=R(Math.max(0,-horse.bal)); /* → CFL 6(xi) */
   /* ---- 10 quarterly ---- */
-  const intToOrd=a.ord+a.e22>0?R(ded.intElig*a.ord/(a.ord+a.e22)):0;
   const dtaaDiv=R(dtaaRows.filter(r=>/^1ai$/.test(r.nature||"")).reduce((s,r)=>s+N(r.amt),0));
-  const auto={lottery:sp.lottery,online:sp.online,div1ai:Math.max(0,a.ord-dtaaDiv-intToOrd),div1aiii:a.f22,
+  const divHi=Math.max(0,a.ord-dtaaDiv),divLo=Math.max(0,a.ord-dtaaDiv-R(ded.intElig));  /* rule 214: the 1a(i) quarter may net anything from 0 up to the full 57(i) interest — enter the figure the portal expects */
+  const auto={lottery:sp.lottery,online:sp.online,div1ai:divHi,div1aiii:a.f22,
     div115A:0,div115AA:0,div115AC:0,div115ACA:0,div115AD:0,n89a:Math.max(0,e.n89a-rel89a),divDTAA:0};
   (O.spl||[]).concat(O.pti||[]).forEach(r=>{const m={"5A1ai":"div115A","5A1aA":"div115AA","5AC1abD":"div115AC",
     "5ACA1a":"div115ACA","5AD1iDiv":"div115AD"}[r.code];if(m)auto[m]+=N(r.amt);});
@@ -751,7 +775,7 @@ function engOS(){
     si115bbg:R((O.spl||[]).filter(r=>r.code==="5BBG").reduce((s,r)=>s+N(r.amt),0))};
   return {on:true,a,b,c,d,e,one:R(one),oneNet:R(oneNet),two:R(two),sp,ded,s58:R(s58),s59:R(s59),rel89a:R(rel89a),
     six,seven,horse,nine,income,loss,horseLoss,special,gross:R(one),div:R(a.tot),fap:R(e.fap),sav:R(b.sav),
-    dep:R(b.dep),Q,auto,buckets};
+    dep:R(b.dep),Q,auto,divLo,divHi,buckets};
 }
 
 
@@ -1095,7 +1119,7 @@ function engInt(){
   const esopDef=N((S.esop||{}).deferNow),esopDue=S.C.esopDue||0;
   const credit=(T.gross>AM.total)?AC.used:0;                                      /* 9 */
   const afterCredit=Math.max(0,grossPayable-esopDef+esopDue-credit);              /* 10 */
-  const rel89=N(S.tax.s89),rel90=S.C.trDTAA||0,rel91=S.C.trNoDTAA||0;
+  const rel89=N(S.tax.s89),rel90=S.pi.res==="NRI"?0:(S.C.trDTAA||0),rel91=S.pi.res==="NRI"?0:(S.C.trNoDTAA||0);   /* a non-resident gets no Schedule-TR relief (rules 526/527) */
   const relief=R(rel89+rel90+rel91);                                              /* 11d */
   const net=Math.max(0,R(afterCredit-relief));                                    /* 12 */
   const satIn=(a,b)=>(S.it||[]).filter(c=>P.isSAT(c)&&D(c.dt)&&D(c.dt)>=a&&D(c.dt)<=b).reduce((s,c)=>s+N(c.amt),0);
@@ -1338,6 +1362,8 @@ function engChecks(){
   /* ---- the department's validation rules that a return must pass before upload ---- */
   {const filedD=D(S.fs.filed);
     if(!isNew()&&filedD&&filedD>(D(S.fs.dueExt)||DUE))add("err","Regime","The old regime cannot be opted after the due date under section 139(1). Filing after "+DISP(D(S.fs.dueExt)||DUE)+" means the new regime — rule A21.","ret");
+    if(!isNew()&&filedD&&filedD<=(D(S.fs.dueExt)||DUE)&&new Date()>(D(S.fs.dueExt)||DUE))
+      add("warn","Regime — actual upload date","Your filing date "+DISP(filedD)+" is on time, but that due date has already passed. The portal dates the return to when it is actually uploaded, so an old-regime return uploaded now will be rejected on the date (rule A21). Either the return must genuinely be filed on time, or switch to the new regime.","ret");
     if(S.pi.s5a==="Yes"){const A5=S.C.s5a;if(!(A5.tot.inc||A5.tot.spouse))add("err","Schedule 5A","Governed by the Portuguese Civil Code is Yes, so Schedule 5A must carry the apportionment — rule A6.","other");}
     if(S.pi.s5a!=="Yes"&&S.sch5a2&&st0(S.sch5a2.name))add("warn","Schedule 5A","Filled, but the Portuguese Civil Code answer is No — the schedule will not be written (rule A14).","other");
     (S.sal.emp||[]).forEach((e,i)=>{if(N(e.s17_1)&&!(e.n17_1||[]).length)add("err","Employer "+(i+1)+" — 17(1)","The nature-wise breakup of salary is required; its sum is 1a (rule A32).","sal");
@@ -1367,8 +1393,8 @@ function engChecks(){
     (S.tcs||[]).forEach((r,n)=>{if(N(r.bf)&&(N(r.collOwn)||N(r.collOth)))add("err","TCS row "+(n+1),"Unclaimed TCS brought forward and the current year's TCS go in separate rows.","paid");});
     (S.g80||[]).forEach((r,n)=>{if(N(r.other)&&(!st0(r.ref)||!IFSC_RE.test(st0(r.ifsc).toUpperCase())))add("err","80G donee "+(n+1),"A donation by other than cash needs the transaction reference and the bank's IFSC.","ded");});
     (S.ei2&&S.ei2.others||[]).forEach((r,n)=>{if(st0(r.desc)&&["Incmexmptcircular","Incmexmptnotification","Receiptnotincme"].indexOf(r.sub)<0)add("warn","Exempt income row "+(n+1),"A description is taken only for 'exempt per CBDT circular / notification' or 'receipts not in the nature of income'; it will not be written.","ei");});
-    if(S.os2&&S.os2.on&&S.os2.editQ){const O=S.C.os;const want=O.auto.div1ai,got=(O.Q.div1ai||[]).reduce((a,v)=>a+v,0);
-      if(Math.abs(want-got)>1)add("err","OS item 10 — dividend","The quarterly dividend must add to 1a(i) less DTAA dividend less the attributable 57(i) interest = "+RS(want)+" (rule A214).","os");}
+    if(S.os2&&S.os2.on&&S.os2.editQ){const O=S.C.os;const got=(O.Q.div1ai||[]).reduce((a,v)=>a+v,0);
+      if(got>O.divHi+1||got<O.divLo-1)add("err","OS item 10 — dividend","The quarterly dividend ("+RS(got)+") must be between "+RS(O.divLo)+" (1a(i) − DTAA − full 57(i) interest) and "+RS(O.divHi)+" (1a(i) − DTAA). Set the quarters to the figure the portal expects (rule A214).","os");}
   }
   /* house property — the book's rules */
   if(S.hp&&S.hp.on){const P=S.C.hp;

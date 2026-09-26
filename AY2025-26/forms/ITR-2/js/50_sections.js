@@ -1929,7 +1929,7 @@ function importReturn(I){
     {const partD={};Object.keys(C.dedD).forEach(sec=>partD[sec]=(C.dedD[sec]||[]).reduce((a,r)=>a+N(r.cost>0&&r.cost<9e15?0:0),0));
       [["54","DeducClaimDtlsUs54"],["54B","DeducClaimDtlsUs54B"],["54EC","DeducClaimDtlsUs54EC"],["54F","DeducClaimDtlsUs54F"],["115F","DeducClaimDtlsUs115F"]].forEach(([sec,k])=>{partD[sec]=(DD[k]||[]).reduce((a,r)=>a+N(r.AmtDeducted),0);});
       C.land.forEach(p=>Object.keys(p.ded||{}).forEach(k=>{const sec=k.slice(1);partD[sec]=Math.max(0,(partD[sec]||0)-N(p.ded[k]));}));
-      let slot=N((C.b9.ded||{}).s54F);if(slot){C.b9.ded={};["54EC","54F","54","54B","115F"].forEach(sec=>{const t=Math.min(slot,partD[sec]||0);if(t>0){C.b9.ded["s"+sec]=t;partD[sec]-=t;slot-=t;}});if(slot)C.b9.ded.s54F=(C.b9.ded.s54F||0)+slot;}}
+      let slot=N((C.b9.ded||{}).s54F);if(slot)C.b9.ded={s54F:slot};}
     if(I.Schedule112A)C.s112a=(I.Schedule112A.Schedule112ADtls||[]).map(r=>({isin:r.ISINCode==="INNOTREQUIRD"?"":r.ISINCode,name:r.ShareUnitName,pre18:r.ShareOnOrBefore,qty:r.NumSharesUnits||1,price:r.NumSharesUnits?r.SalePricePerShareUnit:r.TotSaleValue,cost:r.AcquisitionCost,fmv18:nz(r.FairMktValuePerShareunit),exp:nz(r.ExpExclCnctTransfer)}));
     if(I.Schedule115AD)C.s115ad=(I.Schedule115AD.Schedule115ADDtls||[]).map(r=>({isin:r.ISINCode==="INNOTREQUIRD"?"":r.ISINCode,name:r.ShareUnitName,pre18:r.ShareOnOrBefore,qty:r.NumSharesUnits,price:r.SalePricePerShareUnit,cost:r.AcquisitionCost,fmv18:nz(r.FairMktValuePerShareunit),exp:nz(r.ExpExclCnctTransfer)}));
     if(I.ScheduleVDA)C.vda=(I.ScheduleVDA.ScheduleVDADtls||[]).map(r=>({buy:dmy(r.DateofAcquisition),sale:dmy(r.DateofTransfer),cost:r.AcquisitionCost,cons:r.ConsidReceived}));
@@ -2012,6 +2012,7 @@ function importReturn(I){
 }
 
 function importFile(txt){let j;try{j=JSON.parse(txt);}catch(e){alert("That file is not readable JSON.");return;}
+  resetState();   /* clear any prior return fully, so nothing from a previous file lingers */
   if(j&&j.meta&&j.meta.app==="yukti"&&j.meta.form==="ITR-2"){
     Object.keys(j).forEach(k=>{if(k!=="C"&&k!=="meta")S[k]=j[k];});
     if(!S.cg||S.cg.tx)S.cg=JSON.parse(JSON.stringify(CG_STATE_DEFAULT));

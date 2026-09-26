@@ -8,10 +8,12 @@ function buildITR2(){
   compute();
   const A=S.C.sal,P=S.C.hp,CG=S.C.cg,O=S.C.os,V=S.C.via,L=S.C.loss,T=S.C.tax,I=S.C.int,AM=S.C.amt;
   const j=deep(SKEL),today=new Date().toISOString().slice(0,10);
-  put(j,"CreationInfo.SWCreatedBy",sv(st0(S.ver.swid).toUpperCase())||"SW10000000");
-  put(j,"CreationInfo.JSONCreatedBy",sv(st0(S.ver.swid).toUpperCase())||"SW10000000");
+  put(j,"CreationInfo.SWVersionNo",SW_VERSION);
+  put(j,"CreationInfo.SWCreatedBy",SW_CREATED);
+  put(j,"CreationInfo.JSONCreatedBy",SW_CREATED);
   put(j,"CreationInfo.JSONCreationDate",today);
   put(j,"CreationInfo.IntermediaryCity",(sv(S.ver.place)||"Delhi").slice(0,25));
+  put(j,"CreationInfo.Digest","-");
 
   const PI=j.PartA_GEN1.PersonalInfo;
   if(S.pi.status==="I"){put(PI,"AssesseeName.FirstName",sv(S.pi.first));
@@ -758,23 +760,47 @@ function auditRules(b){const j=b.ITR.ITR2,out=[];
   R_("the balance payable does not follow",g("PartB_TTI.TaxPaid.BalTaxPayable"),
     Math.max(0,g(C+"AggregateTaxInterestLiability")-g("PartB_TTI.TaxPaid.TaxesPaid.TotalTaxesPaid")));
   return out;}
-function exportJSON(){compute();
+/* Drop old-regime Chapter VI-A deductions when the new regime is selected — the
+   schema-only export requirement. Returns a snapshot the caller restores after. */
+function stripNewRegimeDeductions(){
+  const snap={};
+  ["via","c80c","pen80ccc","pen80ccd1","pen80ccd1b","g80","gga","ggc","ra","d80","u80","dd80","e80","amt","amtc"].forEach(k=>snap[k]=S[k]);
+  S.via={c80ccd2:S.via.c80ccd2,c80cch:S.via.c80cch};
+  S.c80c=[];S.pen80ccc=[];S.pen80ccd1=[];S.pen80ccd1b=[];
+  S.g80=[];S.gga=[];S.ggc=[];S.ra=[];
+  S.d80={};S.u80={};S.dd80={};S.e80={};S.amt={};S.amtc={};
+  return snap;
+}
+async function exportJSON(){
+  const snap=isNew()?stripNewRegimeDeductions():null;
+  const restore=()=>{if(snap){Object.assign(S,snap);compute();}};
+  compute();
   const errs=S.C.checks.filter(c=>c.lvl==="err");
-  if(errs.length){alert(errs.length+" thing"+(errs.length>1?"s":"")+" still to fix:\n\n"+
+  if(errs.length){restore();alert(errs.length+" thing"+(errs.length>1?"s":"")+" still to fix:\n\n"+
     errs.slice(0,8).map(e=>"· "+e.t+" — "+e.m).join("\n")+
     (errs.length>8?"\n\n…and "+(errs.length-8)+" more.":""));return;}
   const b=buildITR2(),a=auditShape(b);
-  if(a.miss.length||a.bad.length){alert("The return did not come out in the shape the schema requires:\n\n"+
+  if(a.miss.length||a.bad.length){restore();alert("The return did not come out in the shape the schema requires:\n\n"+
     a.miss.slice(0,6).map(x=>"missing "+x).concat(a.bad.slice(0,6)).join("\n"));return;}
   const r=auditRules(b);
-  if(r.length){alert("The return does not agree with itself:\n\n"+r.slice(0,8).join("\n"));return;}
+  if(r.length){restore();alert("The return does not agree with itself:\n\n"+r.slice(0,8).join("\n"));return;}
   /* the department's own validation rules — Category A stops the upload, D is a warning */
   let rr=[];try{rr=runRules(b.ITR.ITR2,S);}catch(e){console.error("rules",e);}
   const rA=rr.filter(x=>x.cat==="A"),rD=rr.filter(x=>x.cat==="D");S.C.rules=rr;
-  if(rA.length){alert("The portal would reject this return — "+rA.length+" Category A rule"+(rA.length>1?"s":"")+" fail"+(rA.length>1?"":"s")+":\n\n"+
+  if(rA.length){restore();alert("The portal would reject this return — "+rA.length+" Category A rule"+(rA.length>1?"s":"")+" fail"+(rA.length>1?"":"s")+":\n\n"+
     rA.slice(0,10).map(x=>"A"+x.n+" · "+x.msg).join("\n")+(rA.length>10?"\n\n…and "+(rA.length-10)+" more. The full list is under Bank and verification.":""));paint(true);return;}
   if(rD.length)alert("Exported. "+rD.length+" Category D notice"+(rD.length>1?"s":"")+" to act on after upload:\n\n"+rD.map(x=>"D"+x.n+" · "+x.msg).join("\n"));
-  download((S.pi.pan||"ITR2")+"_ITR2_AY"+YC.ay+".json",JSON.stringify(b,null,1));}
+  /* sign exactly as the utility does: compact JSON with Digest "-", HMAC it,
+     substitute, write compact (the portal recomputes over the uploaded bytes) */
+  b.ITR.ITR2.CreationInfo.Digest="-";
+  const forHash=JSON.stringify(b);
+  let digest;
+  try{ digest=await computeDigest(forHash); }
+  catch(e){ restore();alert("Could not compute the signing digest in this browser.\n\n"+
+    "Use a modern browser (Chrome/Edge/Firefox); the Web Crypto API is required.\n\n"+e); return; }
+  b.ITR.ITR2.CreationInfo.Digest=digest;
+  download((S.pi.pan||"ITR2")+"_ITR2_AY"+YC.ay+".json",JSON.stringify(b));
+  restore();}
 function rulesPanel(){let rr=[];try{const b=buildITR2();rr=runRules(b.ITR.ITR2,S);}catch(e){return note("The department's rules could not be run yet — "+(e.message||e),"warn");}
   const rA=rr.filter(x=>x.cat==="A"),rD=rr.filter(x=>x.cat==="D");
   let h=sub("The department's validation rules — ITR-2, AY "+YC.ay+", version 1.0");
