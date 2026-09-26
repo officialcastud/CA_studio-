@@ -152,11 +152,18 @@ Honest caveat kept: final proof = Import-JSON into the real CBDT AY 2025-26 util
   Deferred+documented: s.89A rules+input (rare), cosmetic 4f renumber (internal serials),
   nested-HP rules no-op (engine enforces arithmetic), 12 offline/portal rules, A-13/A-15
   senior DOB-cutoff (needs confirm, golden doesn't exercise). Two audit agents used.
-- ITR-2: NOT STARTED — chunks ready.
-- ITR-3: NOT STARTED — chunks ready.
-- ITR-4: STEP 1 DONE (output-preserving multi-file split, byte-identical, agent-verified;
-  source commit ce0c2c4; layout 61_rules_fix_*/g*, 70_sec_{ded,inccore,paidbank}).
-  STEP 2a/2b NEXT (year overlay + schema/rule deltas from ITR-4 chunks; fix ITR-2 title stub).
+- ITR-2: DONE. Full port (Step 1 byte-identical split of the hand-assembled single-file +
+  Step 2a/2b). Both regimes schema CLEAN (0/0/0), export schema-only, 0 Cat-A, round-trip
+  0-diff, to the rupee (OLD tax 56,31,166 / NEW 61,48,956). Parent-verified + committed.
+  Known limitation: Budget-2024 CG before/after-23-Jul split maps to the AE bucket
+  (golden all post-transition); 85 CG-arithmetic 4b rules + renumber + 89A deferred.
+- ITR-3: DONE. Full port (Step 1 split 32 files + Step 2a/2b). Both regimes CLEAN, 0 Cat-A,
+  round-trip 0-diff, to the rupee (OLD tax 3,61,868 AMT / NEW 8,74,224). Parent-verified +
+  committed. Audit-driven due 2025-10-31. Known limitation: pre-23-Jul CG buckets emit 0
+  (golden post-transition); AY2025-26-numbered 4b CG/Form-10IEA rules + renumber deferred.
+- ITR-4: DONE. Step 2a/2b schema + rule-deviation pass. Both regimes CLEAN, 0 Cat-A/0 Cat-D,
+  round-trip 0-diff, to the rupee (OLD tax 42,224 / NEW 2,48,248). Parent-verified + committed.
+  Minor cosmetic: <title> still says ITR-2 (source stub). Deferred: 89A/renumber/offline rules.
 - ITR-5: BLOCKED — need AY 2025-26 sources.
 - ITR-6: PARTIAL — AY 2025-26 validation-rules PDF + schema-change doc provided;
   rules-only diff report done (135 disable / 128 add / 100 changed; 486 renumbered).
