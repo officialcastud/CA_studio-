@@ -85,8 +85,10 @@ const PD_TDSSEC=[
 /* the 26QB rent codes offered on the TDS3 (194IA/194IB/194M) grid */
 const PD_TDS3SEC=[["4IA","194IA-TDS on Sale of immovable property"],
  ["4IB","194IB-Rent by certain individuals/HUF"],["94M","194M-certain sums by individuals/HUF"]];
-/* Deducted / Collected year — financial-year leading 'YYYY', 2025..2008 */
-const PD_DEDYR=["2025","2024","2023","2022","2021","2020","2019","2018","2017",
+/* Deducted / Collected year — financial-year leading 'YYYY', 2024..2008.
+   AY 2025-26 (3d): the '2025' option is removed from the TDS/TCS DeductedYr /
+   CollectedYr enums (the P.Y. is F.Y. 2024-25, led by '2024'). */
+const PD_DEDYR=["2024","2023","2022","2021","2020","2019","2018","2017",
  "2016","2015","2014","2013","2012","2011","2010","2009","2008"];
 
 /* ---- seeds (only what is absent; never clobber the shell / an import) */
@@ -333,7 +335,7 @@ function expPaid(j){
     EmployerOrDeductorOrCollectDetl:{TAN:st0(r.tan).toUpperCase(),
       EmployerOrDeductorOrCollecterName:(sv(r.name)||"NA").slice(0,125)},
     TDSSection:PD_TDSSEC.some(x=>x[0]===r.sec)?r.sec:"94A",
-    DeductedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2025",
+    DeductedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2024",
     AmtForTaxDeduct:n0(r.gross),
     TotTDSOnAmtPaid:n0(r.tds!=null&&r.tds!==""?r.tds:r.claim),
     ClaimOutOfTotTDSOnAmtPaid:n0(r.claim)}));
@@ -348,7 +350,7 @@ function expPaid(j){
       PANofTenant:st0(r.pan).toUpperCase(),
       NameOfTenant:(sv(r.name)||"NA").slice(0,125),
       TDSSection:PD_TDS3SEC.some(x=>x[0]===r.sec)?r.sec:"4IA",
-      DeductedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2025",
+      DeductedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2024",
       TDSDeducted:n0(r.tds!=null&&r.tds!==""?r.tds:r.claim),
       TDSClaimed:n0(r.claim)};
     if(AADH.test(st0(r.aadhaar)))o.AadhaarofTenant=st0(r.aadhaar);
@@ -362,7 +364,7 @@ function expPaid(j){
       EmployerOrDeductorOrCollectDetl:{TAN:st0(r.tan).toUpperCase(),
         EmployerOrDeductorOrCollecterName:(sv(r.name)||"NA").slice(0,125)},
       AmtTaxCollected:n0(r.coll),
-      CollectedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2025",
+      CollectedYr:PD_DEDYR.indexOf(String(r.yr))>=0?String(r.yr):"2024",
       AmtTCSClaimedThisYear:n0(r.claim)};
     if(N(r.bf))o.TotalTCS=n0(r.bf);
     return o;});
@@ -390,21 +392,21 @@ function impPaid(I){
   const s2=g(I,"TDSonOthThanSals.TDSonOthThanSal");
   if(Array.isArray(s2)&&s2.length){S.tds2=s2.map(r=>{const d=r.EmployerOrDeductorOrCollectDetl||{};
     return {tan:st0(d.TAN).toUpperCase(),name:d.EmployerOrDeductorOrCollecterName||"",
-      sec:r.TDSSection||"94A",yr:String(r.DeductedYr||"2025"),gross:r.AmtForTaxDeduct||"",
+      sec:r.TDSSection||"94A",yr:String(r.DeductedYr||"2024"),gross:r.AmtForTaxDeduct||"",
       tds:r.TotTDSOnAmtPaid||"",claim:r.ClaimOutOfTotTDSOnAmtPaid||r.TotTDSOnAmtPaid||""};});
     read.push("other-than-salary TDS");}
 
   const s3=g(I,"ScheduleTDS3Dtls.TDS3Details");
   if(Array.isArray(s3)&&s3.length){S.tds3=s3.map(r=>({
     pan:st0(r.PANofTenant).toUpperCase(),aadhaar:r.AadhaarofTenant||"",
-    name:r.NameOfTenant||"",sec:r.TDSSection||"4IA",yr:String(r.DeductedYr||"2025"),
+    name:r.NameOfTenant||"",sec:r.TDSSection||"4IA",yr:String(r.DeductedYr||"2024"),
     tds:r.TDSDeducted||"",claim:r.TDSClaimed||r.TDSDeducted||""}));
     read.push("26QB TDS");}
 
   const c1=g(I,"ScheduleTCS.TCS");
   if(Array.isArray(c1)&&c1.length){S.tcs=c1.map(r=>{const d=r.EmployerOrDeductorOrCollectDetl||{};
     return {tan:st0(d.TAN).toUpperCase(),name:d.EmployerOrDeductorOrCollecterName||"",
-      yr:String(r.CollectedYr||"2025"),bf:r.TotalTCS||"",coll:r.AmtTaxCollected||"",
+      yr:String(r.CollectedYr||"2024"),bf:r.TotalTCS||"",coll:r.AmtTaxCollected||"",
       claim:r.AmtTCSClaimedThisYear||""};});read.push("TCS");}
 
   const py=g(I,"TaxPayments.TaxPayment");

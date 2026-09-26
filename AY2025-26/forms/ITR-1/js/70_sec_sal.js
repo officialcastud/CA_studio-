@@ -50,8 +50,8 @@ const _SAL_ALW=[
  ["10(14)(ii)","Allowance for personal expenses at the place of duty"],
  ["10(14)(i)(115BAC)","Rule 2BB(1)(a)-(c) allowances (permitted under the new regime)"],
  ["10(14)(ii)(115BAC)","Transport allowance to a disabled employee (permitted under the new regime)"],
- ["10(17)","Allowance to a Member of Parliament, MLA or MLC"],
- ["EIC","Exempt income of a judge (Supreme/High Court Judges Act)"]];
+ ["EIC","Exempt income of a judge (Supreme/High Court Judges Act)"],
+ ["OTH","Any other allowance exempt under section 10"]];   /* AY 2025-26 (3d): 10(17) removed, OTH added */
 /* section 115BAC(1A) leaves ONLY this subset standing — 10(5)/10(17)
    were WRONGLY included by the prev builder; they are removed here. */
 const _SAL_ALW_NEW=["10(6)","10(7)","10(10)","10(10A)","10(10AA)","10(10C)","10(10CC)",

@@ -135,21 +135,30 @@ function secEi(){
   return h;
 }
 
-/* ---- export — writes ONLY the ExemptIncAgriOthUs10 block --------------- */
+/* AY 2025-26 (3a/3b): the exempt-income row is {NatureDesc (enum), OthNatOfInc
+   (free text), OthAmount} — the AY 2026-27 Category / SubCategory / Description
+   triple is gone. The UI keeps the Category+SubCategory+Description model
+   (UI-identical); on export the section-10 sub-category is mapped to the
+   NatureDesc enum, and anything outside that enum becomes NatureDesc "OTH" with
+   the free text carried in OthNatOfInc. */
+const EI_NATUREDESC=new Set(["AGRI","10(10BC)","10(10D)","10(11)","10(12)","10(12C)",
+  "10(13)","10(16)","10(17)","10(17A)","10(18)","DMDP","10(19)","10(26)","10(26AAA)","OTH"]);
+function _eiSubLabel(s){const e=EISUB1.find(x=>x[0]===s);return e?e[1]:s;}
+function _eiNature(r){
+  const sub=st0(r.sub), cat=st0(r.cat);
+  if(sub==="10(1)"||cat==="AGRI") return {NatureDesc:"AGRI"};
+  if(sub==="DMD")                 return {NatureDesc:"DMDP"};   /* EISUB1 "DMD" -> NatureDesc "DMDP" */
+  if(EI_NATUREDESC.has(sub) && sub!=="OTH") return {NatureDesc:sub};
+  return {NatureDesc:"OTH", OthNatOfInc:(sv(r.desc)||_eiSubLabel(sub)||"Other exempt income").slice(0,125)};
+}
 function expEi(j){
   const rows=(S.ei||[]).filter(_eiValid1);
   if(!rows.length) return;                   /* block is conditional — omit when empty */
 
-  /* create the nested path (skeleton omits it), then fill total + rows */
   const total=rows.reduce((s,r)=>s+Math.max(0,Math.round(N(r.amt))),0);
   put(j,"ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Total",total);
-  j.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls=rows.map(r=>{
-    const cat=EICAT1.some(c=>c[0]===r.cat)?r.cat:"OTH";
-    const sub=EISUB1.some(c=>c[0]===r.sub)?r.sub:st0(r.sub);
-    const o={Category:cat,SubCategory:sub,OthAmount:Math.max(0,Math.round(N(r.amt)))};
-    if(EIDESC1.indexOf(sub)>=0) o.Description=(sv(r.desc)||"NA").slice(0,250);
-    return o;
-  });
+  j.ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls=rows.map(r=>
+    Object.assign(_eiNature(r), {OthAmount:Math.max(0,Math.round(N(r.amt)))}));
 }
 
 /* ---- import (inverse) — seeds S.ei from a return ---------------------- */
@@ -157,11 +166,15 @@ function impEi(I){
   const read=[]; const g=(o,p)=>p.split(".").reduce((t,k)=>t==null?undefined:t[k],o);
   const dt=g(I,"ITR1_IncomeDeductions.ExemptIncAgriOthUs10.ExemptIncAgriOthUs10Dtls");
   if(Array.isArray(dt)&&dt.length){
-    S.ei=dt.map(r=>({
-      cat:EICAT1.some(c=>c[0]===r.Category)?r.Category:"OTH",
-      sub:r.SubCategory||"",
-      desc:r.Description||"",
-      amt:N(r.OthAmount)}));
+    S.ei=dt.map(r=>{
+      /* inverse of _eiNature (AY 2025-26 NatureDesc -> UI cat/sub/desc), round-trip-safe */
+      const nd=st0(r.NatureDesc);
+      if(nd==="AGRI")  return {cat:"AGRI", sub:"10(1)", desc:"", amt:N(r.OthAmount)};
+      if(nd==="DMDP")  return {cat:"OTH",  sub:"DMD",   desc:"", amt:N(r.OthAmount)};
+      if(nd==="OTH"||!EI_NATUREDESC.has(nd))
+        return {cat:"OTH", sub:"OTH", desc:r.OthNatOfInc||"", amt:N(r.OthAmount)};
+      return {cat:"OTH", sub:nd, desc:"", amt:N(r.OthAmount)};
+    });
     read.push("exempt income ("+S.ei.length+" row"+(S.ei.length>1?"s":"")+")");
   }
   return read;

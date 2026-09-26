@@ -586,13 +586,12 @@ function expDed(j){
 
   /* --- nested leaves under UsrDeductUndChapVIA --- */
   if(old){
-    const pen=(D.pen||[]).filter(r=>N(r.amt)).map(r=>({
-      TypeofIdentifier: (r.type==="OTHPRAN")?"OTHPRAN":"PRAN",
-      NameofIdentifier: (sv(r.name)||"NA"),
-      Amount: n0(r.amt) }));
-    if(pen.length) put(j, base+"UsrDeductUndChapVIA.PensionContribution80CCC", pen);
-    const pran=(D.pran||[]).filter(r=>sv(r.pran)).map(r=>({PRANNum:sv(r.pran)}));
-    if(pran.length) put(j, base+"UsrDeductUndChapVIA.PRANDtls", pran);
+    /* AY 2025-26 (3a/3b): the PensionContribution80CCC[] identifier rows and the
+       PRANDtls[] array are removed; the PRAN is a single scalar UsrDeductUndChapVIA.PRANNum.
+       (The 80CCC amount itself stays in DeductUndChapVIA.Section80CCC, unchanged.)
+       UI unchanged — the first PRAN row maps to the scalar; extra rows aren't exported. */
+    const pran1=(D.pran||[]).map(r=>sv(r.pran)).find(x=>x);
+    if(pran1) put(j, base+"UsrDeductUndChapVIA.PRANNum", pran1.slice(0,125));
     if(N((D.ddb||{}).amt) && DED_DISEASE.some(x=>x[0]===(D.ddb||{}).disease))
       put(j, base+"UsrDeductUndChapVIA.NameOfSpecDisease80DDB", (D.ddb||{}).disease);
     if(N((D.ddb||{}).amt) && DED_80DDB_USR.some(x=>x[0]===(D.ddb||{}).usrType))
@@ -732,8 +731,8 @@ function expDed(j){
         DonationAmtCash:cash, DonationAmtOtherMode:oth,
         DonationAmt:tot, EligibleDonationAmt:elig };
       if(Object.keys(ad).length) o.AddressDetail=ad;
-      if(sv(r.ref))  o.TransactionRefNum=sv(r.ref).slice(0,50);
-      if(sv(r.ifsc)) o.IFSCCode=sv(r.ifsc).toUpperCase().slice(0,11);
+      /* AY 2025-26 (3a): Schedule80G DoneeWithPan[].TransactionRefNum and .IFSCCode
+         are removed from the schema. UI unchanged; not exported. ArnNbr is retained. */
       if(arn && sv(r.arn)) o.ArnNbr=sv(r.arn).slice(0,30);
       return o;
     });
@@ -791,8 +790,8 @@ function expDed(j){
       if(ISO(r.dt)) o.DonationDate=ISO(r.dt);
       if(sv(r.ifsc)) o.IFSCCode=sv(r.ifsc).toUpperCase().slice(0,11);
       if(sv(r.ref))  o.TransactionRefNum=sv(r.ref).slice(0,50);
-      if(sv(r.name)) o.PoliticalPartyName=sv(r.name).slice(0,75);
-      if(sv(r.pan))  o.PoliticalPartyPAN=sv(r.pan).toUpperCase().slice(0,10);
+      /* AY 2025-26 (3a): Schedule80GGC PoliticalPartyName and PoliticalPartyPAN
+         are removed from the schema (IFSCCode / TransactionRefNum are retained). */
       return o;
     });
     j.Schedule80GGC={ Schedule80GGCDetails:rows,
@@ -823,11 +822,8 @@ function impDed(I){
   if(usr.NameOfSpecDisease80DDB) (D.ddb=D.ddb||{}).disease=usr.NameOfSpecDisease80DDB;
   if(usr.Section80DDBUsrType!=null) (D.ddb=D.ddb||{}).usrType=String(usr.Section80DDBUsrType);
   if(usr.Form10BAAckNum)     (D.gg=D.gg||{}).ack=usr.Form10BAAckNum;
-  if(Array.isArray(usr.PensionContribution80CCC))
-    D.pen=usr.PensionContribution80CCC.map(r=>({type:r.TypeofIdentifier||"PRAN",
-      name:r.NameofIdentifier||"", amt:r.Amount!=null?String(r.Amount):""}));
-  if(Array.isArray(usr.PRANDtls))
-    D.pran=usr.PRANDtls.map(r=>({pran:r.PRANNum||""}));
+  /* AY 2025-26: PRAN is a scalar (was PRANDtls[]); PensionContribution80CCC[] is gone. */
+  if(usr.PRANNum!=null && sv(usr.PRANNum)) D.pran=[{pran:String(usr.PRANNum)}];
 
   const g=(o,p)=>RG(o,p,null);
   const c=g(I,"Schedule80C.Schedule80CDtls");
