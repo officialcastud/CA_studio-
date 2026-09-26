@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YUKTI Tax Compliance — ITR-4, A.Y. 2026-27</title>
+<link rel="stylesheet" href="css/shell.css">
+</head><body>
+
+<header class="top">
+  <div class="b">YUKTI<em>Tax Compliance</em></div>
+  <div class="frm" id="frm">ITR-X</div>
+  <div class="y" id="ay">A.Y. 2026-27</div>
+  <div class="sp"></div>
+  <button class="tbtn" id="b_open">Open file</button>
+  <button class="tbtn" id="b_save">Save file</button>
+  <button class="tbtn solid" id="b_json">Export return</button>
+</header>
+
+<nav class="rail"><h2>SECTIONS</h2><div id="nav"></div></nav>
+<main class="wrap" id="wrap"><div class="sheet" id="sheet"></div></main>
+
+<footer class="band">
+  <div class="m"><span>Gross total income</span><b id="s_gti">—</b></div>
+  <div class="m"><span>Total income</span><b id="s_ti">—</b></div>
+  <div class="m"><span>Tax and cess</span><b id="s_tax">—</b></div>
+  <div class="m" id="s_bw"><span id="s_bl">Balance payable</span><b id="s_b">—</b></div>
+  <div class="gap"></div>
+  <div class="st" id="s_st"></div>
+</footer>
+
+<input type="file" id="filepick" accept=".json,.yukti" hidden>
+<script src="js/00_form.js"></script>
+<script src="js/05_year_config.js"></script>
+<script src="js/08_registry.js"></script>
+<script src="js/10_state.js"></script>
+<script src="js/30_sec_00_boot.js"></script>
+<script src="js/60_rules.js"></script>
+<script src="js/61_rules_fix_01.js"></script>
+<script src="js/61_rules_fix_02.js"></script>
+<script src="js/61_rules_fix_03.js"></script>
+<script src="js/61_rules_fix_04.js"></script>
+<script src="js/61_rules_fix_05.js"></script>
+<script src="js/61_rules_fix_06.js"></script>
+<script src="js/61_rules_fix_07.js"></script>
+<script src="js/61_rules_g0.js"></script>
+<script src="js/61_rules_g1.js"></script>
+<script src="js/61_rules_g2.js"></script>
+<script src="js/70_sec_ded.js"></script>
+<script src="js/70_sec_inccore.js"></script>
+<script src="js/70_sec_paidbank.js"></script>
+<script src="js/90_wiring.js"></script>
+<script src="js/95_shell.js"></script>
+</body></html>

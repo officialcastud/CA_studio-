@@ -1,0 +1,5062 @@
+{
+ "form": "ITR-7",
+ "from_ay": "2026-27",
+ "to_ay": "2025-26",
+ "schema": null,
+ "rules": {
+  "unchanged": 400,
+  "renumbered": [
+   {
+    "src_id": "A-40",
+    "dst_id": "A-36"
+   },
+   {
+    "src_id": "A-41",
+    "dst_id": "A-37"
+   },
+   {
+    "src_id": "A-42",
+    "dst_id": "A-38"
+   },
+   {
+    "src_id": "A-45",
+    "dst_id": "A-41"
+   },
+   {
+    "src_id": "A-46",
+    "dst_id": "A-42"
+   },
+   {
+    "src_id": "A-47",
+    "dst_id": "A-43"
+   },
+   {
+    "src_id": "A-50",
+    "dst_id": "A-46"
+   },
+   {
+    "src_id": "A-51",
+    "dst_id": "A-47"
+   },
+   {
+    "src_id": "A-52",
+    "dst_id": "A-48"
+   },
+   {
+    "src_id": "A-53",
+    "dst_id": "A-50"
+   },
+   {
+    "src_id": "A-54",
+    "dst_id": "A-51"
+   },
+   {
+    "src_id": "A-66",
+    "dst_id": "A-53"
+   },
+   {
+    "src_id": "A-67",
+    "dst_id": "A-54"
+   },
+   {
+    "src_id": "A-68",
+    "dst_id": "A-55"
+   },
+   {
+    "src_id": "A-69",
+    "dst_id": "A-56"
+   },
+   {
+    "src_id": "A-71",
+    "dst_id": "A-57"
+   },
+   {
+    "src_id": "A-72",
+    "dst_id": "A-58"
+   },
+   {
+    "src_id": "A-73",
+    "dst_id": "A-60"
+   },
+   {
+    "src_id": "A-75",
+    "dst_id": "A-61"
+   },
+   {
+    "src_id": "A-76",
+    "dst_id": "A-62"
+   },
+   {
+    "src_id": "A-78",
+    "dst_id": "A-65"
+   },
+   {
+    "src_id": "A-81",
+    "dst_id": "A-67"
+   },
+   {
+    "src_id": "A-85",
+    "dst_id": "A-71"
+   },
+   {
+    "src_id": "A-87",
+    "dst_id": "A-73"
+   },
+   {
+    "src_id": "A-89",
+    "dst_id": "A-75"
+   },
+   {
+    "src_id": "A-90",
+    "dst_id": "A-76"
+   },
+   {
+    "src_id": "A-91",
+    "dst_id": "A-77"
+   },
+   {
+    "src_id": "A-92",
+    "dst_id": "A-78"
+   },
+   {
+    "src_id": "A-93",
+    "dst_id": "A-79"
+   },
+   {
+    "src_id": "A-94",
+    "dst_id": "A-80"
+   },
+   {
+    "src_id": "A-96",
+    "dst_id": "A-82"
+   },
+   {
+    "src_id": "A-97",
+    "dst_id": "A-83"
+   },
+   {
+    "src_id": "A-98",
+    "dst_id": "A-84"
+   },
+   {
+    "src_id": "A-99",
+    "dst_id": "A-85"
+   },
+   {
+    "src_id": "A-100",
+    "dst_id": "A-86"
+   },
+   {
+    "src_id": "A-101",
+    "dst_id": "A-87"
+   },
+   {
+    "src_id": "A-104",
+    "dst_id": "A-90"
+   },
+   {
+    "src_id": "A-105",
+    "dst_id": "A-91"
+   },
+   {
+    "src_id": "A-106",
+    "dst_id": "A-92"
+   },
+   {
+    "src_id": "A-107",
+    "dst_id": "A-93"
+   },
+   {
+    "src_id": "A-108",
+    "dst_id": "A-94"
+   },
+   {
+    "src_id": "A-109",
+    "dst_id": "A-95"
+   },
+   {
+    "src_id": "A-110",
+    "dst_id": "A-96"
+   },
+   {
+    "src_id": "A-118",
+    "dst_id": "A-104"
+   },
+   {
+    "src_id": "A-119",
+    "dst_id": "A-105"
+   },
+   {
+    "src_id": "A-123",
+    "dst_id": "A-108"
+   },
+   {
+    "src_id": "A-136",
+    "dst_id": "A-121"
+   },
+   {
+    "src_id": "A-137",
+    "dst_id": "A-122"
+   },
+   {
+    "src_id": "A-140",
+    "dst_id": "A-123"
+   },
+   {
+    "src_id": "A-141",
+    "dst_id": "A-124"
+   },
+   {
+    "src_id": "A-142",
+    "dst_id": "A-125"
+   },
+   {
+    "src_id": "A-143",
+    "dst_id": "A-126"
+   },
+   {
+    "src_id": "A-145",
+    "dst_id": "A-128"
+   },
+   {
+    "src_id": "A-146",
+    "dst_id": "A-129"
+   },
+   {
+    "src_id": "A-147",
+    "dst_id": "A-130"
+   },
+   {
+    "src_id": "A-148",
+    "dst_id": "A-131"
+   },
+   {
+    "src_id": "A-149",
+    "dst_id": "A-132"
+   },
+   {
+    "src_id": "A-151",
+    "dst_id": "A-134"
+   },
+   {
+    "src_id": "A-152",
+    "dst_id": "A-135"
+   },
+   {
+    "src_id": "A-153",
+    "dst_id": "A-136"
+   },
+   {
+    "src_id": "A-155",
+    "dst_id": "A-137"
+   },
+   {
+    "src_id": "A-156",
+    "dst_id": "A-138"
+   },
+   {
+    "src_id": "A-157",
+    "dst_id": "A-139"
+   },
+   {
+    "src_id": "A-158",
+    "dst_id": "A-140"
+   },
+   {
+    "src_id": "A-159",
+    "dst_id": "A-141"
+   },
+   {
+    "src_id": "A-164",
+    "dst_id": "A-142"
+   },
+   {
+    "src_id": "A-165",
+    "dst_id": "A-143"
+   },
+   {
+    "src_id": "A-166",
+    "dst_id": "A-144"
+   },
+   {
+    "src_id": "A-167",
+    "dst_id": "A-145"
+   },
+   {
+    "src_id": "A-168",
+    "dst_id": "A-146"
+   },
+   {
+    "src_id": "A-169",
+    "dst_id": "A-147"
+   },
+   {
+    "src_id": "A-170",
+    "dst_id": "A-149"
+   },
+   {
+    "src_id": "A-34",
+    "dst_id": "A-150"
+   },
+   {
+    "src_id": "A-171",
+    "dst_id": "A-152"
+   },
+   {
+    "src_id": "A-35",
+    "dst_id": "A-153"
+   },
+   {
+    "src_id": "A-172",
+    "dst_id": "A-155"
+   },
+   {
+    "src_id": "A-174",
+    "dst_id": "A-156"
+   },
+   {
+    "src_id": "A-175",
+    "dst_id": "A-157"
+   },
+   {
+    "src_id": "A-36",
+    "dst_id": "A-158"
+   },
+   {
+    "src_id": "A-177",
+    "dst_id": "A-159"
+   },
+   {
+    "src_id": "A-173",
+    "dst_id": "A-161"
+   },
+   {
+    "src_id": "A-37",
+    "dst_id": "A-162"
+   },
+   {
+    "src_id": "A-176",
+    "dst_id": "A-163"
+   },
+   {
+    "src_id": "A-178",
+    "dst_id": "A-164"
+   },
+   {
+    "src_id": "A-179",
+    "dst_id": "A-165"
+   },
+   {
+    "src_id": "A-180",
+    "dst_id": "A-166"
+   },
+   {
+    "src_id": "A-181",
+    "dst_id": "A-167"
+   },
+   {
+    "src_id": "A-182",
+    "dst_id": "A-168"
+   },
+   {
+    "src_id": "A-183",
+    "dst_id": "A-169"
+   },
+   {
+    "src_id": "A-184",
+    "dst_id": "A-170"
+   },
+   {
+    "src_id": "A-186",
+    "dst_id": "A-172"
+   },
+   {
+    "src_id": "A-187",
+    "dst_id": "A-173"
+   },
+   {
+    "src_id": "A-188",
+    "dst_id": "A-174"
+   },
+   {
+    "src_id": "A-196",
+    "dst_id": "A-177"
+   },
+   {
+    "src_id": "A-208",
+    "dst_id": "A-188"
+   },
+   {
+    "src_id": "A-209",
+    "dst_id": "A-189"
+   },
+   {
+    "src_id": "A-210",
+    "dst_id": "A-190"
+   },
+   {
+    "src_id": "A-211",
+    "dst_id": "A-191"
+   },
+   {
+    "src_id": "A-212",
+    "dst_id": "A-192"
+   },
+   {
+    "src_id": "A-213",
+    "dst_id": "A-193"
+   },
+   {
+    "src_id": "A-214",
+    "dst_id": "A-194"
+   },
+   {
+    "src_id": "A-215",
+    "dst_id": "A-195"
+   },
+   {
+    "src_id": "A-216",
+    "dst_id": "A-196"
+   },
+   {
+    "src_id": "A-217",
+    "dst_id": "A-197"
+   },
+   {
+    "src_id": "A-218",
+    "dst_id": "A-198"
+   },
+   {
+    "src_id": "A-219",
+    "dst_id": "A-199"
+   },
+   {
+    "src_id": "A-220",
+    "dst_id": "A-200"
+   },
+   {
+    "src_id": "A-221",
+    "dst_id": "A-201"
+   },
+   {
+    "src_id": "A-224",
+    "dst_id": "A-202"
+   },
+   {
+    "src_id": "A-225",
+    "dst_id": "A-203"
+   },
+   {
+    "src_id": "A-226",
+    "dst_id": "A-204"
+   },
+   {
+    "src_id": "A-227",
+    "dst_id": "A-205"
+   },
+   {
+    "src_id": "A-245",
+    "dst_id": "A-215"
+   },
+   {
+    "src_id": "A-257",
+    "dst_id": "A-224"
+   },
+   {
+    "src_id": "A-258",
+    "dst_id": "A-225"
+   },
+   {
+    "src_id": "A-259",
+    "dst_id": "A-226"
+   },
+   {
+    "src_id": "A-260",
+    "dst_id": "A-227"
+   },
+   {
+    "src_id": "A-261",
+    "dst_id": "A-228"
+   },
+   {
+    "src_id": "A-262",
+    "dst_id": "A-229"
+   },
+   {
+    "src_id": "A-263",
+    "dst_id": "A-230"
+   },
+   {
+    "src_id": "A-264",
+    "dst_id": "A-231"
+   },
+   {
+    "src_id": "A-265",
+    "dst_id": "A-232"
+   },
+   {
+    "src_id": "A-266",
+    "dst_id": "A-233"
+   },
+   {
+    "src_id": "A-267",
+    "dst_id": "A-234"
+   },
+   {
+    "src_id": "A-268",
+    "dst_id": "A-235"
+   },
+   {
+    "src_id": "A-270",
+    "dst_id": "A-254"
+   },
+   {
+    "src_id": "A-290",
+    "dst_id": "A-281"
+   },
+   {
+    "src_id": "A-293",
+    "dst_id": "A-303"
+   },
+   {
+    "src_id": "A-295",
+    "dst_id": "A-307"
+   },
+   {
+    "src_id": "A-296",
+    "dst_id": "A-308"
+   },
+   {
+    "src_id": "A-298",
+    "dst_id": "A-317"
+   },
+   {
+    "src_id": "A-300",
+    "dst_id": "A-319"
+   },
+   {
+    "src_id": "A-301",
+    "dst_id": "A-320"
+   },
+   {
+    "src_id": "A-303",
+    "dst_id": "A-322"
+   },
+   {
+    "src_id": "A-307",
+    "dst_id": "A-326"
+   },
+   {
+    "src_id": "A-308",
+    "dst_id": "A-327"
+   },
+   {
+    "src_id": "A-313",
+    "dst_id": "A-332"
+   },
+   {
+    "src_id": "A-315",
+    "dst_id": "A-334"
+   },
+   {
+    "src_id": "A-316",
+    "dst_id": "A-335"
+   },
+   {
+    "src_id": "A-317",
+    "dst_id": "A-336"
+   },
+   {
+    "src_id": "A-319",
+    "dst_id": "A-338"
+   },
+   {
+    "src_id": "A-321",
+    "dst_id": "A-340"
+   },
+   {
+    "src_id": "A-322",
+    "dst_id": "A-341"
+   },
+   {
+    "src_id": "A-326",
+    "dst_id": "A-344"
+   },
+   {
+    "src_id": "A-327",
+    "dst_id": "A-345"
+   },
+   {
+    "src_id": "A-328",
+    "dst_id": "A-346"
+   },
+   {
+    "src_id": "A-330",
+    "dst_id": "A-347"
+   },
+   {
+    "src_id": "A-331",
+    "dst_id": "A-348"
+   },
+   {
+    "src_id": "A-332",
+    "dst_id": "A-349"
+   },
+   {
+    "src_id": "A-334",
+    "dst_id": "A-351"
+   },
+   {
+    "src_id": "A-335",
+    "dst_id": "A-352"
+   },
+   {
+    "src_id": "A-336",
+    "dst_id": "A-353"
+   },
+   {
+    "src_id": "A-337",
+    "dst_id": "A-354"
+   },
+   {
+    "src_id": "A-338",
+    "dst_id": "A-355"
+   },
+   {
+    "src_id": "A-339",
+    "dst_id": "A-356"
+   },
+   {
+    "src_id": "A-340",
+    "dst_id": "A-357"
+   },
+   {
+    "src_id": "A-341",
+    "dst_id": "A-358"
+   },
+   {
+    "src_id": "A-342",
+    "dst_id": "A-359"
+   },
+   {
+    "src_id": "A-343",
+    "dst_id": "A-360"
+   },
+   {
+    "src_id": "A-344",
+    "dst_id": "A-361"
+   },
+   {
+    "src_id": "A-345",
+    "dst_id": "A-362"
+   },
+   {
+    "src_id": "A-346",
+    "dst_id": "A-363"
+   },
+   {
+    "src_id": "A-347",
+    "dst_id": "A-364"
+   },
+   {
+    "src_id": "A-348",
+    "dst_id": "A-365"
+   },
+   {
+    "src_id": "A-349",
+    "dst_id": "A-366"
+   },
+   {
+    "src_id": "A-350",
+    "dst_id": "A-367"
+   },
+   {
+    "src_id": "A-351",
+    "dst_id": "A-368"
+   },
+   {
+    "src_id": "A-352",
+    "dst_id": "A-369"
+   },
+   {
+    "src_id": "A-361",
+    "dst_id": "A-371"
+   },
+   {
+    "src_id": "A-362",
+    "dst_id": "A-372"
+   },
+   {
+    "src_id": "A-363",
+    "dst_id": "A-373"
+   },
+   {
+    "src_id": "A-364",
+    "dst_id": "A-374"
+   },
+   {
+    "src_id": "A-365",
+    "dst_id": "A-375"
+   },
+   {
+    "src_id": "A-360",
+    "dst_id": "A-387"
+   },
+   {
+    "src_id": "A-374",
+    "dst_id": "A-388"
+   },
+   {
+    "src_id": "A-373",
+    "dst_id": "A-396"
+   },
+   {
+    "src_id": "A-379",
+    "dst_id": "A-399"
+   },
+   {
+    "src_id": "A-380",
+    "dst_id": "A-400"
+   },
+   {
+    "src_id": "A-381",
+    "dst_id": "A-401"
+   },
+   {
+    "src_id": "A-382",
+    "dst_id": "A-402"
+   },
+   {
+    "src_id": "A-383",
+    "dst_id": "A-403"
+   },
+   {
+    "src_id": "A-385",
+    "dst_id": "A-405"
+   },
+   {
+    "src_id": "A-386",
+    "dst_id": "A-406"
+   },
+   {
+    "src_id": "A-387",
+    "dst_id": "A-407"
+   },
+   {
+    "src_id": "A-390",
+    "dst_id": "A-410"
+   },
+   {
+    "src_id": "A-391",
+    "dst_id": "A-411"
+   },
+   {
+    "src_id": "A-392",
+    "dst_id": "A-412"
+   },
+   {
+    "src_id": "A-445",
+    "dst_id": "A-452"
+   },
+   {
+    "src_id": "A-446",
+    "dst_id": "A-453"
+   },
+   {
+    "src_id": "A-447",
+    "dst_id": "A-454"
+   },
+   {
+    "src_id": "A-448",
+    "dst_id": "A-455"
+   },
+   {
+    "src_id": "A-450",
+    "dst_id": "A-457"
+   },
+   {
+    "src_id": "A-451",
+    "dst_id": "A-458"
+   },
+   {
+    "src_id": "A-452",
+    "dst_id": "A-459"
+   },
+   {
+    "src_id": "A-453",
+    "dst_id": "A-460"
+   },
+   {
+    "src_id": "A-454",
+    "dst_id": "A-461"
+   },
+   {
+    "src_id": "A-455",
+    "dst_id": "A-462"
+   },
+   {
+    "src_id": "A-456",
+    "dst_id": "A-463"
+   },
+   {
+    "src_id": "A-458",
+    "dst_id": "A-465"
+   },
+   {
+    "src_id": "A-459",
+    "dst_id": "A-466"
+   },
+   {
+    "src_id": "A-462",
+    "dst_id": "A-469"
+   },
+   {
+    "src_id": "A-464",
+    "dst_id": "A-471"
+   },
+   {
+    "src_id": "A-465",
+    "dst_id": "A-472"
+   },
+   {
+    "src_id": "A-466",
+    "dst_id": "A-473"
+   },
+   {
+    "src_id": "A-467",
+    "dst_id": "A-474"
+   },
+   {
+    "src_id": "A-468",
+    "dst_id": "A-475"
+   },
+   {
+    "src_id": "A-513",
+    "dst_id": "A-478"
+   },
+   {
+    "src_id": "A-514",
+    "dst_id": "A-479"
+   },
+   {
+    "src_id": "A-515",
+    "dst_id": "A-480"
+   },
+   {
+    "src_id": "A-516",
+    "dst_id": "A-481"
+   },
+   {
+    "src_id": "A-517",
+    "dst_id": "A-482"
+   },
+   {
+    "src_id": "A-518",
+    "dst_id": "A-483"
+   },
+   {
+    "src_id": "A-519",
+    "dst_id": "A-484"
+   },
+   {
+    "src_id": "A-524",
+    "dst_id": "A-489"
+   },
+   {
+    "src_id": "A-525",
+    "dst_id": "A-490"
+   },
+   {
+    "src_id": "A-526",
+    "dst_id": "A-491"
+   },
+   {
+    "src_id": "A-530",
+    "dst_id": "A-495"
+   },
+   {
+    "src_id": "A-531",
+    "dst_id": "A-496"
+   },
+   {
+    "src_id": "A-532",
+    "dst_id": "A-497"
+   },
+   {
+    "src_id": "A-534",
+    "dst_id": "A-499"
+   },
+   {
+    "src_id": "A-540",
+    "dst_id": "A-505"
+   },
+   {
+    "src_id": "A-542",
+    "dst_id": "A-507"
+   },
+   {
+    "src_id": "A-544",
+    "dst_id": "A-509"
+   },
+   {
+    "src_id": "A-546",
+    "dst_id": "A-511"
+   },
+   {
+    "src_id": "A-548",
+    "dst_id": "A-513"
+   },
+   {
+    "src_id": "A-618",
+    "dst_id": "A-516"
+   },
+   {
+    "src_id": "A-619",
+    "dst_id": "A-517"
+   },
+   {
+    "src_id": "A-620",
+    "dst_id": "A-518"
+   },
+   {
+    "src_id": "A-621",
+    "dst_id": "A-519"
+   },
+   {
+    "src_id": "A-622",
+    "dst_id": "A-520"
+   },
+   {
+    "src_id": "A-623",
+    "dst_id": "A-521"
+   },
+   {
+    "src_id": "A-624",
+    "dst_id": "A-522"
+   },
+   {
+    "src_id": "A-625",
+    "dst_id": "A-523"
+   },
+   {
+    "src_id": "A-627",
+    "dst_id": "A-525"
+   },
+   {
+    "src_id": "A-628",
+    "dst_id": "A-526"
+   },
+   {
+    "src_id": "A-633",
+    "dst_id": "A-529"
+   },
+   {
+    "src_id": "A-634",
+    "dst_id": "A-530"
+   },
+   {
+    "src_id": "A-472",
+    "dst_id": "A-532"
+   },
+   {
+    "src_id": "A-474",
+    "dst_id": "A-538"
+   },
+   {
+    "src_id": "A-637",
+    "dst_id": "A-540"
+   },
+   {
+    "src_id": "A-477",
+    "dst_id": "A-543"
+   },
+   {
+    "src_id": "A-567",
+    "dst_id": "A-564"
+   },
+   {
+    "src_id": "A-568",
+    "dst_id": "A-565"
+   },
+   {
+    "src_id": "A-569",
+    "dst_id": "A-566"
+   },
+   {
+    "src_id": "A-501",
+    "dst_id": "A-569"
+   },
+   {
+    "src_id": "A-502",
+    "dst_id": "A-570"
+   },
+   {
+    "src_id": "A-572",
+    "dst_id": "A-571"
+   },
+   {
+    "src_id": "A-587",
+    "dst_id": "A-572"
+   },
+   {
+    "src_id": "A-588",
+    "dst_id": "A-573"
+   },
+   {
+    "src_id": "A-589",
+    "dst_id": "A-574"
+   },
+   {
+    "src_id": "A-590",
+    "dst_id": "A-575"
+   },
+   {
+    "src_id": "A-591",
+    "dst_id": "A-576"
+   },
+   {
+    "src_id": "A-592",
+    "dst_id": "A-577"
+   },
+   {
+    "src_id": "A-593",
+    "dst_id": "A-578"
+   },
+   {
+    "src_id": "A-596",
+    "dst_id": "A-579"
+   },
+   {
+    "src_id": "A-573",
+    "dst_id": "A-580"
+   },
+   {
+    "src_id": "A-503",
+    "dst_id": "A-581"
+   },
+   {
+    "src_id": "A-597",
+    "dst_id": "A-582"
+   },
+   {
+    "src_id": "A-574",
+    "dst_id": "A-583"
+   },
+   {
+    "src_id": "A-504",
+    "dst_id": "A-584"
+   },
+   {
+    "src_id": "A-599",
+    "dst_id": "A-586"
+   },
+   {
+    "src_id": "A-600",
+    "dst_id": "A-587"
+   },
+   {
+    "src_id": "A-602",
+    "dst_id": "A-588"
+   },
+   {
+    "src_id": "A-603",
+    "dst_id": "A-589"
+   },
+   {
+    "src_id": "A-604",
+    "dst_id": "A-590"
+   },
+   {
+    "src_id": "A-605",
+    "dst_id": "A-591"
+   },
+   {
+    "src_id": "A-611",
+    "dst_id": "A-593"
+   },
+   {
+    "src_id": "A-575",
+    "dst_id": "A-597"
+   },
+   {
+    "src_id": "A-576",
+    "dst_id": "A-598"
+   },
+   {
+    "src_id": "A-612",
+    "dst_id": "A-599"
+   },
+   {
+    "src_id": "A-578",
+    "dst_id": "A-602"
+   },
+   {
+    "src_id": "A-580",
+    "dst_id": "A-604"
+   },
+   {
+    "src_id": "A-613",
+    "dst_id": "A-605"
+   },
+   {
+    "src_id": "A-614",
+    "dst_id": "A-606"
+   },
+   {
+    "src_id": "A-509",
+    "dst_id": "A-608"
+   },
+   {
+    "src_id": "A-510",
+    "dst_id": "A-609"
+   },
+   {
+    "src_id": "A-583",
+    "dst_id": "A-647"
+   },
+   {
+    "src_id": "A-584",
+    "dst_id": "A-648"
+   },
+   {
+    "src_id": "A-641",
+    "dst_id": "A-652"
+   },
+   {
+    "src_id": "A-642",
+    "dst_id": "A-653"
+   },
+   {
+    "src_id": "A-643",
+    "dst_id": "A-654"
+   },
+   {
+    "src_id": "A-644",
+    "dst_id": "A-655"
+   },
+   {
+    "src_id": "A-645",
+    "dst_id": "A-656"
+   },
+   {
+    "src_id": "A-646",
+    "dst_id": "A-657"
+   },
+   {
+    "src_id": "A-647",
+    "dst_id": "A-658"
+   },
+   {
+    "src_id": "A-648",
+    "dst_id": "A-659"
+   },
+   {
+    "src_id": "A-649",
+    "dst_id": "A-660"
+   },
+   {
+    "src_id": "A-650",
+    "dst_id": "A-661"
+   },
+   {
+    "src_id": "A-651",
+    "dst_id": "A-662"
+   },
+   {
+    "src_id": "A-652",
+    "dst_id": "A-663"
+   },
+   {
+    "src_id": "A-653",
+    "dst_id": "A-664"
+   },
+   {
+    "src_id": "A-654",
+    "dst_id": "A-665"
+   },
+   {
+    "src_id": "A-655",
+    "dst_id": "A-666"
+   },
+   {
+    "src_id": "A-656",
+    "dst_id": "A-667"
+   },
+   {
+    "src_id": "A-657",
+    "dst_id": "A-668"
+   },
+   {
+    "src_id": "A-658",
+    "dst_id": "A-669"
+   },
+   {
+    "src_id": "A-659",
+    "dst_id": "A-670"
+   },
+   {
+    "src_id": "A-660",
+    "dst_id": "A-671"
+   },
+   {
+    "src_id": "A-661",
+    "dst_id": "A-672"
+   },
+   {
+    "src_id": "Annex1-23",
+    "dst_id": "Annex1-25"
+   },
+   {
+    "src_id": "Annex1-24",
+    "dst_id": "Annex1-26"
+   },
+   {
+    "src_id": "Annex1-25",
+    "dst_id": "Annex1-27"
+   },
+   {
+    "src_id": "Annex1-26",
+    "dst_id": "Annex1-28"
+   },
+   {
+    "src_id": "Annex1-27",
+    "dst_id": "Annex1-29"
+   },
+   {
+    "src_id": "Annex1-28",
+    "dst_id": "Annex1-30"
+   },
+   {
+    "src_id": "Annex1-29",
+    "dst_id": "Annex1-31"
+   },
+   {
+    "src_id": "Annex1-30",
+    "dst_id": "Annex1-32"
+   },
+   {
+    "src_id": "Annex1-31",
+    "dst_id": "Annex1-33"
+   },
+   {
+    "src_id": "Annex1-32",
+    "dst_id": "Annex1-34"
+   },
+   {
+    "src_id": "Annex1-34",
+    "dst_id": "Annex1-36"
+   },
+   {
+    "src_id": "Annex1-35",
+    "dst_id": "Annex1-37"
+   },
+   {
+    "src_id": "Annex1-36",
+    "dst_id": "Annex1-38"
+   },
+   {
+    "src_id": "Annex1-37",
+    "dst_id": "Annex1-39"
+   },
+   {
+    "src_id": "Annex1-38",
+    "dst_id": "Annex1-40"
+   },
+   {
+    "src_id": "Annex1-39",
+    "dst_id": "Annex1-41"
+   },
+   {
+    "src_id": "Annex1-40",
+    "dst_id": "Annex1-42"
+   },
+   {
+    "src_id": "Annex1-41",
+    "dst_id": "Annex1-43"
+   },
+   {
+    "src_id": "Annex1-42",
+    "dst_id": "Annex1-44"
+   },
+   {
+    "src_id": "Annex1-43",
+    "dst_id": "Annex1-45"
+   },
+   {
+    "src_id": "Annex1-44",
+    "dst_id": "Annex1-46"
+   },
+   {
+    "src_id": "Annex1-45",
+    "dst_id": "Annex1-47"
+   },
+   {
+    "src_id": "Annex1-46",
+    "dst_id": "Annex1-48"
+   },
+   {
+    "src_id": "Annex1-47",
+    "dst_id": "Annex1-49"
+   },
+   {
+    "src_id": "Annex1-48",
+    "dst_id": "Annex1-50"
+   },
+   {
+    "src_id": "Annex1-49",
+    "dst_id": "Annex1-51"
+   },
+   {
+    "src_id": "Annex1-50",
+    "dst_id": "Annex1-52"
+   }
+  ],
+  "year_shift": [
+   {
+    "src_id": "A-70",
+    "dst_id": "A-59",
+    "score": "98.0",
+    "src_text": "In \"Schedule I\", Value at field 15 \"Amount deemed to be income within meaning of sub-section (3) of section 11 (if applicable)\" should be equal to the values at fields (9+10+13+ 14) for FY 2021-22 to FY 2024-25",
+    "dst_text": "In \"Schedule I\", Value at field 15 \"Amount deemed to be income within meaning of sub-section (3) of section 11 (if applicable)\" should be equal to the values at fields (9+10+13+ 14) for FY 2020-21 to FY 2023-24",
+    "numbers_removed": [
+     "2021",
+     "2024",
+     "22",
+     "25"
+    ],
+    "numbers_added": [
+     "2020",
+     "2023",
+     "21",
+     "24"
+    ]
+   },
+   {
+    "src_id": "A-79",
+    "dst_id": "A-66",
+    "score": "99.2",
+    "src_text": "In \"Schedule D\", at column 'Balance Amount of deemed income being exemption claimed in earlier years on account of deemed application and required to be applied in FY 2026-27 onwards', value at Column 9 should be equal to the values at fields (4-6)",
+    "dst_text": "In \"Schedule D\", at column 'Balance Amount of deemed income being exemption claimed in earlier years on account of deemed application and required to be applied in FY 2025-26 onwards', value at Column 9 should be equal to the values at fields (4-6)",
+    "numbers_removed": [
+     "2026",
+     "27"
+    ],
+    "numbers_added": [
+     "2025",
+     "26"
+    ]
+   },
+   {
+    "src_id": "A-82",
+    "dst_id": "A-68",
+    "score": "95.6",
+    "src_text": "Total of Column 5 of \"Schedule D\" should be equal to total of Row \"Prior to FY 2020-21 to FY 2023-24 \" of \"Schedule DA\".",
+    "dst_text": "Total of Column 5 of \"Schedule D\" should be equal to total of Row \"Prior to FY 2019-20\" to \"FY 2022-23\" of \"Schedule DA\".",
+    "numbers_removed": [
+     "2020",
+     "2023",
+     "21",
+     "24"
+    ],
+    "numbers_added": [
+     "20",
+     "2019",
+     "2022",
+     "23"
+    ]
+   },
+   {
+    "src_id": "A-117",
+    "dst_id": "A-103",
+    "score": "99.1",
+    "src_text": "In Schedule R, Sl. No. C \"Closing balance as on 31.03.2026 as per Balance sheet\" should be equal to sum of Sl. No. (A+B)",
+    "dst_text": "In Schedule R, Sl. No. C \"Closing balance as on 31.03.2025 as per Balance sheet\" should be equal to sum of Sl. No. (A+B)",
+    "numbers_removed": [
+     "2026"
+    ],
+    "numbers_added": [
+     "2025"
+    ]
+   },
+   {
+    "src_id": "A-129",
+    "dst_id": "A-114",
+    "score": "98.9",
+    "src_text": "In Schedule ET, the date of audit in SI. No. 4b should not be prior to 01-04-2026 /present date",
+    "dst_text": "In Schedule ET, the date of audit in SI. No. 4b should not be prior to 01-04-2025 /present date",
+    "numbers_removed": [
+     "2026"
+    ],
+    "numbers_added": [
+     "2025"
+    ]
+   },
+   {
+    "src_id": "A-632",
+    "dst_id": "A-611",
+    "score": "98.2",
+    "src_text": "In \"Schedule Part B TTI\", point 9d \"Self-Assessment Tax\" should be equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31/03/2026 for A.Y 2026-27.",
+    "dst_text": "In \"Schedule Part B TTI\", point 9d \"Self-Assessment Tax\" should be equal to the sum of total Tax Paid in schedule IT where date of deposit is after 31/03/2025 for A.Y 2025-26.",
+    "numbers_removed": [
+     "2026",
+     "27"
+    ],
+    "numbers_added": [
+     "2025",
+     "26"
+    ]
+   }
+  ],
+  "wording": [
+   {
+    "src_id": "A-2",
+    "dst_id": "A-2",
+    "score": 99.9,
+    "src_text": "In Schedule \"PI\", country is selected as India then mobile number should not be less than or more than 10 digits.",
+    "dst_text": "In Schedule \"PI\", country is selected as India then mobile number should not be less than or more than 10 digits",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-23",
+    "dst_id": "A-23",
+    "score": 99.9,
+    "src_text": "In Schedule \"PI\", 'date of registration or approval' in \"Details of registration/provisional registration or approval under any law other than Income- tax Act\" should not be earlier than the date of formation/incorporation.",
+    "dst_text": "In Schedule \"PI\", 'date of registration or approval' in \"Details of registration/provisional registration or approval under any law other than Income-tax Act\" should not be earlier than the date of formation/incorporation.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-30",
+    "dst_id": "A-30",
+    "score": 99.9,
+    "src_text": "In Schedule Part A General, details of change in the objects/activities during the Year on the basis of which approval/registration was granted is not provided under \"Other details\".",
+    "dst_text": "In Schedule Part A General, details of change in the objects/activities during the Year on the basis of which approval/registration was granted is not provided under \"Other details\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-31",
+    "dst_id": "A-31",
+    "score": 99.9,
+    "src_text": "In Schedule Part A General, date of change of objectives entered in Sl.no. A24(ii)(A) under \"Other Details\" is not within the previous year/ or is before the date of formation/incorporation of the trust/institution",
+    "dst_text": "In Schedule Part A General, date of change of objectives entered in Sr.no. A24(ii)(A) under \"Other Details\" is not within the previous year/ or is before the date of formation/incorporation of the trust/institution",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-32",
+    "dst_id": "A-32",
+    "score": 99.9,
+    "src_text": "In Schedule Part A General, date of fresh registration entered in Sl. No. A24(ii)(D) under \"Other Details\" is before the date of change of objects/activities as entered in Sl. No. A24(ii)(A) or the date mentioned is after the date of filing the return.",
+    "dst_text": "In Schedule Part A General, date of fresh registration entered in Sl. No. A24(ii)(D) under \"Other Details\" is before the date of change of objects/activities as entered in Sl. No. A24(ii)(A) or the date mentioned is after the date of filing the return..",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-38",
+    "dst_id": "A-34",
+    "score": "99.6",
+    "src_text": "If assessee is a political party and claiming exemption u/s 13A, sub-status cannot be a public charitable trust.",
+    "dst_text": "If assessee is a political party and claiming exemption u/s 13A, sub-status can not be a public charitable trust.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-39",
+    "dst_id": "A-35",
+    "score": "99.6",
+    "src_text": "If assessee is an electoral trust and claiming exemption u/s 13B, sub-status cannot be a public charitable trust.",
+    "dst_text": "If assessee is an electoral trust and claiming exemption u/s 13B, sub-status can not be a public charitable trust.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-43",
+    "dst_id": "A-39",
+    "score": "98.2",
+    "src_text": "Sl. No. A(26) and Sl. No. A(26)(a) of Schedule “Part A-General” should be selected as \"yes\" if Sl. No. A(23)(i)(sum of aii and bii) is more than 20%.",
+    "dst_text": "Sl. No. A(26) and Sl. No. A(26)(a) of Schedule A-General should be selected as \"yes\" if Sl. No. A(23)(i)(sum of aii and bii) is more than 20%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-44",
+    "dst_id": "A-40",
+    "score": "99.3",
+    "src_text": "In Schedule Part A-General, Sl. No. A(26) is selected as 'yes' then Iin Part A- General, Sl. No. (a) to (d) should be filled up with appropriate option.",
+    "dst_text": "In Schedule Part A-General, Sl. No. A (26) is selected as 'yes' then In Part A- General, Sl. No. (a) to (d) should be filled up with appropriate option.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-48",
+    "dst_id": "A-44",
+    "score": "96.8",
+    "src_text": "In Schedule \"PI\", 'Date from which registration is effective' in \"Details of registration/provisional or approval under any law other than Income-tax Act\" should be before the date of filing the return.",
+    "dst_text": "In Schedule \"PI\", 'Date from which registration is effective' in \"Details of registration/provisional registration or approval under any law other than Income-tax Act\" should be before the date of filing the return.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-49",
+    "dst_id": "A-45",
+    "score": "99.8",
+    "src_text": "In Schedule \"PI\", 'Date from which registration is effective' in \"Details of registration/provisional registration or approval under any law other than Income- tax Act\" should not be earlier than the date of formation/incorporation.",
+    "dst_text": "In Schedule \"PI\", 'Date from which registration is effective' in \"Details of registration/provisional registration or approval under any law other than Income-tax Act\" should not be earlier than the date of formation/incorporation.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-120",
+    "dst_id": "A-49",
+    "score": "98.4",
+    "src_text": "In Schedule Part A General, Section 13A is selected in \"section under which exemption is claimed\" and Schedule PP is not filled",
+    "dst_text": "In Schedule Part A General, Section 13A is selected in \"section under which exemption is claimed\" and Schedule LA is not filled",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-84",
+    "dst_id": "A-70",
+    "score": "99.3",
+    "src_text": "In Schedule DA, Value at field \"Total” should be equal to sum of \"Total\" Column F.",
+    "dst_text": "In Schedule DA, Value at field \"Total” should be equal to sum of \"Total\" Column F",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-86",
+    "dst_id": "A-72",
+    "score": "98.0",
+    "src_text": "In \"Schedule J\", in table C, value at \"Total\" field for column \"Total value of the investment\" should be equal to the sum of the values entered in rows added.",
+    "dst_text": "In \"Schedule J\", in table C, value at \"Total\" field for column \"Nominal value of the investment\" should be equal to the sum of the values entered in rows added.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-88",
+    "dst_id": "A-74",
+    "score": "98.0",
+    "src_text": "In \"Schedule J\", in table D, value at \"Total\" field for column \"Total value of the investment\" should be equal to the sum of the values entered in rows added.",
+    "dst_text": "In \"Schedule J\", in table D, value at \"Total\" field for column \"Nominal value of the investment\" should be equal to the sum of the values entered in rows added.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-102",
+    "dst_id": "A-88",
+    "score": "99.4",
+    "src_text": "In \"Part A-BS\" B1c of ‘Application of funds’ should be equal to difference of B(1a- 1b)",
+    "dst_text": "In \"Part A-BS\" B1c of ‘Application of funds’ should be equal to difference of B(1a-1b)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-103",
+    "dst_id": "A-89",
+    "score": "99.5",
+    "src_text": "In \"Part A-BS\" B 3 (a)(iiiD) of ‘Application of funds’ should be equal to sum of B 3 (a)(iiiA + iiiB + iiiC) .",
+    "dst_text": "In \"Part A-BS\" B 3 (a)(iiiD) of 'Application of funds’ should be equal to sum of B 3 (a)(iiiA + iiiB + iiiC).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-111",
+    "dst_id": "A-97",
+    "score": "98.0",
+    "src_text": "Value at Sl. No. 1A of \"Schedule R\" should be equal to aggregate of Sl. No. 7(i) of A1 of \"Schedule J\"",
+    "dst_text": "Value at Sl. No. 1A of \"Schedule R\" should be equal to the aggregate of Sl. No. 7(i) of A1 of \"Schedule J\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-112",
+    "dst_id": "A-98",
+    "score": "98.0",
+    "src_text": "Value at Sl. No. 2A of \"Schedule R\" should be equal to aggregate of Sl. No. 7(ii) of A1 of \"Schedule J\"",
+    "dst_text": "Value at Sl. No. 2A of \"Schedule R\" should be equal to the aggregate of Sl. No. 7(ii) of A1 of \"Schedule J\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-113",
+    "dst_id": "A-99",
+    "score": "98.0",
+    "src_text": "Value at Sl. No. 3A of \"Schedule R\" should be equal to aggregate of Sl. No. 7(iii) of A1 of \"Schedule J\"",
+    "dst_text": "Value at Sl. No. 3A of \"Schedule R\" should be equal to the aggregate of Sl. No. 7(iii) of A1 of \"Schedule J\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-114",
+    "dst_id": "A-100",
+    "score": "99.4",
+    "src_text": "Value at Sl. No. 1C of \"Schedule R\" should be equal to Sl. No. A(1)(a) of \"Part A- BS\"",
+    "dst_text": "Value at Sl. No. 1C of \"Schedule R\" should be equal to Sl. No. A(1)(a) of \"Part A-BS\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-115",
+    "dst_id": "A-101",
+    "score": "99.4",
+    "src_text": "Value at Sl. No. 2C of \"Schedule R\" should be equal to Sl. No. A(1)(b) of \"Part A- BS\"",
+    "dst_text": "Value at Sl. No. 2C of \"Schedule R\" should be equal to Sl. No. A(1)(b) of \"Part A-BS\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-116",
+    "dst_id": "A-102",
+    "score": "99.4",
+    "src_text": "Value at Sl. No. 3C of \"Schedule R\" should be equal to Sl. No. A(1)(c) of \"Part A- BS\"",
+    "dst_text": "Value at Sl. No. 3C of \"Schedule R\" should be equal to Sl. No. A(1)(c) of \"Part A-BS\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-121",
+    "dst_id": "A-106",
+    "score": "97.3",
+    "src_text": "Schedule PP to be filled only by Political party claiming exemption u/s 13A",
+    "dst_text": "Schedule LA to be filled only by Political party claiming exemption u/s 13A",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-122",
+    "dst_id": "A-107",
+    "score": "97.6",
+    "src_text": "In Schedule PP, date of furnishing the audit report and date of audit report in Sl.no. 3a and Sl.no. 3g respectively should not be before the end of the previous year.",
+    "dst_text": "In Schedule LA, date of furnishing the audit report and date of audit report in Sr.no. 3a and Sr.no. 3g respectively should not be before the end of the previous year.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-124",
+    "dst_id": "A-109",
+    "score": "98.6",
+    "src_text": "In Schedule PP Sl. No. 7a 'Total voluntary contributions received by the party during the F.Y. (b+d)' should be equal to sum of Sl. No. 7b+7d",
+    "dst_text": "In Schedule LA Sl. No. 7a 'Total voluntary contributions received by the party during the F.Y. (b+d)' should be equal to sum of Sl. No. 7b+7d",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-125",
+    "dst_id": "A-110",
+    "score": "98.6",
+    "src_text": "In Schedule PP, Sl. No. 1(B) \"whether recognized by the Election Commission of India\" is selected as yes but not providing date of recognition.",
+    "dst_text": "In Schedule LA, Sl. No. 1(B) \"whether recognized by the Election Commission of India\" is selected as yes but not providing date of recognition.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-126",
+    "dst_id": "A-111",
+    "score": "98.6",
+    "src_text": "Value in Schedule PP will be allowed to enter only if Section 13A is selected under filing status - 'section under which exemption is claimed'",
+    "dst_text": "Value in Schedule LA will be allowed to enter only if Section 13A is selected under filing status - 'section under which exemption is claimed'",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-127",
+    "dst_id": "A-112",
+    "score": "98.6",
+    "src_text": "In Part A-General, if Section 13A is selected under filing status - 'section under which exemption is claimed', value in Schedule PP should be filled.",
+    "dst_text": "In Part A-General, if Section 13A is selected under filing status - 'section under which exemption is claimed', value in Schedule LA should be filled.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-128",
+    "dst_id": "A-113",
+    "score": "99.3",
+    "src_text": "Sch ET to be filled only by Electoral Trust claiming exemption u/s 13B.",
+    "dst_text": "Sch ET to be filled only by Electoral Trust claiming exemption u/s 13B",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-130",
+    "dst_id": "A-115",
+    "score": "99.1",
+    "src_text": "In Schedule Part A General, Filing status \"section under which the exemption is claimed” is selected as Section 13B and Voluntary contributions mentioned in Sl.no. 6ii of Schedule ET is not equal to Sl. no. C of Sch VC",
+    "dst_text": "In Schedule Part A General, filing status \"section under which the exemption is claimed” is selected as Section 13B and Voluntary contributions mentioned in Sr.no. 6ii of Schedule ET is not equal to Sr. no. C of Sch VC",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-131",
+    "dst_id": "A-116",
+    "score": "97.8",
+    "src_text": "In schedule ET, Total mentioned in Sl.no. 6iii should match with the sum of Sl.no. 6i+6ii.",
+    "dst_text": "In schedule ET, Total mentioned in Sr.no. 6iii should match with the sum of Sr.no. 6i+6ii.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-132",
+    "dst_id": "A-117",
+    "score": "97.8",
+    "src_text": "In Schedule ET, the Total mentioned in Sl.no. 6vi should match with the sum of Sl.no. 6iv+6v.",
+    "dst_text": "In Schedule ET, the Total mentioned in Sr.no. 6vi should match with the sum of Sr.no. 6iv+6v.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-133",
+    "dst_id": "A-118",
+    "score": "99.2",
+    "src_text": "In Schedule Part ET, \"Total amount eligible for exemption under section 13B\" should not exceed Sl.no. 6ii of Schedule ET.",
+    "dst_text": "In Schedule Part ET, \"Total amount eligible for exemption under section 13B\" should not exceed Sr.no. 6ii of Schedule ET.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-134",
+    "dst_id": "A-119",
+    "score": "98.1",
+    "src_text": "In Schedule ET, the Total mentioned in Sl.no. 6viii should match with the difference of Sl.no. 6iii - 6vi.",
+    "dst_text": "In Schedule ET, the Total mentioned in Sr.no. 6viii should match with the difference of Sr.no. 6iii - 6vi.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-135",
+    "dst_id": "A-120",
+    "score": "98.8",
+    "src_text": "In Schedule Part B-TI (Part B2), Value in Sl.no. 5 - \"Income claimed/ exempt under section 13B in case of an Electoral Trust\" should be equal to Sl.no. 6vii of Schedule ET.",
+    "dst_text": "In Schedule Part B-TI (Part B2), Value in Sr.no. 5 - \"Income claimed/ exempt under section 13B in case of an Electoral Trust\" should be equal to Sr.no. 6vii of Schedule ET.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-144",
+    "dst_id": "A-127",
+    "score": "98.4",
+    "src_text": "In \"Schedule A\", value at field \"Total (B1 to B8)\" of point B should be equal to the sum of values of (B1+B2+B3+B4+B5+B6+B7+B8)",
+    "dst_text": "In \"Schedule A\", the value at field \"Total (B1 to B8)\" of point B should be equal to the sum of values of (B1+B2+B3+B4+B5+B6+B7+B8)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-150",
+    "dst_id": "A-133",
+    "score": "97.4",
+    "src_text": "In Schedule A, \"Total\" column should be equal to sum of \"Revenue\" and \"Capital\".",
+    "dst_text": "In Schedule A, the “Total\" column should be equal to sum of \"Revenue\" and \"Capital\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-160",
+    "dst_id": "A-148",
+    "score": "98.9",
+    "src_text": "In Schedule IE1, Sl.no.1- \"Total receipts including any voluntary contributions\" should not be less than the amount of total voluntary contributions mentioned in Sl.no. C of Schedule VC.",
+    "dst_text": "In Schedule IE1, Sr.no.1- \"Total receipts including any voluntary contributions\" should not be less than the amount of total voluntary contributions mentioned in Sr.no. C of Schedule VC.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-161",
+    "dst_id": "A-151",
+    "score": "99.2",
+    "src_text": "In Schedule IE2, Sl.no.A1- \"Total receipts including any voluntary contributions (Excluding receipts falling under taxable heads to be reported as per Row B)\" should not be less than the amount of total voluntary contributions mentioned in Sl.no. C of Schedule VC.",
+    "dst_text": "In Schedule IE2, Sr.no.A1- \"Total receipts including any voluntary contributions (Excluding receipts falling under taxable heads to be reported as per Row B)\" should not be less than the amount of total voluntary contributions mentioned in Sr.no. C of Schedule VC.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-162",
+    "dst_id": "A-154",
+    "score": "98.9",
+    "src_text": "In schedule IE 3, value at Sl.no.3- \"Total receipts including any voluntary contributions\" should not be less than amount of \"total voluntary contributions\" in Sl.no. C of Schedule VC.",
+    "dst_text": "In schedule IE 3, value at Sr.no.3- \"Total receipts including any voluntary contributions\" should not be less than amount of \"total voluntary contributions\" in Sr.no. C of Schedule VC.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-163",
+    "dst_id": "A-160",
+    "score": "98.8",
+    "src_text": "In Schedule IE4, value at Sl.no.3- \"Gross annual Receipts\" should not be less than the sum of amount of \"total voluntary contributions\" mentioned in Sl. no. C + E of Schedule VC.",
+    "dst_text": "In Schedule IE4, value at Sr.no.3- \"Gross annual Receipts\" should not be less than the sum of amount of \"total voluntary contributions\" mentioned in Sr. no. C + E of Schedule VC.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-185",
+    "dst_id": "A-171",
+    "score": "99.6",
+    "src_text": "In Schedule HP, Gross rent received/ receivable/ lettable value is zero or null and assessee will not be allowed to claim municipal tax",
+    "dst_text": "In Schedule HP, Gross rent received/ receivable/ letable value is zero or null and assessee will not be allowed to claim municipal tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-189",
+    "dst_id": "A-175",
+    "score": "96.0",
+    "src_text": "In Schedule HP, if Assessee share of co-owned property is zero then interest on borrowed capital should not be more than zero'.",
+    "dst_text": "In Schedule HP, if Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero'.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-190",
+    "dst_id": "A-176",
+    "score": "94.7",
+    "src_text": "In case of co-owned house property, Asseesee PAN & Co-owners PAN should not be same in Schedule HP.",
+    "dst_text": "In case of co-owned house property, Asseesee PAN & Co-owners PAN cannot be same in Schedule HP.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-197",
+    "dst_id": "A-178",
+    "score": "98.0",
+    "src_text": "In \"Schedule CG\", Sl. No. A2(c) of STCG Balance should be equal to (2aiii-2b)",
+    "dst_text": "In \"Schedule CG\", Sl. No. A2(c) of STCG Balance should be equal to (2aiii-biv)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-198",
+    "dst_id": "A-179",
+    "score": "98.3",
+    "src_text": "Value at field \"A10 \" in \"Schedule CG\" should be equal to the sum of value A1e of all the blocks+A2c+ A3e+ A4a+ A4b+ A5e+ A6g+A7+A8-A9a+A(A) of Schedule CG.",
+    "dst_text": "Value at field \"A10 \" in \"Schedule CG\" should be equal to the sum of value A1e of all the blocks+A2c+ A3e+ A4a+ A4b+ A5e+ A6g+A7+A8-A9a+AII of Schedule CG.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-201",
+    "dst_id": "A-180",
+    "score": "98.5",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no A1b(iv) cannot be claimed, if Full Value of Consideration (Sl no A1aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no A1b(iv) cannot be claimed, if Full Value of Consideration (sr no A1aiii) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-202",
+    "dst_id": "A-181",
+    "score": "98.4",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no A3b(iv) cannot be claimed, if Full Value of Consideration (Sl no A3a) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no A3b(iv) cannot be claimed, if Full Value of Consideration (sr no A3a) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-203",
+    "dst_id": "A-182",
+    "score": "98.5",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no A5b(iv) cannot be claimed, if Full Value of Consideration (Sl no A5aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no A5b(iv) cannot be claimed, if Full Value of Consideration (sr no A5aiii) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-204",
+    "dst_id": "A-183",
+    "score": "98.5",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no A6b(iv) cannot be claimed, if Full Value of Consideration (Sl no A6aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no A6b(iv) cannot be claimed, if Full Value of Consideration (sr no A6aiii) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-205",
+    "dst_id": "A-184",
+    "score": "98.5",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no B1b(iv) cannot be claimed, if Full Value of Consideration (Sl no B1aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no B1b(iv) cannot be claimed, if Full Value of Consideration (sr no B1aiii) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-206",
+    "dst_id": "A-185",
+    "score": "98.4",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no B3b(iv) cannot be claimed, if Full Value of Consideration (Sl no B3a) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no B3b(iv) cannot be claimed, if Full Value of Consideration (sr no B3a) is not offered to tax",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-242",
+    "dst_id": "A-213",
+    "score": "97.0",
+    "src_text": "Deductions claimed under respective section in STCG and LTCG should match with Table D.",
+    "dst_text": "Deductions claimed under respective section in STCG and LTCG should match Table D.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-254",
+    "dst_id": "A-223",
+    "score": "98.6",
+    "src_text": "Schedule CG sl no D1e should be equal to sum of D(1a + 1b + 1c + 1d )",
+    "dst_text": "Schedule CG sl no D1e should be equal to sum of D (1a + 1b + 1c + 1d)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-269",
+    "dst_id": "A-237",
+    "score": "99.6",
+    "src_text": "In Schedule CG, value at field \"Long-term capital gains taxable at the DTAA rates\" in Table F should be equal to Sl. No. 5x of Schedule CYLA",
+    "dst_text": "In Schedule CG, value at field \"Long-term capital gains taxable at the DTAA rates\" in Table F should be equal to Sl. No. 5xi of Schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-235",
+    "dst_id": "A-244",
+    "score": "95.4",
+    "src_text": "Schedule CG sl no Eix should be equal to difference of i-viii ,only if (i) is greater than (viii). This rule will be implemented for all columns.",
+    "dst_text": "Schedule CG sl no Exii should be equal to difference of i- xi,only if (i) is greater than (xi). This rule will be implemented for all columns",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-241",
+    "dst_id": "A-248",
+    "score": "99.1",
+    "src_text": "In Schedule CG, sl no Ev should be equal to sl no A9b.",
+    "dst_text": "In Schedule CG, sl no Evi should be equal to sl no A9b.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-272",
+    "dst_id": "A-255",
+    "score": "99.7",
+    "src_text": "In Schedule CG, value at field Short-term capital gain taxable @20% breakup of all quarters in Table F should be equal to Sl. No. 5v of Schedule CYLA",
+    "dst_text": "In Schedule CG, value at field Short-term capital gain taxable @20% breakup of all quarters in Table F should be equal to Sl. No. 5vb of Schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-273",
+    "dst_id": "A-256",
+    "score": "99.6",
+    "src_text": "In Schedule CG, value at field \"Long- term capital gains taxable at the rate of @12.5%\" in Table F should be equal to Sl. No. 5ix of Schedule CYLA",
+    "dst_text": "In Schedule CG, value at field \"Long- term capital gains taxable at the rate of @12.5%\" in Table F should be equal to Sl. No. 5ixb of Schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-278",
+    "dst_id": "A-264",
+    "score": "95.8",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- STCG 20%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 20%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-279",
+    "dst_id": "A-265",
+    "score": "95.8",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- STCG 30%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 30%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-280",
+    "dst_id": "A-266",
+    "score": "96.2",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- STCG Applicable rates%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG Applicable rates%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-281",
+    "dst_id": "A-267",
+    "score": "96.0",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- STCG DTAA rates.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG dtaa rates.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-282",
+    "dst_id": "A-269",
+    "score": "95.8",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- LTCG 12.5%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 12.5%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-283",
+    "dst_id": "A-271",
+    "score": "96.0",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the income available for set off- LTCG DTAA Rates.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG DTAA Rates.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-284",
+    "dst_id": "A-273",
+    "score": "95.7",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- STCL20%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL20%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-285",
+    "dst_id": "A-274",
+    "score": "95.7",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- STCL30%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL30%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-286",
+    "dst_id": "A-275",
+    "score": "96.2",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- STCL Applicable rate%.",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL Applicable rate%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-287",
+    "dst_id": "A-276",
+    "score": "95.2",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- STCL DTAA Rates",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL_DTAA Rates",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-288",
+    "dst_id": "A-278",
+    "score": "95.8",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- LTCL 12.5%",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 12.5%",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-289",
+    "dst_id": "A-280",
+    "score": "95.6",
+    "src_text": "In Table E of Schedule CG, Sum of amount of set off claimed should not exceed the losses available for set off- LTCL DTAA Rates",
+    "dst_text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL _DTAA Rates",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-239",
+    "dst_id": "A-286",
+    "score": "98.8",
+    "src_text": "In Schedule CG, in case of Non-resident, Sl. No. Eii should be equal to sum of sl no (A5e+ A8b+A(A) @30%) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field Eiii should be equal to the Sl. No. A(8b)+A(A) @30%.",
+    "dst_text": "In Schedule CG, in case of Non-resident, Sl. No. Eiv should be equal to sum of sl no (A5e+ A8b+A(A)@30%) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(iv) should be equal to the Sl. No. A(8b) +A(A)@30%.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-240",
+    "dst_id": "A-287",
+    "score": "99.5",
+    "src_text": "In Schedule CG, in case of Non-resident, Sl. No. Eiv should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+A(A) @applicable rate) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(iv) should be equal to the sum of Sl. No. (A1e+A2c+A6g+A7+A8c+A(A) @applicable rate).",
+    "dst_text": "In Schedule CG, in case of Non-resident, Sl. No. Ev should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c +A(A) @applicable rate) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(v) should be equal to the sum of Sl. No. (A1e+A2c+A6g+A7+A8c +A(A) @applicable rate).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-291",
+    "dst_id": "A-302",
+    "score": "97.8",
+    "src_text": "In schedule CG, Sl. No. B1d, section 54EC of LTCG, amount invested should not be more than 50L",
+    "dst_text": "In schedule CG, Sl. No. B1d, section 54EC of LTCG, the amount invested should not be more than 50L",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-294",
+    "dst_id": "A-305",
+    "score": "98.4",
+    "src_text": "Value at field A(A) should be equal to sum of values of drop downs 20% or 30% or applicable rate",
+    "dst_text": "Value at field A should be equal to sum of values of drop downs 20% or 30% or applicable rate",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-292",
+    "dst_id": "A-312",
+    "score": "97.7",
+    "src_text": "In Schedule CG, Table E, entire loss should be set off with gains available for set off.",
+    "dst_text": "In Schedule CG, Table E, the entire loss should be set off with gains available for set off.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-302",
+    "dst_id": "A-321",
+    "score": "99.0",
+    "src_text": "In Schedule OS, Sl.no. 2 should be equal to (2ai+2aii+ 2b+ 2c+ 2d + 2e elements related to Sl. no 1)",
+    "dst_text": "In Schedule OS, Sr.no. 2 should be equal to (2ai+2aii+ 2b+ 2c+ 2d + 2e elements related to Sl. no 1)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-304",
+    "dst_id": "A-323",
+    "score": "99.3",
+    "src_text": "In \"Schedule OS\", amount of \"Any other income chargeable at special rate\" in Sl.no. 2c should be equal to the sum of individual values entered in amount col.",
+    "dst_text": "In \"Schedule OS\", amount of \"Any other income chargeable at special rate\" in Sr.no. 2c should be equal to the sum of individual values entered in amount col.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-305",
+    "dst_id": "A-324",
+    "score": "99.5",
+    "src_text": "In \"Schedule OS\", amount of \"Pass through income in the nature of income from other sources chargeable at special rates\" in Sl.no. 2d should be equal to the sum of individual values entered in amount col.",
+    "dst_text": "In \"Schedule OS\", amount of \"Pass through income in the nature of income from other sources chargeable at special rates\" in Sr.no. 2d should be equal to the sum of individual values entered in amount col.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-306",
+    "dst_id": "A-325",
+    "score": "99.0",
+    "src_text": "In \"Schedule OS\", Sl.no. 2(e) should be equal to the sum of amount entered in col 2 \"Amount of income\"",
+    "dst_text": "In \"Schedule OS\", Sr.no. 2(e) should be equal to the sum of amount entered in col 2 \"Amount of income\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-309",
+    "dst_id": "A-328",
+    "score": "99.6",
+    "src_text": "In \"Schedule OS\", value at field \"Net Income from other sources chargeable at normal applicable rates 1(after reducing income related to DTAA portion) - 3 + 4 + 5\" should be equal to the sum of values at (1 (excluding DTAA of point 1) -3+4+ 5)",
+    "dst_text": "In \"Schedule OS\", value at field \"Net Income from other sources chargeable at normal applicable rates 1(after reducing income related to DTAA portion) - 3 + 4 + 5\" should be equal to the sum of values at (1 (excluding DTAA of point 1) - 3+4+ 5 )",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-310",
+    "dst_id": "A-329",
+    "score": "99.3",
+    "src_text": "In \"Schedule OS\", Sl.no. 7 Income from other sources (other than from owning and maintaining race horses) should be equal to the sum of (2 + 6)",
+    "dst_text": "In \"Schedule OS\", Sr.no. 7 Income from other sources (other than from owning and maintaining race horses) should be equal to the sum of (2 + 6)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-311",
+    "dst_id": "A-330",
+    "score": "99.5",
+    "src_text": "In \"Schedule OS\", Sl.no. 8(e) Balance should be equal to the sum of (Receipts - Deductions under section 57 in relation to receipts at 8a only+ Amounts not deductible u/s 58+Profits chargeable to tax u/s 59)",
+    "dst_text": "In \"Schedule OS\", Sr.no. 8(e) Balance should be equal to the sum of (Receipts - Deductions under section 57 in relation to receipts at 8a only+ Amounts not deductible u/s 58+Profits chargeable to tax u/s 59)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-312",
+    "dst_id": "A-331",
+    "score": "98.9",
+    "src_text": "In \"Schedule OS\" in Sl.no. 9 “Income from other sources” should be equal to the sum of (7+8e)",
+    "dst_text": "In \"Schedule OS\" in Sr.no. 9 “Income from other sources” should be equal to the sum of (7+8e)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-314",
+    "dst_id": "A-333",
+    "score": "98.9",
+    "src_text": "Depreciation can be claimed only on rental income available in Sl. no. 1c of Schedule OS.",
+    "dst_text": "Depreciation can be claimed only on rental income available in sr. no. 1c of Schedule OS.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-318",
+    "dst_id": "A-337",
+    "score": "99.7",
+    "src_text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(i) i.e, normal dividend - DTAA for Dividend subject to TRC -Adj Expenditure u/s 57(i) Adj Expenditure u/s 57(i) = Max(0, exp u/s 57(1) at sl.no.3c - Deemed dividend u/s 2(22e) at sl.no.1a(ii) )",
+    "dst_text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(i) i.e, normal dividend - DTAA for Dividend subject to TRC -Adj Expenditure u/s 57(i) Adj Expenditure u/s 57(i) = Max(0,exp u/s 57(1) at sl.no.3c – Deemed dividend u/s 2(22e) at sl.no.1a(ii) )",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-320",
+    "dst_id": "A-339",
+    "score": "99.3",
+    "src_text": "In Schedule OS, Sl. No. 2c \"Anonymous donation u/s 115BBC\" should be equal to or more than Sl. No. Diii of Schedule VC, if exemption section in Part A-General is selected as 10(23C)(iiiad) or 10(23C)(iiiae)",
+    "dst_text": "In Schedule OS, Sl. No. 2c \"Anonymous donation u/s 115BBC\" should be equal to or more than Sl. No. Diii of Schedule VC, if exemption section in Part A- General is selected as 10(23C) (iiiad) or 10(23C) (iiiae)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-333",
+    "dst_id": "A-350",
+    "score": "99.3",
+    "src_text": "In \"Schedule BP\" in A11(iii) \"Total\" should be equal to the sum of 11i+11ii.",
+    "dst_text": "In \"Schedule BP\" in A11(iii) \"Total” should be equal to the sum of 11i+11ii",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-353",
+    "dst_id": "A-370",
+    "score": "97.4",
+    "src_text": "In Schedule BP, at Sl.No. 5c \"Dividend Income\" amount cannot be more than zero.",
+    "dst_text": "In Schedule BP, at Sl.No. 5c \"Dividend Income\" the amount cannot be more than zero.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-370",
+    "dst_id": "A-377",
+    "score": "99.7",
+    "src_text": "In Schedule CYLA, Sl. No 1xi \" Other Source Income (excluding profit from owning race horses and amount chargeable to special rate of tax)\" should be equal to SL.no. 6 of Schedule OS",
+    "dst_text": "In Schedule CYLA,Sl. No 1xii \" Other Source Income (excluding profit from owning race horses and amount chargeable to special rate of tax)\" should be equal to SL.no. 6 of Schedule OS",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-371",
+    "dst_id": "A-378",
+    "score": "99.6",
+    "src_text": "In Schedule CYLA, Sl. No 1xii \" Profit from owning and maintaining race horses\" should be equal to SL.no. 8e of Schedule OS",
+    "dst_text": "In Schedule CYLA,Sl. No 1xiii \" Profit from owning and maintaining race horses\" should be equal to SL.no. 8e of Schedule OS",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-354",
+    "dst_id": "A-381",
+    "score": "98.7",
+    "src_text": "In \"Schedule CYLA\", value at field xiv \"Total loss set-off\" of column 2 should be equal to (sum of sl no ii to sl.no xiiiv) of column 2 to the maximum of Rs.200000.",
+    "dst_text": "In \"Schedule CYLA\", value at field xviv \"Total loss set-off\" of column 2 should be equal to (sum of sl no ii to sl.no xivi) of column 2 to the maximum of Rs.200000.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-355",
+    "dst_id": "A-382",
+    "score": "94.6",
+    "src_text": "In \"Schedule CYLA, value at field xiv \"Total loss set-off\" of column 3 should be equal to (i+ v + vi + vii + viii+ ix + x + xi + xii + xiii) of column 3.",
+    "dst_text": "In \"Schedule CYLA, value at field xv \"Total loss set-off\" of column 3 should be equal to (i+ va+vb + vi + vii + viii+ ix a +ixb + x + xi + xii + xiii+ xiv) of column 3.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-356",
+    "dst_id": "A-383",
+    "score": "93.4",
+    "src_text": "In \"Schedule CYLA\", value at field xiv \"Total loss set-off\" of column 4 should be equal to (i+ ii+ iii + iv + v + vi + vii+ viii+ ix + x + xii + xiii) of column 4.",
+    "dst_text": "In \"Schedule CYLA\", value at field xv ix \"Total loss set-off\" of column 4 should be equal to (i+ ii+ iii + iv + va +vb + vi + vii+ viii+ ixa +ixb + x + xi + xiii + xiv) of column 4.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-357",
+    "dst_id": "A-384",
+    "score": "99.0",
+    "src_text": "In \"Schedule CYLA\", value at field (xv) \"Loss remaining after set-off\" of column 2 should be equal to \"Loss to be adjusted\" field of column 2 - 2(xiv ).",
+    "dst_text": "In \"Schedule CYLA\", value at field (xvi) \"Loss remaining after set-off\" of column 2 should be equal to \"Loss to be adjusted\" field of column 2 - 2(xv).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-358",
+    "dst_id": "A-385",
+    "score": "98.6",
+    "src_text": "In \"Schedule CYLA\", value at field (xv) \"Loss remaining after set-off\" of column 3 should be equal to \"Loss to be adjusted\" field of column 3 - 3(xiv)",
+    "dst_text": "In \"Schedule CYLA\", value at field (xvi) \"Loss remaining after set-off\" of column 3 should be equal to \"Loss to be adjusted\" field of column 3 - 3(xv ).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-359",
+    "dst_id": "A-386",
+    "score": "99.0",
+    "src_text": "In \"Schedule CYLA\", value at field (xv) \"Loss remaining after set-off\" of column 4 should be equal to \"Loss to be adjusted\" field of column 4 - 4(xiv).",
+    "dst_text": "In \"Schedule CYLA\", value at field (xvi) \"Loss remaining after set-off\" of column 4 should be equal to \"Loss to be adjusted\" field of column 4 - 4(xv ).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-378",
+    "dst_id": "A-389",
+    "score": "99.6",
+    "src_text": "In Schedule CYLA, Income from other sources taxable at special rates in India as per DTAA should be equal to Sl. No. 2e of Schedule OS",
+    "dst_text": "In Schedule CYLA, Income from other sources taxable at special rates in India as per DTAA should be equal to Sl.No. 2e of Schedule OS",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-384",
+    "dst_id": "A-404",
+    "score": "99.7",
+    "src_text": "In schedule SI, 115BB (Winnings from lotteries, puzzles, races, games etc.) should match with corresponding income offered in sl. No 2ai schedule OS, after reducing applicable DTAA income, if any.",
+    "dst_text": "In schedule SI, 115BB (Winnings from lotteries, puzzles, races, games etc.) should match with corresponding income offered in sl. No 2ai schedule OS, after reducing applicable DTAA income, if any .",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-388",
+    "dst_id": "A-408",
+    "score": "95.2",
+    "src_text": "In Schedule SI tax computed in column (ii) cannot be null if income in column (i) is greater than zero",
+    "dst_text": "In Schedule SI tax computed in column (ii) should not be null if income in column (i) is greater than zero",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-389",
+    "dst_id": "A-409",
+    "score": "99.8",
+    "src_text": "Sum of income u/s 115AD (STCG for FIIs on securities where STT not paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30% in Schedule SI should be equal to corresponding income sl no 5vi of schedule CYLA.",
+    "dst_text": "Sum of income u/s 115AD (STCG for FIIs on securities where STT not paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30% in Schedule SI should be equal to corresponding income sl no 5vi of schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-393",
+    "dst_id": "A-413",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(ii) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(ii) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-394",
+    "dst_id": "A-414",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(iia) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(iia) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-396",
+    "dst_id": "A-416",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(iiab) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(iiab) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-397",
+    "dst_id": "A-417",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(iiac) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(iiac) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-398",
+    "dst_id": "A-418",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(iii) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(iii) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-399",
+    "dst_id": "A-419",
+    "score": "95.3",
+    "src_text": "Special income offered u/s 115A(1)(b) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(b) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-400",
+    "dst_id": "A-420",
+    "score": "95.4",
+    "src_text": "Special income offered u/s 115AC(1)(a) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115AC(1)(a) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-401",
+    "dst_id": "A-421",
+    "score": "95.4",
+    "src_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-402",
+    "dst_id": "A-422",
+    "score": "95.4",
+    "src_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-403",
+    "dst_id": "A-423",
+    "score": "95.2",
+    "src_text": "Special income offered u/s 115BBA in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115BBA in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-404",
+    "dst_id": "A-424",
+    "score": "95.2",
+    "src_text": "Special income offered u/s 115BBC in Sl. No. 2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115BBC in Sl. No. 2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-405",
+    "dst_id": "A-425",
+    "score": "96.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(i) other than as per proviso to section 115A(1)(a)(A) in sl. no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(i) other than as per proviso to section 115A(1)(a)(A) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-406",
+    "dst_id": "A-426",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(ii) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(ii) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-407",
+    "dst_id": "A-427",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(iia) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(iia) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-409",
+    "dst_id": "A-429",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(iiab) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(iiab) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-410",
+    "dst_id": "A-430",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(iiac) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(iiac) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-411",
+    "dst_id": "A-431",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(iii) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(iii) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-412",
+    "dst_id": "A-432",
+    "score": "95.3",
+    "src_text": "Special income offered u/s.115A(1)(b) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(b) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-413",
+    "dst_id": "A-433",
+    "score": "95.4",
+    "src_text": "Special income offered u/s.115AC(1)(a) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115AC(1)(a) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-414",
+    "dst_id": "A-434",
+    "score": "95.4",
+    "src_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-415",
+    "dst_id": "A-435",
+    "score": "95.4",
+    "src_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-416",
+    "dst_id": "A-436",
+    "score": "95.2",
+    "src_text": "Special income offered u/s.115BBA in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115BBA in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-417",
+    "dst_id": "A-437",
+    "score": "95.2",
+    "src_text": "Special income offered u/s.115BBC in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115BBC in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-395",
+    "dst_id": "A-438",
+    "score": "95.5",
+    "src_text": "Special income offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-408",
+    "dst_id": "A-439",
+    "score": "95.5",
+    "src_text": "Special income offered u/s.115A(1)(a)(iiaa) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115A(1)(a)(iiaa) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-420",
+    "dst_id": "A-440",
+    "score": "95.4",
+    "src_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115AD(1)(i) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-421",
+    "dst_id": "A-441",
+    "score": "95.4",
+    "src_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s.115AD(1)(i) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-422",
+    "dst_id": "A-442",
+    "score": "97.0",
+    "src_text": "Special 115AC(1)(b)- Income by way of dividend from GDRs purchased in foreign currency by non-residents in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special 115AC(1)(b)- Income by way of dividend from GDRs purchased in foreign currency by non-residents in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-423",
+    "dst_id": "A-443",
+    "score": "96.8",
+    "src_text": "Special PTI-115AC(1)(b) PTI-Income by way of dividend from GDRs purchased in foreign currency by non-residents in sl.no.2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special PTI-115AC(1)(b)PTI-Income by way of dividend from GDRs purchased in foreign currency by non-residents in sl.no.2d of schedule OS should be` equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-424",
+    "dst_id": "A-444",
+    "score": "99.7",
+    "src_text": "In schedule SI, u/s 115BBJ (Winnings from online games) should match with corresponding income offered in Sl. No. 2aii of Schedule OS, after reducing applicable DTAA income, if any.",
+    "dst_text": "In schedule SI, u/s 115BBJ (Winnings from online games) should match with corresponding income offered in Sl. No. 2aii of Schedule OS, after reducing applicable DTAA income, if any .",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-425",
+    "dst_id": "A-445",
+    "score": "98.2",
+    "src_text": "Special income offered u/s 115A(1)(a)(A) Dividend received by non-resident (not being a company) or a foreign company, from a unit in an International Financial Services Centre, as referred to in sub-section (1A) of section 80LA in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered u/s 115A(1)(a)(A) Dividend received by non-resident (not being a company) or a foreign company, from a unit in an International Financial Services Centre, as referred to in sub-section (1A) of section 80LA in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-426",
+    "dst_id": "A-446",
+    "score": "98.2",
+    "src_text": "Special income offered PTI-115A(1)(a)(A) Dividend received by non-resident (not being a company) or a foreign company, from a unit in an International Financial Services Centre, as referred to in sub-section (1A) of section 80LA in Sl. No. 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "dst_text": "Special income offered PTI-115A(1)(a)(A) Dividend received by non-resident (not being a company) or a foreign company, from a unit in an International Financial Services Centre, as referred to in sub-section (1A) of section 80LA in Sl. No. 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-449",
+    "dst_id": "A-456",
+    "score": "99.1",
+    "src_text": "In Schedule 115TD, assessee has entered Accreted income u/s 115TD and field Sl.no. 9 \"Specified date u/s 115TD\" is blank",
+    "dst_text": "In Schedule 115TD, assessee has entered Accreted income u/s 115TD and field Sr.no. 9 \"Specified date u/s 115TD\" is blank",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-457",
+    "dst_id": "A-464",
+    "score": "97.9",
+    "src_text": "Schedule FSI is not applicable for non-residents",
+    "dst_text": "Schedule FSI is not applicable for non residents",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-460",
+    "dst_id": "A-467",
+    "score": "99.0",
+    "src_text": "If tax relief is claimed against Capital Gains in Schedule FSI, then amount of Income shown in Capital gains should not be less than the amount of income shown under Capital gains in Schedule FSI",
+    "dst_text": "If tax relief is claimed against Capital Gains in Schedule FSI, then the amount of Income shown in Capital gains should not be less than the amount of income shown under Capital gains in Schedule FSI",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-461",
+    "dst_id": "A-468",
+    "score": "99.7",
+    "src_text": "If tax relief is claimed against other sources in Schedule FSI, then amount of Income shownn in other sources should not be less than the amount of income shown under the head other sources",
+    "dst_text": "If tax relief is claimed against other sources in Schedule FSI, then amount of Income shown in other sources should not be less than the amount of income shown under the head other sources",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-463",
+    "dst_id": "A-470",
+    "score": "99.0",
+    "src_text": "In \"Schedule TR\", value at Sl.no.3 \"Total Tax relief available in respect of country where DTAA is not applicable\" should be equal to \"Total of values at column 1(d)\" where section is selected as \"91\" at 'Column 1(e)'",
+    "dst_text": "In \"Schedule TR\", value at Sl.no.3 \"Total Tax relief available in respect of country where DTAA is not applicable\" should be equal to \"Total of values at column 1(d)\" where the section is selected as \"91\" at 'Column 1(e)'",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-469",
+    "dst_id": "A-476",
+    "score": "99.4",
+    "src_text": "For the trust/institution registered u/s 12A/12AB, value at Sl. No. 6(v) should not be more than 15% of Sl. No. (1+ Sl. No. 3 above)-(A1 of Schedule A)) in Part B- TI.",
+    "dst_text": "For the trust/institution registered u/s 12A/12AB, value at Sl. No. 6(v) should not be more than 15% of Sl. No. (1+ Sl. No. 3 above) -(A1 of Schedule A)) in Part B-TI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-470",
+    "dst_id": "A-477",
+    "score": "98.6",
+    "src_text": "For trust/institution is approved u/s 10(23C)(iv) or 10(23C)(v) or 10(23C)(vi) or 10(23C)(via), Value at Sl. No. 6 (v) should not be more than 15% of (Sl. no. 1+ Sl. No. 3 above) - (A1 of Schedule A) in Part B1 of Part-BTI.",
+    "dst_text": "For trust/institution is approved u/s 10(23C)(iv) or 10(23C)(v) or 10(23C)(vi) or 10(23C)(via), Value at Sl.No. 6 (v) should not be more than 15% of (Sr. no. 1+ Sl. No. 3 above)-(A1 of Schedule A)) in Part B1 of Part-BTI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-520",
+    "dst_id": "A-485",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption claimed at field 1c should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "dst_text": "In Schedule Part B – TI(Part B2), exemption claimed at field 1c should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-521",
+    "dst_id": "A-486",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1f \"Exemption under section 10(23EC)\" and Section 10(23EC) is not selected under filing status in Schedule PI.",
+    "dst_text": "In Schedule Part B – TI(Part B2), exemption is claimed at field 1f \"Exemption under section 10(23EC)\" and Section 10(23EC) is not selected under filing status in Schedule PI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-522",
+    "dst_id": "A-487",
+    "score": "99.7",
+    "src_text": "In Schedule Part B –TI (Part B2), exemption claimed at field 1f should be equal to the total receipts including voluntary contribution in Sl. No. 1 in Schedule IE1.",
+    "dst_text": "In Schedule Part B –TI(Part B2), exemption claimed at field 1f should be equal to the total receipts including voluntary contribution in Sl. No. 1 in Schedule IE1.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-523",
+    "dst_id": "A-488",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1g - \"Exemption under section 10(23ED)\" and Section 10(23ED) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(Part B2), exemption is claimed at field 1g - \"Exemption under section 10(23ED)\" and Section 10(23ED) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-527",
+    "dst_id": "A-492",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1j - \"Exemption under section 10(29A)\" and Section 10(29A) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(Part b2), exemption is claimed at field 1j - \"Exemption under section 10(29A)\" and Section 10(29A) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-528",
+    "dst_id": "A-493",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2) exemption claimed at field 1j should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "dst_text": "In Schedule Part B – TI (Part B2)exemption claimed at field 1j should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-529",
+    "dst_id": "A-494",
+    "score": "99.8",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 2b - \"Exemption under section 10(23C)(iiiab)\" and Section 10(23C)(iiiab) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(Part b2), exemption is claimed at field 2b - \"Exemption under section 10(23C)(iiiab)\" and Section 10(23C)(iiiab) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-533",
+    "dst_id": "A-498",
+    "score": "99.8",
+    "src_text": "In Schedule Part B – TI (Part B2) exemption is claimed at field 2d - \"Exemption under section 10(23C)(iiiad)\" and Section 10(23C)(iiiad) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(part b2) exemption is claimed at field 2d - \"Exemption under section 10(23C)(iiiad)\" and Section 10(23C)(iiiad) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-535",
+    "dst_id": "A-500",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI9 (Part B2), exemption is claimed at field 2e - \"Exemption under section 10(23C)(iiiae)\" and Section 10(23C)(iiiae) is not selected under filing status in Schedule PI.",
+    "dst_text": "In Schedule Part B – TI9(part b2), exemption is claimed at field 2e - \"Exemption under section 10(23C)(iiiae)\" and Section 10(23C)(iiiae) is not selected under filing status in Schedule PI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-536",
+    "dst_id": "A-501",
+    "score": "99.6",
+    "src_text": "In Schedule Part B – TI (Part B2) exemption claimed at field 2e should be equal to the Gross Annual receipts in Schedule IE4.",
+    "dst_text": "In Schedule Part B – TI(part b2) exemption claimed at field 2e should be equal to the Gross Annual receipts in Schedule IE4.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-537",
+    "dst_id": "A-502",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1d - \"Exemption under section 10(23D)\" and Section 10(23D) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(part b2), exemption is claimed at field 1d - \"Exemption under section 10(23D)\" and Section 10(23D) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-538",
+    "dst_id": "A-503",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption claimed at field 1d should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "dst_text": "In Schedule Part B – TI(part b2), exemption claimed at field 1d should be equal to the total receipts including voluntary contribution in Schedule IE1.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-539",
+    "dst_id": "A-504",
+    "score": "99.7",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1e - \"Exemption under section 10(23DA)\" and Section 10(23DA) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(part b2), exemption is claimed at field 1e - \"Exemption under section 10(23DA)\" and Section 10(23DA) is not selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-541",
+    "dst_id": "A-506",
+    "score": "95.3",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1i - \"Exemption under section 10(23FB)\" and Section 10(23FB) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TII(part b2), exemption is claimed at field 1i - \"Exemption under section 10(23FB)\" then Section 10(23FB) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-543",
+    "dst_id": "A-508",
+    "score": "95.5",
+    "src_text": "In Schedule Part B – TI (Part B2) exemption is claimed at field 2f - \"Exemption under section 10(24)\" and Section 10(24) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(part b2) exemption is claimed at field 2f - \"Exemption under section 10(24)\" then Section 10(24) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-545",
+    "dst_id": "A-510",
+    "score": "95.2",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1k- \"Exemption under section 10(46)\" and Section 10(46) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TII(part b2), exemption is claimed at field 1k- \"Exemption under section 10(46)\" then Section 10(46) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-547",
+    "dst_id": "A-512",
+    "score": "95.4",
+    "src_text": "In Schedule Part B – TI (Part B2) exemption is claimed at field 1n \"Exemption under section 10(47)\" and Section 10(47) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI(part b2) exemption is claimed at field 1n \"Exemption under section 10(47)\" then Section 10(47) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-549",
+    "dst_id": "A-514",
+    "score": "99.4",
+    "src_text": "Value in Sl. No. 3 in Part B2 of Part BTI are entered but in filing status - 'section under which exemption is claimed' none of Section 10(21) or 10(21) r/w Section 35 are selected",
+    "dst_text": "Value in Sr. No. 3 in Part B2 of Part BTI are entered but in filing status - 'section under which exemption is claimed' none of Section 10(21) or 10(21) r/w Section 35 are selected",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-471",
+    "dst_id": "A-515",
+    "score": "94.5",
+    "src_text": "In Schedule Part B-TI Part B1, Sl.no. 10ii - \"Profits and gains of business or profession\" is not consistent with Sl. No. D of Schedule BP.",
+    "dst_text": "In Schedule Part B-TI Part B1, Sr.no. 10ii - \"Profits and gains of business or profession\" should be consistent with Sr. No. D of Schedule BP.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-626",
+    "dst_id": "A-524",
+    "score": "98.0",
+    "src_text": "In \"PART B- TTI\", value at '7e' \"Total Interest and Fee Payable\" should be equal to the sum of 7a+7b+7c+7d+7da",
+    "dst_text": "In \"PART B- TTI\", value at '7e' \"Total Interest and Fee Payable\" should be equal to the sum of 7a+7b+7c+7d",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-635",
+    "dst_id": "A-531",
+    "score": "98.6",
+    "src_text": "In Schedule Part B-TTI, Sl.no. 12 - \"Net tax payable on 115TD income including interest u/s 115TE \" should match with Sl. No. 12 of Schedule 115TD.",
+    "dst_text": "In Schedule Part B-TTI, Sr.no. 12 - \"Net tax payable on 115TD income including interest u/s 115TE \" should match with Sr. No. 12 of Schedule 115TD.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-473",
+    "dst_id": "A-534",
+    "score": "99.7",
+    "src_text": "if Assessee has claimed exemption in Sl. No 4+6vii of Schedule Part BTI (Part B1) then assessee should select in the registration/approval details as Section 12A/12AB or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\".",
+    "dst_text": "if Assessee has claimed exemption in Sr. No 4+6vii of Schedule Part BTI (Part B1) then assessee should select in the registration/approval details as Section 12A/12AB or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-551",
+    "dst_id": "A-535",
+    "score": "99.5",
+    "src_text": "Assessee has claimed exemption in Sl. No. 1a of Schedule Part BTI (Part B2) Section 35 should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "dst_text": "Assessee has claimed exemption in Sr. No. 1a of Schedule Part BTI (Part B2) Section 35 should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-552",
+    "dst_id": "A-536",
+    "score": "99.5",
+    "src_text": "Assessee has claimed exemption in Sl. No. 5 of Schedule Part BTI (Part B2) Section 13B should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "dst_text": "Assessee has claimed exemption in Sr. No. 5 of Schedule Part BTI (Part B2) Section 13B should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-553",
+    "dst_id": "A-537",
+    "score": "99.5",
+    "src_text": "Assessee has claimed exemption in Sl. No.1b of Schedule Part BTI (Part B2) Section 10(23AAA) should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "dst_text": "Assessee has claimed exemption in Sr. No.1b of Schedule Part BTI (Part B2) Section 10(23AAA) should be selected in Part A General -\"Details of registration/provisional registration or approval under Income Tax Act\"",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-636",
+    "dst_id": "A-539",
+    "score": "99.4",
+    "src_text": "Interest u/s 234A, 234B and 234C should not be computed if Tax Payable on Total Income is 0.",
+    "dst_text": "Interest u/s 234A, 234B and 234C should not be computed if Tax Payable on Total Income is 0",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-475",
+    "dst_id": "A-541",
+    "score": "98.8",
+    "src_text": "In schedule \"Part-BTI (PartB1)\" Sl no.3 should be equal to Sum of 10 of \"Schedule AI\".",
+    "dst_text": "In schedule \"Part-BTI (PartB1)\" Sr no.3 should be equal to Sum of 10 of \"Schedule AI\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-476",
+    "dst_id": "A-542",
+    "score": "99.4",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl. no. 6(i) of -\"Amount applied during the previous year [Excluding application from borrowed fund, deemed application, previous year accumulation up to 15% etc, i. e. not from the income of prev. year]” should be equal to Sl. No. G of \"Schedule A\".",
+    "dst_text": "In schedule \"Part-BTI(PartB1)\"Sr. no. 6(i) of -\"Amount applied during the previous year [Excluding application from borrowed fund, deemed application, previous year accumulation upto 15% etc, i. e. not from the income of prev. year]” should be equal to Sl. No. G of \"Schedule A\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-478",
+    "dst_id": "A-544",
+    "score": "99.5",
+    "src_text": "In schedule \"Part-BTI (Part B1)\"Sl no.6(iii) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to A1(4) of \"Schedule J\".",
+    "dst_text": "In schedule \"Part-BTI (Part B1)\"Sr no.6(iii) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to A1(4) of \"Schedule J\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-481",
+    "dst_id": "A-545",
+    "score": "99.5",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl no.6(vii) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to [6i +6ii+6iii+6iiia+6iv+6v+6vi]",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr no.6(vii) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to [6i +6ii+6iii+6iiia+6iv+6v+6vi]",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-482",
+    "dst_id": "A-546",
+    "score": "99.0",
+    "src_text": "In schedule \"Part-BTI (Part B1)\" Sl no.7(ii) of -\"Additions” should be equal to (Diii) of schedule VC\".",
+    "dst_text": "In schedule\"Part-BTI (Part B1)\" Sr no.7(ii) of -\"Additions” should be equal to (Diii) of schedule VC\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-483",
+    "dst_id": "A-547",
+    "score": "99.1",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 7(ix) of -\"Additions” should be equal to sum of [7i+7ii+7iii+7iv+7v+7vi+7vii7viii].",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 7(ix) of -\"Additions” should be equal to sum of [7i+7ii+7iii+7iv+7v+7vi+7vii7viii].",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-484",
+    "dst_id": "A-548",
+    "score": "99.4",
+    "src_text": "In schedule \"Part-BTI (PartB1)\" Sl. no. 9 of \"Gross income after Exemption u/s 11/10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) “should be equal to sum of [(5-6vii)+7ix+8].",
+    "dst_text": "In schedule \"Part-BTI (PartB1)\" Sr. no. 9 of \"Gross income after Exemption u/s 11/10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) “Should be equal to sum of [(5-6vii)+7ix+8].",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-485",
+    "dst_id": "A-549",
+    "score": "98.6",
+    "src_text": "In schedule \"Part-BTI (PartB1)\" Sl. no. 10(i) of -\"Income not forming part of item No. 9 above” should be equal to Sl. no. 3 of \"Schedule HP\".",
+    "dst_text": "In schedule \"Part-BTI (PartB1)\" Sr. no. 10(i) of -\"Income not forming part of item No. 9 above” should be equal to Sr. no. 3 of \"Schedule HP\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-486",
+    "dst_id": "A-550",
+    "score": "98.9",
+    "src_text": "In schedule \"Part-BTI(PartB1)\" Sl.no. 10(ii) of -\"Income not forming part of item No. 9 above” should be equal to D(48) of \"Schedule BP\".",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\" Sr.no. 10(ii) of -\"Income not forming part of item No. 9 above” should be equal to D (48) of \"Schedule BP\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-489",
+    "dst_id": "A-551",
+    "score": "98.0",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 10(iii)(C) of -\"Income under the head Capital Gains” should be equal to 10(iii) (Av+Biii) .",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 10(iii)(C) of -\"Income under the head Capital Gains” should be equal to 10(iii) (Av+Biv) .",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-490",
+    "dst_id": "A-552",
+    "score": "98.3",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 10iv of -\"Income from other sources “ should be equal to Sl. no. 9 of Schedule OS.",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 10iv of -\"Income from other sources “ should be equal to Sr. no. 9 of Schedule OS.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-491",
+    "dst_id": "A-553",
+    "score": "99.0",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 10v of -\"Total” should be equal to (10i + 10ii + 10iiiE + 10iv).",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 10v of -\"Total” should be equal to (10i + 10ii + 10iiiE + 10iv).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-492",
+    "dst_id": "A-554",
+    "score": "99.3",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 11 of - \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to sum of (9+10) .",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 11 of - \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to sum of (9+10).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-493",
+    "dst_id": "A-555",
+    "score": "99.3",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 13 of - \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to difference of(11-12) .",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 13 of - \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to difference of(11-12).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-494",
+    "dst_id": "A-556",
+    "score": "99.6",
+    "src_text": "In schedule \"Part-BTI(PartB1)\" Sl no. 15 of \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to Sum of Diii of\"Schedule VC\".",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\" Sr no. 15 of \"Applicable if exemption is being claimed u/s 11 and 12 or 10(23C)(iv)/10(23C)(v)/ 10(23C)(vi)/10(23C)(via) and where Part B3 is not applicable.\" should be equal to Sum of Diii of\"Schedule VC\".",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-495",
+    "dst_id": "A-557",
+    "score": "99.5",
+    "src_text": "Value in Sl. No. 1 to 17 in Part BTI (Part B1) to be allowed to be entered only if Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) is selected under filing status - 'section under which exemption is claimed'",
+    "dst_text": "Value in Sr. No. 1 to 17 in Part BTI (Part B1) to be allowed to be entered only if Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) is selected under filing status - 'section under which exemption is claimed'",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-554",
+    "dst_id": "A-558",
+    "score": "98.3",
+    "src_text": "In schedule \"Part-BTI (Part B2)” Value at Sl.no. 7(i) of -Heads of Income should be equal to Sl. no. 3 of Schedule HP.",
+    "dst_text": "In schedule \"Part-BTI (Part B2)\" Value at Sr.no. 7(i) of -Heads of Income should be equal to Sr. no. 3 of Schedule HP.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-561",
+    "dst_id": "A-559",
+    "score": "97.3",
+    "src_text": "In schedule \"Part-BTI(PartB2)\"Sl.no. 7iii(C) -''Income under the head Capital Gain” should be equal to sum (Av+Biii )",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\"Sr.no. 7iii(C) -''Income under the head Capital Gain” should be equal to sum (Av+Biv)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-562",
+    "dst_id": "A-560",
+    "score": "97.6",
+    "src_text": "In schedule \"Part-BTI (PartB2)\" Sl.no. 7iv should be equal to Sl. no. 9 Schedule OS.",
+    "dst_text": "In schedule\"Part-BTI (PartB2)\" Sr.no. 7iv should be equal to Sr. no. 9 Schedule OS.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-563",
+    "dst_id": "A-561",
+    "score": "98.7",
+    "src_text": "In schedule \"Part-BTI(PartB2)\"Sl.no. 7v should be equal to (7i+7ii+7iiiE+7iv).",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\"Sr.no. 7v should be equal to (7i+7ii+7iiiE+7iv).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-564",
+    "dst_id": "A-562",
+    "score": "98.7",
+    "src_text": "In schedule \"Part-BTI(PartB2)\"Sl.no. 8 of should be equal to sum of [6+7v-4-5] +3.",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\"Sr.no. 8 of should be equal to sum of [6+7v-4-5] +3.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-566",
+    "dst_id": "A-563",
+    "score": "98.7",
+    "src_text": "In schedule \"Part-BTI(PartB2)\"Sl.no. 10 should be equal to difference of (8-9).",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\"Sr.no. 10 should be equal to difference of (8-9).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-570",
+    "dst_id": "A-567",
+    "score": "97.0",
+    "src_text": "if in Part A -General section under which exemption is claimed selected as 10(23C)(iiiad) or 10(23C)(iiiae) then amount cannot be more than 5 crores in SL.no 2d or 2e.",
+    "dst_text": "if in Part A -General section under which exemption is claimed selected as 10(23C)(iiiad) or 10(23C)(iiiae) then amount should not be more than 5 crores in SL.no 2d or 2e.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-571",
+    "dst_id": "A-568",
+    "score": "94.5",
+    "src_text": "In Schedule Part B-TI Part B2, Sl.no. 7ii - \"Profits and gains of business or profession\" is not consistent with Sl. No. D of Schedule BP.",
+    "dst_text": "In Schedule Part B-TI Part B2, Sr.no. 7ii - \"Profits and gains of business or profession\" should be consistent with Sr. No. D of Schedule BP.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-598",
+    "dst_id": "A-585",
+    "score": "98.9",
+    "src_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(c) \"Income under the head Capital Gains \" should be equal to sum of Sl. No. 7(iii) [(av) + (biii)]",
+    "dst_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(c) \"Income under the head Capital Gains “ Should be equal to sum of Sl. No. 7(iii) [(av) + (biv)]",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-606",
+    "dst_id": "A-592",
+    "score": "99.6",
+    "src_text": "Value in Sl. No. 1 to 13 in Part B-TI (Part B3) to be allowed to be entered only if Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) is selected under filing status - 'section under which exemption is claimed'.",
+    "dst_text": "Value in Sl. No. 1 to 13 in Part B-TI (Part B3) to be allowed to be entered only if Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via) is selected under filing status - 'section under which exemption is claimed'",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-505",
+    "dst_id": "A-594",
+    "score": "99.7",
+    "src_text": "In Schedule Part B-TI (Part B1), Sl. No. 16 \"Specified Iincome chargeable u/s 115BBI, included in 13, to be taxed @ 30%\" should be equal to Sl. No. 7 of Schedule 115BBI.",
+    "dst_text": "In Schedule Part B-TI (Part B1), Sl. No. 16 \"Specified Income chargeable u/s 115BBI, included in 13, to be taxed @ 30%\" should be equal to Sl. No. 7 of Schedule 115BBI.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-507",
+    "dst_id": "A-596",
+    "score": "97.2",
+    "src_text": "In Schedule Part B-TI (Part B1), Sl. No. 5 \"Income to be applied [1+3-4-(A1-A1a of Schedule A)]\" is not should be equal to [1+3-4-(A1-A1a of Schedule A)].",
+    "dst_text": "In Schedule Part B-TI (Part B1), Sl. No. 5 \"Income to be applied [1+3-4-(A1- A1a of Schedule A)]\"\" should be equal to [1+3-4-(A1-A1a of Schedule A)].",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-508",
+    "dst_id": "A-600",
+    "score": "98.4",
+    "src_text": "In Schedule Part B-TI (Part B1), Sl. No. 17 \"Aggregate income to be taxed at normal rates (13-14-15-16)\" should be equal to difference of Sl. No. (13-14-15-16)",
+    "dst_text": "In Schedule Part B-TI (Part B1), Sl. No. 17 \"Aggregate income to be taxed at normal rates (13-14-15-16)\" should be equal to the difference of Sl. No. (13-14- 15-16)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-577",
+    "dst_id": "A-601",
+    "score": "95.8",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1l- \"Exemption under section 10(46A)\" and Section 10(46A) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1l- \"Exemption under section 10(46A)\" then Section 10(46A) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-579",
+    "dst_id": "A-603",
+    "score": "95.8",
+    "src_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1m- \"Exemption under section 10(46B)\" and Section 10(46B) is not selected under filing status in Schedule Personal information.",
+    "dst_text": "In Schedule Part B – TI (Part B2), exemption is claimed at field 1m- \"Exemption under section 10(46B)\" then Section 10(46B) should be selected under filing status in Schedule Personal information.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-487",
+    "dst_id": "A-614",
+    "score": "94.9",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl.no. 10(iii)(Av)of -\"Income under the head Capital Gains” should be equal to sum of 10iii (Ai + Aii + Aiii + Aiv)",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr.no. 10(iii)(Av)of -\"Income under the head Capital Gains\" should be equal to sum of [10(iii)(Aia + Aib + Aii + Aiii+ Aiv)] .",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-488",
+    "dst_id": "A-615",
+    "score": "93.2",
+    "src_text": "In schedule \"Part-BTI(PartB1)\" Sl.no. 10(iii)(Biii)of \"Income under the head Capital Gains” should be equal to [10(iii)(Bi + Bii )].",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\" Sr.no. 10(iii)(Biv)of \"Income under the head Capital Gains” should be equal to [10(iii)(Bia + Bib + Bii + Biii)] .",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-558",
+    "dst_id": "A-620",
+    "score": "96.7",
+    "src_text": "In schedule \"Part-BTI(PartB2)\" Sl.no. 7iii(Av) of -''Income under the head Capital Gain” should be equal to 7iii(Ai + Aii + Aiii + Aiv).",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\" Sr.no. 7iii(Av) of -''Income under the head Capital Gain” should be equal to 7iii(Aia +Aib + Aii + Aiii + Aiv ).",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-594",
+    "dst_id": "A-632",
+    "score": "95.9",
+    "src_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(av) \"Income under the head Capital Gains \" should be equal to sum of Sl. No. [ 7(iii)(ai) + 7(iii)(aii) + 7(iii)(aiii) + 7(iii)(aiv)]",
+    "dst_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(av) \"Income under the head Capital Gains \" Should be equal to sum of Sl. No. [7(iii)(aia) + 7(iii)(aib) + 7(iii)(aii) + 7(iii)(aiii) + 7(iii)(aiv)]",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-595",
+    "dst_id": "A-633",
+    "score": "93.9",
+    "src_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(biii ) \"Income under the head Capital Gains \" should be equal to sum of Sl. No. [7(iii)((bi + bii))]",
+    "dst_text": "In schedule Part B-TI (Part B3), Sl. No. 7(iii)(biv) \"Income under the head Capital Gains \" should be equal to sum of Sl. No. [7(iii)((bia + bib + bii + biii))",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-565",
+    "dst_id": "A-649",
+    "score": "96.6",
+    "src_text": "In schedule \"Part-BTI(PartB2)\"Sl.no. 9 of should be equal to sum of (2xiv + 3xiv + 4xiv) of Schedule CYLA.",
+    "dst_text": "In schedule \"Part-BTI(PartB2)\"Sr.no. 9 of should be equal to sum of (2xv + 3xv + 4xv )of Schedule CYLA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-500",
+    "dst_id": "A-650",
+    "score": "98.9",
+    "src_text": "In Part B-TI, Part B1, Sl. No. 12 Losses of current year set off against 10v should be equal to total of \"2xiv\", \"3xiv\" and \"4xiv\" of Schedule CYLA",
+    "dst_text": "In Part B-TI, Part B1, Sl. No. 12 Losses of current year set off against 10v should be equal to total of \"2xv \", \"3xv \" and \"4xv \" of Schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-601",
+    "dst_id": "A-651",
+    "score": "98.2",
+    "src_text": "In schedule Part B-TI (Part B3), Sl. No. 8 Should be equal to sum of Sl. No. (2xiv + 3xiv + 4xiv) of Schedule CYLA",
+    "dst_text": "In schedule Part B-TI (Part B3), Sl. No. 8 Should be equal to sum of Sl. No. (2xv + 3xv + 4xv ) of Schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-4",
+    "dst_id": "B-4",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if political party does not maintain books of accounts and other documents in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if political party does not maintain books of accounts and other documents in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-5",
+    "dst_id": "B-5",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if political party does not maintain record of Voluntary contribution other than electoral bond in excess of Rs. 20000 in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if political party does not maintain record of Voluntary contribution other than electoral bond in excess of Rs. 20000 in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-6",
+    "dst_id": "B-6",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if the accounts of the political party are not audited by an accountant in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if the accounts of the political party are not audited by an accountant in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-7",
+    "dst_id": "B-7",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if political party has received any donation exceeding Rs 2000 otherwise than by an account payee cheque /bank draft/ electronic clearing system/electoral bond in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if political party has received any donation exceeding Rs 2000 otherwise than by an account payee cheque /bank draft/ electronic clearing system/electoral bond in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-8",
+    "dst_id": "B-8",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if political party has not submitted the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if political party has not submitted the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-14",
+    "dst_id": "B-14",
+    "score": 99.9,
+    "src_text": "In Schedule ET, Sl. no. 6(iv) - Amount distributed to Political parties should be greater than 95% of the total contributions received during the financial year along with the surplus brought forward from earlier financial year",
+    "dst_text": "In Schedule ET, Sr. no. 6(iv) - Amount distributed to Political parties should be greater than 95% of the total contributions received during the financial year along with the surplus brought forward from earlier financial year",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "B-24",
+    "dst_id": "B-24",
+    "score": 99.9,
+    "src_text": "Exemption u/s 13A is not allowed, if political party is selected 'yes' under \"Whether the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 for the financial year has been submitted?\" but not providing date of submission of the report in Schedule PP.",
+    "dst_text": "Exemption u/s 13A is not allowed, if political party is selected 'yes' under \"Whether the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 for the financial year has been submitted?\" but not providing date of submission of the report in Schedule LA.",
+    "numbers_removed": [],
+    "numbers_added": []
+   }
+  ],
+  "changed": [
+   {
+    "src_id": "A-55",
+    "dst_id": "A-52",
+    "score": "93.3",
+    "src_text": "Date of audit OR Date of audit report OR Date of furnishing the audit report under \"Audit Information\" should not be prior to 01-04-2026.",
+    "dst_text": "Date of audit OR Date of audit report OR Date of furnishing the audit report under \"Audit Information\" cannot be prior to the 01-04- 2025",
+    "numbers_removed": [
+     "2026"
+    ],
+    "numbers_added": [
+     "2025"
+    ]
+   },
+   {
+    "src_id": "A-74",
+    "dst_id": "A-63",
+    "score": "93.6",
+    "src_text": "Total of Column 6 of \"Schedule I\" should be equal to total of Row \" 2020-21 to FY 202023-24 \" of \"Schedule IA\".",
+    "dst_text": "Total of Column 6 of \"Schedule I\" should be equal to total of Row \"2019-20\" to \"2022-23\" of \"Schedule IA\".",
+    "numbers_removed": [
+     "2020",
+     "202023",
+     "21",
+     "24"
+    ],
+    "numbers_added": [
+     "20",
+     "2019",
+     "2022",
+     "23"
+    ]
+   },
+   {
+    "src_id": "A-77",
+    "dst_id": "A-64",
+    "score": "78.0",
+    "src_text": "Value in Schedule D will be allowed to be entered only if exemption is claimed under Section 11.",
+    "dst_text": "Value in Schedule D will be allowed to be entered only if exemption is claimed under Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via).",
+    "numbers_removed": [],
+    "numbers_added": [
+     "10",
+     "23"
+    ]
+   },
+   {
+    "src_id": "A-83",
+    "dst_id": "A-69",
+    "score": "78.2",
+    "src_text": "Value in Schedule DA will be allowed to be entered only if exemption is claimed under Section 11.",
+    "dst_text": "Value in Schedule DA will be allowed to be entered only if exemption is claimed under Section 11 or 10(23C)(iv)/ 10(23C)(v)/ 10(23C)(vi)/ 10(23C)(via).",
+    "numbers_removed": [],
+    "numbers_added": [
+     "10",
+     "23"
+    ]
+   },
+   {
+    "src_id": "A-207",
+    "dst_id": "A-187",
+    "score": "96.2",
+    "src_text": "In Schedule CG, expenses u/s 48 (Sl no B66b(iv) cannot be claimed, if Full Value of Consideration (Sl no B66aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48 (sr no B7b(iv) cannot be claimed, if Full Value of Consideration (sr no B7aiii) is not offered to tax",
+    "numbers_removed": [
+     "66"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-223",
+    "dst_id": "A-206",
+    "score": "96.0",
+    "src_text": "In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1 (bi +bii+biii).",
+    "dst_text": "In schedule CG, Sl. No. B3 biv of LTCG Total should be equal to sum of B3(bi+bii+biii)",
+    "numbers_removed": [
+     "1"
+    ],
+    "numbers_added": [
+     "3"
+    ]
+   },
+   {
+    "src_id": "A-229",
+    "dst_id": "A-208",
+    "score": "96.8",
+    "src_text": "In schedule CG, Sl. No. B3c Balance should be equal to B(3a-biv)",
+    "dst_text": "In schedule CG, Sl. No. B4c Balance should be equal to B(4a-biv)",
+    "numbers_removed": [
+     "3"
+    ],
+    "numbers_added": [
+     "4"
+    ]
+   },
+   {
+    "src_id": "A-230",
+    "dst_id": "A-209",
+    "score": "95.9",
+    "src_text": "In Schedule CG Sl.no. B6(a)(ic) should be higher of B6(a)(ia) or B6(a)(ib)",
+    "dst_text": "In Schedule CG Sl.no. B7(a)(ic) should be higher of B7(a)(ia) or B7(a)(ib)",
+    "numbers_removed": [
+     "6"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-231",
+    "dst_id": "A-210",
+    "score": "95.4",
+    "src_text": "In schedule CG, Sl. No. B6(aiii) Total should be equal to sum of B6(a)(ic+ii)",
+    "dst_text": "In schedule CG, Sl. No. B7 aiii Total should be equal to sum of B7(a)(ic+ii)",
+    "numbers_removed": [
+     "6"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-228",
+    "dst_id": "A-211",
+    "score": "96.2",
+    "src_text": "In schedule CG, Sl. No. B3 biv Total should be equal to sum of B3 (bi+bii+biii).",
+    "dst_text": "In schedule CG, Sl. No. B7 biv Total should be equal to sum of B7(bi+bii+biii)",
+    "numbers_removed": [
+     "3"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-233",
+    "dst_id": "A-212",
+    "score": "97.0",
+    "src_text": "In schedule CG, Sl. No. B6c Balance should be equal to B(6aiii-biv)",
+    "dst_text": "In schedule CG, Sl. No. B7c Balance should be equal to B(7aiii-biv)",
+    "numbers_removed": [
+     "6"
+    ],
+    "numbers_added": [
+     "7"
+    ]
+   },
+   {
+    "src_id": "A-244",
+    "dst_id": "A-214",
+    "score": "99.2",
+    "src_text": "In Schedule CG, Sl. No. B11 Col. 10 Applicable Rate should be lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate as per IT Act)",
+    "dst_text": "In Schedule CG, Sl. No. B12 Col. 10 Applicable Rate should be lower of Col. 6 (Rate as per Treaty) or Col. 9 (Rate as per IT Act)",
+    "numbers_removed": [
+     "11"
+    ],
+    "numbers_added": [
+     "12"
+    ]
+   },
+   {
+    "src_id": "A-246",
+    "dst_id": "A-216",
+    "score": "96.9",
+    "src_text": "In Schedule CG, expenses u/s 48(Sl no B8b(iv) cannot be claimed, if Full Value of Consideration (Sl no B8aiii) is not offered to tax",
+    "dst_text": "In Schedule CG, expenses u/s 48(sr no B9b(iv) cannot be claimed, if Full Value of Consideration (sr no B9aiii) is not offered to tax",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-247",
+    "dst_id": "A-217",
+    "score": "95.9",
+    "src_text": "In Schedule CG Sl.no. B8(a)(ic) should be higher of B8(a)(ia) or B8(a)(ib)",
+    "dst_text": "In Schedule CG Sl.no. B9(a)(ic) should be higher of B9(a)(ia) or B9(a)(ib)",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-248",
+    "dst_id": "A-218",
+    "score": "97.3",
+    "src_text": "In schedule CG, Sl. No. B8 aiii Total should be equal to sum of B8(a)(ic+ii)",
+    "dst_text": "In schedule CG, Sl. No. B9 aiii Total should be equal to sum of B9(a)(ic+ii)",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-249",
+    "dst_id": "A-219",
+    "score": "96.7",
+    "src_text": "In schedule CG, Sl. No. B8biv Total should be equal to sum of B8(bi+bii+biii)",
+    "dst_text": "In schedule CG, Sl. No. B9 biv Total should be equal to sum of B9(bi+bii+biii)",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-250",
+    "dst_id": "A-220",
+    "score": "97.0",
+    "src_text": "In schedule CG, Sl. No. B8c Balance should be equal to B(8aiii-biv)",
+    "dst_text": "In schedule CG, Sl. No. B9c Balance should be equal to B(9aiii-biv)",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-251",
+    "dst_id": "A-221",
+    "score": "94.5",
+    "src_text": "In Schedule CG Sl.no. B8e of LTCG should be equal to B(8c-8d), only if 8c is greater than 8d",
+    "dst_text": "In Schedule CG Sl.no. B9e of LTCG should be equal to B(9c-9d), only if 9c is greater than 9d",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-252",
+    "dst_id": "A-222",
+    "score": "95.5",
+    "src_text": "In Schedule CG, Sl. No. B9 should be equal to B9(aXi+aXii+aXiii+b)",
+    "dst_text": "In Schedule CG, Sl. No. B10 should be equal to B10(aXi+aXii+aXiii+b)",
+    "numbers_removed": [
+     "9"
+    ],
+    "numbers_added": [
+     "10"
+    ]
+   },
+   {
+    "src_id": "A-271",
+    "dst_id": "A-238",
+    "score": "96.6",
+    "src_text": "In Schedule CG, STCG @ 20% - 111A & 115AD(1)(b)(ii) can only be entered once.",
+    "dst_text": "In Schedule CG, STCG 15 % - 111A & 115AD(1)(b)(ii) can only be entered once.",
+    "numbers_removed": [
+     "20"
+    ],
+    "numbers_added": [
+     "15"
+    ]
+   },
+   {
+    "src_id": "A-199",
+    "dst_id": "A-240",
+    "score": "92.7",
+    "src_text": "Value at field \"B12 \" in \"Schedule CG\" should be equal to i the sum of value B1g of all the blocks +B2e +B3c + B4 + B5 +B6c+ B7+ B8e+B9 +B10 -B11a+B(AA) of Schedule CG.",
+    "dst_text": "Value at field \"B13\" in \"Schedule CG\" should be equal to the sum of value B1e of all the blocks +B2e +B3c + B4c + B5 +B6+ B7c+ B8+B9e +B10+ B11- B12a+BII of Schedule CG.",
+    "numbers_removed": [],
+    "numbers_added": [
+     "13"
+    ]
+   },
+   {
+    "src_id": "A-222",
+    "dst_id": "A-242",
+    "score": "90.2",
+    "src_text": "In Schedule CG Sl.no. A8 of STCG should be equal to the sum of (A8a + A8c)",
+    "dst_text": "In Schedule CG Sl.no. A8 of STCG should be equal to the sum of (A8a i + A8aii + A8b + A8c)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-234",
+    "dst_id": "A-243",
+    "score": "92.6",
+    "src_text": "Schedule CG sl no Eviii should be equal to the sum of sl no (ii + iii + iv + v + vi + vii)",
+    "dst_text": "Schedule CG sl no Exi should be equal to the sum of sl no (ii + iii + iv + v + vi + vii+viii+ix+x)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-238",
+    "dst_id": "A-246",
+    "score": "98.0",
+    "src_text": "In Schedule CG, sl no Ei5 is not equal to sl no A9b.",
+    "dst_text": "In Schedule CG, sl no Ei6 is not equal to sl no A9b.",
+    "numbers_removed": [
+     "5"
+    ],
+    "numbers_added": [
+     "6"
+    ]
+   },
+   {
+    "src_id": "A-243",
+    "dst_id": "A-249",
+    "score": "92.5",
+    "src_text": "Schedule CG Col no E8 should be equal to Col no (1-2-3-4-5-6-7)",
+    "dst_text": "Schedule CG Col no E 11should be equal to Col no (1-2-3-4-5-6-7-8-9-10)",
+    "numbers_removed": [],
+    "numbers_added": [
+     "10",
+     "11",
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-255",
+    "dst_id": "A-251",
+    "score": "91.6",
+    "src_text": "In Schedule CG, sl no Ei7 should be equal to sl no B11b.",
+    "dst_text": "In Schedule CG, sl no Ei10should be equal sl no B12b.",
+    "numbers_removed": [
+     "11",
+     "7"
+    ],
+    "numbers_added": [
+     "10",
+     "12"
+    ]
+   },
+   {
+    "src_id": "A-236",
+    "dst_id": "A-284",
+    "score": "99.4",
+    "src_text": "In Schedule CG, in case of Non-resident, Sl. No. Ei3 should be equal to sum of sl no (A5e+ A8b + A(A) for 30%) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(i3) should be equal to the Sl. No. A(8b) + A(A) for 30%.",
+    "dst_text": "In Schedule CG, in case of Non-resident, Sl. No. Ei4 should be equal to sum of sl no (A5e+ A8b + A(A) for 30%) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(i4) should be equal to the Sl. No. A(8b) + A(A) for 30%.",
+    "numbers_removed": [
+     "3"
+    ],
+    "numbers_added": [
+     "4"
+    ]
+   },
+   {
+    "src_id": "A-237",
+    "dst_id": "A-285",
+    "score": "99.2",
+    "src_text": "InIn Schedule CG, in case of Non-resident, Sl. No. Ei4 should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+A(A) @applicable rate) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(i4) should be equal to the sum of Sl. No. (A1e+A2c+A6g+A7+A8c+A(A) @applicable rate).",
+    "dst_text": "In Schedule CG, in case of Non-resident, Sl. No. Ei5 should be equal to sum of sl no (A1e+A2c+A4b+A6g+A7+A8c+A(A) @applicable rate) as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(i5) should be equal to the sum of Sl. No. (A1e+A2c+A6g+A7+A8c+A(A)@applicable rate).",
+    "numbers_removed": [],
+    "numbers_added": [
+     "5"
+    ]
+   },
+   {
+    "src_id": "A-256",
+    "dst_id": "A-292",
+    "score": "95.4",
+    "src_text": "In Schedule CG, sl no Eii should be equal to sl no B11b.",
+    "dst_text": "In Schedule CG, sl no Ex should be equal to sl no B12b.",
+    "numbers_removed": [
+     "11"
+    ],
+    "numbers_added": [
+     "12"
+    ]
+   },
+   {
+    "src_id": "A-274",
+    "dst_id": "A-294",
+    "score": "94.5",
+    "src_text": "Schedule CG sl no Ei23 should be equal to sum of sl no (A3e+ A4a+ A8a+A(A) @20%)",
+    "dst_text": "Schedule CG sl no Ei3 should be equal to sum of sl no (A3e+ A4a(ii)+ A8a(ii)+A(A) @20%)",
+    "numbers_removed": [
+     "23"
+    ],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-232",
+    "dst_id": "A-310",
+    "score": "88.8",
+    "src_text": "In In schedule CG, Sl. No. B6 biv Total should be equal to sum of B6(bi+bii+biii)",
+    "dst_text": "In schedule CG, Sl. No. B4 biva of LTCG Total should be equal to sum of B4(bia+biia+biiia)",
+    "numbers_removed": [
+     "6"
+    ],
+    "numbers_added": [
+     "4"
+    ]
+   },
+   {
+    "src_id": "A-299",
+    "dst_id": "A-318",
+    "score": "89.8",
+    "src_text": "In \"Schedule OS\" in the Interest Gross income should be equal to the sum of (From Savings Bank+ From Deposits (Bank/ Post Office/ Co-operative)+ From Income- tax Refund+ In the nature of Pass-through income/Loss+ Others including interest from Companies, NBFCs & HFCs)",
+    "dst_text": "In \"Schedule OS\" in the Interest Gross income should be equal to the sum of (From Savings Bank+ From Deposits (Bank/ Post Office/ Co-operative) + From Income-tax Refund+ In the nature of Pass through income/Loss+ Others)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-324",
+    "dst_id": "A-343",
+    "score": "91.4",
+    "src_text": "Kindly fill in the details of dividend in schedule OS if buy back loss is claimed in schedule CG",
+    "dst_text": "Kindly fill in the details of dividend in Sl.No. 1a(iii) of schedule OS if buy back loss is claimed in schedule CG",
+    "numbers_removed": [],
+    "numbers_added": [
+     "1"
+    ]
+   },
+   {
+    "src_id": "A-366",
+    "dst_id": "A-376",
+    "score": "96.9",
+    "src_text": "In Schedule CYLA, Sl. No 1vi \" Short term capital gain @30%\" should be equal to SL.no. 8iii of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, ,Sl. No 1vi \" Short term capital gain @30%\" should be equal to SL.no. 9iii 11iv of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11",
+     "9"
+    ]
+   },
+   {
+    "src_id": "A-372",
+    "dst_id": "A-379",
+    "score": "88.0",
+    "src_text": "In schedule CYLA, Value in 1ii should be equal to A36 of Schedule BP, only if A 36 is positive",
+    "dst_text": "In schedule CYLA, Value in 1ii should be equal to A36 of Schedule BP, only if A 36 is positive Note: only if A36 is +ve.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-375",
+    "dst_id": "A-380",
+    "score": "88.9",
+    "src_text": "In Schedule CYLA sum of amount mentioned in column no 2 + 3 + 4 should not exceed amount mentioned in column 1",
+    "dst_text": "In Schedule CYLA sum of amount mentioned in column no 2 + 3 + 4 should be less than or equal to amount mentioned in column 1",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-367",
+    "dst_id": "A-391",
+    "score": "98.5",
+    "src_text": "In Schedule CYLA, Sl. No 1vii \" Short term capital gain taxable at applicable rates\" should be equal to Sl. No. 8iv of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, Sl. No 1vii \" Short term capital gain taxable at applicable rates\" should be equal to Sl. No. 11v of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-368",
+    "dst_id": "A-392",
+    "score": "98.7",
+    "src_text": "In Schedule CYLA, Sl. No 1viii \"Short term capital gain taxable at special rates in India as per DTAA\" should be equal to Sl. No. 8v of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, Sl. No 1viii \"Short term capital gain taxable at special rates in India as per DTAA\" should be equal to Sl. No. 11vi of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-369",
+    "dst_id": "A-395",
+    "score": "97.0",
+    "src_text": "In Schedule CYLA, Sl. No 1x \" Long term capital gain taxable at special rates in India as per DTAA\" should be equal to SL.no.8vii of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, Sl. No 1xi \" Long term capital gain taxable at special rates in India as per DTAA\" should be equal to SL.no. 11x of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-376",
+    "dst_id": "A-397",
+    "score": "97.9",
+    "src_text": "In Schedule CYLA, Sl. No 1v \"Short term capital gain taxable @20%” should be equal to SL.no. 8ii of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, Sl. No 1vb “Short term capital gain taxable @20%” should be equal to SL.no. 11iii of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-377",
+    "dst_id": "A-398",
+    "score": "97.9",
+    "src_text": "In Schedule CYLA, Sl. No 1ixb \" Long term capital gain taxable @12.5%\" should be equal to Sl. No.8vi of item E of Schedule CG",
+    "dst_text": "In Schedule CYLA, Sl. No 1ixb \" Long term capital gain taxable @12.5%\" should be equal to Sl. No.11viii of item E of Schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-428",
+    "dst_id": "A-451",
+    "score": "93.7",
+    "src_text": "Sum of income u/s 111A (STCG on shares where STT paid) & 115AD(1)(b)(ii) - Proviso - Short term capital gains referred to in section 111A rws. 115AD by FII, as applicable u/s 115AD(1)(b)(ii) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20% in schedule SI should be equal to corresponding income in sl no 5v of schedule CYLA",
+    "dst_text": "Sum of income u/s 111A (STCG on shares where STT paid) & 115AD(1)(b)(ii) - Proviso - Short term capital gains referred to in section 111A rws. 115AD by FII, where transfer was on or after 23rd July 2024 as applicable u/s 115AD(1)(b)(ii) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20% in schedule SI should be equal to corresponding income in sl no 5vb of schedule CYLA",
+    "numbers_removed": [],
+    "numbers_added": [
+     "2024",
+     "23"
+    ]
+   },
+   {
+    "src_id": "A-629",
+    "dst_id": "A-527",
+    "score": "80.2",
+    "src_text": "In \"PART B- TTI\", value at Sl.no.'10' \"Amount payable\" should be equal to value of Sl.no.8 \"Aggregate Liability\" - Sl.no.9e \"Total Taxes Paid\".",
+    "dst_text": "In \"PART B- TTI\", the value at Sl.no.'10' \"Amount payable\" should be equal to the value of Sl.no.8- Sl.no.9e.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-630",
+    "dst_id": "A-528",
+    "score": "81.7",
+    "src_text": "In \"PART B- TTI\", value at Sl.no.'11' \"Refund\" should be equal to value of Sl.no.9e \"Total Taxes Paid\"- Sl.no.8 \"Aggregate Liability\".",
+    "dst_text": "In \"PART B- TTI\", value at Sl.no.'11' \"Refund\" should be equal to value of Sl.no.9e- Sl.no.8.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-506",
+    "dst_id": "A-533",
+    "score": "87.3",
+    "src_text": "Income entered in return and tax is not computed on the same.",
+    "dst_text": "Income entered in return then tax should be computed on the same.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-550",
+    "dst_id": "A-595",
+    "score": "87.3",
+    "src_text": "Income entered in return and tax is not computed on the same.",
+    "dst_text": "Income entered in return then tax should be computed on the same.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-615",
+    "dst_id": "A-607",
+    "score": "92.5",
+    "src_text": "In Schedule Part B-TI (Part B3), Sl. No. 1 is greater than 0 but Schedule VC or Schedule AI is not filled.",
+    "dst_text": "In Schedule Part B-TI (Part B3), Sl. No. 1 is greater than 0 then Schedule VC or Schedule AI should be filled.",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-631",
+    "dst_id": "A-610",
+    "score": "98.2",
+    "src_text": "In \"Schedule Part B TTI\", point 9a \"Advance Tax\" paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is between 01/04/2025 and 31/03/2026.",
+    "dst_text": "In \"Schedule Part B TTI\", point 9a \"Advance Tax\" paid should be equal to the sum of total Tax Paid in schedule IT where date of deposit is between 01/04/ 2024 and 31/03/2025",
+    "numbers_removed": [
+     "2026"
+    ],
+    "numbers_added": [
+     "2024"
+    ]
+   },
+   {
+    "src_id": "A-479",
+    "dst_id": "A-612",
+    "score": "98.4",
+    "src_text": "In schedule \"Part-BTI(PartB1)\" Sl no.6(iv) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to Column 2 of \"Schedule D\" for FY 2025-26.",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\" Sr no.6(iv) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/institution” should be equal to Column 2 of \"Schedule D\" for FY 2024-25 .",
+    "numbers_removed": [
+     "2025",
+     "26"
+    ],
+    "numbers_added": [
+     "2024",
+     "25"
+    ]
+   },
+   {
+    "src_id": "A-480",
+    "dst_id": "A-613",
+    "score": "98.3",
+    "src_text": "In schedule \"Part-BTI(PartB1)\"Sl no.6(vi) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/ institution” should be equal to Column 2 of “Schedule I\"FY 2025-26.",
+    "dst_text": "In schedule\"Part-BTI(PartB1)\"Sr no.6(vi) of -\"Application of income for charitable or religious purposes or for the stated objects of the trust/ institution” should be equal to Column 2 of “Schedule I\"FY 2024-25 .",
+    "numbers_removed": [
+     "2025",
+     "26"
+    ],
+    "numbers_added": [
+     "2024",
+     "25"
+    ]
+   },
+   {
+    "src_id": "A-555",
+    "dst_id": "A-617",
+    "score": "96.3",
+    "src_text": "In schedule \"Part-BTI (PartB2)\"Sl.no. 7iii(Aii) of -''Income under the head Capital Gain” should be equal to Sl. no.E(8iii)of schedule CG.",
+    "dst_text": "In schedule\"Part-BTI (PartB2)\"Sr.no. 7iii(Aii) of -''Income under the head Capital Gain” should be equal to Sr. no.E(11iv)of schedule CG.",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-556",
+    "dst_id": "A-618",
+    "score": "97.1",
+    "src_text": "In schedule \"Part-BTI (PartB2)\" Sl.no. 7iii(Aiii) of -''Income under the head Capital Gain” should be equal to Sl. no.E (8iv) of schedule CG.",
+    "dst_text": "In schedule\"Part-BTI (PartB2)\" Sr.no. 7iii(Aiii) of -''Income under the head Capital Gain\" should be equal to Sr. no.E (11v) of schedule CG.",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-557",
+    "dst_id": "A-619",
+    "score": "96.6",
+    "src_text": "In schedule \"Part-BT I(PartB2)\" Sl.no. 7iii(Aiv)of -''Income under the head Capital Gain” should be equal to Sl. no.E(8v)of schedule CG.",
+    "dst_text": "In schedule\"Part-BT I(PartB2)\" Sr.no. 7iii(Aiv)of -''Income under the head Capital Gain\" should be equal to Sr. no.E(11vi) of schedule CG.",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-559",
+    "dst_id": "A-622",
+    "score": "96.7",
+    "src_text": "In schedule \"Part-BTI(PartB2)\" Sl.no. 7iii (Bii) -''Income under the head Capital Gain” should be equal to E(8vii) schedule CG.",
+    "dst_text": "In schedule\"Part-BTI(PartB2)\"Sr.no. 7iii (Bii) -''Income under the head Capital Gain” should be equal to E(11ix) schedule CG.",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-560",
+    "dst_id": "A-624",
+    "score": "92.7",
+    "src_text": "In schedule \"Part-BTI (PartB2)\"Sl.no. 7iii (Biii) -''Income under the head Capital Gain” should be equal to sum 7iii(Bi + Bii)",
+    "dst_text": "In schedule\"Part-BTI (PartB2)\"Sr.no. 7iii (Biv) -''Income under the head Capital Gain” should be equal to sum 7iii(Bia + Bib + Bii + Biii)",
+    "numbers_removed": [],
+    "numbers_added": []
+   },
+   {
+    "src_id": "A-496",
+    "dst_id": "A-626",
+    "score": "98.1",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)aii Income claimed in Short term chargeable @30% >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8iii of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii) aii Income claimed in Short term chargeable @30% >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11v of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-497",
+    "dst_id": "A-627",
+    "score": "99.1",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)aiii, Income claimed in STCG chargeable at applicable rate, >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8iv of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)aiii , Income claimed in STCG chargeable at applicable rate, >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11v of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-498",
+    "dst_id": "A-628",
+    "score": "99.0",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)aiv- Income claimed in STCG chargeable at special rates in India as per DTAA>0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8v of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10 (iii)aiv- Income claimed in STCG chargeable at special rates in India as per DTAA>0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11vi of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-499",
+    "dst_id": "A-631",
+    "score": "98.2",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)Bii- Income claimed in LTCG chargeable at special rates in India as per DTAA>0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8vii of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)B iii- Income claimed in LTCG chargeable at special rates in India as per DTAA>0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11x of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-607",
+    "dst_id": "A-635",
+    "score": "98.7",
+    "src_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aii) Income claimed in Short term chargeable @30% >0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 8iii of item E of schedule CG",
+    "dst_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aii) Income claimed in Short term chargeable @30% >0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 11iv of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-608",
+    "dst_id": "A-636",
+    "score": "99.2",
+    "src_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aiii), Income claimed in STCG chargeable at applicable rate, >0, then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 8iv of item E of schedule CG",
+    "dst_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aiii) , Income claimed in STCG chargeable at applicable rate, >0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 11v of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-609",
+    "dst_id": "A-637",
+    "score": "99.1",
+    "src_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aiv)- Income claimed in STCG chargeable at special rates in India as per DTAA>0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 8v of item E of schedule CG",
+    "dst_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aiv)- Income claimed in STCG chargeable at special rates in India as per DTAA>0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to11vi of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-610",
+    "dst_id": "A-640",
+    "score": "98.5",
+    "src_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(bii)- Income claimed in LTCG chargeable at special rates in India as per DTAA>0, then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 9vii of item E of schedule CG",
+    "dst_text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(biii)- Income claimed in LTCG chargeable at special rates in India as per DTAA>0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 11x of item E of schedule CG",
+    "numbers_removed": [
+     "9"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-511",
+    "dst_id": "A-641",
+    "score": "99.1",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)(Ai) \"Income claimed in Short term chargeable @20%\" >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8iii of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)(Aib) \"Income claimed in Short term chargeable @20%\" >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11iii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-581",
+    "dst_id": "A-642",
+    "score": "98.8",
+    "src_text": "In schedule Part B-TI, Part B2, Sl. No. 7(iii)(Ai) \"Income claimed in Short term chargeable @20%\" >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8ii of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B2, Sl. No. 7(iii)(Aib) \"Income claimed in Short term chargeable @20%\" >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11iii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-616",
+    "dst_id": "A-643",
+    "score": "98.8",
+    "src_text": "In schedule Part B-TI, Part B3, Sl. No. 7(iii)(ai) \"Income claimed in Short term chargeable @20%\" >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 8ii of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B3, Sl. No. 7(iii)(aib) \"Income claimed in Short term chargeable @20%\" >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11iii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-512",
+    "dst_id": "A-644",
+    "score": "98.7",
+    "src_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)Bi Income claimed in Long term chargeable @12.5% >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 8vi of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)Bib Income claimed in Long term chargeable @12.5% >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 11viii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-582",
+    "dst_id": "A-645",
+    "score": "98.7",
+    "src_text": "In schedule Part B-TI, Part B2, Sl. No. 7(iii)Bi Income claimed in Long term chargeable @12.5% >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 8vi of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B2, Sl. No. 7(iii)Bib Income claimed in Long term chargeable @12.5% >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 11viii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "A-617",
+    "dst_id": "A-646",
+    "score": "98.7",
+    "src_text": "In schedule Part B-TI, Part B3, Sl. No. 7(iii)bi Income claimed in Long term chargeable @12.5% >0, then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 8vi of item E of schedule CG",
+    "dst_text": "In schedule Part B-TI, Part B3, Sl. No. 7(iii)bib Income claimed in Long term chargeable @12.5% >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 11viii of item E of schedule CG",
+    "numbers_removed": [
+     "8"
+    ],
+    "numbers_added": [
+     "11"
+    ]
+   },
+   {
+    "src_id": "Annex1-33",
+    "dst_id": "Annex1-35",
+    "score": "78.9",
+    "src_text": "Schedule A | Donation to any person other than trust or institution registered u/s 12AB or | Column \"Total\" of Sl. No. B4 (Revenue + Capital) | Sl. No. 23(xi) approved u/s 10(23C)(iv)/(v)/(vi)/(via)",
+    "dst_text": "Schedule A | Donation to any person other than trust or institution registered u/s 12AB or approved u/s 10(23C)(iv)/(v)/(vi)/(via) | Column \"Total\" of Sl. No. B4 (Revenue + Capital) | Sl. No. 23(xi)",
+    "numbers_removed": [],
+    "numbers_added": []
+   }
+  ],
+  "disable": [
+   {
+    "cat": "A",
+    "no": "56",
+    "page": 9,
+    "text": "In Schedule \"PI”, status is selected as Company then sub-status should be selected as \"Domestic Company\" or \"Foreign Company\"",
+    "id": "A-56"
+   },
+   {
+    "cat": "A",
+    "no": "57",
+    "page": 9,
+    "text": "In Schedule Part A-General, Sl. No. A24(i) should be filled up with appropriate option.",
+    "id": "A-57"
+   },
+   {
+    "cat": "A",
+    "no": "58",
+    "page": 9,
+    "text": "In Schedule \"PI\", Sl no. A26(a)/(b)/(c)/(d) is selected as \"Yes” then A26 should be selected as \"Yes\"",
+    "id": "A-58"
+   },
+   {
+    "cat": "A",
+    "no": "59",
+    "page": 9,
+    "text": "In Part A General 2- Sl no. A23i(a)(i) and A23i(b)(i) shall be mandatory in case A23(i) is selected as Yes\"",
+    "id": "A-59"
+   },
+   {
+    "cat": "A",
+    "no": "60",
+    "page": 9,
+    "text": "In Part A General, Email id and contact no of the representative assessee should not match with email id and contact no. of taxpayer.",
+    "id": "A-60"
+   },
+   {
+    "cat": "A",
+    "no": "61",
+    "page": 9,
+    "text": "If return is being filed by Representative Assessee then PAN quoted in return should be same as the PAN who is trying to upload the return.",
+    "id": "A-61"
+   },
+   {
+    "cat": "A",
+    "no": "62",
+    "page": 9,
+    "text": "In Part A General \"Name of the representative, Email ID and contact number of the representative assessee\" is mandatory if in schedule \"Verification” Verification capacity is selected as \"Representative\" from drop down.",
+    "id": "A-62"
+   },
+   {
+    "cat": "A",
+    "no": "63",
+    "page": 9,
+    "text": "Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income",
+    "id": "A-63"
+   },
+   {
+    "cat": "A",
+    "no": "64",
+    "page": 9,
+    "text": "Secondary address should not be same as Primary address if \"No\" is mentioned for \"Is the secondary address same as primary address?\" in Schedule Part A General Information",
+    "id": "A-64"
+   },
+   {
+    "cat": "A",
+    "no": "65",
+    "page": 9,
+    "text": "In schedule PartA-General section under which exemption is claimed is 10(23C)(iv)/(v)/(vi)/(via) then sl. No 6(iv) of PartB1 of PartB-TI should not be greater than zero.",
+    "id": "A-65"
+   },
+   {
+    "cat": "A",
+    "no": "80",
+    "page": 10,
+    "text": "In \"Schedule D\", Sl. No. 3 \"Any other reason\" is selected then FY in sl no.1 \"Year in which income is deemed to be applied \" should not be other than FY 2024-25 and 2025-26",
+    "id": "A-80"
+   },
+   {
+    "cat": "A",
+    "no": "95",
+    "page": 11,
+    "text": "In \"Schedule J\" A2(7) ' Details of loan and borrowings 'should be equal to sum of A2[(1+2-6)].",
+    "id": "A-95"
+   },
+   {
+    "cat": "A",
+    "no": "138",
+    "page": 13,
+    "text": "In Schedule PP, Sl no. 7a \" Total voluntary contributions received by the party during the F.Y.\" should be equal to sl no. C of Schedule VC \"Total Contributions (Aiii + Biii)\".",
+    "id": "A-138"
+   },
+   {
+    "cat": "A",
+    "no": "139",
+    "page": 13,
+    "text": "In Schedule PP, Sl no. 4a\"date of submission of the report\" and Sl no. 4b \"Election Commission of India or State Election Commission to whom the report has been submitted\" are mandatory if Sl no. 4 \"Whether the report under sub-section (3) of section 29C of the Representation of the People Act, 1951 for the financial year has been submitted? is selected as \"Yes\"",
+    "id": "A-139"
+   },
+   {
+    "cat": "A",
+    "no": "154",
+    "page": 14,
+    "text": "In Schedule A - Sl. No. A(11) \"Cost of new asset for claim of Exemption u/s 11(1A)\"should not be more than \"0\" for revenue field.",
+    "id": "A-154"
+   },
+   {
+    "cat": "A",
+    "no": "191",
+    "page": 16,
+    "text": "Details of loan taken needs to be provided for claiming Interest on borrowed capital u/s 24(b) in Table 24(b) of Schedule HP",
+    "id": "A-191"
+   },
+   {
+    "cat": "A",
+    "no": "192",
+    "page": 16,
+    "text": "In Table 24(b) of Schedule HP, the sum of individual rows for \"Interest on Borrowed capital u/s 24(b)\" shall match with the \"Total Interest on borrowed capital u/s 24(b)\" as per Table 24(b)",
+    "id": "A-192"
+   },
+   {
+    "cat": "A",
+    "no": "193",
+    "page": 16,
+    "text": "In Schedule HP, Details of Interest on borrowed capital u/s 24(b) is mandatory to claim the deduction.",
+    "id": "A-193"
+   },
+   {
+    "cat": "A",
+    "no": "194",
+    "page": 16,
+    "text": "In case of property is not Co-owned,the assessee's share should be equal to 100%",
+    "id": "A-194"
+   },
+   {
+    "cat": "A",
+    "no": "195",
+    "page": 16,
+    "text": "\"The amount of rent which cannot be realized\" should not be more than Gross rent received/ receivable/ lettable during the year",
+    "id": "A-195"
+   },
+   {
+    "cat": "A",
+    "no": "200",
+    "page": 16,
+    "text": "Value at field \"C1\" in \"Schedule CG\" should be equal to the sum of value (8ii + 8iii + 8iv + 8v + 8vi + 8vii) of Table E.",
+    "id": "A-200"
+   },
+   {
+    "cat": "A",
+    "no": "253",
+    "page": 19,
+    "text": "In Schedule CG, Sl. No. B10 should be equal to B10a1+B10a2",
+    "id": "A-253"
+   },
+   {
+    "cat": "A",
+    "no": "275",
+    "page": 20,
+    "text": "Schedule CG sl no Eii should be equal to sum of sl no (A3e+A4a+A8a+A(A) @20%)",
+    "id": "A-275"
+   },
+   {
+    "cat": "A",
+    "no": "276",
+    "page": 20,
+    "text": "In Schedule CG, Sl. No. Ei6 should be equal to sl no (B1g + B2e + B3c + B4 + B5 + B6c + B7 + B8e + B9 + B10a1 + B10a2 + B(A)@12.5%)).",
+    "id": "A-276"
+   },
+   {
+    "cat": "A",
+    "no": "277",
+    "page": 21,
+    "text": "In Schedule CG, Sl. No. Evi should be equal to Sl. No. (B1g + B2e + B3c + B4 + B5 + B6c+ B7 + B8e+B9 +B10a1+ B10a2+B(A)@12.5%)",
+    "id": "A-277"
+   },
+   {
+    "cat": "A",
+    "no": "297",
+    "page": 21,
+    "text": "In Schedule CG, Date of sale/Transfer of land or building or both in Sl No A1 or B1 cannot be after 31st March of financial year",
+    "id": "A-297"
+   },
+   {
+    "cat": "A",
+    "no": "323",
+    "page": 23,
+    "text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(iii) i.e., Dividend income u/s 2(22)(f) - DTAA for Dividend subject to TRC",
+    "id": "A-323"
+   },
+   {
+    "cat": "A",
+    "no": "325",
+    "page": 23,
+    "text": "Interest expenditure u/s 57(1) should not be more than 20% of the dividend income at Sl. No. 1ai + Sl. No. 1aii in Schedule OS.",
+    "id": "A-325"
+   },
+   {
+    "cat": "A",
+    "no": "329",
+    "page": 24,
+    "text": "In schedule VDA, Date of Acquisition or Date of transfer cannot be after 31st March of financial year",
+    "id": "A-329"
+   },
+   {
+    "cat": "A",
+    "no": "418",
+    "page": 28,
+    "text": "Special income \"Interest referred to in Proviso to section 194LC(1)” offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "id": "A-418"
+   },
+   {
+    "cat": "A",
+    "no": "419",
+    "page": 28,
+    "text": "Special income \"Interest referred to in Proviso to section 194LC(1)\" offered u/s.115A(1)(a)(iiaa) in sl no 2d of schedule OS is not equal to corresponding income in schedule SI",
+    "id": "A-419"
+   },
+   {
+    "cat": "A",
+    "no": "427",
+    "page": 29,
+    "text": "Sum of income u/s 112(1) (LTCG on listed securities/ units without indexation) 112(1)(c)(iii)- Long term capital gains on transfer of unlisted securities in the case of non-residents 115AB (LTCG for non-resident on units referred in section115AB), 115AC (LTCG for non-resident on bonds/GDR), 112 (LTCG on others), 112A or section 115AD(1)(b)(iii)-Proviso (LTCG on equity shares/units of equity- oriented fund/units of business trust on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% - u/s other than 112A 115AD (LTCG for FII on securities) in schedule SI should be equal to Sl. No. 5ix schedule CYLA",
+    "id": "A-427"
+   },
+   {
+    "cat": "A",
+    "no": "429",
+    "page": 29,
+    "text": "Special income \"Income received by non-resident as referred in second proviso to section 194LC(1)\" offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS is not equal to corresponding income in schedule SI",
+    "id": "A-429"
+   },
+   {
+    "cat": "A",
+    "no": "430",
+    "page": 29,
+    "text": "Special income \"Income received by non-resident as referred in second proviso to section 194LC(1)\" offered u/s 115A(1)(a)(iiaa) in sl.no.2d of schedule OS is not equal to corresponding income in schedule SI",
+    "id": "A-430"
+   },
+   {
+    "cat": "A",
+    "no": "431",
+    "page": 29,
+    "text": "Income under \"111A-Short term capital gains on equity share or equity oriented fund chargeable to STT\" in schedule SI should not be more than income offered in sch CG at Sl. No. A3ie or A4a after reducing DTAA income if any.",
+    "id": "A-431"
+   },
+   {
+    "cat": "A",
+    "no": "432",
+    "page": 29,
+    "text": "Income under \"115AD(1)(b)(ii) Proviso- Short term capital gains referred to in section 111A- by FII\" in schedule SI should not be more than income offered in sch CG at Sl. No. A3iie after reducing DTAA income if any",
+    "id": "A-432"
+   },
+   {
+    "cat": "A",
+    "no": "433",
+    "page": 29,
+    "text": "Income under \"112(1) (LTCG on listed securities/ units)\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B3c after reducing DTAA income if any",
+    "id": "A-433"
+   },
+   {
+    "cat": "A",
+    "no": "434",
+    "page": 29,
+    "text": "Income under \"112(1)(c)(iii) - LTCG for non-resident on unlisted securities or other than Listed debentures\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6ic after reducing DTAA income if any",
+    "id": "A-434"
+   },
+   {
+    "cat": "A",
+    "no": "435",
+    "page": 29,
+    "text": "Income under \"112A- LTCG on equity shares/units of equity-oriented fund/units of business trust on which STT is paid\"in Schedule SI should not be more than income offered in schedule CG at Sl. No. B4 or Col 14 of Schedule 112A after reducing DTAA income if any",
+    "id": "A-435"
+   },
+   {
+    "cat": "A",
+    "no": "436",
+    "page": 30,
+    "text": "Income under \"115AB(1)(b)- Income by way of long-term capital gains arising from the transfer of units purchased in foreign currency by a off-shore fund\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6iic after reducing DTAA income if any",
+    "id": "A-436"
+   },
+   {
+    "cat": "A",
+    "no": "437",
+    "page": 30,
+    "text": "Income under \"115AC(1)(c)- Long term capital gains arising from their transfer of bonds or GDR purchased in foreign currency in case of a non-resident\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6iiic after reducing DTAA income if any",
+    "id": "A-437"
+   },
+   {
+    "cat": "A",
+    "no": "438",
+    "page": 30,
+    "text": "Income under \"115AD(1)(b)(ii)- Short term capital gains (other than on equity share or equity oriented mutual fund referred to in section 111A) by an FII\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A5e after reducing DTAA income if any",
+    "id": "A-438"
+   },
+   {
+    "cat": "A",
+    "no": "439",
+    "page": 30,
+    "text": "Income under \"115AD(1)(b)(iii)- Long term capital gains (other than on equity share or equity oriented mutual fund referred to in section 112A) by an FII\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B6ivc after reducing DTAA income if any",
+    "id": "A-439"
+   },
+   {
+    "cat": "A",
+    "no": "440",
+    "page": 30,
+    "text": "Income under \"115AD(1)(b)(iii) Proviso- For NON-RESIDENTS from sale of equity share in a company or unit of equity-oriented fund or unit of a business trust on which STT is paid under section 112A\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B7 after reducing DTAA income if any",
+    "id": "A-440"
+   },
+   {
+    "cat": "A",
+    "no": "441",
+    "page": 30,
+    "text": "Income under \"Pass Through Income in the nature of Short Term Capital Gain chargeable @ 20%\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A8a after reducing DTAA income if any",
+    "id": "A-441"
+   },
+   {
+    "cat": "A",
+    "no": "442",
+    "page": 30,
+    "text": "Income under \"Pass Through Income in the nature of Short Term Capital Gain chargeable @ 30%\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. A8b after reducing DTAA income if any.",
+    "id": "A-442"
+   },
+   {
+    "cat": "A",
+    "no": "443",
+    "page": 30,
+    "text": "Income under \"Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B10a1 after reducing DTAA income if any.",
+    "id": "A-443"
+   },
+   {
+    "cat": "A",
+    "no": "444",
+    "page": 30,
+    "text": "Income under \"Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% other than section 112A\" in Schedule SI should not be more than income offered in schedule CG at Sl. No. B10a2 after reducing DTAA income if any.",
+    "id": "A-444"
+   },
+   {
+    "cat": "A",
+    "no": "585",
+    "page": 38,
+    "text": "In schedule Part B-TI (Part B2), Sl. No. 1 \"Amount eligible for exemption under sections 10(21), 10(23AAA), 10(23B), 10(23D), 10(23DA), 10(23EC), 10(23ED), 10(23EE), 10(23FB), 10(29A), 10(46), 10(46A), 10(46B), 10(47) \" Should be equal to sum of Sl. No. 1a to 1n",
+    "id": "A-585"
+   },
+   {
+    "cat": "A",
+    "no": "586",
+    "page": 38,
+    "text": "In schedule Part B-TI (Part B2), Sl. No. 2 \"Amount eligible for exemption under sections 10(23A), 10(23C)(iiiab), 10(23C)(iiiac), 10(23C)(iiiad), 10(23C)(iiiae), 10(24) \" should be equal to sum of Sl. No. 2a to 2f",
+    "id": "A-586"
+   },
+   {
+    "cat": "A",
+    "no": "638",
+    "page": 41,
+    "text": "Schedule FA has to be filled if SL. Nno.14 of Part B-TTI is selected as \"Yes\"",
+    "id": "A-638"
+   },
+   {
+    "cat": "A",
+    "no": "639",
+    "page": 41,
+    "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed Rs. 5lakh.",
+    "id": "A-639"
+   },
+   {
+    "cat": "A",
+    "no": "640",
+    "page": 41,
+    "text": "Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds Rs.5lakh.",
+    "id": "A-640"
+   },
+   {
+    "cat": "B",
+    "no": "1",
+    "page": 43,
+    "text": "Assessee is claiming exemption under section 11, having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%. Income should be computed in accordance with the provisions of Section 13(10) of the Income Tax Act and PartB-3 of PartB-TI is applicable.",
+    "id": "B-1"
+   },
+   {
+    "cat": "B",
+    "no": "25",
+    "page": 44,
+    "text": "Assessee is claiming exemption under section 10(23C)(iv) or 10(23C)(v) having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%. Income should be computed in accordance with the provisions twenty second proviso to Section 10(23C) of the Income Tax Act and PartB-3 of PartB-TI is applicable.",
+    "id": "B-25"
+   }
+  ],
+  "add": [
+   {
+    "cat": "A",
+    "no": "81",
+    "page": 11,
+    "text": "In \"Schedule J\" A2(7) ' Details of loan and borrowings 'should be equal to sum of A2[(1+2-6)]. Note: If Column A2(7) is negative, restricted to zero.",
+    "id": "A-81"
+   },
+   {
+    "cat": "A",
+    "no": "186",
+    "page": 17,
+    "text": "In Schedule CG, expenses u/s 48 (sr no B4b(iv) cannot be claimed, if Full Value of Consideration (sr no B4a) is not offered to tax",
+    "id": "A-186"
+   },
+   {
+    "cat": "A",
+    "no": "207",
+    "page": 19,
+    "text": "In schedule CG, Sl. No. B3c of LTCG Balance should be equal to B(3a-biv)",
+    "id": "A-207"
+   },
+   {
+    "cat": "A",
+    "no": "236",
+    "page": 20,
+    "text": "In Schedule CG, value at field \"Long- term capital gains taxable at the rate of 20%\" in Table F should be equal to Sl. No. 5x of Schedule CYLA",
+    "id": "A-236"
+   },
+   {
+    "cat": "A",
+    "no": "239",
+    "page": 21,
+    "text": "If Total Cost of improvement with Indexation is filled, its mandatory to provide Cost of Improvement, Cost of Improvement with Indexation and Year of Improvement. Also, Total Cost of Improvement with Indexation should match with sum of its individual values.",
+    "id": "A-239"
+   },
+   {
+    "cat": "A",
+    "no": "241",
+    "page": 21,
+    "text": "Value at field \"C1\" in \"Schedule CG\" should be equal to the sum of value 11ii+11iii+11iv+11v+11vi+11vii+11viii+11ix+11x.",
+    "id": "A-241"
+   },
+   {
+    "cat": "A",
+    "no": "245",
+    "page": 21,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. Ei2 should be equal to sum of sl no (A3ei+ A4ai+ A8ai)as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(i2) should be equal to the sum of Sl. No. A3ei+ A8ai.",
+    "id": "A-245"
+   },
+   {
+    "cat": "A",
+    "no": "247",
+    "page": 21,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. Eii should be equal to sum of sl no (A3ei+ A4ai+ A8ai)as reduced by the amount of STCG chargeable or not chargeable to tax at special rates specified in Sl. No. A9a & A9b , which is included therein and for resident, value at field E(ii) should be equal to the sum of Sl. No. A3ei+ A8ai.",
+    "id": "A-247"
+   },
+   {
+    "cat": "A",
+    "no": "250",
+    "page": 21,
+    "text": "In Schedule CG, Sl. No. B11 should be equal to B11a1(i)+B11a1(ii)+B11a2(i)+B11a2(ii)+B11b",
+    "id": "A-250"
+   },
+   {
+    "cat": "A",
+    "no": "252",
+    "page": 21,
+    "text": "In Schedule CG, value at field Short-term capital gain taxable @ 15% in Table F should be equal to Sl. No. 5va of Schedule CYLA",
+    "id": "A-252"
+   },
+   {
+    "cat": "A",
+    "no": "253",
+    "page": 22,
+    "text": "In Schedule CG, value at field \"Long- term capital gains taxable at the rate of 10%\" in Table F should be equal to Sl. No. 5ixa of Schedule CYLA",
+    "id": "A-253"
+   },
+   {
+    "cat": "A",
+    "no": "257",
+    "page": 22,
+    "text": "In schedule CG, value at B1(b)(iia) & (iib(c)) can be filled only if date of tranfer is before 23rd July 2024",
+    "id": "A-257"
+   },
+   {
+    "cat": "A",
+    "no": "258",
+    "page": 22,
+    "text": "In schedule CG, value at sl.no. B9e should be same as B9ei+B9eii",
+    "id": "A-258"
+   },
+   {
+    "cat": "A",
+    "no": "259",
+    "page": 22,
+    "text": "In schedule CG, value at sl.no. B10b should be same as B10bi+B10bii",
+    "id": "A-259"
+   },
+   {
+    "cat": "A",
+    "no": "260",
+    "page": 22,
+    "text": "In schedule CG, dropdown at sl.no. B10a, \"Whether date of limitation / withdrawal was before 23rd July 2024 \" is mandatory to select if any field in a row is filled",
+    "id": "A-260"
+   },
+   {
+    "cat": "A",
+    "no": "261",
+    "page": 22,
+    "text": "In schedule CG, value at B11(i) should be equal to \"B10bi + sum of B10a where date of limitation / withdrawal was before 23rd July 2024\"",
+    "id": "A-261"
+   },
+   {
+    "cat": "A",
+    "no": "262",
+    "page": 22,
+    "text": "In schedule CG, value at B10(ii) should be equal to \"B10bii + sum of B10a where date of limitation / withdrawal was on or after 23rd July 2024\"",
+    "id": "A-262"
+   },
+   {
+    "cat": "A",
+    "no": "263",
+    "page": 22,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- STCG 15%.",
+    "id": "A-263"
+   },
+   {
+    "cat": "A",
+    "no": "268",
+    "page": 22,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 10%.",
+    "id": "A-268"
+   },
+   {
+    "cat": "A",
+    "no": "270",
+    "page": 22,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the income available for set off- LTCG 20%.",
+    "id": "A-270"
+   },
+   {
+    "cat": "A",
+    "no": "272",
+    "page": 23,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- STCL15%.",
+    "id": "A-272"
+   },
+   {
+    "cat": "A",
+    "no": "277",
+    "page": 23,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 10%",
+    "id": "A-277"
+   },
+   {
+    "cat": "A",
+    "no": "279",
+    "page": 23,
+    "text": "In Table E of Schedule CG, Sum of amount of set off claimed cannot exceed the losses available for set off- LTCL 20%",
+    "id": "A-279"
+   },
+   {
+    "cat": "A",
+    "no": "282",
+    "page": 23,
+    "text": "In schedule CG, Sl. No. B1 biv of LTCG Total should be equal to sum of B1(biia + ∑biib(c) + biii) - where transfer is before 23rd July 2024 and B1(bi + ∑biib(a) + biii) - where transfer is on or after 23rd July 2024",
+    "id": "A-282"
+   },
+   {
+    "cat": "A",
+    "no": "283",
+    "page": 23,
+    "text": "In schedule CG, Sl. No. B4 biv Total should be equal to sum of B4(bi+bii+biii) or (bia +biia +biii)",
+    "id": "A-283"
+   },
+   {
+    "cat": "A",
+    "no": "288",
+    "page": 24,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. Ei7 should be equal to sum of sl no (+B5i+B7ci+B8i+ B11a1i +B11a2i+ B(A)@10%) as reduced by the amount of LTCG chargeable or not chargeable to tax at special rates specified in Sl. No. B12a & B12b, which is included therein and for resident, value at field E(i7) should be equal to the sum of Sl. No. ( B4c +B5i+ B11a1i +B11a2 i+B(A)@10%).",
+    "id": "A-288"
+   },
+   {
+    "cat": "A",
+    "no": "289",
+    "page": 24,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. Ei9 should be equal to sum of sl no (B1ea+ B2eii+B3c+B4ci+ B6i+ B9ei+ B10bi+B11b) as reduced by the amount of LTCG chargeable or not chargeable to tax at special rates specified in Sl. No. B12a & B12b, which is included therein and for resident, value at field E(i9) should be equal to the sum of Sl. No. (B1ea+ B2ei+B3c+ B4ci + B9ei+ B10bi+B11b).",
+    "id": "A-289"
+   },
+   {
+    "cat": "A",
+    "no": "290",
+    "page": 24,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. Evii should be equal to sum of sl no (+B5i+ B6ii +B7ci+ B7ciii +B8i+ B11a1i+B11a2i+B(A) as reduced by the amount of LTCG chargeable or not chargeable to tax at special rates specified in Sl. No. B12a & B12b, which is included therein and for resident, value at field E(vii) should be equal to the sum of Sl. No. (B4c+B5i+B11a1+B11a2+B (A)).",
+    "id": "A-290"
+   },
+   {
+    "cat": "A",
+    "no": "291",
+    "page": 24,
+    "text": "In Schedule CG, in case of Non-resident, Sl. No. E ix should be equal to sum of sl no (B1ga+ B2ei+B3c+B4ci+ B6i+ B9ei+ B10i+ B11b) as reduced by the amount of LTCG chargeable or not chargeable to tax at special rates specified in Sl. No. B12a & B12b, which is included therein and for resident, value at field Evii should be equal to the sum of Sl. No. (B1ga+ B2ei+B3c+B4ci+B9ei+ B10i+ B11b).",
+    "id": "A-291"
+   },
+   {
+    "cat": "A",
+    "no": "293",
+    "page": 24,
+    "text": "In schedule CG, value at B1g should match with B1g(a) + B1g(b)",
+    "id": "A-293"
+   },
+   {
+    "cat": "A",
+    "no": "295",
+    "page": 24,
+    "text": "Schedule CG sl no Eiii should be equal to sum of sl no (A3eii+A4aii+A8aii+A(A) @20%) where transfer was on or after 23rd July 2024",
+    "id": "A-295"
+   },
+   {
+    "cat": "A",
+    "no": "296",
+    "page": 24,
+    "text": "In Schedule CG, Sl. No. Ei8 should be equal to sl no (B1geb+ B2eii+B4cii+ B5ii+B6iii +B7cii+ B8ii+ B9eii+B10bii+B11a1ii+ B11a2ii+B(A)@12.5%)) where transfer is on or after 23rd July 2024",
+    "id": "A-296"
+   },
+   {
+    "cat": "A",
+    "no": "297",
+    "page": 24,
+    "text": "In Schedule CG, Sl. No. Eviii should be equal to Sl. No. (B1gb*+B2eii*+B4cii + B5ii*+B6iii +B7cii*+ B8ii*+ B9eii*+B10ii* B11a1ii*+B11a2ii*+B(A) @12.5%) where transfer is on or after 23rd July 2024",
+    "id": "A-297"
+   },
+   {
+    "cat": "A",
+    "no": "298",
+    "page": 25,
+    "text": "In Schedule CG, Long Term Capital Gains u/s 112A before 23 July 2024 and on or after 23 July 2024 should be equal to the total Long Term Capital Gains from such shares",
+    "id": "A-298"
+   },
+   {
+    "cat": "A",
+    "no": "299",
+    "page": 25,
+    "text": "In Schedule CG, Long Term Capital Gains u/s 112A read with section 115AD before 23 July 2024 and on or after 23 July 2024 should be equal to the total Long Term Capital Gains from such shares",
+    "id": "A-299"
+   },
+   {
+    "cat": "A",
+    "no": "300",
+    "page": 25,
+    "text": "In Table E of Schedule CG, Column 11 of each row should be equal to 1- (2+3+4+5+6+7+8+9+10)",
+    "id": "A-300"
+   },
+   {
+    "cat": "A",
+    "no": "301",
+    "page": 25,
+    "text": "Sum of capital gains from all properties where date of transfer was before 23rd July 2024 and where date of transfer was on or after 23rd July 2024 should be correctly reflected at B1g(a) and B1g(b) respectively",
+    "id": "A-301"
+   },
+   {
+    "cat": "A",
+    "no": "304",
+    "page": 25,
+    "text": "Sum of Indexed Improve cost in each L&B block should be equal to sum of all Indexed improve costs for such block of land and building in schedule CG under Long term capital gain",
+    "id": "A-304"
+   },
+   {
+    "cat": "A",
+    "no": "306",
+    "page": 25,
+    "text": "Value at field B should be equal to sum of values of drop downs 12.5% or 10%",
+    "id": "A-306"
+   },
+   {
+    "cat": "A",
+    "no": "309",
+    "page": 25,
+    "text": "In Schedule CG, if sl.no.6 in sl.no.B. in LTCG is being filled, then it’s mandatory to select the section code i.e., 112(1) (c)/115AB/115AC or 115AD",
+    "id": "A-309"
+   },
+   {
+    "cat": "A",
+    "no": "311",
+    "page": 25,
+    "text": "In schedule CG, Sl. No. B4(ca) of LTCG Balance should be equal to B(4a-4biva)",
+    "id": "A-311"
+   },
+   {
+    "cat": "A",
+    "no": "313",
+    "page": 26,
+    "text": "In Schedule CG, tax on LTCG from sale listed securities (other than a unit) or zero coupon bonds should be 20% in case of transfer is before 23 July.",
+    "id": "A-313"
+   },
+   {
+    "cat": "A",
+    "no": "314",
+    "page": 26,
+    "text": "In Schedule CG, tax on LTCG from sale listed securities (other than a unit) or zero coupon bonds as per 1st Proviso to section 112(1) should be 10% in case of transfer is before 23 July.",
+    "id": "A-314"
+   },
+   {
+    "cat": "A",
+    "no": "315",
+    "page": 26,
+    "text": "In schedule CG,sl. No 2(i) of Table F Short-term capital gains taxable at the rate of 20% should not be more than zero",
+    "id": "A-315"
+   },
+   {
+    "cat": "A",
+    "no": "316",
+    "page": 26,
+    "text": "In schedule CG,sl. No 7(i) of Table F Long- term capital gains taxable at the rate of 12.5% should not be more than zero",
+    "id": "A-316"
+   },
+   {
+    "cat": "A",
+    "no": "342",
+    "page": 28,
+    "text": "In Schedule OS, Sl. No. 10 the quarterly break up of Dividend Income should be equal to amount in sl.no.1a(iii) i.e., Dividend income u/s 2(22)f) -- DTAA for Dividend subject to TRC",
+    "id": "A-342"
+   },
+   {
+    "cat": "A",
+    "no": "390",
+    "page": 31,
+    "text": "In Schedule CYLA,Sl. No 1va \" Short term capital gain 15% should be equal to SL.no. 11ii of item E of Schedule CG",
+    "id": "A-390"
+   },
+   {
+    "cat": "A",
+    "no": "393",
+    "page": 31,
+    "text": "In Schedule CYLA, Sl. No 1ixa \" Long term capital gain taxable @10%\" should be equal to Sl. No. 11vii of item E of Schedule CG",
+    "id": "A-393"
+   },
+   {
+    "cat": "A",
+    "no": "394",
+    "page": 31,
+    "text": "In Schedule CYLA, Sl. No 1x \" Long term capital gain taxable @20%\" should be equal to Sl. No. 11ix of item E of Schedule CG",
+    "id": "A-394"
+   },
+   {
+    "cat": "A",
+    "no": "415",
+    "page": 32,
+    "text": "Special income offered u/s 115A(1)(a)(iiaa) in sl.no.2c of schedule OS should be equal to corresponding income in schedule SI",
+    "id": "A-415"
+   },
+   {
+    "cat": "A",
+    "no": "428",
+    "page": 33,
+    "text": "Special income offered u/s.115A(1)(a)(iiaa) in sl no 2d of schedule OS should be equal to corresponding income in schedule SI",
+    "id": "A-428"
+   },
+   {
+    "cat": "A",
+    "no": "447",
+    "page": 34,
+    "text": "Sum of income u/s 111A (STCG on shares where STT paid) & Pass Through Income in the nature of Short Term Capital Gain chargeable @ 15% in schedule SI should be equal to corresponding income in sl no 5va of schedule CYLA",
+    "id": "A-447"
+   },
+   {
+    "cat": "A",
+    "no": "448",
+    "page": 34,
+    "text": "Sum of income u/s 112 (LTCG on others) & Pass Through Income in the nature of Long Term Capital Gain chargeable @ 20% & Proviso to 112(1) Proviso LTCG on listed securities/ units without indexation in column (i) of Schedule SI should be equal to corresponding income in sl no 5x of schedule CYLA",
+    "id": "A-448"
+   },
+   {
+    "cat": "A",
+    "no": "449",
+    "page": 34,
+    "text": "Sum of income u/s 112(1)(c)(iii) LTCG for non-resident on unlisted securities, 112A (LTCG on sale of shares on which STT is paid), 115AB(1)(b) (LTCG for non-resident on units referred in section115AB), 115AC(1)(c) (LTCG for non-resident on bonds/GDR), 115AD(1)(b)(iii)-LTCG by FII, 115AD(b)(iii)-Proviso (LTCG on sale of units on which STT is paid), Pass Through Income in the nature of Long Term Capital Gain chargeable @ 10%-u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 10% - u/s other than 112A in schedule SI should be equal to Sl. No. 5ixa schedule CYLA",
+    "id": "A-449"
+   },
+   {
+    "cat": "A",
+    "no": "450",
+    "page": 34,
+    "text": "Sum of income u/s 112(1) (LTCG on listed securities/ units without indexation) [where transfer was on or after 23rd July 2024 as applicable] 112(1)(c)(iii)- Long term capital gains on transfer of unlisted securities in the case of non-residents [where transfer was on or after 23rd July 2024 as applicable] 115AB (LTCG for non-resident on units referred in section115AB) ) where transfer was on or after 23rd July 2024 as applicable], 115AC (LTCG for non-resident on bonds/GDR) [where transfer was on or after 23rd July 2024 as applicable], 112 (LTCG on others) [where transfer / event was on or after 23rd July 2024 as applicable], 112A or section 115AD(1)(b)(iii)-Proviso (LTCG on equity shares/units of equity-oriented fund/units of business trust on which STT is paid) [where transfer was on or after 23rd July 2024 as applicable], Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% u/s 112A, Pass Through Income in the nature of Long Term Capital Gain chargeable @ 12.5% - u/s other than 112A in schedule SI should be equal to Sl. No. 5ixb schedule CYLA",
+    "id": "A-450"
+   },
+   {
+    "cat": "A",
+    "no": "616",
+    "page": 44,
+    "text": "In schedule\"Part-BTI (PartB2)\" Sr.no. 7iii(Aia) of -''Income under the head Capital Gain” should be equal to Sr. no.E(11ii)of schedule CG.",
+    "id": "A-616"
+   },
+   {
+    "cat": "A",
+    "no": "621",
+    "page": 45,
+    "text": "In schedule\"Part-BTI (PartB2)\"Sr.no. 7iii (Bia) ''Income under the head Capital Gain” should be equal to E(11vii) schedule CG.",
+    "id": "A-621"
+   },
+   {
+    "cat": "A",
+    "no": "623",
+    "page": 45,
+    "text": "In schedule\"Part-BTI(PartB2)\" Sr.no. 7iii (Biii) -''Income under the head Capital Gain” should be equal to E(11x) schedule CG.",
+    "id": "A-623"
+   },
+   {
+    "cat": "A",
+    "no": "625",
+    "page": 45,
+    "text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)Aia \"Income claimed in Short term chargeable @15%\" >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to 11ii of item E of schedule CG",
+    "id": "A-625"
+   },
+   {
+    "cat": "A",
+    "no": "629",
+    "page": 45,
+    "text": "In schedule Part B-TI, Part B1, Sl. No. 10(iii)Bia Income claimed in Long term chargeable @10% >0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 11vii of item E of schedule CG",
+    "id": "A-629"
+   },
+   {
+    "cat": "A",
+    "no": "630",
+    "page": 45,
+    "text": "In schedule Part B-TI, Part B1,Sl. No. 10(iii)Bii- Income claimed in Long term chargeable @20%>0 , then it is mandatory to fill Table E in Sch CG and amount in part B TI should be equal to equal to 11ix of item E of schedule CG",
+    "id": "A-630"
+   },
+   {
+    "cat": "A",
+    "no": "634",
+    "page": 46,
+    "text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(aia) \"Income claimed in Short term chargeable @15%\" > 0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to 11ii of item E of schedule CG",
+    "id": "A-634"
+   },
+   {
+    "cat": "A",
+    "no": "638",
+    "page": 46,
+    "text": "In Schedule Part B-TI (Part B3), Sl. No. 7(iii)(bia)-Income claimed in Long term chargeable @10% >0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to equal to 11vii of item E of schedule CG",
+    "id": "A-638"
+   },
+   {
+    "cat": "A",
+    "no": "639",
+    "page": 46,
+    "text": "In Schedule Part B-TI (Part B3),Sl. No. 7(iii)(bii)- Income claimed in Long term chargeable @20%>0 , then it is mandatory to fill Table E in Sch CG and amount in Schedule Part B-TI (Part B3) should be equal to equal to 11ix of item E of schedule CG",
+    "id": "A-639"
+   },
+   {
+    "cat": "B",
+    "no": "1",
+    "page": 49,
+    "text": "Assessee is claimed exemption under section 11, having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%.",
+    "id": "B-1"
+   },
+   {
+    "cat": "B",
+    "no": "25",
+    "page": 50,
+    "text": "Assessee is claimed exemption under section 10(23C)(iv) or 10(23C)(v) having Activity run for general public utility (GPU) as referred u/s 2(15) AND the summation of percentage of receipt from such activity exceeds 20%.",
+    "id": "B-25"
+   },
+   {
+    "cat": "Annex1",
+    "no": "23",
+    "page": 54,
+    "text": "Schedule Part B-TI (Part B1) | Income as per Explanation 3B in case of violation of clause (a) or (b) or (c) or (d) of Explanation 3A to section 11(1) read with section 80G(2)(b) | Sl. No. 7(vi) | Sl. No. 35(b)",
+    "id": "Annex1-23"
+   },
+   {
+    "cat": "Annex1",
+    "no": "24",
+    "page": 55,
+    "text": "Schedule Part B-TI (Part B1) | Income as per Explanation 1B in case of violation of clause (a) or (b) or (c) or (d) of Explanation 1A to section 10(23C) read with section 80G(2)(b) | Sl. No. 7(vii) | Sl. No. 35(c)",
+    "id": "Annex1-24"
+   }
+  ]
+ },
+ "changelog": {}
+}

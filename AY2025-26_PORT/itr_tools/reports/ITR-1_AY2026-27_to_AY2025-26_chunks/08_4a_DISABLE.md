@@ -1,0 +1,80 @@
+<!-- ITR-1: convert AY 2026-27 build -> AY 2025-26 -->
+### 4a. DISABLE — rules that exist only in 2026-27
+
+- **A-19** (p6): ITR-1 -"Name" of taxpayer in ITR does not match with the "Name" as per the PAN data base (This will be verified at the time of upload. To ensure that the name entered is as appearing in the PAN card)
+- **A-42** (p7): Sec 10(26AAA)-Any income as referred to in section 10(26AAA) drop-down cannot be selected more than one time under Exempt Income. (Message to be shown to the taxpayers while preparing the return that this deduction is available only for certain Sikkimese assessees)
+- **A-59** (p8): Gross salary should be total of salary as per section 17(1) and value of perquisites as per section 17(2) and profits in lieu of salary as per section 17(3)
+- **A-88** (p9): If Old Tax Regime is selected, and In "schedule 80G" if multiple entries are under donation in cash with same PAN then more than Rs 2,000 then amount entered in donation in cash will not be considered for calculation of Eligible amount of donation.if sum of all such cash donation exceeds Rs. 2000 then eligible amount of donation shall not be more than 0 or in case of individual entry is more than Rs. 2000 in
+- **A-210** (p15): [text not extractable - see PDF page 15]
+- **A-238** (p17): Form 10IA needs to be filed separately for claiming Deduction u/s 80U and 80DD respectively.
+- **A-262** (p18): HRA u/s 10(13A) shall not be more than 40% of basic salary and DA for those living in non-metro cities or, shall not be more than 50% of basic salary and DA for those living in metro cities (as applicable)
+- **A-270** (p18): Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" can be claimed only by CG/SG employees
+- **A-271** (p18): "Type of house property" shall be mandatory if interest on borrowed capital u/s 24(b) is claimed.
+- **A-272** (p18): Eligible amount of deduction claimed u/s 80C should not be more than user enterable amount
+- **A-273** (p18): Eligible amount of deduction claimed u/s 80CCC should not be more than user enterable amount
+- **A-274** (p18): Eligible amount of deduction claimed u/s 80CCD (1) should not be more than user enterable amount
+- **A-275** (p18): Eligible amount of deduction claimed u/s 80CCD(1B) should not be more than user enterable amount
+- **A-276** (p18): Eligible amount of deduction claimed u/s 80CCD (2) should not be more than user enterable amount
+- **A-277** (p19): Eligible amount of deduction claimed u/s 80D should not be more than user enterable amount
+- **A-278** (p19): Eligible amount of deduction claimed u/s 80DD should not be more than user enterable amount
+- **A-279** (p19): Eligible amount of deduction claimed u/s 80DDB should not be more than user enterable amount
+- **A-280** (p19): Eligible amount of deduction claimed u/s 80E should not be more than user enterable amount
+- **A-281** (p19): Eligible amount of deduction claimed u/s 80EE should not be more than user enterable amount
+- **A-282** (p19): Eligible amount of deduction claimed u/s 80EEA should not be more than user enterable amount
+- **A-283** (p19): Eligible amount of deduction claimed u/s 80EEB should not be more than user enterable amount
+- **A-284** (p19): Eligible amount of deduction claimed u/s 80G should not be more than user enterable amount
+- **A-285** (p19): Eligible amount of deduction claimed u/s 80GG should not be more than user enterable amount
+- **A-286** (p19): Eligible amount of deduction claimed u/s 80GGA should not be more than user enterable amount
+- **A-287** (p19): Eligible amount of deduction claimed u/s 80GGC should not be more than user enterable amount
+- **A-288** (p19): Eligible amount of deduction claimed u/s 80TTA should not be more than user enterable amount
+- **A-289** (p19): Eligible amount of deduction claimed u/s 80TTB should not be more than user enterable amount
+- **A-290** (p19): Eligible amount of deduction claimed u/s 80U should not be more than user enterable amount
+- **A-291** (p19): Eligible amount of deduction claimed u/s 80CCH should not be more than user enterable amount
+- **A-292** (p19): LTCG u/s 112A shall be equal to difference between GTI including LTCG and GTI exceluding LTCG
+- **A-293** (p19): In Part A General "Name of the representative, Email ID of the representative, Contact No. are mandatory if in Part- Verification capacity is selected as "Representative" from drop down
+- **A-294** (p19): Whether this return is being filed by a representative assessee? Flag is Y then details should be provided
+- **A-295** (p19): In case of Co-owned property, the total of assessee's share and other co-owner's share should be equal to 100%
+- **A-296** (p19): In Schedule HP, In case of co-owned property Annual value of the property owned should be own percentage share *Annual value.
+- **A-297** (p19): Assessee share of co-owned property is zero then interest on borrowed capital cannot be more than zero',
+- **A-298** (p19): In Schedule HP, Sl.no 1d -Total should be output of SL.no (1b+1c)
+- **A-299** (p20): In Schedule HP, Sl.no 1i -Total should be output of SL.no (1g+1h)
+- **A-300** (p20): In case of co-owned house property, Asseesee PAN & other Co-owners PAN cannot be same
+- **A-301** (p20): Exempt Allowance "Exempt income received by a judge covered under the payment of salaries to Supreme Court/High Court judges Act /Rules" can't be more than 0 is new tax regime is selected.
+- **A-302** (p20): If in 80CCC the sum of individual rows for "Amount" is not equal to Total of "Amounts" as per field 80CCC in Income details.
+- **A-303** (p20): "Sec 10(2) Member’s share from HUF" drop-down cannot be selected more than one time under Exempt Income.
+- **A-304** (p20): "Sec 10(10BB) payments made under the Bhopal Gas Leak Disaster" drop-down cannot be selected more than one time under Exempt Income.
+- **A-305** (p20): "Sec 10(11A)- Sum received from an account opened under the Sukanya Samriddhi Yojan" drop-down cannot be selected more than one time under Exempt Income.
+- **A-306** (p20): "Sec 10(12A) NPS partial withdrawal" drop-down cannot be selected more than one time under Exempt Income.
+- **A-307** (p20): "Sec 10(12AA) any payment from the National Pension System Trust" drop-down cannot be selected more than one time under Exempt Income.
+- **A-308** (p20): "Sec 10(12AB) any sum received as lump sum amount as per clause (vi) of paragraph 2 of the notification number FX-1/3/2024-PR" drop-down cannot be selected more than one time under Exempt Income.
+- **A-309** (p20): "Sec 10(12B) NPS lumpsum at exit/closure (portion)" drop-down cannot be selected more than one time under Exempt Income.
+- **A-310** (p20): "Sec 10(12BA) partial withdrawal made from the National Pension System" drop-down cannot be selected more than one time under Exempt Income.
+- **A-311** (p20): "Sec 10(12C) Agniveer Corpus Fund income" drop-down cannot be selected more than one time under Exempt Income.
+- **A-312** (p20): "Sec 10(15) Interest on specified securities/investments" drop-down cannot be selected more than one time under Exempt Income.
+- **A-313** (p20): "Sec 10(19A) Annual value of one palace in occupation of ex-ruler" drop-down cannot be selected more than one time under Exempt Income.
+- **A-314** (p20): "Sec 10(23AA) Sum received by any person on behalf of any Fund established by the armed force" drop-down cannot be selected more than one time under Exempt Income.
+- **A-315** (p20): "Sec 10(23FBB)-income referred to in section 115UB, accruing or arising to, or received by, a unit holder of an investment fund” drop-down cannot be selected more than one time under Exempt Income.
+- **A-316** (p20): "Sec 10(23FD) Unit holder income from Business Trust (certain parts" drop-down cannot be selected more than one time under Exempt Income.
+- **A-317** (p20): "Sec 10(25)-Sum received by trustees on behalf of approved superannuation, gratuity, or pension fund" drop-down cannot be selected more than one time under Exempt Income.
+- **A-318** (p20): "Minor child’s income—small exemption" drop-down cannot be selected more than one time under Exempt Income.
+- **A-319** (p20): "Sec 10(35) Income from specified Mutual Funds" drop-down cannot be selected more than one time under Exempt Income.
+- **A-320** (p21): "Sec 10(35A) distributed income referred to in section 115TA received from a securitization trust" drop-down cannot be selected more than one time under Exempt Income.
+- **A-321** (p21): "Sec 10(43) Reverse mortgage—payments to senior citizens" drop-down cannot be selected more than one time under Exempt Income.
+- **A-322** (p21): "Sec 10(44) Income received by any person for, or on behalf of, the New Pension System Trusts" drop-down cannot be selected more than one time under Exempt Income.
+- **A-323** (p21): If New tax regime is selected, then exempt income u/s 10(32)-Minor child’s income should not be more than Zero
+- **A-324** (p21): Fees for furnishing revised return under 234-I shall be equal to Rs. 1000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income does not exceed 5lakh Rs.
+- **A-325** (p21): IFSC and "Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash.
+- **A-326** (p21): IFSC and "Transaction Reference number for _UPI transfer / Cheque number/IMPS/NEFT/RTGS reference number”, in Schedule 80G is mandatory in case of donation is in mode other than cash.
+- **A-327** (p21): If Old Tax Regime is selected, and In "schedule 80G" if multiple entries are there under donation in cash with same PAN then if sum of all such cash donation does not exceeds Rs. 2000 then eligible amount of donation shall be allowed to the extent of Rs. 2000 or claimed whichever is lower
+- **A-328** (p21): Fees for furnishing revised return under 234-I shall be equal to Rs. 5000 if ITR is filed after 31/12/2026 and filing section is 139(5) and total income exceeds 5lakh Rs.
+- **A-329** (p21): Name and PAN of the political party is necessary to claim deduction u/s 80GGC
+- **A-330** (p21): Either cash donation or donation in other mode shall be entered under any row.
+- **A-331** (p21): In Part A General, Email id and contact no of the representative assessee should not match with Email id (primary and secondary) and contact no (primary and secondary) of taxpayer.
+- **A-332** (p21): In Schedule HP, if "Is property co-owned" is selected as Yes, then Assessee’s percentage of share in the Property (%) should be less than 100%
+- **A-333** (p21): In Schedule HP, if "Is property co-owned" is selected as Yes, then Percentage share of other co-owner(s) in property should be greater than 0 and less than 100%
+- **A-334** (p21): In case of property is not Co-owned the assessee's share should be equal to 100%
+- **A-335** (p21): If PRAN is entered but amount entered in 80CCD (1) and 80CCD(1B) is equal to 0
+- **A-336** (p21): "The amount of rent which cannot be realized" cannot be more than Gross rent received/ receivable/ lettable during the year
+- **A-337** (p21): If Deduction u/s 80CCC is more than 0 then it shall be mandatory to add at least one row and provide details for "Type of identifier", "Identifier No. and "Amount"
+- **A-338** (p21): Secondary Address in Schedule Part A General Information is mandatory to be provided in the return of income
+- **A-339** (p21): Secondary address should not be same as Primary address if "No" is mentioned for "Is the secondary address same as primary address?" in Schedule Part A General Information

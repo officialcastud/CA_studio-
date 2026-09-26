@@ -1,0 +1,10 @@
+{
+  "form": "ITR-2",
+  "ay": "2025-26",
+  "client": "S SUDHIR (TVOPS4373C) — re-dated to F.Y. 2024-25 (filed 25/07/2025; CG transfers shifted into FY2024-25, on/after 23-Jul-2024; advance-tax challans 14/06/2024..14/03/2025)",
+  "note": "Hand-carried goldens for the AY2025-26 port. OLD-regime GTI/TI/tax are identical to the AY2026-27 client (old slabs unchanged); the new-regime run uses a deduction-stripped variant (state_new.js) so it is a VALID new-regime filing exercising the FY2024-25 new slabs (0/5/10/15/20/30% at 3/7/10/12/15L) and Rs.7L/Rs.25k s.87A.",
+  "old_regime": { "state": "tests/state.js", "gti": 24677300, "ti": 23235300, "gross_tax": 5631166, "net_plus_cess": 5456291, "balance": 0, "refund": 1965710, "exported": true, "category_A": 0, "category_D": 5, "conformance": "CLEAN", "roundtrip_diffs": 0 },
+  "new_regime": { "state": "tests/state_new.js", "gti": 24842300, "ti": 24746300, "gross_tax": 6148956, "net_plus_cess": 5920956, "balance": 0, "refund": 1501040, "exported": true, "category_A": 0, "category_D": 4, "conformance": "CLEAN", "roundtrip_diffs": 0 },
+  "category_D_old": ["D3 Form 67 (relief u/s 90/91)", "D1 Form 29C (AMT)", "D5 Form 10E (relief u/s 89)", "D4 Form 3CFA (115BBF)", "D19 Form 10EE (relief u/s 89A)"],
+  "category_D_note": "These Category-D advisories are inherent to the golden's income (foreign-tax relief, AMT, s.89/89A relief, 115BBF royalty) and match the base AY2026-27 build's behaviour on the same return. Category D is advisory and does not block export."
+}

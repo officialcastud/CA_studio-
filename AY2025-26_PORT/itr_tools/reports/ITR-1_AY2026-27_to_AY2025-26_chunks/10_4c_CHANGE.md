@@ -1,0 +1,63 @@
+<!-- ITR-1: convert AY 2026-27 build -> AY 2025-26 -->
+### 4c. CHANGE — same rule, different logic/limits
+
+- **A-13 → A-13** (similarity 99.5)
+  - 2026-27: Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 01.04.1966
+  - 2025-26: Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before 02.04.1964 1965
+  - diff: Deduction u/s 80TTA cannot be claimed by Senior Citizen (date of birth is on or Before ~~01.04.1966~~ **02.04.1964 1965**
+- **A-15 → A-15** (similarity 84.80000305175781)
+  - 2026-27: Assessee being less than 60 years of age cannot claim deduction under section 80TTB (date of birth is before 02.04.1966)
+  - 2025-26: Assessee being less than 60 years of age cannot claim deduction under section 80TTB
+  - diff: Assessee being less than 60 years of age cannot claim deduction under section 80TTB ~~(date of birth is before 02.04.1966)~~
+- **A-27 → A-27** (similarity 84.5)
+  - 2026-27: “Total Tax, Fees & Interest” should be equal to the sum of“Total Tax & Cess + Interest u/s 234A + 234B+ 234C + Fees u/s 234-I + 234F- Relief u/s 89”
+  - 2025-26: “Total Tax, Fees & Interest” should be equal to the sum of “Total Tax & Cess + Interest u/s 234A + 234B+ 234C + 234F- Relief u/s 89”
+  - diff: “Total Tax, Fees & Interest” should be equal to the sum ~~of“Total~~ **of “Total** Tax & Cess + Interest u/s 234A + 234B+ 234C + ~~Fees u/s 234-I +~~ 234F- Relief u/s 89”
+- **A-37 → A-37** (similarity 92.19999694824219)
+  - 2026-27: If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt Allowances under salary schedule.
+  - 2025-26: If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt Income.
+  - diff: If Old Tax Regime is selected; then Sec 10(17)-Allowance MP/MLA/MLC drop-down cannot be selected more than one time under Exempt ~~Allowances under salary schedule.~~ **Income.**
+- **A-54 → A-54** (similarity 91.5)
+  - 2026-27: In case of "Old Tax Regime"- Deduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000. Note: Rounding off +1 and -1.
+  - 2025-26: In case of "Old Tax Regime"- D eduction u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000.
+  - diff: In case of "Old Tax Regime"- ~~Deduction~~ **D eduction** u/s 57(iia) cannot be more than lower of 1/3rd of Family pension or Rs. 15,000. ~~Note: Rounding off +1 and -1.~~
+- **A-60 → A-60** (similarity 84.4000015258789)
+  - 2026-27: In the Schedule “Gross total Income", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10'
+  - 2025-26: In the Schedule “Gross total Income", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10' and Relief u/s 89A'
+  - diff: In the Schedule “Gross total Income", 'Net Salary' should be the difference between 'Gross salary' and 'Allowances to the extent exempt u/s 10' **and Relief u/s 89A'**
+- **A-116 → A-116** (similarity 91.4000015258789)
+  - 2026-27: Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as "CG-Pensioners" "SG-Pensioners" "PSU-Pensioners"
+  - 2025-26: Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as "CG-Pensioners" "SG-Pensioners" "PSU-Pensioners" "Other Pensioners " or "Not Applicable"
+  - diff: Deduction u/s 80CCD (2) cannot be claimed by taxpayer who has selected employer category as "CG-Pensioners" "SG-Pensioners" "PSU-Pensioners" **"Other Pensioners " or "Not Applicable"**
+- **A-117 → A-117** (similarity 99.80000305175781)
+  - 2026-27: Total income excluding LTCG C3 (a)(iii) should not be greater than Rs 50 lakhs.
+  - 2025-26: Total income excluding LTCG B7(a)(iii) should not be greater than Rs 50 lakhs.
+  - diff: Total income excluding LTCG ~~C3 (a)(iii)~~ **B7(a)(iii)** should not be greater than Rs 50 lakhs.
+- **A-126 → A-127** (similarity 84.80000305175781)
+  - 2026-27: If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139 (Will be checked at upload level)
+  - 2025-26: If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139
+  - diff: If the original return is filed under section 142(1) then taxpayer cannot file a return u/s 139 ~~(Will be checked at upload level)~~
+- **A-152 → A-153** (similarity 81.30000305175781)
+  - 2026-27: Once a proceeding is initiated u/s148, no other return can be filed u/s 139 (Will be blocked at upload level)
+  - 2025-26: Once a proceeding is initiated u/s148, no other return can be filed u/s 139
+  - diff: Once a proceeding is initiated u/s148, no other return can be filed u/s 139 ~~(Will be blocked at upload level)~~
+- **A-191 → A-200** (similarity 96.4000015258789)
+  - 2026-27: If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than Rs.12,70,590.
+  - 2025-26: If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than Rs.7,22,230
+  - diff: If New tax Regime is selected, Rebate u/s 87A is claimed by Resident Individual having Total income excluding LTCG of more than ~~Rs.12,70,590.~~ **Rs.7,22,230**
+- **A-248 → A-258** (similarity 84.0)
+  - 2026-27: In schedule 80E the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80E
+  - 2025-26: In schedule 80E the sum of individual rows for "Amount of interest u/s 80E" (x) shall match with the "Total of Payments" as per the schedule 80E
+  - diff: In schedule 80E the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80E"** (x) shall match with the "Total of Payments" as per the schedule 80E
+- **A-250 → A-260** (similarity 84.19999694824219)
+  - 2026-27: In schedule 80EEA the sum of individual rows for "Amount of interest paid" (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+  - 2025-26: In schedule 80EEA the sum of individual rows for "Amount of interest u/s 80EEA" (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+  - diff: In schedule 80EEA the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80EEA"** (ix) shall match with the "Total of Payments" as per the schedule 80EEA
+- **A-251 → A-261** (similarity 83.5)
+  - 2026-27: In schedule 80EEB the sum of individual rows for "Amount of interest paid" (x) shall match with the "Total of Payments" as per the schedule 80EEB
+  - 2025-26: In schedule 80EEB the sum of individual rows for "Amount of interest u/s 80EEB" (x) shall match with the "Total of Payments" as per the schedule 80EEB
+  - diff: In schedule 80EEB the sum of individual rows for "Amount of interest ~~paid"~~ **u/s 80EEB"** (x) shall match with the "Total of Payments" as per the schedule 80EEB
+- **A-268 → A-277** (similarity 93.80000305175781)
+  - 2026-27: Status selected is Individual and having date of formation on or after 01/04/2008 shall not be allowed to file return for AY 26-27
+  - 2025-26: Status selected is Individual and having date of birth on or after 01/04/2007 shall not be allowed to file return for AY 25-26
+  - diff: Status selected is Individual and having date of ~~formation~~ **birth** on or after ~~01/04/2008~~ **01/04/2007** shall not be allowed to file return for AY ~~26-27~~ **25-26**
