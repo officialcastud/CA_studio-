@@ -267,4 +267,14 @@ ruleset(function(I,S_,A,Dd){
   /* A100 — Schedule TDS1 col 5 total (total tax deducted) = sum of the individual values. */
   A(100, !I.TDSonSalaries || REQ(N(TDS1.TotalTDSonSalaries), tds1Rows.reduce((a,r)=>a+N(r&&r.TotalTDSSal),0), 2),
     "Schedule TDS1: the total of column 5 (total tax deducted) must equal the sum of the individual values.");
+
+  /* ===================== AY 2025-26 ADD (4b) ===================== */
+  /* A-118 — Schedule 80G: the same donee PAN cannot appear more than once (any bucket). */
+  { const gPANs=[].concat(...GBUCK.map(bk=>gRows(bk)
+      .map(r=>String((r&&r.DoneePAN)==null?"":r.DoneePAN).toUpperCase()).filter(S0)));
+    A(118, !I.Schedule80G || new Set(gPANs).size===gPANs.length,
+      "Schedule 80G: the same donee PAN cannot appear more than once."); }
+  /* A-219 — when Salary income is provided, Nature of employment cannot be 'Not Applicable'. */
+  A(219, !(N(ID.GrossSalary)>0 || N(ID.IncomeFromSal)>0) || empcat!=="NA",
+    "When Salary income details are provided, the Nature of employment cannot be 'Not Applicable'.");
 });

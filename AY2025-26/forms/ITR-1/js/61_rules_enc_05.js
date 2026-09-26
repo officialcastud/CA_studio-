@@ -305,4 +305,16 @@ ruleset(function(I,S_,A,Dd){
     A(246, !rd.Section24B || REQ(N(totI), sumRows(dtls,"InterestUs24B")*share/100, 2),
       "Section-24(b) schedule: the sum of the interest in the individual rows must equal the total of payments."+tag);
   });
+
+  /* ===================== AY 2025-26 ADD (4b) ===================== */
+  /* A-235 — Schedule 80E: bank/institution details required to claim deduction u/s 80E. */
+  A(235, !(N(usr.Section80E)>0) ||
+      (!!I.Schedule80E && (RG(I,"Schedule80E.Schedule80EDtls",[])||[])
+        .every(r=>S0(r&&r.BankOrInstnName)&&S0(r&&r.LoanTknFrom))),
+    "Details of the bank/institution from which the loan is taken must be provided in Schedule 80E to claim deduction u/s 80E.");
+  /* A-248 — Form 10IA required (separately for 80DD and 80U) for autism / cerebral palsy / multiple disabilities. */
+  { const dd=RG(I,"Schedule80DD",{})||{}, u=RG(I,"Schedule80U",{})||{};
+    A(248, (!(N(usr.Section80DD)>0)||String(dd.TypeOfDisability)!=="1"||S0(dd.Form10IAAckNum))
+        && (!(N(usr.Section80U)>0)||String(u.TypeOfDisability)!=="1"||S0(u.Form10IAAckNum)),
+      "Form 10IA (autism, cerebral palsy or multiple disabilities) must be filed separately to claim deduction u/s 80U and u/s 80DD."); }
 });
